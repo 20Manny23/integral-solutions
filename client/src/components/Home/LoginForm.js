@@ -38,7 +38,8 @@ const LoginForm = () => {
       // Auth.login(data.login.token);
       Auth.login(data.login);
 
-      window.location.assign(`/calendar`);
+      // window.location.assign(`/calendar`);
+      window.location.assign(`/landing-template-v1`);
 
     } catch (e) {
       console.error(e);

@@ -42,7 +42,8 @@ const SignupForm = ({ setShowModal }) => {
 
       Auth.login(data.addUser);
 
-      window.location.assign(`/dashboard`);
+      // window.location.assign(`/dashboard`);
+      window.location.assign(`/landing-template-v1`);
 
     } catch (e) {
       console.error(e);
