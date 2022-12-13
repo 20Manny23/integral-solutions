@@ -1,0 +1,25 @@
+.baseline {
+    flex: auto;
+    flex-basis: 0;
+    flex-grow: 1;
+    margin-bottom: -1px;
+    padding: 8px 16px;
+    color: #495057;
+    text-align: center;
+    background-color: white;
+    border-color: #dee2e6 #dee2e6 #fff;
+    border: 1px solid transparent;
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+
+.isActive {
+  color: #007bff;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.baseline:disabled {
+  color: #495057;
+}
+

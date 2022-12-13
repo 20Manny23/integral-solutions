@@ -1,0 +1,24 @@
+.form-label {
+  display: flex;
+  justify-content: space-between;
+}
+
+.custom-border {
+  border: 1px solid black !important;
+}
+
+.validation-color {
+  color: red;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.button-custom {
+  pointer-events: auto !important;
+}

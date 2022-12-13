@@ -1,0 +1,90 @@
+.button-style {
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.button-style:hover {
+  background-color: #eeeeee;
+}
+
+.button-style:active {
+  background-color: #d4d4d4;
+  transform: translate(2px, 2px);
+}
+
+.info-button-style {
+  cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 2px 2px 3px #999;
+}
+
+.info-button-style:hover {
+  background-color: #888888;
+}
+
+.info-button-style:active {
+  background-color: #636363;
+  box-shadow: 0 1px #666;
+  transform: translate(2px, 2px);
+}
+
+.back-button-style {
+  cursor: pointer;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 2px 2px 3px rgb(46, 46, 46);
+}
+
+.back-button-style:hover {
+  background-color: rgb(46, 46, 46);
+}
+
+.backbutton-style:active {
+  background-color: rgb(63, 63, 63);
+  box-shadow: 0 1px rgb(63, 63, 63);
+  transform: translate(2px, 2px);
+}
+
+.collapse-button:active {
+  transform: translate(1px, 1px);
+}
+
+.directions-collapse:hover {
+  box-shadow: 0px 0px 3px rgb(46, 46, 46);
+  background-color: rgb(63, 63, 63);
+}
+
+.directions-collapse:active {
+  transform: translate(1px, 1px);
+}
+
+.submit-button-style {
+  cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 1px 1px 4px #999;
+}
+
+.submit-button-style:hover {
+  background-color: #888888;
+}
+
+.submit-button-style:active {
+  background-color: #636363;
+  box-shadow: 0 1px #666;
+  transform: translate(1px, 1px);
+}
+
+.wrong-page-button:hover {
+  transform: translate(1px, 1px);
+  border: none;
+}
+
+.wrong-page-button:active {
+  background-color: #636363;
+  box-shadow: 0 1px rgb(99, 99, 99);
+  transform: translate(2px, 2px);
+  border: none;
+}

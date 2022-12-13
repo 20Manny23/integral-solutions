@@ -1,0 +1,14 @@
+.fc .fc-toolbar-title {
+  color: #1a252f;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.fc-list-day-side-text {
+  display: none
+}
+
+@media only screen and (max-width: 576px) {
+  .fc-media-screen {
+    height: 65vh
+  }
+}

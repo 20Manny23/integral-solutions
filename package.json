@@ -1,0 +1,26 @@
+{
+  "name": "Pristine Clean",
+  "description": "Cleaning at it's finest",
+  "version": "1.0.0",
+  "engines": {
+    "node": "16.16",
+    "npm": "8.11"
+  },
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "build": "cd client && npm run build",
+    "seed": "cd server && npm run seed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^5.1.0"
+  },
+  "dependencies": {
+    "moment": "^2.29.4"
+  }
+}
