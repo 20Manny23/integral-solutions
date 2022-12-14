@@ -21,7 +21,7 @@ const Message = () => {
   return (
     <div className="d-flex flex-column align-items-center mt-3 mb-3">
       <Card
-        style={{ width: "18rem" }}
+        style={{ width: "18rem"}}
         className="d-flex align-items-center mb-1"
       >
         <Card.Body className="p-2">
