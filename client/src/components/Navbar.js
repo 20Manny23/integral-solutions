@@ -15,9 +15,9 @@ const AppNavbar = () => {
       <Navbar
         collapseOnSelect
         className="shadow-sm"
-        style={{ height: "14vh", backgroundColor: "#6362d4" }}
-        fixed="top"
-        variant="dark"
+        style={{ height: "13%", backgroundColor: "#6362d4" }}
+        // fixed="top"
+        // variant="dark"
         expand="lg"
       >
         {/* <Container fluid className=""> */}
@@ -26,7 +26,7 @@ const AppNavbar = () => {
               {/* <NavStarsAsset className="mb-1 ml-0 pl-0 nav-stars-style" /> */}
               {/* <h2 className="m-0 pt-0 pl-3 heading-style">Integral Solutions</h2> */}
               
-              <img className="logo" src={logo} alt="logo"></img>
+              <img className="logo d-inline-block align-top" src={logo} alt="logo"></img>
               {/* <h3 className="slogan">Fast, Reliable, Fair </h3> */}
             </Row>
           </Navbar.Brand>

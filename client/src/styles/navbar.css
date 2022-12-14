@@ -17,11 +17,8 @@
   z-index: 5;
 }
 .logo{
-  height: 120px;
+  max-height: 80px;
   margin-left: 80px;
 }
-/* .slogan{
-  margin-top: 80px;
-  color: #34303D;
-  margin-left: 50px;
-} */
+
+

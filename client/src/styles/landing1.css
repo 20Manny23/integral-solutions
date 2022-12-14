@@ -1,0 +1,31 @@
+.bk-img {
+    background-image: url("../assets/images/office.jpg");
+    background-size:cover;
+    background-repeat: no-repeat;
+    width: 100%;
+ 
+}
+.text-box{
+    margin-top: 5%;
+    margin-bottom: 10%;
+    background-color: #6362d4;
+    margin-left: 7%;;
+    width: 40%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border-radius: 5px;
+    color: white;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.contact-btn{
+    margin-left: 15px;
+    background-color: rgb(16, 59, 151);
+}
+.card-body{
+    padding: 15px 0 5px 0;
+    text-align: center;
+}
+.footer{
+    background-color: #6362d4;
+    color: white;
+}
