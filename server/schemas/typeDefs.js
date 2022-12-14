@@ -18,6 +18,15 @@ const typeDefs = gql`
     locations: [Location]
   }
 
+  type Schedule {
+    startDate: String
+    endDate: String
+    startTime: String
+    endTime: String
+    locations: [Location]
+    users: [User]
+  }
+
   type Availability {
     mondayAm: Boolean
     mondayPm: Boolean
@@ -100,6 +109,7 @@ const typeDefs = gql`
     location(locationId: ID!): Location
     incidents: [Incident]!
     events: [Event]!
+    schedule: [Schedule]
   }
 
   type Mutation {
