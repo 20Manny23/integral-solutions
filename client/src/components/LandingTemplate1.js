@@ -17,12 +17,12 @@ const LandingTemplate1 = () => {
     <>
       <section className="bk-img">
         <br></br>
-        <div className="text-box">
-          <p className="header">
+        <div className="overlay-box">
+          <p className="overlay-header">
             Colorado's Premier Choice for Office Installation, Configuring &
             Moving
           </p>
-          <p style={{ fontSize: "16px", padding: "14px" }}>
+          <p className="overlay-sub-header">
             We are a full service, independent installation company. We offer
             office installation, moving, delivery and clean-up. We are locally
             staffed with professional installation teams and will take your next
@@ -36,15 +36,15 @@ const LandingTemplate1 = () => {
       </section>
 
       <section>
-        <p className="sub-header">Services We Offer</p>
+        <p className="service-title">Services We Offer</p>
       </section>
-      
+
       <Container
         className=""
         style={{ marginTop: "50px", marginBottom: "35px" }}
       >
         <Row>
-          <Col className="d-flex justify-content-center">
+          <Col className="d-flex justify-content-center mb-2">
             <Card style={{ width: "15rem", border: "none" }}>
               <Card.Img variant="top" src={delivery} />
               <Card.Body>
@@ -57,7 +57,7 @@ const LandingTemplate1 = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col className="d-flex justify-content-center">
+          <Col className="d-flex justify-content-center mb-2">
             <Card style={{ width: "15rem", border: "none" }}>
               <Card.Img variant="top" src={moving} />
               <Card.Body>
@@ -69,7 +69,7 @@ const LandingTemplate1 = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col className="d-flex justify-content-center">
+          <Col className="d-flex justify-content-center mb-2">
             <Card style={{ width: "15rem", border: "none" }}>
               <Card.Img variant="top" src={install} />
               <Card.Body>
@@ -83,7 +83,7 @@ const LandingTemplate1 = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col className="d-flex justify-content-center">
+          <Col className="d-flex justify-content-center mb-2">
             <Card style={{ width: "15rem", border: "none" }}>
               <Card.Img variant="top" src={cleaning} />
               <Card.Body>
@@ -99,49 +99,30 @@ const LandingTemplate1 = () => {
       </Container>
 
       <footer>
-        <h3 style={{ textAlign: "center", paddingTop: "15px" }}>
-          Serving the Greater Denver Metro Area for Over 20 Years!
+        <h3 className="footer-title">
+          Serving Greater Denver for Over 20 Years!
         </h3>
-        <br></br>
         <Container>
           <Row>
             <Col>
               <img src={logo} alt="logo"></img>
             </Col>
-            <Col>
-              <p
-                style={{
-                  fontWeight: "bolder",
-                  textAlign: "center",
-                  fontSize: "30px",
-                }}
-              >
-                (555)-555-5555
-              </p>
-              <br></br>
-              <p style={{ textAlign: "center" }}>©️ Integral Solutions 2022</p>
+            <Col className="footer-phone">
+              <p className="">(555)-555-5555</p>
             </Col>
-            <Col>
-              <Nav.Link
-                style={{ color: "white", textAlign: "end" }}
-                href="#features"
-              >
+            <Col className="d-flex footer-nav">
+              <Nav.Link className="footer-nav" href="#features">
                 Shop Furniture
               </Nav.Link>
-              <Nav.Link
-                style={{ color: "white", textAlign: "end" }}
-                href="#pricing"
-              >
+              <Nav.Link className="footer-nav" href="#pricing">
                 About Us{" "}
               </Nav.Link>
-              <Nav.Link
-                style={{ color: "white", textAlign: "end" }}
-                href="#home"
-              >
+              <Nav.Link className="footer-nav" href="#home">
                 Make Payment
               </Nav.Link>
             </Col>
           </Row>
+          <p style={{ textAlign: "center" }}>©️ Integral Solutions 2022</p>
         </Container>
       </footer>
     </>
