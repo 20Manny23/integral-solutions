@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 // import { Navbar, Nav, Row, NavDropdown } from "react-bootstrap";
 import { Navbar, Nav, Row } from "react-bootstrap";
 import "../styles/navbar.css";
+import logo from "../assets/images/integral-logo.png"
+
 
 const AppNavbar = () => {
   return (
@@ -13,16 +15,19 @@ const AppNavbar = () => {
       <Navbar
         collapseOnSelect
         className="shadow-sm"
-        style={{ height: "8vh", backgroundColor: "black" }}
-        fixed="top"
-        variant="dark"
+        style={{ height: "13%", backgroundColor: "#6362d4" }}
+        // fixed="top"
+        // variant="dark"
         expand="lg"
       >
         {/* <Container fluid className=""> */}
           <Navbar.Brand as={Link} reloadDocument to="/">
             <Row>
               {/* <NavStarsAsset className="mb-1 ml-0 pl-0 nav-stars-style" /> */}
-              <h2 className="m-0 pt-0 pl-3 heading-style">Integral Solutions</h2>
+              {/* <h2 className="m-0 pt-0 pl-3 heading-style">Integral Solutions</h2> */}
+              
+              <img className="logo d-inline-block align-top" src={logo} alt="logo"></img>
+              {/* <h3 className="slogan">Fast, Reliable, Fair </h3> */}
             </Row>
           </Navbar.Brand>
           <Row>
