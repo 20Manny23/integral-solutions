@@ -1,6 +1,6 @@
 // import React, { useEffect, useState } from "react";
 import { Row, Container, Card } from "react-bootstrap";
-import moment from "moment";
+
 
 function EmployeePortal() {
   const employee = [
@@ -21,7 +21,7 @@ function EmployeePortal() {
       hoursWorked: 8,
     },
     {
-      jobDate: "12/15/2022",
+      jobDate: "12/14/2022",
       company: "Steve inc",
       location: "463 Yatzee Denver Co",
       details: "Just a delivery",
@@ -29,7 +29,7 @@ function EmployeePortal() {
       hoursWorked: 11,
     },
     {
-      jobDate: "12/30/2022",
+      jobDate: "12/01/2022",
       company: "Data inc",
       location: "189 Poplar Aravada Co",
       details: "Just a delivery",
@@ -42,6 +42,7 @@ function EmployeePortal() {
     let pastJob = [];
     const current = new Date().toLocaleDateString('en-us', { year:"numeric", month:"numeric", day:"numeric"}) 
     
+    //compares jobDate to current date and pushes to correct array 
    for (let i = 0; i < employee.length; i++) {
         if (current <= employee[i].jobDate) {
             upcomingJob.push(employee[i])
@@ -50,7 +51,13 @@ function EmployeePortal() {
             pastJob.push(employee[i])
         }
    }
-    
+   //sort jobs by date 
+    upcomingJob.sort( (a,b) => a.jobDate.localeCompare(b.jobDate) )
+    pastJob.sort( (a,b) => a.jobDate.localeCompare(b.jobDate) )
+
+    //reverses past jobs so most recent completed show first 
+    const sorted = pastJob.reverse()
+
 
   return (
     <>
@@ -75,7 +82,7 @@ function EmployeePortal() {
       <h3 style={{ textAlign: "center", marginTop: '50px' }}>Completed Jobs</h3>
       <Container >
         <Row style={{display:'flex', justifyContent:'center'}}>
-          {pastJob.map((emp) => (
+          {sorted.map((emp) => (
             <Card style={{ width: "18rem", margin: "5px", backgroundColor:'rgb(196, 189, 189)' }}>
               <Card.Body>
                 <Card.Title>{emp.jobDate}</Card.Title>
