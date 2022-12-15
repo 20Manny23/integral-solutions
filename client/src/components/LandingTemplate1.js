@@ -99,10 +99,10 @@ const LandingTemplate1 = () => {
       </Container>
 
       <footer>
+        <Container>
         <h3 className="footer-title">
           Serving Greater Denver for Over 20 Years!
         </h3>
-        <Container>
           <Row>
             <Col>
               <img src={logo} alt="logo"></img>
@@ -122,7 +122,7 @@ const LandingTemplate1 = () => {
               </Nav.Link>
             </Col>
           </Row>
-          <p style={{ textAlign: "center" }}>©️ Integral Solutions 2022</p>
+          <p className="footer-copy">Copyright &copy;{new Date().getFullYear()} Integral Solutions LLC All Rights Reserved.</p>
         </Container>
       </footer>
     </>
