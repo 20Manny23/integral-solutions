@@ -14,8 +14,8 @@ const scheduleSchema = new Schema(
     endTime: {
       type: String,
     },
-    locations: {
-      type: Schema.Types.Array,
+    location: {
+      type: Schema.Types.String,
       ref: "Location"
     },
     users: {

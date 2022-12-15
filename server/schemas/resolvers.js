@@ -13,7 +13,7 @@ const resolvers = {
 
     schedule: async (parent, args, context) => {
       // if (context.user) {
-        return Schedule.find().populate("users").populate("locations");
+        return Schedule.find().populate("users").populate("location");
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },

@@ -1,18 +1,18 @@
 [
   {
-    "startDate": "Novemeber 29 2022 18:00:00 (MST)",
-    "endDate": "Novemeber 29 2022 18:00:00 (MST)",
-    "startTime": "18:00:00 (MST)",
-    "endTime": "20:15:00 (MST)",
-    "locations": [ "313233343536373839303132" ],
+    "startDate": "Novemeber 29 2022 09:00:00 (MST)",
+    "endDate": "Novemeber 29 2022 17:00:00 (MST)",
+    "startTime": "09:00:00 (MST)",
+    "endTime": "17:00:00 (MST)",
+    "location": "313233343536373839303132",
     "users": [ "6398fb54494aa98f85992da3" ]
   },
   {
-    "startDate": "Novemeber 29 2022 18:00:00 (MST)",
-    "endDate": "Novemeber 29 2022 18:00:00 (MST)",
-    "startTime": "18:00:00 (MST)",
-    "endTime": "20:15:00 (MST)",
-    "locations": [ "323233343536373839303132" ],
+    "startDate": "Novemeber 29 2022 09:00:00 (MST)",
+    "endDate": "Novemeber 29 2022 17:00:00 (MST)",
+    "startTime": "09:00:00 (MST)",
+    "endTime": "17:00:00 (MST)",
+    "location": "323233343536373839303132",
     "users": [ "6398fb54494aa98f85992da2", "6398fb54494aa98f85992da3" ]
   }
 ]
