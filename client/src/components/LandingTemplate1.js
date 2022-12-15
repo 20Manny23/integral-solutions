@@ -1,10 +1,6 @@
 import React from "react";
-// import Carousel from "react-bootstrap/Carousel";
 import Card from "react-bootstrap/Card";
-// import ListGroup from "react-bootstrap/ListGroup";
-import { Container, Button, Navbar, Nav, Row, Col } from "react-bootstrap";
-// import Row from 'react-bootstrap/Row';
-// import Col from 'react-bootstrap/Col';
+import { Container, Button, Nav, Row, Col } from "react-bootstrap";
 import delivery from "../assets/images/delivery.jpg";
 import install from "../assets/images/install.jpg";
 import cleaning from "../assets/images/cleaning.jpg";
