@@ -55,8 +55,9 @@ const LandingTemplate1 = () => {
             Services We Offer{" "}
           </p>
         </div>
-        <Container style={{ paddingBottom: "35px" }}>
-          <Row>
+        {/* <Container className="d-flex" style={{ paddingBottom: "35px" }}> */}
+        <Container>
+          <Row className="d-flex">
             <Col>
               <Card style={{ width: "15rem", border: "none" }}>
                 <Card.Img variant="top" src={delivery} />
@@ -93,7 +94,7 @@ const LandingTemplate1 = () => {
                   </Card.Title>
                   <Card.Text style={{ fontSize: "13px" }}>
                     Our qualified team can install cubicles, office furniture,
-                    workstations, seating, conference rooms, files systems and
+                    workstations, seating, conference rooms, and
                     more.
                   </Card.Text>
                 </Card.Body>
@@ -108,7 +109,7 @@ const LandingTemplate1 = () => {
                   </Card.Title>
                   <Card.Text style={{ fontSize: "13px" }}>
                     No mess left behind. Your office space will be fully cleaned
-                    and all packaging material will be responsibly disposed of.
+                    and all packaging material will be disposed responsibly.
                   </Card.Text>
                 </Card.Body>
               </Card>
