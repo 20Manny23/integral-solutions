@@ -6,7 +6,6 @@
   z-index: 3;
 } */
 
-
 .heading-style {
   display: inline-block;
   font-family: Georgia, "Times New Roman", serif;
@@ -16,9 +15,9 @@
 .toggle-style {
   z-index: 5;
 }
+
 .logo{
-  max-height: 80px;
-  margin-left: 80px;
+  max-height: 85px;
 }
 
 
