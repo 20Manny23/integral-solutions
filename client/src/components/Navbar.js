@@ -21,14 +21,15 @@ const AppNavbar = () => {
         expand="lg"
       >
         {/* <Container fluid className=""> */}
-          <Navbar.Brand as={Link} reloadDocument to="/">
-            <Row>
+          <Navbar.Brand as={Link} reloadDocument to="/" className="">
+            {/* <Row> */}
               {/* <NavStarsAsset className="mb-1 ml-0 pl-0 nav-stars-style" /> */}
               {/* <h2 className="m-0 pt-0 pl-3 heading-style">Integral Solutions</h2> */}
               
-              <img className="logo d-inline-block align-top" src={logo} alt="logo"></img>
+              {/* <img className="logo d-inline-block align-top" src={logo} alt="logo"></img> */}
+              <img className="logo ml-4 mr-4" src={logo} alt="logo"></img>
               {/* <h3 className="slogan">Fast, Reliable, Fair </h3> */}
-            </Row>
+            {/* </Row> */}
           </Navbar.Brand>
           <Row>
             <Navbar.Toggle
