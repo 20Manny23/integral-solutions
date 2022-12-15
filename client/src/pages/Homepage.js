@@ -18,8 +18,8 @@ const Homepage = ({
   let navigate = useNavigate();
 
   return (
-    <Container style={{ marginTop: "50px" }}>
-      <div className="d-flex flex-column align-items-center mt-3 overflow-auto">
+    <Container style={{ marginTop: "85px" }}>
+      <div className="d-flex flex-column align-items-center mt-3">
         <div
           style={{
             height: "600px",
