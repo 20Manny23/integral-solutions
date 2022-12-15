@@ -5,27 +5,46 @@
     width: 100%;
  
 }
-.text-box{
-    margin-top: 3%;
-    margin-bottom: 10%;
-    background-color: #6362d4;
-    margin-left: 7%;;
+
+.text-box {
     width: 40%;
+    margin-top: 3%;
+    margin-left: 7%;
+    margin-bottom: 10%;
     padding-top: 1%;
     padding-bottom: 1%;
-    border-radius: 5px;
     color: white;
+    background-color: #6362d4;
+    border-radius: 5px;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-.contact-btn{
+
+.header {
+  padding: 14px;
+  font-size: 37px;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.sub-header {
+  text-align: center;
+  background-color: #6362d4;
+  padding: 10px 0 10px 0;
+  font-size: 35px;
+  color: white;
+}
+
+.contact-btn {
     margin-left: 15px;
     background-color: rgb(16, 59, 151);
 }
-.card-body{
+
+.card-body {
     padding: 15px 0 5px 0;
     text-align: center;
 }
-.footer{
+
+footer {
     background-color: #6362d4;
     color: white;
 }
