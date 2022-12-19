@@ -27,6 +27,7 @@ import LandingTemplate3 from "./components/LandingTemplate3";
 
 import ContactForm from "./pages/ContactForm";
 import EmployeePortal from "./pages/EmployeePortal";
+import WorkOrder from "./pages/WorkOrder"
 
 import {
   faTrash,
@@ -272,6 +273,7 @@ function App() {
               />
         
               <Route exact path="/availability" element={<Availability />} />
+              <Route exact path="/workorder" element={<WorkOrder />} />
               <Route exact path="/contact" element={<ContactForm />} />
               <Route exact path="/employee" element={<EmployeePortal />} />
               <Route exact path="/timeoff" element={<Timeoff />} />

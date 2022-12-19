@@ -1,5 +1,5 @@
 // import React, { useEffect, useState } from "react";
-import { Row, Col, Button, Form, Container, Nav } from "react-bootstrap";
+import { Row, Col, Button, Form, Container, Nav,} from "react-bootstrap";
 import logo from "../assets/images/integral-logo.png";
 
 function ContactForm() {
@@ -15,7 +15,6 @@ function ContactForm() {
             <Col>
               <Form
                 className="py-3 overflow-auto custom-about"
-                // onSubmit={handleFormSubmit}
                 style={{ width: "80vw" }}
               >
                 <h2 className="display-6 custom-text heading">Tell Us How We Can Help</h2>
@@ -36,10 +35,8 @@ function ContactForm() {
                     className="custom-border"
                     type="text"
                     placeholder="Enter Company Name"
-                    // value={name}
                     name="name"
-                    // onChange={handleInputChange}
-                    // onBlur={handleBlurChange}
+                    
                     required
                   />
                 </Form.Group>
@@ -59,10 +56,8 @@ function ContactForm() {
                     className="custom-border"
                     type="text"
                     placeholder="Enter Contact Name"
-                    // value={name}
                     name="name"
-                    // onChange={handleInputChange}
-                    // onBlur={handleBlurChange}
+                    
                     required
                   />
                 </Form.Group>
@@ -71,11 +66,7 @@ function ContactForm() {
             <Form.Group className="mb-3" controlId="formBasicEmail" style={{ width: "50%" , marginLeft:'auto', marginRight:'auto'}}>
                   <div className="form-label">
                     <Form.Label style={{fontWeight:'bolder'}}>Phone Number</Form.Label>
-                    <Form.Label
-                    //   className={`validation-color ${
-                    //     showTelNoValidation ? "show" : "hide"
-                    //   }`}
-                    >
+                    <Form.Label>
                       * field is required
                     </Form.Label>
                   </div>
@@ -83,11 +74,9 @@ function ContactForm() {
                     className="custom-border"
                     type="tel"
                     placeholder="Enter phone 123-456-7890"
-                    // value={telNo}
+                   
                     name="telNo"
                     pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                    // onChange={handleInputChange}
-                    // onBlur={handleBlurChange}
                     required
                   />
                 </Form.Group>
@@ -95,27 +84,40 @@ function ContactForm() {
                 <Form.Group className="mb-3" controlId="formBasicEmail" style={{ width: "50%", marginLeft:'auto', marginRight:'auto' }}>
                   <div className="form-label">
                     <Form.Label style={{fontWeight:'bolder'}}>Address</Form.Label>
-                    <Form.Label
-                    //   className={`validation-color ${
-                    //     showTelNoValidation ? "show" : "hide"
-                    //   }`}
-                    >
-                      * field is required
+                    <Form.Label>
+                      
                     </Form.Label>
                   </div>
                   <Form.Control
                     className="custom-border"
-                    type="tel"
                     placeholder="Enter Address"
-                    // value={telNo}
                     name="address"
-                    
-                    // onChange={handleInputChange}
-                    // onBlur={handleBlurChange}
-                    required
+                  
                   />
                 </Form.Group>
 
+                <Row style={{ width: "52%", marginLeft:'auto', marginRight:'auto', paddingBottom:'15px'}}>
+                  <Col xs={7}>
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    City
+                  </Form.Label>
+                    <Form.Control className="custom-border" placeholder="City" />
+                  </Col>
+                  <Col>
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    State
+                  </Form.Label>
+                    <Form.Control className="custom-border"placeholder="State (CO)" />
+                  </Col>
+                  <Col>
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    Zipcode
+                  </Form.Label>
+                    <Form.Control className="custom-border" placeholder="Zip" />
+                  </Col>
+                </Row>
+
+                
                 <div className="d-flex justify-content-between">
                   <Form.Group
                     className=""
@@ -135,13 +137,6 @@ function ContactForm() {
                     <Form.Control
                       className="custom-border"
                       type="date"
-                    //   value={startDate}
-                    //   name="startDate"
-                    //   min={calendarMinDate}
-                    //   max={calendarMaxDate}
-                    //   onChange={handleInputChange}
-                    //   onBlur={handleBlurChange}
-                     
                     
                     />
                   </Form.Group>
@@ -195,10 +190,8 @@ function ContactForm() {
                     rows={4}
                     type="textarea"
                     placeholder="Enter additional information here."
-                    // value={body}
+
                     name="body"
-                    // onChange={handleInputChange}
-                    // onBlur={handleBlurChange}
                     required
                   />
                 </Form.Group>
@@ -207,7 +200,6 @@ function ContactForm() {
                   className="button-custom submit-button-style"
                   variant="primary"
                   type="submit"
-                //   disabled={!areAllFieldsFilled}
                   title="Enter all fields to send email"
                 >
                   Send Email

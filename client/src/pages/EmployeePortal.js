@@ -25,7 +25,7 @@ function EmployeePortal() {
       company: "Steve inc",
       location: "463 Yatzee Denver Co",
       details: "Just a delivery",
-      startTime: "8am",
+      startTime: "12pm",
       hoursWorked: 11,
     },
     {
@@ -33,7 +33,7 @@ function EmployeePortal() {
       company: "Data inc",
       location: "189 Poplar Aravada Co",
       details: "Just a delivery",
-      startTime: "8am",
+      startTime: "2pm",
       hoursWorked: 11,
       },
   ];
@@ -56,7 +56,7 @@ function EmployeePortal() {
     pastJob.sort( (a,b) => a.jobDate.localeCompare(b.jobDate) )
 
     //reverses past jobs so most recent completed show first 
-    const sorted = pastJob.reverse()
+    const renderPast = pastJob.reverse()
 
 
   return (
@@ -68,7 +68,7 @@ function EmployeePortal() {
           {upcomingJob.map((emp) => (
             <Card style={{ width: "18rem", margin: "5px" }}>
               <Card.Body>
-                <Card.Title>{emp.jobDate}</Card.Title>
+                <Card.Title>{emp.jobDate} {emp.startTime}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
                   Company: {emp.company}
                 </Card.Subtitle>
@@ -82,7 +82,7 @@ function EmployeePortal() {
       <h3 style={{ textAlign: "center", marginTop: '50px' }}>Completed Jobs</h3>
       <Container >
         <Row style={{display:'flex', justifyContent:'center'}}>
-          {sorted.map((emp) => (
+          {renderPast.map((emp) => (
             <Card style={{ width: "18rem", margin: "5px", backgroundColor:'rgb(196, 189, 189)' }}>
               <Card.Body>
                 <Card.Title>{emp.jobDate}</Card.Title>
