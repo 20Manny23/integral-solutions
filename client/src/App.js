@@ -25,6 +25,11 @@ import LandingTemplate2 from "./components/LandingTemplate2";
 import LandingTemplate3 from "./components/LandingTemplate3";
 //section end
 
+import ContactForm from "./pages/ContactForm";
+import EmployeePortal from "./pages/EmployeePortal";
+import WorkOrder from "./pages/WorkOrder"
+import AddEmployee from "./pages/AddEmployee"
+
 import {
   faTrash,
   faLocation,
@@ -36,6 +41,7 @@ import {
   faEyeSlash,
   faMap,
 } from "@fortawesome/free-solid-svg-icons";
+
 
 library.add(
   faTrash,
@@ -266,7 +272,12 @@ function App() {
                   />
                 }
               />
+        
               <Route exact path="/availability" element={<Availability />} />
+              <Route exact path="/workorder" element={<WorkOrder/>} />
+              <Route exact path="/addemployee" element={<AddEmployee/>} />
+              <Route exact path="/contact" element={<ContactForm />} />
+              <Route exact path="/employee" element={<EmployeePortal />} />
               <Route exact path="/timeoff" element={<Timeoff />} />
               <Route exact path="/incident" element={<Incident />} />
               <Route exact path="/incidentlist" element={<IncidentList />} />
