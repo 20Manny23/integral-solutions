@@ -29,7 +29,7 @@ import ContactForm from "./pages/ContactForm";
 import EmployeePortal from "./pages/EmployeePortal";
 import WorkOrder from "./pages/WorkOrder"
 import AddEmployee from "./pages/AddEmployee"
-import IntegralCalendar from "./pages/IntegralCalendarLoad"
+
 
 import {
   faTrash,
@@ -273,7 +273,7 @@ function App() {
                   />
                 }
               />
-              <Route exact path="/integralcalendar" element={<IntegralCalendar />} />
+              
               <Route exact path="/availability" element={<Availability />} />
               <Route exact path="/workorder" element={<WorkOrder/>} />
               <Route exact path="/addemployee" element={<AddEmployee/>} />
