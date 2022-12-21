@@ -61,11 +61,11 @@ const AppNavbar = () => {
                   </Nav.Link>            
                   <Nav.Link
                     as={Link}
-                    to="/landing-template-v3"
+                    to="/calendar"
                     eventKey="4"
                     className="text-white"
                   >
-                    Landing_v3
+                    Calendar
                   </Nav.Link>
                   {/* section end */}
                   {/* <Nav.Link
