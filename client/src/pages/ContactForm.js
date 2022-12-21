@@ -1,6 +1,7 @@
 // import React, { useEffect, useState } from "react";
 import { Row, Col, Button, Form, Container, Nav,} from "react-bootstrap";
 import logo from "../assets/images/integral-logo.png";
+import "../styles/Forms.css";
 
 function ContactForm() {
 
@@ -8,7 +9,7 @@ function ContactForm() {
     return (
 <>
     <div
-          className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
+          className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary "
           style={{ margin: "30px 30px 30px 50%", textAlign:'center'}}
         >
           <Row>
@@ -20,7 +21,7 @@ function ContactForm() {
                 <h2 className="display-6 custom-text heading">Tell Us How We Can Help</h2>
 
             
-                <Form.Group className="mb-3" controlId="formBasicEmail" style={{ width: "50%", marginLeft:'auto', marginRight:'auto'}}>
+                <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
                   <div className="form-label">
                     <Form.Label style={{fontWeight:'bolder'}}>Company Name</Form.Label>
                   </div>
@@ -34,7 +35,7 @@ function ContactForm() {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicEmail" style={{ width: "50%" , marginLeft:'auto', marginRight:'auto'}}>
+                <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
                   <div className="form-label">
                     <Form.Label style={{fontWeight:'bolder'}}>Contact Name</Form.Label>
                     </div>
@@ -49,7 +50,7 @@ function ContactForm() {
                 </Form.Group>
             
             
-            <Form.Group className="mb-3" controlId="formBasicEmail" style={{ width: "50%" , marginLeft:'auto', marginRight:'auto'}}>
+            <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
                   <div className="form-label">
                     <Form.Label style={{fontWeight:'bolder'}}>Phone Number</Form.Label>
                   </div>
@@ -64,7 +65,7 @@ function ContactForm() {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicEmail" style={{ width: "50%", marginLeft:'auto', marginRight:'auto' }}>
+                <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
                   <div className="form-label">
                     <Form.Label style={{fontWeight:'bolder'}}>Address</Form.Label>
                     <Form.Label>
@@ -79,7 +80,7 @@ function ContactForm() {
                   />
                 </Form.Group>
 
-                <Row style={{ width: "52%", marginLeft:'auto', marginRight:'auto', paddingBottom:'15px'}}>
+                <Row className="addy">
                   <Col xs={7}>
                   <Form.Label style={{ fontWeight: "bolder" }}>
                     City
@@ -103,9 +104,8 @@ function ContactForm() {
                 
                 <div className="d-flex justify-content-between">
                   <Form.Group
-                    className=""
+                    className="form-length"
                     controlId="formBasicEmail"
-                    style={{ width: "50%" , marginLeft:'auto', marginRight:'auto'}}
                   >
                     <div className="form-label">
                       <Form.Label style={{fontWeight:'bolder'}}>Estimated Date for Work to be Scheduled</Form.Label>
