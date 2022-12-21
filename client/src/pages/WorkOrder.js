@@ -35,7 +35,7 @@ function removeEmployee(event) {
     
       <div
         className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
-        style={{ margin: "30px 30px 30px 50%", textAlign: "center" }}
+        style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
       >
         <Row>
           <Col>
@@ -213,12 +213,13 @@ function removeEmployee(event) {
             
 
               <Form.Group className="mb-3" controlId="formBasicMessage">
-                <div className="form-label">
+                <div className="form-label form-length">
                   <Form.Label style={{ fontWeight: "bolder" }}>
                     Message
                   </Form.Label>
                 </div>
                 <Form.Control
+                style={{width:'60%', marginRight:'auto', marginLeft:'auto'}}
                   className="custom-border"
                   as="textarea"
                   rows={4}
