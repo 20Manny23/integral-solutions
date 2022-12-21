@@ -9,7 +9,7 @@ function AddEmployee() {
     <>
       <div
         className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
-        style={{ margin: "30px 30px 30px 50%", textAlign: "center" }}
+        style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
       >
         <Row>
           <Col>

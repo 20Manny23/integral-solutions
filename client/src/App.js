@@ -29,6 +29,7 @@ import ContactForm from "./pages/ContactForm";
 import EmployeePortal from "./pages/EmployeePortal";
 import WorkOrder from "./pages/WorkOrder"
 import AddEmployee from "./pages/AddEmployee"
+import IntegralCalendar from "./pages/IntegralCalendarLoad"
 
 import {
   faTrash,
@@ -231,48 +232,48 @@ function App() {
                   <Dashboard
                     renderPanel={"calendar"}
                     calendarButtonIsActive={true}
-                    employeesButtonIsActive={false}
-                    locationsButtonIsActive={false}
+                    workorderButtonIsActive={false}
+                    addEmployeeButtonIsActive={false}
                   />
                 }
               />
               <Route
                 exact
-                path="/employees"
+                path="/workorder"
                 element={
                   <Dashboard
-                    renderPanel={"employees"}
+                    renderPanel={"workorder"}
                     calendarButtonIsActive={false}
-                    employeesButtonIsActive={true}
-                    locationsButtonIsActive={false}
+                    workorderButtonIsActive={true}
+                    addEmployeeButtonIsActive={false}
                   />
                 }
               />
               <Route
                 exact
-                path="/locations"
+                path="/addemployee"
                 element={
                   <Dashboard
-                    renderPanel={"locations"}
+                    renderPanel={"addemployee"}
                     calendarButtonIsActive={false}
-                    employeesButtonIsActive={false}
-                    locationsButtonIsActive={true}
+                    workorderButtonIsActive={false}
+                    addemployeeButtonIsActive={true}
                   />
                 }
               />
               <Route
                 exact
-                path="/location"
+                path="/addemployee"
                 element={
                   <Dashboard
-                    renderPanel={"location"}
+                    renderPanel={"addemployee"}
                     calendarButtonIsActive={false}
-                    employeesButtonIsActive={false}
-                    locationsButtonIsActive={false}
+                    workorderButtonIsActive={false}
+                    addemployeeButtonIsActive={false}
                   />
                 }
               />
-        
+              <Route exact path="/integralcalendar" element={<IntegralCalendar />} />
               <Route exact path="/availability" element={<Availability />} />
               <Route exact path="/workorder" element={<WorkOrder/>} />
               <Route exact path="/addemployee" element={<AddEmployee/>} />
