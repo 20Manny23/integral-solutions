@@ -1,6 +1,8 @@
 import { Data } from "@react-google-maps/api";
 import React, { useState } from "react";
 import { Row, Col, Button, Form, } from "react-bootstrap";
+import "../styles/Forms.css";
+
 
 
 
@@ -44,13 +46,8 @@ function removeEmployee(event) {
               <h2 className="display-6 custom-text heading">Work Order</h2>
 
               <Form.Group
-                className="mb-3"
+                className="mb-3 form-length"
                 controlId="formBasicEmail"
-                style={{
-                  width: "50%",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
               >
                 <div className="form-label">
                   <Form.Label style={{ fontWeight: "bolder" }}>
@@ -66,13 +63,8 @@ function removeEmployee(event) {
               </Form.Group>
 
               <Form.Group
-                className="mb-3"
+                className="mb-3 form-length"
                 controlId="formBasicEmail"
-                style={{
-                  width: "50%",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
               >
                 <div className="form-label">
                   <Form.Label style={{ fontWeight: "bolder" }}>
@@ -88,13 +80,9 @@ function removeEmployee(event) {
               </Form.Group>
 
               <Form.Group
-                className="mb-3"
+                className="mb-3 form-length"
                 controlId="formBasicEmail"
-                style={{
-                  width: "50%",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
+              
               >
                 <div className="form-label">
                   <Form.Label style={{ fontWeight: "bolder" }}>
@@ -111,14 +99,9 @@ function removeEmployee(event) {
               </Form.Group>
 
               <Form.Group
-                className="mb-3"
+                className="mb-3 form-length"
                 controlId="formBasicEmail"
-                style={{
-                  width: "50%",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
-              >
+            >
                 <div className="form-label">
                   <Form.Label style={{ fontWeight: "bolder" }}>
                     Email
@@ -134,13 +117,8 @@ function removeEmployee(event) {
               </Form.Group>
 
               <Form.Group
-                className="mb-3"
+                className="mb-3 form-length"
                 controlId="formBasicEmail"
-                style={{
-                  width: "50%",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
               >
                 <div className="form-label">
                   <Form.Label style={{ fontWeight: "bolder" }}>
@@ -155,13 +133,8 @@ function removeEmployee(event) {
                 />
               </Form.Group>
 
-               <Row
-                style={{
-                  width: "52%",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  paddingBottom: "15px",
-                }}
+               <Row className="addy"
+               
               > 
                 <Col xs={7}>
                   <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
@@ -181,16 +154,11 @@ function removeEmployee(event) {
                 </Col>
               </Row>
 
-              <div className="d-flex justify-content-between">
+                <Row className="addy">
+                    <Col>
                 <Form.Group
-                  className=""
-                  controlId="formBasicEmail"
-                  style={{
-                    width: "50%",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                  }}
-                >
+                //   className="form-length"
+                  controlId="formBasicEmail">
                   <div className="form-label">
                     <Form.Label style={{ fontWeight: "bolder" }}>
                       Job Date
@@ -198,9 +166,23 @@ function removeEmployee(event) {
                   </div>
                   <Form.Control className="custom-border" type="date" />
                 </Form.Group>
-              </div>
+                </Col>
 
-            <Form.Group style={{width:'50%', marginLeft:"auto", marginRight:'auto'}}>
+                <Col>
+                <Form.Group
+                //   className="form-length"
+                  controlId="formBasicEmail">
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Start Time 
+                    </Form.Label>
+                  </div>
+                  <Form.Control className="custom-border" type="time" />
+                </Form.Group> 
+                </Col>
+            </Row>
+
+            <Form.Group className="form-length">
             <Form.Label style={{ fontWeight: "bolder" }}>
                       Select Employees for Job 
                     </Form.Label>
@@ -226,7 +208,7 @@ function removeEmployee(event) {
             style={{marginRight:'15px'}} 
             onClick= {removeEmployee}
             value = {emp}
-            variant="secondary">{emp}  ❌</Button>)}
+            variant="secondary">{emp}  </Button>)}
 
             
 

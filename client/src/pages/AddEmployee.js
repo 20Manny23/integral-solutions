@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col, Button, Form } from "react-bootstrap";
+import "../styles/Forms.css";
+
 
 function AddEmployee() {
   const demoEmployee = ["Bryan", "Steve", "Rod", "George", "Kirtley"];
@@ -18,13 +20,9 @@ function AddEmployee() {
               <h2 className="display-6 custom-text heading">Add Employee</h2>
 
               <Form.Group
-                className="mb-3"
+                className="mb-3 form-length"
                 controlId="formBasicEmail"
-                style={{
-                  width: "50%",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
+              
               >
                 <div className="form-label">
                   <Form.Label style={{ fontWeight: "bolder" }}>
@@ -40,13 +38,9 @@ function AddEmployee() {
               </Form.Group>
 
               <Form.Group
-                className="mb-3"
+                className="mb-3 form-length"
                 controlId="formBasicEmail"
-                style={{
-                  width: "50%",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
+             
               >
                 <div className="form-label">
                   <Form.Label style={{ fontWeight: "bolder" }}>
@@ -63,13 +57,9 @@ function AddEmployee() {
               </Form.Group>
 
               <Form.Group
-                className="mb-3"
+                className="mb-3 form-length"
                 controlId="formBasicEmail"
-                style={{
-                  width: "50%",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
+             
               >
                 <div className="form-label">
                   <Form.Label style={{ fontWeight: "bolder" }}>
@@ -85,13 +75,9 @@ function AddEmployee() {
               </Form.Group>
 
               <Form.Group
-                className="mb-3"
+                className="mb-3 form-length"
                 controlId="formBasicEmail"
-                style={{
-                  width: "50%",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
+              
               >
                 <div className="form-label">
                   <Form.Label style={{ fontWeight: "bolder" }}>
