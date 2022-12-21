@@ -154,13 +154,11 @@ function removeEmployee(event) {
                 </Col>
               </Row>
 
-              <div className="d-flex justify-content-between">
+                <Row className="addy">
+                    <Col>
                 <Form.Group
-                  className="form-length"
-                  controlId="formBasicEmail"
-               
-                 
-                >
+                //   className="form-length"
+                  controlId="formBasicEmail">
                   <div className="form-label">
                     <Form.Label style={{ fontWeight: "bolder" }}>
                       Job Date
@@ -168,7 +166,21 @@ function removeEmployee(event) {
                   </div>
                   <Form.Control className="custom-border" type="date" />
                 </Form.Group>
-              </div>
+                </Col>
+
+                <Col>
+                <Form.Group
+                //   className="form-length"
+                  controlId="formBasicEmail">
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Start Time 
+                    </Form.Label>
+                  </div>
+                  <Form.Control className="custom-border" type="time" />
+                </Form.Group> 
+                </Col>
+            </Row>
 
             <Form.Group className="form-length">
             <Form.Label style={{ fontWeight: "bolder" }}>
@@ -196,7 +208,7 @@ function removeEmployee(event) {
             style={{marginRight:'15px'}} 
             onClick= {removeEmployee}
             value = {emp}
-            variant="secondary">{emp}  ❌</Button>)}
+            variant="secondary">{emp}  </Button>)}
 
             
 
