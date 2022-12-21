@@ -23,13 +23,6 @@ function ContactForm() {
                 <Form.Group className="mb-3" controlId="formBasicEmail" style={{ width: "50%", marginLeft:'auto', marginRight:'auto'}}>
                   <div className="form-label">
                     <Form.Label style={{fontWeight:'bolder'}}>Company Name</Form.Label>
-                    <Form.Label
-                    //   className={`validation-color ${
-                    //     showNameValidation ? "show" : "hide"
-                    //   }`}
-                    >
-                      * field is required
-                    </Form.Label>
                   </div>
                   <Form.Control
                     className="custom-border"
@@ -44,14 +37,7 @@ function ContactForm() {
                 <Form.Group className="mb-3" controlId="formBasicEmail" style={{ width: "50%" , marginLeft:'auto', marginRight:'auto'}}>
                   <div className="form-label">
                     <Form.Label style={{fontWeight:'bolder'}}>Contact Name</Form.Label>
-                    <Form.Label
-                    //   className={`validation-color ${
-                    //     showNameValidation ? "show" : "hide"
-                    //   }`}
-                    >
-                      * field is required
-                    </Form.Label>
-                  </div>
+                    </div>
                   <Form.Control
                     className="custom-border"
                     type="text"
@@ -66,9 +52,6 @@ function ContactForm() {
             <Form.Group className="mb-3" controlId="formBasicEmail" style={{ width: "50%" , marginLeft:'auto', marginRight:'auto'}}>
                   <div className="form-label">
                     <Form.Label style={{fontWeight:'bolder'}}>Phone Number</Form.Label>
-                    <Form.Label>
-                      * field is required
-                    </Form.Label>
                   </div>
                   <Form.Control
                     className="custom-border"
@@ -126,13 +109,7 @@ function ContactForm() {
                   >
                     <div className="form-label">
                       <Form.Label style={{fontWeight:'bolder'}}>Estimated Date for Work to be Scheduled</Form.Label>
-                      <Form.Label
-                        // className={`validation-color ${
-                        //   showStartDateValidation ? "show" : "hide"
-                        // }`}
-                      >
-                        
-                      </Form.Label>
+                
                     </div>
                     <Form.Control
                       className="custom-border"
