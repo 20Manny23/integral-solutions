@@ -26,6 +26,7 @@ const AppNavbar = () => {
               <img className="logo ml-4 mr-4" src={logo} alt="logo"></img>
 
           </Navbar.Brand>
+          <p className="slogan">Office Furniture Installation At The Snap Of Your Fingers!</p>
           <Row>
             <Navbar.Toggle
               aria-controls="navbar"
@@ -46,20 +47,20 @@ const AppNavbar = () => {
                   >    
                     Landing_v1
                   </Nav.Link>              
-                  <Nav.Link
+                  {/* <Nav.Link
                     as={Link}
                     to="/landing-template-v2"
                     eventKey="4"
                     className="text-white"
-                  >
+                  > 
                     Landing_v2
-                  </Nav.Link>            
+                  </Nav.Link>             */}
                   <Nav.Link
                     as={Link}
                     to="/calendar"
                     eventKey="4"
                     className="text-white"
-                  >
+                  > 
                     Calendar
                   </Nav.Link>
                   {/* section end */}
@@ -106,7 +107,7 @@ const AppNavbar = () => {
               ) : (
                 <>
                   <Nav.Link
-                    // reloadDocument
+                   
                     as={Link}
                     to="/login"
                     eventKey="10"
@@ -115,7 +116,7 @@ const AppNavbar = () => {
                     Login
                   </Nav.Link>
                   <Nav.Link
-                    // reloadDocument
+                    
                     as={Link}
                     to="/signup"
                     eventKey="10"
@@ -127,7 +128,7 @@ const AppNavbar = () => {
               )}
             </Nav>
           </Navbar.Collapse>
-        {/* </Container> */}
+       
       </Navbar>
     </>
   );

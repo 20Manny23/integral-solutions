@@ -210,20 +210,7 @@ function App() {
                   <LandingTemplate1 />
                 }
               />
-              <Route
-                exact
-                path="/landing-template-v2"
-                element={
-                  <LandingTemplate2 />
-                }
-              />
-              <Route
-                exact
-                path="/landing-template-v3"
-                element={
-                  <LandingTemplate3 />
-                }
-              />
+         
               {/* section end */}
               <Route
                 exact

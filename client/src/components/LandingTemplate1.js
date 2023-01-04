@@ -5,9 +5,11 @@ import delivery from "../assets/images/delivery.jpg";
 import install from "../assets/images/install.jpg";
 import cleaning from "../assets/images/cleaning.jpg";
 import moving from "../assets/images/moving.jpg";
+import optimize from "../assets/images/optimize.png";
+import reconfig from "../assets/images/reconfig.jpg";
 import logo from "../assets/images/integral-logo.png";
 import "../styles/landing1.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import ContactForm from "../pages/ContactForm";
 
 const LandingTemplate1 = () => {
@@ -96,6 +98,39 @@ const LandingTemplate1 = () => {
               </Card.Body>
             </Card>
           </Col>
+          <Col className="d-flex justify-content-center mb-2">
+            <Card style={{ width: "15rem", border: "none" }}>
+              <Card.Img variant="top" src={optimize} />
+              <Card.Body>
+                <Card.Title style={{ marginTop: "-15px" }}>Space Analytics</Card.Title>
+                <Card.Text style={{ fontSize: "13px" }}>
+                  Our team has set up thousands of office spaces, let us help guide your installation process.   
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="d-flex justify-content-center mb-2">
+            <Card style={{ width: "15rem", border: "none" }}>
+              <Card.Img variant="top" src={reconfig} />
+              <Card.Body>
+                <Card.Title style={{ marginTop: "-15px" }}>Reconfiguration</Card.Title>
+                <Card.Text style={{ fontSize: "13px" }}>
+                  Let our Experts advise on the perfect office arrangement to optimize team perfomance.   
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="d-flex justify-content-center mb-2">
+            <Card style={{ width: "15rem", border: "none" }}>
+              <Card.Img variant="top" src={reconfig} />
+              <Card.Body>
+                <Card.Title style={{ marginTop: "-15px" }}>Reconfiguration</Card.Title>
+                <Card.Text style={{ fontSize: "13px" }}>
+                  Let our Experts advise on the perfect office arrangement to optimize team perfomance.   
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
         </Row>
       </Container>
 
@@ -110,16 +145,17 @@ const LandingTemplate1 = () => {
             </Col>
             <Col className="footer-phone">
               <p className="">(555)-555-5555</p>
+              <p>Se Habla Español!</p>
             </Col>
             <Col className="d-flex footer-nav">
               <Nav.Link className="footer-nav" href="#features">
                 Shop Furniture
               </Nav.Link>
-              <Nav.Link className="footer-nav" href="#pricing">
-                About Us{" "}
+              <Nav.Link className="footer-nav" as={Link} to="/contact">
+                Contact Us
               </Nav.Link>
               <Nav.Link className="footer-nav" href="#home">
-                Make Payment
+                Employee Login 
               </Nav.Link>
             </Col>
           </Row>
