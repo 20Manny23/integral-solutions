@@ -11,6 +11,7 @@ import logo from "../assets/images/integral-logo.png";
 import "../styles/landing1.css";
 import { useNavigate, Link } from "react-router-dom";
 import ContactForm from "../pages/ContactForm";
+import Footer from "./Footer";
 
 const LandingTemplate1 = () => {
 
@@ -134,34 +135,7 @@ const LandingTemplate1 = () => {
         </Row>
       </Container>
 
-      <footer>
-        <Container>
-        <h3 className="footer-title">
-          Serving Greater Denver for Over 20 Years!
-        </h3>
-          <Row>
-            <Col>
-              <img src={logo} alt="logo"></img>
-            </Col>
-            <Col className="footer-phone">
-              <p className="">(555)-555-5555</p>
-              <p>Se Habla Español!</p>
-            </Col>
-            <Col className="d-flex footer-nav">
-              <Nav.Link className="footer-nav" href="#features">
-                Shop Furniture
-              </Nav.Link>
-              <Nav.Link className="footer-nav" as={Link} to="/contact">
-                Contact Us
-              </Nav.Link>
-              <Nav.Link className="footer-nav" href="#home">
-                Employee Login 
-              </Nav.Link>
-            </Col>
-          </Row>
-          <p className="footer-copy">Copyright &copy;{new Date().getFullYear()} Integral Solutions LLC All Rights Reserved.</p>
-        </Container>
-      </footer>
+        <Footer/>
     </>
   );
 };
