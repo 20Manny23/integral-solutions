@@ -137,12 +137,24 @@ function ContactForm() {
                   <Form.Control className="custom-border" placeholder="8000 Sqft" />
                 </Col>
                 <Col>
-                  <Form.Label style={{ fontWeight: "bolder" }}>
+                  <Form.Label style={{ fontWeight: "bolder", display:'flex', justifyContent:'center' }}>
                    Employees
                   </Form.Label>
-                  <Form.Control
-                    className="custom-border"
-                    placeholder="100"
+                  <Form.Check
+                    inline
+                    label="Home Office"
+                  />
+                   <Form.Check
+                    inline
+                    label="less than 50"
+                  />
+                    <Form.Check
+                    inline
+                    label="50-100"
+                  />
+                    <Form.Check
+                    inline
+                    label="more than 100"
                   />
                 </Col>
              
