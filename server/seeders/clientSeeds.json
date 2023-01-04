@@ -2,7 +2,7 @@
   {
     "_id": "313233343536373839303132",
     "businessName": "Client_1",
-    "streetAddress": "1120 Delaware St Suite 120",
+    "streetAddress": "1 Client Street",
     "suite": "",
     "city": "Denver",
     "state": "CO",
@@ -14,7 +14,7 @@
   {
     "_id": "323233343536373839303132",
     "businessName": "Client_2",
-    "steetAddress": "572 Inca St",
+    "streetAddress": "2 Client Street",
     "suite": "",
     "city": "Denver",
     "state": "CO",
@@ -26,7 +26,7 @@
   {
     "_id": "333233343536373839303132",
     "businessName": "Client_3",
-    "address": "14235 W Colfax Ave",
+    "streetAddress": "3 Client Street",
     "suite": "",
     "city": "Golden",
     "state": "CO",

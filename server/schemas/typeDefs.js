@@ -59,7 +59,7 @@ const typeDefs = gql`
     instructions: Instructions
   }
 
-  type Clients {
+  type Client {
     _id: ID
     businessName: String
     streetAddress: String
@@ -120,9 +120,9 @@ const typeDefs = gql`
     location(locationId: ID!): Location
     incidents: [Incident]!
     events: [Event]!
-    clients: [Client]!
-    client(_id: ID!): Client
     schedule: [Schedule]
+    clients: [Client]!
+    client(clientId: ID!): Client
   }
 
   type Mutation {
@@ -155,6 +155,30 @@ const typeDefs = gql`
       incidentDetails: String!
     ): Incident
     deleteIncident(_id: ID!): Incident
+    addClient(
+      businessName: String
+      streetAddress: String
+      suite: String
+      city: String
+      state: String
+      zip: String
+      contact: String
+      phone: String
+      email: String
+    ): Client
+    deleteClient(_id: ID!): Client
+    updateClient(
+      _id: ID!
+      businessName: String
+      streetAddress: String
+      suite: String
+      city: String
+      state: String
+      zip: String
+      contact: String
+      phone: String
+      email: String
+    ): Client
   }
 `;
 

@@ -66,9 +66,9 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    client: async (parent, { locationId }, context) => {
+    client: async (parent, { clientId }, context) => {
       // if (context.user) {
-        return Client.findOne({ _id: locationId });
+        return Client.findOne({ _id: clientId });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -179,6 +179,57 @@ const resolvers = {
               sundayAm,
               sundayPm,
             },
+          },
+          { new: true }
+        );
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    addClient: async (parent, { businessName, streetAddress, suite, city, state, zip, contact, phone, email }, context) => {
+      // if (context.user) {
+      const user = await Client.create({ businessName, streetAddress, suite, city, state, zip, contact, phone, email });
+      return { businessName };
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    deleteClient: async (parent, { _id }, context) => {
+      // if (context.user) {
+        return Client.findOneAndDelete({ _id });
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    updateClient: async (
+      parent,
+      {
+        _id,
+        businessName, 
+        streetAddress, 
+        suite, 
+        city, 
+        state, 
+        zip, 
+        contact, 
+        phone, 
+        email
+      },
+      context
+    ) => {
+      // if (context.user) {
+        return Client.findOneAndUpdate(
+          { _id },
+          {
+            businessName, 
+            streetAddress, 
+            suite, 
+            city, 
+            state, 
+            zip, 
+            contact, 
+            phone, 
+            email
           },
           { new: true }
         );

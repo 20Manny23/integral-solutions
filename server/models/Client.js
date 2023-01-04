@@ -13,7 +13,6 @@ const clientSchema = new Schema({
   },
   suite: {
     type: String,
-    required: true,
   },
   city: {
     type: String,
@@ -38,9 +37,10 @@ const clientSchema = new Schema({
   email: {
     type: String,
     required: true,
+    match: [/.+@.+\..+/, "Must use a valid email address"],
   },
 });
 
-const Location = model("Client", clientSchema);
+const Client = model("Client", clientSchema);
 
 module.exports = Client;
