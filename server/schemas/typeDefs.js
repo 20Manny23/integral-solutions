@@ -59,6 +59,19 @@ const typeDefs = gql`
     instructions: Instructions
   }
 
+  type Client {
+    _id: ID
+    businessName: String
+    streetAddress: String
+    suite: String
+    city: String
+    state: String
+    zip: String
+    contact: String
+    phone: String
+    email: String
+  }
+
   type Instructions {
     facilityType: String
     cleaningType: String
@@ -107,6 +120,8 @@ const typeDefs = gql`
     location(locationId: ID!): Location
     incidents: [Incident]!
     events: [Event]!
+    clients: [Location]!
+    client(_id: ID!): Location
     schedule: [Schedule]
   }
 
