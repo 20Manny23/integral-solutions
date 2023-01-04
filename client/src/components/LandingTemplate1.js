@@ -7,7 +7,6 @@ import cleaning from "../assets/images/cleaning.jpg";
 import moving from "../assets/images/moving.jpg";
 import optimize from "../assets/images/optimize.png";
 import reconfig from "../assets/images/reconfig.jpg";
-import logo from "../assets/images/integral-logo.png";
 import "../styles/landing1.css";
 import { useNavigate, Link } from "react-router-dom";
 import ContactForm from "../pages/ContactForm";
@@ -99,8 +98,8 @@ const LandingTemplate1 = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col className="d-flex justify-content-center mb-2">
-            <Card style={{ width: "15rem", border: "none" }}>
+          <Col className="d-flex  mb-2" style={{display:'flex', justifyContent:'end', marginRight:"15px"}}>
+            <Card style={{ width: "15rem", border: "none", marginTop:"15px" }}>
               <Card.Img variant="top" src={optimize} />
               <Card.Body>
                 <Card.Title style={{ marginTop: "-15px" }}>Space Analytics</Card.Title>
@@ -110,8 +109,8 @@ const LandingTemplate1 = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col className="d-flex justify-content-center mb-2">
-            <Card style={{ width: "15rem", border: "none" }}>
+          <Col className="d-flex  mb-2">
+            <Card style={{ width: "15rem", border: "none", marginTop:"15px"}}>
               <Card.Img variant="top" src={reconfig} />
               <Card.Body>
                 <Card.Title style={{ marginTop: "-15px" }}>Reconfiguration</Card.Title>
@@ -121,17 +120,7 @@ const LandingTemplate1 = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col className="d-flex justify-content-center mb-2">
-            <Card style={{ width: "15rem", border: "none" }}>
-              <Card.Img variant="top" src={reconfig} />
-              <Card.Body>
-                <Card.Title style={{ marginTop: "-15px" }}>Reconfiguration</Card.Title>
-                <Card.Text style={{ fontSize: "13px" }}>
-                  Let our Experts advise on the perfect office arrangement to optimize team perfomance.   
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
+         
         </Row>
       </Container>
 

@@ -8,7 +8,7 @@ function Footer () {
     <footer>
         <Container>
         <h3 className="footer-title">
-          Serving Greater Denver for Over 20 Years!
+          Serving Greater Denver for Over 15 Years!
         </h3>
           <Row>
             <Col>
