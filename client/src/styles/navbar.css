@@ -1,11 +1,12 @@
-/* .nav-stars-style {
-  display: inline-block;
-  position: absolute;
-  top: 0px;
-  left: -50px;
-  z-index: 3;
-} */
+.slogan{
 
+
+  font-style: italic;
+  font-size: 35px;
+  justify-content: end !important;
+ 
+  
+}
 
 .heading-style {
   display: inline-block;
@@ -16,3 +17,9 @@
 .toggle-style {
   z-index: 5;
 }
+
+.logo{
+  max-height: 85px;
+}
+
+

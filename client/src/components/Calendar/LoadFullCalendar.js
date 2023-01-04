@@ -47,7 +47,7 @@ const LoadFullCalendar = ({ activeView, weekendsVisible, INITIAL_EVENTS, renderE
           }}
           navLinkDayClick={activeView}
           slotMinTime="06:00:00"
-          initialView={window.mobilecheck() ? "listWeek" : "dayGridMonth"}
+          initialView={window.mobilecheck() ? "dayGridMonth" : "listWeek"}
           initialDate={moment().format()}
           editable={true}
           selectable={true}

@@ -1,78 +1,130 @@
 import React from "react";
-import Carousel from "react-bootstrap/Carousel";
 import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
-import { Container } from "react-bootstrap";
+import { Container, Button, Nav, Row, Col } from "react-bootstrap";
+import delivery from "../assets/images/delivery.jpg";
+import install from "../assets/images/install.jpg";
+import cleaning from "../assets/images/cleaning.jpg";
+import moving from "../assets/images/moving.jpg";
+import optimize from "../assets/images/optimize.png";
+import reconfig from "../assets/images/reconfig.jpg";
+import "../styles/landing1.css";
+import { useNavigate, Link } from "react-router-dom";
+import ContactForm from "../pages/ContactForm";
+import Footer from "./Footer";
 
 const LandingTemplate1 = () => {
+
+  let navigate = useNavigate();
   return (
     <>
-      <Container className="" style={{ marginTop: "10vh" }}>
-        <Carousel className="">
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              // src="holder.js/800x400?text=First slide&bg=373940"
-              src="https://via.placeholder.com/800x400?text=Image+Here"
-              alt="First slide"
-            />
-            <Carousel.Caption>
-              <h3>First image - Template #1</h3>
-              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              // src="holder.js/800x400?text=Second slide&bg=282c34"
-              src="https://via.placeholder.com/800x400?text=Image+Here"
-              alt="Second slide"
-            />
+      <section className="bk-img">
+        <br></br>
+        <div className="overlay-box">
+          <p className="overlay-header">
+            Colorado's Premier Choice for Office Installation, Configuration &
+            Moving
+          </p>
+          <p className="overlay-sub-header">
+          Integral Solutions offers the delivery and setting up of office furniture and floor space design for your business.  Whether you’re setting up your own office for the first time or changing locations, Integrated Solutions can help you implement and maintain an ideal environment for the growth of your companies. <br/><br/> Our family-owned business has more than 15 years of experience setting up all kinds of commercial floor plans ranging from offices to schools.  At Integrated Solutions, our goal is to provide the office furniture solutions our clients need to achieve their entrepreneurial goals.
+          </p>
+          <Button variant="secondary" 
+          className="contact-btn"
+          onClick={() => {
+            navigate("/contact");
+          }}>
+            Contact Us
+          </Button>
+        </div>
+        <br></br>
+      </section>
 
-            <Carousel.Caption>
-              <h3>Second image - Template #1</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              // src="holder.js/800x400?text=Third slide&bg=20232a"
-              src="https://via.placeholder.com/800x400?text=Image+Here"
-              alt="Third slide"
-            />
+      <section>
+        <p className="service-title">Services We Offer</p>
+      </section>
 
-            <Carousel.Caption>
-              <h3>Third image - Template #1</h3>
-              <p>
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-              </p>
-            </Carousel.Caption>
-          </Carousel.Item>
-        </Carousel>
-        </Container>
-
-        <Container className="mt-2">
-          <Card className="">
-            {/* <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> */}
-            <Card.Body>
-              <Card.Title>Template #1</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </Card.Text>
-            </Card.Body>
-            <ListGroup className="list-group-flush">
-              <ListGroup.Item>Cras justo odio</ListGroup.Item>
-              <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-              <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-            </ListGroup>
-            <Card.Body>
-              <Card.Link href="#">Card Link</Card.Link>
-              <Card.Link href="#">Another Link</Card.Link>
-            </Card.Body>
-          </Card>
+      <Container
+        className=""
+        style={{ marginTop: "50px", marginBottom: "35px" }}
+      >
+        <Row>
+          <Col className="d-flex justify-content-center mb-2">
+            <Card style={{ width: "15rem", border: "none" }}>
+              <Card.Img variant="top" src={delivery} />
+              <Card.Body>
+                <Card.Title style={{ marginTop: "-15px" }}>Delivery</Card.Title>
+                <Card.Text style={{ fontSize: "13px" }}>
+                  We will pick up all items directly from your chosen
+                  distrubutor. No need to hire an additional company for
+                  delivery.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="d-flex justify-content-center mb-2">
+            <Card style={{ width: "15rem", border: "none" }}>
+              <Card.Img variant="top" src={moving} />
+              <Card.Body>
+                <Card.Title style={{ marginTop: "-15px" }}>Moving</Card.Title>
+                <Card.Text style={{ fontSize: "13px" }}>
+                  Make your office move smooth and easy as we safely pack your
+                  office and bring to your new location.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="d-flex justify-content-center mb-2">
+            <Card style={{ width: "15rem", border: "none" }}>
+              <Card.Img variant="top" src={install} />
+              <Card.Body>
+                <Card.Title style={{ marginTop: "-15px" }}>
+                  Installation
+                </Card.Title>
+                <Card.Text style={{ fontSize: "13px" }}>
+                  Our qualified team can install cubicles, office furniture,
+                  workstations, seating, conference rooms, and more.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="d-flex justify-content-center mb-2">
+            <Card style={{ width: "15rem", border: "none" }}>
+              <Card.Img variant="top" src={cleaning} />
+              <Card.Body>
+                <Card.Title style={{ marginTop: "-15px" }}>Cleaning</Card.Title>
+                <Card.Text style={{ fontSize: "13px" }}>
+                  No mess left behind. Your office space will be fully cleaned
+                  and all packaging material will be disposed responsibly.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="d-flex  mb-2" style={{display:'flex', justifyContent:'end', marginRight:"15px"}}>
+            <Card style={{ width: "15rem", border: "none", marginTop:"15px" }}>
+              <Card.Img variant="top" src={optimize} />
+              <Card.Body>
+                <Card.Title style={{ marginTop: "-15px" }}>Space Analytics</Card.Title>
+                <Card.Text style={{ fontSize: "13px" }}>
+                  Our team has set up thousands of office spaces, let us help guide your installation process.   
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="d-flex  mb-2">
+            <Card style={{ width: "15rem", border: "none", marginTop:"15px"}}>
+              <Card.Img variant="top" src={reconfig} />
+              <Card.Body>
+                <Card.Title style={{ marginTop: "-15px" }}>Reconfiguration</Card.Title>
+                <Card.Text style={{ fontSize: "13px" }}>
+                  Let our Experts advise on the perfect office arrangement to optimize team perfomance.   
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+         
+        </Row>
       </Container>
+
+        <Footer/>
     </>
   );
 };

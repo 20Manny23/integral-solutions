@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 // import { Navbar, Nav, Row, NavDropdown } from "react-bootstrap";
 import { Navbar, Nav, Row } from "react-bootstrap";
 import "../styles/navbar.css";
+import logo from "../assets/images/integral-logo.png"
+
 
 const AppNavbar = () => {
   return (
@@ -13,18 +15,18 @@ const AppNavbar = () => {
       <Navbar
         collapseOnSelect
         className="shadow-sm"
-        style={{ height: "8vh", backgroundColor: "black" }}
-        fixed="top"
-        variant="dark"
+        style={{ height: "13%", backgroundColor: "#6362d4" }}
+        // fixed="top"
+        // variant="dark"
         expand="lg"
       >
         {/* <Container fluid className=""> */}
-          <Navbar.Brand as={Link} reloadDocument to="/">
-            <Row>
-              {/* <NavStarsAsset className="mb-1 ml-0 pl-0 nav-stars-style" /> */}
-              <h2 className="m-0 pt-0 pl-3 heading-style">Integral Solutions</h2>
-            </Row>
+          <Navbar.Brand as={Link} reloadDocument to="/" className="">
+          
+              <img className="logo ml-4 mr-4" src={logo} alt="logo"></img>
+
           </Navbar.Brand>
+          <p className="slogan">Office Furniture Installation At The Snap Of Your Fingers!</p>
           <Row>
             <Navbar.Toggle
               aria-controls="navbar"
@@ -45,21 +47,21 @@ const AppNavbar = () => {
                   >    
                     Landing_v1
                   </Nav.Link>              
-                  <Nav.Link
+                  {/* <Nav.Link
                     as={Link}
                     to="/landing-template-v2"
                     eventKey="4"
                     className="text-white"
-                  >
+                  > 
                     Landing_v2
-                  </Nav.Link>            
+                  </Nav.Link>             */}
                   <Nav.Link
                     as={Link}
-                    to="/landing-template-v3"
+                    to="/calendar"
                     eventKey="4"
                     className="text-white"
-                  >
-                    Landing_v3
+                  > 
+                    Calendar
                   </Nav.Link>
                   {/* section end */}
                   {/* <Nav.Link
@@ -105,7 +107,7 @@ const AppNavbar = () => {
               ) : (
                 <>
                   <Nav.Link
-                    // reloadDocument
+                   
                     as={Link}
                     to="/login"
                     eventKey="10"
@@ -114,7 +116,7 @@ const AppNavbar = () => {
                     Login
                   </Nav.Link>
                   <Nav.Link
-                    // reloadDocument
+                    
                     as={Link}
                     to="/signup"
                     eventKey="10"
@@ -126,7 +128,7 @@ const AppNavbar = () => {
               )}
             </Nav>
           </Navbar.Collapse>
-        {/* </Container> */}
+       
       </Navbar>
     </>
   );

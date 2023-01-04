@@ -19,13 +19,13 @@ const Homepage = ({
 
   return (
     <Container style={{ marginTop: "85px" }}>
-      <div className="d-flex flex-column align-items-center mt-3 overflow-auto">
+      <div className="d-flex flex-column align-items-center mt-3">
         <div
           style={{
             height: "600px",
             minHeight: "600px",
             width: "330px",
-            margin: "10px",
+            // margin: "10px",
             boxShadow: "5px 5px 5px 5px gray",
             overflowY: "scroll",
           }}

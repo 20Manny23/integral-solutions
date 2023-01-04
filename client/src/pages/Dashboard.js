@@ -4,18 +4,19 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
-import AllEmployeesCont from "../components/AllEmployeesCont";
-import AllLocationsCont from "../components/AllLocationsCont";
+// import AllEmployeesCont from "../components/AllEmployeesCont";
+import AddEmployee from "../pages/AddEmployee";
 import FullCalendarApp from "../components/Calendar/FullCalendarApp";
 import Location from "../pages/Location";
 import { Button, Container, Col, Row } from "react-bootstrap/";
 import "../styles/spinner.css";
+import WorkOrder from "./WorkOrder";
 
 const Dashboard = ({
   renderPanel,
   calendarButtonIsActive,
-  employeesButtonIsActive,
-  locationsButtonIsActive,
+  workorderButtonIsActive,
+  addemployeeButtonIsActive,
 }) => {
   // get user info to render to page
   const userId = getUserId();
@@ -39,11 +40,11 @@ const Dashboard = ({
   } else {
     return (
       <>
-        <Container style={{ marginTop: "85px" }}>
+        <Container style={{ marginTop: "25px" }}>
           <Row className="justify-content-center">
-            <p style={{ fontSize: "16px" }}>
+            <p style={{ fontSize: "30px" }}>
               <b>
-                Welcome {data.me?.firstName} {data.me?.lastName}!
+              Administrator Panel
               </b>
             </p>
           </Row>
@@ -65,32 +66,33 @@ const Dashboard = ({
                 </Button>
                 <Button
                   variant="outline-primary"
-                  style={employeesButtonIsActive ? isActive : notActive}
-                  active={employeesButtonIsActive}
+                  style={workorderButtonIsActive ? isActive : notActive}
+                  active={workorderButtonIsActive}
                   onClick={() => {
-                    navigate("/employees");
+                    navigate("/workorder");
+                  }}
+                >
+                  Work Order
+                </Button>
+                
+                <Button
+                  variant="outline-primary"
+                  style={addemployeeButtonIsActive ? isActive : notActive}
+                  active={addemployeeButtonIsActive}
+                  onClick={() => {
+                    navigate("/addemployee");
                   }}
                 >
                   Employees
-                </Button>
-                <Button
-                  variant="outline-primary"
-                  style={locationsButtonIsActive ? isActive : notActive}
-                  active={locationsButtonIsActive}
-                  onClick={() => {
-                    navigate("/locations");
-                  }}
-                >
-                  Locations
                 </Button>
               </div>
 
               {renderPanel === "calendar" ? (
                 <FullCalendarApp />
-              ) : renderPanel === "employees" ? (
-                <AllEmployeesCont />
-              ) : renderPanel === "locations" ? (
-                <AllLocationsCont />
+              ) : renderPanel === "workorder" ? (
+                <WorkOrder />
+              ) : renderPanel === "addemployee" ? (
+                <AddEmployee />
               ) : (
                 <Location />
               )}
@@ -106,8 +108,8 @@ export default Dashboard;
 
 const isActive = {
   flex: "auto",
-  border: "none",
-  borderRadius: "0",
+   border: "solid 3px black",
+  borderRadius: "3px",
 };
 
 const notActive = {

@@ -71,9 +71,11 @@ const Availability = () => {
     },
   });
 
+  // eslint-disable-next-line
   async function handleChange(evt) {
     let name = evt.target.name;
 
+  // eslint-disable-next-line
     evt.target.name === "mondayAm"
       ? setMondayAm(!mondayAm)
       : evt.target.name === "mondayPm"
@@ -177,7 +179,7 @@ const Availability = () => {
                           type="switch"
                           id="sundayAm-switch"
                           checked={sundayAm || false}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           style={{ textAlign: "center" }}
                         />
                       </td>
@@ -187,7 +189,7 @@ const Availability = () => {
                           type="switch"
                           id="sundayPm-switch"
                           checked={sundayPm || false}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           style={{ textAlign: "center" }}
                         />
                       </td>
@@ -200,8 +202,7 @@ const Availability = () => {
                           type="switch"
                           id="mondayAm-switch"
                           checked={mondayAm || false}
-                          // onClick={loadChange}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           style={{ textAlign: "center" }}
                         />
                       </td>
@@ -211,7 +212,7 @@ const Availability = () => {
                           type="switch"
                           id="mondayPm-switch"
                           checked={mondayPm || false}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           style={{ textAlign: "center" }}
                         />
                       </td>
@@ -224,7 +225,7 @@ const Availability = () => {
                           type="switch"
                           id="tuesdayAm-switch"
                           checked={tuesdayAm || false}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           style={{ textAlign: "center" }}
                         />
                       </td>
@@ -234,7 +235,7 @@ const Availability = () => {
                           type="switch"
                           id="tuesdayPm-switch"
                           checked={tuesdayPm || false}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           style={{ textAlign: "center" }}
                         />
                       </td>
@@ -247,7 +248,7 @@ const Availability = () => {
                           type="switch"
                           id="wednesdayAm-switch"
                           checked={wednesdayAm || false}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           style={{ textAlign: "center" }}
                         />
                       </td>
@@ -257,7 +258,7 @@ const Availability = () => {
                           type="switch"
                           id="wednesdayPm-switch"
                           checked={wednesdayPm || false}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           style={{ textAlign: "center" }}
                         />
                       </td>
@@ -270,7 +271,7 @@ const Availability = () => {
                           type="switch"
                           id="thursdayAm-switch"
                           checked={thursdayAm || false}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           style={{ textAlign: "center" }}
                         />
                       </td>
@@ -280,7 +281,7 @@ const Availability = () => {
                           type="switch"
                           id="thursdayPm-switch"
                           checked={thursdayPm || false}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           style={{ textAlign: "center" }}
                         />
                       </td>
@@ -293,7 +294,7 @@ const Availability = () => {
                           type="switch"
                           id="fridayAm-switch"
                           checked={fridayAm || false}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           style={{ textAlign: "center" }}
                         />
                       </td>
@@ -303,7 +304,7 @@ const Availability = () => {
                           type="switch"
                           id="fridayPm-switch"
                           checked={fridayPm || false}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           style={{ textAlign: "center" }}
                         />
                       </td>
@@ -316,7 +317,7 @@ const Availability = () => {
                           type="switch"
                           id="saturdayAm-switch"
                           checked={saturdayAm || false}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           style={{ textAlign: "center" }}
                         />
                       </td>
@@ -326,7 +327,7 @@ const Availability = () => {
                           type="switch"
                           id="saturdayPm-switch"
                           checked={saturdayPm || false}
-                          onChange={handleChange}
+                          // onChange={handleChange}
                           style={{ textAlign: "center" }}
                         />
                       </td>

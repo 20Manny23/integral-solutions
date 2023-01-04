@@ -1,0 +1,128 @@
+.bk-img {
+  background-image: url("../assets/images/office.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+}
+
+.overlay-box {
+  width: 500px;
+  margin: 8px 8px 50px 35px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: white;
+  background-color: #6362d4;
+  border-radius: 5px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+.overlay-header {
+  padding-top: 14px;
+  margin-bottom: 0;
+  font-size: 37px;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.overlay-sub-header {
+  font-size: 16px;
+  padding: 14px;
+}
+
+.service-title {
+  padding: 10px 0 10px 0;
+  font-size: 35px;
+  color: white;
+  background-color: #6362d4;
+  text-align: center;
+}
+
+.contact-btn {
+  margin-left: 15px;
+  background-color: rgb(16, 59, 151);
+}
+
+.card-body {
+  padding: 15px 0 5px 0;
+  text-align: center;
+}
+
+footer {
+  background-color: #6362d4;
+  color: white;
+}
+
+.footer-title {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.footer-phone {
+  font-size: 30px;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: white;
+}
+
+.footer-copy {
+  display: flex;
+  justify-content: center;
+  height: 25px;
+  margin: 0px;
+}
+
+@media only screen and (max-width: 576px) {
+  .overlay-box {
+    max-width: 250px;
+  }
+
+  .overlay-header {
+    margin-bottom: 0px;
+    font-size: 20px;
+  }
+
+  .overlay-sub-header {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+  }
+
+  .footer-title {
+    font-size: 26px;
+  }
+
+  .footer-phone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .footer-nav {
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .footer-copy {
+    display: flex;
+    justify-content: center;
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,23 @@
+
+.form-length{
+   width:  60%;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+.addy {
+    width: 62%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-bottom: 15px;
+}
+
+@media screen and (max-width: 650px){
+
+    .form-length{
+        width:90%;
+    }
+    .addy {
+        width:95%;
+    }
+}
