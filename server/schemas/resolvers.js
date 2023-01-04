@@ -10,7 +10,7 @@ const resolvers = {
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
-    
+
     schedule: async (parent, args, context) => {
       // if (context.user) {
         return Schedule.find().populate("users").populate("location");

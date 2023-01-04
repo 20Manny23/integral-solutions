@@ -59,7 +59,7 @@ const typeDefs = gql`
     instructions: Instructions
   }
 
-  type Client {
+  type Clients {
     _id: ID
     businessName: String
     streetAddress: String
@@ -120,8 +120,8 @@ const typeDefs = gql`
     location(locationId: ID!): Location
     incidents: [Incident]!
     events: [Event]!
-    clients: [Location]!
-    client(_id: ID!): Location
+    clients: [Client]!
+    client(_id: ID!): Client
     schedule: [Schedule]
   }
 
