@@ -146,7 +146,7 @@ function ContactForm() {
                   />
                    <Form.Check
                     inline
-                    label="less than 50"
+                    label="Less than 50"
                   />
                     <Form.Check
                     inline
@@ -154,7 +154,7 @@ function ContactForm() {
                   />
                     <Form.Check
                     inline
-                    label="more than 100"
+                    label="More than 100"
                   />
                 </Col>
              
