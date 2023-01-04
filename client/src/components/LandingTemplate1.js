@@ -7,24 +7,29 @@ import cleaning from "../assets/images/cleaning.jpg";
 import moving from "../assets/images/moving.jpg";
 import logo from "../assets/images/integral-logo.png";
 import "../styles/landing1.css";
+import { useNavigate } from "react-router-dom";
+import ContactForm from "../pages/ContactForm";
 
 const LandingTemplate1 = () => {
+
+  let navigate = useNavigate();
   return (
     <>
       <section className="bk-img">
         <br></br>
         <div className="overlay-box">
           <p className="overlay-header">
-            Colorado's Premier Choice for Office Installation, Configuring &
+            Colorado's Premier Choice for Office Installation, Configuration &
             Moving
           </p>
           <p className="overlay-sub-header">
-            We are a full service, independent installation company. We offer
-            office installation, moving, delivery and clean-up. We are locally
-            staffed with professional installation teams and will take your next
-            project from start to finish.
+          Integral Solutions offers the delivery and setting up of office furniture and floor space design for your business.  Whether you’re setting up your own office for the first time or changing locations, Integrated Solutions can help you implement and maintain an ideal environment for the growth of your companies. <br/><br/> Our family-owned business has more than 15 years of experience setting up all kinds of commercial floor plans ranging from offices to schools.  At Integrated Solutions, our goal is to provide the office furniture solutions our clients need to achieve their entrepreneurial goals.
           </p>
-          <Button variant="secondary" className="contact-btn">
+          <Button variant="secondary" 
+          className="contact-btn"
+          onClick={() => {
+            navigate("/contact");
+          }}>
             Contact Us
           </Button>
         </div>
