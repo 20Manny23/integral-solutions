@@ -74,6 +74,23 @@ function ContactForm() {
                   required
                 />
               </Form.Group>
+              <Form.Group
+                className="mb-3 form-length"
+                controlId="formBasicEmail"
+              >
+                <div className="form-label">
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    Email Address
+                  </Form.Label>
+                </div>
+                <Form.Control
+                  className="custom-border"
+                  type="email"
+                  placeholder="Enter Email"
+                  name="email"
+                  required
+                />
+              </Form.Group>
 
               <Form.Group
                 className="mb-3 form-length"
@@ -112,6 +129,23 @@ function ContactForm() {
                   </Form.Label>
                   <Form.Control className="custom-border" placeholder="Zip" />
                 </Col>
+              </Row>
+
+              <Row className="addy">
+                <Col xs={6}>
+                  <Form.Label style={{ fontWeight: "bolder" }}>Office Sqft</Form.Label>
+                  <Form.Control className="custom-border" placeholder="8000 Sqft" />
+                </Col>
+                <Col>
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                   Employees
+                  </Form.Label>
+                  <Form.Control
+                    className="custom-border"
+                    placeholder="100"
+                  />
+                </Col>
+             
               </Row>
 
               <div className="d-flex justify-content-between">
