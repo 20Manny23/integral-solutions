@@ -18,7 +18,8 @@
 }
 
 .overlay-header {
-  padding: 14px;
+  padding-top: 14px;
+  margin-bottom: 0;
   font-size: 37px;
   font-weight: bolder;
   text-align: center;
