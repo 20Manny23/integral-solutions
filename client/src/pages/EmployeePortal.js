@@ -5,6 +5,7 @@ import { Row, Container, Card } from "react-bootstrap";
 function EmployeePortal() {
   const employee = [
     {
+      id: 3,
       jobDate: "12/20/2022",
       company: "Hoff inc",
       location: "777 Richman Blackhawk Co",
@@ -13,6 +14,7 @@ function EmployeePortal() {
       hoursWorked: 7,
     },
     {
+      id: 2,
       jobDate: "12/05/2022",
       company: "Rod inc",
       location: "77799 Lucky Ave BlackHawk Co",
@@ -21,6 +23,7 @@ function EmployeePortal() {
       hoursWorked: 8,
     },
     {
+      id: 1,
       jobDate: "12/14/2022",
       company: "Steve inc",
       location: "463 Yatzee Denver Co",
@@ -29,6 +32,7 @@ function EmployeePortal() {
       hoursWorked: 11,
     },
     {
+      id: 4,
       jobDate: "12/01/2022",
       company: "Data inc",
       location: "189 Poplar Aravada Co",
@@ -66,7 +70,7 @@ function EmployeePortal() {
       <Container>
         <Row style={{display:'flex', justifyContent:'center'}}>
           {upcomingJob.map((emp) => (
-            <Card style={{ width: "18rem", margin: "5px" }}>
+            <Card style={{ width: "18rem", margin: "5px" }} key={emp.id}>
               <Card.Body>
                 <Card.Title>{emp.jobDate} {emp.startTime}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
