@@ -44,9 +44,7 @@ function LinksPage () {
    
     </Card>
     </Col>
-    </Row>
-
-<Row>
+ 
     <Col>
     <Card className='company'>
     <Card.Link href="https://www.officestogo.com/"target={"_blank"}>
