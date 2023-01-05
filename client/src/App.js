@@ -18,12 +18,9 @@ import WrongPage from "./pages/WrongPage";
 import IncidentList from "./pages/IncidentList";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-//section start
 import LandingTemplate1 from "./components/LandingTemplate1";
-import LandingTemplate2 from "./components/LandingTemplate2";
-import LandingTemplate3 from "./components/LandingTemplate3";
-//section end
+
+
 
 import ContactForm from "./pages/ContactForm";
 import EmployeePortal from "./pages/EmployeePortal";
@@ -202,7 +199,7 @@ function App() {
               {/* section start */}
               <Route
                 exact
-                path="/landing-template-v1"
+                path="/landing"
                 element={<LandingTemplate1 />}
               />
 

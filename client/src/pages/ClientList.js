@@ -105,7 +105,7 @@ function ClientList() {
       <Container >
         <Row style={{ display: "flex", justifyContent: "center" }}>
           {client.map((emp) => (
-            <Card style={{ width: "18rem", margin: "5px" }}>
+            <Card style={{ width: "18rem", margin: "5px" }}key={emp.id}>
               <Card.Body>
                 <Card.Title className="mb-2 text-muted" >
                   {emp.company}
@@ -117,7 +117,7 @@ function ClientList() {
                   Phone: {emp.phone}
                 </Card.Subtitle>
                 <Card.Subtitle style={{ marginTop: "3px" }} >
-                  {emp.email}
+                 <a href={`mailto:${emp.email}`}>{emp.email}</a> 
                 </Card.Subtitle>
                 <Card.Subtitle style={{ marginTop: "3px" }} >
                   {emp.location}{" "}

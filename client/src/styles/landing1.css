@@ -15,6 +15,7 @@
   border-radius: 5px;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
+    border:1px solid black;
 }
 
 .overlay-header {
@@ -36,6 +37,9 @@
   color: white;
   background-color: #6362d4;
   text-align: center;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  
 }
 
 .contact-btn {
@@ -50,7 +54,8 @@
 
 footer {
   background-color: #6362d4;
-  color: white;
+  color: black;
+  border-top: 1px solid black;
 }
 
 .footer-title {
@@ -68,7 +73,7 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  color: white;
+  color: black;
 }
 
 .footer-copy {
