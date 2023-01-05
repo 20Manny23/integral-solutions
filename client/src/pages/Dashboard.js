@@ -6,6 +6,7 @@ import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
 // import AllEmployeesCont from "../components/AllEmployeesCont";
 import AddEmployee from "../pages/AddEmployee";
+import ClientList from "./ClientList";
 import FullCalendarApp from "../components/Calendar/FullCalendarApp";
 import Location from "../pages/Location";
 import { Button, Container, Col, Row } from "react-bootstrap/";
@@ -17,6 +18,7 @@ const Dashboard = ({
   calendarButtonIsActive,
   workorderButtonIsActive,
   addemployeeButtonIsActive,
+  clientlistButtonIsActive
 }) => {
   // get user info to render to page
   const userId = getUserId();
@@ -85,6 +87,16 @@ const Dashboard = ({
                 >
                   Employees
                 </Button>
+                <Button
+                  variant="outline-primary"
+                  style={clientlistButtonIsActive ? isActive : notActive}
+                  active={clientlistButtonIsActive}
+                  onClick={() => {
+                    navigate("/clientlist");
+                  }}
+                >
+                  Client List 
+                </Button>
               </div>
 
               {renderPanel === "calendar" ? (
@@ -93,6 +105,8 @@ const Dashboard = ({
                 <WorkOrder />
               ) : renderPanel === "addemployee" ? (
                 <AddEmployee />
+              ) : renderPanel === "clientlist" ? (
+                  <ClientList />
               ) : (
                 <Location />
               )}
