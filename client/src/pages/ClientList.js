@@ -117,7 +117,7 @@ function ClientList() {
                   Phone: {emp.phone}
                 </Card.Subtitle>
                 <Card.Subtitle style={{ marginTop: "3px" }} >
-                  {emp.email}
+                 <a href={`mailto:${emp.email}`}>{emp.email}</a> 
                 </Card.Subtitle>
                 <Card.Subtitle style={{ marginTop: "3px" }} >
                   {emp.location}{" "}

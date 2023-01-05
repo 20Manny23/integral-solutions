@@ -15,6 +15,7 @@
   border-radius: 5px;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
+    border:1px solid black;
 }
 
 .overlay-header {
@@ -38,6 +39,7 @@
   text-align: center;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
+  
 }
 
 .contact-btn {
