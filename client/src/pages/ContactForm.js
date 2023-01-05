@@ -15,6 +15,7 @@ function ContactForm() {
             <Form
               className="py-3 overflow-auto custom-about"
               style={{ width: "80vw" }}
+              action="mailto:bhoff1980@gmail.com"
             >
               <h2 className="display-6 custom-text heading">
                 Tell Us How We Can Help
@@ -33,7 +34,7 @@ function ContactForm() {
                   className="custom-border"
                   type="text"
                   placeholder="Enter Company Name"
-                  name="name"
+                  name="company"
                   required
                 />
               </Form.Group>
@@ -137,12 +138,24 @@ function ContactForm() {
                   <Form.Control className="custom-border" placeholder="8000 Sqft" />
                 </Col>
                 <Col>
-                  <Form.Label style={{ fontWeight: "bolder" }}>
+                  <Form.Label style={{ fontWeight: "bolder", display:'flex', justifyContent:'center' }}>
                    Employees
                   </Form.Label>
-                  <Form.Control
-                    className="custom-border"
-                    placeholder="100"
+                  <Form.Check
+                    inline
+                    label="Home Office"
+                  />
+                   <Form.Check
+                    inline
+                    label="Less than 50"
+                  />
+                    <Form.Check
+                    inline
+                    label="50-100"
+                  />
+                    <Form.Check
+                    inline
+                    label="More than 100"
                   />
                 </Col>
              

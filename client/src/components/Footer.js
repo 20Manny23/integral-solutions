@@ -20,7 +20,7 @@ function Footer () {
 
             </Col>
             <Col className="d-flex footer-nav">
-              <Nav.Link className="footer-nav" href="#features">
+              <Nav.Link className="footer-nav" as={Link} to="/linkspage">
                 Shop Furniture
               </Nav.Link>
               <Nav.Link className="footer-nav" as={Link} to="/contact">
