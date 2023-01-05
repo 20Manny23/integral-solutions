@@ -1,9 +1,6 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
-  type Schedule {
-    _id: ID
-  }
 
   type User {
     _id: ID
@@ -16,6 +13,16 @@ const typeDefs = gql`
     isManager: Boolean
     availability: Availability
     locations: [Location]
+  }
+
+  type Schedule {
+    _id: ID
+    startDate: String
+    endDate: String
+    startTime: String
+    endTime: String
+    location: Location
+    users: [User]
   }
 
   type Availability {
@@ -50,6 +57,19 @@ const typeDefs = gql`
     startTime: String
     laborHours: Float
     instructions: Instructions
+  }
+
+  type Client {
+    _id: ID
+    businessName: String
+    streetAddress: String
+    suite: String
+    city: String
+    state: String
+    zip: String
+    contact: String
+    phone: String
+    email: String
   }
 
   type Instructions {
@@ -100,6 +120,9 @@ const typeDefs = gql`
     location(locationId: ID!): Location
     incidents: [Incident]!
     events: [Event]!
+    schedule: [Schedule]
+    clients: [Client]!
+    client(clientId: ID!): Client
   }
 
   type Mutation {
@@ -132,6 +155,30 @@ const typeDefs = gql`
       incidentDetails: String!
     ): Incident
     deleteIncident(_id: ID!): Incident
+    addClient(
+      businessName: String
+      streetAddress: String
+      suite: String
+      city: String
+      state: String
+      zip: String
+      contact: String
+      phone: String
+      email: String
+    ): Client
+    deleteClient(_id: ID!): Client
+    updateClient(
+      _id: ID!
+      businessName: String
+      streetAddress: String
+      suite: String
+      city: String
+      state: String
+      zip: String
+      contact: String
+      phone: String
+      email: String
+    ): Client
   }
 `;
 
