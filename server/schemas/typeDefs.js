@@ -15,6 +15,18 @@ const typeDefs = gql`
     locations: [Location]
   }
 
+  type Employee {
+    _id: ID
+    username: String
+    email: String
+    password: String
+    firstName: String
+    lastName: String
+    phone: String
+    isManager: Boolean
+    schedule: [Schedule]
+  }
+
   type Schedule {
     _id: ID
     startDate: String
@@ -123,6 +135,8 @@ const typeDefs = gql`
     schedule: [Schedule]
     clients: [Client]!
     client(clientId: ID!): Client
+    employees: [Employee]!
+    employee(email: String!): Employee
   }
 
   type Mutation {
@@ -179,6 +193,29 @@ const typeDefs = gql`
       phone: String
       email: String
     ): Client
+
+    addEmployee(
+      username: String
+      email: String
+      password: String
+      firstName: String
+      lastName: String
+      phone: String
+      isManager: Boolean
+    ): Employee
+
+    deleteEmployee(_id: ID!): Employee
+
+    updateEmployee(
+      _id: ID
+      username: String
+      email: String
+      password: String
+      firstName: String
+      lastName: String
+      phone: String
+      isManager: Boolean
+    ): Employee
   }
 `;
 

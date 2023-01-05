@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User, Location, Incident, Event, Schedule, Client } = require("../models");
+const { User, Location, Incident, Event, Schedule, Client, Employee } = require("../models");
 const { signToken } = require("../utils/auth");
 
 const resolvers = {
@@ -72,6 +72,27 @@ const resolvers = {
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
+
+    employees: async (parent, args, context) => {
+      // if (context.user) {
+        return Employee.find().populate("schedule");
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    employee: async (parent, { email }, context) => {
+      // if (context.user) {
+        return Employee.findOne({ email: email });
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    // me: async (parent, { _id }, context) => {
+    //   // if (context.user) {
+    //     return Employee.findById({ _id }).populate("schedule");
+    //   // }
+    //   // throw new AuthenticationError("You need to be logged in!");
+    // },
   },
 
   Mutation: {
@@ -230,6 +251,54 @@ const resolvers = {
             contact, 
             phone, 
             email
+          },
+          { new: true }
+        );
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    addEmployee: async (parent, { username, email, password, firstName, lastName, phone, isManager }, context) => {
+      // if (context.user) {
+      const user = await Employee.create({ username, email, password, firstName, lastName, phone, isManager });
+      return { email }, 
+      { new: true};
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    deleteEmployee: async (parent, { _id }, context) => {
+      // if (context.user) {
+        return Employee.findOneAndDelete({ _id });
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    updateEmployee: async (
+      parent,
+      {
+        _id,
+        username, 
+        email, 
+        password, 
+        firstName, 
+        lastName, 
+        phone, 
+        isManager
+      },
+      context
+    ) => {
+      // if (context.user) {
+        return Employee.findOneAndUpdate(
+          { _id },
+          {
+            username, 
+            email, 
+            password, 
+            firstName, 
+            lastName, 
+            phone, 
+            isManager
           },
           { new: true }
         );
