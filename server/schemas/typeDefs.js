@@ -15,14 +15,26 @@ const typeDefs = gql`
     locations: [Location]
   }
 
+  type Employee {
+    _id: ID
+    username: String
+    email: String
+    password: String
+    firstName: String
+    lastName: String
+    phone: String
+    isManager: Boolean
+    schedule: [Schedule]
+  }
+
   type Schedule {
     _id: ID
     startDate: String
     endDate: String
     startTime: String
     endTime: String
-    location: Location
-    users: [User]
+    client: Client
+    employees: [Employee]
   }
 
   type Availability {
@@ -70,6 +82,7 @@ const typeDefs = gql`
     contact: String
     phone: String
     email: String
+    schedule: [Schedule]
   }
 
   type Instructions {
@@ -120,9 +133,12 @@ const typeDefs = gql`
     location(locationId: ID!): Location
     incidents: [Incident]!
     events: [Event]!
-    schedule: [Schedule]
     clients: [Client]!
     client(clientId: ID!): Client
+    employees: [Employee]!
+    employee(email: String!): Employee
+    schedules: [Schedule]
+    schedule(scheduleId: ID!): Schedule
   }
 
   type Mutation {
@@ -179,6 +195,45 @@ const typeDefs = gql`
       phone: String
       email: String
     ): Client
+    addEmployee(
+      username: String
+      email: String
+      password: String
+      firstName: String
+      lastName: String
+      phone: String
+      isManager: Boolean
+    ): Employee
+    deleteEmployee(_id: ID!): Employee
+    updateEmployee(
+      _id: ID
+      username: String
+      email: String
+      password: String
+      firstName: String
+      lastName: String
+      phone: String
+      isManager: Boolean
+    ): Employee
+    
+    addSchedule(
+      startDate: String
+      endDate: String
+      startTime: String
+      endTime: String
+      client: String
+      employees: [String]
+    ): Schedule
+    deleteSchedule(_id: ID!): Schedule
+    updateSchedule(
+      _id: ID
+      startDate: String
+      endDate: String
+      startTime: String
+      endTime: String
+      client: String
+      employees: [String]
+    ): Schedule
   }
 `;
 

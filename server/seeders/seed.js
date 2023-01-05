@@ -11,6 +11,8 @@ const { Schedule } = require("../models");
 const scheduleSeeds = require("./scheduleSeeds.json");
 const { Client } = require("../models");
 const clientSeeds = require("./clientSeeds.json");
+const { Employee } = require("../models");
+const employeeSeeds = require("./employeeSeeds.json");
 
 db.once("open", async () => {
   try {
@@ -20,12 +22,14 @@ db.once("open", async () => {
     await Event.deleteMany({});
     await Schedule.deleteMany({});
     await Client.deleteMany({});
+    await Employee.deleteMany({});
 
     await User.create(userSeeds);
     await Location.create(locationSeeds);
     await Incident.create(incidentSeeds);
     await Schedule.create(scheduleSeeds);
     await Client.create(clientSeeds);
+    await Employee.create(employeeSeeds);
   } catch (err) {
     console.error(err);
     process.exit(1);

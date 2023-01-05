@@ -14,13 +14,13 @@ const scheduleSchema = new Schema(
     endTime: {
       type: String,
     },
-    location: {
+    client: {
       type: Schema.Types.String,
-      ref: "Location"
+      ref: "Client"
     },
-    users: {
+    employees: {
       type: Schema.Types.Array,
-      ref: "User",
+      ref: "Employee",
     },
   },
 );

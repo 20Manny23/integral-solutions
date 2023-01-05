@@ -39,6 +39,10 @@ const clientSchema = new Schema({
     required: true,
     match: [/.+@.+\..+/, "Must use a valid email address"],
   },
+  schedule: {
+    type: Schema.Types.Array,
+    ref: "Schedule",
+  },
 });
 
 const Client = model("Client", clientSchema);
