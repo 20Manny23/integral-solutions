@@ -27,9 +27,8 @@ import LandingTemplate3 from "./components/LandingTemplate3";
 
 import ContactForm from "./pages/ContactForm";
 import EmployeePortal from "./pages/EmployeePortal";
-import WorkOrder from "./pages/WorkOrder"
-import AddEmployee from "./pages/AddEmployee"
-
+import WorkOrder from "./pages/WorkOrder";
+import AddEmployee from "./pages/AddEmployee";
 
 import {
   faTrash,
@@ -42,7 +41,7 @@ import {
   faEyeSlash,
   faMap,
 } from "@fortawesome/free-solid-svg-icons";
-
+import LinksPage from "./pages/LinksPage";
 
 library.add(
   faTrash,
@@ -138,10 +137,7 @@ function App() {
                   />
                 }
               />
-              <Route
-                path="*"
-                element={<WrongPage />}
-              />
+              <Route path="*" element={<WrongPage />} />
             </Routes>
           </>
         </Router>
@@ -206,11 +202,9 @@ function App() {
               <Route
                 exact
                 path="/landing-template-v1"
-                element={
-                  <LandingTemplate1 />
-                }
+                element={<LandingTemplate1 />}
               />
-         
+
               {/* section end */}
               <Route
                 exact
@@ -260,19 +254,16 @@ function App() {
                   />
                 }
               />
-              
+              <Route exact path="/linkspage" element={<LinksPage />} />
               <Route exact path="/availability" element={<Availability />} />
-              <Route exact path="/workorder" element={<WorkOrder/>} />
-              <Route exact path="/addemployee" element={<AddEmployee/>} />
+              <Route exact path="/workorder" element={<WorkOrder />} />
+              <Route exact path="/addemployee" element={<AddEmployee />} />
               <Route exact path="/contact" element={<ContactForm />} />
               <Route exact path="/employee" element={<EmployeePortal />} />
               <Route exact path="/timeoff" element={<Timeoff />} />
               <Route exact path="/incident" element={<Incident />} />
               <Route exact path="/incidentlist" element={<IncidentList />} />
-              <Route
-                path="*"
-                element={<WrongPage />}
-              />
+              <Route path="*" element={<WrongPage />} />
             </Routes>
           </>
         </Router>
