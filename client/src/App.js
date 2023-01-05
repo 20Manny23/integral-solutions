@@ -42,6 +42,7 @@ import {
   faMap,
 } from "@fortawesome/free-solid-svg-icons";
 import LinksPage from "./pages/LinksPage";
+import ClientList from "./pages/ClientList";
 
 library.add(
   faTrash,
@@ -215,6 +216,7 @@ function App() {
                     calendarButtonIsActive={true}
                     workorderButtonIsActive={false}
                     addEmployeeButtonIsActive={false}
+                    clientlistButtonIsActive={false}
                   />
                 }
               />
@@ -227,6 +229,7 @@ function App() {
                     calendarButtonIsActive={false}
                     workorderButtonIsActive={true}
                     addEmployeeButtonIsActive={false}
+                    clientlistButtonIsActive={false}
                   />
                 }
               />
@@ -239,6 +242,7 @@ function App() {
                     calendarButtonIsActive={false}
                     workorderButtonIsActive={false}
                     addemployeeButtonIsActive={true}
+                    clientlistButtonIsActive={false}
                   />
                 }
               />
@@ -250,10 +254,25 @@ function App() {
                     renderPanel={"addemployee"}
                     calendarButtonIsActive={false}
                     workorderButtonIsActive={false}
-                    addemployeeButtonIsActive={false}
+                    addemployeeButtonIsActive={true}
+                    clientlistButtonIsActive={false}
                   />
                 }
               />
+                <Route
+                exact
+                path="/clientlist"
+                element={
+                  <Dashboard
+                    renderPanel={"clientlist"}
+                    calendarButtonIsActive={false}
+                    workorderButtonIsActive={false}
+                    addemployeeButtonIsActive={false}
+                    clientlistButtonIsActive={true}
+                  />
+                }
+              />
+          
               <Route exact path="/linkspage" element={<LinksPage />} />
               <Route exact path="/availability" element={<Availability />} />
               <Route exact path="/workorder" element={<WorkOrder />} />
