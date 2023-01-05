@@ -1,4 +1,4 @@
-import { Data } from "@react-google-maps/api";
+
 import React, { useState } from "react";
 import { Row, Col, Button, Form, } from "react-bootstrap";
 import "../styles/Forms.css";
@@ -74,7 +74,7 @@ function removeEmployee(event) {
                 <Form.Control
                   className="custom-border"
                   type="text"
-                  placeholder="Enter Contact Name"
+                  placeholder="Enter Contact Person"
                   name="name"
                 />
               </Form.Group>

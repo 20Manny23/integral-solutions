@@ -105,7 +105,7 @@ function ClientList() {
       <Container >
         <Row style={{ display: "flex", justifyContent: "center" }}>
           {client.map((emp) => (
-            <Card style={{ width: "18rem", margin: "5px" }}>
+            <Card style={{ width: "18rem", margin: "5px" }}key={emp.id}>
               <Card.Body>
                 <Card.Title className="mb-2 text-muted" >
                   {emp.company}

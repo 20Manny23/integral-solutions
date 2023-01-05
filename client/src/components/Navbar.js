@@ -1,9 +1,7 @@
 import React from "react";
 import Auth from "../utils/auth";
 import { Link } from "react-router-dom";
-// import { NavStarsAsset } from "../components/NavStarsAsset";
-// import { Navbar, Nav, Container, Row, NavDropdown } from "react-bootstrap";
-// import { Navbar, Nav, Row, NavDropdown } from "react-bootstrap";
+
 import { Navbar, Nav, Row } from "react-bootstrap";
 import "../styles/navbar.css";
 import logo from "../assets/images/integral-logo.png"
@@ -16,24 +14,24 @@ const AppNavbar = () => {
         collapseOnSelect
         className="shadow-sm"
         style={{ height: "13%", backgroundColor: "#6362d4" }}
-        // fixed="top"
-        // variant="dark"
+        
+        
         expand="lg"
       >
-        {/* <Container fluid className=""> */}
+      
           <Navbar.Brand as={Link} reloadDocument to="/" className="">
           
               <img className="logo ml-4 mr-4" src={logo} alt="logo"></img>
 
           </Navbar.Brand>
-          <p className="slogan">Office Furniture Installation At The Snap Of Your Fingers!</p>
+          <Navbar.Brand className="slogan"style={{fontSize:'27px'}}>Office Furniture Installation At The Snap Of Your Fingers!</Navbar.Brand>
           <Row>
             <Navbar.Toggle
               aria-controls="navbar"
               className="white toggle-style mr-3"
             />
           </Row>
-          <Navbar.Collapse id="navbar" className="text-white">
+          <Navbar.Collapse id="navbar" className="">
             <Nav className="ml-auto">
               {/* if user is logged in show saved books & logout nav links else show login/signup modal */}
               {Auth.loggedIn() ? (
@@ -41,25 +39,18 @@ const AppNavbar = () => {
                   {/* section start */}
                   <Nav.Link
                     as={Link}
-                    to="/landing-template-v1"
+                    to="/landing"
                     eventKey="4"
-                    className="text-white"
+                    className=""
                   >    
-                    Landing_v1
+                    Landing
                   </Nav.Link>              
-                  {/* <Nav.Link
-                    as={Link}
-                    to="/landing-template-v2"
-                    eventKey="4"
-                    className="text-white"
-                  > 
-                    Landing_v2
-                  </Nav.Link>             */}
+              
                   <Nav.Link
                     as={Link}
                     to="/calendar"
                     eventKey="4"
-                    className="text-white"
+                    className=""
                   > 
                     Calendar
                   </Nav.Link>
@@ -100,7 +91,7 @@ const AppNavbar = () => {
                       Incident List
                     </NavDropdown.Item>
                   </NavDropdown> */}
-                  <Nav.Link onClick={Auth.logout} className="text-white">
+                  <Nav.Link onClick={Auth.logout} className="">
                     Logout
                   </Nav.Link>
                 </>
@@ -111,7 +102,7 @@ const AppNavbar = () => {
                     as={Link}
                     to="/login"
                     eventKey="10"
-                    className="text-white"
+                    className=""
                   >
                     Login
                   </Nav.Link>
@@ -120,7 +111,7 @@ const AppNavbar = () => {
                     as={Link}
                     to="/signup"
                     eventKey="10"
-                    className="text-white"
+                    className=""
                   >
                     Sign Up
                   </Nav.Link>

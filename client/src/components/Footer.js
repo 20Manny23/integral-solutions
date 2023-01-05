@@ -1,11 +1,11 @@
 import { Row, Col, Container, Nav,} from "react-bootstrap";
 import logo from "../assets/images/integral-logo.png";
-import "../styles/Forms.css";
+import "../styles/landing1.css";
 import { Link } from "react-router-dom";
 
 function Footer () {
     return (       
-    <footer>
+    <footer >
         <Container>
         <h3 className="footer-title">
           Serving Greater Denver for Over 15 Years!
@@ -27,7 +27,7 @@ function Footer () {
 
                 Contact Us{" "}
               </Nav.Link>
-              <Nav.Link className="footer-nav" href="#home">
+              <Nav.Link className="footer-nav" as={Link} to="/login">
                 Employee Login 
               </Nav.Link>
             </Col>
