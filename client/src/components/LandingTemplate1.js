@@ -9,7 +9,6 @@ import optimize from "../assets/images/optimize.png";
 import reconfig from "../assets/images/reconfig.jpg";
 import "../styles/landing1.css";
 import { useNavigate, Link } from "react-router-dom";
-import ContactForm from "../pages/ContactForm";
 import Footer from "./Footer";
 
 const LandingTemplate1 = () => {
@@ -20,7 +19,7 @@ const LandingTemplate1 = () => {
       <section className="bk-img">
         <br></br>
         <div className="overlay-box">
-          <p className="overlay-header">
+          <p className="overlay-header" style={{fontStyle:'italic'}}>
             Colorado's Premier Choice for Office Installation, Configuration &
             Moving
           </p>

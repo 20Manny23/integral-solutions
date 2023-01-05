@@ -16,7 +16,7 @@ function LinksPage () {
 <div className="bk-img">      
     <div className="head">
         <h1>Needing The Best Office Furniture with Competitive Pricing? </h1>
-        <h2 style={{fontStyle:'italic'}}>We Work Directly with these Companies!</h2>
+        <h2 style={{fontStyle:'italic'}}>We Work Directly with these Suppliers!</h2>
         </div>
         <Row>
             <Col>
