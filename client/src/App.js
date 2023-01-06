@@ -20,8 +20,6 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LandingTemplate1 from "./components/LandingTemplate1";
 
-
-
 import ContactForm from "./pages/ContactForm";
 import EmployeePortal from "./pages/EmployeePortal";
 import WorkOrder from "./pages/WorkOrder";

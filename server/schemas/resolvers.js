@@ -104,10 +104,16 @@ const resolvers = {
   },
 
   Mutation: {
-    addUser: async (parent, { username, email, password }, context) => {
-      const user = await User.create({ username, email, password });
-      const token = signToken(user);
-      return { token, user };
+    // addUser: async (parent, { username, email, password }, context) => {
+    //   const user = await User.create({ username, email, password });
+    //   const token = signToken(user);
+    //   return { token, user };
+    // },
+
+    signupEmployee: async (parent, { username, email, password }, context) => {
+      const employee = await Employee.create({ username, email, password });
+      const token = signToken(employee);
+      return { token, employee };
     },
 
     deleteUser: async (parent, { _id }, context) => {
@@ -149,22 +155,40 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    login: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
+    // login: async (parent, { email, password }) => {
+    //   const user = await User.findOne({ email });
 
-      if (!user) {
-        throw new AuthenticationError("No user found with this email address");
+    //   if (!user) {
+    //     throw new AuthenticationError("No user found with this email address");
+    //   }
+
+    //   const correctPw = await user.isCorrectPassword(password);
+
+    //   if (!correctPw) {
+    //     throw new AuthenticationError("Incorrect credentials");
+    //   }
+
+    //   const token = signToken(user);
+
+    //   return { token, user };
+    // },
+
+    login: async (parent, { email, password }) => {
+      const employee = await Employee.findOne({ email });
+
+      if (!employee) {
+        throw new AuthenticationError("No email found with this email address");
       }
 
-      const correctPw = await user.isCorrectPassword(password);
+      const correctPw = await employee.isCorrectPassword(password);
 
       if (!correctPw) {
         throw new AuthenticationError("Incorrect credentials");
       }
 
-      const token = signToken(user);
+      const token = signToken(employee);
 
-      return { token, user };
+      return { token, employee };
     },
 
     updateAvailability: async (
@@ -267,8 +291,9 @@ const resolvers = {
     },
     addEmployee: async (parent, { username, email, password, firstName, lastName, phone, isManager, isAdmin, isLocked }, context) => {
       // if (context.user) {
-      const user = await Employee.create({ username, email, password, firstName, lastName, phone, isManager, isAdmin, isLocked });
-      return { email }, 
+      const employee = await Employee.create({ username, email, password, firstName, lastName, phone, isManager, isAdmin, isLocked });
+      const token = signToken(employee);
+      return { token, employee, email }, 
       { new: true};
       // }
       // throw new AuthenticationError("You need to be logged in!");

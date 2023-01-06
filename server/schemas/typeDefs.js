@@ -64,6 +64,7 @@ const typeDefs = gql`
   type Auth {
     token: ID!
     user: User
+    employee: Employee
   }
 
   type Location {
@@ -213,6 +214,11 @@ const typeDefs = gql`
       isAdmin: Boolean
       isLocked: Boolean
     ): Employee
+    signupEmployee(
+      username: String
+      email: String
+      password: String
+    ): Auth
     deleteEmployee(_id: ID!): Employee
     updateEmployee(
       _id: ID

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Form, Button, Alert, InputGroup } from "react-bootstrap";
-import { useMutation } from "@apollo/client";
-import { ADD_USER } from "../../utils/mutations";
 import Auth from "../../utils/auth";
+import { useMutation } from "@apollo/client";
+// import { ADD_USER } from "../../utils/mutations";
+import { SIGNUP_EMPLOYEE } from "../../utils/mutations";
+import { Form, Button, Alert, InputGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/button-style.css";
 
@@ -13,7 +14,8 @@ const SignupForm = ({ setShowModal }) => {
     password: "",
   });
 
-  const [addUser, { error }] = useMutation(ADD_USER);
+  // const [addUser, { error }] = useMutation(ADD_USER);
+  const [signupEmployee, { error }] = useMutation(SIGNUP_EMPLOYEE);
 
   // set state for form validation
   const [validated] = useState(false);
@@ -36,11 +38,15 @@ const SignupForm = ({ setShowModal }) => {
     }
 
     try {
-      const { data } = await addUser({
+      // const { data } = await addUser({
+      //   variables: { ...userFormData },
+      // });
+      const { data } = await signupEmployee({
         variables: { ...userFormData },
       });
 
-      Auth.login(data.addUser);
+      // Auth.login(data.addUser);
+      Auth.login(data.signupEmployee);
 
       // window.location.assign(`/dashboard`);
       window.location.assign(`/landing-template-v1`);
