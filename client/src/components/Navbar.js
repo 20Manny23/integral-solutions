@@ -39,11 +39,11 @@ const AppNavbar = () => {
                   {/* section start */}
                   <Nav.Link
                     as={Link}
-                    to="/landing"
+                    to="/home"
                     eventKey="4"
                     className=""
                   >    
-                    Landing
+                    Home
                   </Nav.Link>              
               
                   <Nav.Link

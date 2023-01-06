@@ -18,11 +18,10 @@ import WrongPage from "./pages/WrongPage";
 import IncidentList from "./pages/IncidentList";
 import Home from "./pages/Home";
 
-import LandingTemplate1 from "./components/LandingTemplate1";
-import ContactForm from "./pages/ContactForm";
 import EmployeePortal from "./pages/EmployeePortal";
-import WorkOrder from "./pages/WorkOrder";
+import ContactUs from "./pages/ContactForm";
 import AddEmployee from "./pages/AddEmployee";
+import WorkOrder from "./pages/WorkOrder";
 import ClientList from "./pages/ClientList";
 import LinksPage from "./pages/LinksPage";
 
@@ -148,6 +147,10 @@ function App() {
             <Navbar />
             <Routes>
               <Route
+                  exact path="/home"
+                  element={<Home />}
+              />
+              <Route
                 exact
                 path="/"
                 element={
@@ -195,14 +198,6 @@ function App() {
                   />
                 }
               />
-              {/* section start */}
-              <Route
-                exact
-                path="/home"
-                element={<Home />}
-              />
-
-              {/* section end */}
               <Route
                 exact
                 path="/calendar"
@@ -275,7 +270,7 @@ function App() {
               <Route exact path="/availability" element={<Availability />} />
               {/* <Route exact path="/workorder" element={<WorkOrder />} /> */}
               <Route exact path="/addemployee" element={<AddEmployee />} />
-              <Route exact path="/contact" element={<ContactForm />} />
+              <Route exact path="/contact" element={<ContactUs />} />
               <Route exact path="/employee" element={<EmployeePortal />} />
               <Route exact path="/timeoff" element={<Timeoff />} />
               <Route exact path="/incident" element={<Incident />} />
