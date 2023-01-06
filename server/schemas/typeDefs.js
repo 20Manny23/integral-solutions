@@ -24,7 +24,14 @@ const typeDefs = gql`
     lastName: String
     phone: String
     isManager: Boolean
+    isAdmin: Boolean
+    isLocked: Boolean
     schedule: [Schedule]
+  }
+
+  type Message {
+    message: String!
+    employee: Employee
   }
 
   type Schedule {
@@ -203,6 +210,8 @@ const typeDefs = gql`
       lastName: String
       phone: String
       isManager: Boolean
+      isAdmin: Boolean
+      isLocked: Boolean
     ): Employee
     deleteEmployee(_id: ID!): Employee
     updateEmployee(
@@ -214,7 +223,11 @@ const typeDefs = gql`
       lastName: String
       phone: String
       isManager: Boolean
+      isAdmin: Boolean
+      isLocked: Boolean
     ): Employee
+    toggleAdmin(employeeId: ID!): Message
+    toggleLocked(employeeId: ID!): Message
     
     addSchedule(
       startDate: String

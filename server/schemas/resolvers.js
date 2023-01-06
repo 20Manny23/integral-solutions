@@ -265,9 +265,9 @@ const resolvers = {
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
-    addEmployee: async (parent, { username, email, password, firstName, lastName, phone, isManager }, context) => {
+    addEmployee: async (parent, { username, email, password, firstName, lastName, phone, isManager, isAdmin, isLocked }, context) => {
       // if (context.user) {
-      const user = await Employee.create({ username, email, password, firstName, lastName, phone, isManager });
+      const user = await Employee.create({ username, email, password, firstName, lastName, phone, isManager, isAdmin, isLocked });
       return { email }, 
       { new: true};
       // }
@@ -289,7 +289,9 @@ const resolvers = {
         firstName, 
         lastName, 
         phone, 
-        isManager
+        isManager,
+        isAdmin,
+        isLocked
       },
       context
     ) => {
@@ -303,12 +305,49 @@ const resolvers = {
             firstName, 
             lastName, 
             phone, 
-            isManager
+            isManager,
+            isAdmin,
+            isLocked
           },
           { new: true }
         );
       // }
       // throw new AuthenticationError("You need to be logged in!");
+    },
+    // toggleAdmin mutation that returns a success/fail message
+    toggleAdmin: async (parent, { employeeId }) => {
+      let message = "No such user exists";
+      const employee = await Employee.findById(employeeId);
+      if (employee) {
+        try {
+          employee.isAdmin = !employee.isAdmin;
+          employee.save();
+          message = employee.is_admin
+            ? `${employee.firstName} ${employee.lastName} is now an administrator.`
+            : `${employee.firstName} ${employee.lastName} is no longer an administrator.`;
+        } catch {
+          message = `${employee.username} update failed.`;
+        }
+      }
+      return { message, employee };
+    },
+
+    // toggleLocked mutation that returns a success/fail message
+    toggleLocked: async (parent, { employeeId }) => {
+      let message = "No such employee exists";
+      const employee = await User.findById(employeeId);
+      if (employee) {
+        try {
+          employee.isLocked = !employee.isLocked;
+          employee.save();
+          message = employee.is_locked
+            ? `${employee.firstName} ${employee.lastName} is now locked.`
+            : `${employee.firstName} ${employee.lastName} is no longer locked.`;
+        } catch {
+          message = `${employee.firstName} ${employee.lastName} update failed.`;
+        }
+      }
+      return { message, employee };
     },
 
     addSchedule: async (parent, { startDate, endDate, startTime, endTime, client, employees }, context) => {
