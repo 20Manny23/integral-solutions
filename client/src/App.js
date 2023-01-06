@@ -215,6 +215,7 @@ function App() {
                   />
                 }
               />
+              {Auth.isAdmin() && !Auth.isLocked() &&
               <Route
                 exact
                 path="/workorder"
@@ -228,6 +229,7 @@ function App() {
                   />
                 }
               />
+              }
               <Route
                 exact
                 path="/addemployee"
@@ -270,7 +272,7 @@ function App() {
           
               <Route exact path="/linkspage" element={<LinksPage />} />
               <Route exact path="/availability" element={<Availability />} />
-              <Route exact path="/workorder" element={<WorkOrder />} />
+              {/* <Route exact path="/workorder" element={<WorkOrder />} /> */}
               <Route exact path="/addemployee" element={<AddEmployee />} />
               <Route exact path="/contact" element={<ContactForm />} />
               <Route exact path="/employee" element={<EmployeePortal />} />
