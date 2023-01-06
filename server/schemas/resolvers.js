@@ -104,10 +104,16 @@ const resolvers = {
   },
 
   Mutation: {
-    addUser: async (parent, { username, email, password }, context) => {
-      const user = await User.create({ username, email, password });
-      const token = signToken(user);
-      return { token, user };
+    // addUser: async (parent, { username, email, password }, context) => {
+    //   const user = await User.create({ username, email, password });
+    //   const token = signToken(user);
+    //   return { token, user };
+    // },
+
+    signupEmployee: async (parent, { username, email, password }, context) => {
+      const employee = await Employee.create({ username, email, password });
+      const token = signToken(employee);
+      return { token, employee };
     },
 
     deleteUser: async (parent, { _id }, context) => {
@@ -149,22 +155,40 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    login: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
+    // login: async (parent, { email, password }) => {
+    //   const user = await User.findOne({ email });
 
-      if (!user) {
-        throw new AuthenticationError("No user found with this email address");
+    //   if (!user) {
+    //     throw new AuthenticationError("No user found with this email address");
+    //   }
+
+    //   const correctPw = await user.isCorrectPassword(password);
+
+    //   if (!correctPw) {
+    //     throw new AuthenticationError("Incorrect credentials");
+    //   }
+
+    //   const token = signToken(user);
+
+    //   return { token, user };
+    // },
+
+    login: async (parent, { email, password }) => {
+      const employee = await Employee.findOne({ email });
+
+      if (!employee) {
+        throw new AuthenticationError("No email found with this email address");
       }
 
-      const correctPw = await user.isCorrectPassword(password);
+      const correctPw = await employee.isCorrectPassword(password);
 
       if (!correctPw) {
         throw new AuthenticationError("Incorrect credentials");
       }
 
-      const token = signToken(user);
+      const token = signToken(employee);
 
-      return { token, user };
+      return { token, employee };
     },
 
     updateAvailability: async (
@@ -265,10 +289,11 @@ const resolvers = {
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
-    addEmployee: async (parent, { username, email, password, firstName, lastName, phone, isManager }, context) => {
+    addEmployee: async (parent, { username, email, password, firstName, lastName, phone, isManager, isAdmin, isLocked }, context) => {
       // if (context.user) {
-      const user = await Employee.create({ username, email, password, firstName, lastName, phone, isManager });
-      return { email }, 
+      const employee = await Employee.create({ username, email, password, firstName, lastName, phone, isManager, isAdmin, isLocked });
+      const token = signToken(employee);
+      return { token, employee, email }, 
       { new: true};
       // }
       // throw new AuthenticationError("You need to be logged in!");
@@ -289,7 +314,9 @@ const resolvers = {
         firstName, 
         lastName, 
         phone, 
-        isManager
+        isManager,
+        isAdmin,
+        isLocked
       },
       context
     ) => {
@@ -303,12 +330,49 @@ const resolvers = {
             firstName, 
             lastName, 
             phone, 
-            isManager
+            isManager,
+            isAdmin,
+            isLocked
           },
           { new: true }
         );
       // }
       // throw new AuthenticationError("You need to be logged in!");
+    },
+    // toggleAdmin mutation that returns a success/fail message
+    toggleAdmin: async (parent, { employeeId }) => {
+      let message = "No such user exists";
+      const employee = await Employee.findById(employeeId);
+      if (employee) {
+        try {
+          employee.isAdmin = !employee.isAdmin;
+          employee.save();
+          message = employee.isAdmin
+            ? `${employee.firstName} ${employee.lastName} is now an administrator.`
+            : `${employee.firstName} ${employee.lastName} is no longer an administrator.`;
+        } catch {
+          message = `${employee.firstName} ${employee.lastName} update failed.`;
+        }
+      }
+      return { message, employee };
+    },
+
+    // toggleLocked mutation that returns a success/fail message
+    toggleLocked: async (parent, { employeeId }) => {
+      let message = "No such employee exists";
+      const employee = await Employee.findById(employeeId);
+      if (employee) {
+        try {
+          employee.isLocked = !employee.isLocked;
+          employee.save();
+          message = employee.isLocked
+            ? `${employee.firstName} ${employee.lastName} is now locked.`
+            : `${employee.firstName} ${employee.lastName} is no longer locked.`;
+        } catch {
+          message = `${employee.firstName} ${employee.lastName} update failed.`;
+        }
+      }
+      return { message, employee };
     },
 
     addSchedule: async (parent, { startDate, endDate, startTime, endTime, client, employees }, context) => {

@@ -20,8 +20,6 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LandingTemplate1 from "./components/LandingTemplate1";
 
-
-
 import ContactForm from "./pages/ContactForm";
 import EmployeePortal from "./pages/EmployeePortal";
 import WorkOrder from "./pages/WorkOrder";
@@ -217,6 +215,7 @@ function App() {
                   />
                 }
               />
+              {Auth.isAdmin() && !Auth.isLocked() &&
               <Route
                 exact
                 path="/workorder"
@@ -230,6 +229,7 @@ function App() {
                   />
                 }
               />
+              }
               <Route
                 exact
                 path="/addemployee"
@@ -272,7 +272,7 @@ function App() {
           
               <Route exact path="/linkspage" element={<LinksPage />} />
               <Route exact path="/availability" element={<Availability />} />
-              <Route exact path="/workorder" element={<WorkOrder />} />
+              {/* <Route exact path="/workorder" element={<WorkOrder />} /> */}
               <Route exact path="/addemployee" element={<AddEmployee />} />
               <Route exact path="/contact" element={<ContactForm />} />
               <Route exact path="/employee" element={<EmployeePortal />} />
