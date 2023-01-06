@@ -275,7 +275,9 @@ function App() {
               />
               
               <Route exact path="/availability" element={<Availability />} />
-              <Route exact path="/workorder" element={<WorkOrder/>} />
+              <Route exact path="/workorder" element={
+                <WorkOrder/>
+              } />
               <Route exact path="/addemployee" element={<AddEmployee/>} />
               <Route exact path="/contact" element={<ContactForm />} />
               <Route exact path="/employee" element={<EmployeePortal />} />

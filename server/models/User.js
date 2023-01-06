@@ -33,7 +33,6 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    // availability: [availabilitySchema],
     availability: {
       userEmail: {
         type: String,
