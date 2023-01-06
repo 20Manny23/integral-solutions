@@ -16,15 +16,18 @@ import Timeoff from "./pages/Timeoff";
 import Incident from "./pages/Incident";
 import WrongPage from "./pages/WrongPage";
 import IncidentList from "./pages/IncidentList";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import "bootstrap/dist/css/bootstrap.min.css";
-import LandingTemplate1 from "./components/LandingTemplate1";
+import Home from "./pages/Home";
 
+import LandingTemplate1 from "./components/LandingTemplate1";
 import ContactForm from "./pages/ContactForm";
 import EmployeePortal from "./pages/EmployeePortal";
 import WorkOrder from "./pages/WorkOrder";
 import AddEmployee from "./pages/AddEmployee";
+import ClientList from "./pages/ClientList";
+import LinksPage from "./pages/LinksPage";
 
+import { library } from "@fortawesome/fontawesome-svg-core";
+import "bootstrap/dist/css/bootstrap.min.css";
 import {
   faTrash,
   faLocation,
@@ -36,8 +39,6 @@ import {
   faEyeSlash,
   faMap,
 } from "@fortawesome/free-solid-svg-icons";
-import LinksPage from "./pages/LinksPage";
-import ClientList from "./pages/ClientList";
 
 library.add(
   faTrash,
@@ -197,8 +198,8 @@ function App() {
               {/* section start */}
               <Route
                 exact
-                path="/landing"
-                element={<LandingTemplate1 />}
+                path="/home"
+                element={<Home />}
               />
 
               {/* section end */}
