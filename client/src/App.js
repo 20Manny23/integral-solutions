@@ -21,9 +21,9 @@ import Home from "./pages/Home";
 import EmployeePortal from "./pages/EmployeePortal";
 import ContactUs from "./pages/ContactForm";
 import AddEmployee from "./pages/AddEmployee";
+import ShopLinks from "./pages/ShopLinks";
 import WorkOrder from "./pages/WorkOrder";
 import ClientList from "./pages/ClientList";
-import ShopLinks from "./pages/ShopLinks";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -85,16 +85,10 @@ function App() {
           <>
             <Navbar />
             <Routes>
-              <Route
-                  exact path="/"
-                  element={<Home />}
-              />
-              <Route
-                  exact path="/home"
-                  element={<Home />}
-              />
-              <Route exact path="/shoplinks" element={<ShopLinks />} />
-              <Route exact path="/contact" element={<ContactUs />} />
+              <Route exact path="/" element={<Home/>} />
+              <Route exact path="/home" element={<Home/>} />
+              <Route exact path="/shoplinks" element={<ShopLinks/>} />
+              <Route exact path="/contact" element={<ContactUs/>} />
               {/* <Route
                 exact
                 path="/"
@@ -156,10 +150,7 @@ function App() {
           <>
             <Navbar />
             <Routes>
-              <Route
-                  exact path="/home"
-                  element={<Home />}
-              />
+              <Route exact path="/home" element={<Home />} />
               <Route
                 exact
                 path="/"
@@ -221,48 +212,48 @@ function App() {
                   />
                 }
               />
-              {Auth.isAdmin() && !Auth.isLocked() &&
-              <Route
-                exact
-                path="/workorder"
-                element={
-                  <Dashboard
-                    renderPanel={"workorder"}
-                    calendarButtonIsActive={false}
-                    workorderButtonIsActive={true}
-                    addEmployeeButtonIsActive={false}
-                    clientlistButtonIsActive={false}
-                  />
-                }
-              />
-              }
-              <Route
-                exact
-                path="/addemployee"
-                element={
-                  <Dashboard
-                    renderPanel={"addemployee"}
-                    calendarButtonIsActive={false}
-                    workorderButtonIsActive={false}
-                    addemployeeButtonIsActive={true}
-                    clientlistButtonIsActive={false}
-                  />
-                }
-              />
-              <Route
-                exact
-                path="/addemployee"
-                element={
-                  <Dashboard
-                    renderPanel={"addemployee"}
-                    calendarButtonIsActive={false}
-                    workorderButtonIsActive={false}
-                    addemployeeButtonIsActive={true}
-                    clientlistButtonIsActive={false}
-                  />
-                }
-              />
+              {Auth.isAdmin() && !Auth.isLocked() && (
                 <Route
+                  exact
+                  path="/workorder"
+                  element={
+                    <Dashboard
+                      renderPanel={"workorder"}
+                      calendarButtonIsActive={false}
+                      workorderButtonIsActive={true}
+                      addEmployeeButtonIsActive={false}
+                      clientlistButtonIsActive={false}
+                    />
+                  }
+                />
+              )}
+              <Route
+                exact
+                path="/addemployee"
+                element={
+                  <Dashboard
+                    renderPanel={"addemployee"}
+                    calendarButtonIsActive={false}
+                    workorderButtonIsActive={false}
+                    addemployeeButtonIsActive={true}
+                    clientlistButtonIsActive={false}
+                  />
+                }
+              />
+              <Route
+                exact
+                path="/addemployee"
+                element={
+                  <Dashboard
+                    renderPanel={"addemployee"}
+                    calendarButtonIsActive={false}
+                    workorderButtonIsActive={false}
+                    addemployeeButtonIsActive={true}
+                    clientlistButtonIsActive={false}
+                  />
+                }
+              />
+              <Route
                 exact
                 path="/clientlist"
                 element={
@@ -275,7 +266,7 @@ function App() {
                   />
                 }
               />
-          
+
               <Route exact path="/shoplinks" element={<ShopLinks />} />
               <Route exact path="/availability" element={<Availability />} />
               {/* <Route exact path="/workorder" element={<WorkOrder />} /> */}

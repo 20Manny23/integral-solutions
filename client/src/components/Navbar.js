@@ -30,19 +30,29 @@ const AppNavbar = () => {
         <Navbar.Collapse id="navbar" className="">
           <Nav className="ml-auto">
             {Auth.loggedIn() && Auth.isAdmin ? (
+              // User is logged in and is Admin
+              // access to home, adm portal, employee portal, logout
               <>
                 <Nav.Link as={Link} to="/home" eventKey="4" className="">
                   Home
                 </Nav.Link>
                 <Nav.Link as={Link} to="/calendar" eventKey="4" className="">
-                  Calendar
+                  Admin
+                </Nav.Link>
+                <Nav.Link as={Link} to="/employee" eventKey="10" className="">
+                  Employee
                 </Nav.Link>
                 <Nav.Link onClick={Auth.logout} eventKey="4" className="">
                   Logout
                 </Nav.Link>
               </>
             ) : Auth.loggedIn() && !Auth.isAdmin ? (
+              // User is logged in and is not Admin
+              // access to home, employee portal, logout
               <>
+                <Nav.Link as={Link} to="/home" eventKey="4" className="">
+                  Home
+                </Nav.Link>
                 <Nav.Link as={Link} to="/employee" eventKey="10" className="">
                   Employee
                 </Nav.Link>
@@ -51,6 +61,7 @@ const AppNavbar = () => {
                 </Nav.Link>
               </>
             ) : (
+              // User is not logged in; Home page nav
               <>
                 <Nav.Link as={Link} to="/home" eventKey="4" className="">
                   Home
