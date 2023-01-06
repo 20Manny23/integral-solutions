@@ -322,11 +322,11 @@ const resolvers = {
         try {
           employee.isAdmin = !employee.isAdmin;
           employee.save();
-          message = employee.is_admin
+          message = employee.isAdmin
             ? `${employee.firstName} ${employee.lastName} is now an administrator.`
             : `${employee.firstName} ${employee.lastName} is no longer an administrator.`;
         } catch {
-          message = `${employee.username} update failed.`;
+          message = `${employee.firstName} ${employee.lastName} update failed.`;
         }
       }
       return { message, employee };
@@ -335,12 +335,12 @@ const resolvers = {
     // toggleLocked mutation that returns a success/fail message
     toggleLocked: async (parent, { employeeId }) => {
       let message = "No such employee exists";
-      const employee = await User.findById(employeeId);
+      const employee = await Employee.findById(employeeId);
       if (employee) {
         try {
           employee.isLocked = !employee.isLocked;
           employee.save();
-          message = employee.is_locked
+          message = employee.isLocked
             ? `${employee.firstName} ${employee.lastName} is now locked.`
             : `${employee.firstName} ${employee.lastName} is no longer locked.`;
         } catch {
