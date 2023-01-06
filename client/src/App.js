@@ -16,14 +16,14 @@ import Timeoff from "./pages/Timeoff";
 import Incident from "./pages/Incident";
 import WrongPage from "./pages/WrongPage";
 import IncidentList from "./pages/IncidentList";
-import Home from "./pages/Home";
 
+import Home from "./pages/Home";
 import EmployeePortal from "./pages/EmployeePortal";
 import ContactUs from "./pages/ContactForm";
 import AddEmployee from "./pages/AddEmployee";
 import WorkOrder from "./pages/WorkOrder";
 import ClientList from "./pages/ClientList";
-import LinksPage from "./pages/LinksPage";
+import ShopLinks from "./pages/ShopLinks";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -86,6 +86,16 @@ function App() {
             <Navbar />
             <Routes>
               <Route
+                  exact path="/"
+                  element={<Home />}
+              />
+              <Route
+                  exact path="/home"
+                  element={<Home />}
+              />
+              <Route exact path="/shoplinks" element={<ShopLinks />} />
+              <Route exact path="/contact" element={<ContactUs />} />
+              {/* <Route
                 exact
                 path="/"
                 element={
@@ -96,7 +106,7 @@ function App() {
                     signupButtonIsActive={false}
                   />
                 }
-              />
+              /> */}
               <Route
                 exact
                 path="/messages"
@@ -266,7 +276,7 @@ function App() {
                 }
               />
           
-              <Route exact path="/linkspage" element={<LinksPage />} />
+              <Route exact path="/shoplinks" element={<ShopLinks />} />
               <Route exact path="/availability" element={<Availability />} />
               {/* <Route exact path="/workorder" element={<WorkOrder />} /> */}
               <Route exact path="/addemployee" element={<AddEmployee />} />

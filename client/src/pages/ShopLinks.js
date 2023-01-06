@@ -1,15 +1,15 @@
-import Footer from "../components/Footer"
+import Footer from "../components/Home2/Footer"
 import Card from 'react-bootstrap/Card';
 import steelcase from '../assets/images/steelcase.jpg'
 import { Row, Col } from "react-bootstrap";
 import officescapes from '../assets/images/officescapes.jpeg'
 import officestogo from '../assets/images/officestogo.jpg'
 import hermanmiller from '../assets/images/hermanmiller.jpg'
-import '../styles/LinksPage.css'
+import '../styles/shopLinks.css'
 
 
 
-function LinksPage () {
+function ShopLinks () {
 
     return(
 
@@ -58,4 +58,4 @@ function LinksPage () {
 </div>
     )
 }
-export default LinksPage
+export default ShopLinks
