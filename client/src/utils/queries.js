@@ -159,3 +159,35 @@ export const QUERY_EVENTS = gql`
     }
   }
 `;
+
+export const QUERY_EMPLOYEE_BYID = gql`
+  query EmployeeById($id: ID!) {
+    employeeById(_id: $id) {
+      _id
+      firstName
+      lastName
+      email
+      phone
+      isAdmin
+      isLocked
+      password
+      schedule {
+        startDate
+        startTime
+        endDate
+        endTime
+        jobDetails
+        numberOfClientEmployees
+        client {
+          _id
+          businessName
+          streetAddress
+          suite
+          city
+          state
+          zip
+        }
+      }
+    }
+  }
+`;

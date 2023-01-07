@@ -10,6 +10,7 @@ import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard";
+import EmployeePortal from "./pages/EmployeePortal";
 // import Availability from "./pages/Availability";
 // import Timeoff from "./pages/Timeoff";
 // import Incident from "./pages/Incident";
@@ -19,6 +20,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Employee from "./pages/Employee";
+import EmployeeMock from "./pages/EmployeeMock";
 import ContactUs from "./pages/ContactForm";
 import ShopLinks from "./pages/ShopLinks";
 import WrongPage from "./pages/WrongPage";
@@ -90,18 +92,6 @@ function App() {
               <Route exact path="/home" element={<Home />} />
               <Route exact path="/shoplinks" element={<ShopLinks />} />
               <Route exact path="/contact" element={<ContactUs />} />
-              {/* <Route
-                exact
-                path="/"
-                element={
-                  <Login
-                    renderPanel={"messages"}
-                    messageButtonIsActive={true}
-                    loginButtonIsActive={false}
-                    signupButtonIsActive={false}
-                  />
-                }
-              /> */}
               <Route
                 exact
                 path="/messages"
@@ -249,10 +239,24 @@ function App() {
                   }
                 />
               )}
-              <Route exact path="/contact" element={<ContactUs />} />
-              <Route exact path="/employee" element={<Employee />} />
-              <Route exact path="/shoplinks" element={<ShopLinks />} />
+              {Auth.isLocked() === false && (
+                <Route
+                  exact
+                  path="/employee"
+                  element={
+                    <EmployeePortal
+                      renderPanel={"employee"}
+                      calendarButtonIsActive={true}
+                      workorderButtonIsActive={false}
+                      addEmployeeButtonIsActive={false}
+                      clientlistButtonIsActive={false}
+                    />
+                  }
+                />
+              )}
 
+              {/* <Route exact path="/contact" element={<ContactUs />} /> */}
+              {/* <Route exact path="/shoplinks" element={<ShopLinks />} /> */}
               {/* <Route exact path="/availability" element={<Availability />} /> */}
               {/* <Route exact path="/timeoff" element={<Timeoff />} /> */}
               {/* <Route exact path="/incident" element={<Incident />} /> */}
