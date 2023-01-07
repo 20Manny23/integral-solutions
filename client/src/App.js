@@ -8,20 +8,21 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Homepage from "./pages/Homepage";
-import Navbar from "./components/Navbar";
+
 import Dashboard from "./pages/Dashboard";
 import Availability from "./pages/Availability";
 import Timeoff from "./pages/Timeoff";
 import Incident from "./pages/Incident";
-import WrongPage from "./pages/WrongPage";
 import IncidentList from "./pages/IncidentList";
 
+import Homepage from "./pages/Homepage";
 import Home from "./pages/Home";
-import EmployeePortal from "./pages/EmployeePortal";
+import Navbar from "./components/Navbar";
+import Employee from "./pages/Employee";
 import ContactUs from "./pages/ContactForm";
-import AddEmployee from "./pages/AddEmployee";
+import Employees from "./pages/Employees";
 import ShopLinks from "./pages/ShopLinks";
+import WrongPage from "./pages/WrongPage";
 import WorkOrder from "./pages/WorkOrder";
 import ClientList from "./pages/ClientList";
 
@@ -150,19 +151,8 @@ function App() {
           <>
             <Navbar />
             <Routes>
-              <Route exact path="/home" element={<Home />} />
-              <Route
-                exact
-                path="/"
-                element={
-                  <Homepage
-                    renderPanel={"messages"}
-                    messageButtonIsActive={true}
-                    loginButtonIsActive={false}
-                    signupButtonIsActive={false}
-                  />
-                }
-              />
+              <Route exact path="/" element={<Home/>} />
+              <Route exact path="/home" element={<Home/>} />
               <Route
                 exact
                 path="/messages"
@@ -229,23 +219,10 @@ function App() {
               )}
               <Route
                 exact
-                path="/addemployee"
+                path="/employees"
                 element={
                   <Dashboard
-                    renderPanel={"addemployee"}
-                    calendarButtonIsActive={false}
-                    workorderButtonIsActive={false}
-                    addemployeeButtonIsActive={true}
-                    clientlistButtonIsActive={false}
-                  />
-                }
-              />
-              <Route
-                exact
-                path="/addemployee"
-                element={
-                  <Dashboard
-                    renderPanel={"addemployee"}
+                    renderPanel={"employees"}
                     calendarButtonIsActive={false}
                     workorderButtonIsActive={false}
                     addemployeeButtonIsActive={true}
@@ -266,16 +243,15 @@ function App() {
                   />
                 }
               />
-
-              <Route exact path="/shoplinks" element={<ShopLinks />} />
-              <Route exact path="/availability" element={<Availability />} />
-              {/* <Route exact path="/workorder" element={<WorkOrder />} /> */}
-              <Route exact path="/addemployee" element={<AddEmployee />} />
               <Route exact path="/contact" element={<ContactUs />} />
-              <Route exact path="/employee" element={<EmployeePortal />} />
+              <Route exact path="/employee" element={<Employee />} />
+              <Route exact path="/shoplinks" element={<ShopLinks />} />
+
+              <Route exact path="/availability" element={<Availability />} />
               <Route exact path="/timeoff" element={<Timeoff />} />
               <Route exact path="/incident" element={<Incident />} />
               <Route exact path="/incidentlist" element={<IncidentList />} />
+              
               <Route path="*" element={<WrongPage />} />
             </Routes>
           </>

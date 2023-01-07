@@ -2,7 +2,7 @@
 import { Row, Container, Card } from "react-bootstrap";
 
 
-function EmployeePortal() {
+function Employees() {
   const employee = [
     {
       id: 3,
@@ -105,4 +105,4 @@ function EmployeePortal() {
   );
 }
 
-export default EmployeePortal;
+export default Employees;
