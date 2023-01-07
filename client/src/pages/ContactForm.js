@@ -1,7 +1,7 @@
 // import React, { useEffect, useState } from "react";
 import { Row, Col, Button, Form, Container, Nav } from "react-bootstrap";
 import "../styles/Forms.css";
-import Footer from "../components/Home2/Footer";
+import Footer from "../components/Home/Footer";
 
 function ContactForm() {
   return (

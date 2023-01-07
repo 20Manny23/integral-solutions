@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Footer from "../components/Home2/Footer";
+import Footer from "../components/Home/Footer";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import "../styles/home.css";

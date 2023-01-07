@@ -10,21 +10,21 @@ import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard";
-import Availability from "./pages/Availability";
-import Timeoff from "./pages/Timeoff";
-import Incident from "./pages/Incident";
-import IncidentList from "./pages/IncidentList";
+// import Availability from "./pages/Availability";
+// import Timeoff from "./pages/Timeoff";
+// import Incident from "./pages/Incident";
+// import IncidentList from "./pages/IncidentList";
 
-import Homepage from "./pages/Homepage";
+import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Employee from "./pages/Employee";
 import ContactUs from "./pages/ContactForm";
-import Employees from "./pages/Employees";
 import ShopLinks from "./pages/ShopLinks";
 import WrongPage from "./pages/WrongPage";
-import WorkOrder from "./pages/WorkOrder";
-import ClientList from "./pages/ClientList";
+// import Employees from "./pages/Employees";
+// import WorkOrder from "./pages/WorkOrder";
+// import ClientList from "./pages/ClientList";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -94,7 +94,7 @@ function App() {
                 exact
                 path="/"
                 element={
-                  <Homepage
+                  <Login
                     renderPanel={"messages"}
                     messageButtonIsActive={true}
                     loginButtonIsActive={false}
@@ -106,7 +106,7 @@ function App() {
                 exact
                 path="/messages"
                 element={
-                  <Homepage
+                  <Login
                     renderPanel={"messages"}
                     messageButtonIsActive={true}
                     loginButtonIsActive={false}
@@ -118,7 +118,7 @@ function App() {
                 exact
                 path="/login"
                 element={
-                  <Homepage
+                  <Login
                     renderPanel={"login"}
                     messageButtonIsActive={false}
                     loginButtonIsActive={true}
@@ -130,7 +130,7 @@ function App() {
                 exact
                 path="/signup"
                 element={
-                  <Homepage
+                  <Login
                     renderPanel={"signup"}
                     messageButtonIsActive={false}
                     loginButtonIsActive={false}
@@ -157,7 +157,7 @@ function App() {
                 exact
                 path="/messages"
                 element={
-                  <Homepage
+                  <Login
                     renderPanel={"messages"}
                     messageButtonIsActive={true}
                     loginButtonIsActive={false}
@@ -169,7 +169,7 @@ function App() {
                 exact
                 path="/login"
                 element={
-                  <Homepage
+                  <Login
                     renderPanel={"login"}
                     messageButtonIsActive={false}
                     loginButtonIsActive={true}
@@ -181,7 +181,7 @@ function App() {
                 exact
                 path="/signup"
                 element={
-                  <Homepage
+                  <Login
                     renderPanel={"signup"}
                     messageButtonIsActive={false}
                     loginButtonIsActive={false}

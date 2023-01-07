@@ -1,4 +1,4 @@
-import Footer from "../components/Home2/Footer"
+import Footer from "../components/Home/Footer"
 import Card from 'react-bootstrap/Card';
 import steelcase from '../assets/images/steelcase.jpg'
 import { Row, Col } from "react-bootstrap";

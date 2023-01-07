@@ -1,14 +1,13 @@
 import React from "react";
 import Auth from "../utils/auth";
 import { useNavigate } from "react-router-dom";
-import Message from "../components/Home/Message";
-import LoginForm from "../components/Home/LoginForm";
-import SignupForm from "../components/Home/SignupForm";
-// import { CleanAsset } from "../components/Home/CleanAsset";
+import Message from "../components/Login/Message";
+import LoginForm from "../components/Login/LoginForm";
+import SignupForm from "../components/Login/SignupForm";
 import Container from "react-bootstrap/Container";
 import "../styles/button-home.css";
 
-const Homepage = ({
+const Login = ({
   renderPanel,
   messageButtonIsActive,
   loginButtonIsActive,
@@ -78,4 +77,4 @@ const Homepage = ({
   );
 };
 
-export default Homepage;
+export default Login;
