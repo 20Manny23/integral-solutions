@@ -1,7 +1,7 @@
-import { Row, Col, Container, Nav,} from "react-bootstrap";
-import logo from "../assets/images/integral-logo.png";
-import "../styles/landing1.css";
 import { Link } from "react-router-dom";
+import { Row, Col, Container, Nav,} from "react-bootstrap";
+import "../../styles/home.css";
+import logo from "../../assets/images/integral-logo.png";
 
 function Footer () {
     return (       
@@ -20,11 +20,10 @@ function Footer () {
 
             </Col>
             <Col className="d-flex footer-nav">
-              <Nav.Link className="footer-nav" as={Link} to="/linkspage">
+              <Nav.Link className="footer-nav" as={Link} to="/shoplinks">
                 Shop Furniture
               </Nav.Link>
               <Nav.Link className="footer-nav" as={Link} to="/contact">
-
                 Contact Us{" "}
               </Nav.Link>
               <Nav.Link className="footer-nav" as={Link} to="/login">

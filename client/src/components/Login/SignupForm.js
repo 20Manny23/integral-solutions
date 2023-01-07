@@ -49,7 +49,7 @@ const SignupForm = ({ setShowModal }) => {
       Auth.login(data.signupEmployee);
 
       // window.location.assign(`/dashboard`);
-      window.location.assign(`/landing-template-v1`);
+      window.location.assign(`/home`);
 
     } catch (e) {
       console.error(e);

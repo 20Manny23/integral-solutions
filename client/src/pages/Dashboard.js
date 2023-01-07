@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
 // import AllEmployeesCont from "../components/AllEmployeesCont";
-import AddEmployee from "../pages/AddEmployee";
+import Employees from "./Employees";
 import ClientList from "./ClientList";
 import FullCalendarApp from "../components/Calendar/FullCalendarApp";
 import Location from "../pages/Location";
@@ -82,7 +82,7 @@ const Dashboard = ({
                   style={addemployeeButtonIsActive ? isActive : notActive}
                   active={addemployeeButtonIsActive}
                   onClick={() => {
-                    navigate("/addemployee");
+                    navigate("/employees");
                   }}
                 >
                   Employees
@@ -103,8 +103,8 @@ const Dashboard = ({
                 <FullCalendarApp />
               ) : renderPanel === "workorder" ? (
                 <WorkOrder />
-              ) : renderPanel === "addemployee" ? (
-                <AddEmployee />
+              ) : renderPanel === "employees" ? (
+                <Employees />
               ) : renderPanel === "clientlist" ? (
                   <ClientList />
               ) : (
