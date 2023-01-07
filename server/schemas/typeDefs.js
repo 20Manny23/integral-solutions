@@ -41,6 +41,8 @@ const typeDefs = gql`
     startTime: String
     endTime: String
     client: Client
+    jobDetails: String
+    numberOfClientEmployees: String
     employees: [Employee]
   }
 

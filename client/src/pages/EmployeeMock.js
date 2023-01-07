@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Auth from "../utils/auth";
 
 import { getUserId } from "../utils/getUserId";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { QUERY_EMPLOYEE_BYID } from "../utils/queries";
 
 import { Row, Container, Card } from "react-bootstrap";
@@ -65,7 +65,10 @@ function Employees() {
                   Address: {job?.client?.streetAddress}, {job?.client?.city} {job?.client?.state} {job?.client?.zip}
                   </div>
                   <div id="panel" className="card-body py-1 text-left">
-                  Job Details: {job?.client?.jobDetails}
+                  Job Details: {job?.jobDetails}
+                  </div>
+                  <div id="panel" className="card-body py-1 text-left">
+                  # of Client Employees: {job?.numberOfClientEmployees}
                   </div>
                 </div>
               </Collapse>

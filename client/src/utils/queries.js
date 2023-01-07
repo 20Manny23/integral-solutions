@@ -176,6 +176,8 @@ export const QUERY_EMPLOYEE_BYID = gql`
         startTime
         endDate
         endTime
+        jobDetails
+        numberOfClientEmployees
         client {
           _id
           businessName
