@@ -145,6 +145,7 @@ const typeDefs = gql`
     client(clientId: ID!): Client
     employees: [Employee]!
     employee(email: String!): Employee
+    employeeById(_id: ID!): Employee
     schedules: [Schedule]
     schedule(scheduleId: ID!): Schedule
   }

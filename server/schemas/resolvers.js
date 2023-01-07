@@ -80,6 +80,13 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
+    employeeById: async (parent, { _id }, context) => {
+      // if (context.user) {
+        return Employee.findOne({ _id }).populate({path: "schedule", populate: { path: "client" } });
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
     // me: async (parent, { _id }, context) => {
     //   // if (context.user) {
     //     return Employee.findById({ _id }).populate("schedule");

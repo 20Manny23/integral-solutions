@@ -5,6 +5,7 @@ import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
 import Employee from "./Employee";
+import EmployeeMock from "./EmployeeMock";
 import { Button, Container, Col, Row } from "react-bootstrap/";
 import "../styles/spinner.css";
 
@@ -46,7 +47,7 @@ const EmployeePortal = ({
         <Container style={{ marginTop: "25px" }}>
           <Row className="justify-content-center">
             <p style={{ fontSize: "30px" }}>
-              <b>Administrator Panel</b>
+              <b>Employee Panel</b>
             </p>
           </Row>
         </Container>
@@ -63,21 +64,21 @@ const EmployeePortal = ({
                     navigate("/employee");
                   }}
                 >
-                  Current Jobs
+                  Upcoming Jobs
                 </Button>
                 <Button
                   variant="outline-primary"
                   style={clientlistButtonIsActive ? isActive : notActive}
                   active={clientlistButtonIsActive}
                   onClick={() => {
-                    navigate("/clientlist");
+                    navigate("/employee");
                   }}
                 >
-                  Upcoming Jobs
+                  Past Jobs
                 </Button>
               </div>
 
-              {renderPanel === "current" ? <Employee /> : <Employee />}
+              {renderPanel === "employee" ? <EmployeeMock /> : <EmployeeMock />}
             </Col>
           </Row>
         </Container>
