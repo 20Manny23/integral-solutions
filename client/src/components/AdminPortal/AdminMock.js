@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Auth from "../../utils/auth";
 
 import { useQuery } from "@apollo/client";
-import { QUERY_ALL_EMPLOYEES } from "../../utils/queries";
+import { QUERY_ALL_EMPLOYEES, QUERY_ALL_CLIENTS } from "../../utils/queries";
 
 import { Row, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
@@ -11,9 +11,12 @@ function AdminMock() {
   const [open, setOpen] = useState(false);
 
   // eslint-disable-next-line
-  const { loading, data: emp, error, refetch } = useQuery(QUERY_ALL_EMPLOYEES);
+  const { loading: empLoad, data: emp, error: empError, refetch: empRefectch} = useQuery(QUERY_ALL_EMPLOYEES);
   console.log(emp);
 
+  // eslint-disable-next-line
+  const { loading: clientLoad, data: clients, error: clientError, refetch: clientRefetch } = useQuery(QUERY_ALL_CLIENTS);
+  console.log(clients);
 
   return (
     <>
@@ -64,11 +67,11 @@ function AdminMock() {
           ))}
         </Row>
       </Container>
-      
+
       <Container style={{ border: "1px solid black" }}>
-        <h3>Employee List</h3>
+        <h3>Client List</h3>
         <Row style={{ display: "flex", justifyContent: "center" }}>
-          {emp?.employees?.map((emp, index) => (
+          {clients?.clients?.map((client, index) => (
             <div id="accordion" key={index} style={{ width: "100%" }}>
               <div className="card p-2 mb-1">
                 <div
@@ -83,21 +86,23 @@ function AdminMock() {
                       aria-controls={`collapse-${index}`}
                       aria-expanded={open}
                     >
-                      {emp?.firstName} {emp?.lastName}
+                      {client?.businessName}
                     </button>
                   </h5>
                 </div>
 
                 <Collapse in={open}>
                   <div id={`collapse-text-directions-${index}`}>
-                    <div>Email: {emp?.email}</div>
-                    <div>username: {emp?.username}</div>
-                    <div>Phone: {emp?.phone}</div>
-                    <div>isAdmin: {emp?.isAdmin ? "True" : "False"}</div>
-                    <div>isLocked: {emp?.isLocked ? "True" : "False"}</div>
-                    {emp?.schedule.map((job, index) => (
+                    <div>Contact Name: {client?.contact}</div>
+                    <div>Phone: {client?.phone}</div>
+                    <div>Email: {client?.email}</div>
+                    <div>Address: {client?.streetAddress}</div>
+                    <div>Suite: {client?.suite}</div>
+                    <div>City: {client?.city}</div>
+                    <div>State: {client?.state}</div>
+                    <div>Zip: {client?.zip}</div>
+                    {client?.schedule.map((job, index) => (
                       <>
-                        <div>Client: {job?.client.businessName}</div>
                         <div>Start Date: {job?.startDate}</div>
                         <div>Start Time: {job?.startTime}</div>
                         <div>End Date: {job?.endDate}</div>

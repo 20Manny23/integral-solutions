@@ -225,34 +225,27 @@ export const QUERY_ALL_EMPLOYEES = gql`
   }
 `;
 
-export const QUERY_ALL_Clients= gql`
+export const QUERY_ALL_CLIENTS= gql`
   query getAllClients {
-    employees {
+    clients {
       _id
-      firstName
-      lastName
+      businessName
+      city
+      contact
       email
       phone
-      isAdmin
-      isLocked
-      password
-      username
+      state
+      streetAddress
+      suite
+      zip
       schedule {
+        _id
         startDate
         startTime
         endDate
         endTime
         jobDetails
         numberOfClientEmployees
-        client {
-          _id
-          businessName
-          city
-          streetAddress
-          state
-          suite
-          zip
-        }
       }
     }
   }
