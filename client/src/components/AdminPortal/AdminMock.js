@@ -3,15 +3,15 @@ import Auth from "../../utils/auth";
 
 import { getUserId } from "../../utils/getUserId";
 import { useQuery } from "@apollo/client";
-import { QUERY_EMPLOYEE_BYID } from "../../utils/queries";
+import { QUERY_ALL_EMPLOYEES } from "../../utils/queries";
 
-import { Row, Container, Card } from "react-bootstrap";
+import { Row, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 
 
-function Employees() {
+function AdminMock() {
   const [open, setOpen] = useState(false);
-  const [schedule, setSchedule] = useState([]);
+  // const [employees, setEmployees] = useState([]);
   // console.log('schedule = ', schedule);
 
   // get id for logged in employee
@@ -20,26 +20,26 @@ function Employees() {
 
   // get schedule useQuery for the specific id
   // eslint-disable-next-line
-  const { loading, data, error, refetch } = useQuery(QUERY_EMPLOYEE_BYID, {
-    variables: { id: userId },
-    // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
-    skip: !Auth.loggedIn(),
-    onCompleted: (data) => {
-      let schedule = data?.employeeById?.schedule;
-      setSchedule(schedule);
-      console.log(schedule);
-    },
-  });
+  const { loading, data: emp, error, refetch } = useQuery(QUERY_ALL_EMPLOYEES);
+  console.log(emp);
 
-  // render data
-  // use 
+  // const { loading, data, error, refetch } = useQuery(QUERY_ALL_EMPLOYEES, {
+  //   variables: { id: userId },
+  //   // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+  //   skip: !Auth.loggedIn(),
+  //   onCompleted: (data) => {
+  //     let schedule = data?.employeeById?.schedule;
+  //     setSchedule(schedule);
+  //     console.log(schedule);
+  //   },
+  // });
 
   return (
     <>
-      <Container>
+      <Container style={{ border: "1px solid black" }}>
+        <h3>Employee List</h3>
         <Row style={{ display: "flex", justifyContent: "center" }}>
-        {/* {upcomingJob.map((emp, index) => ( */}
-        {schedule.map((job, index) => (
+        {emp?.employees?.map((job, index) => (
           <div id="accordion" key={index} style={{ width: "100%" }}>
             <div className="card p-2 mb-1">
               <div
@@ -51,25 +51,26 @@ function Employees() {
                   <button
                     className="btn btn-link pl-1"
                     onClick={() => setOpen(!open)}
-                    aria-controls={`collapse-text-directions-${index}`}
+                    aria-controls={`collapse-${index}`}
                     aria-expanded={open}
                   >
-                    {job?.client?.businessName}: {job?.startDate} at {job?.startTime}
+                    {emp?.employees.firstName} {emp?.employees.lastName} 
                   </button>
                 </h5>
               </div>
 
               <Collapse in={open}>
-                <div id={`collapse-text-directions-${index}`}>
-                  <div id="panel" className="card-body py-1 text-left">
-                  Address: {job?.client?.streetAddress}, {job?.client?.city} {job?.client?.state} {job?.client?.zip}
-                  </div>
-                  <div id="panel" className="card-body py-1 text-left">
-                  Job Details: {job?.jobDetails}
-                  </div>
-                  <div id="panel" className="card-body py-1 text-left">
-                  # of Client Employees: {job?.numberOfClientEmployees}
-                  </div>
+                Hello
+                <div id={`collapse-${index}`}>
+                  {emp?.employees?.email}
+                  {emp?.employees?.isAdmin}
+                  {emp?.employees?.isLocked}
+                  {emp?.employees?.lastName}
+                  {emp?.employees?.firstName}
+                  {emp?.employees?.password}
+                  {emp?.employees?.phone}
+                  {emp?.employees?.username}
+                  {emp?.employees?.schedule}
                 </div>
               </Collapse>
             </div>
@@ -81,4 +82,4 @@ function Employees() {
   );
 }
 
-export default Employees;
+export default AdminMock;

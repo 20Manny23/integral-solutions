@@ -191,3 +191,36 @@ export const QUERY_EMPLOYEE_BYID = gql`
     }
   }
 `;
+
+export const QUERY_ALL_EMPLOYEES = gql`
+  query getAllEmployees {
+    employees {
+      _id
+      firstName
+      lastName
+      email
+      phone
+      isAdmin
+      isLocked
+      password
+      username
+      schedule {
+        startDate
+        startTime
+        endDate
+        endTime
+        jobDetails
+        numberOfClientEmployees
+        client {
+          _id
+          businessName
+          city
+          streetAddress
+          state
+          suite
+          zip
+        }
+      }
+    }
+  }
+`;
