@@ -1,9 +1,6 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
-  type Schedule {
-    _id: ID
-  }
 
   type User {
     _id: ID
@@ -16,6 +13,28 @@ const typeDefs = gql`
     isManager: Boolean
     availability: Availability
     locations: [Location]
+  }
+
+  type Employee {
+    _id: ID
+    username: String
+    email: String
+    password: String
+    firstName: String
+    lastName: String
+    phone: String
+    isManager: Boolean
+    schedule: [Schedule]
+  }
+
+  type Schedule {
+    _id: ID
+    startDate: String
+    endDate: String
+    startTime: String
+    endTime: String
+    client: Client
+    employees: [Employee]
   }
 
   type Availability {
@@ -50,6 +69,20 @@ const typeDefs = gql`
     startTime: String
     laborHours: Float
     instructions: Instructions
+  }
+
+  type Client {
+    _id: ID
+    businessName: String
+    streetAddress: String
+    suite: String
+    city: String
+    state: String
+    zip: String
+    contact: String
+    phone: String
+    email: String
+    schedule: [Schedule]
   }
 
   type Instructions {
@@ -100,6 +133,12 @@ const typeDefs = gql`
     location(locationId: ID!): Location
     incidents: [Incident]!
     events: [Event]!
+    clients: [Client]!
+    client(clientId: ID!): Client
+    employees: [Employee]!
+    employee(email: String!): Employee
+    schedules: [Schedule]
+    schedule(scheduleId: ID!): Schedule
   }
 
   type Mutation {
@@ -132,6 +171,69 @@ const typeDefs = gql`
       incidentDetails: String!
     ): Incident
     deleteIncident(_id: ID!): Incident
+    addClient(
+      businessName: String
+      streetAddress: String
+      suite: String
+      city: String
+      state: String
+      zip: String
+      contact: String
+      phone: String
+      email: String
+    ): Client
+    deleteClient(_id: ID!): Client
+    updateClient(
+      _id: ID!
+      businessName: String
+      streetAddress: String
+      suite: String
+      city: String
+      state: String
+      zip: String
+      contact: String
+      phone: String
+      email: String
+    ): Client
+    addEmployee(
+      username: String
+      email: String
+      password: String
+      firstName: String
+      lastName: String
+      phone: String
+      isManager: Boolean
+    ): Employee
+    deleteEmployee(_id: ID!): Employee
+    updateEmployee(
+      _id: ID
+      username: String
+      email: String
+      password: String
+      firstName: String
+      lastName: String
+      phone: String
+      isManager: Boolean
+    ): Employee
+    
+    addSchedule(
+      startDate: String
+      endDate: String
+      startTime: String
+      endTime: String
+      client: String
+      employees: [String]
+    ): Schedule
+    deleteSchedule(_id: ID!): Schedule
+    updateSchedule(
+      _id: ID
+      startDate: String
+      endDate: String
+      startTime: String
+      endTime: String
+      client: String
+      employees: [String]
+    ): Schedule
   }
 `;
 

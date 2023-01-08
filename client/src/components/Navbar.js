@@ -1,9 +1,7 @@
 import React from "react";
 import Auth from "../utils/auth";
 import { Link } from "react-router-dom";
-// import { NavStarsAsset } from "../components/NavStarsAsset";
-// import { Navbar, Nav, Container, Row, NavDropdown } from "react-bootstrap";
-// import { Navbar, Nav, Row, NavDropdown } from "react-bootstrap";
+
 import { Navbar, Nav, Row } from "react-bootstrap";
 import "../styles/navbar.css";
 import logo from "../assets/images/integral-logo.png"
@@ -16,28 +14,24 @@ const AppNavbar = () => {
         collapseOnSelect
         className="shadow-sm"
         style={{ height: "13%", backgroundColor: "#6362d4" }}
-        // fixed="top"
-        // variant="dark"
+        
+        
         expand="lg"
       >
-        {/* <Container fluid className=""> */}
+      
           <Navbar.Brand as={Link} reloadDocument to="/" className="">
-            {/* <Row> */}
-              {/* <NavStarsAsset className="mb-1 ml-0 pl-0 nav-stars-style" /> */}
-              {/* <h2 className="m-0 pt-0 pl-3 heading-style">Integral Solutions</h2> */}
-              
-              {/* <img className="logo d-inline-block align-top" src={logo} alt="logo"></img> */}
+          
               <img className="logo ml-4 mr-4" src={logo} alt="logo"></img>
-              {/* <h3 className="slogan">Fast, Reliable, Fair </h3> */}
-            {/* </Row> */}
+
           </Navbar.Brand>
+          <Navbar.Brand className="slogan"style={{fontSize:'27px'}}>Office Furniture Installation At The Snap Of Your Fingers!</Navbar.Brand>
           <Row>
             <Navbar.Toggle
               aria-controls="navbar"
               className="white toggle-style mr-3"
             />
           </Row>
-          <Navbar.Collapse id="navbar" className="text-white">
+          <Navbar.Collapse id="navbar" className="">
             <Nav className="ml-auto">
               {/* if user is logged in show saved books & logout nav links else show login/signup modal */}
               {Auth.loggedIn() ? (
@@ -45,26 +39,19 @@ const AppNavbar = () => {
                   {/* section start */}
                   <Nav.Link
                     as={Link}
-                    to="/landing-template-v1"
+                    to="/landing"
                     eventKey="4"
-                    className="text-white"
+                    className=""
                   >    
-                    Landing_v1
+                    Landing
                   </Nav.Link>              
-                  <Nav.Link
-                    as={Link}
-                    to="/landing-template-v2"
-                    eventKey="4"
-                    className="text-white"
-                  >
-                    Landing_v2
-                  </Nav.Link>            
+              
                   <Nav.Link
                     as={Link}
                     to="/calendar"
                     eventKey="4"
-                    className="text-white"
-                  >
+                    className=""
+                  > 
                     Calendar
                   </Nav.Link>
                   {/* section end */}
@@ -104,27 +91,27 @@ const AppNavbar = () => {
                       Incident List
                     </NavDropdown.Item>
                   </NavDropdown> */}
-                  <Nav.Link onClick={Auth.logout} className="text-white">
+                  <Nav.Link onClick={Auth.logout} className="">
                     Logout
                   </Nav.Link>
                 </>
               ) : (
                 <>
                   <Nav.Link
-                    // reloadDocument
+                   
                     as={Link}
                     to="/login"
                     eventKey="10"
-                    className="text-white"
+                    className=""
                   >
                     Login
                   </Nav.Link>
                   <Nav.Link
-                    // reloadDocument
+                    
                     as={Link}
                     to="/signup"
                     eventKey="10"
-                    className="text-white"
+                    className=""
                   >
                     Sign Up
                   </Nav.Link>
@@ -132,7 +119,7 @@ const AppNavbar = () => {
               )}
             </Nav>
           </Navbar.Collapse>
-        {/* </Container> */}
+       
       </Navbar>
     </>
   );

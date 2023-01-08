@@ -1,0 +1,33 @@
+.head {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #6362d4;
+    font-size: 20px;
+    text-shadow:
+        0.07em 0 white,
+        0 0.07em white,
+        -0.07em 0 white,
+        0 -0.07em white;
+  
+}
+.company{
+    
+    width: 20rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    
+}
+.bk-img {
+    background-image: url("../assets/images/office.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+  }
+
+  @media screen and (min-width:1370px){
+
+    .company{
+        margin-bottom: 200px;
+    }
+  }

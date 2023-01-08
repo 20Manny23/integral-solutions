@@ -1,11 +1,13 @@
-/* .nav-stars-style {
-  display: inline-block;
-  position: absolute;
-  top: 0px;
-  left: -50px;
-  z-index: 3;
-} */
-
+.slogan{
+  display: flex;
+  color: white;
+  font-style: italic;
+  margin-top: 50px;
+  justify-content: center !important;
+}
+Nav{
+  border-bottom: 1px solid black;
+}
 .heading-style {
   display: inline-block;
   font-family: Georgia, "Times New Roman", serif;

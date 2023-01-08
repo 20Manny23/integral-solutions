@@ -18,18 +18,14 @@ import WrongPage from "./pages/WrongPage";
 import IncidentList from "./pages/IncidentList";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-//section start
 import LandingTemplate1 from "./components/LandingTemplate1";
-import LandingTemplate2 from "./components/LandingTemplate2";
-import LandingTemplate3 from "./components/LandingTemplate3";
-//section end
+
+
 
 import ContactForm from "./pages/ContactForm";
 import EmployeePortal from "./pages/EmployeePortal";
-import WorkOrder from "./pages/WorkOrder"
-import AddEmployee from "./pages/AddEmployee"
-
+import WorkOrder from "./pages/WorkOrder";
+import AddEmployee from "./pages/AddEmployee";
 
 import {
   faTrash,
@@ -42,7 +38,8 @@ import {
   faEyeSlash,
   faMap,
 } from "@fortawesome/free-solid-svg-icons";
-
+import LinksPage from "./pages/LinksPage";
+import ClientList from "./pages/ClientList";
 
 library.add(
   faTrash,
@@ -138,10 +135,7 @@ function App() {
                   />
                 }
               />
-              <Route
-                path="*"
-                element={<WrongPage />}
-              />
+              <Route path="*" element={<WrongPage />} />
             </Routes>
           </>
         </Router>
@@ -205,25 +199,10 @@ function App() {
               {/* section start */}
               <Route
                 exact
-                path="/landing-template-v1"
-                element={
-                  <LandingTemplate1 />
-                }
+                path="/landing"
+                element={<LandingTemplate1 />}
               />
-              <Route
-                exact
-                path="/landing-template-v2"
-                element={
-                  <LandingTemplate2 />
-                }
-              />
-              <Route
-                exact
-                path="/landing-template-v3"
-                element={
-                  <LandingTemplate3 />
-                }
-              />
+
               {/* section end */}
               <Route
                 exact
@@ -234,6 +213,7 @@ function App() {
                     calendarButtonIsActive={true}
                     workorderButtonIsActive={false}
                     addEmployeeButtonIsActive={false}
+                    clientlistButtonIsActive={false}
                   />
                 }
               />
@@ -246,6 +226,7 @@ function App() {
                     calendarButtonIsActive={false}
                     workorderButtonIsActive={true}
                     addEmployeeButtonIsActive={false}
+                    clientlistButtonIsActive={false}
                   />
                 }
               />
@@ -258,6 +239,7 @@ function App() {
                     calendarButtonIsActive={false}
                     workorderButtonIsActive={false}
                     addemployeeButtonIsActive={true}
+                    clientlistButtonIsActive={false}
                   />
                 }
               />
@@ -269,11 +251,26 @@ function App() {
                     renderPanel={"addemployee"}
                     calendarButtonIsActive={false}
                     workorderButtonIsActive={false}
-                    addemployeeButtonIsActive={false}
+                    addemployeeButtonIsActive={true}
+                    clientlistButtonIsActive={false}
                   />
                 }
               />
-              
+                <Route
+                exact
+                path="/clientlist"
+                element={
+                  <Dashboard
+                    renderPanel={"clientlist"}
+                    calendarButtonIsActive={false}
+                    workorderButtonIsActive={false}
+                    addemployeeButtonIsActive={false}
+                    clientlistButtonIsActive={true}
+                  />
+                }
+              />
+          
+              <Route exact path="/linkspage" element={<LinksPage />} />
               <Route exact path="/availability" element={<Availability />} />
               <Route exact path="/workorder" element={
                 <WorkOrder/>
@@ -284,10 +281,7 @@ function App() {
               <Route exact path="/timeoff" element={<Timeoff />} />
               <Route exact path="/incident" element={<Incident />} />
               <Route exact path="/incidentlist" element={<IncidentList />} />
-              <Route
-                path="*"
-                element={<WrongPage />}
-              />
+              <Route path="*" element={<WrongPage />} />
             </Routes>
           </>
         </Router>

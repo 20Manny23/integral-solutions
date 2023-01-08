@@ -1,4 +1,4 @@
-import { Data } from "@react-google-maps/api";
+
 import React, { useState } from "react";
 import { Row, Col, Button, Form, } from "react-bootstrap";
 import "../styles/Forms.css";
@@ -74,7 +74,7 @@ function removeEmployee(event) {
                 <Form.Control
                   className="custom-border"
                   type="text"
-                  placeholder="Enter Contact Name"
+                  placeholder="Enter Contact Person"
                   name="name"
                 />
               </Form.Group>
@@ -181,6 +181,56 @@ function removeEmployee(event) {
                 </Form.Group> 
                 </Col>
             </Row>
+            <Row className="addy">
+                <Col xs={7}>
+                  <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
+                  <Form.Control className="custom-border" placeholder="City" />
+                </Col>
+                <Col>
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    State
+                  </Form.Label>
+                  <Form.Control
+                    className="custom-border"
+                    placeholder="State (CO)"
+                  />
+                </Col>
+                <Col>
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    Zipcode
+                  </Form.Label>
+                  <Form.Control className="custom-border" placeholder="Zip" />
+                </Col>
+              </Row>
+
+              <Row className="addy">
+                <Col xs={6}>
+                  <Form.Label style={{ fontWeight: "bolder" }}>Office Sqft</Form.Label>
+                  <Form.Control className="custom-border" placeholder="8000 Sqft" />
+                </Col>
+                <Col>
+                  <Form.Label style={{ fontWeight: "bolder", display:'flex', justifyContent:'center' }}>
+                   Employees
+                  </Form.Label>
+                  <Form.Check
+                    inline
+                    label="Home Office"
+                  />
+                   <Form.Check
+                    inline
+                    label="Less than 50"
+                  />
+                    <Form.Check
+                    inline
+                    label="50-100"
+                  />
+                    <Form.Check
+                    inline
+                    label="More than 100"
+                  />
+                </Col>
+             
+              </Row>
 
             <Form.Group className="form-length">
             <Form.Label style={{ fontWeight: "bolder" }}>

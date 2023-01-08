@@ -1,0 +1,45 @@
+[
+  {
+    "_id": "313233343536373839303132",
+    "businessName": "Client_1",
+    "streetAddress": "1 Client Street",
+    "suite": "",
+    "city": "Denver",
+    "state": "CO",
+    "zip": "80204",
+    "contact": "Client One",
+    "phone": "303-555-5555",
+    "email": "client_1@help.com",
+    "schedule": [
+      "413233343536373839303132"
+    ]
+  },
+  {
+    "_id": "323233343536373839303132",
+    "businessName": "Client_2",
+    "streetAddress": "2 Client Street",
+    "suite": "",
+    "city": "Denver",
+    "state": "CO",
+    "zip": "07801",
+    "contact": "Client Two",
+    "phone": "303-555-5555",
+    "email": "client_2@help.com",
+    "schedule": [
+      "423233343536373839303132"
+    ]
+  },
+  {
+    "_id": "333233343536373839303132",
+    "businessName": "Client_3",
+    "streetAddress": "3 Client Street",
+    "suite": "",
+    "city": "Golden",
+    "state": "CO",
+    "zip": "80401",
+    "contact": "Client Three",
+    "phone": "303-555-5555",
+    "email": "client_3@help.com",
+    "schedule": []
+  }
+]
