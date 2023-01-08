@@ -1,346 +1,127 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Table, Form } from "react-bootstrap/";
-import { getUserId } from "../utils/getUserId";
-import Auth from "../utils/auth";
-import { QUERY_ME } from "../utils/queries";
-import { UPDATE_AVAILABILITY } from "../utils/mutations";
-import { useQuery, useMutation } from "@apollo/client";
-import "../styles/spinner.css";
-import "../styles/heading-style.css";
+import { Form, Button, Alert } from "react-bootstrap";
+import { useMutation } from "@apollo/client";
+// import { LOGIN_USER } from "../../utils/mutations";
+import { FORGOT_PASSWORD } from "../../utils/mutations";
+import Auth from "../../utils/auth";
+import "../../styles/button-home.css";
 
-const Availability = () => {
-  const [mondayAm, setMondayAm] = useState();
-  const [mondayPm, setMondayPm] = useState();
-  const [tuesdayAm, setTuesdayAm] = useState();
-  const [tuesdayPm, setTuesdayPm] = useState();
-  const [wednesdayAm, setWednesdayAm] = useState();
-  const [wednesdayPm, setWednesdayPm] = useState();
-  const [thursdayAm, setThursdayAm] = useState();
-  const [thursdayPm, setThursdayPm] = useState();
-  const [fridayAm, setFridayAm] = useState();
-  const [fridayPm, setFridayPm] = useState();
-  const [saturdayAm, setSaturdayAm] = useState();
-  const [saturdayPm, setSaturdayPm] = useState();
-  const [sundayAm, setSundayAm] = useState();
-  const [sundayPm, setSundayPm] = useState();
 
-  // setup update availability upon toggle
-  const [updateAvailability] = useMutation(UPDATE_AVAILABILITY);
 
-  const userId = getUserId();
+const ForgotPassword = () => {
+  const token = Auth.getToken();
 
-  // eslint-disable-next-line
-  const { loading, data, error, refetch } = useQuery(QUERY_ME, {
-    variables: { id: userId },
-    // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
-    skip: !Auth.loggedIn(),
-    onCompleted: (data) => {
-      let availability = data?.me?.availability;
+  const [userFormData, setUserFormData] = useState({ email: "" });
+  const [forgotPassword, { error }] = useMutation(FORGOT_PASSWORD);
 
-      if (availability) {
-        Object.keys(availability).map((key) => {
-          return key === "mondayAm"
-            ? setMondayAm(availability[key])
-            : key === "mondayPm"
-            ? setMondayPm(availability[key])
-            : key === "tuesdayAm"
-            ? setTuesdayAm(availability[key])
-            : key === "tuesdayPm"
-            ? setTuesdayPm(availability[key])
-            : key === "wednesdayAm"
-            ? setWednesdayAm(availability[key])
-            : key === "wednesdayPm"
-            ? setWednesdayPm(availability[key])
-            : key === "thursdayAm"
-            ? setThursdayAm(availability[key])
-            : key === "thursdayPm"
-            ? setThursdayPm(availability[key])
-            : key === "fridayAm"
-            ? setFridayAm(availability[key])
-            : key === "fridayPm"
-            ? setFridayPm(availability[key])
-            : key === "saturdayAm"
-            ? setSaturdayAm(availability[key])
-            : key === "saturdayPm"
-            ? setSaturdayPm(availability[key])
-            : key === "sundayAm"
-            ? setSundayAm(availability[key])
-            : setSundayPm(availability[key]);
-        });
-      }
-    },
-  });
+  const [validated] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
-  // eslint-disable-next-line
-  async function handleChange(evt) {
-    let name = evt.target.name;
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUserFormData({ ...userFormData, [name]: value });
+  };
 
-  // eslint-disable-next-line
-    evt.target.name === "mondayAm"
-      ? setMondayAm(!mondayAm)
-      : evt.target.name === "mondayPm"
-      ? setMondayPm(!mondayPm)
-      : evt.target.name === "tuesdayAm"
-      ? setTuesdayAm(!tuesdayAm)
-      : evt.target.name === "tuesdayPm"
-      ? setTuesdayPm(!tuesdayPm)
-      : evt.target.name === "wednesdayAm"
-      ? setWednesdayAm(!wednesdayAm)
-      : evt.target.name === "wednesdayPm"
-      ? setWednesdayPm(!wednesdayPm)
-      : evt.target.name === "thursdayAm"
-      ? setThursdayAm(!thursdayAm)
-      : evt.target.name === "thursdayPm"
-      ? setThursdayPm(!thursdayPm)
-      : evt.target.name === "fridayAm"
-      ? setFridayAm(!fridayAm)
-      : evt.target.name === "fridayPm"
-      ? setFridayPm(!fridayPm)
-      : evt.target.name === "saturdayAm"
-      ? setSaturdayAm(!saturdayAm)
-      : evt.target.name === "saturdayPm"
-      ? setSaturdayPm(!saturdayPm)
-      : evt.target.name === "sundayAm"
-      ? setSundayAm(!sundayAm)
-      : evt.target.name === "sundayPm"
-      ? setSundayPm(!sundayPm)
-      : console.log("error");
+  // let navigate = useNavigate();
 
-    try {
-      await updateAvailability({
-        variables: {
-          id: userId,
-          mondayAm: name === "mondayAm" ? !mondayAm : mondayAm,
-          mondayPm: name === "mondayPm" ? !mondayPm : mondayPm,
-          tuesdayAm: name === "tuesdayAm" ? !tuesdayAm : tuesdayAm,
-          tuesdayPm: name === "tuesdayPm" ? !tuesdayPm : tuesdayPm,
-          wednesdayAm: name === "wednesdayAm" ? !wednesdayAm : wednesdayAm,
-          wednesdayPm: name === "wednesdayPm" ? !wednesdayPm : wednesdayPm,
-          thursdayAm: name === "thursdayAm" ? !thursdayAm : thursdayAm,
-          thursdayPm: name === "thursdayPm" ? !thursdayPm : thursdayPm,
-          fridayAm: name === "fridayAm" ? !fridayAm : fridayAm,
-          fridayPm: name === "fridayPm" ? !fridayPm : fridayPm,
-          saturdayAm: name === "saturdayAm" ? !saturdayAm : saturdayAm,
-          saturdayPm: name === "saturdayPm" ? !saturdayPm : saturdayPm,
-          sundayAm: name === "sundayAm" ? !sundayAm : sundayAm,
-          sundayPm: name === "sundayPm" ? !sundayPm : sundayPm,
-        },
-      });
-    } catch (err) {
-      console.log(err);
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    // check if form has everything (as per react-bootstrap docs)
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    // if (!validateEmail(userFormData.email)) {
+    //   return false;
+    } else {
+      launchEmail();
     }
 
-    refetch();
+    try {
+      const { data } = await forgotPassword({
+        variables: { ...userFormData },
+      });
+
+      // Auth.login(data.login.token);
+      Auth.login(data.token);
+
+      // window.location.assign(`/calendar`);
+      window.location.assign(`/landing-template-v1`);
+
+    } catch (e) {
+      console.error(e);
+      setShowAlert(true);
+    }
+
+    setUserFormData({
+      email: "",
+    });
+  };
+
+  const launchEmail = () => {
+    window.open(
+      `mailto:${userFormData.email}?subject=Password Reset&body=Click on this link to create a new pasword: http://localhost:3000/resetpassword/${token}`
+    )
+
   }
 
-  if (loading) {
-    return (
-      <div
-        style={{ minHeight: "80vh", width: "100vw" }}
-        className="d-flex justify-content-center align-items-center align-content-center m-0"
-      >
-        <div className="lds-hourglass"></div>
-      </div>
-    );
-  } else {
-    return (
-      <main>
-        <Container
-          className="shadow rounded-lg  border border-secondary"
-          style={{ marginTop: "85px" }}
+  return (
+    <div className="d-flex flex-column align-items-center mt-3">
+      <div className="d-flex flex-column align-items-center">
+        <Form
+          noValidate
+          validated={validated}
+          // onSubmit={handleFormSubmit}
+          className="mx-2 mt-2 mb-1"
+          style={{ width: "280px" }}
         >
-          <h2 className="display-6 custom-text mt-3 mb-0 heading">
-            Availability
-          </h2>
-          {/* <Form onSubmit={handleFormSubmit}> */}
-          <Form>
-            <Row>
-              <Col sm={12}>
-                <Table
-                  striped
-                  bordered
-                  hover
-                  variant="dark"
-                  className="mt-3 shadow"
-                >
-                  <thead>
-                    <tr>
-                      <th>Day of the Week</th>
-                      <th style={{ textAlign: "center" }}>AM</th>
-                      <th style={{ textAlign: "center" }}>PM</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Sunday</td>
-                      <td>
-                        <Form.Check
-                          name="sundayAm"
-                          type="switch"
-                          id="sundayAm-switch"
-                          checked={sundayAm || false}
-                          // onChange={handleChange}
-                          style={{ textAlign: "center" }}
-                        />
-                      </td>
-                      <td>
-                        <Form.Check
-                          name="sundayPm"
-                          type="switch"
-                          id="sundayPm-switch"
-                          checked={sundayPm || false}
-                          // onChange={handleChange}
-                          style={{ textAlign: "center" }}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Monday</td>
-                      <td>
-                        <Form.Check
-                          name="mondayAm"
-                          type="switch"
-                          id="mondayAm-switch"
-                          checked={mondayAm || false}
-                          // onChange={handleChange}
-                          style={{ textAlign: "center" }}
-                        />
-                      </td>
-                      <td>
-                        <Form.Check
-                          name="mondayPm"
-                          type="switch"
-                          id="mondayPm-switch"
-                          checked={mondayPm || false}
-                          // onChange={handleChange}
-                          style={{ textAlign: "center" }}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Tuesday</td>
-                      <td>
-                        <Form.Check
-                          name="tuesdayAm"
-                          type="switch"
-                          id="tuesdayAm-switch"
-                          checked={tuesdayAm || false}
-                          // onChange={handleChange}
-                          style={{ textAlign: "center" }}
-                        />
-                      </td>
-                      <td>
-                        <Form.Check
-                          name="tuesdayPm"
-                          type="switch"
-                          id="tuesdayPm-switch"
-                          checked={tuesdayPm || false}
-                          // onChange={handleChange}
-                          style={{ textAlign: "center" }}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Wedenesday</td>
-                      <td>
-                        <Form.Check
-                          name="wednesdayAm"
-                          type="switch"
-                          id="wednesdayAm-switch"
-                          checked={wednesdayAm || false}
-                          // onChange={handleChange}
-                          style={{ textAlign: "center" }}
-                        />
-                      </td>
-                      <td>
-                        <Form.Check
-                          name="wednesdayPm"
-                          type="switch"
-                          id="wednesdayPm-switch"
-                          checked={wednesdayPm || false}
-                          // onChange={handleChange}
-                          style={{ textAlign: "center" }}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Thursday</td>
-                      <td>
-                        <Form.Check
-                          name="thursdayAm"
-                          type="switch"
-                          id="thursdayAm-switch"
-                          checked={thursdayAm || false}
-                          // onChange={handleChange}
-                          style={{ textAlign: "center" }}
-                        />
-                      </td>
-                      <td>
-                        <Form.Check
-                          name="thursdayPm"
-                          type="switch"
-                          id="thursdayPm-switch"
-                          checked={thursdayPm || false}
-                          // onChange={handleChange}
-                          style={{ textAlign: "center" }}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Friday</td>
-                      <td>
-                        <Form.Check
-                          name="fridayAm"
-                          type="switch"
-                          id="fridayAm-switch"
-                          checked={fridayAm || false}
-                          // onChange={handleChange}
-                          style={{ textAlign: "center" }}
-                        />
-                      </td>
-                      <td>
-                        <Form.Check
-                          name="fridayPm"
-                          type="switch"
-                          id="fridayPm-switch"
-                          checked={fridayPm || false}
-                          // onChange={handleChange}
-                          style={{ textAlign: "center" }}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Saturday</td>
-                      <td>
-                        <Form.Check
-                          name="saturdayAm"
-                          type="switch"
-                          id="saturdayAm-switch"
-                          checked={saturdayAm || false}
-                          // onChange={handleChange}
-                          style={{ textAlign: "center" }}
-                        />
-                      </td>
-                      <td>
-                        <Form.Check
-                          name="saturdayPm"
-                          type="switch"
-                          id="saturdayPm-switch"
-                          checked={saturdayPm || false}
-                          // onChange={handleChange}
-                          style={{ textAlign: "center" }}
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </Col>
-            </Row>
-          </Form>
-        </Container>
-      </main>
-    );
-  }
+          <Form.Group>
+            <Form.Label htmlFor="email">Enter your email</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Your email"
+              name="email"
+              onChange={handleInputChange}
+              value={userFormData.email}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Email is required!
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Button
+            disabled={!(userFormData.email)}
+            className="mb-3 submit-button-style"
+            type="submit"
+            variant="success"
+            onClick={handleFormSubmit}
+          >
+            Submit
+          </Button>
+        </Form>
+      </div>
+
+      {/* show alert if server response is bad */}
+      {error && (
+        <div className="d-flex justify-content-center">
+          <Alert
+            dismissible
+            onClose={() => setShowAlert(false)}
+            show={showAlert}
+            variant="danger"
+            className="mb-4 py-1 pl-1 bg-danger text-white"
+            style={{ width: "300px" }}
+          >
+            <p className="" style={{ width: "200px" }}>
+              Something went wrong with your login credentials!
+            </p>
+          </Alert>
+        </div>
+      )}
+    </div>
+  );
 };
 
-export default Availability;
+export default ForgotPassword;
