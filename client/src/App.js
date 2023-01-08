@@ -19,6 +19,8 @@ import IncidentList from "./pages/IncidentList";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LandingTemplate1 from "./components/LandingTemplate1";
+import ForgotPassword from "./components/Home/ForgotPassword";
+import ResetPassword from "./components/Home/ResetPassword";
 
 
 
@@ -129,6 +131,32 @@ function App() {
                 element={
                   <Homepage
                     renderPanel={"signup"}
+                    messageButtonIsActive={false}
+                    loginButtonIsActive={false}
+                    signupButtonIsActive={true}
+                  />
+                }
+              />
+
+              <Route
+                exact
+                path="/forgotpassword"
+                element={
+                  <ForgotPassword
+                    renderPanel={"forgotpassword"}
+                    messageButtonIsActive={false}
+                    loginButtonIsActive={false}
+                    signupButtonIsActive={true}
+                  />
+                }
+              />
+
+              <Route
+                exact
+                path="/resetpassword/:token"
+                element={
+                  <ResetPassword
+                    renderPanel={"resetpassword"}
                     messageButtonIsActive={false}
                     loginButtonIsActive={false}
                     signupButtonIsActive={true}
@@ -256,7 +284,7 @@ function App() {
                   />
                 }
               />
-                <Route
+              <Route
                 exact
                 path="/clientlist"
                 element={
@@ -269,13 +297,13 @@ function App() {
                   />
                 }
               />
-          
+
               <Route exact path="/linkspage" element={<LinksPage />} />
               <Route exact path="/availability" element={<Availability />} />
               <Route exact path="/workorder" element={
-                <WorkOrder/>
+                <WorkOrder />
               } />
-              <Route exact path="/addemployee" element={<AddEmployee/>} />
+              <Route exact path="/addemployee" element={<AddEmployee />} />
               <Route exact path="/contact" element={<ContactForm />} />
               <Route exact path="/employee" element={<EmployeePortal />} />
               <Route exact path="/timeoff" element={<Timeoff />} />

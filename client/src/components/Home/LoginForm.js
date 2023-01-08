@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Button, Alert, InputGroup } from "react-bootstrap";
+import { Form, Button, Alert, InputGroup, Nav } from "react-bootstrap";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
 import Auth from "../../utils/auth";
@@ -128,7 +128,7 @@ const LoginForm = () => {
           </Form.Group>
 
           <Button
-            disabled={!(userFormData.email && userFormData.password)}
+            disabled={!(userFormData.email)}
             className="mb-3 submit-button-style"
             type="submit"
             variant="success"
@@ -136,6 +136,9 @@ const LoginForm = () => {
             Submit
           </Button>
         </Form>
+        <Nav.Item>Forget your password?
+          <Nav.Link href="/forgotpassword" className="text-blue">Reset password</Nav.Link>
+        </Nav.Item>
       </div>
 
       {/* show alert if server response is bad */}
