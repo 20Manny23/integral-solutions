@@ -9,7 +9,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Dashboard from "./pages/Dashboard";
+import AdminPortal from "./pages/AdminPortal";
 import EmployeePortal from "./pages/EmployeePortal";
 // import Availability from "./pages/Availability";
 // import Timeoff from "./pages/Timeoff";
@@ -19,11 +19,11 @@ import EmployeePortal from "./pages/EmployeePortal";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
-import Employee from "./pages/Employee";
-import EmployeeMock from "./pages/EmployeeMock";
 import ContactUs from "./pages/ContactForm";
 import ShopLinks from "./pages/ShopLinks";
 import WrongPage from "./pages/WrongPage";
+// import Employee from "./components/Employee/Employee";
+// import EmployeeMock from "./components/Employee/EmployeeMock";
 // import Employees from "./pages/Employees";
 // import WorkOrder from "./pages/WorkOrder";
 // import ClientList from "./pages/ClientList";
@@ -184,7 +184,7 @@ function App() {
                   exact
                   path="/calendar"
                   element={
-                    <Dashboard
+                    <AdminPortal
                       renderPanel={"calendar"}
                       calendarButtonIsActive={true}
                       workorderButtonIsActive={false}
@@ -199,7 +199,7 @@ function App() {
                   exact
                   path="/workorder"
                   element={
-                    <Dashboard
+                    <AdminPortal
                       renderPanel={"workorder"}
                       calendarButtonIsActive={false}
                       workorderButtonIsActive={true}
@@ -214,7 +214,7 @@ function App() {
                   exact
                   path="/employees"
                   element={
-                    <Dashboard
+                    <AdminPortal
                       renderPanel={"employees"}
                       calendarButtonIsActive={false}
                       workorderButtonIsActive={false}
@@ -229,7 +229,7 @@ function App() {
                   exact
                   path="/clientlist"
                   element={
-                    <Dashboard
+                    <AdminPortal
                       renderPanel={"clientlist"}
                       calendarButtonIsActive={false}
                       workorderButtonIsActive={false}

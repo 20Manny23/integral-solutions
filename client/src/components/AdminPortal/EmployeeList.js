@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Row, Col, Button, Form } from "react-bootstrap";
-import "../styles/Forms.css";
+import "../../styles/Forms.css";
 
-
-function AddEmployee() {
+function EmployeeList() {
   const demoEmployee = ["Bryan", "Steve", "Rod", "George", "Kirtley"];
   return (
     <>
@@ -131,4 +130,4 @@ function AddEmployee() {
   );
 }
 
-export default AddEmployee;
+export default EmployeeList;

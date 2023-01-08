@@ -4,16 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
-// import AllEmployeesCont from "../components/AllEmployeesCont";
-import Employees from "./Employees";
-import ClientList from "./ClientList";
-import FullCalendarApp from "../components/Calendar/FullCalendarApp";
-import Location from "../pages/Location";
+import Employees from "../components/AdminPortal/EmployeeList";
+import ClientList from "../components/AdminPortal/ClientList";
+import WorkOrder from "../components/AdminPortal/WorkOrder";
 import { Button, Container, Col, Row } from "react-bootstrap/";
 import "../styles/spinner.css";
-import WorkOrder from "./WorkOrder";
 
-const Dashboard = ({
+import FullCalendarApp from "../components/Calendar/FullCalendarApp";
+import AllEmployeesCont from "../components/AllEmployeesCont";
+import Location from "./Location";
+
+const AdminPortal = ({
   renderPanel,
   calendarButtonIsActive,
   workorderButtonIsActive,
@@ -118,7 +119,7 @@ const Dashboard = ({
   }
 };
 
-export default Dashboard;
+export default AdminPortal;
 
 const isActive = {
   flex: "auto",

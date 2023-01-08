@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
-import Employee from "./Employee";
-import EmployeeMock from "./EmployeeMock";
+import Employee from "../components/Employee/Employee";
+import EmployeeMock from "../components/Employee/EmployeeMock";
 import { Button, Container, Col, Row } from "react-bootstrap/";
 import "../styles/spinner.css";
 

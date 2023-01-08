@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Auth from "../utils/auth";
+import Auth from "../../utils/auth";
 
-import { getUserId } from "../utils/getUserId";
+import { getUserId } from "../../utils/getUserId";
 import { useQuery } from "@apollo/client";
-import { QUERY_EMPLOYEE_BYID } from "../utils/queries";
+import { QUERY_EMPLOYEE_BYID } from "../../utils/queries";
 
 import { Row, Container, Card } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";

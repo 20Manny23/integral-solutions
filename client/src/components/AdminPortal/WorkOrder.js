@@ -1,10 +1,7 @@
 
 import React, { useState } from "react";
 import { Row, Col, Button, Form, } from "react-bootstrap";
-import "../styles/Forms.css";
-
-
-
+import "../../styles/Forms.css";
 
 function WorkOrder() {
 
