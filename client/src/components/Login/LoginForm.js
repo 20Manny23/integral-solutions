@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Auth from "../../utils/auth";
+import { Form, Button, Alert, InputGroup, Nav } from "react-bootstrap";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
-import { Form, Button, Alert, InputGroup } from "react-bootstrap";
+import Auth from "../../utils/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/button-home.css";
 
@@ -39,7 +39,7 @@ const LoginForm = () => {
       Auth.login(data.login);
 
       // window.location.assign(`/calendar`);
-      window.location.assign(`/Home`);
+      window.location.assign(`/landing-template-v1`);
 
     } catch (e) {
       console.error(e);
@@ -128,7 +128,7 @@ const LoginForm = () => {
           </Form.Group>
 
           <Button
-            disabled={!(userFormData.email && userFormData.password)}
+            disabled={!(userFormData.email)}
             className="mb-3 submit-button-style"
             type="submit"
             variant="success"
@@ -136,6 +136,9 @@ const LoginForm = () => {
             Submit
           </Button>
         </Form>
+        <Nav.Item>
+          <Nav.Link href="/forgotpassword" className="text-blue">Forgot Password?</Nav.Link>
+        </Nav.Item>
       </div>
 
       {/* show alert if server response is bad */}
