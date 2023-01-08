@@ -250,3 +250,34 @@ export const QUERY_ALL_CLIENTS= gql`
     }
   }
 `;
+
+export const QUERY_SCHEDULE= gql`
+  query getSchedule {
+    schedules {
+      _id
+      startDate
+      endDate
+      startTime
+      endTime
+      jobDetails
+      numberOfClientEmployees
+      employees {
+        firstName
+        lastName
+        email
+        phone
+      }
+      client {
+        businessName
+        contact
+        email
+        phone
+        streetAddress
+        city
+        state
+        suite
+        zip
+      }
+    }
+  }
+`;
