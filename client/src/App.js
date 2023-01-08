@@ -247,7 +247,7 @@ function App() {
                       renderPanel={"employees"}
                       calendarButtonIsActive={false}
                       workOrderButtonIsActive={false}
-                      employeeListButtonIsActive={false}
+                      employeeListButtonIsActive={true}
                       clientListButtonIsActive={false}
                       adminMockButtonIsActive={false}
                     />
@@ -284,8 +284,8 @@ function App() {
                     />
                   }
                 />
-              )}
-              {Auth.isLocked() === false && (
+               )} 
+                {Auth.isLocked() === false && ( 
                 <Route
                   exact
                   path="/employee"
@@ -300,7 +300,7 @@ function App() {
                     />
                   }
                 />
-              )}
+               )} 
 
               <Route exact path="/contact" element={<ContactUs />} />
               <Route exact path="/shoplinks" element={<ShopLinks />} />
