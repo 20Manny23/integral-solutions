@@ -14,6 +14,12 @@ const scheduleSchema = new Schema(
     endTime: {
       type: String,
     },
+    jobDetails: {
+      type: String,
+    },
+    numberOfClientEmployees: {
+      type: String,
+    },
     client: {
       type: Schema.Types.String,
       ref: "Client"

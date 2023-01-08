@@ -33,6 +33,14 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    isLocked: {
+      type: Boolean,
+      default: false,
+    },
     schedule: {
       type: Schema.Types.Array,
       ref: "Schedule",

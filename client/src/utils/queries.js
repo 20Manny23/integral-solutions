@@ -159,3 +159,125 @@ export const QUERY_EVENTS = gql`
     }
   }
 `;
+
+export const QUERY_EMPLOYEE_BYID = gql`
+  query EmployeeById($id: ID!) {
+    employeeById(_id: $id) {
+      _id
+      firstName
+      lastName
+      email
+      phone
+      isAdmin
+      isLocked
+      password
+      schedule {
+        startDate
+        startTime
+        endDate
+        endTime
+        jobDetails
+        numberOfClientEmployees
+        client {
+          _id
+          businessName
+          streetAddress
+          suite
+          city
+          state
+          zip
+        }
+      }
+    }
+  }
+`;
+
+export const QUERY_ALL_EMPLOYEES = gql`
+  query getAllEmployees {
+    employees {
+      _id
+      firstName
+      lastName
+      email
+      phone
+      isAdmin
+      isLocked
+      password
+      username
+      schedule {
+        startDate
+        startTime
+        endDate
+        endTime
+        jobDetails
+        numberOfClientEmployees
+        client {
+          _id
+          businessName
+          city
+          streetAddress
+          state
+          suite
+          zip
+        }
+      }
+    }
+  }
+`;
+
+export const QUERY_ALL_CLIENTS= gql`
+  query getAllClients {
+    clients {
+      _id
+      businessName
+      city
+      contact
+      email
+      phone
+      state
+      streetAddress
+      suite
+      zip
+      schedule {
+        _id
+        startDate
+        startTime
+        endDate
+        endTime
+        jobDetails
+        numberOfClientEmployees
+      }
+    }
+  }
+`;
+
+export const QUERY_SCHEDULE= gql`
+  query getSchedule {
+    schedules {
+      _id
+      startDate
+      endDate
+      startTime
+      endTime
+      jobDetails
+      numberOfClientEmployees
+      employees {
+        firstName
+        lastName
+        email
+        phone
+      }
+      client {
+        businessName
+        contact
+        email
+        phone
+        streetAddress
+        city
+        state
+        suite
+        zip
+      }
+    }
+  }
+`;

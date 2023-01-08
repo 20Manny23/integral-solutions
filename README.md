@@ -110,8 +110,8 @@ Contributor Covenant Code of Conduct
 
 ## Collaborators
 
-1. [Rod Bennett GitHub Profile](https://github.com/RodBennett)
-2. [Bryan Wienhoff GitHub Profile](https://github.com/Hoffalypse)
+1. Rod Bennett GitHub Profile](https://github.com/RodBennett)
+2. Bryan Wienhoff GitHub Profile](https://github.com/Hoffalypse)
 3. [Steve Calla - GitHub Profile](https://github.com/stevecalla)
 
 ## Resources

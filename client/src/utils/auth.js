@@ -16,10 +16,36 @@ class AuthService {
     return !!token && !this.isTokenExpired(token); // handwaiving here
   }
 
+  isAdmin() {
+    // Checks if there is a saved token and it's still valid
+    const token = this.getToken();
+
+    const decoded = decode(token);
+
+    // console.log("isAdmin = ", decoded.data.isAdmin);
+    // console.log("isLocked = ", decoded.data.isLocked);
+
+    return decoded.data.isAdmin;
+  }
+
+  isLocked() {
+    // Checks if there is a saved token and it's still valid
+    const token = this.getToken();
+
+    const decoded = decode(token);
+
+    // console.log("isLocked = ", decoded.data.isLocked)
+
+    return decoded.data.isLocked;
+  }
+
   // check if token is expired
   isTokenExpired(token) {
     try {
       const decoded = decode(token);
+
+      // console.log(decoded);
+
       if (decoded.exp < Date.now() / 1000) {
         return true;
       } else return false;
@@ -42,7 +68,7 @@ class AuthService {
     // Clear user token and profile data from localStorage
     localStorage.removeItem("id_token");
     // this will reload the page and reset the state of the application
-    window.location.assign("/");
+    window.location.assign("/login");
   }
 
   clearStorage() {

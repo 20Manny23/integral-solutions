@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Row, Col, Button, Form } from "react-bootstrap";
-import "../styles/Forms.css";
+import "../../styles/Forms.css";
 
-
-function AddEmployee() {
+function EmployeeList() {
   const demoEmployee = ["Bryan", "Steve", "Rod", "George", "Kirtley"];
   return (
     <>
@@ -114,8 +113,9 @@ function AddEmployee() {
             > 
                <h2 className="display-6 custom-text heading">Employee Status</h2>
 
-              {demoEmployee.map((emp) => 
+              {demoEmployee.map((emp, index) => 
               <Form.Check
+                key={index}
                 type="switch"
                 id=""
                 inline= "true"
@@ -131,4 +131,4 @@ function AddEmployee() {
   );
 }
 
-export default AddEmployee;
+export default EmployeeList;

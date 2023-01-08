@@ -1,29 +1,23 @@
 import React, { useState } from "react";
-import { Form, Button, Alert, InputGroup } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 import { useMutation } from "@apollo/client";
-import { ADD_USER } from "../../utils/mutations";
+import { LOGIN_USER } from "../../utils/mutations";
 import Auth from "../../utils/auth";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../../styles/button-style.css";
+import "../../styles/button-home.css";
 
-const SignupForm = ({ setShowModal }) => {
-  const [userFormData, setUserFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
+const ResetPassword = () => {
+  const [userFormData, setUserFormData] = useState({ email: "", password: "" });
+  const [login, { error }] = useMutation(LOGIN_USER);
 
-  const [addUser, { error }] = useMutation(ADD_USER);
-
-  // set state for form validation
   const [validated] = useState(false);
-  // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
+
+  // let navigate = useNavigate();
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -36,13 +30,14 @@ const SignupForm = ({ setShowModal }) => {
     }
 
     try {
-      const { data } = await addUser({
+      const { data } = await login({
         variables: { ...userFormData },
       });
 
-      Auth.login(data.addUser);
+      // Auth.login(data.login.token);
+      Auth.login(data.login);
 
-      // window.location.assign(`/dashboard`);
+      // window.location.assign(`/calendar`);
       window.location.assign(`/landing-template-v1`);
 
     } catch (e) {
@@ -80,25 +75,24 @@ const SignupForm = ({ setShowModal }) => {
           style={{ width: "280px" }}
         >
           <Form.Group>
-            <Form.Label htmlFor="username">Username</Form.Label>
+            <Form.Label htmlFor="email">Enter New Password</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Your username"
-              name="username"
+              placeholder="password"
+              name="email"
               onChange={handleInputChange}
-              value={userFormData.username}
+              value={userFormData.email}
               required
             />
             <Form.Control.Feedback type="invalid">
-              Username is required!
+              Email is required!
             </Form.Control.Feedback>
           </Form.Group>
-
           <Form.Group>
-            <Form.Label htmlFor="email">Email</Form.Label>
+            <Form.Label htmlFor="email">Re-enter Password</Form.Label>
             <Form.Control
-              type="email"
-              placeholder="Your email address"
+              type="text"
+              placeholder="password"
               name="email"
               onChange={handleInputChange}
               value={userFormData.email}
@@ -109,55 +103,13 @@ const SignupForm = ({ setShowModal }) => {
             </Form.Control.Feedback>
           </Form.Group>
 
-          <Form.Group>
-            <Form.Label htmlFor="password">Password</Form.Label>
 
-            <InputGroup className="mb-3">
-              <Form.Control
-                type={showHidePassword}
-                placeholder="Your password"
-                name="password"
-                onChange={handleInputChange}
-                value={userFormData.password}
-                required
-                style={{ borderRight: "none" }}
-              />
-              <Form.Control.Feedback type="invalid">
-                Password is required!
-              </Form.Control.Feedback>
-
-              <InputGroup.Text
-                id="basic-addon1"
-                style={{
-                  borderRadius: "0%",
-                  background: "white",
-                  borderLeft: "none",
-                }}
-              >
-                <FontAwesomeIcon
-                  icon="fa-eye"
-                  style={display ? isDisplayed : isNotDisplayed}
-                  onClick={() => handlePassClick()}
-                />
-                <FontAwesomeIcon
-                  icon="fa-eye-slash"
-                  style={!display ? isDisplayed : isNotDisplayed}
-                  onClick={() => handlePassClick()}
-                />
-              </InputGroup.Text>
-            </InputGroup>
-          </Form.Group>
           <Button
-            disabled={
-              !(
-                userFormData.username &&
-                userFormData.email &&
-                userFormData.password
-              )
-            }
+            // disabled={!(userFormData.email && userFormData.password)}
             className="mb-3 submit-button-style"
             type="submit"
             variant="success"
+            onClick={handleFormSubmit}
           >
             Submit
           </Button>
@@ -172,11 +124,11 @@ const SignupForm = ({ setShowModal }) => {
             onClose={() => setShowAlert(false)}
             show={showAlert}
             variant="danger"
-            className="mt-0 mb-4 py-1 pl-1 bg-danger text-white"
+            className="mb-4 py-1 pl-1 bg-danger text-white"
             style={{ width: "300px" }}
           >
             <p className="" style={{ width: "200px" }}>
-              Something went wrong with your signup!
+              Something went wrong with your login credentials!
             </p>
           </Alert>
         </div>
@@ -185,12 +137,4 @@ const SignupForm = ({ setShowModal }) => {
   );
 };
 
-export default SignupForm;
-
-const isDisplayed = {
-  display: "block",
-};
-
-const isNotDisplayed = {
-  display: "none",
-};
+export default ResetPassword;

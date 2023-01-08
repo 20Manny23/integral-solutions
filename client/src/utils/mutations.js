@@ -1,8 +1,33 @@
 import { gql } from "@apollo/client";
 
+// export const LOGIN_USER = gql`
+//   mutation login($email: String!, $password: String!) {
+//     login(email: $email, password: $password) {
+//       token
+//       user {
+//         _id
+//         username
+//       }
+//     }
+//   }
+// `;
+
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
+      token
+      employee {
+        _id
+        username
+      }
+    }
+  }
+`;
+
+
+export const FORGOT_PASSWORD = gql`
+  mutation forgotPassword($email: String!) {
+    forgotPassword(email: $email) {
       token
       user {
         _id
@@ -12,6 +37,7 @@ export const LOGIN_USER = gql`
   }
 `;
 
+<<<<<<< HEAD
 export const FORGOT_PASSWORD = gql`
   mutation forgotPassword($email: String!) {
     forgotPassword(email: $email) {
@@ -27,8 +53,25 @@ export const FORGOT_PASSWORD = gql`
 export const ADD_USER = gql`
   mutation addUser($username: String!, $email: String!, $password: String!) {
     addUser(username: $username, email: $email, password: $password) {
+=======
+// export const ADD_USER = gql`
+//   mutation addUser($username: String!, $email: String!, $password: String!) {
+//     addUser(username: $username, email: $email, password: $password) {
+//       token
+//       user {
+//         _id
+//         username
+//       }
+//     }
+//   }
+// `;
+
+export const SIGNUP_EMPLOYEE = gql`
+  mutation signupEmployee($username: String!, $email: String!, $password: String!) {
+    signupEmployee(username: $username, email: $email, password: $password) {
+>>>>>>> 1a1a0232a5b021c1c42ab4175d50b553f43beefa
       token
-      user {
+      employee {
         _id
         username
       }

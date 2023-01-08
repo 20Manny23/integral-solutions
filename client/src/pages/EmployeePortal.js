@@ -1,108 +1,104 @@
-// import React, { useEffect, useState } from "react";
-import { Row, Container, Card } from "react-bootstrap";
+import React from "react";
+import Auth from "../utils/auth";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { QUERY_ME } from "../utils/queries";
+import { getUserId } from "../utils/getUserId";
+import Employee from "../components/Employee/Employee";
+import EmployeeMock from "../components/Employee/EmployeeMock";
+import { Button, Container, Col, Row } from "react-bootstrap/";
+import "../styles/spinner.css";
 
+// import AllEmployeesCont from "../components/AllEmployeesCont";
+// import ClientList from "./ClientList";
+// import FullCalendarApp from "../components/Calendar/FullCalendarApp";
+// import Location from "./Location";
+// import WorkOrder from "./WorkOrder";
 
-function EmployeePortal() {
-  const employee = [
-    {
-      id: 3,
-      jobDate: "12/20/2022",
-      company: "Hoff inc",
-      location: "777 Richman Blackhawk Co",
-      details: "This is full office move",
-      startTime: "8am",
-      hoursWorked: 7,
-    },
-    {
-      id: 2,
-      jobDate: "12/05/2022",
-      company: "Rod inc",
-      location: "77799 Lucky Ave BlackHawk Co",
-      details: "Delivery, installation, cleanup",
-      startTime: "9am",
-      hoursWorked: 8,
-    },
-    {
-      id: 1,
-      jobDate: "12/14/2022",
-      company: "Steve inc",
-      location: "463 Yatzee Denver Co",
-      details: "Just a delivery",
-      startTime: "12pm",
-      hoursWorked: 11,
-    },
-    {
-      id: 4,
-      jobDate: "12/01/2022",
-      company: "Data inc",
-      location: "189 Poplar Aravada Co",
-      details: "Just a delivery",
-      startTime: "2pm",
-      hoursWorked: 11,
-      },
-  ];
+const EmployeePortal = ({
+  renderPanel,
+  // calendarButtonIsActive,
+  // workorderButtonIsActive,
+  addemployeeButtonIsActive,
+  clientlistButtonIsActive,
+}) => {
+  // get user info to render to page
+  const userId = getUserId();
+  const { loading, data } = useQuery(QUERY_ME, {
+    variables: { id: userId },
+    // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+    skip: !Auth.loggedIn(),
+  });
 
-    let upcomingJob = [];
-    let pastJob = [];
-    const current = new Date().toLocaleDateString('en-us', { year:"numeric", month:"numeric", day:"numeric"}) 
-    
-    //compares jobDate to current date and pushes to correct array 
-   for (let i = 0; i < employee.length; i++) {
-        if (current <= employee[i].jobDate) {
-            upcomingJob.push(employee[i])
-        }
-        else{
-            pastJob.push(employee[i])
-        }
-   }
-   //sort jobs by date 
-    upcomingJob.sort( (a,b) => a.jobDate.localeCompare(b.jobDate) )
-    pastJob.sort( (a,b) => a.jobDate.localeCompare(b.jobDate) )
+  let navigate = useNavigate();
 
-    //reverses past jobs so most recent completed show first 
-    const renderPast = pastJob.reverse()
+  if (loading) {
+    return (
+      <div
+        style={{ minHeight: "80vh", width: "100vw" }}
+        className="d-flex justify-content-center align-items-center align-content-center mt-5"
+      >
+        <div className="lds-hourglass"></div>
+      </div>
+    );
+  } else {
+    return (
+      <>
+        <Container style={{ marginTop: "25px" }}>
+          <Row className="justify-content-center">
+            <p style={{ fontSize: "30px" }}>
+              <b>Employee Panel</b>
+            </p>
+          </Row>
+        </Container>
 
+        <Container className="mb-1">
+          <Row>
+            <Col>
+              <div className="d-flex flex-row mb-1 p-0 border border-secondary rounded-lg">
+                <Button
+                  variant="outline-primary"
+                  style={addemployeeButtonIsActive ? isActive : notActive}
+                  active={addemployeeButtonIsActive}
+                  onClick={() => {
+                    navigate("/employee");
+                  }}
+                >
+                  Upcoming Jobs
+                </Button>
+                <Button
+                  variant="outline-primary"
+                  style={clientlistButtonIsActive ? isActive : notActive}
+                  active={clientlistButtonIsActive}
+                  onClick={() => {
+                    navigate("/employee");
+                  }}
+                >
+                  Past Jobs
+                </Button>
+              </div>
 
-  return (
-    <>
-      <h3 style={{ textAlign: "center" }}>"Employee Name Here"</h3>
-      
-      <Container>
-        <Row style={{display:'flex', justifyContent:'center'}}>
-          {upcomingJob.map((emp) => (
-            <Card style={{ width: "18rem", margin: "5px" }} >
-              <Card.Body>
-                <Card.Title>{emp.jobDate} {emp.startTime}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  Company: {emp.company}
-                </Card.Subtitle>
-                <Card.Subtitle>{emp.location}</Card.Subtitle>
-                <Card.Text>{emp.details}</Card.Text>
-              </Card.Body>
-            </Card>
-          ))}
-        </Row>
-      </Container>
-      <h3 style={{ textAlign: "center", marginTop: '50px' }}>Completed Jobs</h3>
-      <Container >
-        <Row style={{display:'flex', justifyContent:'center'}}>
-          {renderPast.map((emp) => (
-            <Card style={{ width: "18rem", margin: "5px", backgroundColor:'rgb(196, 189, 189)' }}>
-              <Card.Body>
-                <Card.Title>{emp.jobDate}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  Company: {emp.company}
-                </Card.Subtitle>
-                <Card.Subtitle>{emp.location}</Card.Subtitle>
-                <Card.Text>{emp.details}</Card.Text>
-                <Card.Subtitle>Hours Completed: {emp.hoursWorked}</Card.Subtitle>
-              </Card.Body>
-            </Card>
-          ))}
-        </Row>
-      </Container>
-    </>
-  );
-}
+              {renderPanel === "employee" ? <EmployeeMock /> : <EmployeeMock />}
+            </Col>
+          </Row>
+        </Container>
+      </>
+    );
+  }
+};
 
 export default EmployeePortal;
+
+const isActive = {
+  flex: "auto",
+  border: "solid 3px black",
+  borderRadius: "3px",
+};
+
+const notActive = {
+  flex: "auto",
+  border: "none",
+  borderRadius: "0",
+  outline: "none",
+  boxShadow: "none",
+};

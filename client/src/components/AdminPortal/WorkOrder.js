@@ -1,10 +1,7 @@
 
 import React, { useState } from "react";
 import { Row, Col, Button, Form, } from "react-bootstrap";
-import "../styles/Forms.css";
-
-
-
+import "../../styles/Forms.css";
 
 function WorkOrder() {
 
@@ -245,8 +242,8 @@ function removeEmployee(event) {
               onChange={addEmployee}
               >
                 <option>Select</option>
-                {demoEmployee.map((emp) =>
-                <option value = {emp}>{emp}</option>,
+                {demoEmployee.map((emp, index) =>
+                <option key={index} value={emp}>{emp}</option>,
                 )}
                
                 </Form.Control>

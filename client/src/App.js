@@ -8,19 +8,31 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Homepage from "./pages/Homepage";
+
+import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
-import Dashboard from "./pages/Dashboard";
-import Availability from "./pages/Availability";
-import Timeoff from "./pages/Timeoff";
-import Incident from "./pages/Incident";
+import AdminPortal from "./pages/AdminPortal";
+import ContactUs from "./pages/ContactForm";
+import ShopLinks from "./pages/ShopLinks";
 import WrongPage from "./pages/WrongPage";
-import IncidentList from "./pages/IncidentList";
+import Login from "./pages/Login";
+import EmployeePortal from "./pages/EmployeePortal";
+import ForgotPassword from "./components/Login/ForgotPassword";
+import ResetPassword from "./components/Login/ResetPassword";
+
+// import Employee from "./components/Employee/Employee";
+// import EmployeeMock from "./components/Employee/EmployeeMock";
+// import Employees from "./pages/Employees";
+// import WorkOrder from "./pages/WorkOrder";
+// import ClientList from "./pages/ClientList";
+// import Availability from "./pages/Availability";
+// import Timeoff from "./pages/Timeoff";
+// import Incident from "./pages/Incident";
+// import IncidentList from "./pages/IncidentList";
+
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LandingTemplate1 from "./components/LandingTemplate1";
-import ForgotPassword from "./components/Home/ForgotPassword";
-import ResetPassword from "./components/Home/ResetPassword";
 
 
 
@@ -40,8 +52,6 @@ import {
   faEyeSlash,
   faMap,
 } from "@fortawesome/free-solid-svg-icons";
-import LinksPage from "./pages/LinksPage";
-import ClientList from "./pages/ClientList";
 
 library.add(
   faTrash,
@@ -89,23 +99,15 @@ function App() {
           <>
             <Navbar />
             <Routes>
-              <Route
-                exact
-                path="/"
-                element={
-                  <Homepage
-                    renderPanel={"messages"}
-                    messageButtonIsActive={true}
-                    loginButtonIsActive={false}
-                    signupButtonIsActive={false}
-                  />
-                }
-              />
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/home" element={<Home />} />
+              <Route exact path="/shoplinks" element={<ShopLinks />} />
+              <Route exact path="/contact" element={<ContactUs />} />
               <Route
                 exact
                 path="/messages"
                 element={
-                  <Homepage
+                  <Login
                     renderPanel={"messages"}
                     messageButtonIsActive={true}
                     loginButtonIsActive={false}
@@ -117,7 +119,7 @@ function App() {
                 exact
                 path="/login"
                 element={
-                  <Homepage
+                  <Login
                     renderPanel={"login"}
                     messageButtonIsActive={false}
                     loginButtonIsActive={true}
@@ -129,34 +131,8 @@ function App() {
                 exact
                 path="/signup"
                 element={
-                  <Homepage
+                  <Login
                     renderPanel={"signup"}
-                    messageButtonIsActive={false}
-                    loginButtonIsActive={false}
-                    signupButtonIsActive={true}
-                  />
-                }
-              />
-
-              <Route
-                exact
-                path="/forgotpassword"
-                element={
-                  <ForgotPassword
-                    renderPanel={"forgotpassword"}
-                    messageButtonIsActive={false}
-                    loginButtonIsActive={false}
-                    signupButtonIsActive={true}
-                  />
-                }
-              />
-
-              <Route
-                exact
-                path="/resetpassword/:token"
-                element={
-                  <ResetPassword
-                    renderPanel={"resetpassword"}
                     messageButtonIsActive={false}
                     loginButtonIsActive={false}
                     signupButtonIsActive={true}
@@ -176,23 +152,13 @@ function App() {
           <>
             <Navbar />
             <Routes>
-              <Route
-                exact
-                path="/"
-                element={
-                  <Homepage
-                    renderPanel={"messages"}
-                    messageButtonIsActive={true}
-                    loginButtonIsActive={false}
-                    signupButtonIsActive={false}
-                  />
-                }
-              />
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/home" element={<Home />} />
               <Route
                 exact
                 path="/messages"
                 element={
-                  <Homepage
+                  <Login
                     renderPanel={"messages"}
                     messageButtonIsActive={true}
                     loginButtonIsActive={false}
@@ -204,7 +170,7 @@ function App() {
                 exact
                 path="/login"
                 element={
-                  <Homepage
+                  <Login
                     renderPanel={"login"}
                     messageButtonIsActive={false}
                     loginButtonIsActive={true}
@@ -216,7 +182,7 @@ function App() {
                 exact
                 path="/signup"
                 element={
-                  <Homepage
+                  <Login
                     renderPanel={"signup"}
                     messageButtonIsActive={false}
                     loginButtonIsActive={false}
@@ -284,7 +250,7 @@ function App() {
                   />
                 }
               />
-              <Route
+                <Route
                 exact
                 path="/clientlist"
                 element={
@@ -297,12 +263,10 @@ function App() {
                   />
                 }
               />
-
+          
               <Route exact path="/linkspage" element={<LinksPage />} />
               <Route exact path="/availability" element={<Availability />} />
-              <Route exact path="/workorder" element={
-                <WorkOrder />
-              } />
+              <Route exact path="/workorder" element={<WorkOrder />} />
               <Route exact path="/addemployee" element={<AddEmployee />} />
               <Route exact path="/contact" element={<ContactForm />} />
               <Route exact path="/employee" element={<EmployeePortal />} />
