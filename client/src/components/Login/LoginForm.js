@@ -136,13 +136,8 @@ const LoginForm = () => {
             Submit
           </Button>
         </Form>
-<<<<<<< HEAD:client/src/components/Home/LoginForm.js
-        <Nav.Item>Forget your password?
-          <Nav.Link href="/forgotpassword" className="text-blue">Reset password</Nav.Link>
-=======
         <Nav.Item>
           <Nav.Link href="/forgotpassword" className="text-blue">Forgot Password?</Nav.Link>
->>>>>>> 1a1a0232a5b021c1c42ab4175d50b553f43beefa:client/src/components/Login/LoginForm.js
         </Nav.Item>
       </div>
 

@@ -32,15 +32,6 @@ import ResetPassword from "./components/Login/ResetPassword";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
-import LandingTemplate1 from "./components/LandingTemplate1";
-
-
-
-import ContactForm from "./pages/ContactForm";
-import EmployeePortal from "./pages/EmployeePortal";
-import WorkOrder from "./pages/WorkOrder";
-import AddEmployee from "./pages/AddEmployee";
-
 import {
   faTrash,
   faLocation,
@@ -139,6 +130,31 @@ function App() {
                   />
                 }
               />
+               <Route
+                exact
+                path="/forgotpassword"
+                element={
+                  <ForgotPassword
+                    renderPanel={"forgotpassword"}
+                    messageButtonIsActive={false}
+                    loginButtonIsActive={false}
+                    signupButtonIsActive={true}
+                  />
+                }
+              />
+
+              <Route
+                exact
+                path="/resetpassword/:token"
+                element={
+                  <ResetPassword
+                    renderPanel={"resetpassword"}
+                    messageButtonIsActive={false}
+                    loginButtonIsActive={false}
+                    signupButtonIsActive={true}
+                  />
+                }
+              />
               <Route path="*" element={<WrongPage />} />
             </Routes>
           </>
@@ -190,89 +206,110 @@ function App() {
                   />
                 }
               />
-              {/* section start */}
-              <Route
-                exact
-                path="/landing"
-                element={<LandingTemplate1 />}
-              />
-
-              {/* section end */}
-              <Route
-                exact
-                path="/calendar"
-                element={
-                  <Dashboard
-                    renderPanel={"calendar"}
-                    calendarButtonIsActive={true}
-                    workorderButtonIsActive={false}
-                    addEmployeeButtonIsActive={false}
-                    clientlistButtonIsActive={false}
-                  />
-                }
-              />
-              <Route
-                exact
-                path="/workorder"
-                element={
-                  <Dashboard
-                    renderPanel={"workorder"}
-                    calendarButtonIsActive={false}
-                    workorderButtonIsActive={true}
-                    addEmployeeButtonIsActive={false}
-                    clientlistButtonIsActive={false}
-                  />
-                }
-              />
-              <Route
-                exact
-                path="/addemployee"
-                element={
-                  <Dashboard
-                    renderPanel={"addemployee"}
-                    calendarButtonIsActive={false}
-                    workorderButtonIsActive={false}
-                    addemployeeButtonIsActive={true}
-                    clientlistButtonIsActive={false}
-                  />
-                }
-              />
-              <Route
-                exact
-                path="/addemployee"
-                element={
-                  <Dashboard
-                    renderPanel={"addemployee"}
-                    calendarButtonIsActive={false}
-                    workorderButtonIsActive={false}
-                    addemployeeButtonIsActive={true}
-                    clientlistButtonIsActive={false}
-                  />
-                }
-              />
+              {Auth.isAdmin() && !Auth.isLocked() && (
                 <Route
-                exact
-                path="/clientlist"
-                element={
-                  <Dashboard
-                    renderPanel={"clientlist"}
-                    calendarButtonIsActive={false}
-                    workorderButtonIsActive={false}
-                    addemployeeButtonIsActive={false}
-                    clientlistButtonIsActive={true}
-                  />
-                }
-              />
-          
-              <Route exact path="/linkspage" element={<LinksPage />} />
-              <Route exact path="/availability" element={<Availability />} />
-              <Route exact path="/workorder" element={<WorkOrder />} />
-              <Route exact path="/addemployee" element={<AddEmployee />} />
-              <Route exact path="/contact" element={<ContactForm />} />
-              <Route exact path="/employee" element={<EmployeePortal />} />
-              <Route exact path="/timeoff" element={<Timeoff />} />
-              <Route exact path="/incident" element={<Incident />} />
-              <Route exact path="/incidentlist" element={<IncidentList />} />
+                  exact
+                  path="/calendar"
+                  element={
+                    <AdminPortal
+                      renderPanel={"calendar"}
+                      calendarButtonIsActive={true}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={false}
+                    />
+                  }
+                />
+              )}
+              {Auth.isAdmin() && !Auth.isLocked() && (
+                <Route
+                  exact
+                  path="/workorder"
+                  element={
+                    <AdminPortal
+                      renderPanel={"workorder"}
+                      calendarButtonIsActive={false}
+                      workOrderButtonIsActive={true}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={false}
+                    />
+                  }
+                />
+              )}
+              {Auth.isAdmin() && !Auth.isLocked() && (
+                <Route
+                  exact
+                  path="/employees"
+                  element={
+                    <AdminPortal
+                      renderPanel={"employees"}
+                      calendarButtonIsActive={false}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={false}
+                    />
+                  }
+                />
+              )}
+              {Auth.isAdmin() && !Auth.isLocked() && (
+                <Route
+                  exact
+                  path="/admin-mock"
+                  element={
+                    <AdminPortal
+                      renderPanel={"admin"}
+                      calendarButtonIsActive={false}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={true}
+                    />
+                  }
+                />
+              )}
+              {Auth.isAdmin() && !Auth.isLocked() && (
+                <Route
+                  exact
+                  path="/clientlist"
+                  element={
+                    <AdminPortal
+                      renderPanel={"clientlist"}
+                      calendarButtonIsActive={false}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={true}
+                    />
+                  }
+                />
+              )}
+              {Auth.isLocked() === false && (
+                <Route
+                  exact
+                  path="/employee"
+                  element={
+                    <EmployeePortal
+                      renderPanel={"employee"}
+                      calendarButtonIsActive={true}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={false}
+                    />
+                  }
+                />
+              )}
+
+              <Route exact path="/contact" element={<ContactUs />} />
+              <Route exact path="/shoplinks" element={<ShopLinks />} />
+
+              {/* <Route exact path="/availability" element={<Availability />} /> */}
+              {/* <Route exact path="/timeoff" element={<Timeoff />} /> */}
+              {/* <Route exact path="/incident" element={<Incident />} /> */}
+              {/* <Route exact path="/incidentlist" element={<IncidentList />} /> */}
+
               <Route path="*" element={<WrongPage />} />
             </Routes>
           </>

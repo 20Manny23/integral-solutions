@@ -37,23 +37,6 @@ export const FORGOT_PASSWORD = gql`
   }
 `;
 
-<<<<<<< HEAD
-export const FORGOT_PASSWORD = gql`
-  mutation forgotPassword($email: String!) {
-    forgotPassword(email: $email) {
-      token
-      user {
-        _id
-        username
-      }
-    }
-  }
-`;
-
-export const ADD_USER = gql`
-  mutation addUser($username: String!, $email: String!, $password: String!) {
-    addUser(username: $username, email: $email, password: $password) {
-=======
 // export const ADD_USER = gql`
 //   mutation addUser($username: String!, $email: String!, $password: String!) {
 //     addUser(username: $username, email: $email, password: $password) {
@@ -69,7 +52,6 @@ export const ADD_USER = gql`
 export const SIGNUP_EMPLOYEE = gql`
   mutation signupEmployee($username: String!, $email: String!, $password: String!) {
     signupEmployee(username: $username, email: $email, password: $password) {
->>>>>>> 1a1a0232a5b021c1c42ab4175d50b553f43beefa
       token
       employee {
         _id
