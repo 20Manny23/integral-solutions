@@ -113,8 +113,9 @@ function EmployeeList() {
             > 
                <h2 className="display-6 custom-text heading">Employee Status</h2>
 
-              {demoEmployee.map((emp) => 
+              {demoEmployee.map((emp, index) => 
               <Form.Check
+                key={index}
                 type="switch"
                 id=""
                 inline= "true"

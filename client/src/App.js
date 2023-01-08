@@ -187,9 +187,10 @@ function App() {
                     <AdminPortal
                       renderPanel={"calendar"}
                       calendarButtonIsActive={true}
-                      workorderButtonIsActive={false}
-                      addEmployeeButtonIsActive={false}
-                      clientlistButtonIsActive={false}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={false}
                     />
                   }
                 />
@@ -202,9 +203,10 @@ function App() {
                     <AdminPortal
                       renderPanel={"workorder"}
                       calendarButtonIsActive={false}
-                      workorderButtonIsActive={true}
-                      addEmployeeButtonIsActive={false}
-                      clientlistButtonIsActive={false}
+                      workOrderButtonIsActive={true}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={false}
                     />
                   }
                 />
@@ -217,9 +219,26 @@ function App() {
                     <AdminPortal
                       renderPanel={"employees"}
                       calendarButtonIsActive={false}
-                      workorderButtonIsActive={false}
-                      addemployeeButtonIsActive={true}
-                      clientlistButtonIsActive={false}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={false}
+                    />
+                  }
+                />
+              )}
+              {Auth.isAdmin() && !Auth.isLocked() && (
+                <Route
+                  exact
+                  path="/admin-mock"
+                  element={
+                    <AdminPortal
+                      renderPanel={"admin"}
+                      calendarButtonIsActive={false}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={true}
                     />
                   }
                 />
@@ -232,9 +251,9 @@ function App() {
                     <AdminPortal
                       renderPanel={"clientlist"}
                       calendarButtonIsActive={false}
-                      workorderButtonIsActive={false}
-                      addemployeeButtonIsActive={false}
-                      clientlistButtonIsActive={true}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={true}
                     />
                   }
                 />
@@ -247,9 +266,10 @@ function App() {
                     <EmployeePortal
                       renderPanel={"employee"}
                       calendarButtonIsActive={true}
-                      workorderButtonIsActive={false}
-                      addEmployeeButtonIsActive={false}
-                      clientlistButtonIsActive={false}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={false}
                     />
                   }
                 />
