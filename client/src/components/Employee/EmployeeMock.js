@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Auth from "../utils/auth";
+import Auth from "../../utils/auth";
 
-import { getUserId } from "../utils/getUserId";
+import { getUserId } from "../../utils/getUserId";
 import { useQuery } from "@apollo/client";
-import { QUERY_EMPLOYEE_BYID } from "../utils/queries";
+import { QUERY_EMPLOYEE_BYID } from "../../utils/queries";
 
-import { Row, Container, Card } from "react-bootstrap";
+import { Row, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 
 
@@ -38,7 +38,6 @@ function Employees() {
     <>
       <Container>
         <Row style={{ display: "flex", justifyContent: "center" }}>
-        {/* {upcomingJob.map((emp, index) => ( */}
         {schedule.map((job, index) => (
           <div id="accordion" key={index} style={{ width: "100%" }}>
             <div className="card p-2 mb-1">

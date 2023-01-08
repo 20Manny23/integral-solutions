@@ -9,24 +9,24 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Dashboard from "./pages/Dashboard";
+import Home from "./pages/Home";
+import Navbar from "./components/Navbar";
+import AdminPortal from "./pages/AdminPortal";
+import ContactUs from "./pages/ContactForm";
+import ShopLinks from "./pages/ShopLinks";
+import WrongPage from "./pages/WrongPage";
+import Login from "./pages/Login";
 import EmployeePortal from "./pages/EmployeePortal";
+
+// import Employee from "./components/Employee/Employee";
+// import EmployeeMock from "./components/Employee/EmployeeMock";
+// import Employees from "./pages/Employees";
+// import WorkOrder from "./pages/WorkOrder";
+// import ClientList from "./pages/ClientList";
 // import Availability from "./pages/Availability";
 // import Timeoff from "./pages/Timeoff";
 // import Incident from "./pages/Incident";
 // import IncidentList from "./pages/IncidentList";
-
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import Navbar from "./components/Navbar";
-import Employee from "./pages/Employee";
-import EmployeeMock from "./pages/EmployeeMock";
-import ContactUs from "./pages/ContactForm";
-import ShopLinks from "./pages/ShopLinks";
-import WrongPage from "./pages/WrongPage";
-// import Employees from "./pages/Employees";
-// import WorkOrder from "./pages/WorkOrder";
-// import ClientList from "./pages/ClientList";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -184,12 +184,13 @@ function App() {
                   exact
                   path="/calendar"
                   element={
-                    <Dashboard
+                    <AdminPortal
                       renderPanel={"calendar"}
                       calendarButtonIsActive={true}
-                      workorderButtonIsActive={false}
-                      addEmployeeButtonIsActive={false}
-                      clientlistButtonIsActive={false}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={false}
                     />
                   }
                 />
@@ -199,12 +200,13 @@ function App() {
                   exact
                   path="/workorder"
                   element={
-                    <Dashboard
+                    <AdminPortal
                       renderPanel={"workorder"}
                       calendarButtonIsActive={false}
-                      workorderButtonIsActive={true}
-                      addEmployeeButtonIsActive={false}
-                      clientlistButtonIsActive={false}
+                      workOrderButtonIsActive={true}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={false}
                     />
                   }
                 />
@@ -214,12 +216,29 @@ function App() {
                   exact
                   path="/employees"
                   element={
-                    <Dashboard
+                    <AdminPortal
                       renderPanel={"employees"}
                       calendarButtonIsActive={false}
-                      workorderButtonIsActive={false}
-                      addemployeeButtonIsActive={true}
-                      clientlistButtonIsActive={false}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={false}
+                    />
+                  }
+                />
+              )}
+              {Auth.isAdmin() && !Auth.isLocked() && (
+                <Route
+                  exact
+                  path="/admin-mock"
+                  element={
+                    <AdminPortal
+                      renderPanel={"admin"}
+                      calendarButtonIsActive={false}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={true}
                     />
                   }
                 />
@@ -229,12 +248,12 @@ function App() {
                   exact
                   path="/clientlist"
                   element={
-                    <Dashboard
+                    <AdminPortal
                       renderPanel={"clientlist"}
                       calendarButtonIsActive={false}
-                      workorderButtonIsActive={false}
-                      addemployeeButtonIsActive={false}
-                      clientlistButtonIsActive={true}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={true}
                     />
                   }
                 />
@@ -247,16 +266,18 @@ function App() {
                     <EmployeePortal
                       renderPanel={"employee"}
                       calendarButtonIsActive={true}
-                      workorderButtonIsActive={false}
-                      addEmployeeButtonIsActive={false}
-                      clientlistButtonIsActive={false}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={false}
                     />
                   }
                 />
               )}
 
-              {/* <Route exact path="/contact" element={<ContactUs />} /> */}
-              {/* <Route exact path="/shoplinks" element={<ShopLinks />} /> */}
+              <Route exact path="/contact" element={<ContactUs />} />
+              <Route exact path="/shoplinks" element={<ShopLinks />} />
+
               {/* <Route exact path="/availability" element={<Availability />} /> */}
               {/* <Route exact path="/timeoff" element={<Timeoff />} /> */}
               {/* <Route exact path="/incident" element={<Incident />} /> */}

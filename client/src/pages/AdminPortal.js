@@ -4,21 +4,27 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
-// import AllEmployeesCont from "../components/AllEmployeesCont";
-import Employees from "./Employees";
-import ClientList from "./ClientList";
-import FullCalendarApp from "../components/Calendar/FullCalendarApp";
-import Location from "../pages/Location";
+
+import Employees from "../components/AdminPortal/EmployeeList";
+import ClientList from "../components/AdminPortal/ClientList";
+import WorkOrder from "../components/AdminPortal/WorkOrder";
+import AdminMock from "../components/AdminPortal/AdminMock";
+
 import { Button, Container, Col, Row } from "react-bootstrap/";
 import "../styles/spinner.css";
-import WorkOrder from "./WorkOrder";
 
-const Dashboard = ({
+import FullCalendarApp from "../components/Calendar/FullCalendarApp";
+// import Location from "./Location";
+// import AllEmployeesCont from "../components/AllEmployeesCont";
+
+const AdminPortal = ({
   renderPanel,
   calendarButtonIsActive,
-  workorderButtonIsActive,
-  addemployeeButtonIsActive,
-  clientlistButtonIsActive
+  workOrderButtonIsActive,
+  employeeListButtonIsActive,
+  clientListButtonIsActive,
+  adminMockButtonIsActive
+  
 }) => {
   // get user info to render to page
   const userId = getUserId();
@@ -68,8 +74,8 @@ const Dashboard = ({
                 </Button>
                 <Button
                   variant="outline-primary"
-                  style={workorderButtonIsActive ? isActive : notActive}
-                  active={workorderButtonIsActive}
+                  style={workOrderButtonIsActive ? isActive : notActive}
+                  active={workOrderButtonIsActive}
                   onClick={() => {
                     navigate("/workorder");
                   }}
@@ -79,8 +85,8 @@ const Dashboard = ({
                 
                 <Button
                   variant="outline-primary"
-                  style={addemployeeButtonIsActive ? isActive : notActive}
-                  active={addemployeeButtonIsActive}
+                  style={employeeListButtonIsActive  ? isActive : notActive}
+                  active={employeeListButtonIsActive}
                   onClick={() => {
                     navigate("/employees");
                   }}
@@ -89,13 +95,23 @@ const Dashboard = ({
                 </Button>
                 <Button
                   variant="outline-primary"
-                  style={clientlistButtonIsActive ? isActive : notActive}
-                  active={clientlistButtonIsActive}
+                  style={clientListButtonIsActive ? isActive : notActive}
+                  active={clientListButtonIsActive}
                   onClick={() => {
                     navigate("/clientlist");
                   }}
                 >
                   Client List 
+                </Button>
+                <Button
+                  variant="outline-primary"
+                  style={adminMockButtonIsActive ? isActive : notActive}
+                  active={adminMockButtonIsActive}
+                  onClick={() => {
+                    navigate("/admin-mock");
+                  }}
+                >
+                  Admin Mock 
                 </Button>
               </div>
 
@@ -108,7 +124,7 @@ const Dashboard = ({
               ) : renderPanel === "clientlist" ? (
                   <ClientList />
               ) : (
-                <Location />
+                <AdminMock />
               )}
             </Col>
           </Row>
@@ -118,7 +134,7 @@ const Dashboard = ({
   }
 };
 
-export default Dashboard;
+export default AdminPortal;
 
 const isActive = {
   flex: "auto",
