@@ -54,14 +54,14 @@ function AdminMock() {
                     <div>isAdmin: {emp?.isAdmin ? "True" : "False"}</div>
                     <div>isLocked: {emp?.isLocked ? "True" : "False"}</div>
                     {emp?.schedule.map((job, index) => (
-                      <>
+                      <div key={index}>
                         <div>Client: {job?.client.businessName}</div>
                         <div>Start Date: {job?.startDate}</div>
                         <div>Start Time: {job?.startTime}</div>
                         <div>End Date: {job?.endDate}</div>
                         <div>Job Details: {job?.jobDetails}</div>
                         <div>Number of Clients: {job?.numberOfClientEmployees}</div>
-                      </>
+                      </div>
                     ))}
                   </div>
                 </Collapse>
