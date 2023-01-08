@@ -17,6 +17,8 @@ import ShopLinks from "./pages/ShopLinks";
 import WrongPage from "./pages/WrongPage";
 import Login from "./pages/Login";
 import EmployeePortal from "./pages/EmployeePortal";
+import ForgotPassword from "./components/Home/ForgotPassword";
+import ResetPassword from "./components/Home/ResetPassword";
 
 // import Employee from "./components/Employee/Employee";
 // import EmployeeMock from "./components/Employee/EmployeeMock";
@@ -122,6 +124,31 @@ function App() {
                 element={
                   <Login
                     renderPanel={"signup"}
+                    messageButtonIsActive={false}
+                    loginButtonIsActive={false}
+                    signupButtonIsActive={true}
+                  />
+                }
+              />
+               <Route
+                exact
+                path="/forgotpassword"
+                element={
+                  <ForgotPassword
+                    renderPanel={"forgotpassword"}
+                    messageButtonIsActive={false}
+                    loginButtonIsActive={false}
+                    signupButtonIsActive={true}
+                  />
+                }
+              />
+
+              <Route
+                exact
+                path="/resetpassword/:token"
+                element={
+                  <ResetPassword
+                    renderPanel={"resetpassword"}
                     messageButtonIsActive={false}
                     loginButtonIsActive={false}
                     signupButtonIsActive={true}
