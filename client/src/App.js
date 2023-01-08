@@ -9,24 +9,24 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import AdminPortal from "./pages/AdminPortal";
-import EmployeePortal from "./pages/EmployeePortal";
-// import Availability from "./pages/Availability";
-// import Timeoff from "./pages/Timeoff";
-// import Incident from "./pages/Incident";
-// import IncidentList from "./pages/IncidentList";
-
-import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
+import AdminPortal from "./pages/AdminPortal";
 import ContactUs from "./pages/ContactForm";
 import ShopLinks from "./pages/ShopLinks";
 import WrongPage from "./pages/WrongPage";
+import Login from "./pages/Login";
+import EmployeePortal from "./pages/EmployeePortal";
+
 // import Employee from "./components/Employee/Employee";
 // import EmployeeMock from "./components/Employee/EmployeeMock";
 // import Employees from "./pages/Employees";
 // import WorkOrder from "./pages/WorkOrder";
 // import ClientList from "./pages/ClientList";
+// import Availability from "./pages/Availability";
+// import Timeoff from "./pages/Timeoff";
+// import Incident from "./pages/Incident";
+// import IncidentList from "./pages/IncidentList";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
