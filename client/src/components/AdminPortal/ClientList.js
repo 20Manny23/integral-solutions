@@ -12,7 +12,10 @@ function ClientList() {
   const [open2, setOpen2] = useState(false);
     // eslint-disable-next-line
     const { loading: clientLoad, data: clients, error: clientError, refetch: clientRefetch } = useQuery(QUERY_ALL_CLIENTS);
-    console.log(clients);
+    console.log(clients?.clients?.length);
+
+
+
  
 //   function sortName () {
 //   clients.sort((a, b) => {
@@ -221,6 +224,7 @@ function ClientList() {
                     ))}
                   </div>
                 </Collapse>
+                
               </div>
             </div>
           ))}
