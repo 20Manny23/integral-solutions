@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Button, Form, Collapse, Container } from "react-bootstrap";
 import Auth from "../../utils/auth";
-
 import { useQuery } from "@apollo/client";
 import {
   QUERY_ALL_EMPLOYEES,
@@ -25,23 +24,6 @@ function EmployeeList() {
   } = useQuery(QUERY_ALL_EMPLOYEES);
   console.log(emp);
 
-  // eslint-disable-next-line
-  const {
-    loading: clientLoad,
-    data: clients,
-    error: clientError,
-    refetch: clientRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
-  console.log(clients);
-
-  // eslint-disable-next-line
-  const {
-    loading: scheduleLoad,
-    data: schedule,
-    error: scheduleError,
-    refetch: scheduleRefetch,
-  } = useQuery(QUERY_SCHEDULE);
-  console.log(schedule);
   return (
     <>
       <div
@@ -148,29 +130,50 @@ function EmployeeList() {
       </div>
 
       <Container
-        className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
-        style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
+        className="mx-3 pb-2 d-flex flex-column align-self-center shadow rounded-lg border border-secondary"
+        style={{ margin: "20px 0px 20px 0px" }}
       >
-        <h3>Employee List</h3>
+        <h3 style={{textAlign:'center'}}>Employee List</h3>
         <Row style={{ display: "flex", justifyContent: "center" }}>
           {emp?.employees?.map((emp, index) => (
-            <div id="accordion" key={index} style={{ width: "100%" }}>
+            <div id="accordion" key={index} style={{ width: "100%", display:'inline-block' }}>
               <div className="card p-2 mb-1">
                 <div
                   className="rounded directions-collapse"
                   id="headingOne"
-                  style={{ color: "black" }}
+                  style={{ color: "black", display:'inline-block' }}
                 >
-                  <h5 className="mb-0 text-left">
+                  <h5 className="mb-0 text-left" >
                     <button
                       className="btn btn-link pl-1"
                       onClick={() => setOpen2(!open2)}
                       aria-controls={`collapse-${index}`}
                       aria-expanded={open2}
+                      style={{display:'inline-block'}}
                     >
                       {emp?.firstName} {emp?.lastName}
                     </button>
+                  
                   </h5>
+                  <button style={{display:'inline-block'}}>
+                    Edit Info
+                  </button>
+                  <Form>
+                    <Form.Check
+                  style={{display:'inline-block'}}
+                      type="switch"
+                      id="custom-switch"
+                      label="Locked"
+                    />
+                    <Form.Check
+                      style={{display:'inline-block'}}
+                      type="switch"
+                      label="Admin"
+                      id="disabled-custom-switch"
+                    />
+                  </Form>
+                
+                  
                 </div>
 
                 <Collapse in={open2}>

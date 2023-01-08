@@ -36,7 +36,7 @@ function WorkOrder() {
               <h2 className="display-6 custom-text heading">Work Order</h2>
 
               <Dropdown>
-                <Dropdown.Toggle  id="dropdown-basic-button">
+                <Dropdown.Toggle  id="dropdown-basic-button" style={{width:'25%'}}>
                   Choose Client 
                 </Dropdown.Toggle>
                 {/* This will map through all clients and populate a list to choose */}
