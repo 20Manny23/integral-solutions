@@ -255,8 +255,9 @@ function App() {
                 />
               )}
 
-              {/* <Route exact path="/contact" element={<ContactUs />} /> */}
-              {/* <Route exact path="/shoplinks" element={<ShopLinks />} /> */}
+              <Route exact path="/contact" element={<ContactUs />} />
+              <Route exact path="/shoplinks" element={<ShopLinks />} />
+
               {/* <Route exact path="/availability" element={<Availability />} /> */}
               {/* <Route exact path="/timeoff" element={<Timeoff />} /> */}
               {/* <Route exact path="/incident" element={<Incident />} /> */}
