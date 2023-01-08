@@ -159,12 +159,12 @@ function AdminMock() {
                     <div>End Date: {job?.endDate}</div>
                     <div>Job Details: {job?.jobDetails}</div>
                     <div>Number of Clients: {job?.numberOfClientEmployees}</div>
-                    {job?.employees.schedule.map((employee, index) => (
+                    {job?.employees.map((employee, index) => (
                       <>
-                        <div>First Name: {employee?.employees.firstName}</div>
-                        <div>Last Name: {employee?.employees.lastName}</div>
-                        <div>Email: {employee?.employees.email}</div>
-                        <div>Phone: {employee?.employees.phone}</div>
+                        <div>First Name: {employee?.firstName}</div>
+                        <div>Last Name: {employee?.lastName}</div>
+                        <div>Email: {employee?.email}</div>
+                        <div>Phone: {employee?.phone}</div>
                       </>
                     ))}
                   </div>
