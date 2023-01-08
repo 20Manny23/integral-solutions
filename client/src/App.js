@@ -20,7 +20,6 @@ import EmployeePortal from "./pages/EmployeePortal";
 import ForgotPassword from "./components/Login/ForgotPassword";
 import ResetPassword from "./components/Login/ResetPassword";
 
-
 // import Employee from "./components/Employee/Employee";
 // import EmployeeMock from "./components/Employee/EmployeeMock";
 // import Employees from "./pages/Employees";
