@@ -139,7 +139,7 @@ function ContactForm() {
                 </Col>
                 <Col>
                   <Form.Label style={{ fontWeight: "bolder", display:'flex', justifyContent:'center' }}>
-                   Employees
+                   Number of Employees
                   </Form.Label>
                   <Form.Check
                     inline

@@ -1,4 +1,4 @@
-import { Row, Container, Card, Button } from "react-bootstrap";
+import { Row, Col, Container, Card, Button, Form, Collapse } from "react-bootstrap";
 import { useState } from "react";
 
 function ClientList() {
@@ -58,6 +58,7 @@ function ClientList() {
   ];
   
   const [client, setclient] = useState([])
+  const [open, setOpen] = useState(false);
  
   function sortName () {
   clients.sort((a, b) => {
@@ -82,6 +83,142 @@ function ClientList() {
     setclient(clients)
   }
   return (
+  <>
+    <div
+    className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
+    style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
+  >
+            <Form>
+            <Button
+        onClick={() => setOpen(!open)}
+        aria-controls="example-collapse-text"
+        aria-expanded={open}
+        style={{marginTop:'10px'}}
+      >
+        Add New Client 
+      </Button>
+      <Collapse in={open}>
+        <div id="example-collapse-text">
+          <Form.Group
+                className="mb-3 form-length"
+                controlId="formBasicEmail"
+              >
+                <div className="form-label">
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    Company Name
+                  </Form.Label>
+                </div>
+                <Form.Control
+                  className="custom-border"
+                  type="text"
+                  placeholder="Enter Company Name"
+                  name="name"
+                />
+              </Form.Group>
+
+              <Form.Group
+                className="mb-3 form-length"
+                controlId="formBasicEmail"
+              >
+                <div className="form-label">
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    Contact Name
+                  </Form.Label>
+                </div>
+                <Form.Control
+                  className="custom-border"
+                  type="text"
+                  placeholder="Enter Contact Person"
+                  name="name"
+                />
+              </Form.Group>
+
+              <Form.Group
+                className="mb-3 form-length"
+                controlId="formBasicEmail"
+              
+              >
+                <div className="form-label">
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    Phone Number
+                  </Form.Label>
+                </div>
+                <Form.Control
+                  className="custom-border"
+                  type="tel"
+                  placeholder="Client Phone"
+                  name="telNo"
+                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                />
+              </Form.Group>
+
+              <Form.Group
+                className="mb-3 form-length"
+                controlId="formBasicEmail"
+            >
+                <div className="form-label">
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    Email
+                  </Form.Label>
+                </div>
+                <Form.Control
+                  className="custom-border"
+                  type="email"
+                  placeholder="Client Email"
+                  name="email"
+                  
+                />
+              </Form.Group>
+
+              <Form.Group
+                className="mb-3 form-length"
+                controlId="formBasicEmail"
+              >
+                <div className="form-label">
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    Address
+                  </Form.Label>
+                  <Form.Label></Form.Label>
+                </div>
+                <Form.Control
+                  className="custom-border"
+                  placeholder="Enter Address"
+                  name="address"
+                />
+              </Form.Group>
+
+               <Row className="addy"
+               
+              > 
+                <Col xs={7}>
+                  <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
+                  <Form.Control className="custom-border" placeholder="City" />
+                </Col>
+                <Col>
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    State
+                  </Form.Label>
+                  <Form.Control className="custom-border" placeholder="State" />
+                </Col>
+                <Col>
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    Zipcode
+                  </Form.Label>
+                  <Form.Control className="custom-border" placeholder="Zip" />
+                </Col>
+              </Row>
+              <Button
+                className="button-custom submit-button-style"
+                variant="primary"
+                type="submit"
+                
+              >
+                Add Client
+              </Button>
+        </div>
+      </Collapse>
+        </Form>
+        </div>
     <div
       className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
       style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
@@ -135,6 +272,7 @@ function ClientList() {
         </Row>
       </Container>
     </div>
+  </>
   );
 }
 export default ClientList;
