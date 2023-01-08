@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import { Form, Button, Alert, InputGroup, Nav } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 import { useMutation } from "@apollo/client";
-import { LOGIN_USER } from "../../utils/mutations";
+// import { LOGIN_USER } from "../../utils/mutations";
+import { FORGOT_PASSWORD } from "../../utils/mutations";
 import Auth from "../../utils/auth";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/button-home.css";
 
-const LoginForm = () => {
-  const [userFormData, setUserFormData] = useState({ email: "", password: "" });
-  const [login, { error }] = useMutation(LOGIN_USER);
+
+
+const ForgotPassword = () => {
+  const token = Auth.getToken();
+
+  const [userFormData, setUserFormData] = useState({ email: "" });
+  const [forgotPassword, { error }] = useMutation(FORGOT_PASSWORD);
 
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -28,15 +32,19 @@ const LoginForm = () => {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+    // if (!validateEmail(userFormData.email)) {
+    //   return false;
+    } else {
+      launchEmail();
     }
 
     try {
-      const { data } = await login({
+      const { data } = await forgotPassword({
         variables: { ...userFormData },
       });
 
       // Auth.login(data.login.token);
-      Auth.login(data.login);
+      Auth.login(data.token);
 
       // window.location.assign(`/calendar`);
       window.location.assign(`/landing-template-v1`);
@@ -47,23 +55,16 @@ const LoginForm = () => {
     }
 
     setUserFormData({
-      username: "",
       email: "",
-      password: "",
     });
   };
 
-  const [display, setDisplay] = useState(true);
-  const [showHidePassword, setShowHidePassword] = useState("password");
+  const launchEmail = () => {
+    window.open(
+      `mailto:${userFormData.email}?subject=Password Reset&body=Click on this link to create a new pasword: http://localhost:3000/resetpassword/${token}`
+    )
 
-  const handlePassClick = () => {
-    setDisplay(!display);
-    if (showHidePassword === "password") {
-      setShowHidePassword("test");
-    } else {
-      setShowHidePassword("password");
-    }
-  };
+  }
 
   return (
     <div className="d-flex flex-column align-items-center mt-3">
@@ -71,12 +72,12 @@ const LoginForm = () => {
         <Form
           noValidate
           validated={validated}
-          onSubmit={handleFormSubmit}
+          // onSubmit={handleFormSubmit}
           className="mx-2 mt-2 mb-1"
           style={{ width: "280px" }}
         >
           <Form.Group>
-            <Form.Label htmlFor="email">Email</Form.Label>
+            <Form.Label htmlFor="email">Enter your email</Form.Label>
             <Form.Control
               type="text"
               placeholder="Your email"
@@ -90,55 +91,16 @@ const LoginForm = () => {
             </Form.Control.Feedback>
           </Form.Group>
 
-          <Form.Group>
-            <Form.Label htmlFor="password">Password</Form.Label>
-            <InputGroup className="mb-3">
-              <Form.Control
-                type={showHidePassword}
-                placeholder="Your password"
-                name="password"
-                onChange={handleInputChange}
-                value={userFormData.password}
-                required
-                style={{ borderRight: "none" }}
-              />
-              <Form.Control.Feedback type="invalid">
-                <p>Password is required!</p>
-              </Form.Control.Feedback>
-              <InputGroup.Text
-                id="basic-addon1"
-                style={{
-                  borderRadius: "0%",
-                  background: "white",
-                  borderLeft: "none",
-                }}
-              >
-                <FontAwesomeIcon
-                  icon="fa-eye"
-                  style={display ? isDisplayed : isNotDisplayed}
-                  onClick={() => handlePassClick()}
-                />
-                <FontAwesomeIcon
-                  icon="fa-eye-slash"
-                  style={!display ? isDisplayed : isNotDisplayed}
-                  onClick={() => handlePassClick()}
-                />
-              </InputGroup.Text>
-            </InputGroup>
-          </Form.Group>
-
           <Button
             disabled={!(userFormData.email)}
             className="mb-3 submit-button-style"
             type="submit"
             variant="success"
+            onClick={handleFormSubmit}
           >
             Submit
           </Button>
         </Form>
-        <Nav.Item>
-          <Nav.Link href="/forgotpassword" className="text-blue">Forgot Password?</Nav.Link>
-        </Nav.Item>
       </div>
 
       {/* show alert if server response is bad */}
@@ -162,12 +124,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
-
-const isDisplayed = {
-  display: "block",
-};
-
-const isNotDisplayed = {
-  display: "none",
-};
+export default ForgotPassword;

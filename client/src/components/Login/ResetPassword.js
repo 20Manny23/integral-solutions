@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { Form, Button, Alert, InputGroup, Nav } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
 import Auth from "../../utils/auth";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/button-home.css";
 
-const LoginForm = () => {
+const ResetPassword = () => {
   const [userFormData, setUserFormData] = useState({ email: "", password: "" });
   const [login, { error }] = useMutation(LOGIN_USER);
 
@@ -76,10 +75,24 @@ const LoginForm = () => {
           style={{ width: "280px" }}
         >
           <Form.Group>
-            <Form.Label htmlFor="email">Email</Form.Label>
+            <Form.Label htmlFor="email">Enter New Password</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Your email"
+              placeholder="password"
+              name="email"
+              onChange={handleInputChange}
+              value={userFormData.email}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Email is required!
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label htmlFor="email">Re-enter Password</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="password"
               name="email"
               onChange={handleInputChange}
               value={userFormData.email}
@@ -90,55 +103,17 @@ const LoginForm = () => {
             </Form.Control.Feedback>
           </Form.Group>
 
-          <Form.Group>
-            <Form.Label htmlFor="password">Password</Form.Label>
-            <InputGroup className="mb-3">
-              <Form.Control
-                type={showHidePassword}
-                placeholder="Your password"
-                name="password"
-                onChange={handleInputChange}
-                value={userFormData.password}
-                required
-                style={{ borderRight: "none" }}
-              />
-              <Form.Control.Feedback type="invalid">
-                <p>Password is required!</p>
-              </Form.Control.Feedback>
-              <InputGroup.Text
-                id="basic-addon1"
-                style={{
-                  borderRadius: "0%",
-                  background: "white",
-                  borderLeft: "none",
-                }}
-              >
-                <FontAwesomeIcon
-                  icon="fa-eye"
-                  style={display ? isDisplayed : isNotDisplayed}
-                  onClick={() => handlePassClick()}
-                />
-                <FontAwesomeIcon
-                  icon="fa-eye-slash"
-                  style={!display ? isDisplayed : isNotDisplayed}
-                  onClick={() => handlePassClick()}
-                />
-              </InputGroup.Text>
-            </InputGroup>
-          </Form.Group>
 
           <Button
-            disabled={!(userFormData.email)}
+            // disabled={!(userFormData.email && userFormData.password)}
             className="mb-3 submit-button-style"
             type="submit"
             variant="success"
+            onClick={handleFormSubmit}
           >
             Submit
           </Button>
         </Form>
-        <Nav.Item>
-          <Nav.Link href="/forgotpassword" className="text-blue">Forgot Password?</Nav.Link>
-        </Nav.Item>
       </div>
 
       {/* show alert if server response is bad */}
@@ -162,12 +137,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
-
-const isDisplayed = {
-  display: "block",
-};
-
-const isNotDisplayed = {
-  display: "none",
-};
+export default ResetPassword;
