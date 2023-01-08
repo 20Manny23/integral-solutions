@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Button, Form, Collapse, Container } from "react-bootstrap";
 import Auth from "../../utils/auth";
 import { useQuery } from "@apollo/client";
-import {
-  QUERY_ALL_EMPLOYEES,
-  QUERY_ALL_CLIENTS,
-  QUERY_SCHEDULE,
-} from "../../utils/queries";
+import { QUERY_ALL_EMPLOYEES} from "../../utils/queries";
 import "../../styles/Forms.css";
 
 function EmployeeList() {
