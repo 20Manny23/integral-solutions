@@ -1,73 +1,80 @@
-import { Row, Col, Container, Card, Button, Form, Collapse } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Container,
+  Card,
+  Button,
+  Form,
+  Collapse,
+} from "react-bootstrap";
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_ALL_CLIENTS } from "../../utils/queries";
 
-
 function ClientList() {
- 
-  
   // const [client, setclient] = useState([])
   const [open, setOpen] = useState(false);
-  const [open2, setOpen2] = useState(false);
+  // const [open2, setOpen2] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
-    // eslint-disable-next-line
-    const { loading: clientLoad, data: clients, error: clientError, refetch: clientRefetch } = useQuery(QUERY_ALL_CLIENTS);
 
+  // eslint-disable-next-line
+  const { loading: clientLoad, data: clients, error: clientError, refetch: clientRefetch } = useQuery(QUERY_ALL_CLIENTS);
 
-    const getElement = (event) => {
-      let currentAvailTarget = event.currentTarget.getAttribute("data-target");
-      console.log(currentAvailTarget)
-      let currentAvailTable = document.getElementById(currentAvailTarget);
-      if (currentAvailTable.classList.contains("show")) {
-        currentAvailTable.classList.remove("show");
-        setOpenDetails(false);
-      } else {
-        currentAvailTable.classList.add("show");
-        setOpenDetails(true);
-      }
-    };
-//   function sortName () {
-//   clients.sort((a, b) => {
-//     const nameA = a.company.toUpperCase(); // ignore upper and lowercase
-//     const nameB = b.company.toUpperCase();
-//     if (nameA < nameB) {
-//       return -1;
-//     }
-//     if (nameA > nameB) {
-//       return 1;
-//     }
-//     // names must be equal
-//     return 0;
-      
-//   });
-//   setclient(clients)
-//  }
- 
-//   function sortDate() {
-//     clients.sort( (a,b) => a.jobDate.localeCompare(b.jobDate) )
-//     clients.reverse()
-//     setclient(clients)
-//   }
+  const getElement = (event) => {
+    let currentAvailTarget = event.currentTarget.getAttribute("data-target");
+    console.log(currentAvailTarget);
+    let currentAvailTable = document.getElementById(currentAvailTarget);
+
+    if (currentAvailTable.classList.contains("show")) {
+      currentAvailTable.classList.remove("show");
+      setOpenDetails(false);
+    } else {
+      currentAvailTable.classList.add("show");
+      setOpenDetails(true);
+    }
+  };
+
+  //   function sortName () {
+  //   clients.sort((a, b) => {
+  //     const nameA = a.company.toUpperCase(); // ignore upper and lowercase
+  //     const nameB = b.company.toUpperCase();
+  //     if (nameA < nameB) {
+  //       return -1;
+  //     }
+  //     if (nameA > nameB) {
+  //       return 1;
+  //     }
+  //     // names must be equal
+  //     return 0;
+
+  //   });
+  //   setclient(clients)
+  //  }
+
+  //   function sortDate() {
+  //     clients.sort( (a,b) => a.jobDate.localeCompare(b.jobDate) )
+  //     clients.reverse()
+  //     setclient(clients)
+  //   }
+
   return (
-  <>
-    <div
-    className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
-    style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
-  >
-            <Form>
-            <Button
-        onClick={() => setOpen(!open)}
-        aria-controls="example-collapse-text"
-        aria-expanded={open}
-        style={{marginTop:'10px'}}
-        
+    <>
+      <div
+        className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
+        style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
       >
-        Add New Client 
-      </Button>
-      <Collapse in={open}>
-        <div id="example-collapse-text">
-          <Form.Group
+        <Form>
+          <Button
+            onClick={() => setOpen(!open)}
+            aria-controls="example-collapse-text"
+            aria-expanded={open}
+            style={{ marginTop: "10px" }}
+          >
+            Add New Client
+          </Button>
+          <Collapse in={open}>
+            <div id="example-collapse-text">
+              <Form.Group
                 className="mb-3 form-length"
                 controlId="formBasicEmail"
               >
@@ -104,7 +111,6 @@ function ClientList() {
               <Form.Group
                 className="mb-3 form-length"
                 controlId="formBasicEmail"
-              
               >
                 <div className="form-label">
                   <Form.Label style={{ fontWeight: "bolder" }}>
@@ -123,7 +129,7 @@ function ClientList() {
               <Form.Group
                 className="mb-3 form-length"
                 controlId="formBasicEmail"
-            >
+              >
                 <div className="form-label">
                   <Form.Label style={{ fontWeight: "bolder" }}>
                     Email
@@ -134,7 +140,6 @@ function ClientList() {
                   type="email"
                   placeholder="Client Email"
                   name="email"
-                  
                 />
               </Form.Group>
 
@@ -155,9 +160,7 @@ function ClientList() {
                 />
               </Form.Group>
 
-               <Row className="addy"
-               
-              > 
+              <Row className="addy">
                 <Col xs={7}>
                   <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
                   <Form.Control className="custom-border" placeholder="City" />
@@ -179,14 +182,13 @@ function ClientList() {
                 className="button-custom submit-button-style"
                 variant="primary"
                 type="submit"
-                
               >
                 Add Client
               </Button>
-        </div>
-      </Collapse>
+            </div>
+          </Collapse>
         </Form>
-        </div>
+      </div>
 
       <Container style={{ border: "1px solid black" }}>
         <h3>Client List</h3>
@@ -201,10 +203,13 @@ function ClientList() {
                 >
                   <h5 className="mb-0 text-left">
                     <Button
-                      
-                      style={{backgroundColor:'transparent', border:'none', color:'#007bff'}}
+                      style={{
+                        backgroundColor: "transparent",
+                        border: "none",
+                        color: "#007bff",
+                      }}
                       onClick={(event) => getElement(event)}
-                      aria-controls={`collapse-${index}`}
+                      aria-controls={`#collapse-text-${index}`}
                       aria-expanded={openDetails}
                       className="btn btn-link pl-1"
                       data-target={`#collapse-text-${index}`}
@@ -213,11 +218,23 @@ function ClientList() {
                     </Button>
                   </h5>
                   <Button
-                  style={{ marginRight:'10px', backgroundColor:'gray', border:'2px solid black'}}
-                  >Edit</Button>
+                    style={{
+                      marginRight: "10px",
+                      backgroundColor: "gray",
+                      border: "2px solid black",
+                    }}
+                  >
+                    Edit
+                  </Button>
                   <Button
-                  style={{ marginRight:'10px', backgroundColor:'gray', border:'2px solid black'}}
-                  >⛔ Delete</Button>
+                    style={{
+                      marginRight: "10px",
+                      backgroundColor: "gray",
+                      border: "2px solid black",
+                    }}
+                  >
+                    ⛔ Delete
+                  </Button>
                 </div>
 
                 <Collapse>
@@ -236,18 +253,19 @@ function ClientList() {
                         <div>Start Time: {job?.startTime}</div>
                         <div>End Date: {job?.endDate}</div>
                         <div>Job Details: {job?.jobDetails}</div>
-                        <div>Number of Clients: {job?.numberOfClientEmployees}</div>
+                        <div>
+                          Number of Clients: {job?.numberOfClientEmployees}
+                        </div>
                       </>
                     ))}
                   </div>
                 </Collapse>
-                
               </div>
             </div>
           ))}
         </Row>
       </Container>
-    {/* <div
+      {/* <div
       className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
       style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
     >
@@ -267,7 +285,7 @@ function ClientList() {
         >Date Completed</Button>
         
       </Row> */}
-{/* 
+      {/* 
       <Container >
         <Row style={{ display: "flex", justifyContent: "center" }}>
           {client.map((emp) => (
@@ -299,8 +317,8 @@ function ClientList() {
           ))}
         </Row>
       </Container> */}
-    {/* </div> */}
-  </>
+      {/* </div> */}
+    </>
   );
 }
 export default ClientList;
