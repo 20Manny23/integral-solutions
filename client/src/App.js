@@ -136,9 +136,6 @@ function App() {
                 element={
                   <ForgotPassword
                     renderPanel={"forgotpassword"}
-                    messageButtonIsActive={false}
-                    loginButtonIsActive={false}
-                    signupButtonIsActive={true}
                   />
                 }
               />
@@ -148,9 +145,6 @@ function App() {
                 element={
                   <ResetPassword
                     renderPanel={"resetpassword"}
-                    messageButtonIsActive={false}
-                    loginButtonIsActive={false}
-                    signupButtonIsActive={true}
                   />
                 }
               />
@@ -212,9 +206,6 @@ function App() {
                 element={
                   <ForgotPassword
                     renderPanel={"forgotpassword"}
-                    messageButtonIsActive={false}
-                    loginButtonIsActive={false}
-                    signupButtonIsActive={true}
                   />
                 }
               />

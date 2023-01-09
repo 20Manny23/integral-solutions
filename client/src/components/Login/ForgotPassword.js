@@ -1,25 +1,28 @@
 import React, { useEffect, useState } from "react";
 import Auth from "../../utils/auth";
 import decode from "jwt-decode";
+
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
 import { UPDATE_EMPLOYEE} from "../../utils/mutations";
 import { FORGOT_PASSWORD } from "../../utils/mutations";
+
 import { Form, Button, Alert } from "react-bootstrap";
 import "../../styles/button-home.css";
 
 function Employees() {
   // section get user using the email address
   const [employee, setEmployee] = useState({});
+  
   // eslint-disable-next-line
   const { loading, data, error: getEmployeeError, refetch } = useQuery(QUERY_EMPLOYEE_BYEMAIL, {
     variables: { email: "a@a.com"},
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
-      // let schedule = data?.employeeByEmail;
-      setEmployee(data?.employeeByEmail);
       console.log('hello = ', data?.employeeByEmail);
+      setEmployee(data?.employeeByEmail);
+      console.log('hello employee = ', employee);
     },
   });
   // section end
@@ -28,7 +31,7 @@ function Employees() {
   const [updatePassword, { error: passwordError }] = useMutation(UPDATE_EMPLOYEE);
   
   const setPassword = async () => {
-    console.log('reset password = ')
+    console.log('reset password = ', employee)
     try {
       const { data } = await updatePassword({
         variables: { ...employee, password: "300" }
@@ -36,6 +39,7 @@ function Employees() {
     } catch (e) {
       console.error(e);
     }
+    console.log(data);
   };
 
   // set temp password when employee state is updated (query retrieves employee info)
@@ -69,6 +73,7 @@ function Employees() {
     }
 
     await refetch();
+    console.log('refetch ', employee)
 
     // setTempPassword to populate the token 
     await setPassword();
@@ -109,17 +114,17 @@ function Employees() {
   };
 
   // After payLoadToken state is updated, launch email to user
-  useEffect(() => {
-    sendEmail(payLoadToken);
-  // eslint-disable-next-line
-  }, [payLoadToken]);
+  // useEffect(() => {
+  //   sendEmail(payLoadToken);
+  // // eslint-disable-next-line
+  // }, [payLoadToken]);
   
 
-  const sendEmail = (token) => {
-    window.open(
-      `mailto:${userFormData.email}?subject=Password Reset&body=Click on this link to create a new pasword: http://localhost:3000/resetpassword/${payLoadToken.token}`
-    )
-  }
+  // const sendEmail = (token) => {
+  //   window.open(
+  //     `mailto:${userFormData.email}?subject=Password Reset&body=Click on this link to create a new pasword: http://localhost:3000/resetpassword/${payLoadToken.token}`
+  //   )
+  // }
   // section end rods code
 
   return (

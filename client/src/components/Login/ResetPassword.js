@@ -1,13 +1,63 @@
 import React, { useState } from "react";
-import { Form, Button, Alert } from "react-bootstrap";
-import { useMutation } from "@apollo/client";
-import { LOGIN_USER } from "../../utils/mutations";
 import Auth from "../../utils/auth";
+import { useParams } from "react-router-dom";
+import decode from "jwt-decode";
+import { LOGIN_USER } from "../../utils/mutations";
+import { Form, Button, Alert } from "react-bootstrap";
 import "../../styles/button-home.css";
 
+// section
+import { useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { UPDATE_EMPLOYEE} from "../../utils/mutations";
+import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
+// section end
 
 const ResetPassword = () => {
+  // section get token from URL
+  let params = useParams();
+  console.log(params);
+
+  // section decode token to check contents
+  const decoded = decode(params.token);
+  console.log(decoded);
+
+  // section use email address to get user information
+  const [employee, setEmployee] = useState({});
+
+  // eslint-disable-next-line
+  const {loading, data, error: getEmployeeError, refetch } = useQuery(QUERY_EMPLOYEE_BYEMAIL, {
+    variables: { email: "a@a.com" },
+    // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+    skip: !Auth.loggedIn(),
+    onCompleted: (data) => {
+      // let schedule = data?.employeeByEmail;
+      setEmployee(data?.employeeByEmail);
+      console.log("hello = ", data?.employeeByEmail);
+    },
+  });
+  // section end
+
+  // section set temporary password to be used to construct the token
+  const [updatePassword, { error: passwordError }] = useMutation(UPDATE_EMPLOYEE);
+  
+  const setPassword = async () => {
+    console.log('reset password = ')
+    try {
+      const { data } = await updatePassword({
+        variables: { ...employee, password: "400" }
+      })
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  // set temp password when employee state is updated (query retrieves employee info)
+  // useEffect(() => {
+  //   setTempPassword();
+  // }, [employee]);
+  // section end
+
   const [userFormData, setUserFormData] = useState({ email: "", password: "" });
   const [login, { error }] = useMutation(LOGIN_USER);
 
@@ -32,15 +82,22 @@ const ResetPassword = () => {
     }
 
     try {
-      const { data } = await login({
-        variables: { ...userFormData },
-      });
+      // const { data } = await login({
+      //   variables: { ...userFormData },
+      // });
+
+      // get user data
+      await refetch();
+      // console.log(employee)
+
+      // reset password
+      await setPassword();
 
       // Auth.login(data.login.token);
-      Auth.login(data.login);
+      // Auth.login(data.login);
 
       // window.location.assign(`/calendar`);
-      window.location.assign(`/landing-template-v1`);
+      // window.location.assign(`/landing-template-v1`);
 
     } catch (e) {
       console.error(e);
@@ -104,7 +161,6 @@ const ResetPassword = () => {
               Email is required!
             </Form.Control.Feedback>
           </Form.Group>
-
 
           <Button
             // disabled={!(userFormData.email && userFormData.password)}

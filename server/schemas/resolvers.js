@@ -210,7 +210,7 @@ const resolvers = {
       const employee = await Employee.findOne({ email });
 
       if (!employee) {
-        throw new AuthenticationError("No email found with this email address");
+        throw new AuthenticationError("Email address not found.");
       }
 
       // const correctPw = await employee.isCorrectPassword(password);
