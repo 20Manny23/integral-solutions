@@ -10,6 +10,7 @@ function EmployeeList() {
 
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
+  const [openEmployee, setOpenEmployee] = useState(false);
 
   // eslint-disable-next-line
   const {
@@ -20,6 +21,17 @@ function EmployeeList() {
   } = useQuery(QUERY_ALL_EMPLOYEES);
   console.log(emp);
 
+  const getElement = (event) => {
+    let currentAvailTarget = event.currentTarget.getAttribute("data-target");
+    let currentAvailTable = document.getElementById(currentAvailTarget);
+    if (currentAvailTable.classList.contains("show")) {
+      currentAvailTable.classList.remove("show");
+      setOpenEmployee(false);
+    } else {
+      currentAvailTable.classList.add("show");
+      setOpenEmployee(true);
+    }
+  };
   return (
     <>
       <div
@@ -142,10 +154,11 @@ function EmployeeList() {
                   <h5 className="mb-0 text-left" >
                     <button
                       className="btn btn-link pl-1"
-                      onClick={() => setOpen2(!open2)}
+                      onClick={(event) => getElement(event)}
                       aria-controls={`collapse-${index}`}
                       aria-expanded={open2}
-                      style={{display:'inline-block'}}
+                      data-target={`#collapseTarget-${index}`}
+                      
                     >
                       {emp?.firstName} {emp?.lastName}
                     </button>
@@ -180,8 +193,8 @@ function EmployeeList() {
                   
                 </div>
 
-                <Collapse in={open2}>
-                  <div id={`collapse-text-directions-${index}`}>
+                <Collapse >
+                  <div id={`#collapseTarget-${index}`}>
                     <div>Email: {emp?.email}</div>
                     <div>username: {emp?.username}</div>
                     <div>Phone: {emp?.phone}</div>
