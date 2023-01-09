@@ -11,7 +11,7 @@
   padding-top: 8px;
   padding-bottom: 8px;
   color: white;
-  background-color: #6362d4;
+  background-color: #0D2E4F;
   border-radius: 5px;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
@@ -35,7 +35,7 @@
   padding: 10px 0 10px 0;
   font-size: 35px;
   color: white;
-  background-color: #6362d4;
+  background-color: #0D2E4F;
   text-align: center;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
@@ -44,7 +44,7 @@
 
 .contact-btn {
   margin-left: 15px;
-  background-color: rgb(16, 59, 151);
+  background-color: #0D2E4F;
 }
 
 .card-body {
@@ -53,8 +53,8 @@
 }
 
 footer {
-  background-color: #6362d4;
-  color: black;
+  background-color: #0D2E4F;
+  color:white ;
   border-top: 1px solid black;
 }
 
@@ -75,7 +75,7 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  color: black;
+  color: white;
 }
 
 .footer-copy {

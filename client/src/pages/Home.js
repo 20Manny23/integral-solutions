@@ -35,7 +35,7 @@ const Home = () => {
             their entrepreneurial goals.
           </p>
           <Button
-            variant="secondary"
+            style={{backgroundColor:'white', color:'#0D2E4F', fontStyle:'italic'}}
             className="contact-btn"
             onClick={() => {
               navigate("/contact");
