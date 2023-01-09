@@ -7,6 +7,7 @@
 }
 Nav{
   border-bottom: 1px solid black;
+  color: white;
 }
 .heading-style {
   display: inline-block;
@@ -19,6 +20,7 @@ Nav{
 }
 .navlink{
   font-size: 18px ;
+  color: white;
   
 }
 .logo{
