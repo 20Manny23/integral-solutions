@@ -59,7 +59,16 @@ function AdminMock() {
   return (
     <>
       <Container style={{ border: "1px solid black" }}>
-        <h3>Employee List</h3>
+        <div className="d-flex justify-content-between">
+          <h3>Employee List</h3>
+          <FontAwesomeIcon
+            icon="fa-add"
+            className="p-2"
+            onClick={() => console.log("add")}
+            // onClick={() => handlePassClick()}
+            // style={display ? isDisplayed : isNotDisplayed}
+          />
+        </div>
         <Row style={{ display: "flex", justifyContent: "center" }}>
           {emp?.employees?.map((emp, index) => (
             <div id="accordion" key={index} style={{ width: "100%" }}>
@@ -81,6 +90,13 @@ function AdminMock() {
                     </button>
                   </h5>
                   <div className="mr-2" style={{ display: "flex"}}>
+                  <FontAwesomeIcon
+                      icon="fa-add"
+                      className="p-2"
+                      onClick={() => console.log("pencil")}
+                      // onClick={() => handlePassClick()}
+                      // style={display ? isDisplayed : isNotDisplayed}
+                    />
                     <FontAwesomeIcon
                       icon="fa-pencil"
                       className="p-2"
