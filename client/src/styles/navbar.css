@@ -1,9 +1,8 @@
+
+
 .slogan{
-  display: flex;
-  color: white;
   font-style: italic;
-  margin-top: 50px;
-  justify-content: center !important;
+  font-weight: bolder;
 }
 Nav{
   border-bottom: 1px solid black;
@@ -17,9 +16,17 @@ Nav{
 .toggle-style {
   z-index: 5;
 }
-
+.navlink{
+  font-size: 18px ;
+  
+}
 .logo{
-  max-height: 85px;
+  max-height: 50px;
+  min-width:60px;
+  margin-bottom:0;
+  
 }
 
-
+.navs{
+  max-height: 60px;
+}

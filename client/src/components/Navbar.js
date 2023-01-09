@@ -4,22 +4,23 @@ import { Link } from "react-router-dom";
 
 import { Navbar, Nav, Row } from "react-bootstrap";
 import "../styles/navbar.css";
-import logo from "../assets/images/integral-logo.png";
+import logo from "../assets/images/integral-logo-no-text.png";
 
 const AppNavbar = () => {
   return (
     <>
       <Navbar
         collapseOnSelect
-        className="shadow-sm"
-        style={{ height: "13%", backgroundColor: "#6362d4" }}
+        className="shadow-sm navs"
+        style={{backgroundColor: "#6362d4" }}
         expand="lg"
       >
         <Navbar.Brand as={Link} reloadDocument to="/" className="">
-          <img className="logo ml-4 mr-4" src={logo} alt="logo"></img>
+          <img className="logo ml-4 " src={logo} alt="logo"></img>
         </Navbar.Brand>
-        <Navbar.Brand className="slogan" style={{ fontSize: "27px" }}>
-          Office Furniture Installation At The Snap Of Your Fingers!
+        <Navbar.Brand className="slogan" style={{ fontSize: "30px", color:'#34303D' }}>
+          {/* Office Furniture Installation At The Snap Of Your Fingers! */}
+          Integral Solutions
         </Navbar.Brand>
         <Row>
           <Navbar.Toggle
@@ -34,16 +35,16 @@ const AppNavbar = () => {
               // isAdmin explicity set to true to eliminate null values
               // access to home, adm portal, employee portal, logout
               <>
-                <Nav.Link as={Link} to="/home" eventKey="4" className="">
+                <Nav.Link className='navlink'as={Link} to="/home" eventKey="4" >
                   Home
                 </Nav.Link>
-                <Nav.Link as={Link} to="/calendar" eventKey="4" className="">
+                <Nav.Link className='navlink'as={Link} to="/calendar" eventKey="4">
                   Admin
                 </Nav.Link>
-                <Nav.Link as={Link} to="/employee" eventKey="10" className="">
+                <Nav.Link className='navlink'as={Link} to="/employee" eventKey="10" >
                   Employee
                 </Nav.Link>
-                <Nav.Link onClick={Auth.logout} eventKey="4" className="">
+                <Nav.Link className='navlink'onClick={Auth.logout} eventKey="4" >
                   Logout
                 </Nav.Link>
               </>
@@ -52,26 +53,26 @@ const AppNavbar = () => {
               // isAdmin explicity set to true to eliminate null values
               // access to home, employee portal, logout
               <>
-                <Nav.Link as={Link} to="/home" eventKey="4" className="">
+                <Nav.Link  as={Link} to="/home" eventKey="4" className="navlink">
                   Home
                 </Nav.Link>
-                <Nav.Link as={Link} to="/employee" eventKey="10" className="">
+                <Nav.Link as={Link} to="/employee" eventKey="10" className="navlink">
                   Employee
                 </Nav.Link>
-                <Nav.Link onClick={Auth.logout} eventKey="4" className="">
+                <Nav.Link onClick={Auth.logout} eventKey="4" className="navlink">
                   Logout
                 </Nav.Link>
               </>
             ) : (
               // User is not logged in; Home page nav
               <>
-                <Nav.Link as={Link} to="/home" eventKey="4" className="">
+                <Nav.Link as={Link} to="/home" eventKey="4" className="navlink">
                   Home
                 </Nav.Link>
-                <Nav.Link as={Link} to="/shoplinks" eventKey="4" className="">
+                <Nav.Link as={Link} to="/shoplinks" eventKey="4" className="navlink">
                   Shop Furniture
                 </Nav.Link>
-                <Nav.Link as={Link} to="/contact" eventKey="4" className="">
+                <Nav.Link as={Link} to="/contact" eventKey="4" className="navlink">
                   Contact Us{" "}
                 </Nav.Link>
               </>
