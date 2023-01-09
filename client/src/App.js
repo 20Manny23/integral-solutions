@@ -33,6 +33,8 @@ import ResetPassword from "./components/Login/ResetPassword";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
+  faCross,
+  faAdd,
   faPencil,
   faTrash,
   faToggleOn,
@@ -49,6 +51,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
+  faCross,
+  faAdd,
   faPencil,
   faEdit,
   faToggleOn,
