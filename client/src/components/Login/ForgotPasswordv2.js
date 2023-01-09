@@ -1,59 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Auth from "../../utils/auth";
-import decode from "jwt-decode";
-
-import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
-import { UPDATE_EMPLOYEE} from "../../utils/mutations";
+import { useMutation } from "@apollo/client";
 import { FORGOT_PASSWORD } from "../../utils/mutations";
-
+// import { LOGIN_USER } from "../../utils/mutations";
 import { Form, Button, Alert } from "react-bootstrap";
 import "../../styles/button-home.css";
 
-function Employees() {
-  const [ tempPassword ] = useState('200');
-  const [ userFormData, setUserFormData ] = useState({ email: "", password: "" });
-  // section get user using the email address
-  const [employee, setEmployee] = useState({});
+// section start
+import { useQuery } from "@apollo/client";
+import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
+// section end
+
+const ForgotPassword = () => {
+  const token = Auth.getToken();
+  const [userFormData, setUserFormData] = useState({ email: "a@a.com", password: "12" });
+  const [test, setTest] = useState({});
   
+    // get schedule useQuery for the specific id
   // eslint-disable-next-line
-  const { loading, data, error: getEmployeeError, refetch } = useQuery(QUERY_EMPLOYEE_BYEMAIL, {
-    variables: { email: userFormData?.email},
+  const { loading, data, error: emailError, refetch } = useQuery(QUERY_EMPLOYEE_BYEMAIL, {
+    variables: { email: userFormData.email },
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
-      console.log('hello = ', data?.employeeByEmail);
-      setEmployee(data?.employeeByEmail);
-      console.log('hello employee = ', employee);
+      console.log(data.employeeByEmail)
+      let employeeData = data?.employeeByEmail;
+      console.log('employee Data = ', employeeData);
+      setTest(employeeData);
+      console.log('useQuery = ', test);
     },
   });
-  // section end
 
-  // section set temporary password to be used to construct the token
-  const [updatePassword, { error: passwordError }] = useMutation(UPDATE_EMPLOYEE);
-  
-  const setPassword = async () => {
-    console.log('reset password = ', employee)
-    try {
-      const { data } = await updatePassword({
-        variables: { ...employee, password: tempPassword }
-      })
-    } catch (e) {
-      console.error(e);
-    }
-    console.log(data);
-  };
-
-  // set temp password when employee state is updated (query retrieves employee info)
-  useEffect(() => {
-    setPassword();
-    // eslint-disable-next-line
-  }, [employee]);
-  // section end
-
-  // section Rods Code
-  const [ forgotPassword, { error } ] = useMutation(FORGOT_PASSWORD);
-  const [ payLoadToken, setPayLoadToken ] = useState({});
+  const [forgotPassword, { error }] = useMutation(FORGOT_PASSWORD);
 
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -63,6 +41,8 @@ function Employees() {
     setUserFormData({ ...userFormData, [name]: value });
   };
 
+  // let navigate = useNavigate();
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     // check if form has everything (as per react-bootstrap docs)
@@ -71,62 +51,43 @@ function Employees() {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-      return false;
+    } else {
+      // launchEmail();
     }
 
-    await refetch();
+    refetch();
 
-    // create token payload
-    let payload = { email: userFormData.email, password: tempPassword };
-    console.log('payload ', payload);
+    console.log(userFormData);
 
-    // create new token using the forgotPassword mutation
     try {
       const { data } = await forgotPassword({
-        variables: { ...payload },
+        variables: { ...userFormData },
       });
 
-      // let payLoadToken = { token: data.forgotPassword.token }
-      setPayLoadToken({token: data.forgotPassword.token});
-      console.log(data.forgotPassword.token)
-      
-      // decode token to check contents
-      const decoded = decode(data.forgotPassword.token);
-      console.log(decoded);
+      // Auth.login(data.login.token);
+      Auth.login(data.token);
 
-      // Don't save token to local storage at that will log the user id
-      // Auth.login(payLoadToken);
-
-      // Bring user back to login page
-      // window.location.assign(`/login`);
+      // window.location.assign(`/calendar`);
+      window.location.assign(`/login`);
 
     } catch (e) {
-      console.error('error = ', e);
+      console.error(e);
       setShowAlert(true);
     }
 
     setUserFormData({
       email: "",
     });
-
   };
 
-  // After payLoadToken state is updated, launch email to user
-  useEffect(() => {
-    sendEmail(payLoadToken);
-  // eslint-disable-next-line
-  }, [payLoadToken]);
-  
-
-  const sendEmail = (token) => {
+  const launchEmail = () => {
     window.open(
-      `mailto:${userFormData.email}?subject=Password Reset&body=Click on this link to create a new pasword: http://localhost:3000/resetpassword/${payLoadToken.token}`
+      `mailto:${userFormData.email}?subject=Password Reset&body=Click on this link to create a new pasword: http://localhost:3000/resetpassword/${token}`
     )
+
   }
-  // section end rods code
 
   return (
-    <>
     <div className="d-flex flex-column align-items-center mt-3">
       <div className="d-flex flex-column align-items-center">
         <Form
@@ -181,8 +142,7 @@ function Employees() {
         </div>
       )}
     </div>
-    </>
   );
-}
+};
 
-export default Employees;
+export default ForgotPassword;
