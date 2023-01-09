@@ -18,7 +18,7 @@ const AppNavbar = () => {
         <Navbar.Brand as={Link} reloadDocument to="/" className="">
           <img className="logo" src={logo} alt="logo"></img>
         </Navbar.Brand>
-        <Navbar.Brand className="slogan" style={{ fontSize: "30px", color:'#C9A267' }}>
+        <Navbar.Brand className="slogan" style={{ fontSize: "30px", color:'#C59435' }}>
           {/* Office Furniture Installation At The Snap Of Your Fingers! */}
           Integral Solutions
         </Navbar.Brand>
@@ -35,7 +35,7 @@ const AppNavbar = () => {
               // isAdmin explicity set to true to eliminate null values
               // access to home, adm portal, employee portal, logout
               <>
-                <Nav.Link style={{color:'white'}}className='navlink'as={Link} to="/home" eventKey="4" >
+                <Nav.Link className='navlink'as={Link} to="/home" eventKey="4" >
                   Home
                 </Nav.Link>
                 <Nav.Link style={{color:'white'}}className='navlink'as={Link} to="/calendar" eventKey="4">
