@@ -2,7 +2,8 @@
 
 .slogan{
   font-style: italic;
-  font-weight: bolder;
+  font-weight: bold;
+  margin-left: -10px;
 }
 Nav{
   border-bottom: 1px solid black;
@@ -22,11 +23,22 @@ Nav{
 }
 .logo{
   max-height: 50px;
-  min-width:60px;
+ 
   margin-bottom:0;
   
 }
 
 .navs{
   max-height: 60px;
+}
+@media screen and (max-width:991px) {
+  .logo{
+    margin-top: -20px;
+  }
+  
+}
+@media screen and (max-width:391px) {
+  .slogan{
+    font-weight: 100;
+  }
 }
