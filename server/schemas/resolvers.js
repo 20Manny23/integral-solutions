@@ -1,6 +1,7 @@
 const { AuthenticationError } = require("apollo-server-express");
 const { User, Location, Incident, Event, Schedule, Client, Employee } = require("../models");
 const { signToken } = require("../utils/auth");
+const bcrypt = require("bcrypt");
 
 const resolvers = {
   Query: {
@@ -212,11 +213,11 @@ const resolvers = {
         throw new AuthenticationError("No email found with this email address");
       }
 
-      const correctPw = await employee.isCorrectPassword(password);
+      // const correctPw = await employee.isCorrectPassword(password);
 
-      if (!correctPw) {
-        throw new AuthenticationError("Incorrect credentials");
-      }
+      // if (!correctPw) {
+      //   throw new AuthenticationError("Incorrect credentials");
+      // }
 
       const token = signToken(employee);
 
@@ -342,7 +343,7 @@ const resolvers = {
         _id,
         username, 
         email, 
-        password, 
+        password,
         firstName, 
         lastName, 
         phone, 

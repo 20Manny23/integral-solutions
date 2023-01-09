@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Auth from "../../utils/auth";
+import decode from "jwt-decode";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
 import { UPDATE_EMPLOYEE} from "../../utils/mutations";
@@ -24,13 +25,13 @@ function Employees() {
   // section end
 
   // section set temporary password to be used to construct the token
-  const [tempPassword, { error: passwordError }] = useMutation(UPDATE_EMPLOYEE);
+  const [updatePassword, { error: passwordError }] = useMutation(UPDATE_EMPLOYEE);
   
-  const setTempPassword = async () => {
+  const setPassword = async () => {
     console.log('reset password = ')
     try {
-      const { data } = await tempPassword({
-        variables: { ...employee, password: "12" }
+      const { data } = await updatePassword({
+        variables: { ...employee, password: "300" }
       })
     } catch (e) {
       console.error(e);
@@ -64,17 +65,16 @@ function Employees() {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-    } else {
-      // launchEmail();
+      return false;
     }
 
     await refetch();
 
     // setTempPassword to populate the token 
-    await setTempPassword();
+    await setPassword();
 
     // create token payload
-    let payload = {email: userFormData.email, password: '12'};
+    let payload = {email: userFormData.email, password: '300'};
     console.log('payload ', payload);
 
     // create new token using the forgotPassword mutation
@@ -86,6 +86,10 @@ function Employees() {
       // let payLoadToken = { token: data.forgotPassword.token }
       setPayLoadToken({token: data.forgotPassword.token});
       console.log(data.forgotPassword.token)
+      
+      // decode token to check contents
+      const decoded = decode(data.forgotPassword.token);
+      console.log(decoded);
 
       // Don't save token to local storage at that will log the user id
       // Auth.login(payLoadToken);

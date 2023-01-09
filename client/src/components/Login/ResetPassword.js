@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { useMutation } from "@apollo/client";
-import { LOGIN_USER } from "../../utils/mutations";
+// import { LOGIN_USER } from "../../utils/mutations";
 import Auth from "../../utils/auth";
 import "../../styles/button-home.css";
 
+import { UPDATE_EMPLOYEE} from "../../utils/mutations";
+
 const ResetPassword = () => {
   const [userFormData, setUserFormData] = useState({ email: "", password: "" });
-  const [login, { error }] = useMutation(LOGIN_USER);
+  // const [login, { error }] = useMutation(LOGIN_USER);
 
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -35,10 +37,10 @@ const ResetPassword = () => {
       });
 
       // Auth.login(data.login.token);
-      Auth.login(data.login);
+      // Auth.login(data.login);
 
       // window.location.assign(`/calendar`);
-      window.location.assign(`/landing-template-v1`);
+      window.location.assign(`/login`);
 
     } catch (e) {
       console.error(e);
