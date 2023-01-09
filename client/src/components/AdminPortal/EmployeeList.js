@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Button, Form, Collapse, Container } from "react-bootstrap";
 import Auth from "../../utils/auth";
 import { useQuery } from "@apollo/client";
-import { QUERY_ALL_EMPLOYEES} from "../../utils/queries";
+import { QUERY_ALL_EMPLOYEES } from "../../utils/queries";
 import "../../styles/Forms.css";
 
 function EmployeeList() {
@@ -35,7 +35,7 @@ function EmployeeList() {
   return (
     <>
       <div
-        className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
+        className=" pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
         style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
       >
         <Row>
@@ -138,62 +138,58 @@ function EmployeeList() {
       </div>
 
       <Container
-        className="mx-3 pb-2 d-flex flex-column align-self-center shadow rounded-lg border border-secondary"
+        className="pb-2 d-flex flex-column align-self-center shadow rounded-lg border border-secondary"
         style={{ margin: "20px 0px 20px 0px" }}
       >
-        <h3 style={{textAlign:'center'}}>Employee List</h3>
+        <h3 style={{ textAlign: "center" }}>Employee List</h3>
         <Row style={{ display: "flex", justifyContent: "center" }}>
           {emp?.employees?.map((emp, index) => (
-            <div id="accordion" key={index} style={{ width: "100%", display:'inline-block' }}>
+            <div
+              id="accordion"
+              key={index}
+              style={{ width: "100%", display: "inline-block" }}
+            >
               <div className="card p-2 mb-1">
                 <div
-                  className="rounded directions-collapse"
+                  className="rounded "
                   id="headingOne"
-                  style={{ color: "black", display:'inline-block' }}
+                  style={{ color: "black", display: "inline-block" }}
                 >
-                  <h5 className="mb-0 text-left" >
+                  <h5 className="mb-0 text-left">
                     <button
                       className="btn btn-link pl-1"
                       onClick={(event) => getElement(event)}
                       aria-controls={`collapse-${index}`}
                       aria-expanded={open2}
                       data-target={`#collapseTarget-${index}`}
-                      
                     >
                       {emp?.firstName} {emp?.lastName}
                     </button>
-                  
                   </h5>
-                  <button style={{display:'inline-block'}}>
-                    Edit Info
-                  </button>
+                  <button style={{ display: "inline-block" }}>Edit Info</button>
                   <Form>
-                
-                     {["checkbox"].map((type) => (
-                  <div key={`inline-${type}`} className="mb-3">
-                    <Form.Check
-                      inline
-                      label="Admin "
-                      name="group1"
-                      type={type}
-                      id={`inline-${type}-1`}
-                    />
-                    <Form.Check
-                      inline
-                      label="Active Employee"
-                      name="group1"
-                      type={type}
-                      id={`inline-${type}-2`}
-                    />
-                    
-                    </div>
-                     ))}
+                    {["checkbox"].map((type) => (
+                      <div key={`inline-${type}`} className="mb-3">
+                        <Form.Check
+                          inline
+                          label="Admin "
+                          name="group1"
+                          type={type}
+                          id={`inline-${type}-1`}
+                        />
+                        <Form.Check
+                          inline
+                          label="Active Employee"
+                          name="group1"
+                          type={type}
+                          id={`inline-${type}-2`}
+                        />
+                      </div>
+                    ))}
                   </Form>
-                
-                  
                 </div>
 
-                <Collapse >
+                <Collapse>
                   <div id={`#collapseTarget-${index}`}>
                     <div>Email: {emp?.email}</div>
                     <div>username: {emp?.username}</div>

@@ -107,15 +107,17 @@ const Home = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col
-            className="d-flex  mb-2"
+          {/* <Col
+            className="d-flex justify-content-center mb-2 md-6"
             style={{
               display: "flex",
               justifyContent: "end",
               marginRight: "15px",
             }}
           >
-            <Card style={{ width: "15rem", border: "none", marginTop: "15px" }}>
+            <Card style={{ width: "15rem", border: "none", marginTop: "15px", display: "flex",
+              justifyContent: "end",
+              marginRight: "15px", }}>
               <Card.Img variant="top" src={optimize} />
               <Card.Body>
                 <Card.Title style={{ marginTop: "-15px" }}>
@@ -128,7 +130,7 @@ const Home = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col className="d-flex  mb-2">
+          <Col className="d-flex  mb-2 md-6">
             <Card style={{ width: "15rem", border: "none", marginTop: "15px" }}>
               <Card.Img variant="top" src={reconfig} />
               <Card.Body>
@@ -141,7 +143,34 @@ const Home = () => {
                 </Card.Text>
               </Card.Body>
             </Card>
+          </Col> */}
+            <Col className="d-flex justify-content-center mb-2">
+            <Card style={{ width: "15rem", border: "none" }}>
+              <Card.Img variant="top" src={optimize} />
+              <Card.Body>
+                <Card.Title style={{ marginTop: "-15px" }}>
+                  Space Analytics
+                </Card.Title>
+                <Card.Text style={{ fontSize: "13px" }}>
+                Our team has set up thousands of office spaces, let us help
+                  guide your installation process.
+                </Card.Text>
+              </Card.Body>
+            </Card>
           </Col>
+          <Col className="d-flex justify-content-center mb-2">
+            <Card style={{ width: "15rem", border: "none" }}>
+              <Card.Img variant="top" src={reconfig} />
+              <Card.Body>
+                <Card.Title style={{ marginTop: "-15px" }}>Reconfiguration</Card.Title>
+                <Card.Text style={{ fontSize: "13px" }}>
+                Let our Experts advise on the perfect office arrangement to
+                  optimize team perfomance.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          
         </Row>
       </Container>
 
