@@ -155,18 +155,26 @@ function EmployeeList() {
                     Edit Info
                   </button>
                   <Form>
+                
+                     {["checkbox"].map((type) => (
+                  <div key={`inline-${type}`} className="mb-3">
                     <Form.Check
-                  style={{display:'inline-block'}}
-                      type="switch"
-                      id="custom-switch"
-                      label="Locked"
+                      inline
+                      label="Admin "
+                      name="group1"
+                      type={type}
+                      id={`inline-${type}-1`}
                     />
                     <Form.Check
-                      style={{display:'inline-block'}}
-                      type="switch"
-                      label="Admin"
-                      id="disabled-custom-switch"
+                      inline
+                      label="Active Employee"
+                      name="group1"
+                      type={type}
+                      id={`inline-${type}-2`}
                     />
+                    
+                    </div>
+                     ))}
                   </Form>
                 
                   

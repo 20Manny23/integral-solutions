@@ -10,13 +10,23 @@ function ClientList() {
   // const [client, setclient] = useState([])
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
+  const [openDetails, setOpenDetails] = useState(false);
     // eslint-disable-next-line
     const { loading: clientLoad, data: clients, error: clientError, refetch: clientRefetch } = useQuery(QUERY_ALL_CLIENTS);
-    console.log(clients?.clients?.length);
 
 
-
- 
+    const getElement = (event) => {
+      let currentAvailTarget = event.currentTarget.getAttribute("data-target");
+      console.log(currentAvailTarget)
+      let currentAvailTable = document.getElementById(currentAvailTarget);
+      if (currentAvailTable.classList.contains("show")) {
+        currentAvailTable.classList.remove("show");
+        setOpenDetails(false);
+      } else {
+        currentAvailTable.classList.add("show");
+        setOpenDetails(true);
+      }
+    };
 //   function sortName () {
 //   clients.sort((a, b) => {
 //     const nameA = a.company.toUpperCase(); // ignore upper and lowercase
@@ -51,6 +61,7 @@ function ClientList() {
         aria-controls="example-collapse-text"
         aria-expanded={open}
         style={{marginTop:'10px'}}
+        
       >
         Add New Client 
       </Button>
@@ -189,22 +200,25 @@ function ClientList() {
                   style={{ color: "black" }}
                 >
                   <h5 className="mb-0 text-left">
-                    <button
-                      className="btn btn-link pl-1"
-                      onClick={() => setOpen2(!open2)}
+                    <Button
+                      
+                      style={{backgroundColor:'transparent', border:'none'}}
+                      onClick={(event) => getElement(event)}
                       aria-controls={`collapse-${index}`}
-                      aria-expanded={open2}
+                      aria-expanded={openDetails}
+                      className="btn btn-link pl-1"
+                      data-target={`#collapse-text-${index}`}
                     >
                       {client?.businessName}
-                    </button>
+                    </Button>
                   </h5>
                   <button
                   style={{borderRadius:'5px'}}
                   >Edit</button>
                 </div>
 
-                <Collapse in={open2}>
-                  <div id={`collapse-text-directions-${index}`}>
+                <Collapse>
+                  <div id={`#collapse-text-${index}`}>
                     <div>Contact Name: {client?.contact}</div>
                     <div>Phone: {client?.phone}</div>
                     <div>Email: {client?.email}</div>
