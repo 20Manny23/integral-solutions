@@ -16,7 +16,7 @@ const AppNavbar = () => {
         expand="lg"
       >
         <Navbar.Brand as={Link} reloadDocument to="/" className="">
-          <img className="logo ml-4 " src={logo} alt="logo"></img>
+          <img className="logo" src={logo} alt="logo"></img>
         </Navbar.Brand>
         <Navbar.Brand className="slogan" style={{ fontSize: "30px", color:'#34303D' }}>
           {/* Office Furniture Installation At The Snap Of Your Fingers! */}
@@ -25,7 +25,7 @@ const AppNavbar = () => {
         <Row>
           <Navbar.Toggle
             aria-controls="navbar"
-            className="white toggle-style mr-3"
+            className="white toggle-style"
           />
         </Row>
         <Navbar.Collapse id="navbar" className="">
