@@ -35,7 +35,7 @@ const LoginForm = () => {
         variables: { ...userFormData },
       });
 
-      // Auth.login(data.login.token);
+      console.log(data)
       Auth.login(data.login);
 
       // window.location.assign(`/calendar`);

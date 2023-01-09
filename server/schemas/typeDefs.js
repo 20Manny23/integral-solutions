@@ -146,7 +146,7 @@ const typeDefs = gql`
     clients: [Client]!
     client(clientId: ID!): Client
     employees: [Employee]!
-    employee(email: String!): Employee
+    employeeByEmail(email: String!): Employee
     employeeById(_id: ID!): Employee
     schedules: [Schedule]
     schedule(scheduleId: ID!): Schedule
@@ -154,6 +154,7 @@ const typeDefs = gql`
 
   type Mutation {
     login(email: String!, password: String!): Auth
+    forgotPassword(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     deleteUser(_id: ID!): User
     updateAvailability(

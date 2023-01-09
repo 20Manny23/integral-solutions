@@ -142,7 +142,6 @@ function App() {
                   />
                 }
               />
-
               <Route
                 exact
                 path="/resetpassword/:token"
@@ -206,6 +205,20 @@ function App() {
                   />
                 }
               />
+              {Auth.isAdmin() && !Auth.isLocked() && (
+               <Route
+                exact
+                path="/forgotpassword"
+                element={
+                  <ForgotPassword
+                    renderPanel={"forgotpassword"}
+                    messageButtonIsActive={false}
+                    loginButtonIsActive={false}
+                    signupButtonIsActive={true}
+                  />
+                }
+              />
+              )}
               {Auth.isAdmin() && !Auth.isLocked() && (
                 <Route
                   exact

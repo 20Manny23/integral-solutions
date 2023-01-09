@@ -160,6 +160,22 @@ export const QUERY_EVENTS = gql`
   }
 `;
 
+export const QUERY_EMPLOYEE_BYEMAIL = gql`
+  query EmployeeByEmail($email: String!) {
+    employeeByEmail(email: $email) {
+      _id
+      firstName
+      lastName
+      email
+      phone
+      isAdmin
+      isLocked
+      password
+      username
+    }
+  }
+`;
+
 export const QUERY_EMPLOYEE_BYID = gql`
   query EmployeeById($id: ID!) {
     employeeById(_id: $id) {
@@ -171,6 +187,7 @@ export const QUERY_EMPLOYEE_BYID = gql`
       isAdmin
       isLocked
       password
+      username
       schedule {
         startDate
         startTime

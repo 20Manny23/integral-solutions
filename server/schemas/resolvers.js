@@ -73,7 +73,8 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    employee: async (parent, { email }, context) => {
+    employeeByEmail: async (parent, { email }, context) => {
+      console.log(email)
       // if (context.user) {
         return Employee.findOne({ email: email }).populate({path: "schedule", populate: { path: "client" } });
       // }
@@ -181,6 +182,30 @@ const resolvers = {
     // },
 
     login: async (parent, { email, password }) => {
+
+      console.log('login ', email);
+
+      const employee = await Employee.findOne({ email });
+
+      if (!employee) {
+        throw new AuthenticationError("No email found with this email address");
+      }
+
+      const correctPw = await employee.isCorrectPassword(password);
+
+      if (!correctPw) {
+        throw new AuthenticationError("Incorrect credentials");
+      }
+
+      const token = signToken(employee);
+
+      return { token, employee };
+    },
+
+    forgotPassword: async (parent, { email, password }) => {
+
+      console.log('forgot resolver =', email);
+      
       const employee = await Employee.findOne({ email });
 
       if (!employee) {
@@ -328,8 +353,9 @@ const resolvers = {
       context
     ) => {
       // if (context.user) {
+        console.log('resolver update employee = ', _id, email, password, lastName)
         return Employee.findOneAndUpdate(
-          { _id },
+          { email },
           {
             username, 
             email, 
