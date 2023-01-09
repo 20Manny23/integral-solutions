@@ -9,9 +9,9 @@ import Collapse from "react-bootstrap/Collapse";
 
 function AdminMock() {
   const [open, setOpen] = useState(false);
+  const [openDetails, setOpenDetails] = useState(false);
   const [openEmployee, setOpenEmployee] = useState(false);
-  const [open2, setOpen2] = useState(false);
-
+  // const [open2, setOpen2] = useState(false);
 
   // eslint-disable-next-line
   const { loading: empLoad, data: emp, error: empError, refetch: empRefectch} = useQuery(QUERY_ALL_EMPLOYEES);
@@ -26,14 +26,16 @@ function AdminMock() {
   console.log(schedule);
 
   const getElement = (event) => {
-    let currentAvailTarget = event.currentTarget.getAttribute("data-target");
-    let currentAvailTable = document.getElementById(currentAvailTarget);
-    if (currentAvailTable.classList.contains("show")) {
-      currentAvailTable.classList.remove("show");
-      setOpenEmployee(false);
+    let currentCollapseTarget = event.currentTarget.getAttribute("data-target");
+    let currentCollapseTable = document.getElementById(currentCollapseTarget);
+    // console.log(currentAvailTarget);
+
+    if (currentCollapseTable.classList.contains("show")) {
+      currentCollapseTable.classList.remove("show");
+      setOpenDetails(false);
     } else {
-      currentAvailTable.classList.add("show");
-      setOpenEmployee(true);
+      currentCollapseTable.classList.add("show");
+      setOpenDetails(true);
     }
   };
 
@@ -52,10 +54,13 @@ function AdminMock() {
                 >
                   <h5 className="mb-0 text-left">
                     <button
+                    //section
+                      onClick={(event) => getElement(event)}
+                      aria-controls={`#collapse-employee-${index}`}
+                      aria-expanded={openDetails}
                       className="btn btn-link pl-1"
-                      onClick={() => setOpen(!open)}
-                      aria-controls={`collapse-${index}`}
-                      aria-expanded={open2}
+                      data-target={`#collapse-employee-${index}`}
+                      //section
                     >
                       {emp?.firstName} {emp?.lastName}
                     </button>
@@ -63,7 +68,7 @@ function AdminMock() {
                 </div>
 
                 <Collapse>
-                  <div id={`#collapseTarget-${index}`}>
+                  <div id={`#collapse-employee-${index}`}>
                     <div>Email: {emp?.email}</div>
                     <div>username: {emp?.username}</div>
                     <div>Phone: {emp?.phone}</div>
@@ -100,27 +105,21 @@ function AdminMock() {
                 >
                   <h5 className="mb-0 text-left">
                     <button
+                    //section
+                      onClick={(event) => getElement(event)}
+                      aria-controls={`#collapse-client-${index}`}
+                      aria-expanded={openDetails}
                       className="btn btn-link pl-1"
-                      onClick={() => setOpen(!open)}
-                      aria-controls={`collapse-${index}`}
-                      aria-expanded={open}
+                      data-target={`#collapse-client-${index}`}
+                      //section
                     >
                       {client?.businessName}
                     </button>
                   </h5>
                 </div>
-                <button
-                      className="btn btn-link pl-1"
-                      onClick={(event) => getElement(event)}
-                      aria-controls={`collapse-${index}`}
-                      aria-expanded={open2}
-                      data-target={`#collapse-text-${index}`}
-                    >
-                      {emp?.firstName} {emp?.lastName}
-                    </button>
 
                 <Collapse>
-                  <div id={`#collapse-text-${index}`}>
+                  <div id={`#collapse-client-${index}`}>
                     <div>Contact Name: {client?.contact}</div>
                     <div>Phone: {client?.phone}</div>
                     <div>Email: {client?.email}</div>
@@ -159,10 +158,13 @@ function AdminMock() {
                 >
                   <h5 className="mb-0 text-left">
                     <button
+                    // //section
+                      onClick={(event) => getElement(event)}
+                      aria-controls={`#collapse-schedule-${index}`}
+                      aria-expanded={openDetails}
                       className="btn btn-link pl-1"
-                      onClick={() => setOpen(!open)}
-                      aria-controls={`collapse-${index}`}
-                      aria-expanded={open}
+                      data-target={`#collapse-schedule-${index}`}
+                      //section
                     >
                       {job?.client.businessName}
                     </button>
@@ -170,7 +172,7 @@ function AdminMock() {
                 </div>
 
                 <Collapse in={open}>
-                  <div id={`collapse-text-directions-${index}`}>
+                  <div id={`#collapse-schedule-${index}`}>
                     <div>Contact Name: {job?.client.contact}</div>
                     <div>Phone: {job?.client.phone}</div>
                     <div>Email: {job?.client.email}</div>
