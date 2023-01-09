@@ -78,7 +78,7 @@ const EmployeePortal = ({
                 </Button>
               </div>
 
-              {renderPanel === "employee" ? <EmployeeMock /> : <EmployeeMock />}
+              {renderPanel === "employee" ? <Employee /> : <Employee />}
             </Col>
           </Row>
         </Container>
