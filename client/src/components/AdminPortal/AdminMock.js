@@ -6,6 +6,7 @@ import { QUERY_ALL_EMPLOYEES, QUERY_ALL_CLIENTS, QUERY_SCHEDULE } from "../../ut
 
 import { Row, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function AdminMock() {
   const [open, setOpen] = useState(false);
@@ -25,6 +26,7 @@ function AdminMock() {
   const { loading: scheduleLoad, data: schedule, error: scheduleError, refetch: scheduleRefetch } = useQuery(QUERY_SCHEDULE);
   console.log(schedule);
 
+  // collapse show / not show detail
   const getElement = (event) => {
     let currentCollapseTarget = event.currentTarget.getAttribute("data-target");
     let currentCollapseTable = document.getElementById(currentCollapseTarget);
@@ -39,6 +41,21 @@ function AdminMock() {
     }
   };
 
+  // toggle
+  const [adminToggle, setAdminToggle] = useState(true);
+  const [lockedToggle, setLockedToggle] = useState(false);
+  // const [showHidePassword, setShowHidePassword] = useState("password");
+
+  const handleToggle = (toggle) => {
+    toggle === "admin" ? setAdminToggle(!adminToggle): setLockedToggle(!lockedToggle);
+
+    // if (showHidePassword === "password") {
+    //   setShowHidePassword("test");
+    // } else {
+    //   setShowHidePassword("password");
+    // }
+  };
+
   return (
     <>
       <Container style={{ border: "1px solid black" }}>
@@ -50,21 +67,65 @@ function AdminMock() {
                 <div
                   className="rounded directions-collapse"
                   id="headingOne"
-                  style={{ color: "black" }}
+                  style={{ color: "black", display: "flex", justifyContent: "space-between" }}
                 >
                   <h5 className="mb-0 text-left">
                     <button
-                    //section
                       onClick={(event) => getElement(event)}
                       aria-controls={`#collapse-employee-${index}`}
                       aria-expanded={openDetails}
                       className="btn btn-link pl-1"
                       data-target={`#collapse-employee-${index}`}
-                      //section
                     >
                       {emp?.firstName} {emp?.lastName}
                     </button>
                   </h5>
+                  <div className="mr-2" style={{ display: "flex"}}>
+                    <FontAwesomeIcon
+                      icon="fa-pencil"
+                      className="p-2"
+                      onClick={() => console.log("pencil")}
+                      // onClick={() => handlePassClick()}
+                      // style={display ? isDisplayed : isNotDisplayed}
+                    />
+                    {/* ADMIN TOGGLE */}
+                    <FontAwesomeIcon
+                      icon="fa-toggle-on"
+                      className="p-2"
+                      // onClick={() => console.log("toggle-on")}
+                      onClick={() => handleToggle("admin")}
+                      style={adminToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    <FontAwesomeIcon
+                      icon="fa-toggle-off"
+                      className="p-2"
+                      // onClick={() => console.log("toggle-off")}
+                      onClick={() => handleToggle("admin")}
+                      style={!adminToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    {/* LOCKED TOGGLE */}
+                    <FontAwesomeIcon
+                      icon="fa-toggle-on"
+                      className="p-2"
+                      // onClick={() => console.log("toggle-on")}
+                      onClick={() => handleToggle("locked")}
+                      style={lockedToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    <FontAwesomeIcon
+                      icon="fa-toggle-off"
+                      className="p-2"
+                      // onClick={() => console.log("toggle-off")}
+                      onClick={() => handleToggle("locked")}
+                      style={!lockedToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    <FontAwesomeIcon
+                      icon="fa-trash"
+                      className="p-2"
+                      // onClick={() => console.log("trash")}
+                      // onClick={() => handlePassClick()}
+                      // style={display ? isDisplayed : isNotDisplayed}
+                    />
+                  </div>
                 </div>
 
                 <Collapse>
@@ -129,13 +190,13 @@ function AdminMock() {
                     <div>State: {client?.state}</div>
                     <div>Zip: {client?.zip}</div>
                     {client?.schedule.map((job, index) => (
-                      <>
+                      <div key={index}>
                         <div>Start Date: {job?.startDate}</div>
                         <div>Start Time: {job?.startTime}</div>
                         <div>End Date: {job?.endDate}</div>
                         <div>Job Details: {job?.jobDetails}</div>
                         <div>Number of Clients: {job?.numberOfClientEmployees}</div>
-                      </>
+                      </div>
                     ))}
                   </div>
                 </Collapse>
@@ -187,12 +248,12 @@ function AdminMock() {
                     <div>Job Details: {job?.jobDetails}</div>
                     <div>Number of Clients: {job?.numberOfClientEmployees}</div>
                     {job?.employees.map((employee, index) => (
-                      <>
+                      <div key={index}>
                         <div>First Name: {employee?.firstName}</div>
                         <div>Last Name: {employee?.lastName}</div>
                         <div>Email: {employee?.email}</div>
                         <div>Phone: {employee?.phone}</div>
-                      </>
+                      </div>
                     ))}
                   </div>
                 </Collapse>
@@ -207,3 +268,11 @@ function AdminMock() {
 }
 
 export default AdminMock;
+
+const isDisplayed = {
+  display: "block",
+};
+
+const isNotDisplayed = {
+  display: "none",
+};
