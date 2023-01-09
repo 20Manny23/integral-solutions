@@ -9,6 +9,9 @@ import Collapse from "react-bootstrap/Collapse";
 
 function AdminMock() {
   const [open, setOpen] = useState(false);
+  const [openEmployee, setOpenEmployee] = useState(false);
+  const [open2, setOpen2] = useState(false);
+
 
   // eslint-disable-next-line
   const { loading: empLoad, data: emp, error: empError, refetch: empRefectch} = useQuery(QUERY_ALL_EMPLOYEES);
@@ -21,6 +24,19 @@ function AdminMock() {
   // eslint-disable-next-line
   const { loading: scheduleLoad, data: schedule, error: scheduleError, refetch: scheduleRefetch } = useQuery(QUERY_SCHEDULE);
   console.log(schedule);
+
+  const getElement = (event) => {
+    let currentAvailTarget = event.currentTarget.getAttribute("data-target");
+    let currentAvailTable = document.getElementById(currentAvailTarget);
+    if (currentAvailTable.classList.contains("show")) {
+      currentAvailTable.classList.remove("show");
+      setOpenEmployee(false);
+    } else {
+      currentAvailTable.classList.add("show");
+      setOpenEmployee(true);
+    }
+  };
+
   return (
     <>
       <Container style={{ border: "1px solid black" }}>
@@ -39,15 +55,15 @@ function AdminMock() {
                       className="btn btn-link pl-1"
                       onClick={() => setOpen(!open)}
                       aria-controls={`collapse-${index}`}
-                      aria-expanded={open}
+                      aria-expanded={open2}
                     >
                       {emp?.firstName} {emp?.lastName}
                     </button>
                   </h5>
                 </div>
 
-                <Collapse in={open}>
-                  <div id={`collapse-text-directions-${index}`}>
+                <Collapse>
+                  <div id={`#collapseTarget-${index}`}>
                     <div>Email: {emp?.email}</div>
                     <div>username: {emp?.username}</div>
                     <div>Phone: {emp?.phone}</div>
@@ -93,9 +109,18 @@ function AdminMock() {
                     </button>
                   </h5>
                 </div>
+                <button
+                      className="btn btn-link pl-1"
+                      onClick={(event) => getElement(event)}
+                      aria-controls={`collapse-${index}`}
+                      aria-expanded={open2}
+                      data-target={`#collapse-text-${index}`}
+                    >
+                      {emp?.firstName} {emp?.lastName}
+                    </button>
 
-                <Collapse in={open}>
-                  <div id={`collapse-text-directions-${index}`}>
+                <Collapse>
+                  <div id={`#collapse-text-${index}`}>
                     <div>Contact Name: {client?.contact}</div>
                     <div>Phone: {client?.phone}</div>
                     <div>Email: {client?.email}</div>
