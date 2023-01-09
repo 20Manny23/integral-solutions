@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
 
-const userSchema = new Schema(
+const employeeSchema = new Schema(
   {
     username: {
       type: String,
@@ -53,8 +53,8 @@ const userSchema = new Schema(
   }
 );
 
-// hash user password
-userSchema.pre("save", async function (next) {
+// Hash employee password before saving
+employeeSchema.pre("save", async function (next) {
   if (this.isNew || this.isModified("password")) {
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
@@ -62,11 +62,25 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+// Hashing employee before updating into database
+// https://stackoverflow.com/questions/62066921/hashed-password-update-with-mongoose-express#
+employeeSchema.pre("findOneAndUpdate", async function (next) {
+  try {
+    if (this._update.password) {
+      const hashed = await bcrypt.hash(this._update.password, 10);
+      this._update.password = hashed;
+    }
+    next();
+  } catch (err) {
+    return next(err);
+  }
+});
+
 // custom method to compare and validate password for logging in
-userSchema.methods.isCorrectPassword = async function (password) {
+employeeSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-const Employee = model("Employee", userSchema);
+const Employee = model("Employee", employeeSchema);
 
 module.exports = Employee;

@@ -11,12 +11,14 @@ import { Form, Button, Alert } from "react-bootstrap";
 import "../../styles/button-home.css";
 
 function Employees() {
+  const [ tempPassword ] = useState('200');
+  const [ userFormData, setUserFormData ] = useState({ email: "", password: "" });
   // section get user using the email address
   const [employee, setEmployee] = useState({});
   
   // eslint-disable-next-line
   const { loading, data, error: getEmployeeError, refetch } = useQuery(QUERY_EMPLOYEE_BYEMAIL, {
-    variables: { email: "a@a.com"},
+    variables: { email: userFormData?.email},
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
@@ -34,7 +36,7 @@ function Employees() {
     console.log('reset password = ', employee)
     try {
       const { data } = await updatePassword({
-        variables: { ...employee, password: "300" }
+        variables: { ...employee, password: tempPassword }
       })
     } catch (e) {
       console.error(e);
@@ -43,13 +45,13 @@ function Employees() {
   };
 
   // set temp password when employee state is updated (query retrieves employee info)
-  // useEffect(() => {
-  //   setTempPassword();
-  // }, [employee]);
+  useEffect(() => {
+    setPassword();
+    // eslint-disable-next-line
+  }, [employee]);
   // section end
 
   // section Rods Code
-  const [ userFormData, setUserFormData ] = useState({ email: "a@a.com", password: "12" });
   const [ forgotPassword, { error } ] = useMutation(FORGOT_PASSWORD);
   const [ payLoadToken, setPayLoadToken ] = useState({});
 
@@ -73,13 +75,9 @@ function Employees() {
     }
 
     await refetch();
-    console.log('refetch ', employee)
-
-    // setTempPassword to populate the token 
-    await setPassword();
 
     // create token payload
-    let payload = {email: userFormData.email, password: '300'};
+    let payload = { email: userFormData.email, password: tempPassword };
     console.log('payload ', payload);
 
     // create new token using the forgotPassword mutation
@@ -114,17 +112,17 @@ function Employees() {
   };
 
   // After payLoadToken state is updated, launch email to user
-  // useEffect(() => {
-  //   sendEmail(payLoadToken);
-  // // eslint-disable-next-line
-  // }, [payLoadToken]);
+  useEffect(() => {
+    sendEmail(payLoadToken);
+  // eslint-disable-next-line
+  }, [payLoadToken]);
   
 
-  // const sendEmail = (token) => {
-  //   window.open(
-  //     `mailto:${userFormData.email}?subject=Password Reset&body=Click on this link to create a new pasword: http://localhost:3000/resetpassword/${payLoadToken.token}`
-  //   )
-  // }
+  const sendEmail = (token) => {
+    window.open(
+      `mailto:${userFormData.email}?subject=Password Reset&body=Click on this link to create a new pasword: http://localhost:3000/resetpassword/${payLoadToken.token}`
+    )
+  }
   // section end rods code
 
   return (

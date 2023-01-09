@@ -108,7 +108,7 @@ const LoginForm = () => {
               <InputGroup.Text
                 id="basic-addon1"
                 style={{
-                  borderRadius: "0%",
+                  borderRadius: "0px 4px 4px 0px",
                   background: "white",
                   borderLeft: "none",
                 }}
@@ -128,7 +128,7 @@ const LoginForm = () => {
           </Form.Group>
 
           <Button
-            disabled={!(userFormData.email)}
+            disabled={!(userFormData.email && userFormData.password)}
             className="mb-3 submit-button-style"
             type="submit"
             variant="success"
