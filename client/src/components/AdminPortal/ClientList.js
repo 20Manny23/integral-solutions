@@ -195,14 +195,14 @@ function ClientList() {
             <div id="accordion" key={index} style={{ width: "100%" }}>
               <div className="card p-2 mb-1">
                 <div
-                  className="rounded directions-collapse"
+                  className="rounded "
                   id="headingOne"
                   style={{ color: "black" }}
                 >
                   <h5 className="mb-0 text-left">
                     <Button
                       
-                      style={{backgroundColor:'transparent', border:'none'}}
+                      style={{backgroundColor:'transparent', border:'none', color:'#007bff'}}
                       onClick={(event) => getElement(event)}
                       aria-controls={`collapse-${index}`}
                       aria-expanded={openDetails}
@@ -212,9 +212,12 @@ function ClientList() {
                       {client?.businessName}
                     </Button>
                   </h5>
-                  <button
-                  style={{borderRadius:'5px'}}
-                  >Edit</button>
+                  <Button
+                  style={{ marginRight:'10px', backgroundColor:'gray', border:'2px solid black'}}
+                  >Edit</Button>
+                  <Button
+                  style={{ marginRight:'10px', backgroundColor:'gray', border:'2px solid black'}}
+                  >⛔ Delete</Button>
                 </div>
 
                 <Collapse>

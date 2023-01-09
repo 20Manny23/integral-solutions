@@ -1,6 +1,7 @@
 const { AuthenticationError } = require("apollo-server-express");
 const { User, Location, Incident, Event, Schedule, Client, Employee } = require("../models");
 const { signToken } = require("../utils/auth");
+const bcrypt = require("bcrypt");
 
 const resolvers = {
   Query: {
@@ -73,7 +74,8 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    employee: async (parent, { email }, context) => {
+    employeeByEmail: async (parent, { email }, context) => {
+      console.log(email)
       // if (context.user) {
         return Employee.findOne({ email: email }).populate({path: "schedule", populate: { path: "client" } });
       // }
@@ -181,6 +183,9 @@ const resolvers = {
     // },
 
     login: async (parent, { email, password }) => {
+
+      console.log('login ', email);
+
       const employee = await Employee.findOne({ email });
 
       if (!employee) {
@@ -192,6 +197,27 @@ const resolvers = {
       if (!correctPw) {
         throw new AuthenticationError("Incorrect credentials");
       }
+
+      const token = signToken(employee);
+
+      return { token, employee };
+    },
+
+    forgotPassword: async (parent, { email, password }) => {
+
+      console.log('forgot resolver =', email);
+      
+      const employee = await Employee.findOne({ email });
+
+      if (!employee) {
+        throw new AuthenticationError("Email address not found.");
+      }
+
+      // const correctPw = await employee.isCorrectPassword(password);
+
+      // if (!correctPw) {
+      //   throw new AuthenticationError("Incorrect credentials");
+      // }
 
       const token = signToken(employee);
 
@@ -317,7 +343,7 @@ const resolvers = {
         _id,
         username, 
         email, 
-        password, 
+        password,
         firstName, 
         lastName, 
         phone, 
@@ -328,8 +354,9 @@ const resolvers = {
       context
     ) => {
       // if (context.user) {
+        console.log('resolver update employee = ', _id, email, password, lastName)
         return Employee.findOneAndUpdate(
-          { _id },
+          { email },
           {
             username, 
             email, 

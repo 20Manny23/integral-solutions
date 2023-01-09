@@ -35,11 +35,11 @@ const LoginForm = () => {
         variables: { ...userFormData },
       });
 
-      // Auth.login(data.login.token);
+      console.log(data)
       Auth.login(data.login);
 
       // window.location.assign(`/calendar`);
-      window.location.assign(`/landing-template-v1`);
+      window.location.assign(`/home`);
 
     } catch (e) {
       console.error(e);
@@ -108,7 +108,7 @@ const LoginForm = () => {
               <InputGroup.Text
                 id="basic-addon1"
                 style={{
-                  borderRadius: "0%",
+                  borderRadius: "0px 4px 4px 0px",
                   background: "white",
                   borderLeft: "none",
                 }}
@@ -128,7 +128,7 @@ const LoginForm = () => {
           </Form.Group>
 
           <Button
-            disabled={!(userFormData.email)}
+            disabled={!(userFormData.email && userFormData.password)}
             className="mb-3 submit-button-style"
             type="submit"
             variant="success"

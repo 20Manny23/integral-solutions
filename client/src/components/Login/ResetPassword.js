@@ -1,23 +1,68 @@
-import React, { useState } from "react";
-import { Form, Button, Alert } from "react-bootstrap";
-import { useMutation } from "@apollo/client";
-import { LOGIN_USER } from "../../utils/mutations";
+import React, { useState, useEffect } from "react";
 import Auth from "../../utils/auth";
+import { useParams } from "react-router-dom";
+import decode from "jwt-decode";
+import { useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { UPDATE_EMPLOYEE} from "../../utils/mutations";
+import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Form, Button, Alert, InputGroup } from "react-bootstrap";
 import "../../styles/button-home.css";
 
 const ResetPassword = () => {
-  const [userFormData, setUserFormData] = useState({ email: "", password: "" });
-  const [login, { error }] = useMutation(LOGIN_USER);
+  const [ validated ] = useState(false);
+  const [ showAlert, setShowAlert ] = useState(false);
+  const [ passwordFormData, setPasswordFormData ] = useState({ password: "", passwordCheck: "" });
+  console.log(passwordFormData);
 
-  const [validated] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
+  // section get token from URL
+  let params = useParams();
+  console.log(params);
+
+  // section decode token to check contents
+  const decoded = decode(params.token);
+  console.log(decoded);
+
+  // section use email address to get user information
+  const [employee, setEmployee] = useState({});
+  // eslint-disable-next-line
+  const {loading, data, error: getEmployeeError, refetch } = useQuery(QUERY_EMPLOYEE_BYEMAIL, {
+    variables: { email: decoded.data.email },
+    // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+    skip: !Auth.loggedIn(),
+    onCompleted: (data) => {
+      setEmployee(data?.employeeByEmail);
+      console.log("hello = ", data?.employeeByEmail);
+    },
+  });
+  // section end
+
+  // section set temporary password to be used to construct the token
+  const [updatePassword, { error: passwordError }] = useMutation(UPDATE_EMPLOYEE);
+  
+  const setPassword = async () => {
+    console.log('reset password = ', passwordFormData)
+    try {
+      const { data } = await updatePassword({
+        variables: { ...employee, password: passwordFormData.password }
+      })
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  // set temp password when employee state is updated (query retrieves employee info)
+  useEffect(() => {
+    setPassword();
+  }, [employee]);
+  // section end
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setUserFormData({ ...userFormData, [name]: value });
+    console.log('inputChange = ', name,value, event.target);
+    setPasswordFormData({ ...passwordFormData, [name]: value });
   };
-
-  // let navigate = useNavigate();
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -30,26 +75,19 @@ const ResetPassword = () => {
     }
 
     try {
-      const { data } = await login({
-        variables: { ...userFormData },
-      });
+      await refetch();
 
-      // Auth.login(data.login.token);
-      Auth.login(data.login);
-
-      // window.location.assign(`/calendar`);
-      window.location.assign(`/landing-template-v1`);
+      window.location.assign(`/login`);
 
     } catch (e) {
       console.error(e);
       setShowAlert(true);
     }
 
-    setUserFormData({
-      username: "",
-      email: "",
-      password: "",
-    });
+    // setPasswordFormData({
+    //   password: "",
+    //   passwordCheck: "",
+    // });
   };
 
   const [display, setDisplay] = useState(true);
@@ -75,37 +113,81 @@ const ResetPassword = () => {
           style={{ width: "280px" }}
         >
           <Form.Group>
-            <Form.Label htmlFor="email">Enter New Password</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="password"
-              name="email"
-              onChange={handleInputChange}
-              value={userFormData.email}
-              required
-            />
-            <Form.Control.Feedback type="invalid">
-              Email is required!
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group>
-            <Form.Label htmlFor="email">Re-enter Password</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="password"
-              name="email"
-              onChange={handleInputChange}
-              value={userFormData.email}
-              required
-            />
-            <Form.Control.Feedback type="invalid">
-              Email is required!
-            </Form.Control.Feedback>
+            <Form.Label htmlFor="password">Password</Form.Label>
+            <InputGroup className="mb-3">
+              <Form.Control
+                type={showHidePassword}
+                placeholder="password"
+                name="password"
+                onChange={handleInputChange}
+                value={passwordFormData.password}
+                required
+                style={{ borderRight: "none" }}
+              />
+              <Form.Control.Feedback type="invalid">
+                <p>Password is required!</p>
+              </Form.Control.Feedback>
+              <InputGroup.Text
+                id="basic-addon1"
+                style={{
+                  borderRadius: "0px 4px 4px 0px",
+                  background: "white",
+                  borderLeft: "none",
+                }}
+              >
+                <FontAwesomeIcon
+                  icon="fa-eye"
+                  onClick={() => handlePassClick()}
+                  style={display ? isDisplayed : isNotDisplayed}
+                />
+                <FontAwesomeIcon
+                  icon="fa-eye-slash"
+                  onClick={() => handlePassClick()}
+                  style={!display ? isDisplayed : isNotDisplayed}
+                />
+              </InputGroup.Text>
+            </InputGroup>
           </Form.Group>
 
+          <Form.Group>
+            <Form.Label htmlFor="passwordCheck">Re-enter Password</Form.Label>
+            <InputGroup className="mb-3">
+              <Form.Control
+                type={showHidePassword}
+                placeholder="password"
+                name="passwordCheck"
+                onChange={handleInputChange}
+                value={passwordFormData.passwordCheck}
+                required
+                style={{ borderRight: "none" }}
+              />
+              <Form.Control.Feedback type="invalid">
+                <p>Password is required!</p>
+              </Form.Control.Feedback>
+              <InputGroup.Text
+                id="basic-addon2"
+                style={{
+                  borderRadius: "0px 4px 4px 0px",
+                  background: "white",
+                  borderLeft: "none",
+                }}
+              >
+                <FontAwesomeIcon
+                  icon="fa-eye"
+                  onClick={() => handlePassClick()}
+                  style={display ? isDisplayed : isNotDisplayed}
+                />
+                <FontAwesomeIcon
+                  icon="fa-eye-slash"
+                  onClick={() => handlePassClick()}
+                  style={!display ? isDisplayed : isNotDisplayed}
+                />
+              </InputGroup.Text>
+            </InputGroup>
+          </Form.Group>
 
           <Button
-            // disabled={!(userFormData.email && userFormData.password)}
+            // disabled={!(passwordFormData.email && passwordFormData.password)}
             className="mb-3 submit-button-style"
             type="submit"
             variant="success"
@@ -117,7 +199,7 @@ const ResetPassword = () => {
       </div>
 
       {/* show alert if server response is bad */}
-      {error && (
+      {/* {error && (
         <div className="d-flex justify-content-center">
           <Alert
             dismissible
@@ -132,9 +214,17 @@ const ResetPassword = () => {
             </p>
           </Alert>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
 
 export default ResetPassword;
+
+const isDisplayed = {
+  display: "block",
+};
+
+const isNotDisplayed = {
+  display: "none",
+};

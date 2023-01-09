@@ -24,14 +24,12 @@ export const LOGIN_USER = gql`
   }
 `;
 
-
 export const FORGOT_PASSWORD = gql`
-  mutation forgotPassword($email: String!) {
-    forgotPassword(email: $email) {
+  mutation forgotPassword($email: String!, $password: String!) {
+    forgotPassword(email: $email, password: $password) {
       token
-      user {
+      employee {
         _id
-        username
       }
     }
   }
@@ -50,7 +48,11 @@ export const FORGOT_PASSWORD = gql`
 // `;
 
 export const SIGNUP_EMPLOYEE = gql`
-  mutation signupEmployee($username: String!, $email: String!, $password: String!) {
+  mutation signupEmployee(
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
     signupEmployee(username: $username, email: $email, password: $password) {
       token
       employee {
@@ -152,6 +154,45 @@ export const UPDATE_AVAILABILITY = gql`
       sundayPm: $sundayPm
     ) {
       _id
+    }
+  }
+`;
+
+export const UPDATE_EMPLOYEE = gql`
+  mutation UpdateEmployee(
+    $id: ID
+    $username: String
+    $email: String
+    $password: String
+    $firstName: String
+    $lastName: String
+    $phone: String
+    $isManager: Boolean
+    $isAdmin: Boolean
+    $isLocked: Boolean
+  ) {
+    updateEmployee(
+      _id: $id
+      username: $username
+      email: $email
+      password: $password
+      firstName: $firstName
+      lastName: $lastName
+      phone: $phone
+      isManager: $isManager
+      isAdmin: $isAdmin
+      isLocked: $isLocked
+    ) {
+      _id
+      email
+      firstName
+      isManager
+      lastName
+      password
+      phone
+      username
+      isAdmin
+      isLocked
     }
   }
 `;
