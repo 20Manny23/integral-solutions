@@ -37,16 +37,16 @@ const AppNavbar = () => {
               // isAdmin explicity set to true to eliminate null values
               // access to home, adm portal, employee portal, logout
               <>
-                <Nav.Link className='navlink'as={Link} to="/home" eventKey="4" >
+                <Nav.Link style={{color:'white'}} className='navlink' as={Link} to="/home" eventKey="4" >
                   Home
                 </Nav.Link>
-                <Nav.Link style={{color:'white'}}className='navlink'as={Link} to="/calendar" eventKey="4">
+                <Nav.Link style={{color:'white'}} className='navlink'as={Link} to="/calendar" eventKey="4">
                   Admin
                 </Nav.Link>
-                <Nav.Link style={{color:'white'}}className='navlink'as={Link} to="/employee" eventKey="10" >
+                <Nav.Link style={{color:'white'}} className='navlink'as={Link} to="/employee" eventKey="10" >
                   Employee
                 </Nav.Link>
-                <Nav.Link style={{color:'white'}}className='navlink'onClick={Auth.logout} eventKey="4" >
+                <Nav.Link style={{color:'white'}} className='navlink'onClick={Auth.logout} eventKey="4" >
                   Logout
                 </Nav.Link>
               </>
