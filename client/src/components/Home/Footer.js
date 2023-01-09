@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Row, Col, Container, Nav,} from "react-bootstrap";
 import "../../styles/home.css";
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/logo.bkg.png";
 
 function Footer () {
     return (       
