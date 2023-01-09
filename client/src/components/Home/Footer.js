@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Row, Col, Container, Nav,} from "react-bootstrap";
 import "../../styles/home.css";
-import logo from "../../assets/images/new-logo.jpg";
+import logo from "../../assets/images/logo.png";
 
 function Footer () {
     return (       
@@ -15,7 +15,7 @@ function Footer () {
         </h3>
           <Row>
             <Col>
-              <img style={{maxWidth:'150px'}}src={logo} alt="logo"></img>
+              <img style={{maxWidth:'200px', height: "25vh", marginLeft: "0px"}}src={logo} alt="logo"></img>
             </Col>
             <Col className="footer-phone">
               <p className="">(555)-555-5555</p>

@@ -1,10 +1,12 @@
+// color:'#C59435'
+
 import React from "react";
 import Auth from "../utils/auth";
 import { Link } from "react-router-dom";
 
 import { Navbar, Nav, Row } from "react-bootstrap";
 import "../styles/navbar.css";
-import logo from "../assets/images/new-logo.jpg";
+import logo from "../assets/images/logo.png";
 
 const AppNavbar = () => {
   return (
@@ -18,7 +20,7 @@ const AppNavbar = () => {
         <Navbar.Brand as={Link} reloadDocument to="/" className="">
           <img className="logo" src={logo} alt="logo"></img>
         </Navbar.Brand>
-        <Navbar.Brand className="slogan" style={{ fontSize: "30px", color:'#C59435' }}>
+        <Navbar.Brand className="slogan" style={{ fontSize: "30px", color:'#ffffff', marginLeft: "20px" }}>
           {/* Office Furniture Installation At The Snap Of Your Fingers! */}
           Integral Solutions
         </Navbar.Brand>
