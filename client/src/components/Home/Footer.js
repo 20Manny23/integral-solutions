@@ -12,7 +12,7 @@ function Footer () {
         </h3> */}
         <h3 className="footer-title">
           Serving Greater Denver for Over 15 Years
-        </h3> */}
+        </h3> 
           <Row>
             <Col>
               <img style={{maxWidth:'200px', height: "25vh"}}src={logo} alt="logo"></img>
