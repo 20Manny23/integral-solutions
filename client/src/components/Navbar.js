@@ -13,7 +13,7 @@ const AppNavbar = () => {
   return (
     <>
       <Navbar
-        collapseOnSelect
+        
         className="shadow-sm navs"
         style={{ backgroundColor: "#0D2E4F" }}
         expand="lg"
@@ -24,15 +24,16 @@ const AppNavbar = () => {
         </Navbar.Brand>
         <Navbar.Brand className="slogan" style={{ fontSize: "30px", color: '#ffffff', marginLeft: "20px" }}>
           Integral Solutions
-          <h6> Office Furniture Installation At The Snap Of Your Fingers!
+          <h6 className="slogan-size"> Office Furniture Installation At The Snap Of Your Fingers!
           </h6>
         </Navbar.Brand>
-        <Row>
+        
           <Navbar.Toggle
+          
             aria-controls="navbar"
-            className="white toggle-style"
+            className="white toggle-style hamburger"
           />
-        </Row>
+        
         <Navbar.Collapse id="navbar" className="">
           <Nav className="ml-auto">
             {Auth.loggedIn() && Auth.isAdmin() === true && Auth.isLocked() === false ? (

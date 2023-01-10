@@ -120,5 +120,5 @@ Contributor Covenant Code of Conduct
 
 [![License:  MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 This project is licensed under the terms of the <span style="color:red">The MIT License</span>. Please click on the license badge for more information.
-The Following is an attribution link required for the use of the logo creator software <a href="https://www.vecteezy.com/free-vector/nature">Nature Vectors by Vecteezy</a>
+
 # integral-solutions-dev

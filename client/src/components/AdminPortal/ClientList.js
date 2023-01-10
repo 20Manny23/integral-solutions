@@ -161,7 +161,7 @@ function ClientList() {
               </Form.Group>
 
               <Row className="addy">
-                <Col xs={7}>
+                <Col xs={6}>
                   <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
                   <Form.Control className="custom-border" placeholder="City" />
                 </Col>
