@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 
 import { Navbar, Nav, Row } from "react-bootstrap";
 import "../styles/navbar.css";
-import logo from "../assets/images/logo.png";
+
+import logoTop from "../assets/images/logo-no-slogan.png";
 
 const AppNavbar = () => {
   return (
@@ -18,7 +19,7 @@ const AppNavbar = () => {
         expand="lg"
       >
         <Navbar.Brand as={Link} reloadDocument to="/" className="">
-          <img className="logo" src={logo} alt="logo"></img>
+          <img className="logo" src={logoTop} alt="logo"></img>
         </Navbar.Brand>
         <Navbar.Brand className="slogan" style={{ fontSize: "30px", color:'#ffffff', marginLeft: "20px" }}>
           {/* Office Furniture Installation At The Snap Of Your Fingers! */}
@@ -37,16 +38,16 @@ const AppNavbar = () => {
               // isAdmin explicity set to true to eliminate null values
               // access to home, adm portal, employee portal, logout
               <>
-                <Nav.Link className='navlink'as={Link} to="/home" eventKey="4" >
+                <Nav.Link style={{color:'white'}} className='navlink' as={Link} to="/home" eventKey="4" >
                   Home
                 </Nav.Link>
-                <Nav.Link style={{color:'white'}}className='navlink'as={Link} to="/calendar" eventKey="4">
+                <Nav.Link style={{color:'white'}} className='navlink'as={Link} to="/calendar" eventKey="4">
                   Admin
                 </Nav.Link>
-                <Nav.Link style={{color:'white'}}className='navlink'as={Link} to="/employee" eventKey="10" >
+                <Nav.Link style={{color:'white'}} className='navlink'as={Link} to="/employee" eventKey="10" >
                   Employee
                 </Nav.Link>
-                <Nav.Link style={{color:'white'}}className='navlink'onClick={Auth.logout} eventKey="4" >
+                <Nav.Link style={{color:'white'}} className='navlink'onClick={Auth.logout} eventKey="4" >
                   Logout
                 </Nav.Link>
               </>

@@ -8,30 +8,29 @@ import "../../styles/Forms.css";
 function EmployeeList() {
   const demoEmployee = ["Bryan", "Steve", "Rod", "George", "Kirtley"];
 
-  const [open, setOpen] = useState(false);
-  const [open2, setOpen2] = useState(false);
-  const [openEmployee, setOpenEmployee] = useState(false);
+  const [ open, setOpen ] = useState(false);
+  const [ open2, setOpen2 ] = useState(false);
+  const [ openClient, setOpenClient ] = useState(false);
 
   // eslint-disable-next-line
-  const {
-    loading: empLoad,
-    data: emp,
-    error: empError,
-    refetch: empRefectch,
+  const { loading: empLoad, data: emp, error: empError, refetch: empRefectch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
   console.log(emp);
 
   const getElement = (event) => {
-    let currentAvailTarget = event.currentTarget.getAttribute("data-target");
-    let currentAvailTable = document.getElementById(currentAvailTarget);
-    if (currentAvailTable.classList.contains("show")) {
-      currentAvailTable.classList.remove("show");
-      setOpenEmployee(false);
+    let currentCollapseTarget = event.currentTarget.getAttribute("data-target");
+    let currentCollapseTable = document.getElementById(currentCollapseTarget);
+    // console.log(currentAvailTarget);
+
+    if (currentCollapseTable.classList.contains("show")) {
+      currentCollapseTable.classList.remove("show");
+      setOpenClient(false);
     } else {
-      currentAvailTable.classList.add("show");
-      setOpenEmployee(true);
+      currentCollapseTable.classList.add("show");
+      setOpenClient(true);
     }
   };
+  
   return (
     <>
       <div
@@ -47,13 +46,13 @@ function EmployeeList() {
               {/* <h2 className="display-6 custom-text heading">Add Employee</h2> */}
               <Button
                 onClick={() => setOpen(!open)}
-                aria-controls="example-collapse-text"
+                aria-controls="collapse-text"
                 aria-expanded={open}
               >
                 Add New Employee
               </Button>
               <Collapse in={open}>
-                <div id="example-collapse-text">
+                <div id="collapse-text">
                   <Form.Group
                     className="mb-3 form-length"
                     controlId="formBasicEmail"

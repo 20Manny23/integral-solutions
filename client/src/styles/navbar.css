@@ -1,14 +1,14 @@
-
-
-.slogan{
+.slogan {
   font-style: italic;
   font-weight: bold;
   margin-left: -10px;
 }
-Nav{
+
+Nav {
   border-bottom: 1px solid black;
   color: white;
 }
+
 .heading-style {
   display: inline-block;
   font-family: Georgia, "Times New Roman", serif;
@@ -18,20 +18,23 @@ Nav{
 .toggle-style {
   z-index: 5;
 }
-.navlink{
+
+.navlink {
   font-size: 18px ;
   color: white;
   
 }
-.logo{
+
+.logo {
   max-height: 50px;
   margin-bottom:0;
   
 }
 
-.navs{
+.navs {
   max-height: 60px;
 }
+
 @media screen and (max-width:991px) {
   .logo{
     margin-top: -20px;
@@ -43,3 +46,4 @@ Nav{
     font-weight: 100;
   }
 }
+

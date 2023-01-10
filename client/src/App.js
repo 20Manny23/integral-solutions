@@ -17,8 +17,8 @@ import ShopLinks from "./pages/ShopLinks";
 import WrongPage from "./pages/WrongPage";
 import Login from "./pages/Login";
 import EmployeePortal from "./pages/EmployeePortal";
-import ForgotPassword from "./components/Login/ForgotPassword";
-import ResetPassword from "./components/Login/ResetPassword";
+import ForgotPassword from "./components/ResetPassord/ForgotPassword";
+import ResetPassword from "./components/ResetPassord/ResetPassword";
 
 // import Employee from "./components/Employee/Employee";
 // import EmployeeMock from "./components/Employee/EmployeeMock";
@@ -33,7 +33,12 @@ import ResetPassword from "./components/Login/ResetPassword";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
+  faCross,
+  faAdd,
+  faPencil,
   faTrash,
+  faToggleOn,
+  faToggleOff,
   faLocation,
   faShareNodes,
   faXmarkCircle,
@@ -42,9 +47,16 @@ import {
   faEye,
   faEyeSlash,
   faMap,
+  faEdit,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
+  faCross,
+  faAdd,
+  faPencil,
+  faEdit,
+  faToggleOn,
+  faToggleOff,
   faTrash,
   faLocation,
   faShareNodes,
