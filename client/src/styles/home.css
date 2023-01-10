@@ -90,7 +90,9 @@ footer {
 
 @media only screen and (max-width: 576px) {
   .overlay-box {
-    max-width: 250px;
+    max-width: 75%;
+    margin-right: auto;
+    margin-left: auto;
   }
 
   .overlay-header {

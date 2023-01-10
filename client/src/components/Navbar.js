@@ -29,8 +29,9 @@ const AppNavbar = () => {
         </Navbar.Brand>
         
           <Navbar.Toggle
+          
             aria-controls="navbar"
-            className="white toggle-style"
+            className="white toggle-style hamburger"
           />
         
         <Navbar.Collapse id="navbar" className="">

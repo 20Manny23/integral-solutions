@@ -3,8 +3,8 @@
   font-weight: bold;
   margin-left: -10px;
 }
-.slogan-size{
-  color:white;
+.slogan-size {
+  color: white;
 }
 Nav {
   border-bottom: 1px solid black;
@@ -34,12 +34,17 @@ Nav {
 .navs {
   max-height: 80px;
 }
-#navbar{
-  background-color: #0D2E4F;
+#navbar {
+  background-color: #0d2e4f;
   border-radius: 10px;
   padding: 0;
   text-align: center;
-  /* border: 2px solid white; */
+  color: white !important;
+  width: 25%;
+}
+.hamburger {
+  background-color: white !important;
+  text-decoration: none;
 }
 @media screen and (max-width: 991px) {
   .logo {
@@ -48,9 +53,12 @@ Nav {
   .slogan {
     margin-left: -32% !important;
   }
+  #navbar{
+    border:2px solid black;
+    width:50% !important;
+  }
 }
 @media screen and (max-width: 805px) {
-
   .slogan {
     margin-left: -20% !important;
   }
@@ -69,11 +77,11 @@ Nav {
   .slogan {
     margin-left: -30% !important;
   }
-  .slogan-size{
+  .slogan-size {
     display: none;
   }
-  .logo{
-    margin-top:-3px;
+  .logo {
+    margin-top: -3px;
   }
 }
 @media screen and (max-width: 556px) {
@@ -86,11 +94,7 @@ Nav {
     margin-left: -10% !important;
   }
 }
-/* @media screen and (max-width: 434px) {
-  .slogan {
-    margin-left: -1%!important;
-  }
-} */
+
 @media screen and (max-width: 423px) {
   .slogan {
     font-weight: 200;
@@ -98,6 +102,14 @@ Nav {
 }
 @media screen and (max-width: 388px) {
   .slogan {
-    margin-left: -2%!important;
+    margin-left: -2% !important;
+  }
+  .hamburger {
+    width: 10px !important;
+    height: 10px !important;
+  
+  }
+  .navbar-toggler-icon {
+    background-image: none !important;
   }
 }
