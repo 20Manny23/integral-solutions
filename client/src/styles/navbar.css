@@ -43,8 +43,9 @@ Nav {
   width: 25%;
 }
 .hamburger {
-  background-color: white !important;
+  background-color: #335270 !important;
   text-decoration: none;
+  
 }
 @media screen and (max-width: 991px) {
   .logo {
