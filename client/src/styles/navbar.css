@@ -3,7 +3,9 @@
   font-weight: bold;
   margin-left: -10px;
 }
-
+.slogan-size{
+  color:white;
+}
 Nav {
   border-bottom: 1px solid black;
   color: white;
@@ -35,50 +37,67 @@ Nav {
 #navbar{
   background-color: #0D2E4F;
   border-radius: 10px;
-  
+  padding: 0;
   text-align: center;
   /* border: 2px solid white; */
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 991px) {
   .logo {
-    margin-top: -12px;
+    margin-top: -18px;
   }
   .slogan {
-    margin-left: -48% !important;
+    margin-left: -32% !important;
   }
 }
-@media screen and (max-width: 650px) {
-  .slogan {
-    margin-left: -42% !important;
-  }
-}
-@media screen and (max-width: 580px) {
-  .slogan {
-    margin-left: -37% !important;
-  }
-}
-@media screen and (max-width: 540px) {
-  .slogan {
-    margin-left: -30% !important;
-  }
-}
-@media screen and (max-width: 485px) {
+@media screen and (max-width: 805px) {
+
   .slogan {
     margin-left: -20% !important;
   }
 }
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 697px) {
+  .slogan {
+    margin-left: -12% !important;
+  }
+}
+@media screen and (max-width: 627px) {
+  .slogan {
+    margin-left: -0% !important;
+  }
+}
+@media screen and (max-width: 588px) {
+  .slogan {
+    margin-left: -30% !important;
+  }
+  .slogan-size{
+    display: none;
+  }
+  .logo{
+    margin-top:-3px;
+  }
+}
+@media screen and (max-width: 556px) {
+  .slogan {
+    margin-left: -20% !important;
+  }
+}
+@media screen and (max-width: 486px) {
   .slogan {
     margin-left: -10% !important;
   }
 }
-@media screen and (max-width: 391px) {
+/* @media screen and (max-width: 434px) {
   .slogan {
-    margin-left: 0px;
+    margin-left: -1%!important;
+  }
+} */
+@media screen and (max-width: 423px) {
+  .slogan {
+    font-weight: 200;
   }
 }
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 388px) {
   .slogan {
-    font-weight: 100;
+    margin-left: -2%!important;
   }
 }
