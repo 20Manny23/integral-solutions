@@ -181,7 +181,7 @@ function WorkOrder() {
               <Form.Group className="mb-3" controlId="formBasicMessage">
                 <div className="form-label form-length">
                   <Form.Label style={{ fontWeight: "bolder" }}>
-                    Message
+                    Job Details
                   </Form.Label>
                 </div>
                 <Form.Control
