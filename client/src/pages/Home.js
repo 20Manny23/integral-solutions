@@ -97,7 +97,7 @@ const Home = () => {
           </Col>
           <Col className="d-flex justify-content-center mb-2">
             <Card style={{ width: "15rem", border: "none" }}>
-              <Card.Img variant="top" src={cleaning} />
+              <Card.Img className="pics" variant="top" src={cleaning} />
               <Card.Body>
                 <Card.Title style={{ marginTop: "-15px" }}>Cleaning</Card.Title>
                 <Card.Text style={{ fontSize: "13px" }}>
