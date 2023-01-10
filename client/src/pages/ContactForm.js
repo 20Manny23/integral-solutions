@@ -17,7 +17,7 @@ function ContactForm() {
               style={{ width: "80vw" }}
               action="mailto:bhoff1980@gmail.com"
             >
-              <h2 className="display-6 custom-text heading">
+              <h2 className="display-6 custom-text heading" style={{fontStyle:'italic'}}>
                 Tell Us How We Can Help
               </h2>
 
@@ -121,7 +121,7 @@ function ContactForm() {
                   </Form.Label>
                   <Form.Control
                     className="custom-border"
-                    placeholder="State (CO)"
+                    placeholder="State"
                   />
                 </Col>
                 <Col>
@@ -225,7 +225,7 @@ function ContactForm() {
               <Form.Group className="mb-3" controlId="formBasicMessage">
                 <div className="form-label">
                   <Form.Label style={{ fontWeight: "bolder" }}>
-                    Message
+                    Job Details
                   </Form.Label>
                 </div>
                 <Form.Control

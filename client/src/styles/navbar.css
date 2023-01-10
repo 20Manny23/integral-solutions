@@ -3,7 +3,9 @@
   font-weight: bold;
   margin-left: -10px;
 }
-
+.slogan-size {
+  color: white;
+}
 Nav {
   border-bottom: 1px solid black;
   color: white;
@@ -20,30 +22,95 @@ Nav {
 }
 
 .navlink {
-  font-size: 18px ;
+  font-size: 18px;
   color: white;
-  
 }
 
 .logo {
-  max-height: 50px;
-  margin-bottom:0;
-  
+  max-height: 60px;
+  margin-bottom: 0;
 }
 
 .navs {
-  max-height: 60px;
+  max-height: 80px;
 }
-
-@media screen and (max-width:991px) {
-  .logo{
-    margin-top: -20px;
-  }
+#navbar {
+  background-color: #0d2e4f;
+  border-radius: 10px;
+  padding: 0;
+  text-align: center;
+  color: white !important;
+  width: 25%;
+}
+.hamburger {
+  background-color: #335270 !important;
+  text-decoration: none;
   
 }
-@media screen and (max-width:391px) {
-  .slogan{
-    font-weight: 100;
+@media screen and (max-width: 991px) {
+  .logo {
+    margin-top: -18px;
+  }
+  .slogan {
+    margin-left: -32% !important;
+  }
+  #navbar{
+    border:2px solid black;
+    width:50% !important;
+  }
+}
+@media screen and (max-width: 805px) {
+  .slogan {
+    margin-left: -20% !important;
+  }
+}
+@media screen and (max-width: 697px) {
+  .slogan {
+    margin-left: -12% !important;
+  }
+}
+@media screen and (max-width: 627px) {
+  .slogan {
+    margin-left: -0% !important;
+  }
+}
+@media screen and (max-width: 588px) {
+  .slogan {
+    margin-left: -30% !important;
+  }
+  .slogan-size {
+    display: none;
+  }
+  .logo {
+    margin-top: -3px;
+  }
+}
+@media screen and (max-width: 556px) {
+  .slogan {
+    margin-left: -20% !important;
+  }
+}
+@media screen and (max-width: 486px) {
+  .slogan {
+    margin-left: -10% !important;
   }
 }
 
+@media screen and (max-width: 423px) {
+  .slogan {
+    font-weight: 200;
+  }
+}
+@media screen and (max-width: 388px) {
+  .slogan {
+    margin-left: -2% !important;
+  }
+  .hamburger {
+    width: 10px !important;
+    height: 10px !important;
+  
+  }
+  .navbar-toggler-icon {
+    background-image: none !important;
+  }
+}
