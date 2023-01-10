@@ -77,7 +77,7 @@ function WorkOrder() {
                   </Form.Label>
                   <Form.Control
                     className="custom-border"
-                    placeholder="State (CO)"
+                    placeholder="State"
                   />
                 </Col>
                 <Col>

@@ -13,10 +13,10 @@ const AppNavbar = () => {
   return (
     <>
       <Navbar
-        collapseOnSelect
+        
         className="shadow-sm navs"
         style={{backgroundColor: "#0D2E4F" }}
-        expand="lg"
+        expand="md"
       >
         <Navbar.Brand as={Link} reloadDocument to="/" className="">
           <img className="logo" src={logoTop} alt="logo"></img>

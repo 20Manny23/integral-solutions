@@ -20,30 +20,65 @@ Nav {
 }
 
 .navlink {
-  font-size: 18px ;
+  font-size: 18px;
   color: white;
-  
 }
 
 .logo {
   max-height: 50px;
-  margin-bottom:0;
-  
+  margin-bottom: 0;
 }
 
 .navs {
   max-height: 60px;
 }
-
-@media screen and (max-width:991px) {
-  .logo{
-    margin-top: -20px;
-  }
+#navbar{
+  background-color: #0D2E4F;
+  border-radius: 10px;
   
+  text-align: center;
+  /* border: 2px solid white; */
 }
-@media screen and (max-width:391px) {
-  .slogan{
+@media screen and (max-width: 767px) {
+  .logo {
+    margin-top: -12px;
+  }
+  .slogan {
+    margin-left: -48% !important;
+  }
+}
+@media screen and (max-width: 650px) {
+  .slogan {
+    margin-left: -42% !important;
+  }
+}
+@media screen and (max-width: 580px) {
+  .slogan {
+    margin-left: -37% !important;
+  }
+}
+@media screen and (max-width: 540px) {
+  .slogan {
+    margin-left: -30% !important;
+  }
+}
+@media screen and (max-width: 485px) {
+  .slogan {
+    margin-left: -20% !important;
+  }
+}
+@media screen and (max-width: 430px) {
+  .slogan {
+    margin-left: -10% !important;
+  }
+}
+@media screen and (max-width: 391px) {
+  .slogan {
+    margin-left: 0px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .slogan {
     font-weight: 100;
   }
 }
-
