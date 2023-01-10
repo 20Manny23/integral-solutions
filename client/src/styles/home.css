@@ -71,7 +71,7 @@ footer {
   font-weight:600;
   text-align: center;
   font-style: italic;
-  margin-top: 20px;
+  margin-top: -20px;
 }
 
 .footer-nav {
@@ -87,7 +87,20 @@ footer {
   height: 25px;
   margin: 0px;
 }
-
+@media only screen and (max-width: 767px) {
+  .footer-nav {
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+  }
+  .footer-phone {
+    
+    margin-top: -25px;
+  }
+  .full-logo{
+    margin-top: -15px;
+  }
+}
 @media only screen and (max-width: 576px) {
   .overlay-box {
     max-width: 75%;
@@ -117,15 +130,17 @@ footer {
     font-size: 26px;
   }
 
-  .footer-phone {
+  /* .footer-phone {
     display: flex;
     justify-content: center;
     align-items: center;
     align-content: center;
     font-size: 16px;
     text-align: center;
-  }
-
+  } */
+.full-logo{
+margin-top: 2px;
+}
   .footer-nav {
     flex-direction: row;
     justify-content: center;
@@ -136,5 +151,19 @@ footer {
     display: flex;
     justify-content: center;
     font-size: 12px;
+  }
+}
+@media only screen and (max-width:465px){
+  .espanol{
+    font-size: 20px;
+  }
+}
+@media only screen and (max-width:387px){
+  .espanol{
+    font-size: 15px;
+  }
+  .number{
+    font-size: 15px;
+    
   }
 }
