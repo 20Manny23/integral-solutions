@@ -184,3 +184,41 @@ export const UPDATE_EMPLOYEE = gql`
     }
   }
 `;
+
+// SECTION CLIENT
+export const ADD_CLIENT = gql`
+  mutation AddClient(
+    $businessName: String
+    $contact: String
+    $phone: String
+    $email: String
+    $streetAddress: String
+    $suite: String
+    $city: String
+    $state: String
+    $zip: String
+  ) {
+    addClient(
+      businessName: $businessName
+      streetAddress: $streetAddress
+      suite: $suite
+      city: $city
+      state: $state
+      zip: $zip
+      contact: $contact
+      phone: $phone
+      email: $email
+    ) {
+      _id
+      businessName
+      contact
+      phone
+      email
+      streetAddress
+      suite
+      state
+      city
+      zip
+    }
+  }
+`;

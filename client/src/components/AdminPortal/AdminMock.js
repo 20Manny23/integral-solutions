@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Auth from "../../utils/auth";
 
-import { useQuery } from "@apollo/client";
-import {
-  QUERY_ALL_EMPLOYEES,
-  QUERY_ALL_CLIENTS,
-  QUERY_SCHEDULE,
-} from "../../utils/queries";
+import { useQuery, useMutation } from "@apollo/client";
+import { QUERY_ALL_EMPLOYEES, QUERY_ALL_CLIENTS, QUERY_SCHEDULE } from "../../utils/queries";
+import { ADD_CLIENT } from "../../utils/mutations";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
@@ -88,54 +85,6 @@ function AdminMock() {
     return name;
   };
 
-  // If all fields are populated then enable the submit button
-  useEffect(() => {
-    setAreAllFieldsFilled(
-      businessName.trim() !== "" 
-      &&  contact.trim() !== "" 
-      && phone.trim() !== "" 
-      && emailClient.trim() !== ""
-      && streetAddress.trim() !== "" 
-      // && suite.trim() !== "" 
-      && city.trim() !== "" 
-      && state.trim() !== "" 
-      && zip.trim() !== "" 
-    );
-  console.log(areAllFieldsFilled);
-  // eslint-disable-next-line
-  }, [
-    businessName,
-    contact,
-    phone,
-    emailClient,
-    streetAddress,
-    suite,
-    city,
-    state,
-    zip,
-  ]);
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    console.log('hello = ', businessName, streetAddress, suite, city, state, zip, contact, phone, emailClient);
-    // resetForm();
-    // try {
-    //   // eslint-disable-next-line
-    //   const { data } = addIncident({
-    //     variables: {
-    //       employeeName: name,
-    //       locationName,
-    //       employeePhone: telNo,
-    //       subject,
-    //       urgent: isUrgent,
-    //       incidentDetails: body,
-    //     },
-    //   });
-    // } catch (err) {
-    //   console.error(err);
-    // }
-  };
-
   // If user clicks off an input field without entering text, then validation message "is required" displays
   // businessName, contact, phone, email, streetAddress, suite, city, state, zip
   const handleBlurChange = (e) => {
@@ -170,7 +119,60 @@ function AdminMock() {
       : setShowZipValidation(false);
   };
 
+  // If all fields are populated then enable the submit button
+  useEffect(() => {
+    setAreAllFieldsFilled(
+      businessName.trim() !== "" 
+      &&  contact.trim() !== "" 
+      && phone.trim() !== "" 
+      && emailClient.trim() !== ""
+      && streetAddress.trim() !== "" 
+      // && suite.trim() !== "" 
+      && city.trim() !== "" 
+      && state.trim() !== "" 
+      && zip.trim() !== "" 
+    );
+  console.log(areAllFieldsFilled);
+  // eslint-disable-next-line
+  }, [
+    businessName,
+    contact,
+    phone,
+    emailClient,
+    streetAddress,
+    suite,
+    city,
+    state,
+    zip,
+  ]);
+
   // ADD CLIENT
+
+  const [addClient] = useMutation(ADD_CLIENT);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    console.log('hello = ', businessName, streetAddress, suite, city, state, zip, contact, phone, emailClient);
+    // resetForm();
+    try {
+      // eslint-disable-next-line
+      const { data } = addClient({
+        variables: {
+          businessName,
+          contact,
+          phone, 
+          email: emailClient,
+          streetAddress,
+          // suite, 
+          city, 
+          state, 
+          zip, 
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   // UPDATE CLIENT
 
