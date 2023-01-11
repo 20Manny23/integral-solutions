@@ -4,16 +4,21 @@ import Auth from "../../utils/auth";
 import { useQuery } from "@apollo/client";
 import { QUERY_ALL_EMPLOYEES } from "../../utils/queries";
 import "../../styles/Forms.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function EmployeeList() {
   const demoEmployee = ["Bryan", "Steve", "Rod", "George", "Kirtley"];
 
-  const [ open, setOpen ] = useState(false);
-  const [ open2, setOpen2 ] = useState(false);
-  const [ openClient, setOpenClient ] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
+  const [openClient, setOpenClient] = useState(false);
 
   // eslint-disable-next-line
-  const { loading: empLoad, data: emp, error: empError, refetch: empRefectch,
+  const {
+    loading: empLoad,
+    data: emp,
+    error: empError,
+    refetch: empRefectch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
   console.log(emp);
 
@@ -30,11 +35,35 @@ function EmployeeList() {
       setOpenClient(true);
     }
   };
-  
+  const [adminToggle, setAdminToggle] = useState(true);
+  const [lockedToggle, setLockedToggle] = useState(false);
+  const [openDetails, setOpenDetails] = useState(false);
+
+  const handleToggle = (toggle) => {
+    toggle === "admin"
+      ? setAdminToggle(!adminToggle)
+      : setLockedToggle(!lockedToggle);
+
+    // if (showHidePassword === "password") {
+    //   setShowHidePassword("test");
+    // } else {
+    //   setShowHidePassword("password");
+    // }
+  };
+
+  function trash (){
+    let deleteConfirm = prompt("Are you sure you want to delete employee? Type Yes to Delete");
+    if(deleteConfirm === 'Yes'){
+      // delete logic here 
+    }
+    else{
+
+    }
+  }
   return (
     <>
       <div
-        className=" pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
+        // className=" pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
         style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
       >
         <Row>
@@ -44,15 +73,9 @@ function EmployeeList() {
               style={{ width: "80vw" }}
             >
               {/* <h2 className="display-6 custom-text heading">Add Employee</h2> */}
-              <Button
-                onClick={() => setOpen(!open)}
-                aria-controls="collapse-text"
-                aria-expanded={open}
-              >
-                Add New Employee
-              </Button>
-              <Collapse in={open}>
-                <div id="collapse-text">
+             
+              <Collapse in={open} className='shadow rounded-lg border border-secondary'>
+                <div id="collapse-text ">
                   <Form.Group
                     className="mb-3 form-length"
                     controlId="formBasicEmail"
@@ -138,58 +161,107 @@ function EmployeeList() {
 
       <Container
         className="pb-2 d-flex flex-column align-self-center shadow rounded-lg border border-secondary"
-        style={{ margin: "20px 0px 20px 0px" }}
+        style={{ marginBottom: "20px", marginTop:'-20px' }}
       >
-        <h3 style={{ textAlign: "center" }}>Employee List</h3>
+        <div className="d-flex justify-content-between">
+          <h3 style={{ textAlign: "center" }}>Employee List</h3>
+          
+            <button style={{marginBottom:'25px', border:'none', backgroundColor:'white'}}
+           
+              className="p-2"
+              onClick={() => setOpen(!open)}
+              >Add New ➕</button>
+          
+        </div>
         <Row style={{ display: "flex", justifyContent: "center" }}>
           {emp?.employees?.map((emp, index) => (
-            <div
-              id="accordion"
-              key={index}
-              style={{ width: "100%", display: "inline-block" }}
-            >
+            <div id="accordion" key={index} style={{ width: "100%" }}>
               <div className="card p-2 mb-1">
                 <div
-                  className="rounded "
+                  className="rounded directions-collapse"
                   id="headingOne"
-                  style={{ color: "black", display: "inline-block" }}
+                  style={{ color: "black", display: "flex", justifyContent: "space-between" }}
                 >
                   <h5 className="mb-0 text-left">
                     <button
-                      className="btn btn-link pl-1"
                       onClick={(event) => getElement(event)}
-                      aria-controls={`collapse-${index}`}
-                      aria-expanded={open2}
-                      data-target={`#collapseTarget-${index}`}
+                      aria-controls={`#collapse-employee-${index}`}
+                      aria-expanded={openDetails}
+                      className="btn btn-link pl-1"
+                      data-target={`#collapse-employee-${index}`}
                     >
                       {emp?.firstName} {emp?.lastName}
                     </button>
                   </h5>
-                  <button style={{ display: "inline-block" }}>Edit Info</button>
-                  <Form>
-                    {["checkbox"].map((type) => (
-                      <div key={`inline-${type}`} className="mb-3">
-                        <Form.Check
-                          inline
-                          label="Admin "
-                          name="group1"
-                          type={type}
-                          id={`inline-${type}-1`}
-                        />
-                        <Form.Check
-                          inline
-                          label="Active Employee"
-                          name="group1"
-                          type={type}
-                          id={`inline-${type}-2`}
-                        />
-                      </div>
-                    ))}
-                  </Form>
+                  <div className="mr-2" style={{ display: "flex"}}>
+                  <span style={{paddingTop:'5px'}}>Edit</span>
+                  {/* <button
+                      onClick={(event) => getElement(event)}
+                      aria-controls={`#collapse-employee-${index}`}
+                      aria-expanded={openDetails}
+                      style={{border:'none', backgroundColor:'white'}}
+                      data-target={`#collapse-employee-${index}`} */}
+                    <FontAwesomeIcon
+                    icon="fa-pencil "
+                    className="p-2 fa-lg"
+                    
+                    // onClick={() => handlePassClick()}
+                    // style={display ? isDisplayed : isNotDisplayed}
+                  />
+                      
+                    {/* </button> */}
+                    {/* <FontAwesomeIcon
+                      icon="fa-pencil "
+                      className="p-2 fa-lg"
+                      onClick={() => console.log("pencil")}
+                      onClick={() => handlePassClick()}
+                      style={display ? isDisplayed : isNotDisplayed}
+                    /> */}
+                    {/* ADMIN TOGGLE */}
+                    <span style={{paddingTop:'5px'}}>Admin</span>
+                    <FontAwesomeIcon
+                      icon="fa-toggle-on"
+                      className="p-2 fa-lg"
+                      // onClick={() => console.log("toggle-on")}
+                      onClick={() => handleToggle("admin")}
+                      style={adminToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    <FontAwesomeIcon
+                      icon="fa-toggle-off"
+                      className="p-2 fa-lg"
+                      // onClick={() => console.log("toggle-off")}
+                      onClick={() => handleToggle("admin")}
+                      style={!adminToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    {/* LOCKED TOGGLE */}
+                    <span style={{paddingTop:'5px'}}>Active</span>
+                    <FontAwesomeIcon
+                      icon="fa-toggle-on"
+                      className="p-2 fa-lg up-10"
+                      // onClick={() => console.log("toggle-on")}
+                      onClick={() => handleToggle("locked")}
+                      style={lockedToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    <FontAwesomeIcon
+                     className="fa-layers fa-fw p-2 fa-lg up-5" icon="fa-toggle-off"
+                      
+                      // onClick={() => console.log("toggle-off")}
+                      onClick={() => handleToggle("locked")}
+                      style={!lockedToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    <button onClick={trash} style={{backgroundColor:'white', border:'none'}}>
+                    <FontAwesomeIcon
+                      icon="fa-trash"
+                       className="p-2 fa-lg"
+                      
+                      // onClick={() => handlePassClick()}
+                      // style={display ? isDisplayed : isNotDisplayed}
+                    /></button>
+                  </div>
                 </div>
 
                 <Collapse>
-                  <div id={`#collapseTarget-${index}`}>
+                  <div id={`#collapse-employee-${index}`}>
                     <div>Email: {emp?.email}</div>
                     <div>username: {emp?.username}</div>
                     <div>Phone: {emp?.phone}</div>
@@ -219,3 +291,11 @@ function EmployeeList() {
 }
 
 export default EmployeeList;
+
+const isDisplayed = {
+  display: "block",
+};
+
+const isNotDisplayed = {
+  display: "none",
+};

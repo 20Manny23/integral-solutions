@@ -51,10 +51,10 @@
   transform: translate(1px, 1px);
 }
 
-.directions-collapse:hover {
+/* .directions-collapse:hover {
   box-shadow: 0px 0px 3px rgb(46, 46, 46);
   background-color: rgb(63, 63, 63);
-}
+} */
 
 .directions-collapse:active {
   transform: translate(1px, 1px);
