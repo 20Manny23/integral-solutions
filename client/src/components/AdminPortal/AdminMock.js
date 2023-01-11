@@ -196,11 +196,6 @@ function AdminMock() {
 
   const [updateClient] = useMutation(UPDATE_CLIENT);
 
-  // create an object called editwith key = businessName and value = false
-  // editClient = object created above = testClient
-  // click on the edit button, revise the testClient list to make the selected field state = !currentState
-  // disable is equal to the testClient key value
-
   const handleEditSubmit = async (event) => {
     event.preventDefault();
     let clientEditId = event.currentTarget.getAttribute("data-editclientid");
@@ -319,8 +314,6 @@ function AdminMock() {
             icon="fa-add"
             className="p-2"
             onClick={() => console.log("add")}
-            // onClick={() => handlePassClick()}
-            // style={display ? isDisplayed : isNotDisplayed}
           />
         </div>
         <Row style={{ display: "flex", justifyContent: "center" }}>
@@ -352,15 +345,11 @@ function AdminMock() {
                       icon="fa-add"
                       className="p-2"
                       onClick={() => console.log("pencil")}
-                      // onClick={() => handlePassClick()}
-                      // style={display ? isDisplayed : isNotDisplayed}
                     />
                     <FontAwesomeIcon
                       icon="fa-pencil"
                       className="p-2"
                       onClick={() => console.log("pencil")}
-                      // onClick={() => handlePassClick()}
-                      // style={display ? isDisplayed : isNotDisplayed}
                     />
                     {/* ADMIN TOGGLE */}
                     <FontAwesomeIcon
@@ -373,7 +362,6 @@ function AdminMock() {
                     <FontAwesomeIcon
                       icon="fa-toggle-off"
                       className="p-2"
-                      // onClick={() => console.log("toggle-off")}
                       onClick={() => handleToggle("admin")}
                       style={!adminToggle ? isDisplayed : isNotDisplayed}
                     />
@@ -381,7 +369,6 @@ function AdminMock() {
                     <FontAwesomeIcon
                       icon="fa-toggle-on"
                       className="p-2"
-                      // onClick={() => console.log("toggle-on")}
                       onClick={() => handleToggle("locked")}
                       style={lockedToggle ? isDisplayed : isNotDisplayed}
                     />
@@ -395,9 +382,6 @@ function AdminMock() {
                     <FontAwesomeIcon
                       icon="fa-trash"
                       className="p-2"
-                      // onClick={() => console.log("trash")}
-                      // onClick={() => handlePassClick()}
-                      // style={display ? isDisplayed : isNotDisplayed}
                     />
                   </div>
                 </div>
