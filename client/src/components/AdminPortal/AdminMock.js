@@ -399,26 +399,9 @@ function AdminMock() {
       </Container>
 
       {/* section client form */}
-      <div
-        className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
-        style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
-      >
-        {/* <Button
-          onClick={() => setOpen(!open)}
-          aria-controls="example-collapse-text"
-          aria-expanded={open}
-          style={{ marginTop: "10px" }}
-        >
-          Add New Client
-        </Button> */}
-
-        <Form
-          className="py-3 overflow-auto custom-about"
-          onSubmit={handleFormSubmit}
-          style={{ width: "80vw" }}
-        >
-          <div className="d-flex justify-content-center">
-            <h2 className="display-5 custom-text heading">Client Form</h2>
+      <Container style={{ border: "1px solid black" }}>
+      <div className="d-flex justify-content-between">
+        <h3>Client List</h3>
 
             <FontAwesomeIcon
               icon="fa-add"
@@ -430,13 +413,23 @@ function AdminMock() {
 
               title="Add new client"
               transform="grow-10"
-              alt="Share my profile"
+              alt="Add a new client"
 
               // onClick={() => console.log("add")}
               // onClick={() => handlePassClick()}
               // style={display ? isDisplayed : isNotDisplayed}
             />
           </div>
+        <Row style={{ display: "flex", justifyContent: "center" }}>
+      {/* <section
+        className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
+        style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
+      > */}
+        <Form
+          className="py-3 overflow-auto custom-about"
+          onSubmit={handleFormSubmit}
+          style={{ width: "80vw" }}
+        >
           <Collapse in={open}>
           <div id="example-collapse-text">
             <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
@@ -635,7 +628,9 @@ function AdminMock() {
           </div>
           </Collapse>
         </Form>
-      </div>
+      {/* </section> */}
+        </Row>
+      </Container>
 
       <Container style={{ border: "1px solid black" }}>
         <h3>Schedule</h3>
