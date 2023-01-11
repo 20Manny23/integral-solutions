@@ -3,7 +3,7 @@ import Auth from "../../utils/auth";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_EMPLOYEES, QUERY_ALL_CLIENTS, QUERY_SCHEDULE } from "../../utils/queries";
-import { ADD_CLIENT } from "../../utils/mutations";
+import { ADD_CLIENT, DELETE_CLIENT } from "../../utils/mutations";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
@@ -147,16 +147,15 @@ function AdminMock() {
   ]);
 
   // ADD CLIENT
-
   const [addClient] = useMutation(ADD_CLIENT);
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     console.log('hello = ', businessName, streetAddress, suite, city, state, zip, contact, phone, emailClient);
     // resetForm();
     try {
       // eslint-disable-next-line
-      const { data } = addClient({
+      const { data } = await addClient({
         variables: {
           businessName,
           contact,
@@ -172,11 +171,33 @@ function AdminMock() {
     } catch (err) {
       console.error(err);
     }
+
+    clientRefetch();
   };
 
   // UPDATE CLIENT
 
   // DELETE CLIENT
+    // delete incident query
+    const [deleteClient] = useMutation(DELETE_CLIENT);
+
+    // delete incident
+    const handleDeleteClient = async (clientId) => {
+      try {
+        // eslint-disable-next-line
+        const { data } = await deleteClient({
+          variables: {
+            id: clientId,
+          },
+        });
+
+        // RELOAD CLIENT LIST
+        clientRefetch();
+        
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
   // SECTION END CLIENT
 
@@ -370,61 +391,36 @@ function AdminMock() {
                   </h5>
                   <div className="mr-2" style={{ display: "flex" }}>
                     <FontAwesomeIcon
-                      icon="fa-add"
-                      className="p-2"
-                      onClick={() => console.log("pencil")}
-                      // onClick={() => handlePassClick()}
-                      // style={display ? isDisplayed : isNotDisplayed}
-                    />
-                    <FontAwesomeIcon
                       icon="fa-pencil"
                       className="p-2"
-                      onClick={() => console.log("pencil")}
-                      // onClick={() => handlePassClick()}
-                      // style={display ? isDisplayed : isNotDisplayed}
+                      // data-clientId={client?._id}
+                      onClick={(event) => {
+                        console.log("pencil")
+                        // let clientId =
+                        //   event.currentTarget.getAttribute("data-clientId");
+                        // handleDeleteClient(clientId);
+                      }}
                     />
-                    {/* ADMIN TOGGLE */}
-                    <FontAwesomeIcon
-                      icon="fa-toggle-on"
-                      className="p-2"
-                      // onClick={() => console.log("toggle-on")}
-                      onClick={() => handleToggle("admin")}
-                      style={adminToggle ? isDisplayed : isNotDisplayed}
-                    />
-                    <FontAwesomeIcon
-                      icon="fa-toggle-off"
-                      className="p-2"
-                      // onClick={() => console.log("toggle-off")}
-                      onClick={() => handleToggle("admin")}
-                      style={!adminToggle ? isDisplayed : isNotDisplayed}
-                    />
-                    {/* LOCKED TOGGLE */}
-                    <FontAwesomeIcon
-                      icon="fa-toggle-on"
-                      className="p-2"
-                      // onClick={() => console.log("toggle-on")}
-                      onClick={() => handleToggle("locked")}
-                      style={lockedToggle ? isDisplayed : isNotDisplayed}
-                    />
-                    <FontAwesomeIcon
-                      icon="fa-toggle-off"
-                      className="p-2"
-                      // onClick={() => console.log("toggle-off")}
-                      onClick={() => handleToggle("locked")}
-                      style={!lockedToggle ? isDisplayed : isNotDisplayed}
-                    />
+                    {/* DELETE */}
                     <FontAwesomeIcon
                       icon="fa-trash"
                       className="p-2"
-                      // onClick={() => console.log("trash")}
-                      // onClick={() => handlePassClick()}
-                      // style={display ? isDisplayed : isNotDisplayed}
+                      
+                      data-clientId={client?._id}
+                      onClick={(event) => {
+                        console.log("trash/delete")
+                        let clientId =
+                          event.currentTarget.getAttribute("data-clientId");
+                        handleDeleteClient(clientId);
+                      }}
+
                     />
                   </div>
                 </div>
 
                 <Collapse>
                   <div id={`#collapse-client-${index}`}>
+                    <div>Contact Id: {client?._id}</div>
                     <div>Contact Name: {client?.contact}</div>
                     <div>Phone: {client?.phone}</div>
                     <div>Email: {client?.email}</div>
