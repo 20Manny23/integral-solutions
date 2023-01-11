@@ -13,6 +13,7 @@ import Collapse from "react-bootstrap/Collapse";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/Contact.css";
+import "../../styles/button-style.css";
 
 function AdminMock() {
   const [open, setOpen] = useState(false);
@@ -31,12 +32,7 @@ function AdminMock() {
 
   // SECTION START CLIENT
   // eslint-disable-next-line
-  const {
-    loading: clientLoad,
-    data: clients,
-    error: clientError,
-    refetch: clientRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
+  const { loading: clientLoad, data: clients, error: clientError, refetch: clientRefetch } = useQuery(QUERY_ALL_CLIENTS);
   console.log(clients);
 
   // GET CLIENT FORM DATA
@@ -140,7 +136,6 @@ function AdminMock() {
     // }
   };
 
-
   // If user clicks off an input field without entering text, then validation message "is required" displays
   // businessName, contact, phone, email, streetAddress, suite, city, state, zip
   const handleBlurChange = (e) => {
@@ -226,6 +221,7 @@ function AdminMock() {
 
   return (
     <>
+      {/* section start employee list */}
       <Container style={{ border: "1px solid black" }}>
         <div className="d-flex justify-content-between">
           <h3>Employee List</h3>
@@ -342,7 +338,9 @@ function AdminMock() {
           ))}
         </Row>
       </Container>
+      {/* section end employee list */}
 
+      {/* section start client list */}
       <Container style={{ border: "1px solid black" }}>
         <h3>Client List</h3>
         <Row style={{ display: "flex", justifyContent: "center" }}>
@@ -397,241 +395,257 @@ function AdminMock() {
           ))}
         </Row>
       </Container>
+      {/* section end client list */}
 
-      {/* section client form */}
+      {/* section start client form */}
       <Container style={{ border: "1px solid black" }}>
-      <div className="d-flex justify-content-between">
-        <h3>Client List</h3>
-
-            <FontAwesomeIcon
-              icon="fa-add"
-              className="p-2"
-
-              onClick={() => setOpen(!open)}
-              aria-controls="example-collapse-text"
-              aria-expanded={open}
-
-              title="Add new client"
-              transform="grow-10"
-              alt="Add a new client"
-
-              // onClick={() => console.log("add")}
-              // onClick={() => handlePassClick()}
-              // style={display ? isDisplayed : isNotDisplayed}
-            />
-          </div>
+        <div className="d-flex justify-content-between">
+          <h3>Client List</h3>
+          <FontAwesomeIcon
+            icon="fa-add"
+            className="p-2"
+            onClick={() => setOpen(!open)}
+            aria-controls="example-collapse-text"
+            aria-expanded={open}
+            title="Add new client"
+            transform="grow-10"
+            alt="Add a new client"
+          />
+        </div>
         <Row style={{ display: "flex", justifyContent: "center" }}>
-      {/* <section
-        className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
-        style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
-      > */}
-        <Form
-          className="py-3 overflow-auto custom-about"
-          onSubmit={handleFormSubmit}
-          style={{ width: "80vw" }}
-        >
-          <Collapse in={open}>
-          <div id="example-collapse-text">
-            <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
-              <div className="form-label">
-                <Form.Label style={{ fontWeight: "bolder" }}>
-                  Company Name
-                </Form.Label>
-                <Form.Label
-                  className={`validation-color ${
-                    showBusinessNameValidation ? "show" : "hide"
-                  }`}
+          <Form
+            className="py-3 overflow-auto custom-about"
+            onSubmit={handleFormSubmit}
+            style={{ width: "80vw" }}
+          >
+            <Collapse in={open}>
+            {/* <Collapse> */}
+              <div id="example-collapse-text">
+                <Form.Group
+                  className="mb-3 form-length"
+                  controlId="formBasicEmail"
                 >
-                  * field is required
-                </Form.Label>
-              </div>
-              <Form.Control
-                className="custom-border"
-                type="text"
-                placeholder="Enter Company Name"
-                name="businessName"
-                defaultValue="test"
-                onChange={handleInputChange}
-                onBlur={handleBlurChange}
-                required
-              />
-            </Form.Group>
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Company Name
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showBusinessNameValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * field is required
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    type="text"
+                    placeholder="Enter Company Name"
+                    name="businessName"
+                    defaultValue="test"
+                    onChange={handleInputChange}
+                    onBlur={handleBlurChange}
+                    required
+                  />
+                </Form.Group>
 
-            <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
-              <div className="form-label">
-                <Form.Label style={{ fontWeight: "bolder" }}>
-                  Contact Name
-                </Form.Label>
-                <Form.Label
-                  className={`validation-color ${
-                    showContactValidation ? "show" : "hide"
-                  }`}
+                <Form.Group
+                  className="mb-3 form-length"
+                  controlId="formBasicEmail"
                 >
-                  * field is required
-                </Form.Label>
-              </div>
-              <Form.Control
-                className="custom-border"
-                type="text"
-                placeholder="Enter Contact Person"
-                name="contact"
-                defaultValue="test contact"
-                onChange={handleInputChange}
-                onBlur={handleBlurChange}
-                required
-              />
-            </Form.Group>
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Contact Name
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showContactValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * field is required
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    type="text"
+                    placeholder="Enter Contact Person"
+                    name="contact"
+                    defaultValue="test contact"
+                    onChange={handleInputChange}
+                    onBlur={handleBlurChange}
+                    required
+                  />
+                </Form.Group>
 
-            <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
-              <div className="form-label">
-                <Form.Label style={{ fontWeight: "bolder" }}>
-                  Phone Number
-                </Form.Label>
-                <Form.Label
-                  className={`validation-color ${
-                    showPhoneValidation ? "show" : "hide"
-                  }`}
+                <Form.Group
+                  className="mb-3 form-length"
+                  controlId="formBasicEmail"
                 >
-                  * field is required
-                </Form.Label>
-              </div>
-              <Form.Control
-                className="custom-border"
-                type="tel"
-                placeholder="example: 123-456-7899"
-                name="phone"
-                defaultValue="123-456-7899"
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                onChange={handleInputChange}
-                onBlur={handleBlurChange}
-                required
-              />
-            </Form.Group>
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Phone Number
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showPhoneValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * field is required
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    type="tel"
+                    placeholder="example: 123-456-7899"
+                    name="phone"
+                    defaultValue="123-456-7899"
+                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                    onChange={handleInputChange}
+                    onBlur={handleBlurChange}
+                    required
+                  />
+                </Form.Group>
 
-            <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
-              <div className="form-label">
-                <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label>
-                <Form.Label
-                  className={`validation-color ${
-                    showEmailClientValidation ? "show" : "hide"
-                  }`}
+                <Form.Group
+                  className="mb-3 form-length"
+                  controlId="formBasicEmail"
                 >
-                  * field is required
-                </Form.Label>
-              </div>
-              <Form.Control
-                className="custom-border"
-                type="email"
-                placeholder="Client Email"
-                name="emailClient"
-                defaultValue="test@test.com"
-                onChange={handleInputChange}
-                onBlur={handleBlurChange}
-                required
-              />
-            </Form.Group>
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Email
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showEmailClientValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * field is required
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    type="email"
+                    placeholder="Client Email"
+                    name="emailClient"
+                    defaultValue="test@test.com"
+                    onChange={handleInputChange}
+                    onBlur={handleBlurChange}
+                    required
+                  />
+                </Form.Group>
 
-            <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
-              <div className="form-label">
-                <Form.Label style={{ fontWeight: "bolder" }}>
-                  Address
-                </Form.Label>
-                <Form.Label
-                  className={`validation-color ${
-                    showStreetAddressValidation ? "show" : "hide"
-                  }`}
+                <Form.Group
+                  className="mb-3 form-length"
+                  controlId="formBasicEmail"
                 >
-                  * field is required
-                </Form.Label>
-              </div>
-              <Form.Control
-                className="custom-border"
-                placeholder="Enter Address"
-                name="streetAddress"
-                defaultValue="test address"
-                onChange={handleInputChange}
-                onBlur={handleBlurChange}
-                required
-              />
-            </Form.Group>
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Address
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showStreetAddressValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * field is required
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    placeholder="Enter Address"
+                    name="streetAddress"
+                    defaultValue="test address"
+                    onChange={handleInputChange}
+                    onBlur={handleBlurChange}
+                    required
+                  />
+                </Form.Group>
 
-            <Row className="addy">
-              <Col xs={6}>
-                <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
-                <Form.Label
-                  className={`validation-color ${
-                    showCityValidation ? "show" : "hide"
-                  }`}
-                >
-                  * required
-                </Form.Label>
-                <Form.Control
-                  className="custom-border"
-                  placeholder="City"
-                  name="city"
-                  defaultValue="test city"
-                  onChange={handleInputChange}
-                  onBlur={handleBlurChange}
-                  required
-                />
-              </Col>
-              <Col>
-                <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
-                <Form.Label
-                  className={`validation-color ${
-                    showStateValidation ? "show" : "hide"
-                  }`}
-                >
-                  * required
-                </Form.Label>
-                <Form.Control
-                  className="custom-border"
-                  placeholder="State"
-                  name="state"
-                  defaultValue="CO"
-                  onChange={handleInputChange}
-                  onBlur={handleBlurChange}
-                  required
-                />
-              </Col>
-              <Col>
-                <Form.Label style={{ fontWeight: "bolder" }}>
-                  Zipcode
-                </Form.Label>
-                <Form.Label
-                  className={`validation-color ${
-                    showZipValidation ? "show" : "hide"
-                  }`}
-                >
-                  * required
-                </Form.Label>
-                <Form.Control
-                  className="custom-border"
-                  placeholder="Zip"
-                  name="zip"
-                  defaultValue="07801"
-                  onChange={handleInputChange}
-                  onBlur={handleBlurChange}
-                  required
-                />
-              </Col>
-            </Row>
-            <Button
-              className="button-custom submit-button-style"
-              variant="primary"
-              type="submit"
-              disabled={!areAllFieldsFilled}
-              title="Enter all fields to add a new client"
-            >
-              Add Client
-            </Button>
-          </div>
-          </Collapse>
-        </Form>
-      {/* </section> */}
+                <Row className="addy">
+                  <Col xs={6}>
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      City
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showCityValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * required
+                    </Form.Label>
+                    <Form.Control
+                      className="custom-border"
+                      placeholder="City"
+                      name="city"
+                      defaultValue="test city"
+                      onChange={handleInputChange}
+                      onBlur={handleBlurChange}
+                      required
+                    />
+                  </Col>
+                  <Col>
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      State
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showStateValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * required
+                    </Form.Label>
+                    <Form.Control
+                      className="custom-border"
+                      placeholder="State"
+                      name="state"
+                      defaultValue="CO"
+                      onChange={handleInputChange}
+                      onBlur={handleBlurChange}
+                      required
+                    />
+                  </Col>
+                  <Col>
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Zipcode
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showZipValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * required
+                    </Form.Label>
+                    <Form.Control
+                      className="custom-border"
+                      placeholder="Zip"
+                      name="zip"
+                      defaultValue="07801"
+                      onChange={handleInputChange}
+                      onBlur={handleBlurChange}
+                      required
+                    />
+                  </Col>
+                </Row>
+                <div className="d-flex justify-content-center">
+                  <Button
+                    className="submit-button-style"
+                    variant="primary"
+                    type="submit"
+                    disabled={!areAllFieldsFilled}
+                    title="Enter all fields to add a new client"
+                  >
+                    Add Client
+                  </Button>
+                </div>
+              </div>
+            </Collapse>
+          </Form>
+          {/* </section> */}
         </Row>
       </Container>
+      {/* section end client form */}
 
+      {/* section start work order list */}
       <Container style={{ border: "1px solid black" }}>
         <h3>Schedule</h3>
         <Row style={{ display: "flex", justifyContent: "center" }}>
@@ -658,7 +672,8 @@ function AdminMock() {
                   </h5>
                 </div>
 
-                <Collapse in={open}>
+                {/* <Collapse in={open}> */}
+                <Collapse>
                   <div id={`#collapse-schedule-${index}`}>
                     <div>Contact Name: {job?.client.contact}</div>
                     <div>Phone: {job?.client.phone}</div>
@@ -688,6 +703,7 @@ function AdminMock() {
           ))}
         </Row>
       </Container>
+      {/* section end work order list */}
     </>
   );
 }
