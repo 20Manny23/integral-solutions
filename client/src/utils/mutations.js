@@ -106,45 +106,6 @@ export const DELETE_INCIDENT = gql`
   }
 `;
 
-export const UPDATE_CLIENT = gql`
-  mutation UpdateClient(
-    $id: ID!
-    $businessName: String
-    $streetAddress: String
-    $suite: String
-    $city: String
-    $state: String
-    $zip: String
-    $contact: String
-    $phone: String
-    $email: String
-  ) {
-    updateClient(
-      _id: $id
-      businessName: $businessName
-      streetAddress: $streetAddress
-      suite: $suite
-      city: $city
-      state: $state
-      zip: $zip
-      contact: $contact
-      phone: $phone
-      email: $email
-    ) {
-      _id
-      businessName
-      contact
-      phone
-      email
-      streetAddress
-      suite
-      state
-      city
-      zip
-    }
-  }
-`;
-
 export const UPDATE_EMPLOYEE = gql`
   mutation UpdateEmployee(
     $id: ID
@@ -199,14 +160,14 @@ export const ADD_CLIENT = gql`
   ) {
     addClient(
       businessName: $businessName
+      contact: $contact
+      phone: $phone
+      email: $email
       streetAddress: $streetAddress
       suite: $suite
       city: $city
       state: $state
       zip: $zip
-      contact: $contact
-      phone: $phone
-      email: $email
     ) {
       _id
       businessName
@@ -226,6 +187,45 @@ export const DELETE_CLIENT = gql`
   mutation deleteClient($id: ID!) {
     deleteClient(_id: $id) {
       _id
+    }
+  }
+`;
+
+export const UPDATE_CLIENT = gql`
+  mutation UpdateClient(
+    $id: ID!
+    $businessName: String
+    $streetAddress: String
+    $suite: String
+    $city: String
+    $state: String
+    $zip: String
+    $contact: String
+    $phone: String
+    $email: String
+  ) {
+    updateClient(
+      _id: $id
+      businessName: $businessName
+      streetAddress: $streetAddress
+      suite: $suite
+      city: $city
+      state: $state
+      zip: $zip
+      contact: $contact
+      phone: $phone
+      email: $email
+    ) {
+      _id
+      businessName
+      contact
+      phone
+      email
+      streetAddress
+      suite
+      state
+      city
+      zip
     }
   }
 `;

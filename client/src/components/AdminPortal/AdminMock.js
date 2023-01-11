@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Auth from "../../utils/auth";
 
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import {
   QUERY_ALL_EMPLOYEES,
   QUERY_ALL_CLIENTS,
   QUERY_SCHEDULE,
+  QUERY_SINGLE_CLIENT,
 } from "../../utils/queries";
 import {
   ADD_CLIENT,
@@ -33,18 +34,9 @@ function AdminMock() {
     error: empError,
     refetch: empRefectch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
-  console.log(emp);
+  // console.log(emp);
 
   // SECTION START CLIENT
-  // eslint-disable-next-line
-  const {
-    loading: clientLoad,
-    data: clients,
-    error: clientError,
-    refetch: clientRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
-  console.log(clients);
-
   // GET CLIENT FORM DATA
   // businessName, streetAddress, suite, city, state, zip, contact, phone, email
   const [businessName, setBusinessName] = useState("");
@@ -67,11 +59,43 @@ function AdminMock() {
     useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
-  // const [showSuiteValidation, setShowSuiteValidation] = useState(false);
+  const [showSuiteValidation, setShowSuiteValidation] = useState(false);
   const [showCityValidation, setShowCityValidation] = useState(false);
   const [showStateValidation, setShowStateValidation] = useState(false);
   const [showZipValidation, setShowZipValidation] = useState(false);
 
+  // GET ALL CLIENTS QUERY
+  // eslint-disable-next-line
+  const { loading: clientsLoad, data: clients, error: clientError, refetch: clientsRefetch } = useQuery(QUERY_ALL_CLIENTS);
+
+  // GET A SINGLE CLIENT QUERY
+  // const [client, setClient] = useState({});
+  if (!clientsLoad) {
+    console.log(clients.clients[0]._id);
+  }
+
+  const [currentClientId, setCurrentClientId] = useState("313233343536373839303132");
+  const [currentClient, setCurrentClient] = useState("");
+  const [currentInput, setCurrentInput] = useState({});
+
+  // eslint-disable-next-line
+  // const { loading: clientLoad, data: client, error: getClientError, refetch: clientRefetch } = useQuery(QUERY_SINGLE_CLIENT, {
+  //   variables: { clientId: currentClientId },
+  //   // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+  //   skip: !Auth.loggedIn(),
+  //   onCompleted: (client) => {
+  //     setCurrentClient(client);
+  //   },
+  // });
+
+  const [ getClientId, { loading: lazyLoading, data: lazyData}] = useLazyQuery(QUERY_SINGLE_CLIENT, {
+    variables: { clientId: currentClientId },
+    // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+    skip: !Auth.loggedIn(),
+    onCompleted: (lazyData) => {
+      setCurrentClient(lazyData);
+    },
+  });
   // Getting the value or name of input triggering change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -121,9 +145,9 @@ function AdminMock() {
     name === "streetAddress" && value.trim() === ""
       ? setShowStreetAddressValidation(true)
       : setShowStreetAddressValidation(false);
-    // name === "suite" && value.trim() === ""
-    //   ? setShowSuiteValidation(true)
-    //   : setShowSuiteValidation(false);
+    name === "suite" && value.trim() === ""
+      ? setShowSuiteValidation(true)
+      : setShowSuiteValidation(false);
     name === "city" && value.trim() === ""
       ? setShowCityValidation(true)
       : setShowCityValidation(false);
@@ -143,7 +167,7 @@ function AdminMock() {
         phone.trim() !== "" &&
         emailClient.trim() !== "" &&
         streetAddress.trim() !== "" &&
-        // && suite.trim() !== ""
+        suite.trim() !== "" &&
         city.trim() !== "" &&
         state.trim() !== "" &&
         zip.trim() !== ""
@@ -165,7 +189,7 @@ function AdminMock() {
   // ADD CLIENT
   const [addClient] = useMutation(ADD_CLIENT);
 
-  const handleFormSubmit = async (e) => {
+  const handleAddClientSubmit = async (e) => {
     e.preventDefault();
     // console.log('hello = ', businessName, streetAddress, suite, city, state, zip, contact, phone, emailClient);
     // resetForm();
@@ -178,7 +202,7 @@ function AdminMock() {
           phone,
           email: emailClient,
           streetAddress,
-          // suite,
+          suite,
           city,
           state,
           zip,
@@ -188,52 +212,68 @@ function AdminMock() {
       console.error(err);
     }
 
-    clientRefetch();
+    clientsRefetch();
+
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setBusinessName("");
+    setContact("");
+    setPhone("");
+    setEmailClient("");
+    setStreetAddress("");
+    setSuite("");
+    setCity("");
+    setState("");
+    setZip("");
   };
 
   // SECTION UPDATE CLIENT
-  const [editClient, setEditClient] = useState([]);
+  // const [editClient, setEditClient] = useState([]);
 
   const [updateClient] = useMutation(UPDATE_CLIENT);
 
-  const handleEditSubmit = async (event) => {
-    event.preventDefault();
-    let clientEditId = event.currentTarget.getAttribute("data-editclientid");
+  useEffect(() => {
+    // wait for currentClientId to be updated
 
-    // console.log('hello = ', clientId);
-    // console.log(
-    //   clientId,
-    //   businessName,
-    //   contact,
-    //   phone,
-    //   emailClient,
-    //   streetAddress,
-    //   // suite,
-    //   city,
-    //   state,
-    //   zip,)
+    handleEditClientSubmit();
 
-    // Update submitted client
+    console.log("useEffect = ", currentClientId);
+
+    // eslint-disable-next-line
+  }, [currentClientId, currentInput]);
+
+  const handleEditClientSubmit = async () => {
+    // event.preventDefault();
+
+    // get the current client data
+    // let test = await clientRefetch();
+    let test = await getClientId();
+    console.log("test = ", test);
+
+    // Update current client data
     try {
       await updateClient({
         variables: {
-          id: clientEditId,
-          businessName,
-          streetAddress,
-          // suite,
-          city,
-          state,
-          zip,
-          contact,
-          phone,
-          email: emailClient,
+          id: currentClientId,
+          businessName: currentInput.businessName ? currentInput.businessName : test.data.client.businessName,
+          contact: currentInput.contact ? currentInput.contact : test.data.client.contact,
+          phone: currentInput.phone ? currentInput.phone : test.data.client.phone,
+          email: currentInput.emailClient ? currentInput.emailClient : test.data.client.email,
+          streetAddress: currentInput.streetAddress ? currentInput.streetAddress : test.data.client.streetAddress,
+          suite: currentInput.suite ? currentInput.suite : test.data.client.suite,
+          city: currentInput.city ? currentInput.city : test.data.client.city,
+          state: currentInput.state ? currentInput.state : test.data.client.state,
+          zip: currentInput.zip ? currentInput.zip : test.data.client.zip,
         },
       });
     } catch (err) {
       console.log(err);
     }
 
-    // Refect the client list
+    // Refetch the client list
+    clientsRefetch();
   };
 
   // SECTION END UPDATE CLIENT
@@ -255,7 +295,7 @@ function AdminMock() {
       });
 
       // RELOAD CLIENT LIST
-      clientRefetch();
+      clientsRefetch();
     } catch (err) {
       console.log(err);
     }
@@ -270,7 +310,7 @@ function AdminMock() {
     error: scheduleError,
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
-  console.log(schedule);
+  // console.log(schedule);
 
   // collapse show / not show detail
   const getElement = (event) => {
@@ -379,10 +419,7 @@ function AdminMock() {
                       onClick={() => handleToggle("locked")}
                       style={!lockedToggle ? isDisplayed : isNotDisplayed}
                     />
-                    <FontAwesomeIcon
-                      icon="fa-trash"
-                      className="p-2"
-                    />
+                    <FontAwesomeIcon icon="fa-trash" className="p-2" />
                   </div>
                 </div>
 
@@ -443,15 +480,22 @@ function AdminMock() {
                   </h5>
                   <div className="mr-2" style={{ display: "flex" }}>
                     {/* section pencil */}
+
                     <FontAwesomeIcon
                       icon="fa-pencil"
                       className="p-2"
                       data-clientid={client?.businessName}
                       onClick={(event) => {
                         console.log("pencil/edit");
-                        let clientId =
-                          event.currentTarget.getAttribute("data-clientid");
-                        enableClientUpdate(event, clientId);
+
+                        // let clientId =
+                        //   event.currentTarget.getAttribute("data-clientid");
+                        // console.log('pencil = ', clientId);
+                        // setCurrentClientId(clientId);
+                        // console.log('pencil 2 = ', currentClientId);
+
+                        // handleEditClientSubmit();
+                        // enableClientUpdate(event, clientId);
                         // event.target.disabled;
                       }}
                     />
@@ -461,9 +505,6 @@ function AdminMock() {
                       className="p-2"
                       data-clientid={client?._id}
                       onClick={(event) => {
-                        // console.log("trash/delete");
-                        // let clientId =
-                        //   event.currentTarget.getAttribute("data-clientid");
                         handleDeleteClient(event);
                       }}
                     />
@@ -473,10 +514,31 @@ function AdminMock() {
                 <Collapse>
                   <div id={`#collapse-client-${index}`}>
                     <Form
-                      className="py-3 overflow-auto custom-about"
-                      onSubmit={handleEditSubmit}
-                      style={{ width: "80vw" }}
                       data-editclientid={client?._id}
+                      className="py-3 overflow-auto custom-about"
+                      // section submit
+                      onSubmit={(event) => {
+                        event.preventDefault();
+
+                        let clientId =
+                          event.currentTarget.getAttribute("data-editclientid");
+
+                        setCurrentClientId(clientId);
+
+                        setCurrentInput({
+                          businessName,
+                          contact,
+                          phone,
+                          emailClient,
+                          streetAddress,
+                          suite,
+                          state,
+                          city,
+                          zip,
+                        });
+                        
+                      }}
+                      style={{ width: "80vw" }}
                     >
                       <div id="example-collapse-text">
                         <Form.Group
@@ -619,6 +681,33 @@ function AdminMock() {
                           />
                         </Form.Group>
 
+                        <Form.Group
+                          className="mb-3 form-length"
+                          controlId="formBasicEmail"
+                        >
+                          <div className="form-label">
+                            <Form.Label style={{ fontWeight: "bolder" }}>
+                              Suite
+                            </Form.Label>
+                            <Form.Label
+                              className={`validation-color ${
+                                showSuiteValidation ? "show" : "hide"
+                              }`}
+                            >
+                              * field is required
+                            </Form.Label>
+                          </div>
+                          <Form.Control
+                            className="custom-border"
+                            placeholder="Enter Suite"
+                            name="suite"
+                            defaultValue={client?.suite}
+                            onChange={handleInputChange}
+                            onBlur={handleBlurChange}
+                            // required
+                          />
+                        </Form.Group>
+
                         <Row className="addy">
                           <Col xs={6}>
                             <Form.Label style={{ fontWeight: "bolder" }}>
@@ -709,7 +798,6 @@ function AdminMock() {
                         </div>
                       </div>
                     ))} */}
-
                   </div>
                 </Collapse>
               </div>
@@ -737,7 +825,7 @@ function AdminMock() {
         <Row style={{ display: "flex", justifyContent: "center" }}>
           <Form
             className="py-3 overflow-auto custom-about"
-            onSubmit={handleFormSubmit}
+            onSubmit={handleAddClientSubmit}
             style={{ width: "80vw" }}
           >
             <Collapse in={open}>
@@ -763,8 +851,9 @@ function AdminMock() {
                     className="custom-border"
                     type="text"
                     placeholder="Enter Company Name"
+                    value={businessName}
                     name="businessName"
-                    defaultValue="test"
+                    // defaultValue="test"
                     onChange={handleInputChange}
                     onBlur={handleBlurChange}
                     required
@@ -791,8 +880,9 @@ function AdminMock() {
                     className="custom-border"
                     type="text"
                     placeholder="Enter Contact Person"
+                    value={contact}
                     name="contact"
-                    defaultValue="test contact"
+                    // defaultValue="test contact"
                     onChange={handleInputChange}
                     onBlur={handleBlurChange}
                     required
@@ -820,7 +910,8 @@ function AdminMock() {
                     type="tel"
                     placeholder="example: 123-456-7899"
                     name="phone"
-                    defaultValue="123-456-7899"
+                    value={phone}
+                    // defaultValue="123-456-7899"
                     pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                     onChange={handleInputChange}
                     onBlur={handleBlurChange}
@@ -849,7 +940,8 @@ function AdminMock() {
                     type="email"
                     placeholder="Client Email"
                     name="emailClient"
-                    defaultValue="test@test.com"
+                    value={emailClient}
+                    // defaultValue="test@test.com"
                     onChange={handleInputChange}
                     onBlur={handleBlurChange}
                     required
@@ -876,7 +968,36 @@ function AdminMock() {
                     className="custom-border"
                     placeholder="Enter Address"
                     name="streetAddress"
-                    defaultValue="test address"
+                    value={streetAddress}
+                    // defaultValue="test address"
+                    onChange={handleInputChange}
+                    onBlur={handleBlurChange}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group
+                  className="mb-3 form-length"
+                  controlId="formBasicEmail"
+                >
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Suite
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showSuiteValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * field is required
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    placeholder="Enter Address"
+                    name="suite"
+                    value={suite}
+                    // defaultValue="suite #"
                     onChange={handleInputChange}
                     onBlur={handleBlurChange}
                     required
@@ -899,7 +1020,8 @@ function AdminMock() {
                       className="custom-border"
                       placeholder="City"
                       name="city"
-                      defaultValue="test city"
+                      value={city}
+                      // defaultValue="test city"
                       onChange={handleInputChange}
                       onBlur={handleBlurChange}
                       required
@@ -920,7 +1042,8 @@ function AdminMock() {
                       className="custom-border"
                       placeholder="State"
                       name="state"
-                      defaultValue="CO"
+                      value={state}
+                      // defaultValue="CO"
                       onChange={handleInputChange}
                       onBlur={handleBlurChange}
                       required
@@ -941,7 +1064,8 @@ function AdminMock() {
                       className="custom-border"
                       placeholder="Zip"
                       name="zip"
-                      defaultValue="07801"
+                      value={zip}
+                      // defaultValue="07801"
                       onChange={handleInputChange}
                       onBlur={handleBlurChange}
                       required

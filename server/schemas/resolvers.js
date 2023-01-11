@@ -59,9 +59,12 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    client: async (parent, { clientId }, context) => {
+    client: async (parent, { _id }, context) => {
       // if (context.user) {
-        return Client.findOne({ _id: clientId }).populate({path: "schedule", populate: { path: "client" } });
+
+        console.log('resolver = ', _id);
+
+        return Client.findOne({ _id }).populate({path: "schedule", populate: { path: "client" } });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
