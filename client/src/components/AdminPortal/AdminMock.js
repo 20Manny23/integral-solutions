@@ -2,8 +2,16 @@ import React, { useState, useEffect } from "react";
 import Auth from "../../utils/auth";
 
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_ALL_EMPLOYEES, QUERY_ALL_CLIENTS, QUERY_SCHEDULE } from "../../utils/queries";
-import { ADD_CLIENT, DELETE_CLIENT } from "../../utils/mutations";
+import {
+  QUERY_ALL_EMPLOYEES,
+  QUERY_ALL_CLIENTS,
+  QUERY_SCHEDULE,
+} from "../../utils/queries";
+import {
+  ADD_CLIENT,
+  DELETE_CLIENT,
+  UPDATE_CLIENT,
+} from "../../utils/mutations";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
@@ -29,7 +37,12 @@ function AdminMock() {
 
   // SECTION START CLIENT
   // eslint-disable-next-line
-  const { loading: clientLoad, data: clients, error: clientError, refetch: clientRefetch } = useQuery(QUERY_ALL_CLIENTS);
+  const {
+    loading: clientLoad,
+    data: clients,
+    error: clientError,
+    refetch: clientRefetch,
+  } = useQuery(QUERY_ALL_CLIENTS);
   console.log(clients);
 
   // GET CLIENT FORM DATA
@@ -46,11 +59,14 @@ function AdminMock() {
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
   // VALIDATION
-  const [showBusinessNameValidation, setShowBusinessNameValidation] = useState(false);
+  const [showBusinessNameValidation, setShowBusinessNameValidation] =
+    useState(false);
   const [showContactValidation, setShowContactValidation] = useState(false);
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-  const [showEmailClientValidation, setShowEmailClientStateValidation] = useState(false);
-  const [showStreetAddressValidation, setShowStreetAddressValidation] = useState(false);
+  const [showEmailClientValidation, setShowEmailClientStateValidation] =
+    useState(false);
+  const [showStreetAddressValidation, setShowStreetAddressValidation] =
+    useState(false);
   // const [showSuiteValidation, setShowSuiteValidation] = useState(false);
   const [showCityValidation, setShowCityValidation] = useState(false);
   const [showStateValidation, setShowStateValidation] = useState(false);
@@ -78,9 +94,9 @@ function AdminMock() {
       ? setCity(value)
       : name === "state"
       ? setState(value)
-      : setZip(value)
+      : setZip(value);
 
-    console.log('email = ', emailClient);
+    console.log("email = ", emailClient);
 
     return name;
   };
@@ -122,18 +138,18 @@ function AdminMock() {
   // If all fields are populated then enable the submit button
   useEffect(() => {
     setAreAllFieldsFilled(
-      businessName.trim() !== "" 
-      &&  contact.trim() !== "" 
-      && phone.trim() !== "" 
-      && emailClient.trim() !== ""
-      && streetAddress.trim() !== "" 
-      // && suite.trim() !== "" 
-      && city.trim() !== "" 
-      && state.trim() !== "" 
-      && zip.trim() !== "" 
+      businessName.trim() !== "" &&
+        contact.trim() !== "" &&
+        phone.trim() !== "" &&
+        emailClient.trim() !== "" &&
+        streetAddress.trim() !== "" &&
+        // && suite.trim() !== ""
+        city.trim() !== "" &&
+        state.trim() !== "" &&
+        zip.trim() !== ""
     );
-  console.log(areAllFieldsFilled);
-  // eslint-disable-next-line
+    console.log(areAllFieldsFilled);
+    // eslint-disable-next-line
   }, [
     businessName,
     contact,
@@ -151,7 +167,7 @@ function AdminMock() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log('hello = ', businessName, streetAddress, suite, city, state, zip, contact, phone, emailClient);
+    // console.log('hello = ', businessName, streetAddress, suite, city, state, zip, contact, phone, emailClient);
     // resetForm();
     try {
       // eslint-disable-next-line
@@ -159,13 +175,13 @@ function AdminMock() {
         variables: {
           businessName,
           contact,
-          phone, 
+          phone,
           email: emailClient,
           streetAddress,
-          // suite, 
-          city, 
-          state, 
-          zip, 
+          // suite,
+          city,
+          state,
+          zip,
         },
       });
     } catch (err) {
@@ -175,31 +191,82 @@ function AdminMock() {
     clientRefetch();
   };
 
-  // UPDATE CLIENT
+  // SECTION UPDATE CLIENT
+  const [editClient, setEditClient] = useState([]);
 
+  const [updateClient] = useMutation(UPDATE_CLIENT);
+
+  // create an object called editwith key = businessName and value = false
+  // editClient = object created above = testClient
+  // click on the edit button, revise the testClient list to make the selected field state = !currentState
+  // disable is equal to the testClient key value
+
+  const handleEditSubmit = async (event) => {
+    event.preventDefault();
+    let clientEditId = event.currentTarget.getAttribute("data-editclientid");
+
+    // console.log('hello = ', clientId);
+    // console.log(
+    //   clientId,
+    //   businessName,
+    //   contact,
+    //   phone,
+    //   emailClient,
+    //   streetAddress,
+    //   // suite,
+    //   city,
+    //   state,
+    //   zip,)
+
+    // Update submitted client
+    try {
+      await updateClient({
+        variables: {
+          id: clientEditId,
+          businessName,
+          streetAddress,
+          // suite,
+          city,
+          state,
+          zip,
+          contact,
+          phone,
+          email: emailClient,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    // Refect the client list
+  };
+
+  // SECTION END UPDATE CLIENT
+
+  // SECTION START DELETE CLIENT
   // DELETE CLIENT
-    // delete incident query
-    const [deleteClient] = useMutation(DELETE_CLIENT);
+  // delete incident query
+  const [deleteClient] = useMutation(DELETE_CLIENT);
 
-    // delete incident
-    const handleDeleteClient = async (clientId) => {
-      try {
-        // eslint-disable-next-line
-        const { data } = await deleteClient({
-          variables: {
-            id: clientId,
-          },
-        });
+  // delete incident
+  const handleDeleteClient = async (event) => {
+    let clientId = event.currentTarget.getAttribute("data-clientid");
+    try {
+      // eslint-disable-next-line
+      const { data } = await deleteClient({
+        variables: {
+          id: clientId,
+        },
+      });
 
-        // RELOAD CLIENT LIST
-        clientRefetch();
-        
-      } catch (err) {
-        console.log(err);
-      }
-    };
+      // RELOAD CLIENT LIST
+      clientRefetch();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  // SECTION END CLIENT
+  // SECTION END DELETE CLIENT
 
   // eslint-disable-next-line
   const {
@@ -373,7 +440,8 @@ function AdminMock() {
                 <div
                   className="rounded directions-collapse"
                   id="headingOne"
-                  style={{ color: "black",
+                  style={{
+                    color: "black",
                     display: "flex",
                     justifyContent: "space-between",
                   }}
@@ -390,46 +458,263 @@ function AdminMock() {
                     </button>
                   </h5>
                   <div className="mr-2" style={{ display: "flex" }}>
+                    {/* section pencil */}
                     <FontAwesomeIcon
                       icon="fa-pencil"
                       className="p-2"
-                      // data-clientId={client?._id}
+                      data-clientid={client?.businessName}
                       onClick={(event) => {
-                        console.log("pencil")
-                        // let clientId =
-                        //   event.currentTarget.getAttribute("data-clientId");
-                        // handleDeleteClient(clientId);
+                        console.log("pencil/edit");
+                        let clientId =
+                          event.currentTarget.getAttribute("data-clientid");
+                        enableClientUpdate(event, clientId);
+                        // event.target.disabled;
                       }}
                     />
                     {/* DELETE */}
                     <FontAwesomeIcon
                       icon="fa-trash"
                       className="p-2"
-                      
-                      data-clientId={client?._id}
+                      data-clientid={client?._id}
                       onClick={(event) => {
-                        console.log("trash/delete")
-                        let clientId =
-                          event.currentTarget.getAttribute("data-clientId");
-                        handleDeleteClient(clientId);
+                        // console.log("trash/delete");
+                        // let clientId =
+                        //   event.currentTarget.getAttribute("data-clientid");
+                        handleDeleteClient(event);
                       }}
-
                     />
                   </div>
                 </div>
 
                 <Collapse>
                   <div id={`#collapse-client-${index}`}>
-                    <div>Contact Id: {client?._id}</div>
-                    <div>Contact Name: {client?.contact}</div>
-                    <div>Phone: {client?.phone}</div>
-                    <div>Email: {client?.email}</div>
-                    <div>Address: {client?.streetAddress}</div>
-                    <div>Suite: {client?.suite}</div>
-                    <div>City: {client?.city}</div>
-                    <div>State: {client?.state}</div>
-                    <div>Zip: {client?.zip}</div>
-                    {client?.schedule.map((job, index) => (
+                    <Form
+                      className="py-3 overflow-auto custom-about"
+                      onSubmit={handleEditSubmit}
+                      style={{ width: "80vw" }}
+                      data-editclientid={client?._id}
+                    >
+                      <div id="example-collapse-text">
+                        <Form.Group
+                          className="mb-3 form-length"
+                          controlId="formBasicEmail"
+                        >
+                          <div className="form-label">
+                            <Form.Label style={{ fontWeight: "bolder" }}>
+                              Company Name
+                            </Form.Label>
+                            <Form.Label
+                              className={`validation-color ${
+                                showBusinessNameValidation ? "show" : "hide"
+                              }`}
+                            >
+                              * field is required
+                            </Form.Label>
+                          </div>
+                          <Form.Control
+                            className="custom-border"
+                            type="text"
+                            placeholder="Enter Company Name"
+                            name="businessName"
+                            defaultValue={client?.businessName}
+                            onChange={handleInputChange}
+                            onBlur={handleBlurChange}
+                            required
+                          />
+                        </Form.Group>
+
+                        <Form.Group
+                          className="mb-3 form-length"
+                          controlId="formBasicEmail"
+                        >
+                          <div className="form-label">
+                            <Form.Label style={{ fontWeight: "bolder" }}>
+                              Contact Name
+                            </Form.Label>
+                            <Form.Label
+                              className={`validation-color ${
+                                showContactValidation ? "show" : "hide"
+                              }`}
+                            >
+                              * field is required
+                            </Form.Label>
+                          </div>
+                          <Form.Control
+                            className="custom-border"
+                            type="text"
+                            placeholder="Enter Contact Person"
+                            name="contact"
+                            defaultValue={client?.contact}
+                            onChange={handleInputChange}
+                            onBlur={handleBlurChange}
+                            required
+                          />
+                        </Form.Group>
+
+                        <Form.Group
+                          className="mb-3 form-length"
+                          controlId="formBasicEmail"
+                        >
+                          <div className="form-label">
+                            <Form.Label style={{ fontWeight: "bolder" }}>
+                              Phone Number
+                            </Form.Label>
+                            <Form.Label
+                              className={`validation-color ${
+                                showPhoneValidation ? "show" : "hide"
+                              }`}
+                            >
+                              * field is required
+                            </Form.Label>
+                          </div>
+                          <Form.Control
+                            className="custom-border"
+                            type="tel"
+                            placeholder="example: 123-456-7899"
+                            name="phone"
+                            defaultValue={client?.phone}
+                            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                            onChange={handleInputChange}
+                            onBlur={handleBlurChange}
+                            required
+                          />
+                        </Form.Group>
+
+                        <Form.Group
+                          className="mb-3 form-length"
+                          controlId="formBasicEmail"
+                        >
+                          <div className="form-label">
+                            <Form.Label style={{ fontWeight: "bolder" }}>
+                              Email
+                            </Form.Label>
+                            <Form.Label
+                              className={`validation-color ${
+                                showEmailClientValidation ? "show" : "hide"
+                              }`}
+                            >
+                              * field is required
+                            </Form.Label>
+                          </div>
+                          <Form.Control
+                            className="custom-border"
+                            type="email"
+                            placeholder="Client Email"
+                            name="emailClient"
+                            defaultValue={client?.email}
+                            onChange={handleInputChange}
+                            onBlur={handleBlurChange}
+                            // required
+                          />
+                        </Form.Group>
+
+                        <Form.Group
+                          className="mb-3 form-length"
+                          controlId="formBasicEmail"
+                        >
+                          <div className="form-label">
+                            <Form.Label style={{ fontWeight: "bolder" }}>
+                              Address
+                            </Form.Label>
+                            <Form.Label
+                              className={`validation-color ${
+                                showStreetAddressValidation ? "show" : "hide"
+                              }`}
+                            >
+                              * field is required
+                            </Form.Label>
+                          </div>
+                          <Form.Control
+                            className="custom-border"
+                            placeholder="Enter Address"
+                            name="streetAddress"
+                            defaultValue={client?.streetAddress}
+                            onChange={handleInputChange}
+                            onBlur={handleBlurChange}
+                            // required
+                          />
+                        </Form.Group>
+
+                        <Row className="addy">
+                          <Col xs={6}>
+                            <Form.Label style={{ fontWeight: "bolder" }}>
+                              City
+                            </Form.Label>
+                            <Form.Label
+                              className={`validation-color ${
+                                showCityValidation ? "show" : "hide"
+                              }`}
+                            >
+                              * required
+                            </Form.Label>
+                            <Form.Control
+                              className="custom-border"
+                              placeholder="City"
+                              name="city"
+                              defaultValue={client?.city}
+                              onChange={handleInputChange}
+                              onBlur={handleBlurChange}
+                              required
+                            />
+                          </Col>
+                          <Col>
+                            <Form.Label style={{ fontWeight: "bolder" }}>
+                              State
+                            </Form.Label>
+                            <Form.Label
+                              className={`validation-color ${
+                                showStateValidation ? "show" : "hide"
+                              }`}
+                            >
+                              * required
+                            </Form.Label>
+                            <Form.Control
+                              className="custom-border"
+                              placeholder="State"
+                              name="state"
+                              defaultValue={client?.state}
+                              onChange={handleInputChange}
+                              onBlur={handleBlurChange}
+                              required
+                            />
+                          </Col>
+                          <Col>
+                            <Form.Label style={{ fontWeight: "bolder" }}>
+                              Zipcode
+                            </Form.Label>
+                            <Form.Label
+                              className={`validation-color ${
+                                showZipValidation ? "show" : "hide"
+                              }`}
+                            >
+                              * required
+                            </Form.Label>
+                            <Form.Control
+                              className="custom-border"
+                              placeholder="Zip"
+                              name="zip"
+                              defaultValue={client?.zip}
+                              onChange={handleInputChange}
+                              onBlur={handleBlurChange}
+                              required
+                            />
+                          </Col>
+                        </Row>
+                        <div className="d-flex justify-content-center">
+                          <Button
+                            className="submit-button-style"
+                            variant="primary"
+                            type="submit"
+                            // disabled={!areAllFieldsFilled}
+                            title="Enter all fields to add a new client"
+                          >
+                            Update Client
+                          </Button>
+                        </div>
+                      </div>
+                    </Form>
+
+                    {/* {client?.schedule.map((job, index) => (
                       <div key={index}>
                         <div>Start Date: {job?.startDate}</div>
                         <div>Start Time: {job?.startTime}</div>
@@ -439,7 +724,8 @@ function AdminMock() {
                           Number of Clients: {job?.numberOfClientEmployees}
                         </div>
                       </div>
-                    ))}
+                    ))} */}
+
                   </div>
                 </Collapse>
               </div>
@@ -471,7 +757,7 @@ function AdminMock() {
             style={{ width: "80vw" }}
           >
             <Collapse in={open}>
-            {/* <Collapse> */}
+              {/* <Collapse> */}
               <div id="example-collapse-text">
                 <Form.Group
                   className="mb-3 form-length"

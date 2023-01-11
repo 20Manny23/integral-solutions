@@ -106,42 +106,41 @@ export const DELETE_INCIDENT = gql`
   }
 `;
 
-export const UPDATE_AVAILABILITY = gql`
-  mutation updateAvailability(
+export const UPDATE_CLIENT = gql`
+  mutation UpdateClient(
     $id: ID!
-    $mondayAm: Boolean
-    $mondayPm: Boolean
-    $tuesdayAm: Boolean
-    $tuesdayPm: Boolean
-    $wednesdayAm: Boolean
-    $wednesdayPm: Boolean
-    $thursdayAm: Boolean
-    $thursdayPm: Boolean
-    $fridayAm: Boolean
-    $fridayPm: Boolean
-    $saturdayAm: Boolean
-    $saturdayPm: Boolean
-    $sundayAm: Boolean
-    $sundayPm: Boolean
+    $businessName: String
+    $streetAddress: String
+    $suite: String
+    $city: String
+    $state: String
+    $zip: String
+    $contact: String
+    $phone: String
+    $email: String
   ) {
-    updateAvailability(
+    updateClient(
       _id: $id
-      mondayAm: $mondayAm
-      mondayPm: $mondayPm
-      tuesdayAm: $tuesdayAm
-      tuesdayPm: $tuesdayPm
-      wednesdayAm: $wednesdayAm
-      wednesdayPm: $wednesdayPm
-      thursdayAm: $thursdayAm
-      thursdayPm: $thursdayPm
-      fridayAm: $fridayAm
-      fridayPm: $fridayPm
-      saturdayAm: $saturdayAm
-      saturdayPm: $saturdayPm
-      sundayAm: $sundayAm
-      sundayPm: $sundayPm
+      businessName: $businessName
+      streetAddress: $streetAddress
+      suite: $suite
+      city: $city
+      state: $state
+      zip: $zip
+      contact: $contact
+      phone: $phone
+      email: $email
     ) {
       _id
+      businessName
+      contact
+      phone
+      email
+      streetAddress
+      suite
+      state
+      city
+      zip
     }
   }
 `;
