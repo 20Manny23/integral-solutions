@@ -352,21 +352,75 @@ function AdminMock() {
                 <div
                   className="rounded directions-collapse"
                   id="headingOne"
-                  style={{ color: "black" }}
+                  style={{ color: "black",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
                 >
                   <h5 className="mb-0 text-left">
                     <button
-                      //section
                       onClick={(event) => getElement(event)}
                       aria-controls={`#collapse-client-${index}`}
                       aria-expanded={openDetails}
                       className="btn btn-link pl-1"
                       data-target={`#collapse-client-${index}`}
-                      //section
                     >
                       {client?.businessName}
                     </button>
                   </h5>
+                  <div className="mr-2" style={{ display: "flex" }}>
+                    <FontAwesomeIcon
+                      icon="fa-add"
+                      className="p-2"
+                      onClick={() => console.log("pencil")}
+                      // onClick={() => handlePassClick()}
+                      // style={display ? isDisplayed : isNotDisplayed}
+                    />
+                    <FontAwesomeIcon
+                      icon="fa-pencil"
+                      className="p-2"
+                      onClick={() => console.log("pencil")}
+                      // onClick={() => handlePassClick()}
+                      // style={display ? isDisplayed : isNotDisplayed}
+                    />
+                    {/* ADMIN TOGGLE */}
+                    <FontAwesomeIcon
+                      icon="fa-toggle-on"
+                      className="p-2"
+                      // onClick={() => console.log("toggle-on")}
+                      onClick={() => handleToggle("admin")}
+                      style={adminToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    <FontAwesomeIcon
+                      icon="fa-toggle-off"
+                      className="p-2"
+                      // onClick={() => console.log("toggle-off")}
+                      onClick={() => handleToggle("admin")}
+                      style={!adminToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    {/* LOCKED TOGGLE */}
+                    <FontAwesomeIcon
+                      icon="fa-toggle-on"
+                      className="p-2"
+                      // onClick={() => console.log("toggle-on")}
+                      onClick={() => handleToggle("locked")}
+                      style={lockedToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    <FontAwesomeIcon
+                      icon="fa-toggle-off"
+                      className="p-2"
+                      // onClick={() => console.log("toggle-off")}
+                      onClick={() => handleToggle("locked")}
+                      style={!lockedToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    <FontAwesomeIcon
+                      icon="fa-trash"
+                      className="p-2"
+                      // onClick={() => console.log("trash")}
+                      // onClick={() => handlePassClick()}
+                      // style={display ? isDisplayed : isNotDisplayed}
+                    />
+                  </div>
                 </div>
 
                 <Collapse>
@@ -657,7 +711,11 @@ function AdminMock() {
                 <div
                   className="rounded directions-collapse"
                   id="headingOne"
-                  style={{ color: "black" }}
+                  style={{
+                    color: "black",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
                 >
                   <h5 className="mb-0 text-left">
                     <button
@@ -672,6 +730,60 @@ function AdminMock() {
                       {job?.client.businessName}
                     </button>
                   </h5>
+
+                  <div className="mr-2" style={{ display: "flex" }}>
+                    <FontAwesomeIcon
+                      icon="fa-add"
+                      className="p-2"
+                      onClick={() => console.log("pencil")}
+                      // onClick={() => handlePassClick()}
+                      // style={display ? isDisplayed : isNotDisplayed}
+                    />
+                    <FontAwesomeIcon
+                      icon="fa-pencil"
+                      className="p-2"
+                      onClick={() => console.log("pencil")}
+                      // onClick={() => handlePassClick()}
+                      // style={display ? isDisplayed : isNotDisplayed}
+                    />
+                    {/* ADMIN TOGGLE */}
+                    <FontAwesomeIcon
+                      icon="fa-toggle-on"
+                      className="p-2"
+                      // onClick={() => console.log("toggle-on")}
+                      onClick={() => handleToggle("admin")}
+                      style={adminToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    <FontAwesomeIcon
+                      icon="fa-toggle-off"
+                      className="p-2"
+                      // onClick={() => console.log("toggle-off")}
+                      onClick={() => handleToggle("admin")}
+                      style={!adminToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    {/* LOCKED TOGGLE */}
+                    <FontAwesomeIcon
+                      icon="fa-toggle-on"
+                      className="p-2"
+                      // onClick={() => console.log("toggle-on")}
+                      onClick={() => handleToggle("locked")}
+                      style={lockedToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    <FontAwesomeIcon
+                      icon="fa-toggle-off"
+                      className="p-2"
+                      // onClick={() => console.log("toggle-off")}
+                      onClick={() => handleToggle("locked")}
+                      style={!lockedToggle ? isDisplayed : isNotDisplayed}
+                    />
+                    <FontAwesomeIcon
+                      icon="fa-trash"
+                      className="p-2"
+                      // onClick={() => console.log("trash")}
+                      // onClick={() => handlePassClick()}
+                      // style={display ? isDisplayed : isNotDisplayed}
+                    />
+                  </div>
                 </div>
 
                 {/* <Collapse in={open}> */}

@@ -187,7 +187,7 @@ export const UPDATE_EMPLOYEE = gql`
 
 // SECTION CLIENT
 export const ADD_CLIENT = gql`
-  mutation AddClient(
+  mutation addClient(
     $businessName: String
     $contact: String
     $phone: String
@@ -219,6 +219,14 @@ export const ADD_CLIENT = gql`
       state
       city
       zip
+    }
+  }
+`;
+
+export const DELETE_CLIENT = gql`
+  mutation deleteClient($id: ID!) {
+    deleteClient(_id: $id) {
+      _id
     }
   }
 `;
