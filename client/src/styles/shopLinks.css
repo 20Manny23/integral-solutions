@@ -1,33 +1,54 @@
 .head {
-    text-align: center;
-    margin-bottom: 30px;
-    color: black;
-    font-size: 20px;
-    text-shadow:
+  text-align: center;
+  margin-bottom: 30px;
+  color: white;
+  font-size: 20px;
+  /* text-shadow:
         0.07em 0 white,
         0 0.07em white,
         -0.07em 0 white,
-        0 -0.07em white;
-  
+        0 -0.07em white; */
+  background-color: #335270;
+  width: 85%;
+  border-radius: 80%;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border: 10px solid #0d2e4f;
+  margin-bottom: 100px;
 }
-.company{
-    
-    width: 20rem;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 50px;
-    
+.company {
+  margin-top: 50px;
+  width: 15rem;
+
+  margin-bottom: 50px;
+  border-radius: 50%;
 }
 .bk-img {
-    background-image: url("../assets/images/office.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    width: 100%;
-  }
+  background-image: url("../assets/images/office.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+}
 
-  @media screen and (min-width:1370px){
-
-    .company{
-        margin-bottom: 200px;
-    }
+@media screen and (min-width: 1370px) {
+  .company {
+    margin-bottom: 200px;
   }
+}
+
+@media screen and (max-width: 575px) {
+  .company {
+    margin-left: 25%;
+    margin-bottom:20px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .company {
+    margin-left: 20%;
+  }
+}
+@media screen and (max-width: 397px) {
+  .company {
+    margin-left: 16%;
+  }
+}

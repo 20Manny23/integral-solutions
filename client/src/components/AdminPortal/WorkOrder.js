@@ -77,7 +77,7 @@ function WorkOrder() {
                   </Form.Label>
                   <Form.Control
                     className="custom-border"
-                    placeholder="State (CO)"
+                    placeholder="State"
                   />
                 </Col>
                 <Col>
@@ -90,18 +90,30 @@ function WorkOrder() {
               <Row className="addy">
                 <Col>
                   <Form.Group
-                    //   className="form-length"
+                    
                     controlId="formBasicEmail"
                   >
                     <div className="form-label">
                       <Form.Label style={{ fontWeight: "bolder" }}>
-                        Job Date
+                        Job Start Date
                       </Form.Label>
                     </div>
                     <Form.Control className="custom-border" type="date" />
                   </Form.Group>
                 </Col>
-
+                <Col>
+                  <Form.Group
+                    
+                    controlId="formBasicEmail"
+                  >
+                    <div className="form-label">
+                      <Form.Label style={{ fontWeight: "bolder" }}>
+                        Job End Date
+                      </Form.Label>
+                    </div>
+                    <Form.Control className="custom-border" type="date" />
+                  </Form.Group>
+                </Col>
                 <Col>
                   <Form.Group
                     //   className="form-length"
@@ -181,7 +193,7 @@ function WorkOrder() {
               <Form.Group className="mb-3" controlId="formBasicMessage">
                 <div className="form-label form-length">
                   <Form.Label style={{ fontWeight: "bolder" }}>
-                    Message
+                    Job Details
                   </Form.Label>
                 </div>
                 <Form.Control

@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_ALL_CLIENTS } from "../../utils/queries";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function ClientList() {
   // const [client, setclient] = useState([])
@@ -18,7 +19,12 @@ function ClientList() {
   const [openDetails, setOpenDetails] = useState(false);
 
   // eslint-disable-next-line
-  const { loading: clientLoad, data: clients, error: clientError, refetch: clientRefetch } = useQuery(QUERY_ALL_CLIENTS);
+  const {
+    loading: clientLoad,
+    data: clients,
+    error: clientError,
+    refetch: clientRefetch,
+  } = useQuery(QUERY_ALL_CLIENTS);
 
   const getElement = (event) => {
     let currentAvailTarget = event.currentTarget.getAttribute("data-target");
@@ -33,7 +39,15 @@ function ClientList() {
       setOpenDetails(true);
     }
   };
-
+  function trash() {
+    let deleteConfirm = prompt(
+      "Are you sure you want to delete this Client? Type Yes to Delete"
+    );
+    if (deleteConfirm === "Yes") {
+      // delete logic here
+    } else {
+    }
+  }
   //   function sortName () {
   //   clients.sort((a, b) => {
   //     const nameA = a.company.toUpperCase(); // ignore upper and lowercase
@@ -60,19 +74,14 @@ function ClientList() {
   return (
     <>
       <div
-        className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
+        className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center "
         style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
       >
         <Form>
-          <Button
-            onClick={() => setOpen(!open)}
-            aria-controls="example-collapse-text"
-            aria-expanded={open}
-            style={{ marginTop: "10px" }}
+          <Collapse
+            in={open}
+            className="shadow rounded-lg border border-secondary"
           >
-            Add New Client
-          </Button>
-          <Collapse in={open}>
             <div id="example-collapse-text">
               <Form.Group
                 className="mb-3 form-length"
@@ -161,7 +170,7 @@ function ClientList() {
               </Form.Group>
 
               <Row className="addy">
-                <Col xs={7}>
+                <Col xs={6}>
                   <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
                   <Form.Control className="custom-border" placeholder="City" />
                 </Col>
@@ -190,19 +199,29 @@ function ClientList() {
         </Form>
       </div>
 
-      <Container style={{ border: "1px solid black" }}>
-        <h3>Client List</h3>
+      <Container style={{ border: "1px solid black", borderRadius:"5px" }}>
+        <div className="d-flex justify-content-between">
+          <h3>Client List</h3>
+          <button
+            onClick={() => setOpen(!open)}
+            aria-controls="example-collapse-text"
+            aria-expanded={open}
+            style={{ backgroundColor: "white", border: "none", color: "black" }}
+          >
+            Add New Client ➕
+          </button>
+        </div>
         <Row style={{ display: "flex", justifyContent: "center" }}>
           {clients?.clients?.map((client, index) => (
             <div id="accordion" key={index} style={{ width: "100%" }}>
               <div className="card p-2 mb-1">
                 <div
-                  className="rounded "
+                  className="rounded d-flex justify-content-between"
                   id="headingOne"
                   style={{ color: "black" }}
                 >
                   <h5 className="mb-0 text-left">
-                    <Button
+                    <button
                       style={{
                         backgroundColor: "transparent",
                         border: "none",
@@ -215,26 +234,31 @@ function ClientList() {
                       data-target={`#collapse-text-${index}`}
                     >
                       {client?.businessName}
-                    </Button>
+                    </button>
                   </h5>
-                  <Button
-                    style={{
-                      marginRight: "10px",
-                      backgroundColor: "gray",
-                      border: "2px solid black",
-                    }}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    style={{
-                      marginRight: "10px",
-                      backgroundColor: "gray",
-                      border: "2px solid black",
-                    }}
-                  >
-                    ⛔ Delete
-                  </Button>
+                  <div className="mr-2" style={{ display: "flex" }}>
+                  <span style={{marginTop:'7px'}} >Edit</span>
+                    <button style={{ border:'none', backgroundColor:'white' }}>
+                    
+                    <FontAwesomeIcon 
+                    icon="fa-pencil" 
+                    className="p-2 fa-lg" />
+                    </button>
+
+                    <button
+                      onClick={trash}
+                      style={{ backgroundColor: "white", border: "none" }}
+                    >
+                      <FontAwesomeIcon
+                        icon="fa-trash"
+                        className="p-2 fa-lg"
+
+                        // onClick={() => handlePassClick()}
+                        // style={display ? isDisplayed : isNotDisplayed}
+                      />
+                    </button>
+              
+                  </div>
                 </div>
 
                 <Collapse>
@@ -322,3 +346,10 @@ function ClientList() {
   );
 }
 export default ClientList;
+const isDisplayed = {
+  display: "block",
+};
+
+const isNotDisplayed = {
+  display: "none",
+};

@@ -12,14 +12,14 @@ function Footer () {
         </h3> */}
         <h3 className="footer-title">
           Serving Greater Denver for Over 15 Years
-        </h3>
+        </h3> 
           <Row>
             <Col>
-              <img style={{maxWidth:'200px', height: "25vh"}}src={logo} alt="logo"></img>
+              <img style={{maxWidth:'200px', height: "25vh"}}src={logo} className='full-logo' alt="logo"></img>
             </Col>
             <Col className="footer-phone">
-              <p className="">(555)-555-5555</p>
-              <p>Se Habla Español!</p>
+              <p className="number" style= {{marginTop:'30px'}}>(555)-555-5555</p>
+              <p className="espanol">Se Habla Español!</p>
 
             </Col>
             <Col className="d-flex footer-nav">
