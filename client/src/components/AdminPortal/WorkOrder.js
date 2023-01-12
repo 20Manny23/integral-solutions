@@ -21,7 +21,7 @@ function WorkOrder() {
   function addEmployee(event) {
     setDemoChoice((demoChoice) => [...demoChoice, event.target.value]);
   }
-
+ 
   function removeEmployee(event) {
     const name = event.target.value;
     for (let i = 0; i < demoChoice.length; i++) {
@@ -51,6 +51,7 @@ function WorkOrder() {
   const [client, setClient] = useState("");
   const [employees, setEmployees] = useState("");
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
+  const [jobWorkers, setJobWorkers] = useState([]);
   
   // // VALIDATION
   // const [showBusinessNameValidation, setShowBusinessNameValidation] =
@@ -100,6 +101,14 @@ function WorkOrder() {
 
     return name;
   };
+  
+  // function handleEmpAdd(e){
+    
+  //   jobWorkers.push(e.target.value)
+  //   setJobWorkers(jobWorkers) 
+    
+  // }
+
   const { 
     loading: clientsLoad, 
     data: clients, 
@@ -111,7 +120,7 @@ function WorkOrder() {
       error: empError,
       refetch: empRefectch,
     } = useQuery(QUERY_ALL_EMPLOYEES);
-console.log(emp?.employees[0].firstName)
+
  
   // If user clicks off an input field without entering text, then validation message "is required" displays
   // businessName, contact, phone, email, streetAddress, suite, city, state, zip
@@ -152,7 +161,7 @@ console.log(emp?.employees[0].firstName)
   //  const [addSchedule] = useMutation(ADD_SCHEDULE);
   const handleAddScheduleSubmit = async (e) => {
     e.preventDefault();
-    console.log(streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees);
+    console.log(streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees, demoChoice);
 
   // resetForm();
 
@@ -453,16 +462,16 @@ console.log(emp?.employees[0].firstName)
                   as="select"
                   className="custom-border"
                   type="text"
-                  // value={employeeChoice}
+          
                   // name="employeeChoice"
                   // onChange={addEmployee}
-                  value="employees"
-                  name="employees"
-                  onChange={handleInputChange}
+                  value={'form-select'}
+                  name={'form-select'}
+                  onChange={addEmployee}
                 >
                   <option>Select</option>
                   {emp?.employees?.map((emp, index) => (
-                    <option key={index} >
+                    <option key={index} value= {emp.firstName}>
                       {emp.firstName} {emp.lastName}
                     </option>
                   ))}
@@ -470,15 +479,17 @@ console.log(emp?.employees[0].firstName)
               </Form.Group>
 
               {/* Creates button when adding employee to job  */}
-              {demoChoice.map((emp) => (
+              {demoChoice.map((worker) => (
+                
                 <Button
-                  style={{ marginRight: "15px" }}
+                  style={{ marginRight: "15px", padding:'3px', backgroundColor:'#007bff' }}
                   onClick={removeEmployee}
                   // value={emp}
                   variant="secondary"
                 >
-                  {emp}{" "}
+                  {worker}
                 </Button>
+             
               ))}
 
               <Form.Group className="mb-3" controlId="formBasicMessage">
