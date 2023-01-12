@@ -300,6 +300,7 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
+    // SECTION client
     addClient: async (
       parent,
       {
@@ -374,6 +375,8 @@ const resolvers = {
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
+
+    // SECTION EMPLOYEE
     addEmployee: async (
       parent,
       {
@@ -471,7 +474,6 @@ const resolvers = {
       }
       return { message, employee };
     },
-
     // toggleLocked mutation that returns a success/fail message
     toggleLocked: async (parent, { employeeId }) => {
       let message = "No such employee exists";
@@ -489,6 +491,7 @@ const resolvers = {
       }
       return { message, employee };
     },
+    // SECTION
 
     addSchedule: async (
       parent,
