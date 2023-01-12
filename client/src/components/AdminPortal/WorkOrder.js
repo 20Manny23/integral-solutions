@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+
+import { useMutation } from "@apollo/client";
+import { ADD_SCHEDULE } from "../../utils/mutations";
+
 import { Row, Col, Button, Form, Dropdown } from "react-bootstrap";
 import "../../styles/Forms.css";
 
@@ -7,10 +11,18 @@ function WorkOrder() {
   let employeeChoice = "";
   const demoEmployee = ["Steve", "Rod", "Bryan", "George", "Kirtley"];
   const [demoChoice, setDemoChoice] = useState([]);
+  const numberOfEmployees = [
+    "Home Office",
+    "Less Than 50",
+    "50-99",
+    "More Than 100",
+  ];
+  const [demoNumOfEmp, setDemoNumOfEmp] = useState([]);
 
   function addEmployee(event) {
     setDemoChoice((demoChoice) => [...demoChoice, event.target.value]);
   }
+
   function removeEmployee(event) {
     const name = event.target.value;
     for (let i = 0; i < demoChoice.length; i++) {
@@ -20,6 +32,83 @@ function WorkOrder() {
     }
     setDemoChoice(demoChoice);
   }
+
+  // SECTION Add Workorder
+  //  const [addSchedule] = useMutation(ADD_SCHEDULE);
+
+  // Add schedule to the schedule model/table
+  // const handleAddScheduleSubmit = async (e) => {
+  //   e.preventDefault();
+  // console.log('hello = ', businessName, streetAddress, suite, city, state, zip, contact, phone, emailClient);
+  // resetForm();
+  // try {
+  //   // eslint-disable-next-line
+  //   const { data } = await addClient({
+  //     variables: {
+  //       businessName,
+  //       contact,
+  //       phone,
+  //       email: emailClient,
+  //       streetAddress,
+  //       suite,
+  //       city,
+  //       state,
+  //       zip,
+  //     },
+  //   });
+  // } catch (err) {
+  //   console.error(err);
+  // }
+
+  // await clientsRefetch();
+
+  // resetForm();
+
+  // if ()
+  // handleUpdateForDisabled(null, businessName, "addClient");
+  // };
+
+  // Reset the add client form after submission
+  // const resetForm = () => {
+  //   setBusinessName("");
+  //   setContact("");
+  //   setPhone("");
+  //   setEmailClient("");
+  //   setStreetAddress("");
+  //   setSuite("");
+  //   setCity("");
+  //   setState("");
+  //   setZip("");
+  // };
+
+  // If all fields are populated then enable the submit button
+  // useEffect(() => {
+  //   setAreAllFieldsFilled(
+  //     businessName.trim() !== "" &&
+  //       contact.trim() !== "" &&
+  //       phone.trim() !== "" &&
+  //       emailClient.trim() !== "" &&
+  //       streetAddress.trim() !== "" &&
+  //       suite.trim() !== "" &&
+  //       city.trim() !== "" &&
+  //       state.trim() !== "" &&
+  //       zip.trim() !== ""
+  //   );
+  //   // console.log(areAllFieldsFilled);
+  //   // eslint-disable-next-line
+  // }, [
+  //   businessName,
+  //   contact,
+  //   phone,
+  //   emailClient,
+  //   streetAddress,
+  //   suite,
+  //   city,
+  //   state,
+  //   zip,
+  // ]);
+
+  // SECTION END ADD CLIENT
 
   return (
     <>
@@ -36,8 +125,11 @@ function WorkOrder() {
               <h2 className="display-6 custom-text heading">Work Order</h2>
 
               <Dropdown>
-                <Dropdown.Toggle  id="dropdown-basic-button" style={{width:'25%'}}>
-                  Choose Client 
+                <Dropdown.Toggle
+                  id="dropdown-basic-button"
+                  style={{ width: "25%" }}
+                >
+                  Choose Client
                 </Dropdown.Toggle>
                 {/* This will map through all clients and populate a list to choose */}
                 <Dropdown.Menu>
@@ -75,10 +167,7 @@ function WorkOrder() {
                   <Form.Label style={{ fontWeight: "bolder" }}>
                     State
                   </Form.Label>
-                  <Form.Control
-                    className="custom-border"
-                    placeholder="State"
-                  />
+                  <Form.Control className="custom-border" placeholder="State" />
                 </Col>
                 <Col>
                   <Form.Label style={{ fontWeight: "bolder" }}>
@@ -89,10 +178,7 @@ function WorkOrder() {
               </Row>
               <Row className="addy">
                 <Col>
-                  <Form.Group
-                    
-                    controlId="formBasicEmail"
-                  >
+                  <Form.Group controlId="formBasicEmail">
                     <div className="form-label">
                       <Form.Label style={{ fontWeight: "bolder" }}>
                         Job Start Date
@@ -102,10 +188,7 @@ function WorkOrder() {
                   </Form.Group>
                 </Col>
                 <Col>
-                  <Form.Group
-                    
-                    controlId="formBasicEmail"
-                  >
+                  <Form.Group controlId="formBasicEmail">
                     <div className="form-label">
                       <Form.Label style={{ fontWeight: "bolder" }}>
                         Job End Date
@@ -128,10 +211,9 @@ function WorkOrder() {
                   </Form.Group>
                 </Col>
               </Row>
-            
 
               <Row className="addy">
-                <Col xs={6}>
+                <Col xs={5}>
                   <Form.Label style={{ fontWeight: "bolder" }}>
                     Office Sqft
                   </Form.Label>
@@ -140,7 +222,31 @@ function WorkOrder() {
                     placeholder="8000 Sqft"
                   />
                 </Col>
-                <Col>
+
+                <Col xs={7}>
+                  <Form.Group className="form-length">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Number of Employees
+                    </Form.Label>
+                    <Form.Control
+                      as="select"
+                      className="custom-border"
+                      type="text"
+                      // value={employeeChoice}
+                      name="numberOfClientEmployees"
+                      // onChange={addEmployee}
+                    >
+                      <option>Select</option>
+                      {numberOfEmployees.map((emp, index) => (
+                        <option key={index} value={emp}>
+                          {emp}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+
+                {/* <Col>
                   <Form.Label
                     style={{
                       fontWeight: "bolder",
@@ -154,7 +260,7 @@ function WorkOrder() {
                   <Form.Check inline label="Less than 50" />
                   <Form.Check inline label="50-100" />
                   <Form.Check inline label="More than 100" />
-                </Col>
+                </Col> */}
               </Row>
 
               <Form.Group className="form-length">

@@ -1,24 +1,34 @@
 [
   {
     "_id": "413233343536373839303132",
+    "streetAddress": "1 Client Street",
+    "suite": "",
+    "city": "Denver",
+    "state": "CO",
+    "zip": "80204",
     "startDate": "November 29 2022 09:00:00 (MST)",
     "endDate": "November 29 2022 17:00:00 (MST)",
     "startTime": "09:00:00 (MST)",
     "endTime": "17:00:00 (MST)",
-    "client": "313233343536373839303132",
     "jobDetails": "String",
     "numberOfClientEmployees": "String",
+    "client": "313233343536373839303132",
     "employees": [ "6398fb54494aa98f85992da3" ]
   },
   {
     "_id": "423233343536373839303132",
+    "streetAddress": "2 Client Street",
+    "suite": "",
+    "city": "Denver",
+    "state": "CO",
+    "zip": "07801",
     "startDate": "November 29 2022 09:00:00 (MST)",
     "endDate": "November 29 2022 17:00:00 (MST)",
     "startTime": "09:00:00 (MST)",
     "endTime": "17:00:00 (MST)",
-    "client": "323233343536373839303132",
     "jobDetails": "String",
     "numberOfClientEmployees": "String",
+    "client": "323233343536373839303132",
     "employees": [ "6398fb54494aa98f85992da2", "6398fb54494aa98f85992da3" ]
   }
 ]

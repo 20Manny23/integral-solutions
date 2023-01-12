@@ -33,7 +33,7 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-  location: async (parent, { locationId }, context) => {
+    location: async (parent, { locationId }, context) => {
       // if (context.user) {
         return Location.findOne({ _id: locationId });
       // }

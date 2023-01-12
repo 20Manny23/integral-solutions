@@ -36,13 +36,18 @@ const typeDefs = gql`
 
   type Schedule {
     _id: ID
+    streetAddress: String
+    suite: String
+    city: String
+    state: String
+    zip: String
     startDate: String
     endDate: String
     startTime: String
     endTime: String
-    client: Client
     jobDetails: String
     numberOfClientEmployees: String
+    client: Client
     employees: [Employee]
   }
 
