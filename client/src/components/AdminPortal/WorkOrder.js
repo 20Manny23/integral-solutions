@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {QUERY_ALL_CLIENTS,} from "../../utils/queries";
+import {QUERY_ALL_CLIENTS, QUERY_ALL_EMPLOYEES} from "../../utils/queries";
 import { ADD_SCHEDULE } from "../../utils/mutations";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { Row, Col, Button, Form, Dropdown } from "react-bootstrap";
@@ -8,7 +8,7 @@ import "../../styles/Forms.css";
 function WorkOrder() {
   // const [employeeChoice, setEmployeeChoice] = useState("");
   let employeeChoice = "";
-  const demoEmployee = ["Steve", "Rod", "Bryan", "George", "Kirtley"];
+  // const demoEmployee = ["Steve", "Rod", "Bryan", "George", "Kirtley"];
   const [demoChoice, setDemoChoice] = useState([]);
   const numberOfEmployees = [
     "Home Office",
@@ -105,8 +105,14 @@ function WorkOrder() {
     data: clients, 
     error: clientError, 
     refetch: clientsRefetch } = useQuery(QUERY_ALL_CLIENTS);
-
-  console.log(clients?.clients.businessName)
+    const {
+      loading: empLoad,
+      data: emp,
+      error: empError,
+      refetch: empRefectch,
+    } = useQuery(QUERY_ALL_EMPLOYEES);
+console.log(emp?.employees[0].firstName)
+ 
   // If user clicks off an input field without entering text, then validation message "is required" displays
   // businessName, contact, phone, email, streetAddress, suite, city, state, zip
   // const handleBlurChange = (e) => {
@@ -455,9 +461,9 @@ function WorkOrder() {
                   onChange={handleInputChange}
                 >
                   <option>Select</option>
-                  {demoEmployee.map((emp, index) => (
-                    <option key={index} value={emp}>
-                      {emp}
+                  {emp?.employees?.map((emp, index) => (
+                    <option key={index} >
+                      {emp.firstName} {emp.lastName}
                     </option>
                   ))}
                 </Form.Control>
