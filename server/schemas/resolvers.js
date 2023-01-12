@@ -207,8 +207,6 @@ const resolvers = {
     },
 
     forgotPassword: async (parent, { email, password }) => {
-
-      console.log('forgot resolver =', email);
       
       const employee = await Employee.findOne({ email });
 

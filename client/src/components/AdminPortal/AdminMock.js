@@ -66,16 +66,22 @@ function AdminMock() {
 
   // GET ALL CLIENTS QUERY
   // eslint-disable-next-line
-  const { loading: clientsLoad, data: clients, error: clientError, refetch: clientsRefetch } = useQuery(QUERY_ALL_CLIENTS);
+  const {
+    loading: clientsLoad,
+    data: clients,
+    error: clientError,
+    refetch: clientsRefetch,
+  } = useQuery(QUERY_ALL_CLIENTS);
 
-  // GET A SINGLE CLIENT QUERY
+  // SECTION START CLIENT
+  // SECTION GET A SINGLE CLIENT QUERY
   // const [client, setClient] = useState({});
-  if (!clientsLoad) {
-    console.log(clients.clients[0]._id);
-  }
+  // if (!clientsLoad) {
+  //   console.log(clients.clients[0]._id);
+  // }
 
-  const [currentClientId, setCurrentClientId] = useState("313233343536373839303132");
   const [currentClient, setCurrentClient] = useState("");
+  const [currentClientId, setCurrentClientId] = useState("");
   const [currentInput, setCurrentInput] = useState({});
 
   // eslint-disable-next-line
@@ -88,14 +94,17 @@ function AdminMock() {
   //   },
   // });
 
-  const [ getClientId, { loading: lazyLoading, data: lazyData}] = useLazyQuery(QUERY_SINGLE_CLIENT, {
-    variables: { clientId: currentClientId },
-    // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
-    skip: !Auth.loggedIn(),
-    onCompleted: (lazyData) => {
-      setCurrentClient(lazyData);
-    },
-  });
+  const [getClientId, { loading: lazyLoading, data: lazyData }] = useLazyQuery(
+    QUERY_SINGLE_CLIENT,
+    {
+      variables: { clientId: currentClientId },
+      // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+      skip: !Auth.loggedIn(),
+      onCompleted: (lazyData) => {
+        setCurrentClient(lazyData);
+      },
+    }
+  );
   // Getting the value or name of input triggering change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -159,36 +168,10 @@ function AdminMock() {
       : setShowZipValidation(false);
   };
 
-  // If all fields are populated then enable the submit button
-  useEffect(() => {
-    setAreAllFieldsFilled(
-      businessName.trim() !== "" &&
-        contact.trim() !== "" &&
-        phone.trim() !== "" &&
-        emailClient.trim() !== "" &&
-        streetAddress.trim() !== "" &&
-        suite.trim() !== "" &&
-        city.trim() !== "" &&
-        state.trim() !== "" &&
-        zip.trim() !== ""
-    );
-    console.log(areAllFieldsFilled);
-    // eslint-disable-next-line
-  }, [
-    businessName,
-    contact,
-    phone,
-    emailClient,
-    streetAddress,
-    suite,
-    city,
-    state,
-    zip,
-  ]);
-
-  // ADD CLIENT
+  // SECTION ADD CLIENT
   const [addClient] = useMutation(ADD_CLIENT);
 
+  // Add client to the Client model/table
   const handleAddClientSubmit = async (e) => {
     e.preventDefault();
     // console.log('hello = ', businessName, streetAddress, suite, city, state, zip, contact, phone, emailClient);
@@ -217,6 +200,7 @@ function AdminMock() {
     resetForm();
   };
 
+  // Reset the add client form after submission
   const resetForm = () => {
     setBusinessName("");
     setContact("");
@@ -229,17 +213,49 @@ function AdminMock() {
     setZip("");
   };
 
+  // If all fields are populated then enable the submit button
+  useEffect(() => {
+    setAreAllFieldsFilled(
+      businessName.trim() !== "" &&
+        contact.trim() !== "" &&
+        phone.trim() !== "" &&
+        emailClient.trim() !== "" &&
+        streetAddress.trim() !== "" &&
+        suite.trim() !== "" &&
+        city.trim() !== "" &&
+        state.trim() !== "" &&
+        zip.trim() !== ""
+    );
+    console.log(areAllFieldsFilled);
+    // eslint-disable-next-line
+  }, [
+    businessName,
+    contact,
+    phone,
+    emailClient,
+    streetAddress,
+    suite,
+    city,
+    state,
+    zip,
+  ]);
+
+  // SECTION END ADD CLIENT
+
   // SECTION UPDATE CLIENT
   // const [editClient, setEditClient] = useState([]);
 
   const [updateClient] = useMutation(UPDATE_CLIENT);
-
+  
+  // Wait for currentClientId OR current input to be updated
   useEffect(() => {
-    // wait for currentClientId to be updated
 
-    handleEditClientSubmit();
+    // console.log('current id = ', currentClientId, 'current input = ', currentInput);
 
-    console.log("useEffect = ", currentClientId);
+    if (currentClientId && currentInput) {
+      handleEditClientSubmit();
+      // console.log("useEffect = ", currentClientId);
+    }
 
     // eslint-disable-next-line
   }, [currentClientId, currentInput]);
@@ -257,14 +273,28 @@ function AdminMock() {
       await updateClient({
         variables: {
           id: currentClientId,
-          businessName: currentInput.businessName ? currentInput.businessName : test.data.client.businessName,
-          contact: currentInput.contact ? currentInput.contact : test.data.client.contact,
-          phone: currentInput.phone ? currentInput.phone : test.data.client.phone,
-          email: currentInput.emailClient ? currentInput.emailClient : test.data.client.email,
-          streetAddress: currentInput.streetAddress ? currentInput.streetAddress : test.data.client.streetAddress,
-          suite: currentInput.suite ? currentInput.suite : test.data.client.suite,
+          businessName: currentInput.businessName
+            ? currentInput.businessName
+            : test.data.client.businessName,
+          contact: currentInput.contact
+            ? currentInput.contact
+            : test.data.client.contact,
+          phone: currentInput.phone
+            ? currentInput.phone
+            : test.data.client.phone,
+          email: currentInput.emailClient
+            ? currentInput.emailClient
+            : test.data.client.email,
+          streetAddress: currentInput.streetAddress
+            ? currentInput.streetAddress
+            : test.data.client.streetAddress,
+          suite: currentInput.suite
+            ? currentInput.suite
+            : test.data.client.suite,
           city: currentInput.city ? currentInput.city : test.data.client.city,
-          state: currentInput.state ? currentInput.state : test.data.client.state,
+          state: currentInput.state
+            ? currentInput.state
+            : test.data.client.state,
           zip: currentInput.zip ? currentInput.zip : test.data.client.zip,
         },
       });
@@ -275,7 +305,6 @@ function AdminMock() {
     // Refetch the client list
     clientsRefetch();
   };
-
   // SECTION END UPDATE CLIENT
 
   // SECTION START DELETE CLIENT
@@ -301,8 +330,13 @@ function AdminMock() {
     }
   };
 
+  const [updateClientDisabled, setUpdateClientDisabled] = useState({});
+
   // SECTION END DELETE CLIENT
 
+  // SECTION END CLIENT 
+
+  // SECTION WORKORDER / SCHEDULE
   // eslint-disable-next-line
   const {
     loading: scheduleLoad,
@@ -311,6 +345,7 @@ function AdminMock() {
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
   // console.log(schedule);
+  // SECTION END WORKORDER / SCHEDULE
 
   // collapse show / not show detail
   const getElement = (event) => {
@@ -484,19 +519,28 @@ function AdminMock() {
                     <FontAwesomeIcon
                       icon="fa-pencil"
                       className="p-2"
-                      data-clientid={client?.businessName}
+                      data-businessname={client?.businessName}
                       onClick={(event) => {
                         console.log("pencil/edit");
+                        let test = document.querySelectorAll("data-businessname");
+                        let name = event.currentTarget.getAttribute("data-businessname");
+                        console.log(name);
+                        let fields = document.querySelectorAll('fieldset');
 
-                        // let clientId =
-                        //   event.currentTarget.getAttribute("data-clientid");
-                        // console.log('pencil = ', clientId);
-                        // setCurrentClientId(clientId);
-                        // console.log('pencil 2 = ', currentClientId);
+                        var newObj = {};
+                        for (var i = 0; i < fields.length; i++) {
+                          newObj[fields[i].dataset.businessname] = true;
+                        }
+                        console.log(newObj);
 
-                        // handleEditClientSubmit();
-                        // enableClientUpdate(event, clientId);
-                        // event.target.disabled;
+                        newObj[name] = false;
+
+                        console.log('object = ', newObj[name].value)
+                  
+                        setUpdateClientDisabled(newObj);
+
+                        console.log(updateClientDisabled);
+                        // }
                       }}
                     />
                     {/* DELETE */}
@@ -519,12 +563,8 @@ function AdminMock() {
                       // section submit
                       onSubmit={(event) => {
                         event.preventDefault();
-
-                        let clientId =
-                          event.currentTarget.getAttribute("data-editclientid");
-
+                        let clientId = event.currentTarget.getAttribute("data-editclientid");
                         setCurrentClientId(clientId);
-
                         setCurrentInput({
                           businessName,
                           contact,
@@ -536,10 +576,11 @@ function AdminMock() {
                           city,
                           zip,
                         });
-                        
                       }}
                       style={{ width: "80vw" }}
                     >
+
+                    <fieldset data-businessname={client?.businessName} disabled={updateClientDisabled[client?.businessName]}>
                       <div id="example-collapse-text">
                         <Form.Group
                           className="mb-3 form-length"
@@ -785,6 +826,7 @@ function AdminMock() {
                           </Button>
                         </div>
                       </div>
+                      </fieldset>
                     </Form>
 
                     {/* {client?.schedule.map((job, index) => (
