@@ -15,10 +15,11 @@ function Employees() {
   const [ userFormData, setUserFormData ] = useState({ email: "", password: "" });
   // section get user using the email address
   const [employee, setEmployee] = useState({});
+ 
   
   // eslint-disable-next-line
   const { loading, data, error: getEmployeeError, refetch } = useQuery(QUERY_EMPLOYEE_BYEMAIL, {
-    variables: { email: userFormData?.email},
+    variables: { email: userFormData?.email },
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
@@ -33,7 +34,7 @@ function Employees() {
   const [updatePassword, { error: passwordError }] = useMutation(UPDATE_EMPLOYEE);
   
   const setPassword = async () => {
-    console.log('reset password = ', employee)
+    // console.log('reset password = ', employee)
     try {
       const { data } = await updatePassword({
         variables: { ...employee, password: tempPassword }
@@ -41,7 +42,7 @@ function Employees() {
     } catch (e) {
       console.error(e);
     }
-    console.log(data);
+    // console.log(data);
   };
 
   // set temp password when employee state is updated (query retrieves employee info)
@@ -92,7 +93,7 @@ function Employees() {
       
       // decode token to check contents
       const decoded = decode(data.forgotPassword.token);
-      console.log(decoded);
+      console.log(decoded);  // decoded jwt delivers model fields and expiration data
 
       // Don't save token to local storage at that will log the user id
       // Auth.login(payLoadToken);
@@ -120,7 +121,7 @@ function Employees() {
 
   const sendEmail = (token) => {
     window.open(
-      `mailto:${userFormData.email}?subject=Password Reset&body=Click on this link to create a new pasword: http://localhost:3000/resetpassword/${payLoadToken.token}`
+      `mailto:${userFormData.email}?subject=Integral Solutions Employee Password Reset&body=Hello , %0D%0A%0D%0A Click on this link to create a new pasword: %0D%0A%0D%0A http://localhost:3000/resetpassword/${payLoadToken.token}`
     )
   }
   // section end rods code
