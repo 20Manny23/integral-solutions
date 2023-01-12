@@ -6,6 +6,9 @@ import Auth from "../../utils/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/button-home.css";
 
+import decode from "jwt-decode";
+
+
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: "", password: "" });
   const [login, { error }] = useMutation(LOGIN_USER);
@@ -35,10 +38,16 @@ const LoginForm = () => {
         variables: { ...userFormData },
       });
 
-      console.log(data)
+      // for reference ... 
+      // console.log(data)
+      // console.log(data.login)
+      // console.log(data.login.token)
+      // const decoded = decode(data.login.token);
+      // console.log(decoded);
+      // console.log(Auth.decode(data.login.token));
+
       Auth.login(data.login);
 
-      // window.location.assign(`/calendar`);
       window.location.assign(`/home`);
 
     } catch (e) {

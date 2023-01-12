@@ -3,6 +3,8 @@ const { User, Location, Incident, Event, Schedule, Client, Employee } = require(
 const { signToken } = require("../utils/auth");
 const bcrypt = require("bcrypt");
 
+let expiration = "2h"; // 2 hours
+
 const resolvers = {
   Query: {
     users: async (parent, args, context) => {
@@ -59,9 +61,12 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    client: async (parent, { clientId }, context) => {
+    client: async (parent, { _id }, context) => {
       // if (context.user) {
-        return Client.findOne({ _id: clientId }).populate({path: "schedule", populate: { path: "client" } });
+
+        console.log('resolver = ', _id);
+
+        return Client.findOne({ _id }).populate({path: "schedule", populate: { path: "client" } });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -198,14 +203,14 @@ const resolvers = {
         throw new AuthenticationError("Incorrect credentials");
       }
 
-      const token = signToken(employee);
+      expiration = "2h" // 15 minutes
+      const token = signToken(employee, expiration);
+      // const token = signToken(employee);
 
       return { token, employee };
     },
 
     forgotPassword: async (parent, { email, password }) => {
-
-      console.log('forgot resolver =', email);
       
       const employee = await Employee.findOne({ email });
 
@@ -218,8 +223,9 @@ const resolvers = {
       // if (!correctPw) {
       //   throw new AuthenticationError("Incorrect credentials");
       // }
-
-      const token = signToken(employee);
+      expiration = 900 // 15 minutes
+      const token = signToken(employee, expiration);
+      // const token = signToken(employee);
 
       return { token, employee };
     },
@@ -409,10 +415,12 @@ const resolvers = {
       return { message, employee };
     },
 
-    addSchedule: async (parent, { startDate, endDate, startTime, endTime, client, employees }, context) => {
+    addSchedule: async (parent, { streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees }, context) => {
+      // _id, streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees
+
       // if (context.user) {
-      const user = await Schedule.create({ startDate, endDate, startTime, endTime, client, employees });
-      return { startDate }, 
+      const user = await Schedule.create({ streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees });
+      return { streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees }, 
       { new: true};
       // }
       // throw new AuthenticationError("You need to be logged in!");

@@ -1,17 +1,6 @@
 import { gql } from "@apollo/client";
 
-// export const LOGIN_USER = gql`
-//   mutation login($email: String!, $password: String!) {
-//     login(email: $email, password: $password) {
-//       token
-//       user {
-//         _id
-//         username
-//       }
-//     }
-//   }
-// `;
-
+// SECTION LOGIN / RESET
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
@@ -35,18 +24,7 @@ export const FORGOT_PASSWORD = gql`
   }
 `;
 
-// export const ADD_USER = gql`
-//   mutation addUser($username: String!, $email: String!, $password: String!) {
-//     addUser(username: $username, email: $email, password: $password) {
-//       token
-//       user {
-//         _id
-//         username
-//       }
-//     }
-//   }
-// `;
-
+// SECTION EMPLOYEE
 export const SIGNUP_EMPLOYEE = gql`
   mutation signupEmployee(
     $username: String!
@@ -59,89 +37,6 @@ export const SIGNUP_EMPLOYEE = gql`
         _id
         username
       }
-    }
-  }
-`;
-
-export const DELETE_USER = gql`
-  mutation deleteUser($id: ID!) {
-    deleteUser(_id: $id) {
-      _id
-    }
-  }
-`;
-
-export const ADD_INCIDENT = gql`
-  mutation Mutation(
-    $employeeName: String!
-    $locationName: String!
-    $employeePhone: String!
-    $subject: String!
-    $urgent: String!
-    $incidentDetails: String!
-  ) {
-    addIncident(
-      employeeName: $employeeName
-      locationName: $locationName
-      employeePhone: $employeePhone
-      subject: $subject
-      urgent: $urgent
-      incidentDetails: $incidentDetails
-    ) {
-      employeeName
-      locationName
-      employeePhone
-      subject
-      urgent
-      incidentDetails
-    }
-  }
-`;
-
-export const DELETE_INCIDENT = gql`
-  mutation deleteIncident($id: ID!) {
-    deleteIncident(_id: $id) {
-      _id
-    }
-  }
-`;
-
-export const UPDATE_AVAILABILITY = gql`
-  mutation updateAvailability(
-    $id: ID!
-    $mondayAm: Boolean
-    $mondayPm: Boolean
-    $tuesdayAm: Boolean
-    $tuesdayPm: Boolean
-    $wednesdayAm: Boolean
-    $wednesdayPm: Boolean
-    $thursdayAm: Boolean
-    $thursdayPm: Boolean
-    $fridayAm: Boolean
-    $fridayPm: Boolean
-    $saturdayAm: Boolean
-    $saturdayPm: Boolean
-    $sundayAm: Boolean
-    $sundayPm: Boolean
-  ) {
-    updateAvailability(
-      _id: $id
-      mondayAm: $mondayAm
-      mondayPm: $mondayPm
-      tuesdayAm: $tuesdayAm
-      tuesdayPm: $tuesdayPm
-      wednesdayAm: $wednesdayAm
-      wednesdayPm: $wednesdayPm
-      thursdayAm: $thursdayAm
-      thursdayPm: $thursdayPm
-      fridayAm: $fridayAm
-      fridayPm: $fridayPm
-      saturdayAm: $saturdayAm
-      saturdayPm: $saturdayPm
-      sundayAm: $sundayAm
-      sundayPm: $sundayPm
-    ) {
-      _id
     }
   }
 `;
@@ -181,6 +76,218 @@ export const UPDATE_EMPLOYEE = gql`
       username
       isAdmin
       isLocked
+    }
+  }
+`;
+
+// SECTION CLIENT
+export const ADD_CLIENT = gql`
+  mutation addClient(
+    $businessName: String
+    $contact: String
+    $phone: String
+    $email: String
+    $streetAddress: String
+    $suite: String
+    $city: String
+    $state: String
+    $zip: String
+  ) {
+    addClient(
+      businessName: $businessName
+      contact: $contact
+      phone: $phone
+      email: $email
+      streetAddress: $streetAddress
+      suite: $suite
+      city: $city
+      state: $state
+      zip: $zip
+    ) {
+      _id
+      businessName
+      contact
+      phone
+      email
+      streetAddress
+      suite
+      state
+      city
+      zip
+    }
+  }
+`;
+
+export const DELETE_CLIENT = gql`
+  mutation deleteClient($id: ID!) {
+    deleteClient(_id: $id) {
+      _id
+    }
+  }
+`;
+
+export const UPDATE_CLIENT = gql`
+  mutation UpdateClient(
+    $id: ID!
+    $businessName: String
+    $streetAddress: String
+    $suite: String
+    $city: String
+    $state: String
+    $zip: String
+    $contact: String
+    $phone: String
+    $email: String
+  ) {
+    updateClient(
+      _id: $id
+      businessName: $businessName
+      streetAddress: $streetAddress
+      suite: $suite
+      city: $city
+      state: $state
+      zip: $zip
+      contact: $contact
+      phone: $phone
+      email: $email
+    ) {
+      _id
+      businessName
+      contact
+      phone
+      email
+      streetAddress
+      suite
+      state
+      city
+      zip
+    }
+  }
+`;
+
+// SECTION SCHEDULE
+
+export const ADD_SCHEDULE = gql`
+  mutation AddSchedule(
+    $streetAddress: String
+    $suite: String
+    $city: String
+    $state: String
+    $zip: String
+    $startDate: String
+    $endDate: String
+    $startTime: String
+    $endTime: String
+    $squareFeet: String
+    $jobDetails: String
+    $numberOfClientEmployees: String
+    $client: String
+    $employees: [String]
+  ) {
+    addSchedule(
+      streetAddress: $streetAddress
+      suite: $suite
+      city: $city
+      state: $state
+      zip: $zip
+      startDate: $startDate
+      endDate: $endDate
+      startTime: $startTime
+      endTime: $endTime
+      squareFeet: $squareFeet
+      jobDetails: $jobDetails
+      numberOfClientEmployees: $numberOfClientEmployees
+      client: $client
+      employees: $employees
+    ) {
+      city
+      employees {
+        _id
+      }
+      client {
+        _id
+      }
+      endDate
+      endTime
+      jobDetails
+      numberOfClientEmployees
+      squareFeet
+      startDate
+      startTime
+      state
+      streetAddress
+      suite
+      zip
+    }
+  }
+`;
+
+
+
+// SECTION LEGACY CODE
+// export const LOGIN_USER = gql`
+//   mutation login($email: String!, $password: String!) {
+//     login(email: $email, password: $password) {
+//       token
+//       user {
+//         _id
+//         username
+//       }
+//     }
+//   }
+// `;
+
+export const DELETE_USER = gql`
+  mutation deleteUser($id: ID!) {
+    deleteUser(_id: $id) {
+      _id
+    }
+  }
+`;
+
+// export const ADD_USER = gql`
+//   mutation addUser($username: String!, $email: String!, $password: String!) {
+//     addUser(username: $username, email: $email, password: $password) {
+//       token
+//       user {
+//         _id
+//         username
+//       }
+//     }
+//   }
+// `;
+
+export const DELETE_INCIDENT = gql`
+  mutation deleteIncident($id: ID!) {
+    deleteIncident(_id: $id) {
+      _id
+    }
+  }
+`;
+
+export const ADD_INCIDENT = gql`
+  mutation Mutation(
+    $employeeName: String!
+    $locationName: String!
+    $employeePhone: String!
+    $subject: String!
+    $urgent: String!
+    $incidentDetails: String!
+  ) {
+    addIncident(
+      employeeName: $employeeName
+      locationName: $locationName
+      employeePhone: $employeePhone
+      subject: $subject
+      urgent: $urgent
+      incidentDetails: $incidentDetails
+    ) {
+      employeeName
+      locationName
+      employeePhone
+      subject
+      urgent
+      incidentDetails
     }
   }
 `;
