@@ -33,6 +33,9 @@ const scheduleSchema = new Schema(
     endTime: {
       type: String,
     },
+    squareFeet: {
+      type: String,
+    },
     jobDetails: {
       type: String,
     },

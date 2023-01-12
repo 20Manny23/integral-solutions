@@ -736,7 +736,7 @@ function AdminMock() {
                             defaultValue={client?.streetAddress}
                             onChange={handleInputChange}
                             onBlur={handleBlurChange}
-                            // required
+                            required
                           />
                         </Form.Group>
 
