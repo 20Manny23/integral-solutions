@@ -33,7 +33,7 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    location: async (parent, { locationId }, context) => {
+  location: async (parent, { locationId }, context) => {
       // if (context.user) {
         return Location.findOne({ _id: locationId });
       // }
@@ -202,7 +202,9 @@ const resolvers = {
         throw new AuthenticationError("Incorrect credentials");
       }
 
-      const token = signToken(employee);
+      expiration = "2h" // 15 minutes
+      const token = signToken(employee, expiration);
+      // const token = signToken(employee);
 
       return { token, employee };
     },
@@ -222,6 +224,7 @@ const resolvers = {
       // }
       expiration = 900 // 15 minutes
       const token = signToken(employee, expiration);
+      // const token = signToken(employee);
 
       return { token, employee };
     },
