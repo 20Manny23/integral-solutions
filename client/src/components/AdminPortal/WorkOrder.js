@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {QUERY_ALL_CLIENTS, QUERY_ALL_EMPLOYEES} from "../../utils/queries";
+import { QUERY_ALL_CLIENTS, QUERY_ALL_EMPLOYEES } from "../../utils/queries";
 import { ADD_SCHEDULE } from "../../utils/mutations";
 import { useQuery } from "@apollo/client";
 import { Row, Col, Button, Form } from "react-bootstrap";
@@ -21,18 +21,17 @@ function WorkOrder() {
   function addEmployee(event) {
     setDemoChoice((demoChoice) => [...demoChoice, event.target.value]);
   }
- 
-  function removeEmployee(event) { 
-    let filteredArray = demoChoice.filter(item => item !== event.target.value)
-      setDemoChoice(filteredArray); 
-    }
-    
-    
-  
-function clientSelect (e){
-  setBusinessName(e.target.value)
-  
-}
+
+  function removeEmployee(event) {
+    let filteredArray = demoChoice.filter(
+      (item) => item !== event.target.value
+    );
+    setDemoChoice(filteredArray);
+  }
+
+  function clientSelect(e) {
+    setBusinessName(e.target.value);
+  }
 
   // SECTION Add Workorder
   // Add schedule to the schedule model/table
@@ -74,7 +73,7 @@ function clientSelect (e){
     const { name, value } = e.target;
 
     // Ternary statement that will call either setFirstName or setLastName based on what field the user is typing in
-  // _id, businessName, streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees
+    // _id, businessName, streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees
     name === "startDate"
       ? setStartDate(value)
       : name === "endDate"
@@ -103,21 +102,20 @@ function clientSelect (e){
 
     return name;
   };
-  
 
-  const { 
-    loading: clientsLoad, 
-    data: clients, 
-    error: clientError, 
-    refetch: clientsRefetch } = useQuery(QUERY_ALL_CLIENTS);
-    const {
-      loading: empLoad,
-      data: emp,
-      error: empError,
-      refetch: empRefectch,
-    } = useQuery(QUERY_ALL_EMPLOYEES);
+  const {
+    loading: clientsLoad,
+    data: clients,
+    error: clientError,
+    refetch: clientsRefetch,
+  } = useQuery(QUERY_ALL_CLIENTS);
+  const {
+    loading: empLoad,
+    data: emp,
+    error: empError,
+    refetch: empRefectch,
+  } = useQuery(QUERY_ALL_EMPLOYEES);
 
- 
   // If user clicks off an input field without entering text, then validation message "is required" displays
   // businessName, contact, phone, email, streetAddress, suite, city, state, zip
   // const handleBlurChange = (e) => {
@@ -157,36 +155,53 @@ function clientSelect (e){
   //  const [addSchedule] = useMutation(ADD_SCHEDULE);
   const handleAddScheduleSubmit = async (e) => {
     e.preventDefault();
-    console.log(businessName, streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees, demoChoice);
+    console.log(
+      businessName,
+      streetAddress,
+      suite,
+      city,
+      state,
+      zip,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      squareFeet,
+      jobDetails,
+      numberOfClientEmployees,
+      client,
+      employees,
+      demoChoice
+    );
 
-  // resetForm();
+    // resetForm();
 
-  // try {
-  //   // eslint-disable-next-line
-  //   const { data } = await addClient({
-  //     variables: {
-  //       businessName,
-  //       contact,
-  //       phone,
-  //       email: emailClient,
-  //       streetAddress,
-  //       suite,
-  //       city,
-  //       state,
-  //       zip,
-  //     },
-  //   });
-  // } catch (err) {
-  //   console.error(err);
-  // }
+    // try {
+    //   // eslint-disable-next-line
+    //   const { data } = await addClient({
+    //     variables: {
+    //       businessName,
+    //       contact,
+    //       phone,
+    //       email: emailClient,
+    //       streetAddress,
+    //       suite,
+    //       city,
+    //       state,
+    //       zip,
+    //     },
+    //   });
+    // } catch (err) {
+    //   console.error(err);
+    // }
 
-  // await clientsRefetch();
+    // await clientsRefetch();
 
-  // resetForm();
+    // resetForm();
 
-  // handleUpdateForDisabled(null, businessName, "addClient");
+    // handleUpdateForDisabled(null, businessName, "addClient");
   };
- 
+
   // Reset the add client form after submission
   // const resetForm = () => {
   //   setBusinessName("");
@@ -235,210 +250,200 @@ function clientSelect (e){
         className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
         style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
       >
-        <Row>
-            <Form
-              className="py-3 overflow-auto custom-about"
-              onSubmit={handleAddScheduleSubmit}
-              style={{ width: "80vw" }}
-            >
-              <h2 className="display-6 custom-text heading">Work Order</h2>
-           
-              <Form.Group className="form-length">
-                <Form.Label style={{ fontWeight: "bolder" }}>
-                  Select Client
-                </Form.Label>
-                <Form.Control
-                  as="select"
-                  className="custom-border"
-                  type="text"
-                  placeholder="Select Client"
-      
-                  value={'form-select'}
-                  name={'form-select'}
-                  onChange={clientSelect}
-                >
-                  <option>{businessName}</option>
-                  {clients?.clients?.map((client, index) => (
-                    <option key={index} value= {client.businessName}>
-                      {client.businessName}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-              <Form.Group
-                className="mb-3 form-length"
-                controlId="formBasicEmail"
+          <Form
+            className="py-3 overflow-auto custom-about"
+            onSubmit={handleAddScheduleSubmit}
+            style={{ width: "80vw" }}
+          >
+            <h2 className="display-6 custom-text heading">Work Order</h2>
+
+            <Form.Group className="form-length">
+              <Form.Label style={{ fontWeight: "bolder" }}>
+                Select Client
+              </Form.Label>
+              <Form.Control
+                as="select"
+                className="custom-border"
+                type="text"
+                placeholder="Select Client"
+                value={"form-select"}
+                name={"form-select"}
+                onChange={clientSelect}
               >
-                <div className="form-label">
-                  <Form.Label style={{ fontWeight: "bolder" }}>
-                    Address
-                  </Form.Label>
-                  <Form.Label></Form.Label>
-                </div>
+                <option>{businessName}</option>
+                {clients?.clients?.map((client, index) => (
+                  <option key={index} value={client.businessName}>
+                    {client.businessName}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
+              <div className="form-label">
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Address
+                </Form.Label>
+                <Form.Label></Form.Label>
+              </div>
+              <Form.Control
+                className="custom-border"
+                placeholder="Enter Address"
+                value={streetAddress}
+                name="streetAddress"
+                // defaultValue={client?.streetAddress}
+                onChange={handleInputChange}
+                // onBlur={handleBlurChange}
+                // required
+              />
+            </Form.Group>
+            <Row className="addy">
+              <Col xs={7}>
+                <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
                 <Form.Control
                   className="custom-border"
-                  placeholder="Enter Address"
-                  value={streetAddress}
-                  name="streetAddress"
-                  // defaultValue={client?.streetAddress}
+                  placeholder="City"
+                  value={city}
+                  name="city"
+                  // defaultValue={client?.city}
                   onChange={handleInputChange}
                   // onBlur={handleBlurChange}
                   // required
                 />
-              </Form.Group>
-              <Row className="addy">
-                <Col xs={7}>
-                  <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
-                  <Form.Control
-                    className="custom-border"
-                    placeholder="City"
-                    value={city}
-                    name="city"
-                    // defaultValue={client?.city}
-                    onChange={handleInputChange}
-                    // onBlur={handleBlurChange}
-                    // required
-                  />
-                </Col>
-                <Col>
-                  <Form.Label style={{ fontWeight: "bolder" }}>
-                    State
-                  </Form.Label>
-                  <Form.Control
-                    className="custom-border"
-                    placeholder="State"
-                    value={state}
-                    name="state"
-                    // defaultValue={client?.state}
-                    onChange={handleInputChange}
-                    // onBlur={handleBlurChange}
-                    // required
-                  />
-                </Col>
-                <Col>
-                  <Form.Label style={{ fontWeight: "bolder" }}>
-                    Zipcode
-                  </Form.Label>
-                  <Form.Control
-                    className="custom-border"
-                    placeholder="Zip"
-                    value={zip}
-                    name="zip"
-                    // defaultValue={client?.zip}
-                    onChange={handleInputChange}
-                    // onBlur={handleBlurChange}
-                    // required
-                  />
-                </Col>
-              </Row>
-              <Row className="addy">
-                <Col>
-                  <Form.Group controlId="formBasicEmail">
-                    <div className="form-label">
-                      <Form.Label style={{ fontWeight: "bolder" }}>
-                        Job Start Date
-                      </Form.Label>
-                    </div>
-                    <Form.Control
-                      className="custom-border"
-                      type="date"
-                      name="startDate"
-                      // defaultValue={client?.startDate}
-                      onChange={handleInputChange}
-                      // onBlur={handleBlurChange}
-                      // required
-                    />
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group controlId="formBasicEmail">
-                    <div className="form-label">
-                      <Form.Label style={{ fontWeight: "bolder" }}>
-                        Job End Date
-                      </Form.Label>
-                    </div>
-                    <Form.Control
-                      className="custom-border"
-                      type="date"
-                      value={endDate}
-                      name="endDate"
-                      // defaultValue={client?.endDate}
-                      onChange={handleInputChange}
-                      // onBlur={handleBlurChange}
-                      // required
-                    />
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group
-                    
-                    controlId="formBasicEmail"
-                  >
-                    <div className="form-label">
-                      <Form.Label style={{ fontWeight: "bolder" }}>
-                        Start Time
-                      </Form.Label>
-                    </div>
-                    <Form.Control
-                      className="custom-border"
-                      type="time"
-                      value={startTime}
-                      name="startTime"
-                      // defaultValue={client?.startTime}
-                      onChange={handleInputChange}
-                      // onBlur={handleBlurChange}
-                      // required
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-
-              <Row className="addy">
-                <Col xs={6}>
-                  <Form.Label style={{ fontWeight: "bolder" }}>
-                    Office Sqft
-                  </Form.Label>
-                  <Form.Control
-                    className="custom-border"
-                    placeholder="8000 Sqft"
-                    value={squareFeet}
-                    name="squareFeet"
-                    // defaultValue={client?.squareFeet}
-                    onChange={handleInputChange}
-                    // onBlur={handleBlurChange}
-                    // required
-                  />
-                </Col>
-
-                <Col xs={6}>
-                  <Form.Group >
+              </Col>
+              <Col>
+                <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
+                <Form.Control
+                  className="custom-border"
+                  placeholder="State"
+                  value={state}
+                  name="state"
+                  // defaultValue={client?.state}
+                  onChange={handleInputChange}
+                  // onBlur={handleBlurChange}
+                  // required
+                />
+              </Col>
+              <Col>
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Zipcode
+                </Form.Label>
+                <Form.Control
+                  className="custom-border"
+                  placeholder="Zip"
+                  value={zip}
+                  name="zip"
+                  // defaultValue={client?.zip}
+                  onChange={handleInputChange}
+                  // onBlur={handleBlurChange}
+                  // required
+                />
+              </Col>
+            </Row>
+            <Row className="addy">
+              <Col>
+                <Form.Group controlId="formBasicEmail">
+                  <div className="form-label">
                     <Form.Label style={{ fontWeight: "bolder" }}>
-                      Number of Employees
+                      Job Start Date
                     </Form.Label>
-                    <Form.Control
-                      as="select"
-                      className="custom-border"
-                      type="text"
-                      // value={employeeChoice}
-                      value={numberOfClientEmployees}
-                      name="numberOfClientEmployees"
-                      // onChange={addEmployee}
-                      onChange={handleInputChange}
-                    >
-                      <option>Select</option>
-                      {numberOfEmployees.map((emp, index) => (
-                        <option 
-                          key={index} 
-                          // value={emp}
-                        >
-                          {emp}
-                        </option>
-                      ))}
-                    </Form.Control>
-                  </Form.Group>
-                </Col>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    type="date"
+                    name="startDate"
+                    // defaultValue={client?.startDate}
+                    onChange={handleInputChange}
+                    // onBlur={handleBlurChange}
+                    // required
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group controlId="formBasicEmail">
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Job End Date
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    type="date"
+                    value={endDate}
+                    name="endDate"
+                    // defaultValue={client?.endDate}
+                    onChange={handleInputChange}
+                    // onBlur={handleBlurChange}
+                    // required
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group controlId="formBasicEmail">
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Start Time
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    type="time"
+                    value={startTime}
+                    name="startTime"
+                    // defaultValue={client?.startTime}
+                    onChange={handleInputChange}
+                    // onBlur={handleBlurChange}
+                    // required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-                {/* <Col>
+            <Row className="addy">
+              <Col xs={6}>
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Office Sqft
+                </Form.Label>
+                <Form.Control
+                  className="custom-border"
+                  placeholder="8000 Sqft"
+                  value={squareFeet}
+                  name="squareFeet"
+                  // defaultValue={client?.squareFeet}
+                  onChange={handleInputChange}
+                  // onBlur={handleBlurChange}
+                  // required
+                />
+              </Col>
+
+              <Col xs={6}>
+                <Form.Group>
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    Number of Employees
+                  </Form.Label>
+                  <Form.Control
+                    as="select"
+                    className="custom-border"
+                    type="text"
+                    // value={employeeChoice}
+                    value={numberOfClientEmployees}
+                    name="numberOfClientEmployees"
+                    // onChange={addEmployee}
+                    onChange={handleInputChange}
+                  >
+                    <option>Select</option>
+                    {numberOfEmployees.map((emp, index) => (
+                      <option
+                        key={index}
+                        // value={emp}
+                      >
+                        {emp}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+
+              {/* <Col>
                   <Form.Label
                     style={{
                       fontWeight: "bolder",
@@ -453,81 +458,81 @@ function clientSelect (e){
                   <Form.Check inline label="50-100" />
                   <Form.Check inline label="More than 100" />
                 </Col> */}
-              </Row>
+            </Row>
 
-              <Form.Group className="form-length">
-                <Form.Label style={{ fontWeight: "bolder" }}>
-                  Select Employees for Job
-                </Form.Label>
-                <Form.Control
-                  as="select"
-                  className="custom-border"
-                  type="text"
-          
-                  // name="employeeChoice"
-                  // onChange={addEmployee}
-                  value={'form-select'}
-                  name={'form-select'}
-                  onChange={addEmployee}
-                >
-                  <option>Select</option>
-                  {emp?.employees?.map((emp, index) => (
-                    <option key={index} value= {emp.firstName}>
-                      {emp.firstName} {emp.lastName}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-
-              {/* Creates button when adding employee to job  */}
-              {demoChoice.map((worker) => (
-                
-                <Button
-                  style={{ marginRight: "15px", padding:'3px', backgroundColor:'#007bff' }}
-                  onClick={removeEmployee}
-                  value={worker}
-                  variant="secondary"
-                >
-                  {worker}
-                </Button>
-             
-              ))}
-
-              <Form.Group className="mb-3" controlId="formBasicMessage">
-                <div className="form-label form-length">
-                  <Form.Label style={{ fontWeight: "bolder" }}>
-                    Job Details
-                  </Form.Label>
-                </div>
-                <Form.Control
-                  style={{
-                    width: "60%",
-                    marginRight: "auto",
-                    marginLeft: "auto",
-                  }}
-                  className="custom-border"
-                  as="textarea"
-                  rows={4}
-                  type="textarea"
-                  placeholder="Enter additional information here."
-                  // name="body"
-                  value={jobDetails}
-                  name="jobDetails"
-                  onChange={handleInputChange}
-                  // required
-                />
-              </Form.Group>
-
-              <Button
-                className="button-custom submit-button-style"
-                variant="primary"
-                type="submit"
-                title="Submit to schedule job."
+            <Form.Group className="form-length">
+              <Form.Label style={{ fontWeight: "bolder" }}>
+                Select Employees for Job
+              </Form.Label>
+              <Form.Control
+                as="select"
+                className="custom-border"
+                type="text"
+                // name="employeeChoice"
+                // onChange={addEmployee}
+                value={"form-select"}
+                name={"form-select"}
+                onChange={addEmployee}
               >
-                Schedule Job
+                <option>Select</option>
+                {emp?.employees?.map((emp, index) => (
+                  <option key={index} value={emp.firstName}>
+                    {emp.firstName} {emp.lastName}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+
+            {/* Creates button when adding employee to job  */}
+            {demoChoice.map((worker) => (
+              <Button
+                style={{
+                  marginRight: "15px",
+                  padding: "3px",
+                  backgroundColor: "#007bff",
+                }}
+                onClick={removeEmployee}
+                value={worker}
+                variant="secondary"
+              >
+                {worker}
               </Button>
-            </Form>
-        </Row>
+            ))}
+
+            <Form.Group className="mb-3" controlId="formBasicMessage">
+              <div className="form-label form-length">
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Job Details
+                </Form.Label>
+              </div>
+              <Form.Control
+                style={{
+                  width: "60%",
+                  marginRight: "auto",
+                  marginLeft: "auto",
+                }}
+                className="custom-border"
+                as="textarea"
+                rows={4}
+                type="textarea"
+                placeholder="Enter additional information here."
+                // name="body"
+                value={jobDetails}
+                name="jobDetails"
+                onChange={handleInputChange}
+                // required
+              />
+            </Form.Group>
+
+            <Button
+              className="button-custom submit-button-style"
+              variant="primary"
+              type="submit"
+              title="Submit to schedule job."
+            >
+              Schedule Job
+            </Button>
+          </Form>
       </div>
     </>
   );
