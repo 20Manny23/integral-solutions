@@ -188,6 +188,8 @@ function AdminMock() {
     clientsRefetch();
 
     resetForm();
+
+    handleUpdateForDisabled(event, businessName);
   };
 
   // Reset the add client form after submission
@@ -311,8 +313,11 @@ function AdminMock() {
 
   }, [])
 
-  const handleUpdateForDisabled = (event) => {
-    let currentName = event.currentTarget.getAttribute("data-businessname");
+  const handleUpdateForDisabled = (event, businessName) => {
+
+    console.log(businessName);
+
+    let currentName = businessName ? businessName : event.currentTarget.getAttribute("data-businessname")
     let keys = document.querySelectorAll('fieldset');
 
     var newObj = {};
