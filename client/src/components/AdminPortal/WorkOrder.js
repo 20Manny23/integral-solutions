@@ -21,7 +21,12 @@ function WorkOrder() {
   const [demoNumOfEmp, setDemoNumOfEmp] = useState([]);
 
   function addEmployee(event) {
-    console.log(demoChoice, event)
+    for (let i = 0; i < demoChoice.length; i++) {
+      if (event.target.value === demoChoice[i]){
+        return;
+      }
+      
+    }
     setDemoChoice((demoChoice) => [...demoChoice, event.target.value]);
   }
 
@@ -444,21 +449,6 @@ function WorkOrder() {
             </Form.Group>
           </Col>
 
-          {/* <Col>
-                  <Form.Label
-                    style={{
-                      fontWeight: "bolder",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    Number of Employees
-                  </Form.Label>
-                  <Form.Check inline label="Home Office" />
-                  <Form.Check inline label="Less than 50" />
-                  <Form.Check inline label="50-100" />
-                  <Form.Check inline label="More than 100" />
-                </Col> */}
         </Row>
 
         <Form.Group className="form-length">
@@ -470,7 +460,7 @@ function WorkOrder() {
             className="custom-border"
             type="text"
             // name="employeeChoice"
-            // onChange={addEmployee}
+           
             value={"form-select"}
             name={"form-select"}
             onChange={addEmployee}
