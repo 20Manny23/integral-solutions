@@ -3,7 +3,7 @@ require('dotenv').config();
 
 // const secret = "mysecretssshhhhhhh";
 const secret = process.env.JWT_SECRET_KEY;
-const expiration = "2h"; //hours
+// const expiration = "2h"; // 2 hours
 
 module.exports = {
   authMiddleware: function ({ req }) {
@@ -27,7 +27,8 @@ module.exports = {
     return req;
   },
 
-  signToken: function ({ email, username, _id, isManager, isAdmin, isLocked }) {
+  // added flexible variable for expiration
+  signToken: function ({ email, username, _id, isManager, isAdmin, isLocked }, expiration) {
     const payload = { email, username, _id, isManager, isAdmin, isLocked };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },

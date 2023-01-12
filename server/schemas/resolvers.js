@@ -2,6 +2,7 @@ const { AuthenticationError } = require("apollo-server-express");
 const { User, Location, Incident, Event, Schedule, Client, Employee } = require("../models");
 const { signToken } = require("../utils/auth");
 const bcrypt = require("bcrypt");
+let expiration = "2h"; // 2 hours
 
 const resolvers = {
   Query: {
@@ -219,8 +220,8 @@ const resolvers = {
       // if (!correctPw) {
       //   throw new AuthenticationError("Incorrect credentials");
       // }
-
-      const token = signToken(employee);
+      expiration = 900 // 15 minutes
+      const token = signToken(employee, expiration);
 
       return { token, employee };
     },
