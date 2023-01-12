@@ -22,15 +22,13 @@ function WorkOrder() {
     setDemoChoice((demoChoice) => [...demoChoice, event.target.value]);
   }
  
-  function removeEmployee(event) {
-    const name = event.target.value;
-    for (let i = 0; i < demoChoice.length; i++) {
-      if (demoChoice[i] === name) {
-        demoChoice.splice(i, 1);
-      }
+  function removeEmployee(event) { 
+    let filteredArray = demoChoice.filter(item => item !== event.target.value)
+      setDemoChoice(filteredArray); 
     }
-    setDemoChoice(demoChoice);
-  }
+    
+    
+  
 function clientSelect (e){
   setBusinessName(e.target.value)
   
@@ -487,7 +485,7 @@ function clientSelect (e){
                 <Button
                   style={{ marginRight: "15px", padding:'3px', backgroundColor:'#007bff' }}
                   onClick={removeEmployee}
-                  // value={emp}
+                  value={worker}
                   variant="secondary"
                 >
                   {worker}
