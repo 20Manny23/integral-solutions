@@ -45,6 +45,7 @@ const typeDefs = gql`
     endDate: String
     startTime: String
     endTime: String
+    squareFeet: String
     jobDetails: String
     numberOfClientEmployees: String
     client: Client
@@ -245,20 +246,38 @@ const typeDefs = gql`
     toggleLocked(employeeId: ID!): Message
     
     addSchedule(
+      streetAddress: String
+      suite: String
+      city: String
+      state: String
+      zip: String
       startDate: String
       endDate: String
       startTime: String
       endTime: String
+      squareFeet: String
+      jobDetails: String
+      numberOfClientEmployees: String
       client: String
       employees: [String]
     ): Schedule
+
     deleteSchedule(_id: ID!): Schedule
+    
     updateSchedule(
       _id: ID
+      streetAddress: String
+      suite: String
+      city: String
+      state: String
+      zip: String
       startDate: String
       endDate: String
       startTime: String
       endTime: String
+      squareFeet: String
+      jobDetails: String
+      numberOfClientEmployees: String
       client: String
       employees: [String]
     ): Schedule

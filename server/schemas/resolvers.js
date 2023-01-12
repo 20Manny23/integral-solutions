@@ -2,6 +2,7 @@ const { AuthenticationError } = require("apollo-server-express");
 const { User, Location, Incident, Event, Schedule, Client, Employee } = require("../models");
 const { signToken } = require("../utils/auth");
 const bcrypt = require("bcrypt");
+
 let expiration = "2h"; // 2 hours
 
 const resolvers = {
@@ -414,10 +415,12 @@ const resolvers = {
       return { message, employee };
     },
 
-    addSchedule: async (parent, { startDate, endDate, startTime, endTime, client, employees }, context) => {
+    addSchedule: async (parent, { streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees }, context) => {
+      // _id, streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees
+
       // if (context.user) {
-      const user = await Schedule.create({ startDate, endDate, startTime, endTime, client, employees });
-      return { startDate }, 
+      const user = await Schedule.create({ streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees });
+      return { streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees }, 
       { new: true};
       // }
       // throw new AuthenticationError("You need to be logged in!");
