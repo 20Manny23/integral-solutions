@@ -40,18 +40,14 @@ const LoginForm = () => {
 
       // for reference ... 
       // console.log(data)
-      // Auth.login(data.login);
       // console.log(data.login)
       // console.log(data.login.token)
-      
       // const decoded = decode(data.login.token);
-
       // console.log(decoded);
-
       // console.log(Auth.decode(data.login.token));
 
+      Auth.login(data.login);
 
-      // window.location.assign(`/calendar`);
       window.location.assign(`/home`);
 
     } catch (e) {
