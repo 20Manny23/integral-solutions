@@ -81,7 +81,7 @@ function EmployeeList() {
                     controlId="formBasicEmail"
                   >
                     <div className="form-label">
-                      <Form.Label style={{ fontWeight: "bolder" }}>
+                      <Form.Label style={{ fontWeight: "bolder", marginTop:'10px' }}>
                         Employee Name
                       </Form.Label>
                     </div>
@@ -145,6 +145,7 @@ function EmployeeList() {
                     />
                   </Form.Group>
                   <Button
+                  style={{marginBottom:'15px'}}
                     className="button-custom submit-button-style"
                     variant="primary"
                     type="submit"

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import {QUERY_ALL_CLIENTS, QUERY_ALL_EMPLOYEES} from "../../utils/queries";
 import { ADD_SCHEDULE } from "../../utils/mutations";
-import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
-import { Row, Col, Button, Form, Dropdown } from "react-bootstrap";
+import { useQuery } from "@apollo/client";
+import { Row, Col, Button, Form } from "react-bootstrap";
 import "../../styles/Forms.css";
 
 function WorkOrder() {
@@ -31,6 +31,10 @@ function WorkOrder() {
     }
     setDemoChoice(demoChoice);
   }
+function clientSelect (e){
+  setBusinessName(e.target.value)
+  
+}
 
   // SECTION Add Workorder
   // Add schedule to the schedule model/table
@@ -52,7 +56,7 @@ function WorkOrder() {
   const [employees, setEmployees] = useState("");
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
   const [jobWorkers, setJobWorkers] = useState([]);
-  
+
   // // VALIDATION
   // const [showBusinessNameValidation, setShowBusinessNameValidation] =
   //   useState(false);
@@ -102,12 +106,6 @@ function WorkOrder() {
     return name;
   };
   
-  // function handleEmpAdd(e){
-    
-  //   jobWorkers.push(e.target.value)
-  //   setJobWorkers(jobWorkers) 
-    
-  // }
 
   const { 
     loading: clientsLoad, 
@@ -161,7 +159,7 @@ function WorkOrder() {
   //  const [addSchedule] = useMutation(ADD_SCHEDULE);
   const handleAddScheduleSubmit = async (e) => {
     e.preventDefault();
-    console.log(streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees, demoChoice);
+    console.log(businessName, streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees, demoChoice);
 
   // resetForm();
 
@@ -190,7 +188,7 @@ function WorkOrder() {
 
   // handleUpdateForDisabled(null, businessName, "addClient");
   };
-
+ 
   // Reset the add client form after submission
   // const resetForm = () => {
   //   setBusinessName("");
@@ -246,24 +244,29 @@ function WorkOrder() {
               style={{ width: "80vw" }}
             >
               <h2 className="display-6 custom-text heading">Work Order</h2>
-              <Dropdown>
-                <Dropdown.Toggle
-                  id="dropdown-basic-button"
-                  style={{ width: "25%" }}
+           
+              <Form.Group className="form-length">
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Select Client
+                </Form.Label>
+                <Form.Control
+                  as="select"
+                  className="custom-border"
+                  type="text"
+                  placeholder="Select Client"
+      
+                  value={'form-select'}
+                  name={'form-select'}
+                  onChange={clientSelect}
                 >
-                  Choose Client
-                </Dropdown.Toggle>
-                {/* This will map through all clients and populate a list to choose */}
-                <Dropdown.Menu>
-                {clients?.clients?.map((client, index) => (
-                    
-                          <Dropdown.Item >{client.businessName} </Dropdown.Item>
-                          
-                      ))}
-                  
-                      </Dropdown.Menu>
-                
-              </Dropdown>
+                  <option>{businessName}</option>
+                  {clients?.clients?.map((client, index) => (
+                    <option key={index} value= {client.businessName}>
+                      {client.businessName}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
               <Form.Group
                 className="mb-3 form-length"
                 controlId="formBasicEmail"
@@ -393,7 +396,7 @@ function WorkOrder() {
               </Row>
 
               <Row className="addy">
-                <Col xs={5}>
+                <Col xs={6}>
                   <Form.Label style={{ fontWeight: "bolder" }}>
                     Office Sqft
                   </Form.Label>
@@ -409,8 +412,8 @@ function WorkOrder() {
                   />
                 </Col>
 
-                <Col xs={7}>
-                  <Form.Group className="form-length">
+                <Col xs={6}>
+                  <Form.Group >
                     <Form.Label style={{ fontWeight: "bolder" }}>
                       Number of Employees
                     </Form.Label>
