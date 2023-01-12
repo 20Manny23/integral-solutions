@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-
-import { useMutation } from "@apollo/client";
+import {QUERY_ALL_CLIENTS,} from "../../utils/queries";
 import { ADD_SCHEDULE } from "../../utils/mutations";
-
+import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { Row, Col, Button, Form, Dropdown } from "react-bootstrap";
 import "../../styles/Forms.css";
 
@@ -101,7 +100,13 @@ function WorkOrder() {
 
     return name;
   };
+  const { 
+    loading: clientsLoad, 
+    data: clients, 
+    error: clientError, 
+    refetch: clientsRefetch } = useQuery(QUERY_ALL_CLIENTS);
 
+  console.log(clients?.clients.businessName)
   // If user clicks off an input field without entering text, then validation message "is required" displays
   // businessName, contact, phone, email, streetAddress, suite, city, state, zip
   // const handleBlurChange = (e) => {
@@ -235,14 +240,14 @@ function WorkOrder() {
                 </Dropdown.Toggle>
                 {/* This will map through all clients and populate a list to choose */}
                 <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                  <Dropdown.Item href="#/action-2">
-                    Another action What if this is super long
-                  </Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">
-                    Something else
-                  </Dropdown.Item>
-                </Dropdown.Menu>
+                {clients?.clients?.map((client, index) => (
+                    
+                          <Dropdown.Item >{client.businessName} </Dropdown.Item>
+                          
+                      ))}
+                  
+                      </Dropdown.Menu>
+                
               </Dropdown>
               <Form.Group
                 className="mb-3 form-length"
