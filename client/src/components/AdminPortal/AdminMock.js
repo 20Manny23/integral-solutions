@@ -84,16 +84,6 @@ function AdminMock() {
   const [currentClientId, setCurrentClientId] = useState("");
   const [currentInput, setCurrentInput] = useState({});
 
-  // eslint-disable-next-line
-  // const { loading: clientLoad, data: client, error: getClientError, refetch: clientRefetch } = useQuery(QUERY_SINGLE_CLIENT, {
-  //   variables: { clientId: currentClientId },
-  //   // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
-  //   skip: !Auth.loggedIn(),
-  //   onCompleted: (client) => {
-  //     setCurrentClient(client);
-  //   },
-  // });
-
   const [getClientId, { loading: lazyLoading, data: lazyData }] = useLazyQuery(
     QUERY_SINGLE_CLIENT,
     {
@@ -305,6 +295,38 @@ function AdminMock() {
     // Refetch the client list
     clientsRefetch();
   };
+
+  // Handle add form edit pencil = disabled = false or true
+  const [updateClientDisabled, setUpdateClientDisabled] = useState({});
+
+  useEffect(() => {
+    let fields = document.querySelectorAll('fieldset');
+
+    var newObj = {};
+    for (var i = 0; i < fields.length; i++) {
+      newObj[fields[i].dataset.businessname] = true;
+    }
+
+    setUpdateClientDisabled(newObj);
+
+  }, [])
+
+  const handleUpdateForDisabled = (event) => {
+    let currentName = event.currentTarget.getAttribute("data-businessname");
+    let keys = document.querySelectorAll('fieldset');
+
+    var newObj = {};
+    for (var i = 0; i < keys.length; i++) {
+      if (keys[i].dataset.businessname === currentName) {
+        newObj[keys[i].dataset.businessname] = !updateClientDisabled[keys[i].dataset.businessname];
+      } else {
+        newObj[keys[i].dataset.businessname] = true;
+      }
+    }
+
+    setUpdateClientDisabled(newObj);
+  }
+
   // SECTION END UPDATE CLIENT
 
   // SECTION START DELETE CLIENT
@@ -329,8 +351,6 @@ function AdminMock() {
       console.log(err);
     }
   };
-
-  const [updateClientDisabled, setUpdateClientDisabled] = useState({});
 
   // SECTION END DELETE CLIENT
 
@@ -520,28 +540,7 @@ function AdminMock() {
                       icon="fa-pencil"
                       className="p-2"
                       data-businessname={client?.businessName}
-                      onClick={(event) => {
-                        console.log("pencil/edit");
-                        let test = document.querySelectorAll("data-businessname");
-                        let name = event.currentTarget.getAttribute("data-businessname");
-                        console.log(name);
-                        let fields = document.querySelectorAll('fieldset');
-
-                        var newObj = {};
-                        for (var i = 0; i < fields.length; i++) {
-                          newObj[fields[i].dataset.businessname] = true;
-                        }
-                        console.log(newObj);
-
-                        newObj[name] = false;
-
-                        console.log('object = ', newObj[name].value)
-                  
-                        setUpdateClientDisabled(newObj);
-
-                        console.log(updateClientDisabled);
-                        // }
-                      }}
+                      onClick={handleUpdateForDisabled}
                     />
                     {/* DELETE */}
                     <FontAwesomeIcon
@@ -840,6 +839,7 @@ function AdminMock() {
                         </div>
                       </div>
                     ))} */}
+                    
                   </div>
                 </Collapse>
               </div>
