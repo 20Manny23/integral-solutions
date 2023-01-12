@@ -21,6 +21,7 @@ function WorkOrder() {
   const [demoNumOfEmp, setDemoNumOfEmp] = useState([]);
 
   function addEmployee(event) {
+    console.log(demoChoice, event)
     setDemoChoice((demoChoice) => [...demoChoice, event.target.value]);
   }
 
@@ -164,7 +165,8 @@ function WorkOrder() {
       squareFeet,
       jobDetails,
       numberOfClientEmployees,
-      client,
+      // client,
+      businessName,
       employees,
       demoChoice
     );
