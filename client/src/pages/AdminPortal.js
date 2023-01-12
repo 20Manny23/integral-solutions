@@ -101,7 +101,7 @@ const AdminPortal = ({
                     navigate("/clientlist");
                   }}
                 >
-                  Client List 
+                  Clients
                 </Button>
                 <Button
                   variant="outline-primary"
