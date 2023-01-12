@@ -268,6 +268,23 @@ export const QUERY_ALL_CLIENTS= gql`
   }
 `;
 
+export const QUERY_SINGLE_CLIENT = gql`
+query getSingleClient($clientId: ID!) {
+  client( _id: $clientId) {
+    _id
+    businessName
+    contact
+    phone
+    email
+    streetAddress
+    suite
+    state
+    city
+    zip
+  }
+}
+`;
+
 export const QUERY_SCHEDULE= gql`
   query getSchedule {
     schedules {

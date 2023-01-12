@@ -144,7 +144,7 @@ const typeDefs = gql`
     incidents: [Incident]!
     events: [Event]!
     clients: [Client]!
-    client(clientId: ID!): Client
+    client(_id: ID!): Client
     employees: [Employee]!
     employeeByEmail(email: String!): Employee
     employeeById(_id: ID!): Employee

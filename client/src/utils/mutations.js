@@ -118,46 +118,6 @@ export const DELETE_INCIDENT = gql`
   }
 `;
 
-export const UPDATE_AVAILABILITY = gql`
-  mutation updateAvailability(
-    $id: ID!
-    $mondayAm: Boolean
-    $mondayPm: Boolean
-    $tuesdayAm: Boolean
-    $tuesdayPm: Boolean
-    $wednesdayAm: Boolean
-    $wednesdayPm: Boolean
-    $thursdayAm: Boolean
-    $thursdayPm: Boolean
-    $fridayAm: Boolean
-    $fridayPm: Boolean
-    $saturdayAm: Boolean
-    $saturdayPm: Boolean
-    $sundayAm: Boolean
-    $sundayPm: Boolean
-  ) {
-    updateAvailability(
-      _id: $id
-      mondayAm: $mondayAm
-      mondayPm: $mondayPm
-      tuesdayAm: $tuesdayAm
-      tuesdayPm: $tuesdayPm
-      wednesdayAm: $wednesdayAm
-      wednesdayPm: $wednesdayPm
-      thursdayAm: $thursdayAm
-      thursdayPm: $thursdayPm
-      fridayAm: $fridayAm
-      fridayPm: $fridayPm
-      saturdayAm: $saturdayAm
-      saturdayPm: $saturdayPm
-      sundayAm: $sundayAm
-      sundayPm: $sundayPm
-    ) {
-      _id
-    }
-  }
-`;
-
 export const UPDATE_EMPLOYEE = gql`
   mutation UpdateEmployee(
     $id: ID
@@ -193,6 +153,91 @@ export const UPDATE_EMPLOYEE = gql`
       username
       isAdmin
       isLocked
+    }
+  }
+`;
+
+// SECTION CLIENT
+export const ADD_CLIENT = gql`
+  mutation addClient(
+    $businessName: String
+    $contact: String
+    $phone: String
+    $email: String
+    $streetAddress: String
+    $suite: String
+    $city: String
+    $state: String
+    $zip: String
+  ) {
+    addClient(
+      businessName: $businessName
+      contact: $contact
+      phone: $phone
+      email: $email
+      streetAddress: $streetAddress
+      suite: $suite
+      city: $city
+      state: $state
+      zip: $zip
+    ) {
+      _id
+      businessName
+      contact
+      phone
+      email
+      streetAddress
+      suite
+      state
+      city
+      zip
+    }
+  }
+`;
+
+export const DELETE_CLIENT = gql`
+  mutation deleteClient($id: ID!) {
+    deleteClient(_id: $id) {
+      _id
+    }
+  }
+`;
+
+export const UPDATE_CLIENT = gql`
+  mutation UpdateClient(
+    $id: ID!
+    $businessName: String
+    $streetAddress: String
+    $suite: String
+    $city: String
+    $state: String
+    $zip: String
+    $contact: String
+    $phone: String
+    $email: String
+  ) {
+    updateClient(
+      _id: $id
+      businessName: $businessName
+      streetAddress: $streetAddress
+      suite: $suite
+      city: $city
+      state: $state
+      zip: $zip
+      contact: $contact
+      phone: $phone
+      email: $email
+    ) {
+      _id
+      businessName
+      contact
+      phone
+      email
+      streetAddress
+      suite
+      state
+      city
+      zip
     }
   }
 `;

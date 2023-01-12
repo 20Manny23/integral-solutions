@@ -2,6 +2,7 @@ const { AuthenticationError } = require("apollo-server-express");
 const { User, Location, Incident, Event, Schedule, Client, Employee } = require("../models");
 const { signToken } = require("../utils/auth");
 const bcrypt = require("bcrypt");
+let expiration = "2h"; // 2 hours
 
 const resolvers = {
   Query: {
@@ -32,7 +33,7 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    location: async (parent, { locationId }, context) => {
+  location: async (parent, { locationId }, context) => {
       // if (context.user) {
         return Location.findOne({ _id: locationId });
       // }
@@ -59,9 +60,12 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    client: async (parent, { clientId }, context) => {
+    client: async (parent, { _id }, context) => {
       // if (context.user) {
-        return Client.findOne({ _id: clientId }).populate({path: "schedule", populate: { path: "client" } });
+
+        console.log('resolver = ', _id);
+
+        return Client.findOne({ _id }).populate({path: "schedule", populate: { path: "client" } });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -198,14 +202,14 @@ const resolvers = {
         throw new AuthenticationError("Incorrect credentials");
       }
 
-      const token = signToken(employee);
+      expiration = "2h" // 15 minutes
+      const token = signToken(employee, expiration);
+      // const token = signToken(employee);
 
       return { token, employee };
     },
 
     forgotPassword: async (parent, { email, password }) => {
-
-      console.log('forgot resolver =', email);
       
       const employee = await Employee.findOne({ email });
 
@@ -218,8 +222,9 @@ const resolvers = {
       // if (!correctPw) {
       //   throw new AuthenticationError("Incorrect credentials");
       // }
-
-      const token = signToken(employee);
+      expiration = 900 // 15 minutes
+      const token = signToken(employee, expiration);
+      // const token = signToken(employee);
 
       return { token, employee };
     },
