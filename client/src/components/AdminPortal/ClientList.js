@@ -51,7 +51,6 @@ function ClientList() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [deleteModal, setDeleteModal] = useState(false);
 
   // VALIDATION
   const [showBusinessNameValidation, setShowBusinessNameValidation] =
@@ -348,12 +347,12 @@ function ClientList() {
 
   // delete incident
   //delete modal
- 
+
   const handleDeleteClient = async (event) => {
-    setShow(true);
-    let clientId = event.currentTarget.getAttribute("data-clientid");
     
-    if (deleteModal === true) {
+    let clientId = event.currentTarget.getAttribute("data-clientid");
+
+    console.log(clientId)
       try {
         // eslint-disable-next-line
         const { data } = await deleteClient({
@@ -366,13 +365,9 @@ function ClientList() {
       } catch (err) {
         console.log(err);
       }
-    }
-  };
-  function deleteState(event) {
-    setDeleteModal(true);
     setShow(false);
-    handleDeleteClient(event)
-  }
+  };
+ 
   // SECTION END DELETE CLIENT
 
   // SECTION END CLIENT
@@ -605,14 +600,34 @@ function ClientList() {
                     <FontAwesomeIcon
                       icon="fa-trash"
                       className="p-2 fa-lg"
-                      data-clientid={client?._id}
-                      onClick={(event) => {
-                        handleDeleteClient(event);
-                      }}
+                      // data-clientid={client?._id}
+                      onClick={handleShow}
                     />
                   </div>
                 </div>
-
+                <Modal
+                  show={show}
+                  size="sm"
+                  onHide={handleClose}
+                  // backdrop="static"
+                  keyboard={true}
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title>Delete Client</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <p>Are you sure you would like to delete {client.businessName}</p>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" 
+                    data-clientid={client?._id}
+                    onClick={(event) => {handleDeleteClient(event);}}
+                    >
+                      Yes, Delete
+                    </Button>
+                    <Button onClick={handleClose}>Cancel</Button>
+                  </Modal.Footer>
+                </Modal>
                 <Collapse>
                   <div id={`#collapse-client-${index}`}>
                     <Form
@@ -1006,26 +1021,6 @@ function ClientList() {
         </Row>
       </Container>
     */}
-      <Modal
-        show={show}
-        size="sm"
-        onHide={handleClose}
-        // backdrop="static"
-        keyboard={true}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Delete Client</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Are you sure you would like to delete this client?</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={deleteState}>
-            Yes, Delete
-          </Button>
-          <Button onClick={handleClose}>Cancel</Button>
-        </Modal.Footer>
-      </Modal>
     </>
   );
 }
