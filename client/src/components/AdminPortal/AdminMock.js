@@ -911,7 +911,6 @@ function AdminMock() {
                     placeholder="Enter Company Name"
                     value={businessName}
                     name="businessName"
-                    // defaultValue="test"
                     onChange={handleInputChange}
                     onBlur={handleBlurChange}
                     required
