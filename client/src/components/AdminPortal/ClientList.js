@@ -531,7 +531,7 @@ function ClientList() {
         </Form>
       </div>
       
-      <Container style={{ border: "1px solid black" }}>
+      <Container style={{ border: "1px solid black", borderRadius:'10px' }}>
         <div className="d-flex justify-content-between">
           <h3>Client List</h3>
           <button
