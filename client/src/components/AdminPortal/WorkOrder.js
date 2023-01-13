@@ -8,49 +8,13 @@ import { Row, Col, Button, Form } from "react-bootstrap";
 import "../../styles/Forms.css";
 
 function WorkOrder() {
-  // const [demoChoice, setDemoChoice] = useState([]);
-  // const [selectedEmployeeIds, setSelectedEmployeeIds] = useState([]);
   const numberOfEmployees = [
     "Home Office",
     "Less Than 50",
     "50-99",
     "More Than 100",
   ];
-  // const [demoNumOfEmp, setDemoNumOfEmp] = useState([]);
 
-  const [ selectedEmployees, setSelectedEmployees ] = useState([]);
-
-  const createSelectedEmployees = (event) => {
-    let firstName = event.target.options[event.target.selectedIndex].dataset.firstname;
-    let lastName = event.target.options[event.target.selectedIndex].dataset.lastname;
-    let employeeId = event.target.options[event.target.selectedIndex].dataset.id;
-
-    for (let i = 0; i < selectedEmployees.length; i++) {
-      if (selectedEmployees[i].employeeId === employeeId) {
-        return;
-      }
-    };
-
-    setSelectedEmployees((selectedEmployee) => [ ...selectedEmployees, {firstName, lastName, employeeId} ]);
-  }
-
-  function removeEmployee(event) {
-    let keepEmployees = selectedEmployees.filter(
-      (item) => item.employeeId !== event.target.value
-    );
-
-    setSelectedEmployees(keepEmployees);
-  }
-
-  function clientSelect(e) {
-
-    setBusinessName(e.target.value);
-
-  }
-
-  // SECTION Add Workorder
-  // Add schedule to the schedule model/table
-  // _id, streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees
   const [businessName, setBusinessName] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const [suite, setSuite] = useState("");
@@ -60,35 +24,96 @@ function WorkOrder() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [endTime, setEndTime] = useState(""); //fix double check - currently no endTime field
   const [squareFeet, setSquareFeet] = useState("");
   const [jobDetails, setJobDetails] = useState("");
   const [numberOfClientEmployees, setNumberOfClientEmployees] = useState("");
-  const [client, setClient] = useState("");
+  const [client, setClient] = useState(""); //fix double check - ?
   const [employees, setEmployees] = useState("");
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
-  const [jobWorkers, setJobWorkers] = useState([]);
+  const [selectedEmployees, setSelectedEmployees] = useState([]);
 
-  // // VALIDATION
-  // const [showBusinessNameValidation, setShowBusinessNameValidation] =
-  //   useState(false);
-  // const [showContactValidation, setShowContactValidation] = useState(false);
-  // const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-  // const [showEmailClientValidation, setShowEmailClientStateValidation] =
-  //   useState(false);
-  // const [showStreetAddressValidation, setShowStreetAddressValidation] =
-  //   useState(false);
-  // const [showSuiteValidation, setShowSuiteValidation] = useState(false);
-  // const [showCityValidation, setShowCityValidation] = useState(false);
-  // const [showStateValidation, setShowStateValidation] = useState(false);
-  // const [showZipValidation, setShowZipValidation] = useState(false);
+  //SECTION QUERIES / MUTATIONS
+  const {
+    loading: clientsLoad,
+    data: clients,
+    error: clientError,
+    refetch: clientsRefetch,
+  } = useQuery(QUERY_ALL_CLIENTS);
+
+  const {
+    loading: empLoad,
+    data: emp,
+    error: empError,
+    refetch: empRefectch,
+  } = useQuery(QUERY_ALL_EMPLOYEES);
+
+  const [addSchedule] = useMutation(ADD_SCHEDULE);
+
+  //SECTION CREATE / REMOVE SELECTED EMPLOYEE OBJECT
+  const createSelectedEmployees = (event) => {
+    let firstName =
+      event.target.options[event.target.selectedIndex].dataset.firstname;
+    let lastName =
+      event.target.options[event.target.selectedIndex].dataset.lastname;
+    let employeeId =
+      event.target.options[event.target.selectedIndex].dataset.id;
+
+    for (let i = 0; i < selectedEmployees.length; i++) {
+      if (selectedEmployees[i].employeeId === employeeId) {
+        return;
+      }
+    }
+
+    setSelectedEmployees((selectedEmployee) => [
+      ...selectedEmployees,
+      { firstName, lastName, employeeId },
+    ]);
+  };
+
+  function removeEmployee(event) {
+    let keepEmployees = selectedEmployees.filter(
+      (item) => item.employeeId !== event.target.value
+    );
+
+    setSelectedEmployees(keepEmployees);
+  }
+
+  //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
+  function businessNameSelect(e) {
+    setBusinessName(e.target.value);
+  }
+
+  // SECTION VALIDATION
+  const [showBusinessNameValidation, setShowBusinessNameValidation] =
+    useState(false);
+  const [showStreetAddressValidation, setShowStreetAddressValidation] =
+    useState(false);
+  const [showSuiteValidation, setShowSuiteValidation] = useState(false); // currently no suite field
+  const [showCityValidation, setShowCityValidation] = useState(false);
+  const [showStateValidation, setShowStateValidation] = useState(false);
+  const [showZipValidation, setShowZipValidation] = useState(false);
+  const [showStartDateValidation, setStartDateValidation] = useState(false);
+  const [showEndDateValidation, setShowEndDateValidation] = useState(false);
+  const [showStartTimeValidation, setShowStartTimeValidation] = useState(false);
+  const [showEndTimeValidation, setShowEndTimeValidation] = useState(false);
+  const [showSquareFeetValidation, setShowSquareFeetValidation] =
+    useState(false);
+  const [showJobDetailsValidation, setShowJobDetailsValidation] =
+    useState(false);
+  const [
+    showNumberOfClientEmployeesValidation,
+    setShowNumberOfClientEmployeesValidation,
+  ] = useState(false);
+  const [showClientValidation, setShowClientValidation] = useState(false);
+  const [showSelectedEmployeesValidation, setShowSelectedEmployeesValidation] =
+    useState(false);
 
   // Getting the value or name of input triggering change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     // Ternary statement that will call either setFirstName or setLastName based on what field the user is typing in
-    // _id, businessName, streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees
     name === "startDate"
       ? setStartDate(value)
       : name === "endDate"
@@ -118,78 +143,62 @@ function WorkOrder() {
     return name;
   };
 
-  const {
-    loading: clientsLoad,
-    data: clients,
-    error: clientError,
-    refetch: clientsRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
-  const {
-    loading: empLoad,
-    data: emp,
-    error: empError,
-    refetch: empRefectch,
-  } = useQuery(QUERY_ALL_EMPLOYEES);
-
   // If user clicks off an input field without entering text, then validation message "is required" displays
-  // businessName, contact, phone, email, streetAddress, suite, city, state, zip
-  // const handleBlurChange = (e) => {
-  //   const { name, value } = e.target;
+  const handleBlurChange = (e) => {
+    const { name, value } = e.target;
 
-  //   name === "businessName" && value.trim() === ""
-  //     ? setShowBusinessNameValidation(true)
-  //     : setShowBusinessNameValidation(false);
-  //   name === "contact" && value.trim() === ""
-  //     ? setShowContactValidation(true)
-  //     : setShowContactValidation(false);
-  //   name === "phone" && value.trim() === ""
-  //     ? setShowPhoneValidation(true)
-  //     : setShowPhoneValidation(false);
-  //   name === "emailClient" && value.trim() === ""
-  //     ? setShowEmailClientStateValidation(true)
-  //     : setShowEmailClientStateValidation(false);
-  //   name === "streetAddress" && value.trim() === ""
-  //     ? setShowStreetAddressValidation(true)
-  //     : setShowStreetAddressValidation(false);
-  //   name === "suite" && value.trim() === ""
-  //     ? setShowSuiteValidation(true)
-  //     : setShowSuiteValidation(false);
-  //   name === "city" && value.trim() === ""
-  //     ? setShowCityValidation(true)
-  //     : setShowCityValidation(false);
-  //   name === "state" && value.trim() === ""
-  //     ? setShowStateValidation(true)
-  //     : setShowStateValidation(false);
-  //   name === "zip" && value.trim() === ""
-  //     ? setShowZipValidation(true)
-  //     : setShowZipValidation(false);
-  // };
+    name === "businessName" && value.trim() === ""
+      ? setShowBusinessNameValidation(true)
+      : setShowBusinessNameValidation(false);
+    name === "streetAddress" && value.trim() === ""
+      ? setShowStreetAddressValidation(true)
+      : setShowStreetAddressValidation(false);
+    name === "suite" && value.trim() === ""
+      ? setShowSuiteValidation(true)
+      : setShowSuiteValidation(false);
+    name === "city" && value.trim() === ""
+      ? setShowCityValidation(true)
+      : setShowCityValidation(false);
+    name === "state" && value.trim() === ""
+      ? setShowStateValidation(true)
+      : setShowStateValidation(false);
+    name === "zip" && value.trim() === ""
+      ? setShowZipValidation(true)
+      : setShowZipValidation(false);
 
-  // ADD SCHEDULE ITEM
+    name === "startDate" && value.trim() === ""
+      ? setStartDateValidation(true)
+      : setStartDateValidation(false);
+    name === "endDate" && value.trim() === ""
+      ? setShowEndDateValidation(true)
+      : setShowEndDateValidation(false);
+    name === "startTime" && value.trim() === ""
+      ? setShowStartTimeValidation(true)
+      : setShowStartTimeValidation(false);
 
-  const [addSchedule] = useMutation(ADD_SCHEDULE);
+    name === "endTime" && value.trim() === ""
+      ? setShowEndTimeValidation(true)
+      : setShowEndTimeValidation(false);
+    name === "squareFeet" && value.trim() === ""
+      ? setShowSquareFeetValidation(true)
+      : setShowSquareFeetValidation(false);
+    name === "jobDetails" && value.trim() === ""
+      ? setShowJobDetailsValidation(true)
+      : setShowJobDetailsValidation(false);
 
+    name === "numberOfClientEmployees" && value.trim() === ""
+      ? setShowNumberOfClientEmployeesValidation(true)
+      : setShowNumberOfClientEmployeesValidation(false);
+  };
+
+  // const [client, setClient] = useState(""); //fix double check - ?
+  // const [employees, setEmployees] = useState("");
+  // const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
+  // const [selectedEmployees, setSelectedEmployees] = useState([]);
+
+  // SECTION ADD A NEW WORKORDER / SCHEDULE
   const handleAddScheduleSubmit = async (e) => {
     e.preventDefault();
-    console.log(
-      // businessName,
-      streetAddress,
-      suite,
-      city,
-      state,
-      zip,
-      startDate,
-      endDate,
-      startTime,
-      endTime,
-      squareFeet,
-      jobDetails,
-      numberOfClientEmployees,
-      // client,
-      businessName,
-      employees,
-      selectedEmployees,
-    );
 
     try {
       // eslint-disable-next-line
@@ -208,26 +217,27 @@ function WorkOrder() {
           squareFeet,
           jobDetails,
           numberOfClientEmployees,
-          // client: businessName,
           client: clients?.clients
             ?.filter((client) => client.businessName === businessName)
             .map((id) => id._id)
             .toString(), // convert client name to client._id
-          employees: selectedEmployees.map(({employeeId}) => employeeId),
+          employees: selectedEmployees.map(({ employeeId }) => employeeId),
         },
       });
+
+      console.log(data);
     } catch (err) {
       console.error(err);
     }
 
-    // await clientsRefetch();
+    // refetch a work order might be necessary when it is added
 
     // resetForm();
 
     // handleUpdateForDisabled(null, businessName, "addClient");
   };
 
-  // Reset the add client form after submission
+  // Reset the add schedule form after submission
   // const resetForm = () => {
   //   setBusinessName("");
   //   setContact("");
@@ -285,6 +295,13 @@ function WorkOrder() {
           <Form.Label style={{ fontWeight: "bolder" }}>
             Select Client
           </Form.Label>
+          <Form.Label
+            className={`validation-color ${
+              showBusinessNameValidation ? "show" : "hide"
+            }`}
+          >
+             *required
+          </Form.Label>
           <Form.Control
             as="select"
             className="custom-border"
@@ -292,7 +309,7 @@ function WorkOrder() {
             placeholder="Select Client"
             value={"form-select"}
             name={"form-select"}
-            onChange={clientSelect}
+            onChange={businessNameSelect}
           >
             <option>{businessName}</option>
             {clients?.clients?.map((client, index) => (
@@ -305,7 +322,13 @@ function WorkOrder() {
         <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
           <div className="form-label">
             <Form.Label style={{ fontWeight: "bolder" }}>Address</Form.Label>
-            <Form.Label></Form.Label>
+            <Form.Label
+              className={`validation-color ${
+                showStreetAddressValidation ? "show" : "hide"
+              }`}
+            >
+               *required
+            </Form.Label>
           </div>
           <Form.Control
             className="custom-border"
@@ -314,13 +337,20 @@ function WorkOrder() {
             name="streetAddress"
             // defaultValue={client?.streetAddress}
             onChange={handleInputChange}
-            // onBlur={handleBlurChange}
-            // required
+            onBlur={handleBlurChange}
+            required
           />
         </Form.Group>
         <Row className="addy">
           <Col xs={7}>
             <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
+            <Form.Label
+              className={`validation-color ${
+                showCityValidation ? "show" : "hide"
+              }`}
+            >
+               *required
+            </Form.Label>
             <Form.Control
               className="custom-border"
               placeholder="City"
@@ -328,12 +358,19 @@ function WorkOrder() {
               name="city"
               // defaultValue={client?.city}
               onChange={handleInputChange}
-              // onBlur={handleBlurChange}
-              // required
+              onBlur={handleBlurChange}
+              required
             />
           </Col>
           <Col>
             <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
+            <Form.Label
+              className={`validation-color ${
+                showStateValidation ? "show" : "hide"
+              }`}
+            >
+               *required
+            </Form.Label>
             <Form.Control
               className="custom-border"
               placeholder="State"
@@ -341,12 +378,19 @@ function WorkOrder() {
               name="state"
               // defaultValue={client?.state}
               onChange={handleInputChange}
-              // onBlur={handleBlurChange}
-              // required
+              onBlur={handleBlurChange}
+              required
             />
           </Col>
           <Col>
             <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>
+            <Form.Label
+              className={`validation-color ${
+                showZipValidation ? "show" : "hide"
+              }`}
+            >
+               *required
+            </Form.Label>
             <Form.Control
               className="custom-border"
               placeholder="Zip"
@@ -354,8 +398,8 @@ function WorkOrder() {
               name="zip"
               // defaultValue={client?.zip}
               onChange={handleInputChange}
-              // onBlur={handleBlurChange}
-              // required
+              onBlur={handleBlurChange}
+              required
             />
           </Col>
         </Row>
@@ -366,6 +410,14 @@ function WorkOrder() {
                 <Form.Label style={{ fontWeight: "bolder" }}>
                   Job Start Date
                 </Form.Label>
+
+                <Form.Label
+                  className={`validation-color ${
+                    showStartDateValidation ? "show" : "hide"
+                  }`}
+                >
+                   *required
+                </Form.Label>
               </div>
               <Form.Control
                 className="custom-border"
@@ -373,8 +425,8 @@ function WorkOrder() {
                 name="startDate"
                 // defaultValue={client?.startDate}
                 onChange={handleInputChange}
-                // onBlur={handleBlurChange}
-                // required
+                onBlur={handleBlurChange}
+                required
               />
             </Form.Group>
           </Col>
@@ -384,6 +436,13 @@ function WorkOrder() {
                 <Form.Label style={{ fontWeight: "bolder" }}>
                   Job End Date
                 </Form.Label>
+                <Form.Label
+                  className={`validation-color ${
+                    showEndDateValidation ? "show" : "hide"
+                  }`}
+                >
+                   *required
+                </Form.Label>
               </div>
               <Form.Control
                 className="custom-border"
@@ -392,8 +451,8 @@ function WorkOrder() {
                 name="endDate"
                 // defaultValue={client?.endDate}
                 onChange={handleInputChange}
-                // onBlur={handleBlurChange}
-                // required
+                onBlur={handleBlurChange}
+                required
               />
             </Form.Group>
           </Col>
@@ -403,6 +462,13 @@ function WorkOrder() {
                 <Form.Label style={{ fontWeight: "bolder" }}>
                   Start Time
                 </Form.Label>
+                <Form.Label
+                  className={`validation-color ${
+                    showStartTimeValidation ? "show" : "hide"
+                  }`}
+                >
+                   *required
+                </Form.Label>
               </div>
               <Form.Control
                 className="custom-border"
@@ -411,8 +477,8 @@ function WorkOrder() {
                 name="startTime"
                 // defaultValue={client?.startTime}
                 onChange={handleInputChange}
-                // onBlur={handleBlurChange}
-                // required
+                onBlur={handleBlurChange}
+                required
               />
             </Form.Group>
           </Col>
@@ -423,6 +489,13 @@ function WorkOrder() {
             <Form.Label style={{ fontWeight: "bolder" }}>
               Office Sqft
             </Form.Label>
+            <Form.Label
+              className={`validation-color ${
+                showSquareFeetValidation ? "show" : "hide"
+              }`}
+            >
+               *required
+            </Form.Label>
             <Form.Control
               className="custom-border"
               placeholder="8000 Sqft"
@@ -430,8 +503,8 @@ function WorkOrder() {
               name="squareFeet"
               // defaultValue={client?.squareFeet}
               onChange={handleInputChange}
-              // onBlur={handleBlurChange}
-              // required
+              onBlur={handleBlurChange}
+              required
             />
           </Col>
 
@@ -439,6 +512,13 @@ function WorkOrder() {
             <Form.Group>
               <Form.Label style={{ fontWeight: "bolder" }}>
                 Number of Employees
+              </Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showNumberOfClientEmployeesValidation ? "show" : "hide"
+                }`}
+              >
+                 *required
               </Form.Label>
               <Form.Control
                 as="select"
@@ -467,6 +547,13 @@ function WorkOrder() {
           <Form.Label style={{ fontWeight: "bolder" }}>
             Select Employees for Job
           </Form.Label>
+          <Form.Label
+            className={`validation-color ${
+              showSelectedEmployeesValidation ? "show" : "hide"
+            }`}
+          >
+             *required
+          </Form.Label>
           <Form.Control
             as="select"
             className="custom-border"
@@ -480,7 +567,13 @@ function WorkOrder() {
           >
             <option>Select</option>
             {emp?.employees?.map((emp, index) => (
-              <option key={index} value={emp.firstName} data-firstname={emp.firstName} data-lastname={emp.lastName} data-id={emp._id}>
+              <option
+                key={index}
+                value={emp.firstName}
+                data-firstname={emp.firstName}
+                data-lastname={emp.lastName}
+                data-id={emp._id}
+              >
                 {emp.firstName} {emp.lastName}
               </option>
             ))}
@@ -509,6 +602,13 @@ function WorkOrder() {
             <Form.Label style={{ fontWeight: "bolder" }}>
               Job Details
             </Form.Label>
+            <Form.Label
+              className={`validation-color ${
+                showJobDetailsValidation ? "show" : "hide"
+              }`}
+            >
+               *required
+            </Form.Label>
           </div>
           <Form.Control
             style={{
@@ -525,7 +625,8 @@ function WorkOrder() {
             value={jobDetails}
             name="jobDetails"
             onChange={handleInputChange}
-            // required
+            onBlur={handleBlurChange}
+            required
           />
         </Form.Group>
 
