@@ -26,12 +26,8 @@ function ClientList() {
   const [openDetails, setOpenDetails] = useState(false);
 
   // eslint-disable-next-line
-  const {
-    loading: clientLoad,
-    data: clients,
-    error: clientError,
-    refetch: clientRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
+
+  const { loading: clientsLoad, data: clients, error: clientError, refetch: clientsRefetch } = useQuery(QUERY_ALL_CLIENTS);
 
   // SECTION START CLIENT
   // GET CLIENT FORM DATA
@@ -279,6 +275,7 @@ function ClientList() {
     } catch (err) {
       console.log(err);
     }
+      clientsRefetch();
   };
 
   // Handle add form edit pencil = disabled = false or true
@@ -346,26 +343,23 @@ function ClientList() {
   const [deleteClient] = useMutation(DELETE_CLIENT);
 
   // delete incident
-  //delete modal
+  
 
   const handleDeleteClient = async (event) => {
-    
     let clientId = event.currentTarget.getAttribute("data-clientid");
+    try {
+      // eslint-disable-next-line
+      const { data } = await deleteClient({
+        variables: {
+          id: clientId,
+        },
+      });
 
-    console.log(clientId)
-      try {
-        // eslint-disable-next-line
-        const { data } = await deleteClient({
-          variables: {
-            id: clientId,
-          },
-        });
-
-        // RELOAD CLIENT LIST
-      } catch (err) {
-        console.log(err);
-      }
-    setShow(false);
+      // RELOAD CLIENT LIST
+      clientsRefetch();
+    } catch (err) {
+      console.log(err);
+    }
   };
  
   // SECTION END DELETE CLIENT
@@ -404,15 +398,7 @@ function ClientList() {
       setOpenDetails(true);
     }
   };
-  function trash() {
-    let deleteConfirm = prompt(
-      "Are you sure you want to delete this Client? Type Yes to Delete"
-    );
-    if (deleteConfirm === "Yes") {
-      // delete logic here
-    } else {
-    }
-  }
+
 
   return (
     <>
@@ -600,19 +586,20 @@ function ClientList() {
                     <FontAwesomeIcon
                       icon="fa-trash"
                       className="p-2 fa-lg"
-                      // data-clientid={client?._id}
-                      onClick={handleShow}
+                      data-clientid={client?._id}
+                      data-target={`#modal-control{index}`}
+                      onClick={(event) => {handleDeleteClient(event);}}
                     />
-                  </div>
-                </div>
-                <Modal
+                      {/* <Modal
                   show={show}
+                  
                   size="sm"
                   onHide={handleClose}
                   // backdrop="static"
-                  keyboard={true}
+                  // keyboard={true}
                 >
-                  <Modal.Header closeButton>
+                  <div id={`#modal-control{index}`}>
+                  <Modal.Header>
                     <Modal.Title>Delete Client</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
@@ -627,7 +614,12 @@ function ClientList() {
                     </Button>
                     <Button onClick={handleClose}>Cancel</Button>
                   </Modal.Footer>
-                </Modal>
+                  </div>
+                </Modal> */}
+                  </div>
+                  
+                </div>
+              
                 <Collapse>
                   <div id={`#collapse-client-${index}`}>
                     <Form
