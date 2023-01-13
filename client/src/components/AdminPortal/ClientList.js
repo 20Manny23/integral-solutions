@@ -338,25 +338,21 @@ function ClientList() {
   // SECTION END UPDATE CLIENT
 
   // SECTION START DELETE CLIENT
-  // DELETE CLIENT
-  // delete incident query
   const [deleteClient] = useMutation(DELETE_CLIENT);
-
-  // delete incident
-  
 
   const handleDeleteClient = async (event) => {
     let clientId = event.currentTarget.getAttribute("data-clientid");
     try {
       // eslint-disable-next-line
-      const { data } = await deleteClient({
+      await deleteClient({
         variables: {
           id: clientId,
         },
       });
 
-      // RELOAD CLIENT LIST
+      // RELOAD CLIENT
       clientsRefetch();
+
     } catch (err) {
       console.log(err);
     }

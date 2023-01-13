@@ -284,9 +284,11 @@ function EmployeeList() {
 
   const handleDeleteEmployee = async (event) => {
     let employeeId = event.currentTarget.getAttribute("data-employeeid");
+    console.log(employeeId, event);
+    
     try {
       // eslint-disable-next-line
-      const { data } = await deleteEmployee({
+      await deleteEmployee({
         variables: {
           id: employeeId,
         },
@@ -503,7 +505,7 @@ function EmployeeList() {
                     <FontAwesomeIcon
                       icon="fa-trash"
                       className="p-2 fa-lg"
-                      // data-employeeid=(emp?._id)
+                      data-employeeid={emp?._id}
                       onClick={(event) => {
                         handleDeleteEmployee(event);
                       }}
