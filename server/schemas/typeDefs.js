@@ -17,7 +17,6 @@ const typeDefs = gql`
 
   type Employee {
     _id: ID
-    username: String
     email: String
     password: String
     firstName: String
@@ -225,7 +224,6 @@ const typeDefs = gql`
     ): Client
 
     addEmployee(
-      username: String
       email: String
       password: String
       firstName: String
@@ -237,7 +235,6 @@ const typeDefs = gql`
     ): Employee
 
     signupEmployee(
-      username: String
       email: String
       password: String
     ): Auth
@@ -246,7 +243,6 @@ const typeDefs = gql`
 
     updateEmployee(
       _id: ID
-      username: String
       email: String
       password: String
       firstName: String

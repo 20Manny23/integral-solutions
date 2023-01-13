@@ -9,7 +9,6 @@ import "../../styles/button-style.css";
 
 const SignupForm = ({ setShowModal }) => {
   const [userFormData, setUserFormData] = useState({
-    username: "",
     email: "",
     password: "",
   });
@@ -57,7 +56,6 @@ const SignupForm = ({ setShowModal }) => {
     }
 
     setUserFormData({
-      username: "",
       email: "",
       password: "",
     });
@@ -85,21 +83,6 @@ const SignupForm = ({ setShowModal }) => {
           className="mx-2 mt-2 mb-1"
           style={{ width: "280px" }}
         >
-          <Form.Group>
-            <Form.Label htmlFor="username">Username</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Your username"
-              name="username"
-              onChange={handleInputChange}
-              value={userFormData.username}
-              required
-            />
-            <Form.Control.Feedback type="invalid">
-              Username is required!
-            </Form.Control.Feedback>
-          </Form.Group>
-
           <Form.Group>
             <Form.Label htmlFor="email">Email</Form.Label>
             <Form.Control

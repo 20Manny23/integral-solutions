@@ -7,7 +7,6 @@ export const LOGIN_USER = gql`
       token
       employee {
         _id
-        username
       }
     }
   }
@@ -27,15 +26,13 @@ export const FORGOT_PASSWORD = gql`
 // SECTION EMPLOYEE
 export const SIGNUP_EMPLOYEE = gql`
   mutation signupEmployee(
-    $username: String!
     $email: String!
     $password: String!
   ) {
-    signupEmployee(username: $username, email: $email, password: $password) {
+    signupEmployee(email: $email, password: $password) {
       token
       employee {
         _id
-        username
       }
     }
   }
@@ -44,7 +41,6 @@ export const SIGNUP_EMPLOYEE = gql`
 export const UPDATE_EMPLOYEE = gql`
   mutation UpdateEmployee(
     $id: ID
-    $username: String
     $email: String
     $password: String
     $firstName: String
@@ -56,7 +52,6 @@ export const UPDATE_EMPLOYEE = gql`
   ) {
     updateEmployee(
       _id: $id
-      username: $username
       email: $email
       password: $password
       firstName: $firstName
@@ -73,7 +68,6 @@ export const UPDATE_EMPLOYEE = gql`
       lastName
       password
       phone
-      username
       isAdmin
       isLocked
     }
@@ -81,7 +75,6 @@ export const UPDATE_EMPLOYEE = gql`
 `;
 export const ADD_EMPLOYEE = gql`
   mutation addEmployee(
-    $username: String
     $email: String
     $password: String
     $firstName: String
@@ -92,7 +85,6 @@ export const ADD_EMPLOYEE = gql`
     $isLocked: Boolean
   ) {
     addEmployee(
-      username: $username
       email: $email
       password: $password
       firstName: $firstName
@@ -109,7 +101,6 @@ export const ADD_EMPLOYEE = gql`
       lastName
       password
       phone
-      username
       isAdmin
       isLocked
     }
@@ -281,7 +272,6 @@ export const DELETE_SCHEDULE = gql`
 //       token
 //       user {
 //         _id
-//         username
 //       }
 //     }
 //   }

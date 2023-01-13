@@ -28,8 +28,8 @@ module.exports = {
   },
 
   // added flexible variable for expiration
-  signToken: function ({ email, username, _id, isManager, isAdmin, isLocked }, expiration) {
-    const payload = { email, username, _id, isManager, isAdmin, isLocked };
+  signToken: function ({ email, _id, isManager, isAdmin, isLocked }, expiration) {
+    const payload = { email, _id, isManager, isAdmin, isLocked };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
 };
