@@ -7,7 +7,7 @@ import "../../styles/Forms.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function EmployeeList() {
-  const demoEmployee = ["Bryan", "Steve", "Rod", "George", "Kirtley"];
+  
 
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
@@ -20,7 +20,6 @@ function EmployeeList() {
     error: empError,
     refetch: empRefectch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
-  console.log(emp);
 
   const getElement = (event) => {
     let currentCollapseTarget = event.currentTarget.getAttribute("data-target");
@@ -61,7 +60,109 @@ function EmployeeList() {
     }
   }
   return (
-    <>
+    <> {/* section start employee list */}
+    <Container style={{ border: "1px solid black" }}>
+      <div className="d-flex justify-content-between">
+        <h3>Employee List</h3>
+        <FontAwesomeIcon
+          icon="fa-add"
+          className="p-2"
+          onClick={() => console.log("add")}
+        />
+      </div>
+      <Row style={{ display: "flex", justifyContent: "center" }}>
+        {emp?.employees?.map((emp, index) => (
+          <div id="accordion" key={index} style={{ width: "100%" }}>
+            <div className="card p-2 mb-1">
+              <div
+                className="rounded directions-collapse"
+                id="headingOne"
+                style={{
+                  color: "black",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <h5 className="mb-0 text-left">
+                  <button
+                    onClick={(event) => getElement(event)}
+                    aria-controls={`#collapse-employee-${index}`}
+                    aria-expanded={openDetails}
+                    className="btn btn-link pl-1"
+                    data-target={`#collapse-employee-${index}`}
+                  >
+                    {emp?.firstName} {emp?.lastName}
+                  </button>
+                </h5>
+                <div className="mr-2" style={{ display: "flex" }}>
+                  <FontAwesomeIcon
+                    icon="fa-add"
+                    className="p-2"
+                    onClick={() => console.log("pencil")}
+                  />
+                  <FontAwesomeIcon
+                    icon="fa-pencil"
+                    className="p-2"
+                    onClick={() => console.log("pencil")}
+                  />
+                  {/* ADMIN TOGGLE */}
+                  <FontAwesomeIcon
+                    icon="fa-toggle-on"
+                    className="p-2"
+                    // onClick={() => console.log("toggle-on")}
+                    onClick={() => handleToggle("admin")}
+                    style={adminToggle ? isDisplayed : isNotDisplayed}
+                  />
+                  <FontAwesomeIcon
+                    icon="fa-toggle-off"
+                    className="p-2"
+                    onClick={() => handleToggle("admin")}
+                    style={!adminToggle ? isDisplayed : isNotDisplayed}
+                  />
+                  {/* LOCKED TOGGLE */}
+                  <FontAwesomeIcon
+                    icon="fa-toggle-on"
+                    className="p-2"
+                    onClick={() => handleToggle("locked")}
+                    style={lockedToggle ? isDisplayed : isNotDisplayed}
+                  />
+                  <FontAwesomeIcon
+                    icon="fa-toggle-off"
+                    className="p-2"
+                    // onClick={() => console.log("toggle-off")}
+                    onClick={() => handleToggle("locked")}
+                    style={!lockedToggle ? isDisplayed : isNotDisplayed}
+                  />
+                  <FontAwesomeIcon icon="fa-trash" className="p-2" />
+                </div>
+              </div>
+
+              <Collapse>
+                <div id={`#collapse-employee-${index}`}>
+                  <div>Email: {emp?.email}</div>
+                  <div>username: {emp?.username}</div>
+                  <div>Phone: {emp?.phone}</div>
+                  <div>isAdmin: {emp?.isAdmin ? "True" : "False"}</div>
+                  <div>isLocked: {emp?.isLocked ? "True" : "False"}</div>
+                  {emp?.schedule.map((job, index) => (
+                    <div key={index}>
+                      <div>Client: {job?.client.businessName}</div>
+                      <div>Start Date: {job?.startDate}</div>
+                      <div>Start Time: {job?.startTime}</div>
+                      <div>End Date: {job?.endDate}</div>
+                      <div>Job Details: {job?.jobDetails}</div>
+                      <div>
+                        Number of Clients: {job?.numberOfClientEmployees}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Collapse>
+            </div>
+          </div>
+        ))}
+      </Row>
+    </Container>
       <div
         // className=" pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
         style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}

@@ -1152,7 +1152,7 @@ function AdminMock() {
       </Container>
       {/* section end client form */}
 
-      {/* section start WORK ORDER form */}
+      {/* section start work order list */}
       <Container style={{ border: "1px solid black" }}>
         <h3>Schedule</h3>
         <Row style={{ display: "flex", justifyContent: "center" }}>
@@ -1268,6 +1268,10 @@ function AdminMock() {
           ))}
         </Row>
       </Container>
+      {/* section end work order list */}
+
+      {/* section start schedule form */}
+      
 
       {/* section end schedule form */}
     </>
