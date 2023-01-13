@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 
+import { QUERY_SCHEDULE } from "../../utils/queries";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_CLIENTS, QUERY_ALL_EMPLOYEES } from "../../utils/queries";
 import { ADD_SCHEDULE } from "../../utils/mutations";
 
 import { Row, Col, Button, Form, Collapse, Container } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "../../styles/Contact.css";
+import "../../styles/button-style.css";
 import "../../styles/Forms.css";
 
 function WorkOrder() {
@@ -49,6 +53,17 @@ function WorkOrder() {
     error: empError,
     refetch: empRefectch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
+
+    // SECTION WORKORDER / SCHEDULE
+  // eslint-disable-next-line
+  const {
+    loading: scheduleLoad,
+    data: schedule,
+    error: scheduleError,
+    refetch: scheduleRefetch,
+  } = useQuery(QUERY_SCHEDULE);
+  // console.log(schedule);
+  // SECTION END WORKORDER / SCHEDULE
 
   const [addSchedule] = useMutation(ADD_SCHEDULE);
 
@@ -676,7 +691,94 @@ function WorkOrder() {
           </button>
         </div>
         </Container>
+
+        <Container style={{ border: "1px solid black" }}>
+        <h3>Schedule</h3>
+        <Row style={{ display: "flex", justifyContent: "center" }}>
+          {schedule?.schedules?.map((job, index) => (
+            <div id="accordion" key={index} style={{ width: "100%" }}>
+              <div className="card p-2 mb-1">
+                <div
+                  className="rounded directions-collapse"
+                  id="headingOne"
+                  style={{
+                    color: "black",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <h5 className="mb-0 text-left">
+                    <button
+                      // //section
+                      onClick={(event) => getElement(event)}
+                      aria-controls={`#collapse-schedule-${index}`}
+                      aria-expanded={openDetails}
+                      className="btn btn-link pl-1"
+                      data-target={`#collapse-schedule-${index}`}
+                      //section
+                    >
+                      {job?.client.businessName}
+                    </button>
+                  </h5>
+
+                  <div className="mr-2" style={{ display: "flex" }}>
+                    <FontAwesomeIcon
+                      icon="fa-add"
+                      className="p-2"
+                      onClick={() => console.log("pencil")}
+                      // onClick={() => handlePassClick()}
+                      // style={display ? isDisplayed : isNotDisplayed}
+                    />
+                    <FontAwesomeIcon
+                      icon="fa-pencil"
+                      className="p-2"
+                      onClick={() => console.log("pencil")}
+                      // onClick={() => handlePassClick()}
+                      // style={display ? isDisplayed : isNotDisplayed}
+                    />
+                    <FontAwesomeIcon
+                      icon="fa-trash"
+                      className="p-2"
+                      // onClick={() => console.log("trash")}
+                      // onClick={() => handlePassClick()}
+                      // style={display ? isDisplayed : isNotDisplayed}
+                    />
+                  </div>
+                </div>
+
+                {/* <Collapse in={open}> */}
+                <Collapse>
+                  <div id={`#collapse-schedule-${index}`}>
+                    <div>Contact Name: {job?.client.contact}</div>
+                    <div>Phone: {job?.client.phone}</div>
+                    <div>Email: {job?.client.email}</div>
+                    <div>Address: {job?.client.streetAddress}</div>
+                    <div>Suite: {job?.client.suite}</div>
+                    <div>City: {job?.client.city}</div>
+                    <div>State: {job?.client.state}</div>
+                    <div>Zip: {job?.client.zip}</div>
+                    <div>Start Date: {job?.startDate}</div>
+                    <div>Start Time: {job?.startTime}</div>
+                    <div>End Date: {job?.endDate}</div>
+                    <div>Job Details: {job?.jobDetails}</div>
+                    <div>Number of Clients: {job?.numberOfClientEmployees}</div>
+                    {job?.employees.map((employee, index) => (
+                      <div key={index}>
+                        <div>First Name: {employee?.firstName}</div>
+                        <div>Last Name: {employee?.lastName}</div>
+                        <div>Email: {employee?.email}</div>
+                        <div>Phone: {employee?.phone}</div>
+                      </div>
+                    ))}
+                  </div>
+                </Collapse>
+              </div>
+            </div>
+          ))}
+        </Row>
+      </Container>
     </>
+
   );
 }
 
