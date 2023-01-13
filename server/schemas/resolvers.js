@@ -148,8 +148,8 @@ const resolvers = {
     //   return { token, user };
     // },
 
-    signupEmployee: async (parent, { username, email, password }, context) => {
-      const employee = await Employee.create({ username, email, password });
+    signupEmployee: async (parent, { email, password }, context) => {
+      const employee = await Employee.create({ email, password });
       const token = signToken(employee);
       return { token, employee };
     },
@@ -394,7 +394,6 @@ const resolvers = {
     addEmployee: async (
       parent,
       {
-        username,
         email,
         password,
         firstName,
@@ -408,7 +407,6 @@ const resolvers = {
     ) => {
       // if (context.user) {
       const employee = await Employee.create({
-        username,
         email,
         password,
         firstName,
@@ -433,7 +431,6 @@ const resolvers = {
       parent,
       {
         _id,
-        username,
         email,
         password,
         phone,
@@ -450,7 +447,6 @@ const resolvers = {
       console.log(
         "resolver update employee = ",
         _id,
-        username,
         email,
         password,
         firstName,
@@ -464,7 +460,6 @@ const resolvers = {
       return Employee.findOneAndUpdate(
         { email },
         {
-          username,
           email,
           password,
           firstName,

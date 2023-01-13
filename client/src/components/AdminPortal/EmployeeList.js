@@ -19,7 +19,6 @@ function EmployeeList() {
   const [openEmployee, setOpenEmployee] = useState(false);
 
   //Get Employee Form Data
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -113,7 +112,7 @@ function EmployeeList() {
     return name;
   };
 
-  //SECTOIN VALIDATION BLUR
+  //SECTION VALIDATION BLUR
   const handleBlurChange = (e) => {
     const { name, value } = e.target;
 
@@ -142,8 +141,6 @@ function EmployeeList() {
   const handleAddEmployeeSubmit = async (event) => {
     event.preventDefault();
 
-    console.log('hello');
-
     console.log(
       event, 
       email,
@@ -151,7 +148,6 @@ function EmployeeList() {
       lastName,
       password,
       phone,
-      username,
       isAdmin,
       isLocked,
     )
@@ -165,7 +161,6 @@ function EmployeeList() {
           lastName,
           password,
           phone,
-          username,
           isAdmin: false,
           isLocked: false,
         },
@@ -173,6 +168,8 @@ function EmployeeList() {
     } catch (err) {
       console.error(err);
     }
+
+    empRefetch();
 
     // resetForm();
 
@@ -732,7 +729,6 @@ function EmployeeList() {
                     </fieldset>
 
                     {/* <div>Email: {emp?.email}</div>
-                    <div>username: {emp?.username}</div>
                     <div>Phone: {emp?.phone}</div>
                     <div>isAdmin: {emp?.isAdmin ? "True" : "False"}</div>
                     <div>isLocked: {emp?.isLocked ? "True" : "False"}</div>

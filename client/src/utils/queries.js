@@ -68,7 +68,6 @@ export const QUERY_EMPLOYEE_BYEMAIL = gql`
       isAdmin
       isLocked
       password
-      username
     }
   }
 `;
@@ -84,7 +83,6 @@ export const QUERY_EMPLOYEE_BYID = gql`
       isAdmin
       isLocked
       password
-      username
       schedule {
         startDate
         startTime
@@ -117,7 +115,6 @@ export const QUERY_ALL_EMPLOYEES = gql`
       isAdmin
       isLocked
       password
-      username
       schedule {
         startDate
         startTime
@@ -149,7 +146,6 @@ query getSingleClient($employeeId: ID!) {
       isAdmin
       isLocked
       password
-      username
   }
 }
 `;

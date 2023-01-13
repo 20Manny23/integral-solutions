@@ -497,7 +497,6 @@ function AdminMock() {
                 <Collapse>
                   <div id={`#collapse-employee-${index}`}>
                     <div>Email: {emp?.email}</div>
-                    <div>username: {emp?.username}</div>
                     <div>Phone: {emp?.phone}</div>
                     <div>isAdmin: {emp?.isAdmin ? "True" : "False"}</div>
                     <div>isLocked: {emp?.isLocked ? "True" : "False"}</div>
