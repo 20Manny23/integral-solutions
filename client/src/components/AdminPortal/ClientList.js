@@ -545,7 +545,7 @@ function ClientList() {
         </div>
         <Row style={{ display: "flex", justifyContent: "center" }}>
           {clients?.clients?.map((client, index) => (
-            <div id="accordion" key={index} style={{ width: "100%" }}>
+            <div id="accordion" key={index} style={{ width: "98%" }}>
               <div className="card p-2 mb-1">
                 <div
                   className="rounded directions-collapse"

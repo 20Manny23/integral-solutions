@@ -54,7 +54,7 @@ function WorkOrder() {
     refetch: empRefectch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
 
-    // SECTION WORKORDER / SCHEDULE
+  // SECTION WORKORDER / SCHEDULE
   // eslint-disable-next-line
   const {
     loading: scheduleLoad,
@@ -311,374 +311,378 @@ function WorkOrder() {
 
   return (
     <>
-    <div>
-    
-    {/* className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary" */}
+      <div>
+        {/* className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary" */}
 
-       
         {/* <h2 className="display-6 custom-text heading">New Work Order</h2> */}
-        <Collapse
-            in={open}
+        <Collapse in={open}>
+          <Form
+            className="py-3 overflow-auto custom-about border border-secondary"
+            onSubmit={handleAddScheduleSubmit}
+            style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
           >
-        <Form
-        className="py-3 overflow-auto custom-about border border-secondary"
-        onSubmit={handleAddScheduleSubmit}
-        style={{ margin: "20px 0px 20px 0px", textAlign: "center",  }}
-
-      >
-         
-        <Form.Group className="form-length">
-          <Form.Label style={{ fontWeight: "bolder" }}>
-            Select Client
-          </Form.Label>
-          <Form.Label
-            className={`validation-color ${
-              showBusinessNameValidation ? "show" : "hide"
-            }`}
-          >
-             *required
-          </Form.Label>
-          <Form.Control
-            as="select"
-            className="custom-border"
-            type="text"
-            placeholder="Select Client"
-            value={"form-select"}
-            name={"form-select"}
-            onChange={businessNameSelect}
-          >
-            <option>{businessName}</option>
-            {clients?.clients?.map((client, index) => (
-              <option key={index} value={client.businessName}>
-                {client.businessName}
-              </option>
-            ))}
-          </Form.Control>
-        </Form.Group>
-        <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
-          <div className="form-label">
-            <Form.Label style={{ fontWeight: "bolder" }}>Address</Form.Label>
-            <Form.Label
-              className={`validation-color ${
-                showStreetAddressValidation ? "show" : "hide"
-              }`}
-            >
-               *required
-            </Form.Label>
-          </div>
-          <Form.Control
-            className="custom-border"
-            placeholder="Enter Address"
-            value={streetAddress}
-            name="streetAddress"
-            // defaultValue={client?.streetAddress}
-            onChange={handleInputChange}
-            onBlur={handleBlurChange}
-            required
-          />
-        </Form.Group>
-        <Row className="addy">
-          <Col xs={7}>
-            <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
-            <Form.Label
-              className={`validation-color ${
-                showCityValidation ? "show" : "hide"
-              }`}
-            >
-               *required
-            </Form.Label>
-            <Form.Control
-              className="custom-border"
-              placeholder="City"
-              value={city}
-              name="city"
-              // defaultValue={client?.city}
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              required
-            />
-          </Col>
-          <Col>
-            <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
-            <Form.Label
-              className={`validation-color ${
-                showStateValidation ? "show" : "hide"
-              }`}
-            >
-               *required
-            </Form.Label>
-            <Form.Control
-              className="custom-border"
-              placeholder="State"
-              value={state}
-              name="state"
-              // defaultValue={client?.state}
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              required
-            />
-          </Col>
-          <Col>
-            <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>
-            <Form.Label
-              className={`validation-color ${
-                showZipValidation ? "show" : "hide"
-              }`}
-            >
-               *required
-            </Form.Label>
-            <Form.Control
-              className="custom-border"
-              placeholder="Zip"
-              value={zip}
-              name="zip"
-              // defaultValue={client?.zip}
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              required
-            />
-          </Col>
-        </Row>
-        <Row className="addy">
-          <Col>
-            <Form.Group controlId="formBasicEmail">
-              <div className="form-label">
-                <Form.Label style={{ fontWeight: "bolder" }}>
-                  Job Start Date
-                </Form.Label>
-
-                <Form.Label
-                  className={`validation-color ${
-                    showStartDateValidation ? "show" : "hide"
-                  }`}
-                >
-                   *required
-                </Form.Label>
-              </div>
-              <Form.Control
-                className="custom-border"
-                type="date"
-                name="startDate"
-                // defaultValue={client?.startDate}
-                onChange={handleInputChange}
-                onBlur={handleBlurChange}
-                required
-              />
-            </Form.Group>
-          </Col>
-          <Col>
-            <Form.Group controlId="formBasicEmail">
-              <div className="form-label">
-                <Form.Label style={{ fontWeight: "bolder" }}>
-                  Job End Date
-                </Form.Label>
-                <Form.Label
-                  className={`validation-color ${
-                    showEndDateValidation ? "show" : "hide"
-                  }`}
-                >
-                   *required
-                </Form.Label>
-              </div>
-              <Form.Control
-                className="custom-border"
-                type="date"
-                value={endDate}
-                name="endDate"
-                // defaultValue={client?.endDate}
-                onChange={handleInputChange}
-                onBlur={handleBlurChange}
-                required
-              />
-            </Form.Group>
-          </Col>
-          <Col>
-            <Form.Group controlId="formBasicEmail">
-              <div className="form-label">
-                <Form.Label style={{ fontWeight: "bolder" }}>
-                  Start Time
-                </Form.Label>
-                <Form.Label
-                  className={`validation-color ${
-                    showStartTimeValidation ? "show" : "hide"
-                  }`}
-                >
-                   *required
-                </Form.Label>
-              </div>
-              <Form.Control
-                className="custom-border"
-                type="time"
-                value={startTime}
-                name="startTime"
-                // defaultValue={client?.startTime}
-                onChange={handleInputChange}
-                onBlur={handleBlurChange}
-                required
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-
-        <Row className="addy">
-          <Col xs={6}>
-            <Form.Label style={{ fontWeight: "bolder" }}>
-              Office Sqft
-            </Form.Label>
-            <Form.Label
-              className={`validation-color ${
-                showSquareFeetValidation ? "show" : "hide"
-              }`}
-            >
-               *required
-            </Form.Label>
-            <Form.Control
-              className="custom-border"
-              placeholder="8000 Sqft"
-              value={squareFeet}
-              name="squareFeet"
-              // defaultValue={client?.squareFeet}
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              required
-            />
-          </Col>
-
-          <Col xs={6}>
-            <Form.Group>
+            <Form.Group className="form-length">
               <Form.Label style={{ fontWeight: "bolder" }}>
-                Number of Employees
+                Select Client
               </Form.Label>
               <Form.Label
                 className={`validation-color ${
-                  showNumberOfClientEmployeesValidation ? "show" : "hide"
+                  showBusinessNameValidation ? "show" : "hide"
                 }`}
               >
-                 *required
+                *required
               </Form.Label>
               <Form.Control
                 as="select"
                 className="custom-border"
                 type="text"
-                value={numberOfClientEmployees}
-                name="numberOfClientEmployees"
-                // onChange={addEmployee}
-                onChange={handleInputChange}
+                placeholder="Select Client"
+                value={"form-select"}
+                name={"form-select"}
+                onChange={businessNameSelect}
               >
-                <option>Select</option>
-                {numberOfEmployees.map((emp, index) => (
-                  <option
-                    key={index}
-                    // value={emp}
-                  >
-                    {emp}
+                <option>{businessName}</option>
+                {clients?.clients?.map((client, index) => (
+                  <option key={index} value={client.businessName}>
+                    {client.businessName}
                   </option>
                 ))}
               </Form.Control>
             </Form.Group>
-          </Col>
-        </Row>
+            <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
+              <div className="form-label">
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Address
+                </Form.Label>
+                <Form.Label
+                  className={`validation-color ${
+                    showStreetAddressValidation ? "show" : "hide"
+                  }`}
+                >
+                  *required
+                </Form.Label>
+              </div>
+              <Form.Control
+                className="custom-border"
+                placeholder="Enter Address"
+                value={streetAddress}
+                name="streetAddress"
+                // defaultValue={client?.streetAddress}
+                onChange={handleInputChange}
+                onBlur={handleBlurChange}
+                required
+              />
+            </Form.Group>
+            <Row className="addy">
+              <Col xs={7}>
+                <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
+                <Form.Label
+                  className={`validation-color ${
+                    showCityValidation ? "show" : "hide"
+                  }`}
+                >
+                  *required
+                </Form.Label>
+                <Form.Control
+                  className="custom-border"
+                  placeholder="City"
+                  value={city}
+                  name="city"
+                  // defaultValue={client?.city}
+                  onChange={handleInputChange}
+                  onBlur={handleBlurChange}
+                  required
+                />
+              </Col>
+              <Col>
+                <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
+                <Form.Label
+                  className={`validation-color ${
+                    showStateValidation ? "show" : "hide"
+                  }`}
+                >
+                  *required
+                </Form.Label>
+                <Form.Control
+                  className="custom-border"
+                  placeholder="State"
+                  value={state}
+                  name="state"
+                  // defaultValue={client?.state}
+                  onChange={handleInputChange}
+                  onBlur={handleBlurChange}
+                  required
+                />
+              </Col>
+              <Col>
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Zipcode
+                </Form.Label>
+                <Form.Label
+                  className={`validation-color ${
+                    showZipValidation ? "show" : "hide"
+                  }`}
+                >
+                  *required
+                </Form.Label>
+                <Form.Control
+                  className="custom-border"
+                  placeholder="Zip"
+                  value={zip}
+                  name="zip"
+                  // defaultValue={client?.zip}
+                  onChange={handleInputChange}
+                  onBlur={handleBlurChange}
+                  required
+                />
+              </Col>
+            </Row>
+            <Row className="addy">
+              <Col>
+                <Form.Group controlId="formBasicEmail">
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Job Start Date
+                    </Form.Label>
 
-        <Form.Group className="form-length">
-          <Form.Label style={{ fontWeight: "bolder" }}>
-            Select Employees for Job
-          </Form.Label>
-          <Form.Label
-            className={`validation-color ${
-              showSelectedEmployeesValidation ? "show" : "hide"
-            }`}
-          >
-             *required
-          </Form.Label>
-          <Form.Control
-            as="select"
-            className="custom-border"
-            type="text"
-            value={"form-select"}
-            name={"form-select"}
-            // section
-            onChange={(event) => {
-              createSelectedEmployees(event);
-            }}
-          >
-            <option>Select</option>
-            {emp?.employees?.map((emp, index) => (
-              <option
-                key={index}
-                value={emp.firstName}
-                data-firstname={emp.firstName}
-                data-lastname={emp.lastName}
+                    <Form.Label
+                      className={`validation-color ${
+                        showStartDateValidation ? "show" : "hide"
+                      }`}
+                    >
+                      *required
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    type="date"
+                    name="startDate"
+                    // defaultValue={client?.startDate}
+                    onChange={handleInputChange}
+                    onBlur={handleBlurChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group controlId="formBasicEmail">
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Job End Date
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showEndDateValidation ? "show" : "hide"
+                      }`}
+                    >
+                      *required
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    type="date"
+                    value={endDate}
+                    name="endDate"
+                    // defaultValue={client?.endDate}
+                    onChange={handleInputChange}
+                    onBlur={handleBlurChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group controlId="formBasicEmail">
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Start Time
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showStartTimeValidation ? "show" : "hide"
+                      }`}
+                    >
+                      *required
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    type="time"
+                    value={startTime}
+                    name="startTime"
+                    // defaultValue={client?.startTime}
+                    onChange={handleInputChange}
+                    onBlur={handleBlurChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row className="addy">
+              <Col xs={6}>
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Office Sqft
+                </Form.Label>
+                <Form.Label
+                  className={`validation-color ${
+                    showSquareFeetValidation ? "show" : "hide"
+                  }`}
+                >
+                  *required
+                </Form.Label>
+                <Form.Control
+                  className="custom-border"
+                  placeholder="8000 Sqft"
+                  value={squareFeet}
+                  name="squareFeet"
+                  // defaultValue={client?.squareFeet}
+                  onChange={handleInputChange}
+                  onBlur={handleBlurChange}
+                  required
+                />
+              </Col>
+
+              <Col xs={6}>
+                <Form.Group>
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    Number of Employees
+                  </Form.Label>
+                  <Form.Label
+                    className={`validation-color ${
+                      showNumberOfClientEmployeesValidation ? "show" : "hide"
+                    }`}
+                  >
+                    *required
+                  </Form.Label>
+                  <Form.Control
+                    as="select"
+                    className="custom-border"
+                    type="text"
+                    value={numberOfClientEmployees}
+                    name="numberOfClientEmployees"
+                    // onChange={addEmployee}
+                    onChange={handleInputChange}
+                  >
+                    <option>Select</option>
+                    {numberOfEmployees.map((emp, index) => (
+                      <option
+                        key={index}
+                        // value={emp}
+                      >
+                        {emp}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Form.Group className="form-length">
+              <Form.Label style={{ fontWeight: "bolder" }}>
+                Select Employees for Job
+              </Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showSelectedEmployeesValidation ? "show" : "hide"
+                }`}
+              >
+                *required
+              </Form.Label>
+              <Form.Control
+                as="select"
+                className="custom-border"
+                type="text"
+                value={"form-select"}
+                name={"form-select"}
+                // section
+                onChange={(event) => {
+                  createSelectedEmployees(event);
+                }}
+              >
+                <option>Select</option>
+                {emp?.employees?.map((emp, index) => (
+                  <option
+                    key={index}
+                    value={emp.firstName}
+                    data-firstname={emp.firstName}
+                    data-lastname={emp.lastName}
+                    data-id={emp._id}
+                  >
+                    {emp.firstName} {emp.lastName}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+
+            {/* Creates button when adding employee to job  */}
+            {selectedEmployees.map((employee) => (
+              <Button
+                style={{
+                  marginRight: "15px",
+                  padding: "3px",
+                  backgroundColor: "#007bff",
+                }}
+                onClick={removeEmployee}
+                value={employee.employeeId}
+                variant="secondary"
                 data-id={emp._id}
               >
-                {emp.firstName} {emp.lastName}
-              </option>
+                {`${employee.firstName} ${employee.lastName}`}
+              </Button>
             ))}
-          </Form.Control>
-        </Form.Group>
 
-        {/* Creates button when adding employee to job  */}
-        {selectedEmployees.map((employee) => (
-          <Button
-            style={{
-              marginRight: "15px",
-              padding: "3px",
-              backgroundColor: "#007bff",
-            }}
-            onClick={removeEmployee}
-            value={employee.employeeId}
-            variant="secondary"
-            data-id={emp._id}
-          >
-            {`${employee.firstName} ${employee.lastName}`}
-          </Button>
-        ))}
+            <Form.Group className="mb-3" controlId="formBasicMessage">
+              <div className="form-label form-length">
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Job Details
+                </Form.Label>
+                <Form.Label
+                  className={`validation-color ${
+                    showJobDetailsValidation ? "show" : "hide"
+                  }`}
+                >
+                  *required
+                </Form.Label>
+              </div>
+              <Form.Control
+                style={{
+                  width: "60%",
+                  marginRight: "auto",
+                  marginLeft: "auto",
+                }}
+                className="custom-border"
+                as="textarea"
+                rows={4}
+                type="textarea"
+                placeholder="Enter additional information here."
+                // name="body"
+                value={jobDetails}
+                name="jobDetails"
+                onChange={handleInputChange}
+                onBlur={handleBlurChange}
+                required
+              />
+            </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicMessage">
-          <div className="form-label form-length">
-            <Form.Label style={{ fontWeight: "bolder" }}>
-              Job Details
-            </Form.Label>
-            <Form.Label
-              className={`validation-color ${
-                showJobDetailsValidation ? "show" : "hide"
-              }`}
+            <Button
+              className="button-custom submit-button-style"
+              variant="primary"
+              type="submit"
+              title="Submit to schedule job."
             >
-               *required
-            </Form.Label>
-          </div>
-          <Form.Control
-            style={{
-              width: "60%",
-              marginRight: "auto",
-              marginLeft: "auto",
-            }}
-            className="custom-border"
-            as="textarea"
-            rows={4}
-            type="textarea"
-            placeholder="Enter additional information here."
-            // name="body"
-            value={jobDetails}
-            name="jobDetails"
-            onChange={handleInputChange}
-            onBlur={handleBlurChange}
-            required
-          />
-        </Form.Group>
-
-        <Button
-          className="button-custom submit-button-style"
-          variant="primary"
-          type="submit"
-          title="Submit to schedule job."
-        >
-          Schedule Job
-        </Button>
-       
-      </Form>
-      </Collapse>
-    </div>
-    <Container style={{ border: "1px solid black",  borderRadius:'10px', padding:'10px', marginTop:'20px' }}>
+              Schedule Job
+            </Button>
+          </Form>
+        </Collapse>
+      </div>
+      <Container
+        style={{
+          border: "1px solid black",
+          borderRadius: "10px",
+          padding: "10px",
+          marginTop: "20px",
+        }}
+      >
         <div className="d-flex justify-content-between">
           <h3>Work Orders</h3>
           <button
@@ -690,13 +694,13 @@ function WorkOrder() {
             Add Work Order ➕
           </button>
         </div>
-        </Container>
+      {/* </Container>
 
-        <Container style={{ border: "1px solid black" }}>
+      <Container style={{ border: "1px solid black" }}> */}
         <h3>Schedule</h3>
         <Row style={{ display: "flex", justifyContent: "center" }}>
           {schedule?.schedules?.map((job, index) => (
-            <div id="accordion" key={index} style={{ width: "100%" }}>
+            <div id="accordion" key={index} style={{ width: "98%" }}>
               <div className="card p-2 mb-1">
                 <div
                   className="rounded directions-collapse"
@@ -709,40 +713,27 @@ function WorkOrder() {
                 >
                   <h5 className="mb-0 text-left">
                     <button
-                      // //section
                       onClick={(event) => getElement(event)}
                       aria-controls={`#collapse-schedule-${index}`}
                       aria-expanded={openDetails}
                       className="btn btn-link pl-1"
                       data-target={`#collapse-schedule-${index}`}
-                      //section
                     >
                       {job?.client.businessName}
                     </button>
                   </h5>
 
                   <div className="mr-2" style={{ display: "flex" }}>
-                    <FontAwesomeIcon
-                      icon="fa-add"
-                      className="p-2"
-                      onClick={() => console.log("pencil")}
-                      // onClick={() => handlePassClick()}
-                      // style={display ? isDisplayed : isNotDisplayed}
-                    />
+                    {/* //section */}
+
                     <FontAwesomeIcon
                       icon="fa-pencil"
                       className="p-2"
                       onClick={() => console.log("pencil")}
-                      // onClick={() => handlePassClick()}
-                      // style={display ? isDisplayed : isNotDisplayed}
                     />
-                    <FontAwesomeIcon
-                      icon="fa-trash"
-                      className="p-2"
-                      // onClick={() => console.log("trash")}
-                      // onClick={() => handlePassClick()}
-                      // style={display ? isDisplayed : isNotDisplayed}
-                    />
+                    <FontAwesomeIcon icon="fa-trash" className="p-2" />
+
+                    {/* section */}
                   </div>
                 </div>
 
@@ -778,7 +769,6 @@ function WorkOrder() {
         </Row>
       </Container>
     </>
-
   );
 }
 
