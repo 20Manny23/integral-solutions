@@ -376,6 +376,20 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
+    updateClientSchedule: async (parent, { _id, schedule }, context) => {
+      // if (context.user) {
+      console.log("resolver update client schedule = ", _id, schedule);
+      return Client.findOneAndUpdate(
+        { _id },
+        {
+          $addToSet: { schedule }
+        },
+        { new: true }
+      );
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
     // SECTION EMPLOYEE
     addEmployee: async (
       parent,
@@ -428,6 +442,7 @@ const resolvers = {
         isManager,
         isAdmin,
         isLocked,
+        schedule,
       },
       context
     ) => {
@@ -444,7 +459,7 @@ const resolvers = {
         isManager,
         isAdmin,
         isLocked,
-        lastName
+        schedule
       );
       return Employee.findOneAndUpdate(
         { email },
@@ -458,6 +473,20 @@ const resolvers = {
           isManager,
           isAdmin,
           isLocked,
+          schedule,
+        },
+        { new: true }
+      );
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+    updateEmployeeSchedule: async (parent, { _id, schedule }, context) => {
+      // if (context.user) {
+      console.log("resolver update employee schedule = ", _id, schedule);
+      return Employee.findOneAndUpdate(
+        { _id },
+        {
+          $addToSet: { schedule }
         },
         { new: true }
       );
