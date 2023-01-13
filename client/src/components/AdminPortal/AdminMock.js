@@ -349,8 +349,6 @@ function AdminMock() {
   // SECTION END UPDATE CLIENT
 
   // SECTION START DELETE CLIENT
-  // DELETE CLIENT
-  // delete incident query
   const [deleteClient] = useMutation(DELETE_CLIENT);
 
   // delete incident
@@ -370,7 +368,6 @@ function AdminMock() {
       console.log(err);
     }
   };
-
   // SECTION END DELETE CLIENT
 
   // SECTION END CLIENT 

@@ -267,7 +267,7 @@ export const ADD_SCHEDULE = gql`
   }
 `;
 
-export const DELETE_Schedule = gql`
+export const DELETE_SCHEDULE = gql`
   mutation deleteSchedule($id: ID!) {
     deleteSchedule(_id: $id) {
       _id
