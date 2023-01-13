@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { QUERY_SCHEDULE } from "../../utils/queries";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_CLIENTS, QUERY_ALL_EMPLOYEES } from "../../utils/queries";
-import { ADD_SCHEDULE } from "../../utils/mutations";
+import { ADD_SCHEDULE, DELETE_SCHEDULE } from "../../utils/mutations";
 
 import { Row, Col, Button, Form, Collapse, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -213,7 +213,7 @@ function WorkOrder() {
   // const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
   // const [selectedEmployees, setSelectedEmployees] = useState([]);
 
-  // SECTION ADD A NEW WORKORDER / SCHEDULE
+  // SECTION ADD
   const handleAddScheduleSubmit = async (e) => {
     e.preventDefault();
 
@@ -248,6 +248,7 @@ function WorkOrder() {
     }
 
     // refetch a work order might be necessary when it is added
+    scheduleRefetch();
 
     // resetForm();
 
@@ -308,6 +309,32 @@ function WorkOrder() {
       setOpenDetails(true);
     }
   };
+  // SECTION END ADD
+
+  // SECTION START DELETE
+  const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
+
+  // delete incident
+  const handleDeleteSchedule = async (event) => {
+    let scheduleId = event.currentTarget.getAttribute("data-scheduleid");
+    console.log(scheduleId, event, event.currentTarget);
+    
+    try {
+      // eslint-disable-next-line
+      const { data } = await deleteSchedule({
+        variables: {
+          id: scheduleId,
+        },
+      });
+
+      // RELOAD SCHEDULE
+      scheduleRefetch();
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // SECTION END DELETE
 
   return (
     <>
@@ -370,7 +397,7 @@ function WorkOrder() {
                 // defaultValue={client?.streetAddress}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                required
+                //required
               />
             </Form.Group>
             <Row className="addy">
@@ -391,7 +418,7 @@ function WorkOrder() {
                   // defaultValue={client?.city}
                   onChange={handleInputChange}
                   onBlur={handleBlurChange}
-                  required
+                  //required
                 />
               </Col>
               <Col>
@@ -411,7 +438,7 @@ function WorkOrder() {
                   // defaultValue={client?.state}
                   onChange={handleInputChange}
                   onBlur={handleBlurChange}
-                  required
+                  //required
                 />
               </Col>
               <Col>
@@ -433,7 +460,7 @@ function WorkOrder() {
                   // defaultValue={client?.zip}
                   onChange={handleInputChange}
                   onBlur={handleBlurChange}
-                  required
+                  //required
                 />
               </Col>
             </Row>
@@ -460,7 +487,7 @@ function WorkOrder() {
                     // defaultValue={client?.startDate}
                     onChange={handleInputChange}
                     onBlur={handleBlurChange}
-                    required
+                    //required
                   />
                 </Form.Group>
               </Col>
@@ -486,7 +513,7 @@ function WorkOrder() {
                     // defaultValue={client?.endDate}
                     onChange={handleInputChange}
                     onBlur={handleBlurChange}
-                    required
+                    //required
                   />
                 </Form.Group>
               </Col>
@@ -512,7 +539,7 @@ function WorkOrder() {
                     // defaultValue={client?.startTime}
                     onChange={handleInputChange}
                     onBlur={handleBlurChange}
-                    required
+                    //required
                   />
                 </Form.Group>
               </Col>
@@ -538,7 +565,7 @@ function WorkOrder() {
                   // defaultValue={client?.squareFeet}
                   onChange={handleInputChange}
                   onBlur={handleBlurChange}
-                  required
+                  //required
                 />
               </Col>
 
@@ -660,7 +687,7 @@ function WorkOrder() {
                 name="jobDetails"
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                required
+                //required
               />
             </Form.Group>
 
@@ -697,7 +724,7 @@ function WorkOrder() {
       {/* </Container>
 
       <Container style={{ border: "1px solid black" }}> */}
-        <h3>Schedule</h3>
+        {/* <h3>Schedule</h3> */}
         <Row style={{ display: "flex", justifyContent: "center" }}>
           {schedule?.schedules?.map((job, index) => (
             <div id="accordion" key={index} style={{ width: "98%" }}>
@@ -731,7 +758,15 @@ function WorkOrder() {
                       className="p-2"
                       onClick={() => console.log("pencil")}
                     />
-                    <FontAwesomeIcon icon="fa-trash" className="p-2" />
+                    <FontAwesomeIcon 
+                      icon="fa-trash" 
+                      className="p-2"
+                      data-scheduleid={job?._id}
+                      onClick={(event) => {
+                        handleDeleteSchedule(event);
+                      }}
+
+                    />
 
                     {/* section */}
                   </div>
