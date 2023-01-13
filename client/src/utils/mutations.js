@@ -81,7 +81,6 @@ export const UPDATE_EMPLOYEE = gql`
 `;
 export const ADD_EMPLOYEE = gql`
   mutation addEmployee(
-    $id: ID
     $username: String
     $email: String
     $password: String
@@ -93,7 +92,6 @@ export const ADD_EMPLOYEE = gql`
     $isLocked: Boolean
   ) {
     addEmployee(
-      _id: $id
       username: $username
       email: $email
       password: $password
