@@ -200,6 +200,7 @@ export const ADD_SCHEDULE = gql`
       employees: $employees
       client: $client
     ) {
+      _id
       streetAddress
       suite
       state
@@ -222,6 +223,13 @@ export const ADD_SCHEDULE = gql`
   }
 `;
 
+export const DELETE_Schedule = gql`
+  mutation deleteSchedule($id: ID!) {
+    deleteSchedule(_id: $id) {
+      _id
+    }
+  }
+`;
 
 
 // SECTION LEGACY CODE

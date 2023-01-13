@@ -382,7 +382,7 @@ const resolvers = {
       return Client.findOneAndUpdate(
         { _id },
         {
-          $addToSet: { schedule }
+          $addToSet: { schedule },
         },
         { new: true }
       );
@@ -486,7 +486,7 @@ const resolvers = {
       return Employee.findOneAndUpdate(
         { _id },
         {
-          $addToSet: { schedule }
+          $addToSet: { schedule },
         },
         { new: true }
       );
@@ -569,7 +569,58 @@ const resolvers = {
         client,
         employees,
       });
-      return (
+      return {
+        _id,
+        streetAddress,
+        suite,
+        city,
+        state,
+        zip,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        squareFeet,
+        jobDetails,
+        numberOfClientEmployees,
+        client,
+        employees,
+      };
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    deleteSchedule: async (parent, { scheduleId }, context) => {
+      // if (context.user) {
+      return Schedule.findOneAndDelete({ scheduleId });
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    updateSchedule: async (
+      parent,
+      {
+        _id,
+        streetAddress,
+        suite,
+        city,
+        state,
+        zip,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        squareFeet,
+        jobDetails,
+        numberOfClientEmployees,
+        client,
+        employees,
+      },
+      context
+    ) => {
+      // if (context.user) {
+      return Schedule.findOneAndUpdate(
+        { _id },
         {
           _id,
           streetAddress,
@@ -587,36 +638,6 @@ const resolvers = {
           client,
           employees,
         }
-      );
-      // }
-      // throw new AuthenticationError("You need to be logged in!");
-    },
-
-    deleteSchedule: async (parent, { scheduleId }, context) => {
-      // if (context.user) {
-      return Schedule.findOneAndDelete({ scheduleId });
-      // }
-      // throw new AuthenticationError("You need to be logged in!");
-    },
-
-    updateSchedule: async (
-      parent,
-      { _id, startDate, endDate, startTime, endTime, client, employees },
-      context
-    ) => {
-      // if (context.user) {
-      return Schedule.findOneAndUpdate(
-        { _id },
-        {
-          _id,
-          startDate,
-          endDate,
-          startTime,
-          endTime,
-          client,
-          employees,
-        },
-        { new: true }
       );
       // }
       // throw new AuthenticationError("You need to be logged in!");
