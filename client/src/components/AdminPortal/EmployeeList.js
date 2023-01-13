@@ -337,7 +337,7 @@ function EmployeeList() {
                 <div id="collapse-text ">
                   <Form.Group
                     className="mb-3 form-length"
-                    controlId="formBasicEmail"
+                    controlId="formBasicFirstName"
                   >
                     <div className="form-label">
                       <Form.Label
@@ -359,7 +359,7 @@ function EmployeeList() {
 
                   <Form.Group
                     className="mb-3 form-length"
-                    controlId="formBasicEmail"
+                    controlId="formBasicLastName"
                   >
                     <div className="form-label">
                       <Form.Label
@@ -381,7 +381,7 @@ function EmployeeList() {
 
                   <Form.Group
                     className="mb-3 form-length"
-                    controlId="formBasicEmail"
+                    controlId="formBasicPhone"
                   >
                     <div className="form-label">
                       <Form.Label style={{ fontWeight: "bolder" }}>
@@ -422,7 +422,7 @@ function EmployeeList() {
 
                   <Form.Group
                     className="mb-3 form-length"
-                    controlId="formBasicEmail"
+                    controlId="formBasicPassword"
                   >
                     <div className="form-label">
                       <Form.Label style={{ fontWeight: "bolder" }}>
@@ -581,7 +581,7 @@ function EmployeeList() {
                       <div id="example-collapse-text">
                         <Form.Group
                           className="mb-3 form-length"
-                          controlId="formBasicEmail"
+                          controlId="formBasicFirstName"
                         >
                           <div className="form-label">
                             <Form.Label style={{ fontWeight: "bolder" }}>
@@ -608,7 +608,7 @@ function EmployeeList() {
                         </Form.Group>
                         <Form.Group
                           className="mb-3 form-length"
-                          controlId="formBasicEmail"
+                          controlId="formBasicLastName"
                         >
                           <div className="form-label">
                             <Form.Label style={{ fontWeight: "bolder" }}>
@@ -635,7 +635,7 @@ function EmployeeList() {
                         </Form.Group>
                         <Form.Group
                           className="mb-3 form-length"
-                          controlId="formBasicEmail"
+                          controlId="formBasicPhone"
                         >
                           <div className="form-label">
                             <Form.Label style={{ fontWeight: "bolder" }}>
