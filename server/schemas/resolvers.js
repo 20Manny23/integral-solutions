@@ -422,9 +422,9 @@ const resolvers = {
         username,
         email,
         password,
+        phone,
         firstName,
         lastName,
-        phone,
         isManager,
         isAdmin,
         isLocked,
@@ -435,8 +435,15 @@ const resolvers = {
       console.log(
         "resolver update employee = ",
         _id,
+        username,
         email,
         password,
+        firstName,
+        lastName,
+        phone,
+        isManager,
+        isAdmin,
+        isLocked,
         lastName
       );
       return Employee.findOneAndUpdate(
