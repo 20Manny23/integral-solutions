@@ -532,6 +532,7 @@ const resolvers = {
     addSchedule: async (
       parent,
       {
+        _id,
         streetAddress,
         suite,
         city,
@@ -552,6 +553,7 @@ const resolvers = {
       // _id, streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees
       // if (context.user) {
       const user = await Schedule.create({
+        _id,
         streetAddress,
         suite,
         city,
@@ -569,6 +571,7 @@ const resolvers = {
       });
       return (
         {
+          _id,
           streetAddress,
           suite,
           city,
@@ -583,8 +586,7 @@ const resolvers = {
           numberOfClientEmployees,
           client,
           employees,
-        },
-        { new: true }
+        }
       );
       // }
       // throw new AuthenticationError("You need to be logged in!");
@@ -596,6 +598,7 @@ const resolvers = {
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
+
     updateSchedule: async (
       parent,
       { _id, startDate, endDate, startTime, endTime, client, employees },

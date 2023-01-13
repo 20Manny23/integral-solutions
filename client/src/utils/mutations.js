@@ -197,27 +197,27 @@ export const ADD_SCHEDULE = gql`
       squareFeet: $squareFeet
       jobDetails: $jobDetails
       numberOfClientEmployees: $numberOfClientEmployees
-      client: $client
       employees: $employees
+      client: $client
     ) {
+      streetAddress
+      suite
+      state
       city
-      employees {
-        _id
-      }
-      client {
-        _id
-      }
+      zip
+      startDate
+      startTime
       endDate
       endTime
       jobDetails
       numberOfClientEmployees
       squareFeet
-      startDate
-      startTime
-      state
-      streetAddress
-      suite
-      zip
+      client {
+        _id
+      }
+      employees {
+        _id
+      }
     }
   }
 `;

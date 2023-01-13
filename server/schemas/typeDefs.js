@@ -268,6 +268,7 @@ const typeDefs = gql`
     toggleLocked(employeeId: ID!): Message
     
     addSchedule(
+      _id: ID
       streetAddress: String
       suite: String
       city: String
