@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_CLIENTS, QUERY_ALL_EMPLOYEES } from "../../utils/queries";
 import { ADD_SCHEDULE } from "../../utils/mutations";
 
@@ -8,37 +8,44 @@ import { Row, Col, Button, Form } from "react-bootstrap";
 import "../../styles/Forms.css";
 
 function WorkOrder() {
-  // const [employeeChoice, setEmployeeChoice] = useState("");
-  let employeeChoice = "";
-  // const demoEmployee = ["Steve", "Rod", "Bryan", "George", "Kirtley"];
-  const [demoChoice, setDemoChoice] = useState([]);
+  // const [demoChoice, setDemoChoice] = useState([]);
+  // const [selectedEmployeeIds, setSelectedEmployeeIds] = useState([]);
   const numberOfEmployees = [
     "Home Office",
     "Less Than 50",
     "50-99",
     "More Than 100",
   ];
-  const [demoNumOfEmp, setDemoNumOfEmp] = useState([]);
+  // const [demoNumOfEmp, setDemoNumOfEmp] = useState([]);
 
-  function addEmployee(event) {
-    for (let i = 0; i < demoChoice.length; i++) {
-      if (event.target.value === demoChoice[i]){
+  const [ selectedEmployees, setSelectedEmployees ] = useState([]);
+
+  const createSelectedEmployees = (event) => {
+    let firstName = event.target.options[event.target.selectedIndex].dataset.firstname;
+    let lastName = event.target.options[event.target.selectedIndex].dataset.lastname;
+    let employeeId = event.target.options[event.target.selectedIndex].dataset.id;
+
+    for (let i = 0; i < selectedEmployees.length; i++) {
+      if (selectedEmployees[i].employeeId === employeeId) {
         return;
       }
-      
-    }
-    setDemoChoice((demoChoice) => [...demoChoice, event.target.value]);
+    };
+
+    setSelectedEmployees((selectedEmployee) => [ ...selectedEmployees, {firstName, lastName, employeeId} ]);
   }
 
   function removeEmployee(event) {
-    let filteredArray = demoChoice.filter(
-      (item) => item !== event.target.value
+    let keepEmployees = selectedEmployees.filter(
+      (item) => item.employeeId !== event.target.value
     );
-    setDemoChoice(filteredArray);
+
+    setSelectedEmployees(keepEmployees);
   }
 
   function clientSelect(e) {
+
     setBusinessName(e.target.value);
+
   }
 
   // SECTION Add Workorder
@@ -111,8 +118,18 @@ function WorkOrder() {
     return name;
   };
 
-  const { loading: clientsLoad, data: clients, error: clientError, refetch: clientsRefetch } = useQuery(QUERY_ALL_CLIENTS);
-  const { loading: empLoad, data: emp, error: empError, refetch: empRefectch } = useQuery(QUERY_ALL_EMPLOYEES);
+  const {
+    loading: clientsLoad,
+    data: clients,
+    error: clientError,
+    refetch: clientsRefetch,
+  } = useQuery(QUERY_ALL_CLIENTS);
+  const {
+    loading: empLoad,
+    data: emp,
+    error: empError,
+    refetch: empRefectch,
+  } = useQuery(QUERY_ALL_EMPLOYEES);
 
   // If user clicks off an input field without entering text, then validation message "is required" displays
   // businessName, contact, phone, email, streetAddress, suite, city, state, zip
@@ -148,11 +165,9 @@ function WorkOrder() {
   //     : setShowZipValidation(false);
   // };
 
-
-
   // ADD SCHEDULE ITEM
 
-   const [addSchedule] = useMutation(ADD_SCHEDULE);
+  const [addSchedule] = useMutation(ADD_SCHEDULE);
 
   const handleAddScheduleSubmit = async (e) => {
     e.preventDefault();
@@ -173,33 +188,32 @@ function WorkOrder() {
       // client,
       businessName,
       employees,
-      demoChoice
+      selectedEmployees,
     );
-
-    // console.log(clients?.clients);
-    // let x = clients?.clients?.filter((client) => client.businessName === businessName).map(id => id._id).toString();
-    // console.log(x)
 
     try {
       // eslint-disable-next-line
       const { data } = await addSchedule({
         variables: {
-            businessName,
-            streetAddress,
-            // suite,
-            city,
-            state,
-            zip,
-            startDate,
-            endDate,
-            startTime,
-            endTime,
-            squareFeet,
-            jobDetails,
-            numberOfClientEmployees,
-            // client: businessName,
-            client: clients?.clients?.filter((client) => client.businessName === businessName).map(id => id._id).toString(), // convert client name to client._id
-            employees: demoChoice,
+          businessName,
+          streetAddress,
+          // suite,
+          city,
+          state,
+          zip,
+          startDate,
+          endDate,
+          startTime,
+          endTime,
+          squareFeet,
+          jobDetails,
+          numberOfClientEmployees,
+          // client: businessName,
+          client: clients?.clients
+            ?.filter((client) => client.businessName === businessName)
+            .map((id) => id._id)
+            .toString(), // convert client name to client._id
+          employees: selectedEmployees.map(({employeeId}) => employeeId),
         },
       });
     } catch (err) {
@@ -430,7 +444,6 @@ function WorkOrder() {
                 as="select"
                 className="custom-border"
                 type="text"
-                // value={employeeChoice}
                 value={numberOfClientEmployees}
                 name="numberOfClientEmployees"
                 // onChange={addEmployee}
@@ -448,7 +461,6 @@ function WorkOrder() {
               </Form.Control>
             </Form.Group>
           </Col>
-
         </Row>
 
         <Form.Group className="form-length">
@@ -459,15 +471,16 @@ function WorkOrder() {
             as="select"
             className="custom-border"
             type="text"
-            // name="employeeChoice"
-           
             value={"form-select"}
             name={"form-select"}
-            onChange={addEmployee}
+            // section
+            onChange={(event) => {
+              createSelectedEmployees(event);
+            }}
           >
             <option>Select</option>
             {emp?.employees?.map((emp, index) => (
-              <option key={index} value={emp.firstName}>
+              <option key={index} value={emp.firstName} data-firstname={emp.firstName} data-lastname={emp.lastName} data-id={emp._id}>
                 {emp.firstName} {emp.lastName}
               </option>
             ))}
@@ -475,7 +488,7 @@ function WorkOrder() {
         </Form.Group>
 
         {/* Creates button when adding employee to job  */}
-        {demoChoice.map((worker) => (
+        {selectedEmployees.map((employee) => (
           <Button
             style={{
               marginRight: "15px",
@@ -483,10 +496,11 @@ function WorkOrder() {
               backgroundColor: "#007bff",
             }}
             onClick={removeEmployee}
-            value={worker}
+            value={employee.employeeId}
             variant="secondary"
+            data-id={emp._id}
           >
-            {worker}
+            {`${employee.firstName} ${employee.lastName}`}
           </Button>
         ))}
 
