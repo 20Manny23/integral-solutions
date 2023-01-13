@@ -418,7 +418,6 @@ function EmployeeList() {
           </Col>
         </Row>
       </div>
-      {/* section start employee list */}
       <Container
         style={{ border: "1px solid black" }}
         className="pb-2 d-flex flex-column align-self-center shadow rounded-lg border border-secondary"
