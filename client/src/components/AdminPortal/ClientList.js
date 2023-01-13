@@ -530,7 +530,7 @@ function ClientList() {
           </Collapse>
         </Form>
       </div>
-      {/* Import from AdminMock */}
+      
       <Container style={{ border: "1px solid black" }}>
         <div className="d-flex justify-content-between">
           <h3>Client List</h3>
@@ -587,7 +587,7 @@ function ClientList() {
                       icon="fa-trash"
                       className="p-2 fa-lg"
                       data-clientid={client?._id}
-                      data-target={`#modal-control{index}`}
+                      // data-target={`#modal-control{index}`}
                       onClick={(event) => {handleDeleteClient(event);}}
                     />
                       {/* <Modal
@@ -919,100 +919,9 @@ function ClientList() {
           ))}
         </Row>
       </Container>
-      {/* End Import from AsminMock */}
+      
 
-      {/* 
-      <Container style={{ border: "1px solid black", borderRadius:"5px" }}>
-        <div className="d-flex justify-content-between">
-          <h3>Client List</h3>
-          <button
-            onClick={() => setOpen(!open)}
-            aria-controls="example-collapse-text"
-            aria-expanded={open}
-            style={{ backgroundColor: "white", border: "none", color: "black" }}
-          >
-            Add New Client ➕
-          </button>
-        </div>
-        <Row style={{ display: "flex", justifyContent: "center" }}>
-          {clients?.clients?.map((client, index) => (
-            <div id="accordion" key={index} style={{ width: "100%" }}>
-              <div className="card p-2 mb-1">
-                <div
-                  className="rounded d-flex justify-content-between"
-                  id="headingOne"
-                  style={{ color: "black" }}
-                >
-                  <h5 className="mb-0 text-left">
-                    <button
-                      style={{
-                        backgroundColor: "transparent",
-                        border: "none",
-                        color: "#007bff",
-                      }}
-                      onClick={(event) => getElement(event)}
-                      aria-controls={`#collapse-text-${index}`}
-                      aria-expanded={openDetails}
-                      className="btn btn-link pl-1"
-                      data-target={`#collapse-text-${index}`}
-                    >
-                      {client?.businessName}
-                    </button>
-                  </h5>
-                  <div className="mr-2" style={{ display: "flex" }}>
-                  <span style={{marginTop:'7px'}} >Edit</span>
-                    <button style={{ border:'none', backgroundColor:'white' }}>
-                    
-                    <FontAwesomeIcon 
-                    icon="fa-pencil" 
-                    className="p-2 fa-lg" />
-                    </button>
-
-                    <button
-                      onClick={trash}
-                      style={{ backgroundColor: "white", border: "none" }}
-                    >
-                      <FontAwesomeIcon
-                        icon="fa-trash"
-                        className="p-2 fa-lg"
-
-                        // onClick={() => handlePassClick()}
-                        // style={display ? isDisplayed : isNotDisplayed}
-                      />
-                    </button>
-              
-                  </div>
-                </div>
-
-                <Collapse>
-                  <div id={`#collapse-text-${index}`}>
-                    <div>Contact Name: {client?.contact}</div>
-                    <div>Phone: {client?.phone}</div>
-                    <div>Email: {client?.email}</div>
-                    <div>Address: {client?.streetAddress}</div>
-                    <div>Suite: {client?.suite}</div>
-                    <div>City: {client?.city}</div>
-                    <div>State: {client?.state}</div>
-                    <div>Zip: {client?.zip}</div>
-                    {client?.schedule.map((job, index) => (
-                      <>
-                        <div>Start Date: {job?.startDate}</div>
-                        <div>Start Time: {job?.startTime}</div>
-                        <div>End Date: {job?.endDate}</div>
-                        <div>Job Details: {job?.jobDetails}</div>
-                        <div>
-                          Number of Clients: {job?.numberOfClientEmployees}
-                        </div>
-                      </>
-                    ))}
-                  </div>
-                </Collapse>
-              </div>
-            </div>
-          ))}
-        </Row>
-      </Container>
-    */}
+  
     </>
   );
 }

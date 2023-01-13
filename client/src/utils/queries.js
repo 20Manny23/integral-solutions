@@ -138,6 +138,21 @@ export const QUERY_ALL_EMPLOYEES = gql`
     }
   }
 `;
+export const QUERY_SINGLE_EMPLOYEE = gql`
+query getSingleClient($employeeId: ID!) {
+  client( _id: $employeeId) {
+    _id
+      firstName
+      lastName
+      email
+      phone
+      isAdmin
+      isLocked
+      password
+      username
+  }
+}
+`;
 
 // SECTION CLIENTS
 export const QUERY_ALL_CLIENTS= gql`

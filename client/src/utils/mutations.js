@@ -79,7 +79,51 @@ export const UPDATE_EMPLOYEE = gql`
     }
   }
 `;
-
+export const ADD_EMPLOYEE = gql`
+  mutation addEmployee(
+    $id: ID
+    $username: String
+    $email: String
+    $password: String
+    $firstName: String
+    $lastName: String
+    $phone: String
+    $isManager: Boolean
+    $isAdmin: Boolean
+    $isLocked: Boolean
+  ) {
+    addEmployee(
+      _id: $id
+      username: $username
+      email: $email
+      password: $password
+      firstName: $firstName
+      lastName: $lastName
+      phone: $phone
+      isManager: $isManager
+      isAdmin: $isAdmin
+      isLocked: $isLocked
+    ) {
+      _id
+      email
+      firstName
+      isManager
+      lastName
+      password
+      phone
+      username
+      isAdmin
+      isLocked
+    }
+  }
+`;
+export const DELETE_EMPLOYEE = gql`
+  mutation deleteEmployee($id: ID!) {
+    deleteEmployee(_id: $id) {
+      _id
+    }
+  }
+`;
 // SECTION CLIENT
 export const ADD_CLIENT = gql`
   mutation addClient(
