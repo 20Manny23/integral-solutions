@@ -216,6 +216,9 @@ function WorkOrder() {
           employees: selectedEmployees.map(({employeeId}) => employeeId),
         },
       });
+
+      console.log(data);
+
     } catch (err) {
       console.error(err);
     }
