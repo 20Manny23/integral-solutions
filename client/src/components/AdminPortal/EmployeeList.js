@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useId } from "react";
 import { Row, Col, Button, Form, Collapse, Container } from "react-bootstrap";
 import Auth from "../../utils/auth";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
@@ -15,6 +15,7 @@ import "../../styles/Forms.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function EmployeeList() {
+  const formId = useId();
   const [open, setOpen] = useState(false);
   const [openEmployee, setOpenEmployee] = useState(false);
 
@@ -95,9 +96,9 @@ function EmployeeList() {
   //SECTION HANDLE INPUT
   
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    console.log(e)
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    // console.log(e)
 
     name === "firstName"
       ? setFirstName(value)
@@ -171,9 +172,8 @@ function EmployeeList() {
 
     empRefetch();
 
-    // resetForm();
+    resetForm();
 
-    // if ()
     // handleUpdateForDisabled(null, firstName, "addEmployee");
   };
   const resetForm = () => {
@@ -247,7 +247,7 @@ function EmployeeList() {
 
   useEffect(() => {
     let fields = document.querySelectorAll("fieldset");
-    console.log(fields);
+    // console.log(fields);
 
     var newObj = {};
     for (var i = 0; i < fields.length; i++) {
@@ -337,7 +337,7 @@ function EmployeeList() {
                 <div id="collapse-text ">
                   <Form.Group
                     className="mb-3 form-length"
-                    controlId="formBasicFirstName"
+                    //controlId={formId}
                   >
                     <div className="form-label">
                       <Form.Label
@@ -359,7 +359,7 @@ function EmployeeList() {
 
                   <Form.Group
                     className="mb-3 form-length"
-                    controlId="formBasicLastName"
+                    //controlId={formId + "-lastname"}
                   >
                     <div className="form-label">
                       <Form.Label
@@ -381,7 +381,7 @@ function EmployeeList() {
 
                   <Form.Group
                     className="mb-3 form-length"
-                    controlId="formBasicPhone"
+                    // controlId={formId + "-phone"}
                   >
                     <div className="form-label">
                       <Form.Label style={{ fontWeight: "bolder" }}>
@@ -402,7 +402,7 @@ function EmployeeList() {
 
                   <Form.Group
                     className="mb-3 form-length"
-                    controlId="formBasicEmail"
+                    //controlId={formId + "-email"}
                   >
                     <div className="form-label">
                       <Form.Label style={{ fontWeight: "bolder" }}>
@@ -422,7 +422,7 @@ function EmployeeList() {
 
                   <Form.Group
                     className="mb-3 form-length"
-                    controlId="formBasicPassword"
+                    //controlId={formId + "-password"}
                   >
                     <div className="form-label">
                       <Form.Label style={{ fontWeight: "bolder" }}>
@@ -581,7 +581,7 @@ function EmployeeList() {
                       <div id="example-collapse-text">
                         <Form.Group
                           className="mb-3 form-length"
-                          controlId="formBasicFirstName"
+                          //controlId={formId + "-firstname"}
                         >
                           <div className="form-label">
                             <Form.Label style={{ fontWeight: "bolder" }}>
@@ -608,7 +608,7 @@ function EmployeeList() {
                         </Form.Group>
                         <Form.Group
                           className="mb-3 form-length"
-                          controlId="formBasicLastName"
+                          //controlId={formId + "-lastname"}
                         >
                           <div className="form-label">
                             <Form.Label style={{ fontWeight: "bolder" }}>
@@ -635,7 +635,7 @@ function EmployeeList() {
                         </Form.Group>
                         <Form.Group
                           className="mb-3 form-length"
-                          controlId="formBasicPhone"
+                          //controlId={formId}
                         >
                           <div className="form-label">
                             <Form.Label style={{ fontWeight: "bolder" }}>
@@ -664,7 +664,7 @@ function EmployeeList() {
 
                         <Form.Group
                           className="mb-3 form-length"
-                          controlId="formBasicEmail"
+                          //controlId={formId}
                         >
                           <div className="form-label">
                             <Form.Label style={{ fontWeight: "bolder" }}>
@@ -689,31 +689,6 @@ function EmployeeList() {
                             // required
                           />
                         </Form.Group>
-                        <Row
-                          style={{ display: "flex", justifyContent: "center" }}
-                        >
-                          <Form.Group>
-                            <Form.Label style={{ fontWeight: "bolder" }}>
-                              Admin Access
-                            </Form.Label>
-                            <Form.Check
-                              type="switch"
-                              id="custom-switch"
-                              label="Blue for Yes"
-                            />
-                          </Form.Group>
-
-                          <Form.Group style={{ marginLeft: "30px" }}>
-                            <Form.Label style={{ fontWeight: "bolder" }}>
-                              Active Employee
-                            </Form.Label>
-                            <Form.Check
-                              type="switch"
-                              id="custom-switch"
-                              label="Blue for Yes"
-                            />
-                          </Form.Group>
-                        </Row>
                         <div className="d-flex justify-content-center">
                           <Button
                             className="submit-button-style"
@@ -727,23 +702,6 @@ function EmployeeList() {
                         </div>
                       </div>
                     </fieldset>
-
-                    {/* <div>Email: {emp?.email}</div>
-                    <div>Phone: {emp?.phone}</div>
-                    <div>isAdmin: {emp?.isAdmin ? "True" : "False"}</div>
-                    <div>isLocked: {emp?.isLocked ? "True" : "False"}</div>
-                    {emp?.schedule.map((job, index) => (
-                      <div key={index}>
-                        <div>Client: {job?.client.firstName}</div>
-                        <div>Start Date: {job?.startDate}</div>
-                        <div>Start Time: {job?.startTime}</div>
-                        <div>End Date: {job?.endDate}</div>
-                        <div>Job Details: {job?.jobDetails}</div>
-                        <div>
-                          Number of Clients: {job?.numberOfClientEmployees}
-                        </div>
-                      </div>
-                    ))} */}
                   </Form>
                 </Collapse>
               </div>
