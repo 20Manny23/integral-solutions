@@ -214,8 +214,8 @@ function WorkOrder() {
   // const [selectedEmployees, setSelectedEmployees] = useState([]);
 
   // SECTION ADD
-  const handleAddScheduleSubmit = async (e) => {
-    e.preventDefault();
+  const handleAddScheduleSubmit = async (event) => {
+    event.preventDefault();
 
     try {
       // eslint-disable-next-line

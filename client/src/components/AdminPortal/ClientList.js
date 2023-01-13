@@ -27,7 +27,12 @@ function ClientList() {
 
   // eslint-disable-next-line
 
-  const { loading: clientsLoad, data: clients, error: clientError, refetch: clientsRefetch } = useQuery(QUERY_ALL_CLIENTS);
+  const {
+    loading: clientsLoad,
+    data: clients,
+    error: clientError,
+    refetch: clientsRefetch,
+  } = useQuery(QUERY_ALL_CLIENTS);
 
   // SECTION START CLIENT
   // GET CLIENT FORM DATA
@@ -144,10 +149,10 @@ function ClientList() {
   });
 
   // Add client to the Client model/table
-  const handleAddClientSubmit = async (e) => {
-    e.preventDefault();
-    // console.log('hello = ', businessName, streetAddress, suite, city, state, zip, contact, phone, emailClient);
-    // resetForm();
+  const handleAddClientSubmit = async (event) => {
+    event.preventDefault();
+    console.log(event);
+
     try {
       // eslint-disable-next-line
       const { data } = await addClient({
@@ -169,24 +174,24 @@ function ClientList() {
 
     // await clientsRefetch();
 
-    resetForm();
+    // resetForm();
 
     // if ()
-    handleUpdateForDisabled(null, businessName, "addClient");
+    // handleUpdateForDisabled(null, businessName, "addClient");
   };
 
   // Reset the add client form after submission
-  const resetForm = () => {
-    setBusinessName("");
-    setContact("");
-    setPhone("");
-    setEmailClient("");
-    setStreetAddress("");
-    setSuite("");
-    setCity("");
-    setState("");
-    setZip("");
-  };
+  // const resetForm = () => {
+  //   setBusinessName("");
+  //   setContact("");
+  //   setPhone("");
+  //   setEmailClient("");
+  //   setStreetAddress("");
+  //   setSuite("");
+  //   setCity("");
+  //   setState("");
+  //   setZip("");
+  // };
 
   // If all fields are populated then enable the submit button
   useEffect(() => {
@@ -237,8 +242,6 @@ function ClientList() {
   const handleEditClientSubmit = async () => {
     // event.preventDefault();
 
-    // get the current client data
-    // let test = await clientRefetch();
     let test = await getASingleClient();
     console.log("test = ", test);
 
@@ -275,7 +278,7 @@ function ClientList() {
     } catch (err) {
       console.log(err);
     }
-      clientsRefetch();
+    clientsRefetch();
   };
 
   // Handle add form edit pencil = disabled = false or true
@@ -352,34 +355,31 @@ function ClientList() {
 
       // RELOAD CLIENT
       clientsRefetch();
-
     } catch (err) {
       console.log(err);
     }
   };
- 
-  // SECTION END DELETE CLIENT
 
-  // SECTION END CLIENT
+  // SECTION END DELETE CLIENT
 
   // collapse show / not show detail
 
   // toggle
-  const [adminToggle, setAdminToggle] = useState(true);
-  const [lockedToggle, setLockedToggle] = useState(false);
+  // const [adminToggle, setAdminToggle] = useState(true);
+  // const [lockedToggle, setLockedToggle] = useState(false);
   // const [showHidePassword, setShowHidePassword] = useState("password");
 
-  const handleToggle = (toggle) => {
-    toggle === "admin"
-      ? setAdminToggle(!adminToggle)
-      : setLockedToggle(!lockedToggle);
+  // const handleToggle = (toggle) => {
+  //   toggle === "admin"
+  //     ? setAdminToggle(!adminToggle)
+  //     : setLockedToggle(!lockedToggle);
 
-    // if (showHidePassword === "password") {
-    //   setShowHidePassword("test");
-    // } else {
-    //   setShowHidePassword("password");
-    // }
-  };
+  //   // if (showHidePassword === "password") {
+  //   //   setShowHidePassword("test");
+  //   // } else {
+  //   //   setShowHidePassword("password");
+  //   // }
+  // };
 
   const getElement = (event) => {
     let currentAvailTarget = event.currentTarget.getAttribute("data-target");
@@ -395,150 +395,302 @@ function ClientList() {
     }
   };
 
-
   return (
     <>
-      <div
-        className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center "
-        style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
-      >
-        <Form>
-          <Collapse
-            in={open}
-            className="shadow rounded-lg border border-secondary"
-          >
-            <div id="example-collapse-text">
-              <Form.Group
-                className="mb-3 form-length"
-                controlId="formBasicEmail"
-              >
-                <div className="form-label">
-                  <Form.Label
-                    style={{ fontWeight: "bolder", marginTop: "10px" }}
-                  >
-                    Company Name
-                  </Form.Label>
-                </div>
-                <Form.Control
-                  className="custom-border"
-                  type="text"
-                  placeholder="Enter Company Name"
-                  name="name"
-                />
-              </Form.Group>
-
-              <Form.Group
-                className="mb-3 form-length"
-                controlId="formBasicEmail"
-              >
-                <div className="form-label">
-                  <Form.Label style={{ fontWeight: "bolder" }}>
-                    Contact Name
-                  </Form.Label>
-                </div>
-                <Form.Control
-                  className="custom-border"
-                  type="text"
-                  placeholder="Enter Contact Person"
-                  name="name"
-                />
-              </Form.Group>
-
-              <Form.Group
-                className="mb-3 form-length"
-                controlId="formBasicEmail"
-              >
-                <div className="form-label">
-                  <Form.Label style={{ fontWeight: "bolder" }}>
-                    Phone Number
-                  </Form.Label>
-                </div>
-                <Form.Control
-                  className="custom-border"
-                  type="tel"
-                  placeholder="Client Phone"
-                  name="telNo"
-                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                />
-              </Form.Group>
-
-              <Form.Group
-                className="mb-3 form-length"
-                controlId="formBasicEmail"
-              >
-                <div className="form-label">
-                  <Form.Label style={{ fontWeight: "bolder" }}>
-                    Email
-                  </Form.Label>
-                </div>
-                <Form.Control
-                  className="custom-border"
-                  type="email"
-                  placeholder="Client Email"
-                  name="email"
-                />
-              </Form.Group>
-
-              <Form.Group
-                className="mb-3 form-length"
-                controlId="formBasicEmail"
-              >
-                <div className="form-label">
-                  <Form.Label style={{ fontWeight: "bolder" }}>
-                    Address
-                  </Form.Label>
-                  <Form.Label></Form.Label>
-                </div>
-                <Form.Control
-                  className="custom-border"
-                  placeholder="Enter Address"
-                  name="address"
-                />
-              </Form.Group>
-
-              <Row className="addy">
-                <Col xs={6}>
-                  <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
-                  <Form.Control className="custom-border" placeholder="City" />
-                </Col>
-                <Col>
-                  <Form.Label style={{ fontWeight: "bolder" }}>
-                    State
-                  </Form.Label>
-                  <Form.Control className="custom-border" placeholder="State" />
-                </Col>
-                <Col>
-                  <Form.Label style={{ fontWeight: "bolder" }}>
-                    Zipcode
-                  </Form.Label>
-                  <Form.Control className="custom-border" placeholder="Zip" />
-                </Col>
-              </Row>
-              <Button
-                className="button-custom submit-button-style"
-                variant="primary"
-                type="submit"
-                style={{ marginBottom: "15px" }}
-              >
-                Add Client
-              </Button>
-            </div>
-          </Collapse>
-        </Form>
-      </div>
-      
-      <Container style={{ border: "1px solid black", borderRadius:'10px' }}>
+      <Container style={{ border: "1px solid black" }}>
         <div className="d-flex justify-content-between">
           <h3>Client List</h3>
-          <button
+          <div className="d-flex justify-content-center align-items-center align-content-center">
+            <p className="mt-1">Add New Client</p>
+            <FontAwesomeIcon
+              icon="fa-add"
+              className="p-2"
+              onClick={() => setOpen(!open)}
+              aria-controls="example-collapse-text"
+              aria-expanded={open}
+              title="Add new client"
+              transform="grow-10"
+              alt="Add a new client"
+            />
+          </div>
+        </div>
+        {/* <Row className="d-flex justify-content-center"> */}
+          <Form
+            // className="py-3 overflow-auto custom-about"
+            onSubmit={handleAddClientSubmit}
+            style={{ width: "80vw" }}
+          >
+            <Collapse in={open}>
+              {/* <Collapse> */}
+              <div id="example-collapse-text">
+                <Form.Group
+                  className="mb-3 form-length"
+                  controlId="formBasicEmail"
+                >
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Company Name
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showBusinessNameValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * field is required
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    type="text"
+                    placeholder="Enter Company Name"
+                    value={businessName}
+                    name="businessName"
+                    onChange={handleInputChange}
+                    onBlur={handleBlurChange}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group
+                  className="mb-3 form-length"
+                  controlId="formBasicEmail"
+                >
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Contact Name
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showContactValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * field is required
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    type="text"
+                    placeholder="Enter Contact Person"
+                    value={contact}
+                    name="contact"
+                    // defaultValue="test contact"
+                    onChange={handleInputChange}
+                    onBlur={handleBlurChange}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group
+                  className="mb-3 form-length"
+                  controlId="formBasicEmail"
+                >
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Phone Number
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showPhoneValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * field is required
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    type="tel"
+                    placeholder="example: 123-456-7899"
+                    name="phone"
+                    value={phone}
+                    // defaultValue="123-456-7899"
+                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                    onChange={handleInputChange}
+                    onBlur={handleBlurChange}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group
+                  className="mb-3 form-length"
+                  controlId="formBasicEmail"
+                >
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Email
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showEmailClientValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * field is required
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    type="email"
+                    placeholder="Client Email"
+                    name="emailClient"
+                    value={emailClient}
+                    // defaultValue="test@test.com"
+                    onChange={handleInputChange}
+                    onBlur={handleBlurChange}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group
+                  className="mb-3 form-length"
+                  controlId="formBasicEmail"
+                >
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Address
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showStreetAddressValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * field is required
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    placeholder="Enter Address"
+                    name="streetAddress"
+                    value={streetAddress}
+                    // defaultValue="test address"
+                    onChange={handleInputChange}
+                    onBlur={handleBlurChange}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group
+                  className="mb-3 form-length"
+                  controlId="formBasicEmail"
+                >
+                  <div className="form-label">
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Suite
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showSuiteValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * field is required
+                    </Form.Label>
+                  </div>
+                  <Form.Control
+                    className="custom-border"
+                    placeholder="Enter Address"
+                    name="suite"
+                    value={suite}
+                    // defaultValue="suite #"
+                    onChange={handleInputChange}
+                    onBlur={handleBlurChange}
+                    required
+                  />
+                </Form.Group>
+
+                <Row className="addy">
+                  <Col xs={6}>
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      City
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showCityValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * required
+                    </Form.Label>
+                    <Form.Control
+                      className="custom-border"
+                      placeholder="City"
+                      name="city"
+                      value={city}
+                      // defaultValue="test city"
+                      onChange={handleInputChange}
+                      onBlur={handleBlurChange}
+                      required
+                    />
+                  </Col>
+                  <Col>
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      State
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showStateValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * required
+                    </Form.Label>
+                    <Form.Control
+                      className="custom-border"
+                      placeholder="State"
+                      name="state"
+                      value={state}
+                      // defaultValue="CO"
+                      onChange={handleInputChange}
+                      onBlur={handleBlurChange}
+                      required
+                    />
+                  </Col>
+                  <Col>
+                    <Form.Label style={{ fontWeight: "bolder" }}>
+                      Zipcode
+                    </Form.Label>
+                    <Form.Label
+                      className={`validation-color ${
+                        showZipValidation ? "show" : "hide"
+                      }`}
+                    >
+                      * required
+                    </Form.Label>
+                    <Form.Control
+                      className="custom-border"
+                      placeholder="Zip"
+                      name="zip"
+                      value={zip}
+                      // defaultValue="07801"
+                      onChange={handleInputChange}
+                      onBlur={handleBlurChange}
+                      required
+                    />
+                  </Col>
+                </Row>
+                <div className="d-flex justify-content-center">
+                  <Button
+                    className="submit-button-style"
+                    variant="primary"
+                    type="submit"
+                    disabled={!areAllFieldsFilled}
+                    title="Enter all fields to add a new client"
+                  >
+                    Add Client
+                  </Button>
+                </div>
+              </div>
+            </Collapse>
+          </Form>
+        {/* </Row> */}
+
+        {/* <Container style={{ border: "1px solid black", borderRadius: "10px" }}> */}
+        {/* <div className="d-flex justify-content-between">
+          <h3>Client List</h3> */}
+        {/* <button
             onClick={() => setOpen(!open)}
             aria-controls="example-collapse-text"
             aria-expanded={open}
             style={{ backgroundColor: "white", border: "none", color: "black" }}
           >
             Add New Client ➕
-          </button>
-        </div>
+          </button> */}
+        {/* </div> */}
         <Row style={{ display: "flex", justifyContent: "center" }}>
           {clients?.clients?.map((client, index) => (
             <div id="accordion" key={index} style={{ width: "98%" }}>
@@ -584,9 +736,11 @@ function ClientList() {
                       className="p-2 fa-lg"
                       data-clientid={client?._id}
                       // data-target={`#modal-control{index}`}
-                      onClick={(event) => {handleDeleteClient(event);}}
+                      onClick={(event) => {
+                        handleDeleteClient(event);
+                      }}
                     />
-                      {/* <Modal
+                    {/* <Modal
                   show={show}
                   
                   size="sm"
@@ -613,9 +767,8 @@ function ClientList() {
                   </div>
                 </Modal> */}
                   </div>
-                  
                 </div>
-              
+
                 <Collapse>
                   <div id={`#collapse-client-${index}`}>
                     <Form
@@ -652,7 +805,7 @@ function ClientList() {
                         <div id="example-collapse-text">
                           <Form.Group
                             className="mb-3 form-length"
-                            controlId="formBasicEmail"
+                            // controlId="formBasicEmail"
                           >
                             <div className="form-label">
                               <Form.Label style={{ fontWeight: "bolder" }}>
@@ -680,7 +833,7 @@ function ClientList() {
 
                           <Form.Group
                             className="mb-3 form-length"
-                            controlId="formBasicEmail"
+                            // controlId="formBasicEmail"
                           >
                             <div className="form-label">
                               <Form.Label style={{ fontWeight: "bolder" }}>
@@ -708,7 +861,7 @@ function ClientList() {
 
                           <Form.Group
                             className="mb-3 form-length"
-                            controlId="formBasicEmail"
+                            // controlId="formBasicEmail"
                           >
                             <div className="form-label">
                               <Form.Label style={{ fontWeight: "bolder" }}>
@@ -737,7 +890,7 @@ function ClientList() {
 
                           <Form.Group
                             className="mb-3 form-length"
-                            controlId="formBasicEmail"
+                            // controlId="formBasicEmail"
                           >
                             <div className="form-label">
                               <Form.Label style={{ fontWeight: "bolder" }}>
@@ -765,7 +918,7 @@ function ClientList() {
 
                           <Form.Group
                             className="mb-3 form-length"
-                            controlId="formBasicEmail"
+                            // controlId="formBasicEmail"
                           >
                             <div className="form-label">
                               <Form.Label style={{ fontWeight: "bolder" }}>
@@ -792,7 +945,7 @@ function ClientList() {
 
                           <Form.Group
                             className="mb-3 form-length"
-                            controlId="formBasicEmail"
+                            // controlId="formBasicEmail"
                           >
                             <div className="form-label">
                               <Form.Label style={{ fontWeight: "bolder" }}>
@@ -915,9 +1068,6 @@ function ClientList() {
           ))}
         </Row>
       </Container>
-      
-
-  
     </>
   );
 }
