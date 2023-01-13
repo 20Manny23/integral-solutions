@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_CLIENTS, QUERY_ALL_EMPLOYEES } from "../../utils/queries";
 import { ADD_SCHEDULE } from "../../utils/mutations";
 
-import { Row, Col, Button, Form } from "react-bootstrap";
+import { Row, Col, Button, Form, Collapse, Container } from "react-bootstrap";
 import "../../styles/Forms.css";
 
 function WorkOrder() {
@@ -14,6 +14,8 @@ function WorkOrder() {
     "50-99",
     "More Than 100",
   ];
+  const [open, setOpen] = useState(false);
+  const [openDetails, setOpenDetails] = useState(false);
 
   const [businessName, setBusinessName] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
@@ -278,19 +280,38 @@ function WorkOrder() {
   // ]);
 
   // SECTION END ADD CLIENT
+  const getElement = (event) => {
+    let currentAvailTarget = event.currentTarget.getAttribute("data-target");
+    console.log(currentAvailTarget);
+    let currentAvailTable = document.getElementById(currentAvailTarget);
+
+    if (currentAvailTable.classList.contains("show")) {
+      currentAvailTable.classList.remove("show");
+      setOpenDetails(false);
+    } else {
+      currentAvailTable.classList.add("show");
+      setOpenDetails(true);
+    }
+  };
 
   return (
-    <div
-      className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
-      style={{ margin: "20px 0px 20px 0px", textAlign: "center" }}
-    >
-      <Form
-        className="py-3 overflow-auto custom-about"
-        onSubmit={handleAddScheduleSubmit}
-        style={{ width: "80vw" }}
-      >
-        <h2 className="display-6 custom-text heading">Work Order</h2>
+    <>
+    <div>
+    
+    {/* className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary" */}
 
+       
+        {/* <h2 className="display-6 custom-text heading">New Work Order</h2> */}
+        <Collapse
+            in={open}
+          >
+        <Form
+        className="py-3 overflow-auto custom-about border border-secondary"
+        onSubmit={handleAddScheduleSubmit}
+        style={{ margin: "20px 0px 20px 0px", textAlign: "center",  }}
+
+      >
+         
         <Form.Group className="form-length">
           <Form.Label style={{ fontWeight: "bolder" }}>
             Select Client
@@ -638,8 +659,24 @@ function WorkOrder() {
         >
           Schedule Job
         </Button>
+       
       </Form>
+      </Collapse>
     </div>
+    <Container style={{ border: "1px solid black",  borderRadius:'10px', padding:'10px', marginTop:'20px' }}>
+        <div className="d-flex justify-content-between">
+          <h3>Work Orders</h3>
+          <button
+            onClick={() => setOpen(!open)}
+            aria-controls="example-collapse-text"
+            aria-expanded={open}
+            style={{ backgroundColor: "white", border: "none", color: "black" }}
+          >
+            Add Work Order ➕
+          </button>
+        </div>
+        </Container>
+    </>
   );
 }
 
