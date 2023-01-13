@@ -111,7 +111,7 @@ const AdminPortal = ({
                     navigate("/admin-mock");
                   }}
                 >
-                  Admin Mock 
+                  Mock 
                 </Button>
               </div>
 
