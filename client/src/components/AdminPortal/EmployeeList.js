@@ -19,7 +19,6 @@ function EmployeeList() {
   const [openEmployee, setOpenEmployee] = useState(false);
 
   //Get Employee Form Data
-
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -35,21 +34,31 @@ function EmployeeList() {
   const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
   const [showLastNameValidation, setShowLastNameValidation] = useState(false);
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-  const [showEmailEmployeeValidation, setShowEmailEmployeeStateValidation] =
-    useState(false);
+  const [showEmailEmployeeValidation, setShowEmailEmployeeStateValidation] = useState(false);
 
-  //SECTION get a sinlge employee Query
+  //SECTION GET ALL EMPLOYEES
+    // eslint-disable-next-line
+    const {
+      loading: empLoad,
+      data: emp,
+      error: empError,
+      refetch: empRefetch,
+    } = useQuery(QUERY_ALL_EMPLOYEES);
+  
+  //SECTION get a single employee Query
   const [currentEmployee, setCurrentEmployee] = useState("");
   const [currentEmployeeId, setCurrentEmployeeId] = useState("");
   const [currentInput, setCurrentInput] = useState({});
 
-  // eslint-disable-next-line
-  const {
-    loading: empLoad,
-    data: emp,
-    error: empError,
-    refetch: empRefetch,
-  } = useQuery(QUERY_ALL_EMPLOYEES);
+  const [getASingleEmployee, { loading: lazyLoading, data: singleEmployee }] =
+    useLazyQuery(QUERY_SINGLE_EMPLOYEE, {
+      variables: { employeeId: currentEmployeeId },
+      // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+      skip: !Auth.loggedIn(),
+      onCompleted: (singleEmployee) => {
+        setCurrentEmployee(singleEmployee);
+      },
+    });
 
   const getElement = (event) => {
     let currentCollapseTarget = event.currentTarget.getAttribute("data-target");
@@ -64,47 +73,47 @@ function EmployeeList() {
       setOpenEmployee(true);
     }
   };
-  const [adminToggle, setAdminToggle] = useState(true);
-  const [lockedToggle, setLockedToggle] = useState(false);
+
+  //SECTION HANDLE TOGGLE
+  // const [adminToggle, setAdminToggle] = useState(true);
+  // const [lockedToggle, setLockedToggle] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
 
-  const [getASingleEmployee, { loading: lazyLoading, data: singleEmployee }] =
-    useLazyQuery(QUERY_SINGLE_EMPLOYEE, {
-      variables: { employeeId: currentEmployeeId },
-      // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
-      skip: !Auth.loggedIn(),
-      onCompleted: (singleEmployee) => {
-        setCurrentEmployee(singleEmployee);
-      },
-    });
+  // const handleToggle = (toggle) => {
+  //   toggle === "admin"
+  //     ? setAdminToggle(!adminToggle)
+  //     : setLockedToggle(!lockedToggle);
 
-  const handleToggle = (toggle) => {
-    toggle === "admin"
-      ? setAdminToggle(!adminToggle)
-      : setLockedToggle(!lockedToggle);
-
-    // if (showHidePassword === "password") {
-    //   setShowHidePassword("test");
-    // } else {
-    //   setShowHidePassword("password");
-    // }
-  };
+  //   // if (showHidePassword === "password") {
+  //   //   setShowHidePassword("test");
+  //   // } else {
+  //   //   setShowHidePassword("password");
+  //   // }
+  // };
 
   //Ternary to handle the change in inputs
+  
+  //SECTION HANDLE INPUT
+  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log(e)
 
-    name === "email"
-      ? setEmail(value)
+    name === "firstName"
+      ? setFirstName(value)
+      : name === "lastName"
+      ? setLastName(value)
       : name === "phone"
       ? setPhone(value)
-      : name === "first-name"
-      ? setFirstName(value)
-      : setLastName(value);
+      : name === "email"
+      ? setEmail(value)
+      : setPassword(value);
 
     return name;
   };
 
+  //SECTOIN VALIDATION BLUR
   const handleBlurChange = (e) => {
     const { name, value } = e.target;
 
@@ -124,12 +133,28 @@ function EmployeeList() {
       ? setShowLastNameValidation(true)
       : setShowLastNameValidation(false);
   };
+
+  //SECTION ADD EMPLOYEE
   const [addEmployee] = useMutation(ADD_EMPLOYEE, {
     refetchQueries: ["getAllEmployees"],
   });
 
-  const handleAddEmployeeSubmit = async (e) => {
-    e.preventDefault();
+  const handleAddEmployeeSubmit = async (event) => {
+    event.preventDefault();
+
+    console.log('hello');
+
+    console.log(
+      event, 
+      email,
+      firstName,
+      lastName,
+      password,
+      phone,
+      username,
+      isAdmin,
+      isLocked,
+    )
 
     try {
       // eslint-disable-next-line
@@ -141,18 +166,18 @@ function EmployeeList() {
           password,
           phone,
           username,
-          isAdmin,
-          isLocked,
+          isAdmin: false,
+          isLocked: false,
         },
       });
     } catch (err) {
       console.error(err);
     }
 
-    resetForm();
+    // resetForm();
 
     // if ()
-    handleUpdateForDisabled(null, firstName, "addEmployee");
+    // handleUpdateForDisabled(null, firstName, "addEmployee");
   };
   const resetForm = () => {
     setEmail("");
@@ -172,6 +197,7 @@ function EmployeeList() {
     // eslint-disable-next-line
   }, [email, phone, firstName, lastName]);
 
+  //SECTION UPDATE EMPLOYEE
   const [updateEmployee] = useMutation(UPDATE_EMPLOYEE);
 
   useEffect(() => {
@@ -218,6 +244,8 @@ function EmployeeList() {
 
     empRefetch();
   };
+
+  //SECTION DISABLE UPDATE EMPLOYEE
   const [updateEmployeeDisabled, setUpdateEmployeeDisabled] = useState({});
 
   useEffect(() => {
@@ -233,21 +261,7 @@ function EmployeeList() {
 
     console.log(newObj);
     console.log(updateEmployeeDisabled);
-  }, []);
-
-  useEffect(() => {
-    let fields = document.querySelectorAll("fieldset");
-    console.log(fields);
-
-    var newObj = {};
-    for (var i = 0; i < fields.length; i++) {
-      newObj[fields[i].dataset.firstName] = true;
-    }
-
-    setUpdateEmployeeDisabled(newObj);
-
-    console.log(newObj);
-    console.log(updateEmployeeDisabled);
+  // eslint-disable-next-line
   }, []);
 
   const handleUpdateForDisabled = (event, firstName, addEmployee) => {
@@ -280,12 +294,12 @@ function EmployeeList() {
     console.log(updateEmployeeDisabled);
   };
 
+  // SECTION DELETE EMPLOYEE
   const [deleteEmployee] = useMutation(DELETE_EMPLOYEE);
 
   const handleDeleteEmployee = async (event) => {
     let employeeId = event.currentTarget.getAttribute("data-employeeid");
-    console.log(employeeId, event);
-    
+
     try {
       // eslint-disable-next-line
       await deleteEmployee({
@@ -294,11 +308,13 @@ function EmployeeList() {
         },
       });
 
+      // REFETCH EMPLOYEES
       empRefetch();
     } catch (err) {
       console.log(err);
     }
   };
+  // SECTION END DELETE EMPLOYEE
 
   return (
     <>
@@ -307,11 +323,19 @@ function EmployeeList() {
           <Col>
             <Form
               className="py-3 overflow-auto custom-about"
+              onSubmit={handleAddEmployeeSubmit}
               style={{ maxWidth: "80vw" }}
             >
-              <Collapse
+              <Collapse 
                 in={open}
-                className=" pb-2  flex-column align-self-center align-items-center shadow rounded-lg border border-secondary"
+                className=" pb-2 
+                  flex-column 
+                  align-self-center 
+                  align-items-center 
+                  shadow 
+                  rounded-lg 
+                  border 
+                  border-secondary"
               >
                 <div id="collapse-text ">
                   <Form.Group
@@ -329,7 +353,10 @@ function EmployeeList() {
                       className="custom-border"
                       type="text"
                       placeholder="Enter Employee Name"
-                      name="FirstName"
+                      name="firstName"
+                      onChange={handleInputChange}
+                      // onBlur={handleBlurChange}
+                      required
                     />
                   </Form.Group>
 
@@ -349,6 +376,9 @@ function EmployeeList() {
                       type="text"
                       placeholder="Enter Last Name"
                       name="lastName"
+                      onChange={handleInputChange}
+                      // onBlur={handleBlurChange}
+                      required
                     />
                   </Form.Group>
 
@@ -364,9 +394,12 @@ function EmployeeList() {
                     <Form.Control
                       className="custom-border"
                       type="tel"
-                      placeholder="ex 555-555-5555"
-                      name="telNo"
                       pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                      placeholder="ex 555-555-5555"
+                      name="phone"
+                      onChange={handleInputChange}
+                      // onBlur={handleBlurChange}
+                      required
                     />
                   </Form.Group>
 
@@ -381,9 +414,12 @@ function EmployeeList() {
                     </div>
                     <Form.Control
                       className="custom-border"
-                      type="text"
+                      type="email"
                       placeholder="Enter Email Address"
-                      name="name"
+                      name="email"
+                      onChange={handleInputChange}
+                      // onBlur={handleBlurChange}
+                      required
                     />
                   </Form.Group>
 
@@ -398,9 +434,12 @@ function EmployeeList() {
                     </div>
                     <Form.Control
                       className="custom-border"
-                      type="email"
+                      type="password"
                       placeholder="Setup Employee Password"
-                      name="email"
+                      name="password"
+                      onChange={handleInputChange}
+                      // onBlur={handleBlurChange}
+                      required
                     />
                   </Form.Group>
                   <Button
@@ -410,7 +449,7 @@ function EmployeeList() {
                     type="submit"
                     title="Enter all fields to send email"
                   >
-                    Add
+                    Add Employee
                   </Button>
                 </div>
               </Collapse>
@@ -418,7 +457,6 @@ function EmployeeList() {
           </Col>
         </Row>
       </div>
-      {/* section start employee list */}
       <Container
         style={{ border: "1px solid black" }}
         className="pb-2 d-flex flex-column align-self-center shadow rounded-lg border border-secondary"
@@ -653,39 +691,43 @@ function EmployeeList() {
                             onBlur={handleBlurChange}
                             // required
                           />
-                          
                         </Form.Group>
-                        <Row style={{display:'flex', justifyContent:'center'}}>
-                        <Form.Group>
-                          <Form.Label style={{ fontWeight: "bolder" }}>Admin Access</Form.Label>
-                          <Form.Check
-                            type="switch"
-                            id="custom-switch"
-                            label="Blue for Yes"
-                          />
-                        </Form.Group>
+                        <Row
+                          style={{ display: "flex", justifyContent: "center" }}
+                        >
+                          <Form.Group>
+                            <Form.Label style={{ fontWeight: "bolder" }}>
+                              Admin Access
+                            </Form.Label>
+                            <Form.Check
+                              type="switch"
+                              id="custom-switch"
+                              label="Blue for Yes"
+                            />
+                          </Form.Group>
 
-                        <Form.Group style={{marginLeft:'30px'}}>
-                          <Form.Label style={{ fontWeight: "bolder" }}>Active Employee</Form.Label>
-                          <Form.Check
-                            type="switch"
-                            id="custom-switch"
-                            label="Blue for Yes"
-                          />
-                        </Form.Group>
+                          <Form.Group style={{ marginLeft: "30px" }}>
+                            <Form.Label style={{ fontWeight: "bolder" }}>
+                              Active Employee
+                            </Form.Label>
+                            <Form.Check
+                              type="switch"
+                              id="custom-switch"
+                              label="Blue for Yes"
+                            />
+                          </Form.Group>
                         </Row>
                         <div className="d-flex justify-content-center">
-
-                        <Button
-                              className="submit-button-style"
-                              variant="primary"
-                              type="submit"
-                              // disabled={!areAllFieldsFilled}
-                              title="Enter all fields to add a new client"
-                            >
-                              Update Client
-                            </Button>
-                          </div>
+                          <Button
+                            className="submit-button-style"
+                            variant="primary"
+                            type="submit"
+                            // disabled={!areAllFieldsFilled}
+                            title="Enter all fields to add a new client"
+                          >
+                            Update Client
+                          </Button>
+                        </div>
                       </div>
                     </fieldset>
 
