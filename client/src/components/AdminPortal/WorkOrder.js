@@ -321,7 +321,7 @@ function WorkOrder() {
     
     try {
       // eslint-disable-next-line
-      const { data } = await deleteSchedule({
+      await deleteSchedule({
         variables: {
           id: scheduleId,
         },
