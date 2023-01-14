@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import Auth from "../../utils/auth";
 
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
@@ -64,34 +64,24 @@ function AdminMock() {
   const [showStateValidation, setShowStateValidation] = useState(false);
   const [showZipValidation, setShowZipValidation] = useState(false);
 
+  // SECTION START CLIENT
   // GET ALL CLIENTS QUERY
   // eslint-disable-next-line
-  const {
-    loading: clientsLoad,
-    data: clients,
-    error: clientError,
-    refetch: clientsRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
+  const { loading: clientsLoad, data: clients, error: clientError, refetch: clientsRefetch } = useQuery(QUERY_ALL_CLIENTS);
 
-  // SECTION START CLIENT
   // SECTION GET A SINGLE CLIENT QUERY
-  // const [client, setClient] = useState({});
-  // if (!clientsLoad) {
-  //   console.log(clients.clients[0]._id);
-  // }
-
   const [currentClient, setCurrentClient] = useState("");
   const [currentClientId, setCurrentClientId] = useState("");
   const [currentInput, setCurrentInput] = useState({});
 
-  const [getClientId, { loading: lazyLoading, data: lazyData }] = useLazyQuery(
+  const [getASingleClient, { loading: lazyLoading, data: singleClient }] = useLazyQuery(
     QUERY_SINGLE_CLIENT,
     {
       variables: { clientId: currentClientId },
       // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
       skip: !Auth.loggedIn(),
-      onCompleted: (lazyData) => {
-        setCurrentClient(lazyData);
+      onCompleted: (singleClient) => {
+        setCurrentClient(singleClient);
       },
     }
   );
@@ -159,7 +149,11 @@ function AdminMock() {
   };
 
   // SECTION ADD CLIENT
-  const [addClient] = useMutation(ADD_CLIENT);
+  const [addClient] = useMutation(ADD_CLIENT, {
+    refetchQueries: [
+      'getAllClients',
+    ],
+  });
 
   // Add client to the Client model/table
   const handleAddClientSubmit = async (e) => {
@@ -185,11 +179,12 @@ function AdminMock() {
       console.error(err);
     }
 
-    clientsRefetch();
+    // await clientsRefetch();
 
     resetForm();
 
-    handleUpdateForDisabled(event, businessName);
+    // if ()
+    handleUpdateForDisabled(null, businessName, "addClient");
   };
 
   // Reset the add client form after submission
@@ -218,7 +213,7 @@ function AdminMock() {
         state.trim() !== "" &&
         zip.trim() !== ""
     );
-    console.log(areAllFieldsFilled);
+    // console.log(areAllFieldsFilled);
     // eslint-disable-next-line
   }, [
     businessName,
@@ -257,7 +252,7 @@ function AdminMock() {
 
     // get the current client data
     // let test = await clientRefetch();
-    let test = await getClientId();
+    let test = await getASingleClient();
     console.log("test = ", test);
 
     // Update current client data
@@ -302,7 +297,9 @@ function AdminMock() {
   const [updateClientDisabled, setUpdateClientDisabled] = useState({});
 
   useEffect(() => {
+    console.log("add client");
     let fields = document.querySelectorAll('fieldset');
+    console.log(fields)
 
     var newObj = {};
     for (var i = 0; i < fields.length; i++) {
@@ -311,32 +308,47 @@ function AdminMock() {
 
     setUpdateClientDisabled(newObj);
 
+    console.log(newObj);
+    console.log(updateClientDisabled);
+
   }, [])
 
-  const handleUpdateForDisabled = (event, businessName) => {
+  const handleUpdateForDisabled = (event, businessName, addClient) => {
 
+    console.log(event);
     console.log(businessName);
+    console.log(businessName ? businessName : event.currentTarget.getAttribute("data-businessname"));
 
-    let currentName = businessName ? businessName : event.currentTarget.getAttribute("data-businessname")
+    let currentName = businessName ? businessName : event.currentTarget.getAttribute("data-businessname");
     let keys = document.querySelectorAll('fieldset');
+
+    console.log(currentName);
+    console.log('keys = ', keys);
 
     var newObj = {};
     for (var i = 0; i < keys.length; i++) {
+
+      console.log(keys[i].dataset.businessname);
+      console.log(updateClientDisabled[keys[i].dataset.businessname]);
+      
       if (keys[i].dataset.businessname === currentName) {
         newObj[keys[i].dataset.businessname] = !updateClientDisabled[keys[i].dataset.businessname];
+      } else if (addClient === "addClient") {
+        newObj[keys[i].dataset.businessname] = true;
       } else {
         newObj[keys[i].dataset.businessname] = true;
       }
     }
-
+    
     setUpdateClientDisabled(newObj);
+
+    console.log(newObj);
+    console.log(updateClientDisabled)
   }
 
   // SECTION END UPDATE CLIENT
 
   // SECTION START DELETE CLIENT
-  // DELETE CLIENT
-  // delete incident query
   const [deleteClient] = useMutation(DELETE_CLIENT);
 
   // delete incident
@@ -356,7 +368,6 @@ function AdminMock() {
       console.log(err);
     }
   };
-
   // SECTION END DELETE CLIENT
 
   // SECTION END CLIENT 
@@ -486,7 +497,6 @@ function AdminMock() {
                 <Collapse>
                   <div id={`#collapse-employee-${index}`}>
                     <div>Email: {emp?.email}</div>
-                    <div>username: {emp?.username}</div>
                     <div>Phone: {emp?.phone}</div>
                     <div>isAdmin: {emp?.isAdmin ? "True" : "False"}</div>
                     <div>isLocked: {emp?.isLocked ? "True" : "False"}</div>
@@ -584,7 +594,7 @@ function AdminMock() {
                       style={{ width: "80vw" }}
                     >
 
-                    <fieldset data-businessname={client?.businessName} disabled={updateClientDisabled[client?.businessName]}>
+                    <fieldset data-businessname={client?.businessName} disabled={updateClientDisabled === {} ? true : updateClientDisabled[client?.businessName]}>
                       <div id="example-collapse-text">
                         <Form.Group
                           className="mb-3 form-length"
@@ -722,7 +732,7 @@ function AdminMock() {
                             defaultValue={client?.streetAddress}
                             onChange={handleInputChange}
                             onBlur={handleBlurChange}
-                            // required
+                            required
                           />
                         </Form.Group>
 
@@ -900,7 +910,6 @@ function AdminMock() {
                     placeholder="Enter Company Name"
                     value={businessName}
                     name="businessName"
-                    // defaultValue="test"
                     onChange={handleInputChange}
                     onBlur={handleBlurChange}
                     required
@@ -1255,7 +1264,13 @@ function AdminMock() {
         </Row>
       </Container>
       {/* section end work order list */}
+
+      {/* section start schedule form */}
+      
+
+      {/* section end schedule form */}
     </>
+
   );
 }
 

@@ -17,7 +17,6 @@ const typeDefs = gql`
 
   type Employee {
     _id: ID
-    username: String
     email: String
     password: String
     firstName: String
@@ -36,13 +35,19 @@ const typeDefs = gql`
 
   type Schedule {
     _id: ID
+    streetAddress: String
+    suite: String
+    city: String
+    state: String
+    zip: String
     startDate: String
     endDate: String
     startTime: String
     endTime: String
-    client: Client
+    squareFeet: String
     jobDetails: String
     numberOfClientEmployees: String
+    client: Client
     employees: [Employee]
   }
 
@@ -174,6 +179,7 @@ const typeDefs = gql`
       sundayAm: Boolean
       sundayPm: Boolean
     ): User
+
     addIncident(
       employeeName: String!
       locationName: String!
@@ -182,7 +188,9 @@ const typeDefs = gql`
       urgent: String!
       incidentDetails: String!
     ): Incident
+
     deleteIncident(_id: ID!): Incident
+
     addClient(
       businessName: String
       streetAddress: String
@@ -194,7 +202,9 @@ const typeDefs = gql`
       phone: String
       email: String
     ): Client
+
     deleteClient(_id: ID!): Client
+
     updateClient(
       _id: ID!
       businessName: String
@@ -207,8 +217,13 @@ const typeDefs = gql`
       phone: String
       email: String
     ): Client
+
+    updateClientSchedule(
+      _id: ID
+      schedule: String
+    ): Client
+
     addEmployee(
-      username: String
       email: String
       password: String
       firstName: String
@@ -218,15 +233,16 @@ const typeDefs = gql`
       isAdmin: Boolean
       isLocked: Boolean
     ): Employee
+
     signupEmployee(
-      username: String
       email: String
       password: String
     ): Auth
+
     deleteEmployee(_id: ID!): Employee
+
     updateEmployee(
       _id: ID
-      username: String
       email: String
       password: String
       firstName: String
@@ -235,25 +251,52 @@ const typeDefs = gql`
       isManager: Boolean
       isAdmin: Boolean
       isLocked: Boolean
+      schedule: String
     ): Employee
+
+    updateEmployeeSchedule(
+      _id: ID
+      schedule: String
+    ): Employee
+
     toggleAdmin(employeeId: ID!): Message
+
     toggleLocked(employeeId: ID!): Message
     
     addSchedule(
+      _id: ID
+      streetAddress: String
+      suite: String
+      city: String
+      state: String
+      zip: String
       startDate: String
       endDate: String
       startTime: String
       endTime: String
+      squareFeet: String
+      jobDetails: String
+      numberOfClientEmployees: String
       client: String
       employees: [String]
     ): Schedule
+
     deleteSchedule(_id: ID!): Schedule
+    
     updateSchedule(
       _id: ID
+      streetAddress: String
+      suite: String
+      city: String
+      state: String
+      zip: String
       startDate: String
       endDate: String
       startTime: String
       endTime: String
+      squareFeet: String
+      jobDetails: String
+      numberOfClientEmployees: String
       client: String
       employees: [String]
     ): Schedule

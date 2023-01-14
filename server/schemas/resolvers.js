@@ -1,14 +1,23 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User, Location, Incident, Event, Schedule, Client, Employee } = require("../models");
+const {
+  User,
+  Location,
+  Incident,
+  Event,
+  Schedule,
+  Client,
+  Employee,
+} = require("../models");
 const { signToken } = require("../utils/auth");
 const bcrypt = require("bcrypt");
+
 let expiration = "2h"; // 2 hours
 
 const resolvers = {
   Query: {
     users: async (parent, args, context) => {
       // if (context.user) {
-        return User.find().populate("locations");
+      return User.find().populate("locations");
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -21,41 +30,43 @@ const resolvers = {
 
     me: async (parent, { _id }, context) => {
       // if (context.user) {
-        return User.findById({ _id }).populate("locations");
+      return User.findById({ _id }).populate("locations");
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
     locations: async (parent, args, context) => {
       // if (context.user) {
-        return Location.find().sort({ createdAt: -1 });
+      return Location.find().sort({ createdAt: -1 });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-  location: async (parent, { locationId }, context) => {
+    location: async (parent, { locationId }, context) => {
       // if (context.user) {
-        return Location.findOne({ _id: locationId });
+      return Location.findOne({ _id: locationId });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
     incidents: async (parent, args, context) => {
       // if (context.user) {
-        return Incident.find();
+      return Incident.find();
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
     events: async (parent, args, context) => {
       // if (context.user) {
-        return Event.find();
+      return Event.find();
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
     clients: async (parent, args, context) => {
       // if (context.user) {
-        return Client.find().sort({ createdAt: -1 }).populate({path: "schedule", populate: { path: "client" } });
+      return Client.find()
+        .sort({ createdAt: -1 })
+        .populate({ path: "schedule", populate: { path: "client" } });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -63,32 +74,44 @@ const resolvers = {
     client: async (parent, { _id }, context) => {
       // if (context.user) {
 
-        console.log('resolver = ', _id);
+      console.log("resolver = ", _id);
 
-        return Client.findOne({ _id }).populate({path: "schedule", populate: { path: "client" } });
+      return Client.findOne({ _id }).populate({
+        path: "schedule",
+        populate: { path: "client" },
+      });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
     employees: async (parent, args, context) => {
       // if (context.user) {
-        return Employee.find().populate({path: "schedule", populate: { path: "client" } });
-        // return Employee.find().populate("schedule");
+      return Employee.find().populate({
+        path: "schedule",
+        populate: { path: "client" },
+      });
+      // return Employee.find().populate("schedule");
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
     employeeByEmail: async (parent, { email }, context) => {
-      console.log(email)
+      console.log(email);
       // if (context.user) {
-        return Employee.findOne({ email: email }).populate({path: "schedule", populate: { path: "client" } });
+      return Employee.findOne({ email: email }).populate({
+        path: "schedule",
+        populate: { path: "client" },
+      });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
     employeeById: async (parent, { _id }, context) => {
       // if (context.user) {
-        return Employee.findOne({ _id }).populate({path: "schedule", populate: { path: "client" } });
+      return Employee.findOne({ _id }).populate({
+        path: "schedule",
+        populate: { path: "client" },
+      });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -99,18 +122,20 @@ const resolvers = {
     //   // }
     //   // throw new AuthenticationError("You need to be logged in!");
     // },
-    
+
     schedules: async (parent, args, context) => {
       // if (context.user) {
-        return Schedule.find().populate("employees").populate("client");
-        // return Schedule.find().populate("users").populate("location");
+      return Schedule.find().populate("employees").populate("client");
+      // return Schedule.find().populate("users").populate("location");
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
     schedule: async (parent, { scheduleId }, context) => {
       // if (context.user) {
-        return Schedule.findOne({ _id: scheduleId }).populate("employees").populate("client")
+      return Schedule.findOne({ _id: scheduleId })
+        .populate("employees")
+        .populate("client");
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -123,15 +148,15 @@ const resolvers = {
     //   return { token, user };
     // },
 
-    signupEmployee: async (parent, { username, email, password }, context) => {
-      const employee = await Employee.create({ username, email, password });
+    signupEmployee: async (parent, { email, password }, context) => {
+      const employee = await Employee.create({ email, password });
       const token = signToken(employee);
       return { token, employee };
     },
 
     deleteUser: async (parent, { _id }, context) => {
       // if (context.user) {
-        return User.findOneAndDelete({ _id });
+      return User.findOneAndDelete({ _id });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -149,21 +174,21 @@ const resolvers = {
       context
     ) => {
       // if (context.user) {
-        return Incident.create({
-          employeeName,
-          locationName,
-          employeePhone,
-          subject,
-          urgent,
-          incidentDetails,
-        });
+      return Incident.create({
+        employeeName,
+        locationName,
+        employeePhone,
+        subject,
+        urgent,
+        incidentDetails,
+      });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
     deleteIncident: async (parent, { _id }, context) => {
       // if (context.user) {
-        return Incident.findOneAndDelete({ _id });
+      return Incident.findOneAndDelete({ _id });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -187,8 +212,7 @@ const resolvers = {
     // },
 
     login: async (parent, { email, password }) => {
-
-      console.log('login ', email);
+      console.log("login ", email);
 
       const employee = await Employee.findOne({ email });
 
@@ -202,7 +226,7 @@ const resolvers = {
         throw new AuthenticationError("Incorrect credentials");
       }
 
-      expiration = "2h" // 15 minutes
+      expiration = "2h"; // 15 minutes
       const token = signToken(employee, expiration);
       // const token = signToken(employee);
 
@@ -210,7 +234,6 @@ const resolvers = {
     },
 
     forgotPassword: async (parent, { email, password }) => {
-      
       const employee = await Employee.findOne({ email });
 
       if (!employee) {
@@ -222,7 +245,7 @@ const resolvers = {
       // if (!correctPw) {
       //   throw new AuthenticationError("Incorrect credentials");
       // }
-      expiration = 900 // 15 minutes
+      expiration = 900; // 15 minutes
       const token = signToken(employee, expiration);
       // const token = signToken(employee);
 
@@ -251,35 +274,60 @@ const resolvers = {
       context
     ) => {
       // if (context.user) {
-        return User.findOneAndUpdate(
-          { _id },
-          {
-            availability: {
-              mondayAm,
-              mondayPm,
-              tuesdayAm,
-              tuesdayPm,
-              wednesdayAm,
-              wednesdayPm,
-              thursdayAm,
-              thursdayPm,
-              fridayAm,
-              fridayPm,
-              saturdayAm,
-              saturdayPm,
-              sundayAm,
-              sundayPm,
-            },
+      return User.findOneAndUpdate(
+        { _id },
+        {
+          availability: {
+            mondayAm,
+            mondayPm,
+            tuesdayAm,
+            tuesdayPm,
+            wednesdayAm,
+            wednesdayPm,
+            thursdayAm,
+            thursdayPm,
+            fridayAm,
+            fridayPm,
+            saturdayAm,
+            saturdayPm,
+            sundayAm,
+            sundayPm,
           },
-          { new: true }
-        );
+        },
+        { new: true }
+      );
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    addClient: async (parent, { businessName, streetAddress, suite, city, state, zip, contact, phone, email }, context) => {
+    // SECTION client
+    addClient: async (
+      parent,
+      {
+        businessName,
+        streetAddress,
+        suite,
+        city,
+        state,
+        zip,
+        contact,
+        phone,
+        email,
+      },
+      context
+    ) => {
       // if (context.user) {
-      const user = await Client.create({ businessName, streetAddress, suite, city, state, zip, contact, phone, email });
+      const user = await Client.create({
+        businessName,
+        streetAddress,
+        suite,
+        city,
+        state,
+        zip,
+        contact,
+        phone,
+        email,
+      });
       return { businessName };
       // }
       // throw new AuthenticationError("You need to be logged in!");
@@ -287,7 +335,7 @@ const resolvers = {
 
     deleteClient: async (parent, { _id }, context) => {
       // if (context.user) {
-        return Client.findOneAndDelete({ _id });
+      return Client.findOneAndDelete({ _id });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -296,49 +344,86 @@ const resolvers = {
       parent,
       {
         _id,
-        businessName, 
-        streetAddress, 
-        suite, 
-        city, 
-        state, 
-        zip, 
-        contact, 
-        phone, 
-        email
+        businessName,
+        streetAddress,
+        suite,
+        city,
+        state,
+        zip,
+        contact,
+        phone,
+        email,
       },
       context
     ) => {
       // if (context.user) {
-        return Client.findOneAndUpdate(
-          { _id },
-          {
-            businessName, 
-            streetAddress, 
-            suite, 
-            city, 
-            state, 
-            zip, 
-            contact, 
-            phone, 
-            email
-          },
-          { new: true }
-        );
+      return Client.findOneAndUpdate(
+        { _id },
+        {
+          businessName,
+          streetAddress,
+          suite,
+          city,
+          state,
+          zip,
+          contact,
+          phone,
+          email,
+        },
+        { new: true }
+      );
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
-    addEmployee: async (parent, { username, email, password, firstName, lastName, phone, isManager, isAdmin, isLocked }, context) => {
+
+    updateClientSchedule: async (parent, { _id, schedule }, context) => {
       // if (context.user) {
-      const employee = await Employee.create({ username, email, password, firstName, lastName, phone, isManager, isAdmin, isLocked });
+      console.log("resolver update client schedule = ", _id, schedule);
+      return Client.findOneAndUpdate(
+        { _id },
+        {
+          $addToSet: { schedule },
+        },
+        { new: true }
+      );
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    // SECTION EMPLOYEE
+    addEmployee: async (
+      parent,
+      {
+        email,
+        password,
+        firstName,
+        lastName,
+        phone,
+        isManager,
+        isAdmin,
+        isLocked,
+      },
+      context
+    ) => {
+      // if (context.user) {
+      const employee = await Employee.create({
+        email,
+        password,
+        firstName,
+        lastName,
+        phone,
+        isManager,
+        isAdmin,
+        isLocked,
+      });
       const token = signToken(employee);
-      return { token, employee, email }, 
-      { new: true};
+      return { token, employee, email }, { new: true };
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
     deleteEmployee: async (parent, { _id }, context) => {
       // if (context.user) {
-        return Employee.findOneAndDelete({ _id });
+      return Employee.findOneAndDelete({ _id });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -346,35 +431,60 @@ const resolvers = {
       parent,
       {
         _id,
-        username, 
-        email, 
+        email,
         password,
-        firstName, 
-        lastName, 
-        phone, 
+        phone,
+        firstName,
+        lastName,
         isManager,
         isAdmin,
-        isLocked
+        isLocked,
+        schedule,
       },
       context
     ) => {
       // if (context.user) {
-        console.log('resolver update employee = ', _id, email, password, lastName)
-        return Employee.findOneAndUpdate(
-          { email },
-          {
-            username, 
-            email, 
-            password, 
-            firstName, 
-            lastName, 
-            phone, 
-            isManager,
-            isAdmin,
-            isLocked
-          },
-          { new: true }
-        );
+      console.log(
+        "resolver update employee = ",
+        _id,
+        email,
+        password,
+        firstName,
+        lastName,
+        phone,
+        isManager,
+        isAdmin,
+        isLocked,
+        schedule
+      );
+      return Employee.findOneAndUpdate(
+        { email },
+        {
+          email,
+          password,
+          firstName,
+          lastName,
+          phone,
+          isManager,
+          isAdmin,
+          isLocked,
+          schedule,
+        },
+        { new: true }
+      );
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+    updateEmployeeSchedule: async (parent, { _id, schedule }, context) => {
+      // if (context.user) {
+      console.log("resolver update employee schedule = ", _id, schedule);
+      return Employee.findOneAndUpdate(
+        { _id },
+        {
+          $addToSet: { schedule },
+        },
+        { new: true }
+      );
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -395,7 +505,6 @@ const resolvers = {
       }
       return { message, employee };
     },
-
     // toggleLocked mutation that returns a success/fail message
     toggleLocked: async (parent, { employeeId }) => {
       let message = "No such employee exists";
@@ -413,49 +522,118 @@ const resolvers = {
       }
       return { message, employee };
     },
+    // SECTION
 
-    addSchedule: async (parent, { startDate, endDate, startTime, endTime, client, employees }, context) => {
+    addSchedule: async (
+      parent,
+      {
+        _id,
+        streetAddress,
+        suite,
+        city,
+        state,
+        zip,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        squareFeet,
+        jobDetails,
+        numberOfClientEmployees,
+        client,
+        employees,
+      },
+      context
+    ) => {
+      // _id, streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees
       // if (context.user) {
-      const user = await Schedule.create({ startDate, endDate, startTime, endTime, client, employees });
-      return { startDate }, 
-      { new: true};
+      const user = await Schedule.create({
+        _id,
+        streetAddress,
+        suite,
+        city,
+        state,
+        zip,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        squareFeet,
+        jobDetails,
+        numberOfClientEmployees,
+        client,
+        employees,
+      });
+      return {
+        _id,
+        streetAddress,
+        suite,
+        city,
+        state,
+        zip,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        squareFeet,
+        jobDetails,
+        numberOfClientEmployees,
+        client,
+        employees,
+      };
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
     deleteSchedule: async (parent, { scheduleId }, context) => {
       // if (context.user) {
-        return Schedule.findOneAndDelete({ scheduleId });
+      return Schedule.findOneAndDelete({ scheduleId });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
+
     updateSchedule: async (
       parent,
       {
         _id,
+        streetAddress,
+        suite,
+        city,
+        state,
+        zip,
         startDate,
         endDate,
         startTime,
         endTime,
+        squareFeet,
+        jobDetails,
+        numberOfClientEmployees,
         client,
         employees,
       },
       context
     ) => {
       // if (context.user) {
-        return Schedule.findOneAndUpdate(
-          { _id },
-          {
-            _id,
-            startDate,
-            endDate,
-            startTime,
-            endTime,
-            client,
-            employees,
-          },
-          { new: true }
-        );
+      return Schedule.findOneAndUpdate(
+        { _id },
+        {
+          _id,
+          streetAddress,
+          suite,
+          city,
+          state,
+          zip,
+          startDate,
+          endDate,
+          startTime,
+          endTime,
+          squareFeet,
+          jobDetails,
+          numberOfClientEmployees,
+          client,
+          employees,
+        }
+      );
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },

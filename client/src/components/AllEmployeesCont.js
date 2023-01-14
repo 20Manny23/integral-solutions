@@ -78,7 +78,6 @@ const AllEmployeesCont = () => {
                   <p>
                     {employee.firstName ? employee.firstName : "No First Name"}{" "}
                     {employee.lastName ? employee.lastName : "No Last Name"}{" "}
-                    (Username: {employee.username})
                   </p>
                 </Col>
                 <Col xs={1.5} className="py-0">

@@ -2,6 +2,25 @@ const { Schema, model } = require("mongoose");
 
 const scheduleSchema = new Schema(
   {
+    streetAddress: {
+      type: String,
+      required: true,
+    },
+    suite: {
+      type: String,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
+    zip: {
+      type: String,
+      required: true,
+    },
     startDate: {
       type: String,
     },
@@ -12,6 +31,9 @@ const scheduleSchema = new Schema(
       type: String,
     },
     endTime: {
+      type: String,
+    },
+    squareFeet: {
       type: String,
     },
     jobDetails: {

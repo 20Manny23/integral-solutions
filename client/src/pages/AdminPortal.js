@@ -101,7 +101,7 @@ const AdminPortal = ({
                     navigate("/clientlist");
                   }}
                 >
-                  Client List 
+                  Clients
                 </Button>
                 <Button
                   variant="outline-primary"
@@ -111,7 +111,7 @@ const AdminPortal = ({
                     navigate("/admin-mock");
                   }}
                 >
-                  Admin Mock 
+                  Mock 
                 </Button>
               </div>
 
