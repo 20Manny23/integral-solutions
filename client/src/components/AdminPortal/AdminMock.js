@@ -310,7 +310,7 @@ function AdminMock() {
 
     console.log(newObj);
     console.log(updateClientDisabled);
-
+  // eslint-disable-next-line
   }, [])
 
   const handleUpdateForDisabled = (event, businessName, addClient) => {

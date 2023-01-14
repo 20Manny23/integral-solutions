@@ -9,10 +9,11 @@ import {
 import {
   ADD_EMPLOYEE,
   DELETE_EMPLOYEE,
-  UPDATE_EMPLOYEE,
+  UPDATE_EMPLOYEE_FORM,
 } from "../../utils/mutations";
 import "../../styles/Forms.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { parseValue } from "graphql";
 
 function EmployeeList() {
   const formId = useId();
@@ -34,17 +35,18 @@ function EmployeeList() {
   const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
   const [showLastNameValidation, setShowLastNameValidation] = useState(false);
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-  const [showEmailEmployeeValidation, setShowEmailEmployeeStateValidation] = useState(false);
+  const [showEmailEmployeeValidation, setShowEmailEmployeeStateValidation] =
+    useState(false);
 
   //SECTION GET ALL EMPLOYEES
-    // eslint-disable-next-line
-    const {
-      loading: empLoad,
-      data: emp,
-      error: empError,
-      refetch: empRefetch,
-    } = useQuery(QUERY_ALL_EMPLOYEES);
-  
+  // eslint-disable-next-line
+  const {
+    loading: empLoad,
+    data: emp,
+    error: empError,
+    refetch: empRefetch,
+  } = useQuery(QUERY_ALL_EMPLOYEES);
+
   //SECTION get a single employee Query
   const [currentEmployee, setCurrentEmployee] = useState("");
   const [currentEmployeeId, setCurrentEmployeeId] = useState("");
@@ -52,7 +54,7 @@ function EmployeeList() {
 
   const [getASingleEmployee, { loading: lazyLoading, data: singleEmployee }] =
     useLazyQuery(QUERY_SINGLE_EMPLOYEE, {
-      variables: { employeeId: currentEmployeeId },
+      variables: { id: currentEmployeeId },
       // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
       skip: !Auth.loggedIn(),
       onCompleted: (singleEmployee) => {
@@ -92,9 +94,8 @@ function EmployeeList() {
   // };
 
   //Ternary to handle the change in inputs
-  
+
   //SECTION HANDLE INPUT
-  
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -143,15 +144,15 @@ function EmployeeList() {
     event.preventDefault();
 
     console.log(
-      event, 
+      event,
       email,
       firstName,
       lastName,
       password,
       phone,
       isAdmin,
-      isLocked,
-    )
+      isLocked
+    );
 
     try {
       // eslint-disable-next-line
@@ -178,9 +179,12 @@ function EmployeeList() {
   };
   const resetForm = () => {
     setEmail("");
-    setPhone("");
     setFirstName("");
     setLastName("");
+    setPhone("");
+    setPassword("");
+    setIsAdmin("");
+    setIsLocked("");
   };
 
   useEffect(() => {
@@ -195,54 +199,110 @@ function EmployeeList() {
   }, [email, phone, firstName, lastName]);
 
   //SECTION UPDATE EMPLOYEE
-  const [updateEmployee] = useMutation(UPDATE_EMPLOYEE);
+  const [updateEmployee] = useMutation(UPDATE_EMPLOYEE_FORM, {
+    refetchQueries: [
+      'getAllEmployees',
+    ],
+  });
 
   useEffect(() => {
     if (currentEmployeeId && currentInput) {
-      handleEditEmployeeSubmit();
+      console.log(
+        "current id = ",
+        currentEmployeeId,
+        "current input = ",
+        currentInput
+      );
+      handleGetEditEmployee();
     }
 
     // eslint-disable-next-line
   }, [currentEmployeeId, currentInput]);
 
-  const handleEditEmployeeSubmit = async () => {
-    // event.preventDefault();
+  const [prevEmployeeInfo, setPrevEmployeeInfo] = useState({});
 
-    let test = await getASingleEmployee();
-    console.log("test = ", test);
+  // call a function to get the single current employee
+  const handleGetEditEmployee = async () => {
+    let getEmployee = await getASingleEmployee();
+    console.log("getEmployee = ", getEmployee.data);
+    setPrevEmployeeInfo(getEmployee);
+  };
+
+  // use effect - when singleEmployee is updated then update employee
+  useEffect(() => {
+    // console.log(prevEmployeeInfo);
+    // console.log(Object.keys(prevEmployeeInfo).length === 0);
+
+    // since useEffect will run on load, check if prevEmployeeInfo is empty
+    if (Object.keys(prevEmployeeInfo).length === 0) {
+      return;
+    }
 
     try {
-      await updateEmployee({
-        variables: {
-          id: currentEmployeeId,
-          email: currentInput.email
-            ? currentInput.email
-            : test.data.employee.email,
-          phone: currentInput.phone
-            ? currentInput.phone
-            : test.data.employee.phone,
-          firstName: currentInput.firstName
-            ? currentInput.firstName
-            : test.data.employee.firstName,
-          lastName: currentInput.lastName
-            ? currentInput.lastName
-            : test.data.employee.lastName,
-          isLocked: currentInput.isLocked
-            ? currentInput.isLocked
-            : test.data.employee.isLocked,
-          isAdmin: currentInput.isAdmin
-            ? currentInput.isAdmin
-            : test.data.employee.isAdmin,
-        },
-      });
+        updateEmployee({
+          variables: {
+            id: currentEmployeeId,
+            firstName: currentInput?.firstName
+              ? currentInput.firstName
+              : prevEmployeeInfo.data.employeeById.firstName,
+            lastName: currentInput?.lastName
+              ? currentInput.lastName
+              : prevEmployeeInfo.data.employeeById.lastName,
+            email: currentInput?.email
+              ? currentInput.email
+              : prevEmployeeInfo.data.employeeById.email,
+            phone: currentInput?.phone
+              ? currentInput.phone
+              : prevEmployeeInfo.data.employeeById.phone,
+          },
+        });
     } catch (err) {
       console.log(err);
     }
 
     empRefetch();
-  };
 
-  //SECTION DISABLE UPDATE EMPLOYEE
+    // eslint-disable-next-line
+  }, [prevEmployeeInfo]);
+
+  // const handleEditEmployeeSubmit = async () => {
+  //   // event.preventDefault();
+
+  //   let test = await getASingleEmployee();
+  //   console.log("test = ", test.data);
+
+  //   try {
+  //       await updateEmployee({
+  //         variables: {
+  //           id: currentEmployeeId,
+  //           firstName: currentInput?.firstName
+  //             ? currentInput.firstName
+  //             : test.data.employee.firstName,
+  //           lastName: currentInput?.firstName
+  //             ? currentInput.lastName
+  //             : test.data.employee.lastName,
+  //           email: currentInput?.email
+  //             ? currentInput.email
+  //             : test.data.employee.email,
+  //           phone: currentInput?.phone
+  //             ? currentInput.phone
+  //             : test.data.employee.phone,
+  //           isAdmin: currentInput?.isAdmin
+  //             ? currentInput.isAdmin
+  //             : test.data.employee.isAdmin,
+  //           isLocked: currentInput?.isLocked
+  //             ? currentInput.isLocked
+  //             : test.data.employee.isLocked,
+  //         },
+  //       });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+
+  //   empRefetch();
+  // };
+
+  //DISABLE UPDATE EMPLOYEE
   const [updateEmployeeDisabled, setUpdateEmployeeDisabled] = useState({});
 
   useEffect(() => {
@@ -256,9 +316,9 @@ function EmployeeList() {
 
     setUpdateEmployeeDisabled(newObj);
 
-    console.log(newObj);
-    console.log(updateEmployeeDisabled);
-  // eslint-disable-next-line
+    // console.log(newObj);
+    // console.log(updateEmployeeDisabled);
+    // eslint-disable-next-line
   }, []);
 
   const handleUpdateForDisabled = (event, firstName, addEmployee) => {
@@ -323,7 +383,7 @@ function EmployeeList() {
               onSubmit={handleAddEmployeeSubmit}
               style={{ maxWidth: "80vw" }}
             >
-              <Collapse 
+              <Collapse
                 in={open}
                 className=" pb-2 
                   flex-column 
@@ -549,16 +609,19 @@ function EmployeeList() {
                 </div>
 
                 <Collapse>
+                  {/* section update input */}
                   <Form
                     id={`#collapse-employee-${index}`}
                     data-editemployeeid={emp?._id}
                     className="py-3 overflow-auto custom-about"
                     onSubmit={(event) => {
                       event.preventDefault();
-                      let clientId = event.currentTarget.getAttribute(
+                      let empId = event.currentTarget.getAttribute(
                         "data-editemployeeid"
                       );
-                      setCurrentEmployeeId(clientId);
+                      console.log(empId);
+
+                      setCurrentEmployeeId(empId);
                       setCurrentInput({
                         firstName,
                         lastName,
@@ -568,7 +631,6 @@ function EmployeeList() {
                         isLocked,
                       });
                     }}
-                    // style={{ width: "80vw" }}
                   >
                     <fieldset
                       data-employeeid={emp?._id}
@@ -626,7 +688,7 @@ function EmployeeList() {
                             className="custom-border"
                             type="text"
                             placeholder="Enter Last Name"
-                            name="LastName"
+                            name="lastName"
                             defaultValue={emp?.lastName}
                             onChange={handleInputChange}
                             onBlur={handleBlurChange}
@@ -697,7 +759,7 @@ function EmployeeList() {
                             // disabled={!areAllFieldsFilled}
                             title="Enter all fields to add a new client"
                           >
-                            Update Client
+                            Update Employee
                           </Button>
                         </div>
                       </div>

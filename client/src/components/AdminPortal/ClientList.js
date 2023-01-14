@@ -143,7 +143,7 @@ function ClientList() {
       : setShowZipValidation(false);
   };
 
-  // SECTION ADD CLIENT
+  // SECTION ADD
   const [addClient] = useMutation(ADD_CLIENT, {
     refetchQueries: ["getAllClients"],
   });
@@ -220,9 +220,9 @@ function ClientList() {
     zip,
   ]);
 
-  // SECTION END ADD CLIENT
+  // SECTION END ADD
 
-  // SECTION UPDATE CLIENT
+  // SECTION UPDATE
   // const [editClient, setEditClient] = useState([]);
 
   const [updateClient] = useMutation(UPDATE_CLIENT);
@@ -298,6 +298,8 @@ function ClientList() {
 
     console.log(newObj);
     console.log(updateClientDisabled);
+
+    // eslint-disable-next-line
   }, []);
 
   const handleUpdateForDisabled = (event, businessName, addClient) => {
@@ -337,10 +339,9 @@ function ClientList() {
     console.log(newObj);
     console.log(updateClientDisabled);
   };
+  // SECTION END UPDATE
 
-  // SECTION END UPDATE CLIENT
-
-  // SECTION START DELETE CLIENT
+  // SECTION START DELETE
   const [deleteClient] = useMutation(DELETE_CLIENT);
 
   const handleDeleteClient = async (event) => {
