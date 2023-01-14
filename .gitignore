@@ -127,3 +127,4 @@ package-lock.json
 .env.production.local
 
 
+sendgrid.env
