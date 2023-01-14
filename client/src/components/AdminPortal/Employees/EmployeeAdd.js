@@ -20,11 +20,12 @@ function EmployeeAdd() {
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
     // VALIDATION
-    const [showUsernameValidation, setShowUsernameValidation] = useState(false);
     const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
     const [showLastNameValidation, setShowLastNameValidation] = useState(false);
     const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-    const [showEmailEmployeeValidation, setShowEmailEmployeeStateValidation] =
+    const [showEmailEmployeeValidation, setShowEmailEmployeeValidation] =
+      useState(false);
+    const [showPasswordValidation, setShowPasswordValidation] =
       useState(false);
 
   //SECTION HANDLE INPUT
@@ -50,18 +51,18 @@ function EmployeeAdd() {
     const { name, value } = e.target;
 
     name === "email" && value.trim() === ""
-      ? setShowEmailEmployeeStateValidation(true)
-      : setShowEmailEmployeeStateValidation(false);
+      ? setShowEmailEmployeeValidation(true)
+      : setShowEmailEmployeeValidation(false);
     name === "phone" && value.trim() === ""
       ? setShowPhoneValidation(true)
       : setShowPhoneValidation(false);
-    name === "phone" && value.trim() === ""
-      ? setShowPhoneValidation(true)
-      : setShowPhoneValidation(false);
-    name === "first-name" && value.trim() === ""
+    name === "password" && value.trim() === ""
+      ? setShowPasswordValidation(true)
+      : setShowPasswordValidation(false);
+    name === "firstName" && value.trim() === ""
       ? setShowFirstNameValidation(true)
       : setShowFirstNameValidation(false);
-    name === "last-name" && value.trim() === ""
+    name === "lastName" && value.trim() === ""
       ? setShowLastNameValidation(true)
       : setShowLastNameValidation(false);
   };
@@ -102,7 +103,7 @@ function EmployeeAdd() {
     } catch (err) {
 
       console.error(err);
-      
+
     }
 
     resetForm();
@@ -124,9 +125,10 @@ function EmployeeAdd() {
   useEffect(() => {
     setAreAllFieldsFilled(
       email.trim() !== "" &&
+      firstName.trim() !== "" &&
+      lastName.trim() !== "" &&
         phone.trim() !== "" &&
-        firstName.trim() !== "" &&
-        lastName.trim() !== ""
+        password.trim() !== ""
     );
 
     // eslint-disable-next-line
@@ -140,6 +142,13 @@ function EmployeeAdd() {
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder", marginTop: "10px" }}>
                 First Name
+              </Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showFirstNameValidation ? "show" : "hide"
+                }`}
+              >
+                * field is required
               </Form.Label>
             </div>
             <Form.Control
@@ -158,6 +167,13 @@ function EmployeeAdd() {
               <Form.Label style={{ fontWeight: "bolder", marginTop: "10px" }}>
                 Last Name
               </Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showLastNameValidation ? "show" : "hide"
+                }`}
+              >
+                * field is required
+              </Form.Label>
             </div>
             <Form.Control
               className="custom-border"
@@ -174,6 +190,13 @@ function EmployeeAdd() {
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
                 Phone Number
+              </Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showPhoneValidation ? "show" : "hide"
+                }`}
+              >
+                * field is required
               </Form.Label>
             </div>
             <Form.Control
@@ -193,6 +216,13 @@ function EmployeeAdd() {
               <Form.Label style={{ fontWeight: "bolder" }}>
                 Email Address
               </Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showEmailEmployeeValidation ? "show" : "hide"
+                }`}
+              >
+                * field is required
+              </Form.Label>
             </div>
             <Form.Control
               className="custom-border"
@@ -208,6 +238,13 @@ function EmployeeAdd() {
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>Password</Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showPasswordValidation ? "show" : "hide"
+                }`}
+              >
+                * field is required
+              </Form.Label>
             </div>
             <Form.Control
               className="custom-border"
