@@ -1,6 +1,7 @@
 [
   {
     "_id": "313233343536373839303132",
+    "username": "Manager",
     "title": "The Station Hair Studio",
     "startTime": "18:00:00 (MST)",
     "endTime": "20:15:00 (MST)",
@@ -11,6 +12,7 @@
   },
   {
     "_id": "323233343536373839303132",
+    "username": "Cleaner",
     "title": "DECO",
     "startTime": "18:00:00 (MST)",
     "endTime": "18:15:00 (MST)",
