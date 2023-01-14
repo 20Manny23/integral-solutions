@@ -256,6 +256,7 @@ function EmployeeUpdate() {
               ))}
             </Form.Control>
           </Form.Group>
+          
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
