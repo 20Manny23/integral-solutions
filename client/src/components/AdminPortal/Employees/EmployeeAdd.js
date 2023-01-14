@@ -1,385 +1,225 @@
 import React, { useState, useEffect } from "react";
 
 import { useMutation } from "@apollo/client";
-import { ADD_CLIENT } from "../../../utils/mutations";
+import { ADD_EMPLOYEE } from "../../../utils/mutations";
 
-import { Row, Col, Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button } from "react-bootstrap";
 
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
 function EmployeeAdd() {
-  // GET CLIENT FORM DATA
-  const [businessName, setBusinessName] = useState("");
-  const [contact, setContact] = useState("");
+  // GET FORM INPUT
+  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [emailClient, setEmailClient] = useState("");
-  const [streetAddress, setStreetAddress] = useState("");
-  const [suite, setSuite] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [zip, setZip] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [password, setPassword] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLocked, setIsLocked] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
-  // VALIDATION
-  const [showBusinessNameValidation, setShowBusinessNameValidation] =
-    useState(false);
-  const [showContactValidation, setShowContactValidation] = useState(false);
-  const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-  const [showEmailClientValidation, setShowEmailClientStateValidation] =
-    useState(false);
-  const [showStreetAddressValidation, setShowStreetAddressValidation] =
-    useState(false);
-  const [showSuiteValidation, setShowSuiteValidation] = useState(false);
-  const [showCityValidation, setShowCityValidation] = useState(false);
-  const [showStateValidation, setShowStateValidation] = useState(false);
-  const [showZipValidation, setShowZipValidation] = useState(false);
+    // VALIDATION
+    const [showUsernameValidation, setShowUsernameValidation] = useState(false);
+    const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
+    const [showLastNameValidation, setShowLastNameValidation] = useState(false);
+    const [showPhoneValidation, setShowPhoneValidation] = useState(false);
+    const [showEmailEmployeeValidation, setShowEmailEmployeeStateValidation] =
+      useState(false);
 
-  // Getting the value or name of input triggering change
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  //SECTION HANDLE INPUT
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    // console.log(e)
 
-    // Ternary statement that will call either setFirstName or setLastName based on what field the user is typing in
-    name === "businessName"
-      ? setBusinessName(value)
-      : name === "contact"
-      ? setContact(value)
+    name === "firstName"
+      ? setFirstName(value)
+      : name === "lastName"
+      ? setLastName(value)
       : name === "phone"
       ? setPhone(value)
-      : name === "emailClient"
-      ? setEmailClient(value)
-      : name === "streetAddress"
-      ? setStreetAddress(value)
-      : name === "suite"
-      ? setSuite(value)
-      : name === "city"
-      ? setCity(value)
-      : name === "state"
-      ? setState(value)
-      : setZip(value);
-
-    console.log("email = ", emailClient);
+      : name === "email"
+      ? setEmail(value)
+      : setPassword(value);
 
     return name;
   };
 
-  // If user clicks off an input field without entering text, then validation message "is required" displays
-  // businessName, contact, phone, email, streetAddress, suite, city, state, zip
+  //SECTION VALIDATION BLUR
   const handleBlurChange = (e) => {
     const { name, value } = e.target;
 
-    name === "businessName" && value.trim() === ""
-      ? setShowBusinessNameValidation(true)
-      : setShowBusinessNameValidation(false);
-    name === "contact" && value.trim() === ""
-      ? setShowContactValidation(true)
-      : setShowContactValidation(false);
+    name === "email" && value.trim() === ""
+      ? setShowEmailEmployeeStateValidation(true)
+      : setShowEmailEmployeeStateValidation(false);
     name === "phone" && value.trim() === ""
       ? setShowPhoneValidation(true)
       : setShowPhoneValidation(false);
-    name === "emailClient" && value.trim() === ""
-      ? setShowEmailClientStateValidation(true)
-      : setShowEmailClientStateValidation(false);
-    name === "streetAddress" && value.trim() === ""
-      ? setShowStreetAddressValidation(true)
-      : setShowStreetAddressValidation(false);
-    name === "suite" && value.trim() === ""
-      ? setShowSuiteValidation(true)
-      : setShowSuiteValidation(false);
-    name === "city" && value.trim() === ""
-      ? setShowCityValidation(true)
-      : setShowCityValidation(false);
-    name === "state" && value.trim() === ""
-      ? setShowStateValidation(true)
-      : setShowStateValidation(false);
-    name === "zip" && value.trim() === ""
-      ? setShowZipValidation(true)
-      : setShowZipValidation(false);
+    name === "phone" && value.trim() === ""
+      ? setShowPhoneValidation(true)
+      : setShowPhoneValidation(false);
+    name === "first-name" && value.trim() === ""
+      ? setShowFirstNameValidation(true)
+      : setShowFirstNameValidation(false);
+    name === "last-name" && value.trim() === ""
+      ? setShowLastNameValidation(true)
+      : setShowLastNameValidation(false);
   };
 
-  // SECTION ADD
-  const [addClient] = useMutation(ADD_CLIENT, {
-    refetchQueries: ["getAllClients"],
+  //SECTION ADD EMPLOYEE
+  const [addEmployee] = useMutation(ADD_EMPLOYEE, {
+    refetchQueries: ["getAllEmployees"],
   });
 
-  // Add client to the Client model/table
-  const handleAddClientSubmit = async (event) => {
+  const handleAddEmployeeSubmit = async (event) => {
     event.preventDefault();
-    console.log(event);
+
+    console.log(
+      event,
+      email,
+      firstName,
+      lastName,
+      password,
+      phone,
+      isAdmin,
+      isLocked
+    );
 
     try {
       // eslint-disable-next-line
-      const { data } = await addClient({
+      const { data } = await addEmployee({
         variables: {
-          businessName,
-          contact,
+          firstName,
+          lastName,
           phone,
-          email: emailClient,
-          streetAddress,
-          suite,
-          city,
-          state,
-          zip,
+          email,
+          password,
+          isAdmin: false,
+          isLocked: false,
         },
       });
+
     } catch (err) {
+
       console.error(err);
+      
     }
 
     resetForm();
+
   };
 
-  // Reset the add client form after submission
+  // Reset the add employee form after submission
   const resetForm = () => {
-    setBusinessName("");
-    setContact("");
+    setEmail("");
+    setFirstName("");
+    setLastName("");
     setPhone("");
-    setEmailClient("");
-    setStreetAddress("");
-    setSuite("");
-    setCity("");
-    setState("");
-    setZip("");
+    setPassword("");
+    setIsAdmin("");
+    setIsLocked("");
   };
 
   // Validate all fields are populated to enable submit button
   useEffect(() => {
     setAreAllFieldsFilled(
-      businessName.trim() !== "" &&
-        contact.trim() !== "" &&
+      email.trim() !== "" &&
         phone.trim() !== "" &&
-        emailClient.trim() !== "" &&
-        streetAddress.trim() !== "" &&
-        suite.trim() !== "" &&
-        city.trim() !== "" &&
-        state.trim() !== "" &&
-        zip.trim() !== ""
+        firstName.trim() !== "" &&
+        lastName.trim() !== ""
     );
-    // console.log(areAllFieldsFilled);
 
     // eslint-disable-next-line
-  }, [
-    businessName,
-    contact,
-    phone,
-    emailClient,
-    streetAddress,
-    suite,
-    city,
-    state,
-    zip,
-  ]);
+  }, [email, phone, firstName, lastName]);
 
   return (
     <Container>
-      <Form onSubmit={handleAddClientSubmit} style={{ width: "80vw" }}>
+      <Form onSubmit={handleAddEmployeeSubmit} style={{ width: "80vw" }}>
         <div id="example-collapse-text">
-          <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>
-                Company Name
-              </Form.Label>
-              <Form.Label
-                className={`validation-color ${
-                  showBusinessNameValidation ? "show" : "hide"
-                }`}
-              >
-                * field is required
+              <Form.Label style={{ fontWeight: "bolder", marginTop: "10px" }}>
+                First Name
               </Form.Label>
             </div>
             <Form.Control
               className="custom-border"
               type="text"
-              placeholder="Enter Company Name"
-              value={businessName}
-              name="businessName"
+              placeholder="Enter Employee Name"
+              name="firstName"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
             />
           </Form.Group>
 
-          <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>
-                Contact Name
-              </Form.Label>
-              <Form.Label
-                className={`validation-color ${
-                  showContactValidation ? "show" : "hide"
-                }`}
-              >
-                * field is required
+              <Form.Label style={{ fontWeight: "bolder", marginTop: "10px" }}>
+                Last Name
               </Form.Label>
             </div>
             <Form.Control
               className="custom-border"
               type="text"
-              placeholder="Enter Contact Person"
-              value={contact}
-              name="contact"
+              placeholder="Enter Last Name"
+              name="lastName"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
             />
           </Form.Group>
 
-          <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
                 Phone Number
-              </Form.Label>
-              <Form.Label
-                className={`validation-color ${
-                  showPhoneValidation ? "show" : "hide"
-                }`}
-              >
-                * field is required
               </Form.Label>
             </div>
             <Form.Control
               className="custom-border"
               type="tel"
-              placeholder="example: 123-456-7899"
-              name="phone"
-              value={phone}
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              placeholder="ex 555-555-5555"
+              name="phone"
               onChange={handleInputChange}
-              onBlur={handleBlurChange}
+              // onBlur={handleBlurChange}
               required
             />
           </Form.Group>
 
-          <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label>
-              <Form.Label
-                className={`validation-color ${
-                  showEmailClientValidation ? "show" : "hide"
-                }`}
-              >
-                * field is required
+              <Form.Label style={{ fontWeight: "bolder" }}>
+                Email Address
               </Form.Label>
             </div>
             <Form.Control
               className="custom-border"
               type="email"
-              placeholder="Client Email"
-              name="emailClient"
-              value={emailClient}
+              placeholder="Enter Email Address"
+              name="email"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
             />
           </Form.Group>
 
-          <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>Address</Form.Label>
-              <Form.Label
-                className={`validation-color ${
-                  showStreetAddressValidation ? "show" : "hide"
-                }`}
-              >
-                * field is required
-              </Form.Label>
+              <Form.Label style={{ fontWeight: "bolder" }}>Password</Form.Label>
             </div>
             <Form.Control
               className="custom-border"
-              placeholder="Enter Address"
-              name="streetAddress"
-              value={streetAddress}
+              type="password"
+              placeholder="Setup Employee Password"
+              name="password"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
             />
           </Form.Group>
 
-          <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
-            <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>Suite</Form.Label>
-              <Form.Label
-                className={`validation-color ${
-                  showSuiteValidation ? "show" : "hide"
-                }`}
-              >
-                * field is required
-              </Form.Label>
-            </div>
-            <Form.Control
-              className="custom-border"
-              placeholder="Enter Address"
-              name="suite"
-              value={suite}
-              // defaultValue="suite #"
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              required
-            />
-          </Form.Group>
-
-          <Row className="addy">
-            <Col xs={6}>
-              <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
-              <Form.Label
-                className={`validation-color ${
-                  showCityValidation ? "show" : "hide"
-                }`}
-              >
-                * required
-              </Form.Label>
-              <Form.Control
-                className="custom-border"
-                placeholder="City"
-                name="city"
-                value={city}
-                // defaultValue="test city"
-                onChange={handleInputChange}
-                onBlur={handleBlurChange}
-                required
-              />
-            </Col>
-            <Col>
-              <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
-              <Form.Label
-                className={`validation-color ${
-                  showStateValidation ? "show" : "hide"
-                }`}
-              >
-                * required
-              </Form.Label>
-              <Form.Control
-                className="custom-border"
-                placeholder="State"
-                name="state"
-                value={state}
-                // defaultValue="CO"
-                onChange={handleInputChange}
-                onBlur={handleBlurChange}
-                required
-              />
-            </Col>
-            <Col>
-              <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>
-              <Form.Label
-                className={`validation-color ${
-                  showZipValidation ? "show" : "hide"
-                }`}
-              >
-                * required
-              </Form.Label>
-              <Form.Control
-                className="custom-border"
-                placeholder="Zip"
-                name="zip"
-                value={zip}
-                // defaultValue="07801"
-                onChange={handleInputChange}
-                onBlur={handleBlurChange}
-                required
-              />
-            </Col>
-          </Row>
           <div className="d-flex justify-content-center">
             <Button
               className="submit-button-style"
@@ -388,7 +228,7 @@ function EmployeeAdd() {
               disabled={!areAllFieldsFilled}
               title="Enter all fields to add a new client"
             >
-              Add Client
+              Add Employee
             </Button>
           </div>
         </div>
