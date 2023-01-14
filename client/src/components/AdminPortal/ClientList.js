@@ -303,13 +303,13 @@ function ClientList() {
   }, []);
 
   const handleUpdateForDisabled = (event, businessName, addClient) => {
-    console.log(event);
-    console.log(businessName);
-    console.log(
-      businessName
-        ? businessName
-        : event.currentTarget.getAttribute("data-businessname")
-    );
+    // console.log(event);
+    // console.log(businessName);
+    // console.log(
+    //   businessName
+    //     ? businessName
+    //     : event.currentTarget.getAttribute("data-businessname")
+    // );
 
     let currentName = businessName
       ? businessName

@@ -158,11 +158,11 @@ function EmployeeList() {
       // eslint-disable-next-line
       const { data } = await addEmployee({
         variables: {
-          email,
           firstName,
           lastName,
-          password,
           phone,
+          email,
+          password,
           isAdmin: false,
           isLocked: false,
         },
@@ -171,11 +171,11 @@ function EmployeeList() {
       console.error(err);
     }
 
-    empRefetch();
+    await empRefetch();
 
     resetForm();
 
-    // handleUpdateForDisabled(null, firstName, "addEmployee");
+    handleUpdateForDisabled(null, email, "addEmployee");
   };
   const resetForm = () => {
     setEmail("");
@@ -265,49 +265,12 @@ function EmployeeList() {
     // eslint-disable-next-line
   }, [prevEmployeeInfo]);
 
-  // const handleEditEmployeeSubmit = async () => {
-  //   // event.preventDefault();
-
-  //   let test = await getASingleEmployee();
-  //   console.log("test = ", test.data);
-
-  //   try {
-  //       await updateEmployee({
-  //         variables: {
-  //           id: currentEmployeeId,
-  //           firstName: currentInput?.firstName
-  //             ? currentInput.firstName
-  //             : test.data.employee.firstName,
-  //           lastName: currentInput?.firstName
-  //             ? currentInput.lastName
-  //             : test.data.employee.lastName,
-  //           email: currentInput?.email
-  //             ? currentInput.email
-  //             : test.data.employee.email,
-  //           phone: currentInput?.phone
-  //             ? currentInput.phone
-  //             : test.data.employee.phone,
-  //           isAdmin: currentInput?.isAdmin
-  //             ? currentInput.isAdmin
-  //             : test.data.employee.isAdmin,
-  //           isLocked: currentInput?.isLocked
-  //             ? currentInput.isLocked
-  //             : test.data.employee.isLocked,
-  //         },
-  //       });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-
-  //   empRefetch();
-  // };
-
   //DISABLE UPDATE EMPLOYEE
   const [updateEmployeeDisabled, setUpdateEmployeeDisabled] = useState({});
 
   useEffect(() => {
     let fields = document.querySelectorAll("fieldset");
-    // console.log(fields);
+    console.log(fields);
 
     var newObj = {};
     for (var i = 0; i < fields.length; i++) {
@@ -318,30 +281,39 @@ function EmployeeList() {
 
     // console.log(newObj);
     // console.log(updateEmployeeDisabled);
+
     // eslint-disable-next-line
   }, []);
 
-  const handleUpdateForDisabled = (event, firstName, addEmployee) => {
-    let currentName = firstName
-      ? firstName
-      : event.currentTarget.getAttribute("data-firstname");
+  const handleUpdateForDisabled = (event, email, addEmployee) => {
+    console.log(event);
+    console.log(email);
+    console.log(
+      email
+        ? email
+        : event.currentTarget.getAttribute("data-email")
+    );
+
+    let currentEmail = email
+      ? email
+      : event.currentTarget.getAttribute("data-email");
     let keys = document.querySelectorAll("fieldset");
 
-    console.log(currentName);
-    console.log("keys = ", keys);
+    console.log(currentEmail);
+    console.log("keys = ", keys.dataset);
 
     var newObj = {};
     for (var i = 0; i < keys.length; i++) {
-      console.log(keys[i].dataset.firstName);
-      console.log(updateEmployeeDisabled[keys[i].dataset.firstName]);
+      console.log(keys[i].dataset.email);
+      console.log(updateEmployeeDisabled[keys[i].dataset.email]);
 
-      if (keys[i].dataset.firstName === currentName) {
-        newObj[keys[i].dataset.firstName] =
-          !updateEmployeeDisabled[keys[i].dataset.firstName];
+      if (keys[i].dataset.email === currentEmail) {
+        newObj[keys[i].dataset.email] =
+          !updateEmployeeDisabled[keys[i].dataset.email];
       } else if (addEmployee === "addEmployee") {
-        newObj[keys[i].dataset.firstName] = true;
+        newObj[keys[i].dataset.email] = true;
       } else {
-        newObj[keys[i].dataset.firstName] = true;
+        newObj[keys[i].dataset.email] = true;
       }
     }
 
@@ -564,6 +536,7 @@ function EmployeeList() {
                     <FontAwesomeIcon
                       icon="fa-pencil"
                       className="p-2 fa-lg"
+                      data-email={emp?.email}
                       onClick={handleUpdateForDisabled}
                     />
                     {/* ADMIN TOGGLE */}
@@ -633,11 +606,11 @@ function EmployeeList() {
                     }}
                   >
                     <fieldset
-                      data-employeeid={emp?._id}
+                      data-email={emp?.email}
                       disabled={
                         updateEmployeeDisabled === {}
                           ? true
-                          : updateEmployeeDisabled[emp?._id]
+                          : updateEmployeeDisabled[emp?.email]
                       }
                     >
                       <div id="example-collapse-text">
