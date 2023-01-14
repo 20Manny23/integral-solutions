@@ -99,59 +99,56 @@ function EmployeeUpdate() {
   };
 
   //SECTION UPDATE EMPLOYEE
-  const [updateEmployee] = useMutation(UPDATE_EMPLOYEE_FORM, {
-    refetchQueries: ["getAllEmployees"],
-  });
+  const [updateEmployee] = useMutation(UPDATE_EMPLOYEE_FORM);
 
   useEffect(() => {
+    console.log(
+      "current id = ",
+      currentEmployeeId,
+      "current input = ",
+      currentInput
+    );
+
     if (currentEmployeeId && currentInput) {
-      console.log(
-        "current id = ",
-        currentEmployeeId,
-        "current input = ",
-        currentInput
-      );
       handleGetEditEmployee();
     }
 
     // eslint-disable-next-line
   }, [currentEmployeeId, currentInput]);
 
-  const [prevEmployeeInfo, setPrevEmployeeInfo] = useState({});
-
   // call a function to get the single current employee
   const handleGetEditEmployee = async () => {
     let getEmployee = await getASingleEmployee();
     console.log("getEmployee = ", getEmployee.data);
-    setPrevEmployeeInfo(getEmployee);
-  };
+    setPrevEmployeeData(getEmployee);
+  // };
 
-  // use effect - when singleEmployee is updated then update employee
-  useEffect(() => {
-    // console.log(prevEmployeeInfo);
-    // console.log(Object.keys(prevEmployeeInfo).length === 0);
+  // // use effect - when singleEmployee is updated then update employee
+  // useEffect(() => {
+    console.log(prevEmployeeData);
+    console.log(Object.keys(prevEmployeeData).length === 0);
 
-    // since useEffect will run on load, check if prevEmployeeInfo is empty
-    if (Object.keys(prevEmployeeInfo).length === 0) {
-      return;
-    }
+  //   // since useEffect will run on load, check if prevEmployeeData is empty
+    // if (Object.keys(prevEmployeeData).length === 0) {
+    //   return;
+    // }
 
     try {
-      updateEmployee({
+      await updateEmployee({
         variables: {
           id: currentEmployeeId,
           firstName: currentInput?.firstName
             ? currentInput.firstName
-            : prevEmployeeInfo.data.employeeById.firstName,
+            : getEmployee.data.employeeById.firstName,
           lastName: currentInput?.lastName
             ? currentInput.lastName
-            : prevEmployeeInfo.data.employeeById.lastName,
+            : getEmployee.data.employeeById.lastName,
           email: currentInput?.email
             ? currentInput.email
-            : prevEmployeeInfo.data.employeeById.email,
+            : getEmployee.data.employeeById.email,
           phone: currentInput?.phone
             ? currentInput.phone
-            : prevEmployeeInfo.data.employeeById.phone,
+            : getEmployee.data.employeeById.phone,
         },
       });
     } catch (err) {
@@ -160,62 +157,31 @@ function EmployeeUpdate() {
 
     empRefetch();
 
+    resetForm();
+  }
     // eslint-disable-next-line
-  }, [prevEmployeeInfo]);
+  // }, [prevEmployeeData]);
 
-  //DISABLE UPDATE EMPLOYEE
-  const [updateEmployeeDisabled, setUpdateEmployeeDisabled] = useState({});
+  const resetForm = () => {
+    setEmail("");
+    setFirstName("");
+    setLastName("");
+    setPhone("");
+    setPassword("");
+    setIsAdmin("");
+    setIsLocked("");
+  };
 
   useEffect(() => {
-    let fields = document.querySelectorAll("fieldset");
-    console.log(fields);
-
-    var newObj = {};
-    for (var i = 0; i < fields.length; i++) {
-      newObj[fields[i].dataset.email] = true;
-    }
-
-    setUpdateEmployeeDisabled(newObj);
-
-    // console.log(newObj);
-    // console.log(updateEmployeeDisabled);
+    setAreAllFieldsFilled(
+      email.trim() !== "" &&
+        phone.trim() !== "" &&
+        firstName.trim() !== "" &&
+        lastName.trim() !== ""
+    );
 
     // eslint-disable-next-line
-  }, []);
-
-  const handleUpdateForDisabled = (event, email, addEmployee) => {
-    console.log(event);
-    console.log(email);
-    console.log(email ? email : event.currentTarget.getAttribute("data-email"));
-
-    let currentEmail = email
-      ? email
-      : event.currentTarget.getAttribute("data-email");
-    let keys = document.querySelectorAll("fieldset");
-
-    console.log(currentEmail);
-    console.log("keys = ", keys.dataset);
-
-    var newObj = {};
-    for (var i = 0; i < keys.length; i++) {
-      console.log(keys[i].dataset.email);
-      console.log(updateEmployeeDisabled[keys[i].dataset.email]);
-
-      if (keys[i].dataset.email === currentEmail) {
-        newObj[keys[i].dataset.email] =
-          !updateEmployeeDisabled[keys[i].dataset.email];
-      } else if (addEmployee === "addEmployee") {
-        newObj[keys[i].dataset.email] = true;
-      } else {
-        newObj[keys[i].dataset.email] = true;
-      }
-    }
-
-    setUpdateEmployeeDisabled(newObj);
-
-    console.log(newObj);
-    console.log(updateEmployeeDisabled);
-  };
+  }, [email, phone, firstName, lastName]);
 
   //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
   async function employeeEmailSelect(event) {
@@ -231,7 +197,7 @@ function EmployeeUpdate() {
     //await query single client
     let currentEmployeeData = await getASingleEmployee();
 
-    console.log(currentEmployeeData);
+    console.log(currentEmployeeData.data.employeeById);
 
     setPrevEmployeeData(currentEmployeeData.data.employeeById);
 
@@ -242,22 +208,21 @@ function EmployeeUpdate() {
     <Container>
       <Form
         // id={`#collapse-employee-${index}`}
-        // data-editemployeeid={emp?._id}
+        data-editemployeeid={prevEmployeeData?._id}
         className="py-3 overflow-auto custom-about"
         onSubmit={(event) => {
           event.preventDefault();
           let empId = event.currentTarget.getAttribute("data-editemployeeid");
           console.log(empId);
-
-          // setCurrentEmployeeId(empId);
-          // setCurrentInput({
-          //   firstName,
-          //   lastName,
-          //   phone,
-          //   email,
-          //   isAdmin,
-          //   isLocked,
-          // });
+          setCurrentEmployeeId(empId);
+          setCurrentInput({
+            firstName,
+            lastName,
+            phone,
+            email,
+            isAdmin,
+            isLocked,
+          });
         }}
       >
         <div id="example-collapse-text">
@@ -266,9 +231,9 @@ function EmployeeUpdate() {
               Select Client (to populate below)
             </Form.Label>
             <Form.Label
-            // className={`validation-color ${
-            //   showBusinessNameValidation ? "show" : "hide"
-            // }`}
+            className={`validation-color ${
+              showEmailEmployeeValidation ? "show" : "hide"
+            }`}
             >
               *required
             </Form.Label>
@@ -291,15 +256,16 @@ function EmployeeUpdate() {
               ))}
             </Form.Control>
           </Form.Group>
+          
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
                 First Name
               </Form.Label>
               <Form.Label
-              // className={`validation-color ${
-              //   showFirstNameValidation ? "show" : "hide"
-              // }`}
+              className={`validation-color ${
+                showFirstNameValidation ? "show" : "hide"
+              }`}
               >
                 * field is required
               </Form.Label>
@@ -309,7 +275,7 @@ function EmployeeUpdate() {
               type="text"
               placeholder="Enter First Name"
               name="firstName"
-              // defaultValue={emp?.firstName}
+              defaultValue={prevEmployeeData?.firstName}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -321,9 +287,9 @@ function EmployeeUpdate() {
                 Last Name
               </Form.Label>
               <Form.Label
-              // className={`validation-color ${
-              //   showLastNameValidation ? "show" : "hide"
-              // }`}
+              className={`validation-color ${
+                showLastNameValidation ? "show" : "hide"
+              }`}
               >
                 * field is required
               </Form.Label>
@@ -333,7 +299,7 @@ function EmployeeUpdate() {
               type="text"
               placeholder="Enter Last Name"
               name="lastName"
-              // defaultValue={emp?.lastName}
+              defaultValue={prevEmployeeData?.lastName}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -341,7 +307,6 @@ function EmployeeUpdate() {
           </Form.Group>
           <Form.Group
             className="mb-3 form-length"
-            //controlId={formId}
           >
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
@@ -360,7 +325,7 @@ function EmployeeUpdate() {
               type="tel"
               placeholder="example: 123-456-7899"
               name="phone"
-              // defaultValue={emp?.phone}
+              defaultValue={prevEmployeeData?.phone}
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
@@ -375,9 +340,9 @@ function EmployeeUpdate() {
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label>
               <Form.Label
-              // className={`validation-color ${
-              //   showEmailEmployeeValidation ? "show" : "hide"
-              // }`}
+              className={`validation-color ${
+                showEmailEmployeeValidation ? "show" : "hide"
+              }`}
               >
                 * field is required
               </Form.Label>
@@ -387,7 +352,7 @@ function EmployeeUpdate() {
               type="email"
               placeholder="Employee Email"
               name="email"
-              // defaultValue={emp?.email}
+              defaultValue={prevEmployeeData?.email}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               // required
