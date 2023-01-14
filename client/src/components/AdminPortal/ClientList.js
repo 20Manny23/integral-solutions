@@ -3,9 +3,9 @@ import Auth from "../../utils/auth";
 
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import {
-  QUERY_ALL_EMPLOYEES,
+  // QUERY_ALL_EMPLOYEES,
   QUERY_ALL_CLIENTS,
-  QUERY_SCHEDULE,
+  // QUERY_SCHEDULE,
   QUERY_SINGLE_CLIENT,
 } from "../../utils/queries";
 import {

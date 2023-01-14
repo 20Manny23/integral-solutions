@@ -7,6 +7,8 @@ import { Form, Button, Alert, InputGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/button-style.css";
 
+import decode from "jwt-decode";
+
 const SignupForm = ({ setShowModal }) => {
   const [userFormData, setUserFormData] = useState({
     email: "",
@@ -44,8 +46,14 @@ const SignupForm = ({ setShowModal }) => {
         variables: { ...userFormData },
       });
 
+      console.log(data);
+      console.log(data.signupEmployee);
+
       // Auth.login(data.addUser);
       Auth.login(data.signupEmployee);
+
+      const decoded = decode(data.signupEmployee.token);
+      console.log(decoded);
 
       // window.location.assign(`/dashboard`);
       window.location.assign(`/home`);
@@ -139,7 +147,6 @@ const SignupForm = ({ setShowModal }) => {
           <Button
             disabled={
               !(
-                userFormData.username &&
                 userFormData.email &&
                 userFormData.password
               )
