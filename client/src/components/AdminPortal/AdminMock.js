@@ -1,29 +1,29 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-import Clients from "./Clients";
-import ClientAdd from "./Clients/ClientAdd";
-import ClientUpdate from "./Clients/ClientUpdate";
+import Employees from "./Employees/Employees";
+// import EmployeeAdd from "./Employees/EmployeeAdd"
+// import EmployeeUpdate from "./Employees/EmployeeUpdate"
 
-function AdminClient() {
+function AdminMock() {
   return (
     <Tabs
-      defaultActiveKey="clientUpdate"
+      defaultActiveKey="employeeList"
       id="fill-tab-example"
       className="mb-3"
       fill
     >
-      <Tab eventKey="clientList" title="Client List">
-        {/* <Clients /> */}
+      <Tab eventKey="employeeList" title="Employee List">
+        <Employees />
       </Tab>
-      <Tab eventKey="clientUpdate" title="Update Client">
-        {/* <ClientUpdate /> */}
+      <Tab eventKey="employeeUpdate" title="Update Employee">
+        {/* <Employees /> */}
       </Tab>
-      <Tab eventKey="clientAdd" title="Add New Client">
-       {/* <ClientAdd /> */}
+      <Tab eventKey="employeeAdd" title="Add New eEmployee">
+       {/* <Employees /> */}
       </Tab>
     </Tabs>
   );
 }
 
-export default AdminClient;
+export default AdminMock;

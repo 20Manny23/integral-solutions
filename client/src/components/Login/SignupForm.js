@@ -139,7 +139,6 @@ const SignupForm = ({ setShowModal }) => {
           <Button
             disabled={
               !(
-                userFormData.username &&
                 userFormData.email &&
                 userFormData.password
               )
