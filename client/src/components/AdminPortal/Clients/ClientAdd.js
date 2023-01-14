@@ -172,7 +172,7 @@ function ClientAdd() {
 
   return (
     <Container>
-      <Form onSubmit={handleAddClientSubmit} style={{ width: "80vw" }}>
+      <Form onSubmit={handleAddClientSubmit} >
         <div id="example-collapse-text">
           <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
             <div className="form-label">

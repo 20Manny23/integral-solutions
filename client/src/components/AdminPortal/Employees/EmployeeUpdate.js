@@ -120,7 +120,7 @@ function EmployeeUpdate() {
   const handleGetEditEmployee = async () => {
     let getEmployee = await getASingleEmployee();
     console.log("getEmployee = ", getEmployee.data);
-    setPrevEmployeeData(getEmployee);
+    // setPrevEmployeeData(getEmployee) This was causing the double click error;
   // };
 
   // // use effect - when singleEmployee is updated then update employee
