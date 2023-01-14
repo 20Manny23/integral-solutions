@@ -153,7 +153,9 @@ const resolvers = {
 
     signupEmployee: async (parent, { email, password }, context) => {
       const employee = await Employee.create({ email, password });
-      const token = signToken(employee);
+
+      expiration = "2h"; // 15 minutes
+      const token = signToken(employee, expiration);
       return { token, employee };
     },
 
