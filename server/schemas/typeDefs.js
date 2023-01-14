@@ -254,6 +254,14 @@ const typeDefs = gql`
       schedule: String
     ): Employee
 
+    updateEmployeeForm(
+      _id: ID
+      firstName: String
+      lastName: String
+      email: String
+      phone: String
+    ): Employee
+
     updateEmployeeSchedule(
       _id: ID
       schedule: String

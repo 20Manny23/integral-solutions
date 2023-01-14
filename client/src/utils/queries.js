@@ -135,10 +135,11 @@ export const QUERY_ALL_EMPLOYEES = gql`
     }
   }
 `;
+
 export const QUERY_SINGLE_EMPLOYEE = gql`
-query getSingleClient($employeeId: ID!) {
-  client( _id: $employeeId) {
-    _id
+  query getASingleEmployee($id: ID!) {
+    employeeById( _id: $id ) {
+      _id
       firstName
       lastName
       email
@@ -146,12 +147,12 @@ query getSingleClient($employeeId: ID!) {
       isAdmin
       isLocked
       password
+    }
   }
-}
 `;
 
 // SECTION CLIENTS
-export const QUERY_ALL_CLIENTS= gql`
+export const QUERY_ALL_CLIENTS = gql`
   query getAllClients {
     clients {
       _id
@@ -178,24 +179,24 @@ export const QUERY_ALL_CLIENTS= gql`
 `;
 
 export const QUERY_SINGLE_CLIENT = gql`
-query getSingleClient($clientId: ID!) {
-  client( _id: $clientId) {
-    _id
-    businessName
-    contact
-    phone
-    email
-    streetAddress
-    suite
-    state
-    city
-    zip
+  query getSingleClient($clientId: ID!) {
+    client(_id: $clientId) {
+      _id
+      businessName
+      contact
+      phone
+      email
+      streetAddress
+      suite
+      state
+      city
+      zip
+    }
   }
-}
 `;
 
 // SECTION SCHEDULE
-export const QUERY_SCHEDULE= gql`
+export const QUERY_SCHEDULE = gql`
   query getSchedule {
     schedules {
       _id
@@ -225,8 +226,6 @@ export const QUERY_SCHEDULE= gql`
     }
   }
 `;
-
-
 
 // SECTION LEGACY CODE
 export const QUERY_SINGLE_LOCATION = gql`
