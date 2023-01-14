@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useId } from "react";
-import { Row, Col, Button, Form, Collapse, Container } from "react-bootstrap";
-import Auth from "../../utils/auth";
-import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
+import React, { useState, useEffect } from "react"; //okay
+import { Row, Col, Button, Form, Collapse, Container } from "react-bootstrap"; //okay
+import Auth from "../../utils/auth"; //okay
+import { useQuery, useMutation, useLazyQuery } from "@apollo/client"; //okay
 import {
   QUERY_ALL_EMPLOYEES,
   QUERY_SINGLE_EMPLOYEE,
@@ -13,10 +13,8 @@ import {
 } from "../../utils/mutations";
 import "../../styles/Forms.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { parseValue } from "graphql";
 
 function EmployeeList() {
-  const formId = useId();
   const [open, setOpen] = useState(false);
   const [openEmployee, setOpenEmployee] = useState(false);
 
@@ -31,7 +29,7 @@ function EmployeeList() {
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
   // VALIDATION
-  const [showUsernameValidation, setShowUsernameValidation] = useState(false);
+  // const [showUsernameValidation, setShowUsernameValidation] = useState(false);
   const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
   const [showLastNameValidation, setShowLastNameValidation] = useState(false);
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
@@ -177,6 +175,7 @@ function EmployeeList() {
 
     handleUpdateForDisabled(null, email, "addEmployee");
   };
+
   const resetForm = () => {
     setEmail("");
     setFirstName("");
@@ -262,6 +261,8 @@ function EmployeeList() {
 
     empRefetch();
 
+    resetForm();
+
     // eslint-disable-next-line
   }, [prevEmployeeInfo]);
 
@@ -339,6 +340,7 @@ function EmployeeList() {
 
       // REFETCH EMPLOYEES
       empRefetch();
+      
     } catch (err) {
       console.log(err);
     }
