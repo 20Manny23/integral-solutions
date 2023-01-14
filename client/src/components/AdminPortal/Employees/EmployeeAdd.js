@@ -136,7 +136,7 @@ function EmployeeAdd() {
 
   return (
     <Container>
-      <Form onSubmit={handleAddEmployeeSubmit} style={{ width: "80vw" }}>
+      <Form onSubmit={handleAddEmployeeSubmit} style={{alignContent:'left'}}>
         <div id="example-collapse-text">
           <Form.Group className="mb-3 form-length">
             <div className="form-label">

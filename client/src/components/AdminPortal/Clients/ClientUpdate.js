@@ -276,7 +276,7 @@ function ClientUpdate() {
             zip,
           });
         }}
-        style={{ width: "80vw" }}
+      
       >
         <div id="example-collapse-text">
           <Form.Group className="form-length">
