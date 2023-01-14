@@ -421,7 +421,7 @@ const resolvers = {
         isAdmin,
         isLocked,
       });
-      const token = signToken(employee);
+      const token = signToken(employee, expiration);
       return { token, employee, email }, { new: true };
       // }
       // throw new AuthenticationError("You need to be logged in!");

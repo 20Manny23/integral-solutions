@@ -6,7 +6,7 @@ import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
 
 import Employees from "../components/AdminPortal/EmployeeList";
-import ClientList from "../components/AdminPortal/ClientList";
+import ClientList from "../components/AdminPortal/Clients";
 import WorkOrder from "../components/AdminPortal/WorkOrder";
 import AdminMock from "../components/AdminPortal/AdminMock";
 
