@@ -25,10 +25,7 @@ export const FORGOT_PASSWORD = gql`
 
 // SECTION EMPLOYEE
 export const SIGNUP_EMPLOYEE = gql`
-  mutation signupEmployee(
-    $email: String!
-    $password: String!
-  ) {
+  mutation signupEmployee($email: String!, $password: String!) {
     signupEmployee(email: $email, password: $password) {
       token
       employee {
@@ -64,15 +61,40 @@ export const UPDATE_EMPLOYEE = gql`
       _id
       email
       firstName
-      isManager
       lastName
       password
       phone
+      isManager
       isAdmin
       isLocked
     }
   }
 `;
+
+export const UPDATE_EMPLOYEE_FORM = gql`
+  mutation UpdateEmployeeForm(
+    $id: ID
+    $firstName: String
+    $lastName: String
+    $email: String
+    $phone: String
+  ) {
+    updateEmployeeForm(
+      _id: $id
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      phone: $phone
+    ) {
+      _id
+      firstName
+      lastName
+      email
+      phone
+    }
+  }
+`;
+
 export const ADD_EMPLOYEE = gql`
   mutation addEmployee(
     $email: String
@@ -106,6 +128,7 @@ export const ADD_EMPLOYEE = gql`
     }
   }
 `;
+
 export const DELETE_EMPLOYEE = gql`
   mutation deleteEmployee($id: ID!) {
     deleteEmployee(_id: $id) {
@@ -113,6 +136,7 @@ export const DELETE_EMPLOYEE = gql`
     }
   }
 `;
+
 // SECTION CLIENT
 export const ADD_CLIENT = gql`
   mutation addClient(
@@ -264,6 +288,63 @@ export const DELETE_SCHEDULE = gql`
   }
 `;
 
+export const UPDATE_SCHEDULE = gql`
+  mutation UpdateSchedule(
+    $id: ID
+    $streetAddress: String
+    $suite: String
+    $city: String
+    $state: String
+    $zip: String
+    $startDate: String
+    $endDate: String
+    $startTime: String
+    $endTime: String
+    $squareFeet: String
+    $jobDetails: String
+    $numberOfClientEmployees: String
+    $client: String
+    $employees: [String]
+  ) {
+    updateSchedule(
+      _id: $id
+      startDate: $startDate
+      endDate: $endDate
+      startTime: $startTime
+      endTime: $endTime
+      client: $client
+      employees: $employees
+      streetAddress: $streetAddress
+      suite: $suite
+      city: $city
+      state: $state
+      zip: $zip
+      squareFeet: $squareFeet
+      jobDetails: $jobDetails
+      numberOfClientEmployees: $numberOfClientEmployees
+    ) {
+      _id
+      startDate
+      endDate
+      startTime
+      endTime
+      client {
+        _id
+      }
+      employees {
+        _id
+      }
+      city
+      jobDetails
+      numberOfClientEmployees
+      squareFeet
+      state
+      streetAddress
+      suite
+      zip
+    }
+  }
+`;
 
 // SECTION LEGACY CODE
 // export const LOGIN_USER = gql`

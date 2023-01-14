@@ -108,6 +108,9 @@ const resolvers = {
 
     employeeById: async (parent, { _id }, context) => {
       // if (context.user) {
+
+        console.log('employee by id', _id);
+        
       return Employee.findOne({ _id }).populate({
         path: "schedule",
         populate: { path: "client" },
@@ -150,7 +153,9 @@ const resolvers = {
 
     signupEmployee: async (parent, { email, password }, context) => {
       const employee = await Employee.create({ email, password });
-      const token = signToken(employee);
+
+      expiration = "2h"; // 15 minutes
+      const token = signToken(employee, expiration);
       return { token, employee };
     },
 
@@ -416,17 +421,19 @@ const resolvers = {
         isAdmin,
         isLocked,
       });
-      const token = signToken(employee);
+      const token = signToken(employee, expiration);
       return { token, employee, email }, { new: true };
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
+
     deleteEmployee: async (parent, { _id }, context) => {
       // if (context.user) {
       return Employee.findOneAndDelete({ _id });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
+
     updateEmployee: async (
       parent,
       {
@@ -475,6 +482,42 @@ const resolvers = {
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
+
+    updateEmployeeForm: async (
+      parent,
+      {
+        _id,
+        firstName,
+        lastName,
+        email,
+        phone,
+      },
+      context
+    ) => {
+      // if (context.user) {
+      console.log(
+        "resolver update employee form = ",
+        _id,
+        firstName,
+        lastName,
+        email,
+        phone,
+      );
+      return Employee.findOneAndUpdate(
+        { email },
+        {
+          firstName,
+          lastName,
+          email,
+          phone,
+        },
+        { new: true }
+      );
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+
     updateEmployeeSchedule: async (parent, { _id, schedule }, context) => {
       // if (context.user) {
       console.log("resolver update employee schedule = ", _id, schedule);
@@ -488,6 +531,7 @@ const resolvers = {
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
+
     // toggleAdmin mutation that returns a success/fail message
     toggleAdmin: async (parent, { employeeId }) => {
       let message = "No such user exists";
@@ -522,8 +566,8 @@ const resolvers = {
       }
       return { message, employee };
     },
-    // SECTION
 
+    // SECTION SCHEDULE
     addSchedule: async (
       parent,
       {

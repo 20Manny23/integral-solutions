@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { QUERY_SCHEDULE } from "../../utils/queries";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_CLIENTS, QUERY_ALL_EMPLOYEES } from "../../utils/queries";
-import { ADD_SCHEDULE, DELETE_SCHEDULE } from "../../utils/mutations";
+import { ADD_SCHEDULE, DELETE_SCHEDULE, UPDATE_SCHEDULE } from "../../utils/mutations";
 
 import { Row, Col, Button, Form, Collapse, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -294,8 +294,127 @@ function WorkOrder() {
   //   state,
   //   zip,
   // ]);
-
   // SECTION END ADD CLIENT
+
+
+  // SECTION UPDATE
+  // const [editClient, setEditClient] = useState([]);
+
+  const [updateSchedule] = useMutation(UPDATE_SCHEDULE);
+
+  // Wait for currentClientId OR current input to be updated
+  // useEffect(() => {
+  //   // console.log('current id = ', currentClientId, 'current input = ', currentInput);
+
+  //   if (currentClientId && currentInput) {
+  //     handleEditClientSubmit();
+  //     // console.log("useEffect = ", currentClientId);
+  //   }
+
+  //   // eslint-disable-next-line
+  // }, [currentClientId, currentInput]);
+
+  const handleEditClientSubmit = async () => {
+    // event.preventDefault();
+
+    // let test = await getASingleClient();
+    console.log("test = ", test);
+
+    // Update current client data
+    // try {
+    //   await updateClient({
+    //     variables: {
+    //       id: currentClientId,
+    //       businessName: currentInput.businessName
+    //         ? currentInput.businessName
+    //         : test.data.client.businessName,
+    //       contact: currentInput.contact
+    //         ? currentInput.contact
+    //         : test.data.client.contact,
+    //       phone: currentInput.phone
+    //         ? currentInput.phone
+    //         : test.data.client.phone,
+    //       email: currentInput.emailClient
+    //         ? currentInput.emailClient
+    //         : test.data.client.email,
+    //       streetAddress: currentInput.streetAddress
+    //         ? currentInput.streetAddress
+    //         : test.data.client.streetAddress,
+    //       suite: currentInput.suite
+    //         ? currentInput.suite
+    //         : test.data.client.suite,
+    //       city: currentInput.city ? currentInput.city : test.data.client.city,
+    //       state: currentInput.state
+    //         ? currentInput.state
+    //         : test.data.client.state,
+    //       zip: currentInput.zip ? currentInput.zip : test.data.client.zip,
+    //     },
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    // }
+
+    // clientsRefetch();
+  };
+
+  // Handle add form edit pencil = disabled = false or true
+  // const [updateClientDisabled, setUpdateClientDisabled] = useState({});
+
+  // useEffect(() => {
+  //   console.log("add client");
+  //   let fields = document.querySelectorAll("fieldset");
+  //   console.log(fields);
+
+  //   var newObj = {};
+  //   for (var i = 0; i < fields.length; i++) {
+  //     newObj[fields[i].dataset.businessname] = true;
+  //   }
+
+  //   setUpdateClientDisabled(newObj);
+
+  //   console.log(newObj);
+  //   console.log(updateClientDisabled);
+  // }, []);
+
+  // const handleUpdateForDisabled = (event, businessName, addClient) => {
+  //   console.log(event);
+  //   console.log(businessName);
+  //   console.log(
+  //     businessName
+  //       ? businessName
+  //       : event.currentTarget.getAttribute("data-businessname")
+  //   );
+
+  //   let currentName = businessName
+  //     ? businessName
+  //     : event.currentTarget.getAttribute("data-businessname");
+  //   let keys = document.querySelectorAll("fieldset");
+
+  //   console.log(currentName);
+  //   console.log("keys = ", keys);
+
+  //   var newObj = {};
+  //   for (var i = 0; i < keys.length; i++) {
+  //     console.log(keys[i].dataset.businessname);
+  //     console.log(updateClientDisabled[keys[i].dataset.businessname]);
+
+  //     if (keys[i].dataset.businessname === currentName) {
+  //       newObj[keys[i].dataset.businessname] =
+  //         !updateClientDisabled[keys[i].dataset.businessname];
+  //     } else if (addClient === "addClient") {
+  //       newObj[keys[i].dataset.businessname] = true;
+  //     } else {
+  //       newObj[keys[i].dataset.businessname] = true;
+  //     }
+  //   }
+
+  //   setUpdateClientDisabled(newObj);
+
+  //   console.log(newObj);
+  //   console.log(updateClientDisabled);
+  // };
+  // SECTION END UPDATE
+
   const getElement = (event) => {
     let currentAvailTarget = event.currentTarget.getAttribute("data-target");
     console.log(currentAvailTarget);
@@ -376,6 +495,7 @@ function WorkOrder() {
                 ))}
               </Form.Control>
             </Form.Group>
+            
             <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
               <div className="form-label">
                 <Form.Label style={{ fontWeight: "bolder" }}>

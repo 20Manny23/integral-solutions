@@ -1,14 +1,14 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-import Employees from "./Employees/Employees";
-import EmployeeAdd from "./Employees/EmployeeAdd"
-import EmployeeUpdate from "./Employees/EmployeeUpdate"
+import Employees from "./Employees";
+import EmployeeAdd from "./EmployeeAdd"
+import EmployeeUpdate from "./EmployeeUpdate"
 
-function AdminMock() {
+function EmployeesList() {
   return (
     <Tabs
-      defaultActiveKey="employeeUpdate"
+      defaultActiveKey="employeeList"
       id="fill-tab-example"
       className="mb-3"
       fill
@@ -26,4 +26,4 @@ function AdminMock() {
   );
 }
 
-export default AdminMock;
+export default EmployeesList;
