@@ -151,8 +151,6 @@ function ClientUpdate() {
   }, [currentClientId, currentInput]);
 
   const handleEditClientSubmit = async () => {
-    // event.preventDefault();
-
     let test = await getASingleClient();
     console.log("test = ", test);
 
@@ -192,7 +190,7 @@ function ClientUpdate() {
 
     clientsRefetch();
 
-    setIsDisabled(true);
+    // setIsDisabled(true);
 
     resetForm();
   };
@@ -264,7 +262,6 @@ function ClientUpdate() {
         className="py-3 overflow-auto custom-about"
         // section submit
         onSubmit={(event) => {
-          event.preventDefault();
           let clientId = event.currentTarget.getAttribute("data-editclientid");
           setCurrentClientId(clientId);
           setCurrentInput({
@@ -317,7 +314,6 @@ function ClientUpdate() {
 
           <Form.Group
             className="mb-3 form-length"
-            // controlId="formBasicEmail"
           >
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
