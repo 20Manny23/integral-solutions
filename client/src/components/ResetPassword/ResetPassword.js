@@ -187,7 +187,7 @@ const ResetPassword = () => {
           </Form.Group>
 
           <Button
-            // disabled={!(passwordFormData.email && passwordFormData.password)}
+            disabled={!(passwordFormData.password === passwordFormData.passwordCheck)}
             className="mb-3 submit-button-style"
             type="submit"
             variant="success"
