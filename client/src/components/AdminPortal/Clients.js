@@ -96,21 +96,19 @@ function Clients() {
                 </div>
                 <Collapse>
                   <div id={`#collapse-client-${index}`}>
-                    <Container>
+                    <Container fluid="md">
                       <Row>
-                        <Col>Client Name: {client?.businessName}</Col>
                         <Col>Contact: {client?.contact}</Col>
                       </Row>
                       <Row>
-                        <Col>
-                          Address: {client?.streetAddress}, {client?.city}{" "}
-                          {client?.state} {client?.zip}
-                        </Col>
-                        <Col>Phone: {client?.phone}</Col>
+                        <Col>{client?.streetAddress}</Col>
+                        <Col>{client?.phone}</Col>
                       </Row>
                       <Row>
-                        <Col>Email: {client?.email}</Col>
-                        <Col>Phone: {client?.phone}</Col>
+                        <Col>
+                          {client?.city} {client?.state} {client?.zip}
+                        </Col>
+                        <Col>{client?.email}</Col>
                       </Row>
                     </Container>
                   </div>

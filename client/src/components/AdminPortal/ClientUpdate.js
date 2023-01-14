@@ -1,42 +1,20 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Auth from "../../utils/auth";
 
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
-import {
-  QUERY_ALL_EMPLOYEES,
-  QUERY_ALL_CLIENTS,
-  QUERY_SCHEDULE,
-  QUERY_SINGLE_CLIENT,
-} from "../../utils/queries";
-import {
-  ADD_CLIENT,
-  DELETE_CLIENT,
-  UPDATE_CLIENT,
-} from "../../utils/mutations";
+import { QUERY_ALL_CLIENTS, QUERY_SINGLE_CLIENT } from "../../utils/queries";
+import { UPDATE_CLIENT } from "../../utils/mutations";
 
-import { Row, Col, Container, Form, Button, Modal, Card } from "react-bootstrap";
-import Collapse from "react-bootstrap/Collapse";
+import { Row, Col, Container, Form, Button } from "react-bootstrap";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/Contact.css";
 import "../../styles/button-style.css";
 
 function ClientUpdate() {
-  const [open, setOpen] = useState(false);
-  const [openDetails, setOpenDetails] = useState(false);
-
-  // eslint-disable-next-line
-
-  const {
-    loading: clientsLoad,
-    data: clients,
-    error: clientError,
-    refetch: clientsRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
-
   // SECTION START CLIENT
+  const [prevClientData, setPrevClientData] = useState({});
+
   // GET CLIENT FORM DATA
-  // businessName, streetAddress, suite, city, state, zip, contact, phone, email
   const [businessName, setBusinessName] = useState("");
   const [contact, setContact] = useState("");
   const [phone, setPhone] = useState("");
@@ -46,12 +24,8 @@ function ClientUpdate() {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
+    // const [isDisabled, setIsDisabled] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
-
-  //Modal State
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   // VALIDATION
   const [showBusinessNameValidation, setShowBusinessNameValidation] =
@@ -62,16 +36,28 @@ function ClientUpdate() {
     useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
-  const [showSuiteValidation, setShowSuiteValidation] = useState(false);
+  // const [showSuiteValidation, setShowSuiteValidation] = useState(false);
   const [showCityValidation, setShowCityValidation] = useState(false);
   const [showStateValidation, setShowStateValidation] = useState(false);
   const [showZipValidation, setShowZipValidation] = useState(false);
 
-  // SECTION GET A SINGLE CLIENT QUERY
-  const [currentClient, setCurrentClient] = useState("");
-  const [currentClientId, setCurrentClientId] = useState("");
   const [currentInput, setCurrentInput] = useState({});
+  const [currentClientId, setCurrentClientId] = useState("");
+  const [currentClient, setCurrentClient] = useState("");
 
+  // SECTION QUERIES & MUTATIONS 
+  // get all clients
+  const {
+    // eslint-disable-next-line
+    loading: clientsLoad,
+    // eslint-disable-next-line
+    data: clients,
+    // eslint-disable-next-line
+    error: clientError,
+    refetch: clientsRefetch,
+  } = useQuery(QUERY_ALL_CLIENTS);
+
+  // eslint-disable-next-line
   const [getASingleClient, { loading: lazyLoading, data: singleClient }] =
     useLazyQuery(QUERY_SINGLE_CLIENT, {
       variables: { clientId: currentClientId },
@@ -81,12 +67,12 @@ function ClientUpdate() {
         setCurrentClient(singleClient);
       },
     });
-  // Getting the value or name of input triggering change
+
+  // SECTION HANDLE INPUT
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     // Ternary statement that will call either setFirstName or setLastName based on what field the user is typing in
-    // businessName, streetAddress, suite, city, state, zip, contact, phone, email
     name === "businessName"
       ? setBusinessName(value)
       : name === "contact"
@@ -109,8 +95,8 @@ function ClientUpdate() {
 
     return name;
   };
+
   // If user clicks off an input field without entering text, then validation message "is required" displays
-  // businessName, contact, phone, email, streetAddress, suite, city, state, zip
   const handleBlurChange = (e) => {
     const { name, value } = e.target;
 
@@ -129,9 +115,9 @@ function ClientUpdate() {
     name === "streetAddress" && value.trim() === ""
       ? setShowStreetAddressValidation(true)
       : setShowStreetAddressValidation(false);
-    name === "suite" && value.trim() === ""
-      ? setShowSuiteValidation(true)
-      : setShowSuiteValidation(false);
+    // name === "suite" && value.trim() === ""
+    //   ? setShowSuiteValidation(true)
+    //   : setShowSuiteValidation(false);
     name === "city" && value.trim() === ""
       ? setShowCityValidation(true)
       : setShowCityValidation(false);
@@ -143,93 +129,18 @@ function ClientUpdate() {
       : setShowZipValidation(false);
   };
 
-  // SECTION ADD
-  const [addClient] = useMutation(ADD_CLIENT, {
-    refetchQueries: ["getAllClients"],
-  });
-
-  // Add client to the Client model/table
-  const handleAddClientSubmit = async (event) => {
-    event.preventDefault();
-    console.log(event);
-
-    try {
-      // eslint-disable-next-line
-      const { data } = await addClient({
-        variables: {
-          businessName,
-          contact,
-          phone,
-          email: emailClient,
-          streetAddress,
-          suite,
-          city,
-          state,
-          zip,
-        },
-      });
-    } catch (err) {
-      console.error(err);
-    }
-
-    // await clientsRefetch();
-
-    // resetForm();
-
-    // if ()
-    // handleUpdateForDisabled(null, businessName, "addClient");
-  };
-
-  // Reset the add client form after submission
-  // const resetForm = () => {
-  //   setBusinessName("");
-  //   setContact("");
-  //   setPhone("");
-  //   setEmailClient("");
-  //   setStreetAddress("");
-  //   setSuite("");
-  //   setCity("");
-  //   setState("");
-  //   setZip("");
-  // };
-
-  // If all fields are populated then enable the submit button
-  useEffect(() => {
-    setAreAllFieldsFilled(
-      businessName.trim() !== "" &&
-        contact.trim() !== "" &&
-        phone.trim() !== "" &&
-        emailClient.trim() !== "" &&
-        streetAddress.trim() !== "" &&
-        suite.trim() !== "" &&
-        city.trim() !== "" &&
-        state.trim() !== "" &&
-        zip.trim() !== ""
-    );
-    // console.log(areAllFieldsFilled);
-    // eslint-disable-next-line
-  }, [
-    businessName,
-    contact,
-    phone,
-    emailClient,
-    streetAddress,
-    suite,
-    city,
-    state,
-    zip,
-  ]);
-
-  // SECTION END ADD
-
-  // SECTION UPDATE
-  // const [editClient, setEditClient] = useState([]);
-
+  // SECTION UPDATE CLIENT IN DATABASE
   const [updateClient] = useMutation(UPDATE_CLIENT);
 
   // Wait for currentClientId OR current input to be updated
   useEffect(() => {
-    // console.log('current id = ', currentClientId, 'current input = ', currentInput);
+    console.log(
+      "current id = ",
+      currentClientId,
+      "current input = ",
+      currentInput
+    );
+    console.log("prev data = ", prevClientData);
 
     if (currentClientId && currentInput) {
       handleEditClientSubmit();
@@ -278,767 +189,376 @@ function ClientUpdate() {
     } catch (err) {
       console.log(err);
     }
+
     clientsRefetch();
+
+    setIsDisabled(true);
+
+    resetForm();
   };
 
-  // Handle add form edit pencil = disabled = false or true
-  const [updateClientDisabled, setUpdateClientDisabled] = useState({});
+  //  Reset the form after onSubmit
+  const resetForm = () => {
+    setBusinessName("");
+    setContact("");
+    setPhone("");
+    setEmailClient("");
+    setStreetAddress("");
+    setSuite("");
+    setCity("");
+    setState("");
+    setZip("");
+  };
 
+  // If all fields are populated then enable the submit button
   useEffect(() => {
-    console.log("add client");
-    let fields = document.querySelectorAll("fieldset");
-    console.log(fields);
-
-    var newObj = {};
-    for (var i = 0; i < fields.length; i++) {
-      newObj[fields[i].dataset.businessname] = true;
-    }
-
-    setUpdateClientDisabled(newObj);
-
-    console.log(newObj);
-    console.log(updateClientDisabled);
-
+    setAreAllFieldsFilled(
+      businessName.trim() !== "" &&
+        contact.trim() !== "" &&
+        phone.trim() !== "" &&
+        emailClient.trim() !== "" &&
+        streetAddress.trim() !== "" &&
+        // suite.trim() !== "" && //not required
+        city.trim() !== "" &&
+        state.trim() !== "" &&
+        zip.trim() !== ""
+    );
+    // console.log(areAllFieldsFilled);
     // eslint-disable-next-line
-  }, []);
+  }, [
+    businessName,
+    contact,
+    phone,
+    emailClient,
+    streetAddress,
+    suite,
+    city,
+    state,
+    zip,
+  ]);
 
-  const handleUpdateForDisabled = (event, businessName, addClient) => {
-    // console.log(event);
-    // console.log(businessName);
-    // console.log(
-    //   businessName
-    //     ? businessName
-    //     : event.currentTarget.getAttribute("data-businessname")
-    // );
+  //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
+  async function businessNameSelect(event) {
+    let clientId = event.target.options[event.target.selectedIndex].dataset.id;
+    setCurrentClientId(clientId);
+    // setIsDisabled(false);
 
-    let currentName = businessName
-      ? businessName
-      : event.currentTarget.getAttribute("data-businessname");
-    let keys = document.querySelectorAll("fieldset");
+    console.log(event.target.value, clientId);
 
-    console.log(currentName);
-    console.log("keys = ", keys);
+    setBusinessName(event.target.value);
 
-    var newObj = {};
-    for (var i = 0; i < keys.length; i++) {
-      console.log(keys[i].dataset.businessname);
-      console.log(updateClientDisabled[keys[i].dataset.businessname]);
+    //await query single client
+    let currentClientData = await getASingleClient();
 
-      if (keys[i].dataset.businessname === currentName) {
-        newObj[keys[i].dataset.businessname] =
-          !updateClientDisabled[keys[i].dataset.businessname];
-      } else if (addClient === "addClient") {
-        newObj[keys[i].dataset.businessname] = true;
-      } else {
-        newObj[keys[i].dataset.businessname] = true;
-      }
-    }
+    console.log(currentClientData);
 
-    setUpdateClientDisabled(newObj);
+    setPrevClientData(currentClientData.data.client);
 
-    console.log(newObj);
-    console.log(updateClientDisabled);
-  };
-  // SECTION END UPDATE
-
-  // SECTION START DELETE
-  const [deleteClient] = useMutation(DELETE_CLIENT);
-
-  const handleDeleteClient = async (event) => {
-    let clientId = event.currentTarget.getAttribute("data-clientid");
-    try {
-      // eslint-disable-next-line
-      await deleteClient({
-        variables: {
-          id: clientId,
-        },
-      });
-
-      // RELOAD CLIENT
-      clientsRefetch();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // SECTION END DELETE CLIENT
-
-  const getElement = (event) => {
-    let currentAvailTarget = event.currentTarget.getAttribute("data-target");
-    console.log(currentAvailTarget);
-    let currentAvailTable = document.getElementById(currentAvailTarget);
-
-    if (currentAvailTable.classList.contains("show")) {
-      currentAvailTable.classList.remove("show");
-      setOpenDetails(false);
-    } else {
-      currentAvailTable.classList.add("show");
-      setOpenDetails(true);
-    }
-  };
+    console.log(prevClientData.businessName);
+  }
 
   return (
-    <>
-      <Container>
-        <div className="d-flex justify-content-between">
-          {/* <h3>Client List</h3> */}
-          <div className="d-flex justify-content-center align-items-center align-content-center">
-            {/* <p className="mt-1">Add New Client</p>
-            <FontAwesomeIcon
-              icon="fa-add"
-              className="p-2"
-              onClick={() => setOpen(!open)}
-              aria-controls="example-collapse-text"
-              aria-expanded={open}
-              title="Add new client"
-              transform="grow-10"
-              alt="Add a new client"
-            /> */}
+    <Container>
+      <Form
+        data-editclientid={prevClientData?._id}
+        className="py-3 overflow-auto custom-about"
+        // section submit
+        onSubmit={(event) => {
+          event.preventDefault();
+          let clientId = event.currentTarget.getAttribute("data-editclientid");
+          setCurrentClientId(clientId);
+          setCurrentInput({
+            businessName,
+            contact,
+            phone,
+            emailClient,
+            streetAddress,
+            suite,
+            state,
+            city,
+            zip,
+          });
+        }}
+        style={{ width: "80vw" }}
+      >
+        <div id="example-collapse-text">
+          <Form.Group className="form-length">
+            <Form.Label style={{ fontWeight: "bolder" }}>
+              Select Client (to populate below)
+            </Form.Label>
+            <Form.Label
+              className={`validation-color ${
+                showBusinessNameValidation ? "show" : "hide"
+              }`}
+            >
+              *required
+            </Form.Label>
+            <Form.Control
+              as="select"
+              className="custom-border"
+              type="text"
+              placeholder="Select Client"
+              value={"form-select"}
+              name={"form-select"}
+              onChange={businessNameSelect}
+            >
+              <option>{businessName ? businessName : "Select"}</option>
+              {clients?.clients?.map((client, index) => (
+                <option
+                  key={index}
+                  value={client.businessName}
+                  data-id={client._id}
+                >
+                  {client.businessName}
+                </option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+
+          <Form.Group
+            className="mb-3 form-length"
+            // controlId="formBasicEmail"
+          >
+            <div className="form-label">
+              <Form.Label style={{ fontWeight: "bolder" }}>
+                Company Name
+              </Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showBusinessNameValidation ? "show" : "hide"
+                }`}
+              >
+                * field is required
+              </Form.Label>
+            </div>
+            <Form.Control
+              className="custom-border"
+              type="text"
+              placeholder="Enter Company Name"
+              name="businessName"
+              defaultValue={prevClientData?.businessName}
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              //disabled={isDisabled}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group
+            className="mb-3 form-length"
+            // controlId="formBasicEmail"
+          >
+            <div className="form-label">
+              <Form.Label style={{ fontWeight: "bolder" }}>
+                Contact Name
+              </Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showContactValidation ? "show" : "hide"
+                }`}
+              >
+                * field is required
+              </Form.Label>
+            </div>
+            <Form.Control
+              className="custom-border"
+              type="text"
+              placeholder="Enter Contact Person"
+              name="contact"
+              defaultValue={prevClientData?.contact}
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              //disabled={isDisabled}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group
+            className="mb-3 form-length"
+            // controlId="formBasicEmail"
+          >
+            <div className="form-label">
+              <Form.Label style={{ fontWeight: "bolder" }}>
+                Phone Number
+              </Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showPhoneValidation ? "show" : "hide"
+                }`}
+              >
+                * field is required
+              </Form.Label>
+            </div>
+            <Form.Control
+              className="custom-border"
+              type="tel"
+              placeholder="example: 123-456-7899"
+              name="phone"
+              defaultValue={prevClientData?.phone}
+              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              //disabled={isDisabled}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group
+            className="mb-3 form-length"
+            // controlId="formBasicEmail"
+          >
+            <div className="form-label">
+              <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showEmailClientValidation ? "show" : "hide"
+                }`}
+              >
+                * field is required
+              </Form.Label>
+            </div>
+            <Form.Control
+              className="custom-border"
+              type="email"
+              placeholder="Client Email"
+              name="emailClient"
+              defaultValue={prevClientData?.email}
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              //disabled={isDisabled}
+              // required
+            />
+          </Form.Group>
+
+          <Form.Group
+            className="mb-3 form-length"
+            // controlId="formBasicEmail"
+          >
+            <div className="form-label">
+              <Form.Label style={{ fontWeight: "bolder" }}>Address</Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showStreetAddressValidation ? "show" : "hide"
+                }`}
+              >
+                * field is required
+              </Form.Label>
+            </div>
+            <Form.Control
+              className="custom-border"
+              placeholder="Enter Address"
+              name="streetAddress"
+              defaultValue={prevClientData?.streetAddress}
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              //disabled={isDisabled}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group
+            className="mb-3 form-length"
+            // controlId="formBasicEmail"
+          >
+            <div className="form-label">
+              <Form.Label style={{ fontWeight: "bolder" }}>Suite</Form.Label>
+              {/* <Form.Label
+                className={`validation-color ${
+                  showSuiteValidation ? "show" : "hide"
+                }`}
+              >
+                * field is required
+              </Form.Label> */}
+            </div>
+            <Form.Control
+              className="custom-border"
+              placeholder="Enter Suite"
+              name="suite"
+              defaultValue={prevClientData?.suite}
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              //disabled={isDisabled}
+              // required
+            />
+          </Form.Group>
+
+          <Row className="addy">
+            <Col xs={6}>
+              <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showCityValidation ? "show" : "hide"
+                }`}
+              >
+                * required
+              </Form.Label>
+              <Form.Control
+                className="custom-border"
+                placeholder="City"
+                name="city"
+                defaultValue={prevClientData?.city}
+                onChange={handleInputChange}
+                onBlur={handleBlurChange}
+                //disabled={isDisabled}
+                required
+              />
+            </Col>
+            <Col>
+              <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showStateValidation ? "show" : "hide"
+                }`}
+              >
+                * required
+              </Form.Label>
+              <Form.Control
+                className="custom-border"
+                placeholder="State"
+                name="state"
+                defaultValue={prevClientData?.state}
+                onChange={handleInputChange}
+                onBlur={handleBlurChange}
+                //disabled={isDisabled}
+                required
+              />
+            </Col>
+            <Col>
+              <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showZipValidation ? "show" : "hide"
+                }`}
+              >
+                * required
+              </Form.Label>
+              <Form.Control
+                className="custom-border"
+                placeholder="Zip"
+                name="zip"
+                defaultValue={prevClientData?.zip}
+                onChange={handleInputChange}
+                onBlur={handleBlurChange}
+                //disabled={isDisabled}
+                required
+              />
+            </Col>
+          </Row>
+          <div className="d-flex justify-content-center">
+            <Button
+              className="submit-button-style"
+              variant="primary"
+              type="submit"
+              // disabled={!areAllFieldsFilled}
+              title="Enter all fields to add a new client"
+            >
+              Update Client
+            </Button>
           </div>
         </div>
-        {/* <Row className="d-flex justify-content-center"> */}
-          <Form
-            // className="py-3 overflow-auto custom-about"
-            onSubmit={handleAddClientSubmit}
-            style={{ width: "80vw" }}
-          >
-            <Collapse in={open}>
-              {/* <Collapse> */}
-              <div id="example-collapse-text">
-                <Form.Group
-                  className="mb-3 form-length"
-                  controlId="formBasicEmail"
-                >
-                  <div className="form-label">
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      Company Name
-                    </Form.Label>
-                    <Form.Label
-                      className={`validation-color ${
-                        showBusinessNameValidation ? "show" : "hide"
-                      }`}
-                    >
-                      * field is required
-                    </Form.Label>
-                  </div>
-                  <Form.Control
-                    className="custom-border"
-                    type="text"
-                    placeholder="Enter Company Name"
-                    value={businessName}
-                    name="businessName"
-                    onChange={handleInputChange}
-                    onBlur={handleBlurChange}
-                    required
-                  />
-                </Form.Group>
-
-                <Form.Group
-                  className="mb-3 form-length"
-                  controlId="formBasicEmail"
-                >
-                  <div className="form-label">
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      Contact Name
-                    </Form.Label>
-                    <Form.Label
-                      className={`validation-color ${
-                        showContactValidation ? "show" : "hide"
-                      }`}
-                    >
-                      * field is required
-                    </Form.Label>
-                  </div>
-                  <Form.Control
-                    className="custom-border"
-                    type="text"
-                    placeholder="Enter Contact Person"
-                    value={contact}
-                    name="contact"
-                    // defaultValue="test contact"
-                    onChange={handleInputChange}
-                    onBlur={handleBlurChange}
-                    required
-                  />
-                </Form.Group>
-
-                <Form.Group
-                  className="mb-3 form-length"
-                  controlId="formBasicEmail"
-                >
-                  <div className="form-label">
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      Phone Number
-                    </Form.Label>
-                    <Form.Label
-                      className={`validation-color ${
-                        showPhoneValidation ? "show" : "hide"
-                      }`}
-                    >
-                      * field is required
-                    </Form.Label>
-                  </div>
-                  <Form.Control
-                    className="custom-border"
-                    type="tel"
-                    placeholder="example: 123-456-7899"
-                    name="phone"
-                    value={phone}
-                    // defaultValue="123-456-7899"
-                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                    onChange={handleInputChange}
-                    onBlur={handleBlurChange}
-                    required
-                  />
-                </Form.Group>
-
-                <Form.Group
-                  className="mb-3 form-length"
-                  controlId="formBasicEmail"
-                >
-                  <div className="form-label">
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      Email
-                    </Form.Label>
-                    <Form.Label
-                      className={`validation-color ${
-                        showEmailClientValidation ? "show" : "hide"
-                      }`}
-                    >
-                      * field is required
-                    </Form.Label>
-                  </div>
-                  <Form.Control
-                    className="custom-border"
-                    type="email"
-                    placeholder="Client Email"
-                    name="emailClient"
-                    value={emailClient}
-                    // defaultValue="test@test.com"
-                    onChange={handleInputChange}
-                    onBlur={handleBlurChange}
-                    required
-                  />
-                </Form.Group>
-
-                <Form.Group
-                  className="mb-3 form-length"
-                  controlId="formBasicEmail"
-                >
-                  <div className="form-label">
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      Address
-                    </Form.Label>
-                    <Form.Label
-                      className={`validation-color ${
-                        showStreetAddressValidation ? "show" : "hide"
-                      }`}
-                    >
-                      * field is required
-                    </Form.Label>
-                  </div>
-                  <Form.Control
-                    className="custom-border"
-                    placeholder="Enter Address"
-                    name="streetAddress"
-                    value={streetAddress}
-                    // defaultValue="test address"
-                    onChange={handleInputChange}
-                    onBlur={handleBlurChange}
-                    required
-                  />
-                </Form.Group>
-
-                <Form.Group
-                  className="mb-3 form-length"
-                  controlId="formBasicEmail"
-                >
-                  <div className="form-label">
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      Suite
-                    </Form.Label>
-                    <Form.Label
-                      className={`validation-color ${
-                        showSuiteValidation ? "show" : "hide"
-                      }`}
-                    >
-                      * field is required
-                    </Form.Label>
-                  </div>
-                  <Form.Control
-                    className="custom-border"
-                    placeholder="Enter Address"
-                    name="suite"
-                    value={suite}
-                    // defaultValue="suite #"
-                    onChange={handleInputChange}
-                    onBlur={handleBlurChange}
-                    required
-                  />
-                </Form.Group>
-
-                <Row className="addy">
-                  <Col xs={6}>
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      City
-                    </Form.Label>
-                    <Form.Label
-                      className={`validation-color ${
-                        showCityValidation ? "show" : "hide"
-                      }`}
-                    >
-                      * required
-                    </Form.Label>
-                    <Form.Control
-                      className="custom-border"
-                      placeholder="City"
-                      name="city"
-                      value={city}
-                      // defaultValue="test city"
-                      onChange={handleInputChange}
-                      onBlur={handleBlurChange}
-                      required
-                    />
-                  </Col>
-                  <Col>
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      State
-                    </Form.Label>
-                    <Form.Label
-                      className={`validation-color ${
-                        showStateValidation ? "show" : "hide"
-                      }`}
-                    >
-                      * required
-                    </Form.Label>
-                    <Form.Control
-                      className="custom-border"
-                      placeholder="State"
-                      name="state"
-                      value={state}
-                      // defaultValue="CO"
-                      onChange={handleInputChange}
-                      onBlur={handleBlurChange}
-                      required
-                    />
-                  </Col>
-                  <Col>
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      Zipcode
-                    </Form.Label>
-                    <Form.Label
-                      className={`validation-color ${
-                        showZipValidation ? "show" : "hide"
-                      }`}
-                    >
-                      * required
-                    </Form.Label>
-                    <Form.Control
-                      className="custom-border"
-                      placeholder="Zip"
-                      name="zip"
-                      value={zip}
-                      // defaultValue="07801"
-                      onChange={handleInputChange}
-                      onBlur={handleBlurChange}
-                      required
-                    />
-                  </Col>
-                </Row>
-                <div className="d-flex justify-content-center">
-                  <Button
-                    className="submit-button-style"
-                    variant="primary"
-                    type="submit"
-                    disabled={!areAllFieldsFilled}
-                    title="Enter all fields to add a new client"
-                  >
-                    Add Client
-                  </Button>
-                </div>
-              </div>
-            </Collapse>
-          </Form>
-        {/* </Row> */}
-
-        {/* <Container style={{ border: "1px solid black", borderRadius: "10px" }}> */}
-        {/* <div className="d-flex justify-content-between">
-          <h3>Client List</h3> */}
-        {/* <button
-            onClick={() => setOpen(!open)}
-            aria-controls="example-collapse-text"
-            aria-expanded={open}
-            style={{ backgroundColor: "white", border: "none", color: "black" }}
-          >
-            Add New Client ➕
-          </button> */}
-        {/* </div> */}
-        <Row style={{ display: "flex", justifyContent: "center" }}>
-          {clients?.clients?.map((client, index) => (
-            <div id="accordion" key={index} style={{ width: "98%" }}>
-              <div className="card p-2 mb-1">
-                <div
-                  className="rounded directions-collapse"
-                  id="headingOne"
-                  style={{
-                    color: "black",
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <h5 className="mb-0 text-left">
-                    <button
-                      onClick={(event) => getElement(event)}
-                      aria-controls={`#collapse-client-${index}`}
-                      aria-expanded={openDetails}
-                      className="btn btn-link pl-1"
-                      data-target={`#collapse-client-${index}`}
-                    >
-                      {client?.businessName}
-                    </button>
-                  </h5>
-                  <div className="mr-2" style={{ display: "flex" }}>
-                    {/* section pencil */}
-                    {/* <span style={{ marginTop: "7px", fontSize: "13px" }}>
-                      Edit
-                    </span> */}
-                    {/* <FontAwesomeIcon
-                      icon="fa-pencil"
-                      className="p-2 fa-lg"
-                      data-businessname={client?.businessName}
-                      onClick={handleUpdateForDisabled}
-                    /> */}
-                    {/* DELETE */}
-                    <FontAwesomeIcon
-                      icon="fa-trash"
-                      className="p-2 fa-lg"
-                      data-clientid={client?._id}
-                      onClick={(event) => {
-                        handleDeleteClient(event);
-                      }}
-                    />
-                   
-                  </div>
-                </div>
-
-                <Collapse>
-                  <div id={`#collapse-client-${index}`}>
-
-{/* fix */}
-
-<Container>
-      <Row>
-        <Col>Client Name: {client?.businessName}</Col>
-        <Col>Contact: {client?.contact}</Col>
-      </Row>
-      <Row>
-        <Col>Address: {client?.streetAddress}, {client?.city} {client?.state} {client?.zip}</Col>
-        <Col>Phone: {client?.phone}</Col>
-      </Row>
-      <Row>
-        <Col>Email: {client?.email}</Col>
-        <Col>Phone: {client?.phone}</Col>
-      </Row>
-
+      </Form>
     </Container>
-
-
-
-                    {/* <Form
-                      data-editclientid={client?._id}
-                      className="py-3 overflow-auto custom-about"
-                      // section submit
-                      onSubmit={(event) => {
-                        event.preventDefault();
-                        let clientId =
-                          event.currentTarget.getAttribute("data-editclientid");
-                        setCurrentClientId(clientId);
-                        setCurrentInput({
-                          businessName,
-                          contact,
-                          phone,
-                          emailClient,
-                          streetAddress,
-                          suite,
-                          state,
-                          city,
-                          zip,
-                        });
-                      }}
-                      style={{ width: "80vw" }}
-                    >
-                      <fieldset
-                        data-businessname={client?.businessName}
-                        disabled={
-                          updateClientDisabled === {}
-                            ? true
-                            : updateClientDisabled[client?.businessName]
-                        }
-                      >
-                        <div id="example-collapse-text">
-                          <Form.Group
-                            className="mb-3 form-length"
-                            // controlId="formBasicEmail"
-                          >
-                            <div className="form-label">
-                              <Form.Label style={{ fontWeight: "bolder" }}>
-                                Company Name
-                              </Form.Label>
-                              <Form.Label
-                                className={`validation-color ${
-                                  showBusinessNameValidation ? "show" : "hide"
-                                }`}
-                              >
-                                * field is required
-                              </Form.Label>
-                            </div>
-                            <Form.Control
-                              className="custom-border"
-                              type="text"
-                              placeholder="Enter Company Name"
-                              name="businessName"
-                              defaultValue={client?.businessName}
-                              onChange={handleInputChange}
-                              onBlur={handleBlurChange}
-                              required
-                            />
-                          </Form.Group>
-
-                          <Form.Group
-                            className="mb-3 form-length"
-                            // controlId="formBasicEmail"
-                          >
-                            <div className="form-label">
-                              <Form.Label style={{ fontWeight: "bolder" }}>
-                                Contact Name
-                              </Form.Label>
-                              <Form.Label
-                                className={`validation-color ${
-                                  showContactValidation ? "show" : "hide"
-                                }`}
-                              >
-                                * field is required
-                              </Form.Label>
-                            </div>
-                            <Form.Control
-                              className="custom-border"
-                              type="text"
-                              placeholder="Enter Contact Person"
-                              name="contact"
-                              defaultValue={client?.contact}
-                              onChange={handleInputChange}
-                              onBlur={handleBlurChange}
-                              required
-                            />
-                          </Form.Group>
-
-                          <Form.Group
-                            className="mb-3 form-length"
-                            // controlId="formBasicEmail"
-                          >
-                            <div className="form-label">
-                              <Form.Label style={{ fontWeight: "bolder" }}>
-                                Phone Number
-                              </Form.Label>
-                              <Form.Label
-                                className={`validation-color ${
-                                  showPhoneValidation ? "show" : "hide"
-                                }`}
-                              >
-                                * field is required
-                              </Form.Label>
-                            </div>
-                            <Form.Control
-                              className="custom-border"
-                              type="tel"
-                              placeholder="example: 123-456-7899"
-                              name="phone"
-                              defaultValue={client?.phone}
-                              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                              onChange={handleInputChange}
-                              onBlur={handleBlurChange}
-                              required
-                            />
-                          </Form.Group>
-
-                          <Form.Group
-                            className="mb-3 form-length"
-                            // controlId="formBasicEmail"
-                          >
-                            <div className="form-label">
-                              <Form.Label style={{ fontWeight: "bolder" }}>
-                                Email
-                              </Form.Label>
-                              <Form.Label
-                                className={`validation-color ${
-                                  showEmailClientValidation ? "show" : "hide"
-                                }`}
-                              >
-                                * field is required
-                              </Form.Label>
-                            </div>
-                            <Form.Control
-                              className="custom-border"
-                              type="email"
-                              placeholder="Client Email"
-                              name="emailClient"
-                              defaultValue={client?.email}
-                              onChange={handleInputChange}
-                              onBlur={handleBlurChange}
-                              // required
-                            />
-                          </Form.Group>
-
-                          <Form.Group
-                            className="mb-3 form-length"
-                            // controlId="formBasicEmail"
-                          >
-                            <div className="form-label">
-                              <Form.Label style={{ fontWeight: "bolder" }}>
-                                Address
-                              </Form.Label>
-                              <Form.Label
-                                className={`validation-color ${
-                                  showStreetAddressValidation ? "show" : "hide"
-                                }`}
-                              >
-                                * field is required
-                              </Form.Label>
-                            </div>
-                            <Form.Control
-                              className="custom-border"
-                              placeholder="Enter Address"
-                              name="streetAddress"
-                              defaultValue={client?.streetAddress}
-                              onChange={handleInputChange}
-                              onBlur={handleBlurChange}
-                              required
-                            />
-                          </Form.Group>
-
-                          <Form.Group
-                            className="mb-3 form-length"
-                            // controlId="formBasicEmail"
-                          >
-                            <div className="form-label">
-                              <Form.Label style={{ fontWeight: "bolder" }}>
-                                Suite
-                              </Form.Label>
-                              <Form.Label
-                                className={`validation-color ${
-                                  showSuiteValidation ? "show" : "hide"
-                                }`}
-                              >
-                                * field is required
-                              </Form.Label>
-                            </div>
-                            <Form.Control
-                              className="custom-border"
-                              placeholder="Enter Suite"
-                              name="suite"
-                              defaultValue={client?.suite}
-                              onChange={handleInputChange}
-                              onBlur={handleBlurChange}
-                              // required
-                            />
-                          </Form.Group>
-
-                          <Row className="addy">
-                            <Col xs={6}>
-                              <Form.Label style={{ fontWeight: "bolder" }}>
-                                City
-                              </Form.Label>
-                              <Form.Label
-                                className={`validation-color ${
-                                  showCityValidation ? "show" : "hide"
-                                }`}
-                              >
-                                * required
-                              </Form.Label>
-                              <Form.Control
-                                className="custom-border"
-                                placeholder="City"
-                                name="city"
-                                defaultValue={client?.city}
-                                onChange={handleInputChange}
-                                onBlur={handleBlurChange}
-                                required
-                              />
-                            </Col>
-                            <Col>
-                              <Form.Label style={{ fontWeight: "bolder" }}>
-                                State
-                              </Form.Label>
-                              <Form.Label
-                                className={`validation-color ${
-                                  showStateValidation ? "show" : "hide"
-                                }`}
-                              >
-                                * required
-                              </Form.Label>
-                              <Form.Control
-                                className="custom-border"
-                                placeholder="State"
-                                name="state"
-                                defaultValue={client?.state}
-                                onChange={handleInputChange}
-                                onBlur={handleBlurChange}
-                                required
-                              />
-                            </Col>
-                            <Col>
-                              <Form.Label style={{ fontWeight: "bolder" }}>
-                                Zipcode
-                              </Form.Label>
-                              <Form.Label
-                                className={`validation-color ${
-                                  showZipValidation ? "show" : "hide"
-                                }`}
-                              >
-                                * required
-                              </Form.Label>
-                              <Form.Control
-                                className="custom-border"
-                                placeholder="Zip"
-                                name="zip"
-                                defaultValue={client?.zip}
-                                onChange={handleInputChange}
-                                onBlur={handleBlurChange}
-                                required
-                              />
-                            </Col>
-                          </Row>
-                          <div className="d-flex justify-content-center">
-                            <Button
-                              className="submit-button-style"
-                              variant="primary"
-                              type="submit"
-                              // disabled={!areAllFieldsFilled}
-                              title="Enter all fields to add a new client"
-                            >
-                              Update Client
-                            </Button>
-                          </div>
-                        </div>
-                      </fieldset>
-                    </Form> */}
-
-                  </div>
-                </Collapse>
-              </div>
-            </div>
-          ))}
-        </Row>
-      </Container>
-    </>
   );
 }
+
 export default ClientUpdate;
-
-const isDisplayed = {
-  display: "block",
-};
-
-const isNotDisplayed = {
-  display: "none",
-};

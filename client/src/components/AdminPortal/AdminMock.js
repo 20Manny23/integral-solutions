@@ -8,7 +8,7 @@ import ClientUpdate from "./ClientUpdate";
 function AdminClient() {
   return (
     <Tabs
-      defaultActiveKey="clientList"
+      defaultActiveKey="clientUpdate"
       id="fill-tab-example"
       className="mb-3"
       fill
@@ -19,7 +19,7 @@ function AdminClient() {
       <Tab eventKey="clientUpdate" title="Update Client">
         <ClientUpdate />
       </Tab>
-      <Tab eventKey="clientNew" title="Add New Client">
+      <Tab eventKey="clientAdd" title="Add New Client">
        <ClientAdd />
       </Tab>
     </Tabs>
