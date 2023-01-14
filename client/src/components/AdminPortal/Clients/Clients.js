@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_ALL_CLIENTS } from "../../utils/queries";
-import { DELETE_CLIENT } from "../../utils/mutations";
+import { QUERY_ALL_CLIENTS } from "../../../utils/queries";
+import { DELETE_CLIENT } from "../../../utils/mutations";
 
 import { Row, Col, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../../styles/Contact.css";
-import "../../styles/button-style.css";
+import "../../../styles/Contact.css";
+import "../../../styles/button-style.css";
 
 function Clients() {
   const [openDetails, setOpenDetails] = useState(false);

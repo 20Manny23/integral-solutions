@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Auth from "../../utils/auth";
+import Auth from "../../../utils/auth";
 
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
-import { QUERY_ALL_CLIENTS, QUERY_SINGLE_CLIENT } from "../../utils/queries";
-import { UPDATE_CLIENT } from "../../utils/mutations";
+import { QUERY_ALL_CLIENTS, QUERY_SINGLE_CLIENT } from "../../../utils/queries";
+import { UPDATE_CLIENT } from "../../../utils/mutations";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 
-import "../../styles/Contact.css";
-import "../../styles/button-style.css";
+import "../../../styles/Contact.css";
+import "../../../styles/button-style.css";
 
 function ClientUpdate() {
   // SECTION START CLIENT

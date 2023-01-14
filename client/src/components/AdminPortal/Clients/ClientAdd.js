@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 import { useMutation } from "@apollo/client";
-import { ADD_CLIENT } from "../../utils/mutations";
+import { ADD_CLIENT } from "../../../utils/mutations";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 
-import "../../styles/Contact.css";
-import "../../styles/button-style.css";
+import "../../../styles/Contact.css";
+import "../../../styles/button-style.css";
 
 function ClientAdd() {
   // GET CLIENT FORM DATA
