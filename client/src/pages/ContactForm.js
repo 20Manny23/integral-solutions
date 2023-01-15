@@ -1,65 +1,12 @@
-// import React, { useEffect, useState } from "react";
-import { Row, Col, Button, Form, Container, Nav } from "react-bootstrap";
+import React from "react";
+
+import { STATE_DROPDOWN } from "../utils/stateDropdown";
+
+import { Row, Col, Button, Form } from "react-bootstrap";
 import "../styles/Forms.css";
 import Footer from "../components/Home/Footer";
 
 function ContactForm() {
-  const stateCode = [
-    "CO",
-    "AL",
-    "AK",
-    "AS",
-    "AZ",
-    "AR",
-    "CA",
-    "CO",
-    "CT",
-    "DE",
-    "DC",
-    "FL",
-    "GA",
-    "HI",
-    "ID",
-    "IL",
-    "IN",
-    "IA",
-    "KS",
-    "KY",
-    "LA",
-    "ME",
-    "MD",
-    "MA",
-    "MI",
-    "MI",
-    "MN",
-    "MS",
-    "MO",
-    "MT",
-    "NE",
-    "NV",
-    "NH",
-    "NJ",
-    "NM",
-    "NY",
-    "NC",
-    "ND",
-    "OH",
-    "OR",
-    "PA",
-    "RI",
-    "SC",
-    "SD",
-    "TN",
-    "TX",
-    "UT",
-    "VT",
-    "VA",
-    "WA",
-    "WV",
-    "WI",
-    "WY",
-  ];
-
   const numberOfEmployees = [
     "Home Office",
     "Less Than 50",
@@ -192,8 +139,8 @@ function ContactForm() {
                     placeholder="State"
                     style={{ maxWidth: "150px" }}
                   >
-                    {" "}
-                    {stateCode.map((st) => (
+                    <option>Select</option>
+                    {STATE_DROPDOWN.map((st) => (
                       <option>{st}</option>
                     ))}
                   </Form.Control>

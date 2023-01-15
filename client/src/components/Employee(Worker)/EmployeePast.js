@@ -41,59 +41,60 @@ function Employees() {
       }
       console.log(past);
       setSchedule(past);
-
     },
   });
 
   if (loading) {
-    // console.log(loading); // need to add a spinner here
+    // console.log(loading); // need to add a spinner
   } else {
-  return (
-    <>
-      <Container>
-        <Row style={{ display: "flex", justifyContent: "center" }}>
-          {schedule.map((job, index) => (
-            <div id="accordion" key={index} style={{ width: "100%" }}>
-              <div className="card p-2 mb-1">
-                <div
-                  className="rounded directions-collapse"
-                  id="headingOne"
-                  style={{ color: "black" }}
-                >
-                  <h5 className="mb-0 text-left">
-                    <button
-                      className="btn btn-link pl-1"
-                      onClick={() => setOpen(!open)}
-                      aria-controls={`collapse-text-directions-${index}`}
-                      aria-expanded={open}
-                    >
-                      {job?.client?.businessName}: {job?.startDate} at{" "}
-                      {job?.startTime}
-                    </button>
-                  </h5>
-                </div>
-
-                <Collapse in={open}>
-                  <div id={`collapse-text-directions-${index}`}>
-                    <div id="panel" className="card-body py-1 text-left">
-                      Address: {job?.client?.streetAddress}, {job?.client?.city}{" "}
-                      {job?.client?.state} {job?.client?.zip}
-                    </div>
-                    <div id="panel" className="card-body py-1 text-left">
-                      Job Details: {job?.jobDetails}
-                    </div>
-                    <div id="panel" className="card-body py-1 text-left">
-                      # of Client Employees: {job?.numberOfClientEmployees}
-                    </div>
+    return (
+      <>
+        <Container>
+          <Row style={{ display: "flex", justifyContent: "center" }}>
+            {schedule.map((job, index) => (
+              <div id="accordion" key={index} style={{ width: "100%" }}>
+                <div className="card p-2 mb-1">
+                  <div
+                    className="rounded directions-collapse"
+                    id="headingOne"
+                    style={{ color: "black" }}
+                  >
+                    <h5 className="mb-0 text-left">
+                      <button
+                        className="btn btn-link pl-1"
+                        onClick={() => setOpen(!open)}
+                        aria-controls={`collapse-text-directions-${index}`}
+                        aria-expanded={open}
+                      >
+                        {job?.client?.businessName}: {job?.startDate} at{" "}
+                        {job?.startTime}
+                      </button>
+                    </h5>
                   </div>
-                </Collapse>
+
+                  <Collapse in={open}>
+                    <div id={`collapse-text-directions-${index}`}>
+                      <div id="panel" className="card-body py-1 text-left">
+                        Address: {job?.client?.streetAddress},{" "}
+                        {job?.client?.city} {job?.client?.state}{" "}
+                        {job?.client?.zip}
+                      </div>
+                      <div id="panel" className="card-body py-1 text-left">
+                        Job Details: {job?.jobDetails}
+                      </div>
+                      <div id="panel" className="card-body py-1 text-left">
+                        # of Client Employees: {job?.numberOfClientEmployees}
+                      </div>
+                    </div>
+                  </Collapse>
+                </div>
               </div>
-            </div>
-          ))}
-        </Row>
-      </Container>
-    </>
-  );
+            ))}
+          </Row>
+        </Container>
+      </>
+    );
+  }
 }
 
 export default Employees;

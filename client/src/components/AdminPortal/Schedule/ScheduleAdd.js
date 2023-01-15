@@ -13,8 +13,7 @@ import {
 } from "../../../utils/mutations";
 
 import format_date_string from "../../../utils/dateFormat";
-
-import format_phone from "../../../utils/helpers";
+import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
@@ -51,61 +50,6 @@ function ScheduleAdd() {
     "Less Than 50",
     "50-99",
     "More Than 100",
-  ];
-
-  const stateCode = [
-    "CO",
-    "AL",
-    "AK",
-    "AS",
-    "AZ",
-    "AR",
-    "CA",
-    "CT",
-    "DE",
-    "DC",
-    "FL",
-    "GA",
-    "HI",
-    "ID",
-    "IL",
-    "IN",
-    "IA",
-    "KS",
-    "KY",
-    "LA",
-    "ME",
-    "MD",
-    "MA",
-    "MI",
-    "MI",
-    "MN",
-    "MS",
-    "MO",
-    "MT",
-    "NE",
-    "NV",
-    "NH",
-    "NJ",
-    "NM",
-    "NY",
-    "NC",
-    "ND",
-    "OH",
-    "OR",
-    "PA",
-    "RI",
-    "SC",
-    "SD",
-    "TN",
-    "TX",
-    "UT",
-    "VT",
-    "VA",
-    "WA",
-    "WV",
-    "WI",
-    "WY",
   ];
 
   // VALIDATION
@@ -339,7 +283,6 @@ function ScheduleAdd() {
     updateEmployeeJobs(mostRecentScheduleId);
 
     // resetForm();
-
   };
 
   // update client schedule array
@@ -358,8 +301,8 @@ function ScheduleAdd() {
       console.log("what data = ", data);
     } catch (err) {
       console.error(err);
+    }
   };
-}
 
   // update employee schedule array
   const updateEmployeeJobs = async (mostRecentScheduleId) => {
@@ -447,7 +390,7 @@ function ScheduleAdd() {
             name={"form-select"}
             onChange={businessNameSelect}
           >
-            <option>{businessName}</option>
+            <option>Select</option>
             {clients?.clients?.map((client, index) => (
               <option key={index} value={client.businessName}>
                 {client.businessName}
@@ -519,8 +462,8 @@ function ScheduleAdd() {
               onBlur={handleBlurChange}
               //required
             >
-              {" "}
-              {stateCode.map((st) => (
+              <option>Select</option>
+              {STATE_DROPDOWN.map((st) => (
                 <option>{st}</option>
               ))}
             </Form.Control>
