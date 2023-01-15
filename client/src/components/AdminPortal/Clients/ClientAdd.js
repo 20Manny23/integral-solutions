@@ -341,7 +341,7 @@ function ClientAdd() {
                 required
               />
             </Col>
-            <Col>
+            <Col xs={6}>
               <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
               <Form.Label
                 className={`validation-color ${

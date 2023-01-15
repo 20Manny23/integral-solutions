@@ -114,11 +114,12 @@ function ContactForm() {
               </Form.Group>
 
               <Row className="addy">
-                <Col xs={7}>
+                <Col sm={12} md={5} style={{paddingBottom:'15px'}}>
                   <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
                   <Form.Control className="custom-border" placeholder="City" />
                 </Col>
-                <Col>
+                
+                <Col style={{marginRight:'auto', marginLeft:'auto'}} >
                   <Form.Label style={{ fontWeight: "bolder" }}>
                     State
                   </Form.Label>
@@ -126,24 +127,25 @@ function ContactForm() {
                   as={"select"}
                     className="custom-border"
                     placeholder="State"
+                    style={{ maxWidth:'150px'}}
                   >       {stateCode.map((st) =>
                     <option>{st}</option>
                     )}</Form.Control>
                 </Col>
-                <Col>
-                  <Form.Label style={{ fontWeight: "bolder" }}>
+                <Col  style={{marginRight:'auto', marginLeft:'auto'}}>
+                  <Form.Label style={{ fontWeight: "bolder", align:'right' }}>
                     Zipcode
                   </Form.Label>
-                  <Form.Control className="custom-border" placeholder="Zip" />
+                  <Form.Control className="custom-border" style={{ maxWidth:'150px'}} placeholder="Zip" />
                 </Col>
               </Row>
 
               <Row className="addy">
-                <Col xs={6}>
+                <Col xs={6} style={{marginRight:'auto', marginLeft:'auto'}}>
                   <Form.Label style={{ fontWeight: "bolder" }}>Office Sqft</Form.Label>
                   <Form.Control className="custom-border" placeholder="8000 Sqft" />
                 </Col>
-                <Col>
+                <Col xs={12} md={6}>
                   <Form.Label style={{ fontWeight: "bolder", display:'flex', justifyContent:'center' }}>
                    Number of Employees
                   </Form.Label>
