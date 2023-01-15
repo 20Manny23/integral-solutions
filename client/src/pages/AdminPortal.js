@@ -80,7 +80,7 @@ const AdminPortal = ({
                     navigate("/workorder");
                   }}
                 >
-                  Work Order
+                  Jobs
                 </Button>
                 
                 <Button

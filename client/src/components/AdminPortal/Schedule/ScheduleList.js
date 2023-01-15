@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
-import {
-  QUERY_ALL_EMPLOYEES,
-} from "../../../utils/queries";
+import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
+import { QUERY_SCHEDULE } from "../../../utils/queries";
 import { DELETE_EMPLOYEE } from "../../../utils/mutations";
 
 import { Row, Col, Container } from "react-bootstrap";
@@ -15,7 +14,7 @@ import "../../../styles/button-style.css";
 function ScheduleList() {
   const [openDetails, setOpenDetails] = useState(false);
 
-  //SECTION GET ALL EMPLOYEES
+  //SECTION GET SCHEDULE
   // eslint-disable-next-line
   const {
     loading: empLoad,
@@ -24,7 +23,15 @@ function ScheduleList() {
     refetch: empRefetch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
 
-  console.log(emp);
+  // eslint-disable-next-line
+  const {
+    loading: scheduleLoad,
+    data: schedule,
+    error: scheduleError,
+    refetch: scheduleRefetch,
+  } = useQuery(QUERY_SCHEDULE);
+
+  console.log(schedule);
 
   // SECTION DELETE
   const [deleteEmployee] = useMutation(DELETE_EMPLOYEE);
@@ -65,7 +72,7 @@ function ScheduleList() {
     <>
       <Container>
         <Row style={{ display: "flex", justifyContent: "center" }}>
-          {emp?.employees?.map((emp, index) => (
+          {schedule?.schedules?.map((job, index) => (
             <div id="accordion" key={index} style={{ width: "98%" }}>
               <div className="card p-2 mb-1">
                 <div
@@ -77,7 +84,7 @@ function ScheduleList() {
                     justifyContent: "space-between",
                   }}
                 >
-                  <h5 className="mb-0 text-left">
+                  <h5 className="d-flex flex-column mb-0 text-left">
                     <button
                       onClick={(event) => getElement(event)}
                       aria-controls={`#collapse-client-${index}`}
@@ -85,7 +92,14 @@ function ScheduleList() {
                       className="btn btn-link pl-1"
                       data-target={`#collapse-client-${index}`}
                     >
-                      {emp?.firstName} {emp?.lastName}
+                      <p className="mb-0 text-left">
+
+                      {job?.client.businessName} 
+                      </p>
+                      <p className="mb-0 text-left">
+
+                      {job?.startDate}
+                      </p>
                     </button>
                   </h5>
                   <div className="d-flex mr-2">
@@ -103,12 +117,40 @@ function ScheduleList() {
                   <div id={`#collapse-client-${index}`}>
                     <Container fluid="md">
                       <Row>
-                      <Col>Admin: {emp?.isAdmin ? "True" : "False"}</Col>
-                      <Col><a href= {`mailto:${emp?.email}`}> {emp?.email}</a></Col>
+                        <Col>Contact: {job?.client.contact}</Col>
+                        <Col> <a href={`mailto:${job?.client.email}`}> {job?.client.email}</a> </Col>
                       </Row>
                       <Row>
-                      <Col>Locked: {emp?.isLocked ? "True" : "False"}</Col>
-                        <Col><a href= {`tel:+${emp?.phone}`}> {emp?.phone}</a></Col>
+                        <Col>{job?.client.streetAddress}{job?.client.suite && `, ${job?.client.suite}`}</Col>
+                        <Col> <a href={`tel:+${job?.client.phone}`}> {job?.client.phone}</a> </Col>
+                      </Row>
+                      <Row>
+                        <Col>{job?.client.city}, {job?.client.state} {job?.client.zip}</Col>
+                        <Col>Start: {job?.startDate}</Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          Client Size: {job?.numberOfClientEmployees}
+                        </Col>
+                        <Col>End: {job?.endDate}</Col>
+                      </Row>
+                      <Row>
+                        <Col>Job Details: {job?.jobDetails}</Col>
+                      </Row>
+                      <Row>
+                        {/* <hr></hr> */}
+                        <h6 className="mx-3 mt-2" style={{ textDecoration: "underline" }}>EMPLOYEES</h6>
+
+                        <section key={index} className="d-flex flex-row" style={{ width: "100%" }}>
+                        {job?.employees.map((employee, index) => (
+                          <article className="">
+                            <p className="ml-3 mb-0"> {employee?.firstName} {employee?.lastName}</p>
+                            <p className="ml-3 mb-0"> <a href={`mailto:${employee?.email}`}> {employee?.email}</a></p>
+                            <p className="ml-3 mb-0"> <a href={`tel:+${employee?.phone}`}> {employee?.phone}</a></p>
+                          </article>
+                        ))
+                        }
+                        </section>
                       </Row>
                     </Container>
                   </div>
