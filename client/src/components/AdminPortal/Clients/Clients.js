@@ -110,7 +110,7 @@ function Clients() {
                         <Col>
                           {client?.city} {client?.state} {client?.zip}
                         </Col>
-                        <Col><FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon> <a href= {`mailto:${client?.email}`}><i class="fa-solid fa-phone"></i> {client?.email}</a></Col>
+                        <Col><FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon> <a href= {`mailto:${client?.email}`}><i className="fa-solid fa-phone"></i> {client?.email}</a></Col>
                       </Row>
                     </Container>
                   </div>
