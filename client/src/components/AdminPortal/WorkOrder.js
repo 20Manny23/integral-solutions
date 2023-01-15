@@ -3,11 +3,15 @@ import React, { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_SCHEDULE } from "../../utils/queries";
 import { QUERY_ALL_CLIENTS, QUERY_ALL_EMPLOYEES } from "../../utils/queries";
-import { ADD_SCHEDULE, DELETE_SCHEDULE, UPDATE_SCHEDULE } from "../../utils/mutations";
+import {
+  ADD_SCHEDULE,
+  DELETE_SCHEDULE,
+  UPDATE_SCHEDULE,
+} from "../../utils/mutations";
 
 import { Row, Col, Button, Form, Collapse, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import moment from 'moment'
+import moment from "moment";
 import "../../styles/Contact.css";
 import "../../styles/button-style.css";
 import "../../styles/Forms.css";
@@ -39,7 +43,7 @@ function WorkOrder() {
   const [employees, setEmployees] = useState("");
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
   const [selectedEmployees, setSelectedEmployees] = useState([]);
-  const[formatDate, setFormatDate] = useState()
+  const [formatDate, setFormatDate] = useState();
 
   //SECTION QUERIES / MUTATIONS
   const {
@@ -214,27 +218,28 @@ function WorkOrder() {
   // const [employees, setEmployees] = useState("");
   // const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
   // const [selectedEmployees, setSelectedEmployees] = useState([]);
- const changeFormat = async () => {
+  const changeFormat = async () => {
+    const dateAndTime = formatDate + " " + startTime;
+    const tempdate = moment(dateAndTime).format("MMMM DD YYYY hh:mm:ss");
+    const correctDateFormat = tempdate + " (MST)";
+    console.log(correctDateFormat);
+    setStartDate(correctDateFormat);
+    
+    console.log(startDate);
+  };
 
-  const dateAndTime = (startDate + " " + startTime)
-  const tempdate = moment(dateAndTime).format( "MMMM DD YYYY hh:mm:ss");
- const correctDateFormat = tempdate + " (MST)"
- console.log(correctDateFormat)
- setStartDate(correctDateFormat);
- 
- console.log(startDate)
-}
+  // useEffect(() => {
 
-// useEffect(() => {
-
- 
-// }, [startDate, startTime])
+  //  setFormatDate (moment(startDate).format("MMMM DD YYYY"))
+  // }, [startDate])
   // SECTION ADD
   const handleAddScheduleSubmit = async (event) => {
     event.preventDefault();
-    console.log(startDate)
-      changeFormat()
-      console.log(startDate)
+    const dateAndTime = startDate + " " + startTime;
+    const tempdate = await moment(dateAndTime).format("MMMM DD YYYY hh:mm:ss");
+    const correctDateFormat = tempdate + " (MST)";
+    console.log(correctDateFormat);
+    //  setStartDate(correctDateFormat);
 
     try {
       // eslint-disable-next-line
@@ -246,7 +251,7 @@ function WorkOrder() {
           city,
           state,
           zip,
-          startDate,
+          startDate: correctDateFormat,
           endDate,
           startTime,
           endTime,
@@ -314,7 +319,6 @@ function WorkOrder() {
   //   zip,
   // ]);
   // SECTION END ADD CLIENT
-
 
   // SECTION UPDATE
   // const [editClient, setEditClient] = useState([]);
@@ -456,7 +460,7 @@ function WorkOrder() {
   const handleDeleteSchedule = async (event) => {
     let scheduleId = event.currentTarget.getAttribute("data-scheduleid");
     console.log(scheduleId, event, event.currentTarget);
-    
+
     try {
       // eslint-disable-next-line
       await deleteSchedule({
@@ -467,7 +471,6 @@ function WorkOrder() {
 
       // RELOAD SCHEDULE
       scheduleRefetch();
-
     } catch (err) {
       console.log(err);
     }
@@ -514,7 +517,7 @@ function WorkOrder() {
                 ))}
               </Form.Control>
             </Form.Group>
-            
+
             <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
               <div className="form-label">
                 <Form.Label style={{ fontWeight: "bolder" }}>
@@ -859,7 +862,7 @@ function WorkOrder() {
             Add Work Order ➕
           </button>
         </div>
-      {/* </Container>
+        {/* </Container>
 
       <Container style={{ border: "1px solid black" }}> */}
         {/* <h3>Schedule</h3> */}
@@ -896,14 +899,15 @@ function WorkOrder() {
                       className="p-2"
                       onClick={() => console.log("pencil")}
                     />
-                    <FontAwesomeIcon 
-                      icon="fa-trash" i t
+                    <FontAwesomeIcon
+                      icon="fa-trash"
+                      
+                      
                       className="p-2"
                       data-scheduleid={job?._id}
                       onClick={(event) => {
                         handleDeleteSchedule(event);
                       }}
-
                     />
 
                     {/* section */}
