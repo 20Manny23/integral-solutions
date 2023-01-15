@@ -12,8 +12,11 @@ import {
   UPDATE_EMPLOYEE_SCHEDULE,
 } from "../../../utils/mutations";
 
-import { Row, Col, Container, Form, Button } from "react-bootstrap";
+import format_date_string from "../../../utils/dateFormat";
 
+import format_phone from "../../../utils/helpers";
+
+import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 import "../../../styles/Forms.css";
@@ -167,7 +170,7 @@ function ScheduleAdd() {
 
   // add schedule
   const [addSchedule] = useMutation(ADD_SCHEDULE);
-  //fix
+
   // add new schedule / job to the appropriate client
   const [updateClientSchedule] = useMutation(UPDATE_CLIENT_SCHEDULE);
 
@@ -290,6 +293,12 @@ function ScheduleAdd() {
   const handleAddScheduleSubmit = async (event) => {
     event.preventDefault();
 
+    //fix
+    let reformattedStartDate = format_date_string(startDate, startTime);
+    let reformattedEndDate = format_date_string(startDate, startTime);
+
+    console.log(reformattedEndDate, reformattedStartDate);
+
     try {
       // eslint-disable-next-line
       const { data } = await addSchedule({
@@ -300,8 +309,8 @@ function ScheduleAdd() {
           city,
           state,
           zip,
-          startDate,
-          endDate,
+          startDate: reformattedStartDate,
+          endDate: reformattedEndDate,
           startTime,
           endTime,
           squareFeet,
@@ -330,31 +339,6 @@ function ScheduleAdd() {
     updateEmployeeJobs(mostRecentScheduleId);
 
     // resetForm();
-
-    // update client schedule array
-    // console.log(
-    //   "selected client = ",
-    //   clients?.clients
-    //     ?.filter((client) => client.businessName === businessName)
-    //     .map((id) => id._id)
-    //     .toString()
-    // );
-    // try {
-    //   // eslint-disable-next-line
-    //   const { data } = await updateClientSchedule({
-    //     variables: {
-    //       // id: "6398fb54494aa98f85992da3",
-    //       id: clients?.clients
-    //         ?.filter((client) => client.businessName === businessName)
-    //         .map((id) => id._id)
-    //         .toString(), // convert client name to client._id
-    //       schedule: mostRecentScheduleId,
-    //     },
-    //   });
-    //   console.log("what data = ", data);
-    // } catch (err) {
-    //   console.error(err);
-    // }
 
   };
 
