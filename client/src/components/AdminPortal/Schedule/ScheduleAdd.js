@@ -300,6 +300,7 @@ function ScheduleAdd() {
   //   state,
   //   zip,
   // ]);
+  const stateCode = ["CO","AL", "AK", "AS", "AZ", "AR", "CA",  "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MI", "MN", "MS", "MO", "MT", "NE", "NV" , "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY" ]
 
   return (
     <Container>
@@ -390,6 +391,7 @@ function ScheduleAdd() {
               *required
             </Form.Label>
             <Form.Control
+            as={"select"}
               className="custom-border"
               placeholder="State"
               value={state}
@@ -398,7 +400,10 @@ function ScheduleAdd() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               //required
-            />
+            > {stateCode.map((st) =>
+              <option>{st}</option>
+            )}
+              </Form.Control>
           </Col>
           <Col>
             <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>
@@ -648,6 +653,7 @@ function ScheduleAdd() {
 
         <Button
           className="button-custom submit-button-style"
+          style={{display:'grid', margin:'auto'}}
           variant="primary"
           type="submit"
           title="Submit to schedule job."
