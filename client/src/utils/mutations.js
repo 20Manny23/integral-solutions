@@ -95,6 +95,35 @@ export const UPDATE_EMPLOYEE_FORM = gql`
   }
 `;
 
+export const TOGGLE_ADMIN = gql`
+  mutation toggleAdmin($employeeId: ID!) {
+    toggleAdmin(employeeId: $employeeId) {
+      # message
+      employee {
+        _id
+        # username
+        isAdmin
+        isLocked
+      }
+    }
+  }
+`;
+
+export const TOGGLE_LOCKED = gql`
+  mutation toggleLocked($employeeId: ID!) {
+    toggleLocked(employeeId: $employeeId) {
+      # message
+      employee {
+        _id
+        # username
+        isAdmin
+        isLocked
+      }
+    }
+  }
+`;
+
+
 export const ADD_EMPLOYEE = gql`
   mutation addEmployee(
     $email: String
