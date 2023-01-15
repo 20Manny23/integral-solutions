@@ -27,8 +27,7 @@ function Employees() {
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
 
-      console.log('EMPLOYEE DATA = ', data)
-    
+      // console.log('EMPLOYEE DATA = ', data)
       // const todayDate = Date.now()
       // const upcoming = [];
       // for (let i = 0; i < data.employeeById.schedule.length; i++) {
@@ -52,7 +51,7 @@ function Employees() {
   // use 
 
   if (loading) {
-    console.log(loading);
+    // console.log(loading);
   } else {
   return (
     <>

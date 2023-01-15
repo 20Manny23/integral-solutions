@@ -316,35 +316,54 @@ function ScheduleAdd() {
       });
 
       // console.log('hello', data)
-      // console.log('schedule data');
-      // console.log('schedule data = ', data.schedules[data.schedules.length - 1]);
-
     } catch (err) {
       console.error(err);
     }
 
     // refetch the list of schedules/jobs to get the most recent id added
-    let getScheduleId = await scheduleRefetch();
-    let mostRecentScheduleId = getScheduleId.data.schedules[getScheduleId.data.schedules.length - 1]._id;
-    console.log('test = ', getScheduleId.data.schedules)
-    console.log('test = ', getScheduleId.data.schedules[getScheduleId.data.schedules.length - 1]._id)
+    let getScheduleIds = await scheduleRefetch();
+    let scheduleIdsLength = getScheduleIds.data.schedules.length - 1;
+    let mostRecentScheduleId =
+      getScheduleIds.data.schedules[scheduleIdsLength]._id;
+
+    updateClientJobs(mostRecentScheduleId);
+    updateEmployeeJobs(mostRecentScheduleId);
 
     // resetForm();
 
-    
     // update client schedule array
-    console.log(
-      "selected client = ",
-      clients?.clients
-        ?.filter((client) => client.businessName === businessName)
-        .map((id) => id._id)
-        .toString()
-    );
+    // console.log(
+    //   "selected client = ",
+    //   clients?.clients
+    //     ?.filter((client) => client.businessName === businessName)
+    //     .map((id) => id._id)
+    //     .toString()
+    // );
+    // try {
+    //   // eslint-disable-next-line
+    //   const { data } = await updateClientSchedule({
+    //     variables: {
+    //       // id: "6398fb54494aa98f85992da3",
+    //       id: clients?.clients
+    //         ?.filter((client) => client.businessName === businessName)
+    //         .map((id) => id._id)
+    //         .toString(), // convert client name to client._id
+    //       schedule: mostRecentScheduleId,
+    //     },
+    //   });
+    //   console.log("what data = ", data);
+    // } catch (err) {
+    //   console.error(err);
+    // }
+
+  };
+
+  // update client schedule array
+  const updateClientJobs = async (mostRecentScheduleId) => {
     try {
       // eslint-disable-next-line
       const { data } = await updateClientSchedule({
         variables: {
-          // id: "6398fb54494aa98f85992da3",
           id: clients?.clients
             ?.filter((client) => client.businessName === businessName)
             .map((id) => id._id)
@@ -352,12 +371,14 @@ function ScheduleAdd() {
           schedule: mostRecentScheduleId,
         },
       });
-      console.log('what data = ', data);
+      console.log("what data = ", data);
     } catch (err) {
       console.error(err);
-    }
+  };
+}
 
-    // update employee schedule array
+  // update employee schedule array
+  const updateEmployeeJobs = async (mostRecentScheduleId) => {
     console.log("employees array = ", selectedEmployees);
     try {
       for (let i = 0; i < selectedEmployees.length; i++) {
@@ -369,8 +390,7 @@ function ScheduleAdd() {
           },
         });
         console.log(data);
-      };
-
+      }
     } catch (err) {
       console.error(err);
     }
