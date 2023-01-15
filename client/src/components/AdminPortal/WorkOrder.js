@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import { QUERY_SCHEDULE } from "../../utils/queries";
 import { useQuery, useMutation } from "@apollo/client";
+import { QUERY_SCHEDULE } from "../../utils/queries";
 import { QUERY_ALL_CLIENTS, QUERY_ALL_EMPLOYEES } from "../../utils/queries";
 import { ADD_SCHEDULE, DELETE_SCHEDULE, UPDATE_SCHEDULE } from "../../utils/mutations";
 
@@ -879,7 +879,7 @@ function WorkOrder() {
                       onClick={() => console.log("pencil")}
                     />
                     <FontAwesomeIcon 
-                      icon="fa-trash" 
+                      icon="fa-trash" i t
                       className="p-2"
                       data-scheduleid={job?._id}
                       onClick={(event) => {
