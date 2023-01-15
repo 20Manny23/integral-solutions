@@ -121,7 +121,7 @@ function Employees() {
 
   const sendEmail = (token) => {
     window.open(
-      `mailto:${userFormData.email}?subject=Integral Solutions Employee Password Reset&body=Hello , %0D%0A%0D%0A Click on this link to create a new pasword: %0D%0A%0D%0A http://localhost:3000/resetpassword/${payLoadToken.token}`
+      `mailto:${userFormData.email}?subject=Integral Solutions Employee Password Reset&body=Hello ${employee.firstName}, %0D%0A%0D%0A Click on this link to create a new pasword: %0D%0A%0D%0A http://localhost:3000/resetpassword/${token.token}`
     )
   }
   // section end rods code
