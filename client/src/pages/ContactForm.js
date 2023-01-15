@@ -4,6 +4,9 @@ import "../styles/Forms.css";
 import Footer from "../components/Home/Footer";
 
 function ContactForm() {
+
+  const stateCode = ["CO","AL", "AK", "AS", "AZ", "AR", "CA",  "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MI", "MN", "MS", "MO", "MT", "NE", "NV" , "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY" ]
+
   return (
     <>
       <div
@@ -120,9 +123,12 @@ function ContactForm() {
                     State
                   </Form.Label>
                   <Form.Control
+                  as={"select"}
                     className="custom-border"
                     placeholder="State"
-                  />
+                  >       {stateCode.map((st) =>
+                    <option>{st}</option>
+                    )}</Form.Control>
                 </Col>
                 <Col>
                   <Form.Label style={{ fontWeight: "bolder" }}>
