@@ -39,7 +39,7 @@ function Employees() {
 
         }
       }
-      
+      console.log(past)
       setSchedule(past)
     },
   });
