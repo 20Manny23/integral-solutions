@@ -16,15 +16,6 @@ import "../../../styles/Forms.css";
 
 function ScheduleAdd() {
   // GET FORM INPUT
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [password, setPassword] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isLocked, setIsLocked] = useState(true);
-  // const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
-
   const [businessName, setBusinessName] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const [suite, setSuite] = useState("");
@@ -56,13 +47,6 @@ function ScheduleAdd() {
   ];
 
   // VALIDATION
-  const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
-  const [showLastNameValidation, setShowLastNameValidation] = useState(false);
-  const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-  const [showEmailEmployeeValidation, setShowEmailEmployeeValidation] =
-    useState(false);
-  const [showPasswordValidation, setShowPasswordValidation] = useState(false);
-
   const [showBusinessNameValidation, setShowBusinessNameValidation] =
     useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
@@ -89,24 +73,32 @@ function ScheduleAdd() {
 
   //SECTION QUERIES / MUTATIONS
   const {
+    // eslint-disable-next-line
     loading: clientsLoad,
     data: clients,
+    // eslint-disable-next-line
     error: clientError,
+    // eslint-disable-next-line
     refetch: clientsRefetch,
   } = useQuery(QUERY_ALL_CLIENTS);
 
   const {
+    // eslint-disable-next-line
     loading: empLoad,
     data: emp,
+    // eslint-disable-next-line
     error: empError,
+    // eslint-disable-next-line
     refetch: empRefectch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
 
   // SECTION WORKORDER / SCHEDULE
-  // eslint-disable-next-line
   const {
+    // eslint-disable-next-line
     loading: scheduleLoad,
+    // eslint-disable-next-line
     data: schedule,
+    // eslint-disable-next-line
     error: scheduleError,
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
