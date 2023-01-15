@@ -27,9 +27,6 @@ function Employees() {
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
-      // let schedule = data?.employeeById?.schedule;
-      // setSchedule(schedule);
-      // console.log(schedule);
      
       const todayDate = Date.now()
       const past = [];
@@ -42,7 +39,7 @@ function Employees() {
 
         }
       }
-      console.log(past)
+      
       setSchedule(past)
     },
   });
