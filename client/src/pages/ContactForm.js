@@ -4,8 +4,68 @@ import "../styles/Forms.css";
 import Footer from "../components/Home/Footer";
 
 function ContactForm() {
+  const stateCode = [
+    "CO",
+    "AL",
+    "AK",
+    "AS",
+    "AZ",
+    "AR",
+    "CA",
+    "CO",
+    "CT",
+    "DE",
+    "DC",
+    "FL",
+    "GA",
+    "HI",
+    "ID",
+    "IL",
+    "IN",
+    "IA",
+    "KS",
+    "KY",
+    "LA",
+    "ME",
+    "MD",
+    "MA",
+    "MI",
+    "MI",
+    "MN",
+    "MS",
+    "MO",
+    "MT",
+    "NE",
+    "NV",
+    "NH",
+    "NJ",
+    "NM",
+    "NY",
+    "NC",
+    "ND",
+    "OH",
+    "OR",
+    "PA",
+    "RI",
+    "SC",
+    "SD",
+    "TN",
+    "TX",
+    "UT",
+    "VT",
+    "VA",
+    "WA",
+    "WV",
+    "WI",
+    "WY",
+  ];
 
-  const stateCode = ["CO","AL", "AK", "AS", "AZ", "AR", "CA",  "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MI", "MN", "MS", "MO", "MT", "NE", "NV" , "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY" ]
+  const numberOfEmployees = [
+    "Home Office",
+    "Less Than 50",
+    "50-99",
+    "More Than 100",
+  ];
 
   return (
     <>
@@ -20,7 +80,10 @@ function ContactForm() {
               style={{ width: "80vw" }}
               action="mailto:bhoff1980@gmail.com"
             >
-              <h2 className="display-6 custom-text heading" style={{fontStyle:'italic'}}>
+              <h2
+                className="display-6 custom-text heading"
+                style={{ fontStyle: "italic" }}
+              >
                 Tell Us How We Can Help
               </h2>
 
@@ -114,59 +177,89 @@ function ContactForm() {
               </Form.Group>
 
               <Row className="addy">
-                <Col sm={12} md={5} style={{paddingBottom:'15px'}}>
+                <Col sm={12} md={5} style={{ paddingBottom: "15px" }}>
                   <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
                   <Form.Control className="custom-border" placeholder="City" />
                 </Col>
-                
-                <Col style={{marginRight:'auto', marginLeft:'auto'}} >
+
+                <Col style={{ marginRight: "auto", marginLeft: "auto" }}>
                   <Form.Label style={{ fontWeight: "bolder" }}>
                     State
                   </Form.Label>
                   <Form.Control
-                  as={"select"}
+                    as={"select"}
                     className="custom-border"
                     placeholder="State"
-                    style={{ maxWidth:'150px'}}
-                  >       {stateCode.map((st) =>
-                    <option>{st}</option>
-                    )}</Form.Control>
+                    style={{ maxWidth: "150px" }}
+                  >
+                    {" "}
+                    {stateCode.map((st) => (
+                      <option>{st}</option>
+                    ))}
+                  </Form.Control>
                 </Col>
-                <Col  style={{marginRight:'auto', marginLeft:'auto'}}>
-                  <Form.Label style={{ fontWeight: "bolder", align:'right' }}>
+                <Col style={{ marginRight: "auto", marginLeft: "auto" }}>
+                  <Form.Label style={{ fontWeight: "bolder", align: "right" }}>
                     Zipcode
                   </Form.Label>
-                  <Form.Control className="custom-border" style={{ maxWidth:'150px'}} placeholder="Zip" />
+                  <Form.Control
+                    className="custom-border"
+                    style={{ maxWidth: "150px" }}
+                    placeholder="Zip"
+                  />
                 </Col>
               </Row>
 
               <Row className="addy">
-                <Col xs={6} style={{marginRight:'auto', marginLeft:'auto'}}>
-                  <Form.Label style={{ fontWeight: "bolder" }}>Office Sqft</Form.Label>
-                  <Form.Control className="custom-border" placeholder="8000 Sqft" />
-                </Col>
-                <Col xs={12} md={6}>
-                  <Form.Label style={{ fontWeight: "bolder", display:'flex', justifyContent:'center' }}>
-                   Number of Employees
+                <Col xs={6} style={{ marginRight: "auto", marginLeft: "auto" }}>
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    Office Sqft
                   </Form.Label>
-                  <Form.Check
-                    inline
-                    label="Home Office"
-                  />
-                   <Form.Check
-                    inline
-                    label="Less than 50"
-                  />
-                    <Form.Check
-                    inline
-                    label="50-100"
-                  />
-                    <Form.Check
-                    inline
-                    label="More than 100"
+                  <Form.Control
+                    className="custom-border"
+                    placeholder="8000 Sqft"
                   />
                 </Col>
-             
+                {/* <Form.Group> */}
+                {/* <Col xs={12} md={6}> */}
+                <Col>
+                  <Form.Label
+                    style={{
+                      fontWeight: "bolder",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    # of Employees
+                  </Form.Label>
+                  {/* <Col xs={12}> */}
+                  <Col>
+                    {/* <Form.Label
+                      className={`validation-color ${
+                        showNumberOfClientEmployeesValidation ? "show" : "hide"
+                      }`}
+                    >
+                      *required
+                    </Form.Label> */}
+                    <Form.Control
+                      as="select"
+                      className="custom-border"
+                      type="text"
+                      // value={numberOfClientEmployees}
+                      // name="numberOfClientEmployees"
+                      // onChange={handleInputChange}
+                    >
+                      <option>Select</option>
+                      {numberOfEmployees.map((emp, index) => (
+                        <option
+                          key={index}
+                        >
+                          {emp}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  </Col>
+                </Col>
               </Row>
 
               <div className="d-flex justify-content-between">

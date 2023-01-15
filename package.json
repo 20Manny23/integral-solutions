@@ -1,6 +1,6 @@
 {
-  "name": "Pristine Clean",
-  "description": "Cleaning at it's finest",
+  "name": "Integral Solutions",
+  "description": "Furniture Installation",
   "version": "1.0.0",
   "engines": {
     "node": "16.16",
@@ -21,7 +21,5 @@
     "concurrently": "^5.1.0"
   },
   "dependencies": {
-    "@fortawesome/free-regular-svg-icons": "^6.2.1",
-    "moment": "^2.29.4"
   }
 }

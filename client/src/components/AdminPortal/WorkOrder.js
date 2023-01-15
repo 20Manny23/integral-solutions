@@ -235,11 +235,11 @@ function WorkOrder() {
   // SECTION ADD
   const handleAddScheduleSubmit = async (event) => {
     event.preventDefault();
+
     const dateAndTime = startDate + " " + startTime;
-    const tempdate = await moment(dateAndTime).format("MMMM DD YYYY hh:mm:ss");
+    const tempdate = moment(dateAndTime).format("MMMM DD YYYY hh:mm:ss");
     const correctDateFormat = tempdate + " (MST)";
     console.log(correctDateFormat);
-    //  setStartDate(correctDateFormat);
 
     try {
       // eslint-disable-next-line
