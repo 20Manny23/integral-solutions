@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { QUERY_SCHEDULE } from "../../utils/queries";
 import { useQuery, useMutation } from "@apollo/client";
@@ -7,6 +7,7 @@ import { ADD_SCHEDULE, DELETE_SCHEDULE, UPDATE_SCHEDULE } from "../../utils/muta
 
 import { Row, Col, Button, Form, Collapse, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import moment from 'moment'
 import "../../styles/Contact.css";
 import "../../styles/button-style.css";
 import "../../styles/Forms.css";
@@ -38,6 +39,7 @@ function WorkOrder() {
   const [employees, setEmployees] = useState("");
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
   const [selectedEmployees, setSelectedEmployees] = useState([]);
+  const[formatDate, setFormatDate] = useState()
 
   //SECTION QUERIES / MUTATIONS
   const {
@@ -212,10 +214,27 @@ function WorkOrder() {
   // const [employees, setEmployees] = useState("");
   // const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
   // const [selectedEmployees, setSelectedEmployees] = useState([]);
+ const changeFormat = async () => {
 
+  const dateAndTime = (startDate + " " + startTime)
+  const tempdate = moment(dateAndTime).format( "MMMM DD YYYY hh:mm:ss");
+ const correctDateFormat = tempdate + " (MST)"
+ console.log(correctDateFormat)
+ setStartDate(correctDateFormat);
+ 
+ console.log(startDate)
+}
+
+// useEffect(() => {
+
+ 
+// }, [startDate, startTime])
   // SECTION ADD
   const handleAddScheduleSubmit = async (event) => {
     event.preventDefault();
+    console.log(startDate)
+      changeFormat()
+      console.log(startDate)
 
     try {
       // eslint-disable-next-line
