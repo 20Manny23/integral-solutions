@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_CLIENT } from "../../../utils/mutations";
 
-import { Row, Col, Container, Form, Button } from "react-bootstrap";
+import { Row, Col, Container, Form, Button, Select } from "react-bootstrap";
 
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
@@ -59,6 +59,8 @@ function ClientAdd() {
       : setZip(value);
 
     console.log("email = ", emailClient);
+
+   
 
     return name;
   };
@@ -169,7 +171,7 @@ function ClientAdd() {
     state,
     zip,
   ]);
-
+  const stateCode = ["CO","AL", "AK", "AS", "AZ", "AR", "CA",  "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MI", "MN", "MS", "MO", "MT", "NE", "NV" , "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY" ]
   return (
     <Container>
       <Form onSubmit={handleAddClientSubmit} >
@@ -348,7 +350,9 @@ function ClientAdd() {
               >
                 * required
               </Form.Label>
+              
               <Form.Control
+                as="select"
                 className="custom-border"
                 placeholder="State"
                 name="state"
@@ -356,8 +360,12 @@ function ClientAdd() {
                 // defaultValue="CO"
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                required
-              />
+                // required
+              >
+                {stateCode.map((st) =>
+              <option>{st}</option>
+              )}
+              </Form.Control>
             </Col>
             <Col>
               <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>

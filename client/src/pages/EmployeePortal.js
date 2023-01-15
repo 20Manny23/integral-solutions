@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Auth from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
-import Employee from "../components/Employee/Employee";
-import EmployeeMock from "../components/Employee/EmployeeMock";
+import EmployeePast from "../components/Employee(Worker)/EmployeePast";
+import EmployeeFuture from "../components/Employee(Worker)/EmployeeFuture";
 import { Button, Container, Col, Row } from "react-bootstrap/";
 import "../styles/spinner.css";
 
@@ -22,6 +22,8 @@ const EmployeePortal = ({
   addemployeeButtonIsActive,
   clientlistButtonIsActive,
 }) => {
+  // const [upcomingPanel, setUpcomingPanel] = useState(isActive)
+  // const [pastPanel, setPastPanel] = useState(notActive)
   // get user info to render to page
   const userId = getUserId();
   const { loading, data } = useQuery(QUERY_ME, {
@@ -71,14 +73,14 @@ const EmployeePortal = ({
                   style={clientlistButtonIsActive ? isActive : notActive}
                   active={clientlistButtonIsActive}
                   onClick={() => {
-                    navigate("/employee");
+                    navigate("/past");
                   }}
                 >
                   Past Jobs
                 </Button>
               </div>
 
-              {renderPanel === "employee" ? <Employee /> : <Employee />}
+              {renderPanel === "employee" ? <EmployeeFuture /> : <EmployeePast />}
             </Col>
           </Row>
         </Container>
@@ -93,6 +95,7 @@ const isActive = {
   flex: "auto",
   border: "solid 3px black",
   borderRadius: "3px",
+  backgroundColor:'#007AFF'
 };
 
 const notActive = {

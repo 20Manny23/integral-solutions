@@ -41,6 +41,7 @@ Nav {
   text-align: center;
   color: white !important;
   width: 25%;
+  z-index: 6;
 }
 .hamburger {
   background-color: #335270 !important;

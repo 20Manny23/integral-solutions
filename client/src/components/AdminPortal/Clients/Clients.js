@@ -102,13 +102,13 @@ function Clients() {
                       </Row>
                       <Row>
                         <Col>{client?.streetAddress}</Col>
-                        <Col>{client?.phone}</Col>
+                        <Col><a href= {`tel:+${client?.phone}`}> {client?.phone}</a></Col>
                       </Row>
                       <Row>
                         <Col>
                           {client?.city} {client?.state} {client?.zip}
                         </Col>
-                        <Col>{client?.email}</Col>
+                        <Col><a href= {`mailto:${client?.email}`}> {client?.email}</a></Col>
                       </Row>
                     </Container>
                   </div>

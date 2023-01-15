@@ -1,9 +1,9 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-import Employees from "./Employees/Employees";
-import EmployeeAdd from "./Employees/EmployeeAdd"
-import EmployeeUpdate from "./Employees/EmployeeUpdate"
+import Employees from "./Employees(Admin)/Employees";
+import EmployeeAdd from "./Employees(Admin)/EmployeeAdd"
+import EmployeeUpdate from "./Employees(Admin)/EmployeeUpdate"
 
 function AdminMock() {
   return (
