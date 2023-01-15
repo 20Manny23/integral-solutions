@@ -118,10 +118,12 @@ function Employees() {
   // eslint-disable-next-line
   }, [payLoadToken]);
   
+  
 
   const sendEmail = (token) => {
+    const url = `http://localhost:3000/resetpassword/${token.token}`;
     window.open(
-      `mailto:${userFormData.email}?subject=Integral Solutions Employee Password Reset&body=Hello ${employee.firstName}, %0D%0A%0D%0A Click on this link to create a new pasword: %0D%0A%0D%0A http://localhost:3000/resetpassword/${token.token}`
+      `mailto:${userFormData.email}?subject=Integral Solutions Employee Password Reset&body=Hello ${employee.firstName} %0D%0A%0D%0A Click <a href=${url}>here</a> to create a new pasword.`
     )
   }
   // section end rods code
