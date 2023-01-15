@@ -112,7 +112,7 @@ const ResetPassword = () => {
           className="mx-2 mt-2 mb-1"
           style={{ width: "280px" }}
         >
-          <Form.Group>
+          <Form.Group style={{ marginTop: "100px"}}>
             <Form.Label htmlFor="password">Create new password</Form.Label>
             <InputGroup className="mb-3">
               <Form.Control
