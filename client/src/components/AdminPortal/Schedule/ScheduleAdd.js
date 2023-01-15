@@ -1,274 +1,659 @@
 import React, { useState, useEffect } from "react";
 
-import { useMutation } from "@apollo/client";
-import { ADD_EMPLOYEE } from "../../../utils/mutations";
+import { useQuery, useMutation } from "@apollo/client";
+import {
+  QUERY_SCHEDULE,
+  QUERY_ALL_CLIENTS,
+  QUERY_ALL_EMPLOYEES,
+} from "../../../utils/queries";
+import { ADD_SCHEDULE } from "../../../utils/mutations";
 
-import { Container, Form, Button } from "react-bootstrap";
+import { Row, Col, Container, Form, Button } from "react-bootstrap";
 
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
+import "../../../styles/Forms.css";
 
 function ScheduleAdd() {
   // GET FORM INPUT
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [password, setPassword] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isLocked, setIsLocked] = useState(true);
+  const [businessName, setBusinessName] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
+  const [suite, setSuite] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState(""); //fix double check - currently no endTime field
+  const [squareFeet, setSquareFeet] = useState("");
+  const [jobDetails, setJobDetails] = useState("");
+  const [numberOfClientEmployees, setNumberOfClientEmployees] = useState("");
+  const [client, setClient] = useState(""); //fix double check - ?
+  const [employees, setEmployees] = useState("");
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
+  const [selectedEmployees, setSelectedEmployees] = useState([]);
 
-    // VALIDATION
-    const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
-    const [showLastNameValidation, setShowLastNameValidation] = useState(false);
-    const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-    const [showEmailEmployeeValidation, setShowEmailEmployeeValidation] =
-      useState(false);
-    const [showPasswordValidation, setShowPasswordValidation] =
-      useState(false);
+  //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
+  function businessNameSelect(e) {
+    setBusinessName(e.target.value);
+  }
+
+  const numberOfEmployees = [
+    "Home Office",
+    "Less Than 50",
+    "50-99",
+    "More Than 100",
+  ];
+
+  // VALIDATION
+  const [showBusinessNameValidation, setShowBusinessNameValidation] =
+    useState(false);
+  const [showStreetAddressValidation, setShowStreetAddressValidation] =
+    useState(false);
+  const [showSuiteValidation, setShowSuiteValidation] = useState(false); // currently no suite field
+  const [showCityValidation, setShowCityValidation] = useState(false);
+  const [showStateValidation, setShowStateValidation] = useState(false);
+  const [showZipValidation, setShowZipValidation] = useState(false);
+  const [showStartDateValidation, setStartDateValidation] = useState(false);
+  const [showEndDateValidation, setShowEndDateValidation] = useState(false);
+  const [showStartTimeValidation, setShowStartTimeValidation] = useState(false);
+  const [showEndTimeValidation, setShowEndTimeValidation] = useState(false);
+  const [showSquareFeetValidation, setShowSquareFeetValidation] =
+    useState(false);
+  const [showJobDetailsValidation, setShowJobDetailsValidation] =
+    useState(false);
+  const [
+    showNumberOfClientEmployeesValidation,
+    setShowNumberOfClientEmployeesValidation,
+  ] = useState(false);
+  const [showClientValidation, setShowClientValidation] = useState(false);
+  const [showSelectedEmployeesValidation, setShowSelectedEmployeesValidation] =
+    useState(false);
+
+  //SECTION QUERIES / MUTATIONS
+  const {
+    // eslint-disable-next-line
+    loading: clientsLoad,
+    data: clients,
+    // eslint-disable-next-line
+    error: clientError,
+    // eslint-disable-next-line
+    refetch: clientsRefetch,
+  } = useQuery(QUERY_ALL_CLIENTS);
+
+  const {
+    // eslint-disable-next-line
+    loading: empLoad,
+    data: emp,
+    // eslint-disable-next-line
+    error: empError,
+    // eslint-disable-next-line
+    refetch: empRefectch,
+  } = useQuery(QUERY_ALL_EMPLOYEES);
+
+  // SECTION WORKORDER / SCHEDULE
+  const {
+    // eslint-disable-next-line
+    loading: scheduleLoad,
+    // eslint-disable-next-line
+    data: schedule,
+    // eslint-disable-next-line
+    error: scheduleError,
+    refetch: scheduleRefetch,
+  } = useQuery(QUERY_SCHEDULE);
+  // console.log(schedule);
+  // SECTION END WORKORDER / SCHEDULE
+
+  const [addSchedule] = useMutation(ADD_SCHEDULE);
+
+  //SECTION CREATE / REMOVE SELECTED EMPLOYEE OBJECT
+  const createSelectedEmployees = (event) => {
+    let firstName =
+      event.target.options[event.target.selectedIndex].dataset.firstname;
+    let lastName =
+      event.target.options[event.target.selectedIndex].dataset.lastname;
+    let employeeId =
+      event.target.options[event.target.selectedIndex].dataset.id;
+
+    for (let i = 0; i < selectedEmployees.length; i++) {
+      if (selectedEmployees[i].employeeId === employeeId) {
+        return;
+      }
+    }
+
+    setSelectedEmployees((selectedEmployee) => [
+      ...selectedEmployees,
+      { firstName, lastName, employeeId },
+    ]);
+  };
+
+  function removeEmployee(event) {
+    let keepEmployees = selectedEmployees.filter(
+      (item) => item.employeeId !== event.target.value
+    );
+
+    setSelectedEmployees(keepEmployees);
+  }
 
   //SECTION HANDLE INPUT
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    // console.log(e)
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
 
-    name === "firstName"
-      ? setFirstName(value)
-      : name === "lastName"
-      ? setLastName(value)
-      : name === "phone"
-      ? setPhone(value)
-      : name === "email"
-      ? setEmail(value)
-      : setPassword(value);
+    // Ternary statement that will call either setFirstName or setLastName based on what field the user is typing in
+    name === "startDate"
+      ? setStartDate(value)
+      : name === "endDate"
+      ? setEndDate(value)
+      : name === "startTime"
+      ? setStartTime(value)
+      : name === "endTime"
+      ? setEndTime(value)
+      : name === "squareFeet"
+      ? setSquareFeet(value)
+      : name === "jobDetails"
+      ? setJobDetails(value)
+      : name === "numberOfClientEmployees"
+      ? setNumberOfClientEmployees(value)
+      : name === "client"
+      ? setClient(value)
+      : name === "employees"
+      ? setEmployees(value)
+      : name === "streetAddress"
+      ? setStreetAddress(value)
+      : name === "state"
+      ? setState(value)
+      : name === "city"
+      ? setCity(value)
+      : setZip(value);
 
     return name;
   };
 
-  //SECTION VALIDATION BLUR
+  //SECTION HANDLE INPUT
+  // If user clicks off an input field without entering text, then validation message "is required" displays
   const handleBlurChange = (e) => {
     const { name, value } = e.target;
 
-    name === "email" && value.trim() === ""
-      ? setShowEmailEmployeeValidation(true)
-      : setShowEmailEmployeeValidation(false);
-    name === "phone" && value.trim() === ""
-      ? setShowPhoneValidation(true)
-      : setShowPhoneValidation(false);
-    name === "password" && value.trim() === ""
-      ? setShowPasswordValidation(true)
-      : setShowPasswordValidation(false);
-    name === "firstName" && value.trim() === ""
-      ? setShowFirstNameValidation(true)
-      : setShowFirstNameValidation(false);
-    name === "lastName" && value.trim() === ""
-      ? setShowLastNameValidation(true)
-      : setShowLastNameValidation(false);
+    name === "businessName" && value.trim() === ""
+      ? setShowBusinessNameValidation(true)
+      : setShowBusinessNameValidation(false);
+    name === "streetAddress" && value.trim() === ""
+      ? setShowStreetAddressValidation(true)
+      : setShowStreetAddressValidation(false);
+    name === "suite" && value.trim() === ""
+      ? setShowSuiteValidation(true)
+      : setShowSuiteValidation(false);
+    name === "city" && value.trim() === ""
+      ? setShowCityValidation(true)
+      : setShowCityValidation(false);
+    name === "state" && value.trim() === ""
+      ? setShowStateValidation(true)
+      : setShowStateValidation(false);
+    name === "zip" && value.trim() === ""
+      ? setShowZipValidation(true)
+      : setShowZipValidation(false);
+
+    name === "startDate" && value.trim() === ""
+      ? setStartDateValidation(true)
+      : setStartDateValidation(false);
+    name === "endDate" && value.trim() === ""
+      ? setShowEndDateValidation(true)
+      : setShowEndDateValidation(false);
+    name === "startTime" && value.trim() === ""
+      ? setShowStartTimeValidation(true)
+      : setShowStartTimeValidation(false);
+
+    name === "endTime" && value.trim() === ""
+      ? setShowEndTimeValidation(true)
+      : setShowEndTimeValidation(false);
+    name === "squareFeet" && value.trim() === ""
+      ? setShowSquareFeetValidation(true)
+      : setShowSquareFeetValidation(false);
+    name === "jobDetails" && value.trim() === ""
+      ? setShowJobDetailsValidation(true)
+      : setShowJobDetailsValidation(false);
+
+    name === "numberOfClientEmployees" && value.trim() === ""
+      ? setShowNumberOfClientEmployeesValidation(true)
+      : setShowNumberOfClientEmployeesValidation(false);
   };
 
-  //SECTION ADD EMPLOYEE
-  const [addEmployee] = useMutation(ADD_EMPLOYEE, {
-    refetchQueries: ["getAllEmployees"],
-  });
-
-  const handleAddEmployeeSubmit = async (event) => {
+  // SECTION ADD
+  const handleAddScheduleSubmit = async (event) => {
     event.preventDefault();
-
-    console.log(
-      event,
-      email,
-      firstName,
-      lastName,
-      password,
-      phone,
-      isAdmin,
-      isLocked
-    );
 
     try {
       // eslint-disable-next-line
-      const { data } = await addEmployee({
+      const { data } = await addSchedule({
         variables: {
-          firstName,
-          lastName,
-          phone,
-          email,
-          password,
-          isAdmin: false,
-          isLocked: false,
+          businessName,
+          streetAddress,
+          // suite,
+          city,
+          state,
+          zip,
+          startDate,
+          endDate,
+          startTime,
+          endTime,
+          squareFeet,
+          jobDetails,
+          numberOfClientEmployees,
+          client: clients?.clients
+            ?.filter((client) => client.businessName === businessName)
+            .map((id) => id._id)
+            .toString(), // convert client name to client._id
+          employees: selectedEmployees.map(({ employeeId }) => employeeId),
         },
       });
 
+      console.log(data);
     } catch (err) {
-
       console.error(err);
-
     }
 
-    resetForm();
+    // refetch a work order might be necessary when it is added
+    scheduleRefetch();
 
+    // resetForm();
+
+    // handleUpdateForDisabled(null, businessName, "addClient");
   };
 
-  // Reset the add employee form after submission
-  const resetForm = () => {
-    setEmail("");
-    setFirstName("");
-    setLastName("");
-    setPhone("");
-    setPassword("");
-    setIsAdmin("");
-    setIsLocked("");
-  };
+  // Reset the add schedule form after submission
+  // const resetForm = () => {
+  //   setBusinessName("");
+  //   setContact("");
+  //   setPhone("");
+  //   setEmailClient("");
+  //   setStreetAddress("");
+  //   setSuite("");
+  //   setCity("");
+  //   setState("");
+  //   setZip("");
+  // };
 
-  // Validate all fields are populated to enable submit button
-  useEffect(() => {
-    setAreAllFieldsFilled(
-      email.trim() !== "" &&
-      firstName.trim() !== "" &&
-      lastName.trim() !== "" &&
-        phone.trim() !== "" &&
-        password.trim() !== ""
-    );
-
-    // eslint-disable-next-line
-  }, [email, phone, firstName, lastName]);
+  // If all fields are populated then enable the submit button
+  // useEffect(() => {
+  //   setAreAllFieldsFilled(
+  //     businessName.trim() !== "" &&
+  //       contact.trim() !== "" &&
+  //       phone.trim() !== "" &&
+  //       emailClient.trim() !== "" &&
+  //       streetAddress.trim() !== "" &&
+  //       suite.trim() !== "" &&
+  //       city.trim() !== "" &&
+  //       state.trim() !== "" &&
+  //       zip.trim() !== ""
+  //   );
+  //   // console.log(areAllFieldsFilled);
+  //   // eslint-disable-next-line
+  // }, [
+  //   businessName,
+  //   contact,
+  //   phone,
+  //   emailClient,
+  //   streetAddress,
+  //   suite,
+  //   city,
+  //   state,
+  //   zip,
+  // ]);
 
   return (
     <Container>
-      <Form onSubmit={handleAddEmployeeSubmit} style={{alignContent:'left'}}>
-        <div id="example-collapse-text">
-          <Form.Group className="mb-3 form-length">
-            <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder", marginTop: "10px" }}>
-                First Name
-              </Form.Label>
-              <Form.Label
-                className={`validation-color ${
-                  showFirstNameValidation ? "show" : "hide"
-                }`}
-              >
-                * field is required
-              </Form.Label>
-            </div>
-            <Form.Control
-              className="custom-border"
-              type="text"
-              placeholder="Enter Employee Name"
-              name="firstName"
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              required
-            />
-          </Form.Group>
+      <Form
+        className="py-3 overflow-auto custom-about border border-secondary"
+        onSubmit={handleAddScheduleSubmit}
+        style={{ alignContent: "left" }}
+      >
+        <Form.Group className="form-length">
+          <Form.Label style={{ fontWeight: "bolder" }}>
+            Select Client
+          </Form.Label>
+          <Form.Label
+            className={`validation-color ${
+              showBusinessNameValidation ? "show" : "hide"
+            }`}
+          >
+            *required
+          </Form.Label>
+          <Form.Control
+            as="select"
+            className="custom-border"
+            type="text"
+            placeholder="Select Client"
+            value={"form-select"}
+            name={"form-select"}
+            onChange={businessNameSelect}
+          >
+            <option>{businessName}</option>
+            {clients?.clients?.map((client, index) => (
+              <option key={index} value={client.businessName}>
+                {client.businessName}
+              </option>
+            ))}
+          </Form.Control>
+        </Form.Group>
 
-          <Form.Group className="mb-3 form-length">
-            <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder", marginTop: "10px" }}>
-                Last Name
-              </Form.Label>
-              <Form.Label
-                className={`validation-color ${
-                  showLastNameValidation ? "show" : "hide"
-                }`}
-              >
-                * field is required
-              </Form.Label>
-            </div>
-            <Form.Control
-              className="custom-border"
-              type="text"
-              placeholder="Enter Last Name"
-              name="lastName"
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3 form-length">
-            <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>
-                Phone Number
-              </Form.Label>
-              <Form.Label
-                className={`validation-color ${
-                  showPhoneValidation ? "show" : "hide"
-                }`}
-              >
-                * field is required
-              </Form.Label>
-            </div>
-            <Form.Control
-              className="custom-border"
-              type="tel"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              placeholder="ex 555-555-5555"
-              name="phone"
-              onChange={handleInputChange}
-              // onBlur={handleBlurChange}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3 form-length">
-            <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>
-                Email Address
-              </Form.Label>
-              <Form.Label
-                className={`validation-color ${
-                  showEmailEmployeeValidation ? "show" : "hide"
-                }`}
-              >
-                * field is required
-              </Form.Label>
-            </div>
-            <Form.Control
-              className="custom-border"
-              type="email"
-              placeholder="Enter Email Address"
-              name="email"
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3 form-length">
-            <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>Password</Form.Label>
-              <Form.Label
-                className={`validation-color ${
-                  showPasswordValidation ? "show" : "hide"
-                }`}
-              >
-                * field is required
-              </Form.Label>
-            </div>
-            <Form.Control
-              className="custom-border"
-              type="password"
-              placeholder="Setup Employee Password"
-              name="password"
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              required
-            />
-          </Form.Group>
-
-          <div className="d-flex justify-content-center">
-            <Button
-              className="submit-button-style"
-              variant="primary"
-              type="submit"
-              disabled={!areAllFieldsFilled}
-              title="Enter all fields to add a new client"
+        <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
+          <div className="form-label">
+            <Form.Label style={{ fontWeight: "bolder" }}>Address</Form.Label>
+            <Form.Label
+              className={`validation-color ${
+                showStreetAddressValidation ? "show" : "hide"
+              }`}
             >
-              Add Employee
-            </Button>
+              *required
+            </Form.Label>
           </div>
-        </div>
+          <Form.Control
+            className="custom-border"
+            placeholder="Enter Address"
+            value={streetAddress}
+            name="streetAddress"
+            defaultValue={client?.streetAddress}
+            onChange={handleInputChange}
+            onBlur={handleBlurChange}
+            //required
+          />
+        </Form.Group>
+        <Row className="addy">
+          <Col xs={7}>
+            <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
+            <Form.Label
+              className={`validation-color ${
+                showCityValidation ? "show" : "hide"
+              }`}
+            >
+              *required
+            </Form.Label>
+            <Form.Control
+              className="custom-border"
+              placeholder="City"
+              value={city}
+              name="city"
+              defaultValue={client?.city}
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              //required
+            />
+          </Col>
+          <Col>
+            <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
+            <Form.Label
+              className={`validation-color ${
+                showStateValidation ? "show" : "hide"
+              }`}
+            >
+              *required
+            </Form.Label>
+            <Form.Control
+              className="custom-border"
+              placeholder="State"
+              value={state}
+              name="state"
+              defaultValue={client?.state}
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              //required
+            />
+          </Col>
+          <Col>
+            <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>
+            <Form.Label
+              className={`validation-color ${
+                showZipValidation ? "show" : "hide"
+              }`}
+            >
+              *required
+            </Form.Label>
+            <Form.Control
+              className="custom-border"
+              placeholder="Zip"
+              value={zip}
+              name="zip"
+              defaultValue={client?.zip}
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              //required
+            />
+          </Col>
+        </Row>
+        <Row className="addy">
+          <Col>
+            <Form.Group controlId="formBasicEmail">
+              <div className="form-label">
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Job Start Date
+                </Form.Label>
+
+                <Form.Label
+                  className={`validation-color ${
+                    showStartDateValidation ? "show" : "hide"
+                  }`}
+                >
+                  *required
+                </Form.Label>
+              </div>
+              <Form.Control
+                className="custom-border"
+                type="date"
+                name="startDate"
+                defaultValue={client?.startDate}
+                onChange={handleInputChange}
+                onBlur={handleBlurChange}
+                //required
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group controlId="formBasicEmail">
+              <div className="form-label">
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Job End Date
+                </Form.Label>
+                <Form.Label
+                  className={`validation-color ${
+                    showEndDateValidation ? "show" : "hide"
+                  }`}
+                >
+                  *required
+                </Form.Label>
+              </div>
+              <Form.Control
+                className="custom-border"
+                type="date"
+                value={endDate}
+                name="endDate"
+                defaultValue={client?.endDate}
+                onChange={handleInputChange}
+                onBlur={handleBlurChange}
+                //required
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group controlId="formBasicEmail">
+              <div className="form-label">
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Start Time
+                </Form.Label>
+                <Form.Label
+                  className={`validation-color ${
+                    showStartTimeValidation ? "show" : "hide"
+                  }`}
+                >
+                  *required
+                </Form.Label>
+              </div>
+              <Form.Control
+                className="custom-border"
+                type="time"
+                value={startTime}
+                name="startTime"
+                defaultValue={client?.startTime}
+                onChange={handleInputChange}
+                onBlur={handleBlurChange}
+                //required
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Row className="addy">
+          <Col xs={6}>
+            <Form.Label style={{ fontWeight: "bolder" }}>
+              Office Sqft
+            </Form.Label>
+            <Form.Label
+              className={`validation-color ${
+                showSquareFeetValidation ? "show" : "hide"
+              }`}
+            >
+              *required
+            </Form.Label>
+            <Form.Control
+              className="custom-border"
+              placeholder="8000 Sqft"
+              value={squareFeet}
+              name="squareFeet"
+              defaultValue={client?.squareFeet}
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              //required
+            />
+          </Col>
+
+          <Col xs={6}>
+            <Form.Group>
+              <Form.Label style={{ fontWeight: "bolder" }}>
+                Number of Employees
+              </Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showNumberOfClientEmployeesValidation ? "show" : "hide"
+                }`}
+              >
+                *required
+              </Form.Label>
+              <Form.Control
+                as="select"
+                className="custom-border"
+                type="text"
+                value={numberOfClientEmployees}
+                name="numberOfClientEmployees"
+                // onChange={addEmployee}
+                onChange={handleInputChange}
+              >
+                <option>Select</option>
+                {numberOfEmployees.map((emp, index) => (
+                  <option
+                    key={index}
+                    // value={emp}
+                  >
+                    {emp}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Form.Group className="form-length">
+          <Form.Label style={{ fontWeight: "bolder" }}>
+            Select Employees for Job
+          </Form.Label>
+          <Form.Label
+            className={`validation-color ${
+              showSelectedEmployeesValidation ? "show" : "hide"
+            }`}
+          >
+            *required
+          </Form.Label>
+          <Form.Control
+            as="select"
+            className="custom-border"
+            type="text"
+            value={"form-select"}
+            name={"form-select"}
+            onChange={(event) => {
+              createSelectedEmployees(event);
+            }}
+          >
+            <option>Select</option>
+            {emp?.employees?.map((emp, index) => (
+              <option
+                key={index}
+                value={emp.firstName}
+                data-firstname={emp.firstName}
+                data-lastname={emp.lastName}
+                data-id={emp._id}
+              >
+                {emp.firstName} {emp.lastName}
+              </option>
+            ))}
+          </Form.Control>
+        </Form.Group>
+
+        {/* Creates button when adding employee to job  */}
+        {selectedEmployees.map((employee) => (
+          <Button
+            style={{
+              marginRight: "15px",
+              padding: "3px",
+              backgroundColor: "#007bff",
+            }}
+            onClick={removeEmployee}
+            value={employee.employeeId}
+            variant="secondary"
+            data-id={emp._id}
+          >
+            {`${employee.firstName} ${employee.lastName}`}
+          </Button>
+        ))}
+
+        <Form.Group className="mb-3" controlId="formBasicMessage">
+          <div className="form-label form-length">
+            <Form.Label style={{ fontWeight: "bolder" }}>
+              Job Details
+            </Form.Label>
+            <Form.Label
+              className={`validation-color ${
+                showJobDetailsValidation ? "show" : "hide"
+              }`}
+            >
+              *required
+            </Form.Label>
+          </div>
+          <Form.Control
+            style={{
+              width: "60%",
+              marginRight: "auto",
+              marginLeft: "auto",
+            }}
+            className="custom-border"
+            as="textarea"
+            rows={4}
+            type="textarea"
+            placeholder="Enter additional information here."
+            value={jobDetails}
+            name="jobDetails"
+            onChange={handleInputChange}
+            onBlur={handleBlurChange}
+            //required
+          />
+        </Form.Group>
+
+        <Button
+          className="button-custom submit-button-style"
+          variant="primary"
+          type="submit"
+          title="Submit to schedule job."
+        >
+          Schedule Job
+        </Button>
       </Form>
     </Container>
   );
