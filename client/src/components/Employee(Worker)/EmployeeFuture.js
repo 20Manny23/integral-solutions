@@ -26,26 +26,34 @@ function Employees() {
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
-    
-      const todayDate = Date.now()
-      const upcoming = [];
-      for (let i = 0; i < data.employeeById.schedule.length; i++) {
-        const date = new Date(data.employeeById.schedule[i].startDate)
-        const jobDate = date.getTime()
 
-        if(jobDate > todayDate){
-           upcoming.push(data.employeeById.schedule[i])
-
-        }
-      }
+      console.log('EMPLOYEE DATA = ', data)
     
-      setSchedule(upcoming)
+      // const todayDate = Date.now()
+      // const upcoming = [];
+      // for (let i = 0; i < data.employeeById.schedule.length; i++) {
+
+      //   console.log(data.employeeById.schedule.length);
+
+      //   const date = new Date(data.employeeById.schedule[i].startDate)
+      //   const jobDate = date.getTime()
+
+      //   if (jobDate >= todayDate || jobDate === "") {
+      //      upcoming.push(data.employeeById.schedule[i])
+      //   }
+      // }
+    
+      // setSchedule(upcoming)
+      setSchedule(data.employeeById.schedule);
     },
   });
  
   // render data
   // use 
 
+  if (loading) {
+    console.log(loading);
+  } else {
   return (
     <>
       <Container>
@@ -90,6 +98,7 @@ function Employees() {
       </Container>
     </>
   );
+}
 }
 
 export default Employees;

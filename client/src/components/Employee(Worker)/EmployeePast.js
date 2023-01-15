@@ -28,19 +28,21 @@ function Employees() {
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
      console.log(data)
-      const todayDate = Date.now()
-      const past = [];
-      for (let i = 0; i < data.employeeById.schedule.length; i++) {
-        const date = new Date(data.employeeById.schedule[i].startDate)
-        const jobDate = date.getTime()
+      // const todayDate = Date.now()
+      // const past = [];
+      // for (let i = 0; i < data.employeeById.schedule.length; i++) {
+      //   const date = new Date(data.employeeById.schedule[i].startDate)
+      //   const jobDate = date.getTime()
         
-        if(jobDate < todayDate){
-           past.push(data.employeeById.schedule[i])
+      //   if(jobDate < todayDate){
+      //      past.push(data.employeeById.schedule[i])
 
-        }
-      }
-      console.log(past)
-      setSchedule(past)
+      //   }
+      // }
+      // console.log(past)
+      // setSchedule(past)
+
+      setSchedule(data.employeeById.schedule);
     },
   });
  

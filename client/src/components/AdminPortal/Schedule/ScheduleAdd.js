@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
 import {
@@ -6,7 +6,11 @@ import {
   QUERY_ALL_CLIENTS,
   QUERY_ALL_EMPLOYEES,
 } from "../../../utils/queries";
-import { ADD_SCHEDULE } from "../../../utils/mutations";
+import {
+  ADD_SCHEDULE,
+  UPDATE_CLIENT_SCHEDULE,
+  UPDATE_EMPLOYEE_SCHEDULE,
+} from "../../../utils/mutations";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 
@@ -46,12 +50,67 @@ function ScheduleAdd() {
     "More Than 100",
   ];
 
+  const stateCode = [
+    "CO",
+    "AL",
+    "AK",
+    "AS",
+    "AZ",
+    "AR",
+    "CA",
+    "CT",
+    "DE",
+    "DC",
+    "FL",
+    "GA",
+    "HI",
+    "ID",
+    "IL",
+    "IN",
+    "IA",
+    "KS",
+    "KY",
+    "LA",
+    "ME",
+    "MD",
+    "MA",
+    "MI",
+    "MI",
+    "MN",
+    "MS",
+    "MO",
+    "MT",
+    "NE",
+    "NV",
+    "NH",
+    "NJ",
+    "NM",
+    "NY",
+    "NC",
+    "ND",
+    "OH",
+    "OR",
+    "PA",
+    "RI",
+    "SC",
+    "SD",
+    "TN",
+    "TX",
+    "UT",
+    "VT",
+    "VA",
+    "WA",
+    "WV",
+    "WI",
+    "WY",
+  ];
+
   // VALIDATION
   const [showBusinessNameValidation, setShowBusinessNameValidation] =
     useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
-  const [showSuiteValidation, setShowSuiteValidation] = useState(false); // currently no suite field
+  const [showSuiteValidation, setShowSuiteValidation] = useState(false); // currently no suite field on input form
   const [showCityValidation, setShowCityValidation] = useState(false);
   const [showStateValidation, setShowStateValidation] = useState(false);
   const [showZipValidation, setShowZipValidation] = useState(false);
@@ -72,27 +131,7 @@ function ScheduleAdd() {
     useState(false);
 
   //SECTION QUERIES / MUTATIONS
-  const {
-    // eslint-disable-next-line
-    loading: clientsLoad,
-    data: clients,
-    // eslint-disable-next-line
-    error: clientError,
-    // eslint-disable-next-line
-    refetch: clientsRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
-
-  const {
-    // eslint-disable-next-line
-    loading: empLoad,
-    data: emp,
-    // eslint-disable-next-line
-    error: empError,
-    // eslint-disable-next-line
-    refetch: empRefectch,
-  } = useQuery(QUERY_ALL_EMPLOYEES);
-
-  // SECTION WORKORDER / SCHEDULE
+  // get schedule
   const {
     // eslint-disable-next-line
     loading: scheduleLoad,
@@ -103,11 +142,39 @@ function ScheduleAdd() {
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
   // console.log(schedule);
-  // SECTION END WORKORDER / SCHEDULE
 
+  // get clients
+  const {
+    // eslint-disable-next-line
+    loading: clientsLoad,
+    data: clients,
+    // eslint-disable-next-line
+    error: clientError,
+    // eslint-disable-next-line
+    refetch: clientsRefetch,
+  } = useQuery(QUERY_ALL_CLIENTS);
+
+  // get employees
+  const {
+    // eslint-disable-next-line
+    loading: empLoad,
+    data: emp,
+    // eslint-disable-next-line
+    error: empError,
+    // eslint-disable-next-line
+    refetch: empRefectch,
+  } = useQuery(QUERY_ALL_EMPLOYEES);
+
+  // add schedule
   const [addSchedule] = useMutation(ADD_SCHEDULE);
+  //fix
+  // add new schedule / job to the appropriate client
+  const [updateClientSchedule] = useMutation(UPDATE_CLIENT_SCHEDULE);
 
-  //SECTION CREATE / REMOVE SELECTED EMPLOYEE OBJECT
+  // add new schedule / job to the appropriate employee(s)
+  const [updateEmployeeSchedule] = useMutation(UPDATE_EMPLOYEE_SCHEDULE);
+
+  //SECTION ADD INTO OR REMOVE FROM SELECTED EMPLOYEE FROM PAGE
   const createSelectedEmployees = (event) => {
     let firstName =
       event.target.options[event.target.selectedIndex].dataset.firstname;
@@ -248,17 +315,65 @@ function ScheduleAdd() {
         },
       });
 
-      console.log(data);
+      // console.log('hello', data)
+      // console.log('schedule data');
+      // console.log('schedule data = ', data.schedules[data.schedules.length - 1]);
+
     } catch (err) {
       console.error(err);
     }
 
-    // refetch a work order might be necessary when it is added
-    scheduleRefetch();
+    // refetch the list of schedules/jobs to get the most recent id added
+    let getScheduleId = await scheduleRefetch();
+    let mostRecentScheduleId = getScheduleId.data.schedules[getScheduleId.data.schedules.length - 1]._id;
+    console.log('test = ', getScheduleId.data.schedules)
+    console.log('test = ', getScheduleId.data.schedules[getScheduleId.data.schedules.length - 1]._id)
 
     // resetForm();
 
-    // handleUpdateForDisabled(null, businessName, "addClient");
+    
+    // update client schedule array
+    console.log(
+      "selected client = ",
+      clients?.clients
+        ?.filter((client) => client.businessName === businessName)
+        .map((id) => id._id)
+        .toString()
+    );
+    try {
+      // eslint-disable-next-line
+      const { data } = await updateClientSchedule({
+        variables: {
+          // id: "6398fb54494aa98f85992da3",
+          id: clients?.clients
+            ?.filter((client) => client.businessName === businessName)
+            .map((id) => id._id)
+            .toString(), // convert client name to client._id
+          schedule: mostRecentScheduleId,
+        },
+      });
+      console.log('what data = ', data);
+    } catch (err) {
+      console.error(err);
+    }
+
+    // update employee schedule array
+    console.log("employees array = ", selectedEmployees);
+    try {
+      for (let i = 0; i < selectedEmployees.length; i++) {
+        // eslint-disable-next-line
+        const { data } = await updateEmployeeSchedule({
+          variables: {
+            id: selectedEmployees[i].employeeId,
+            schedule: mostRecentScheduleId,
+          },
+        });
+        console.log(data);
+      };
+
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   // Reset the add schedule form after submission
@@ -300,7 +415,6 @@ function ScheduleAdd() {
   //   state,
   //   zip,
   // ]);
-  const stateCode = ["CO","AL", "AK", "AS", "AZ", "AR", "CA",  "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MI", "MN", "MS", "MO", "MT", "NE", "NV" , "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY" ]
 
   return (
     <Container>
@@ -391,7 +505,7 @@ function ScheduleAdd() {
               *required
             </Form.Label>
             <Form.Control
-            as={"select"}
+              as={"select"}
               className="custom-border"
               placeholder="State"
               value={state}
@@ -400,10 +514,12 @@ function ScheduleAdd() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               //required
-            > {stateCode.map((st) =>
-              <option>{st}</option>
-            )}
-              </Form.Control>
+            >
+              {" "}
+              {stateCode.map((st) => (
+                <option>{st}</option>
+              ))}
+            </Form.Control>
           </Col>
           <Col>
             <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>
@@ -653,7 +769,7 @@ function ScheduleAdd() {
 
         <Button
           className="button-custom submit-button-style"
-          style={{display:'grid', margin:'auto'}}
+          style={{ display: "grid", margin: "auto" }}
           variant="primary"
           type="submit"
           title="Submit to schedule job."
