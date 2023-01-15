@@ -27,23 +27,23 @@ function Employees() {
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
 
-      // console.log('EMPLOYEE DATA = ', data)
-      // const todayDate = Date.now()
-      // const upcoming = [];
-      // for (let i = 0; i < data.employeeById.schedule.length; i++) {
+      console.log('EMPLOYEE DATA = ', data)
+      const todayDate = Date.now()
+      const upcoming = [];
+      for (let i = 0; i < data.employeeById.schedule.length; i++) {
 
-      //   console.log(data.employeeById.schedule.length);
+        console.log(data.employeeById.schedule.length);
 
-      //   const date = new Date(data.employeeById.schedule[i].startDate)
-      //   const jobDate = date.getTime()
+        const date = new Date(data.employeeById.schedule[i].startDate)
+        const jobDate = date.getTime()
 
-      //   if (jobDate >= todayDate || jobDate === "") {
-      //      upcoming.push(data.employeeById.schedule[i])
-      //   }
-      // }
+        if (jobDate >= todayDate || jobDate === "") {
+           upcoming.push(data.employeeById.schedule[i])
+        }
+      }
     
-      // setSchedule(upcoming)
-      setSchedule(data.employeeById.schedule);
+      setSchedule(upcoming);
+
     },
   });
  
@@ -51,7 +51,7 @@ function Employees() {
   // use 
 
   if (loading) {
-    // console.log(loading);
+    // console.log(loading); // need to add a spinner here
   } else {
   return (
     <>
