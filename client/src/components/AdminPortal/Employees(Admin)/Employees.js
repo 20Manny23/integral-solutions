@@ -104,11 +104,11 @@ function Employees() {
                     <Container fluid="md">
                       <Row>
                       <Col>Admin: {emp?.isAdmin ? "True" : "False"}</Col>
-                      <Col>{emp?.email}</Col>
+                      <Col><a href= {`mailto:${emp?.email}`}> {emp?.email}</a></Col>
                       </Row>
                       <Row>
                       <Col>Locked: {emp?.isLocked ? "True" : "False"}</Col>
-                        <Col>{emp?.phone}</Col>
+                        <Col><a href= {`tel:+${emp?.phone}`}> {emp?.phone}</a></Col>
                       </Row>
                     </Container>
                   </div>
