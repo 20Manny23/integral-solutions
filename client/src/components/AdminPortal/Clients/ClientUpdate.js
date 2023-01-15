@@ -5,8 +5,9 @@ import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { QUERY_ALL_CLIENTS, QUERY_SINGLE_CLIENT } from "../../../utils/queries";
 import { UPDATE_CLIENT } from "../../../utils/mutations";
 
-import { Row, Col, Container, Form, Button } from "react-bootstrap";
+import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
 
+import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
@@ -24,7 +25,7 @@ function ClientUpdate() {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
-    // const [isDisabled, setIsDisabled] = useState(true);
+  // const [isDisabled, setIsDisabled] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
   // VALIDATION
@@ -45,7 +46,7 @@ function ClientUpdate() {
   const [currentClientId, setCurrentClientId] = useState("");
   const [currentClient, setCurrentClient] = useState("");
 
-  // SECTION QUERIES & MUTATIONS 
+  // SECTION QUERIES & MUTATIONS
   // get all clients
   const {
     // eslint-disable-next-line
@@ -254,7 +255,6 @@ function ClientUpdate() {
 
     console.log(prevClientData.businessName);
   }
-  const stateCode = ["CO","AL", "AK", "AS", "AZ", "AR", "CA",  "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MI", "MN", "MS", "MO", "MT", "NE", "NV" , "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY" ]
 
   return (
     <Container>
@@ -277,7 +277,6 @@ function ClientUpdate() {
             zip,
           });
         }}
-      
       >
         <div id="example-collapse-text">
           <Form.Group className="form-length">
@@ -313,9 +312,7 @@ function ClientUpdate() {
             </Form.Control>
           </Form.Group>
 
-          <Form.Group
-            className="mb-3 form-length"
-          >
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
                 Company Name
@@ -510,7 +507,7 @@ function ClientUpdate() {
                 * required
               </Form.Label>
               <Form.Control
-              as={"select"}
+                as={"select"}
                 className="custom-border"
                 placeholder="State"
                 name="state"
@@ -520,9 +517,10 @@ function ClientUpdate() {
                 //disabled={isDisabled}
                 required
               >
-                   {stateCode.map((st) =>
-              <option>{st}</option>
-              )}
+                <option>Select</option>
+                {STATE_DROPDOWN.map((st) => (
+                  <option>{st}</option>
+                ))}
               </Form.Control>
             </Col>
             <Col>

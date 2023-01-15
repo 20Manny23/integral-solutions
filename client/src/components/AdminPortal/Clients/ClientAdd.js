@@ -3,7 +3,9 @@ import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_CLIENT } from "../../../utils/mutations";
 
-import { Row, Col, Container, Form, Button, Select } from "react-bootstrap";
+import { Row, Col, Container, Form, Button } from "react-bootstrap";
+
+import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
 
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
@@ -59,8 +61,6 @@ function ClientAdd() {
       : setZip(value);
 
     console.log("email = ", emailClient);
-
-   
 
     return name;
   };
@@ -171,10 +171,10 @@ function ClientAdd() {
     state,
     zip,
   ]);
-  const stateCode = ["CO","AL", "AK", "AS", "AZ", "AR", "CA",  "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MI", "MN", "MS", "MO", "MT", "NE", "NV" , "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY" ]
+
   return (
     <Container>
-      <Form onSubmit={handleAddClientSubmit} >
+      <Form onSubmit={handleAddClientSubmit}>
         <div id="example-collapse-text">
           <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
             <div className="form-label">
@@ -350,7 +350,7 @@ function ClientAdd() {
               >
                 * required
               </Form.Label>
-              
+
               <Form.Control
                 as="select"
                 className="custom-border"
@@ -362,9 +362,10 @@ function ClientAdd() {
                 onBlur={handleBlurChange}
                 // required
               >
-                {stateCode.map((st) =>
-              <option>{st}</option>
-              )}
+                <option>Select</option>
+                {STATE_DROPDOWN.map((st) => (
+                  <option>{st}</option>
+                ))}
               </Form.Control>
             </Col>
             <Col>

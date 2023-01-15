@@ -12,8 +12,10 @@ import {
   UPDATE_EMPLOYEE_SCHEDULE,
 } from "../../../utils/mutations";
 
-import { Row, Col, Container, Form, Button } from "react-bootstrap";
+import format_date_string from "../../../utils/dateFormat";
+import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
 
+import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 import "../../../styles/Forms.css";
@@ -48,61 +50,6 @@ function ScheduleAdd() {
     "Less Than 50",
     "50-99",
     "More Than 100",
-  ];
-
-  const stateCode = [
-    "CO",
-    "AL",
-    "AK",
-    "AS",
-    "AZ",
-    "AR",
-    "CA",
-    "CT",
-    "DE",
-    "DC",
-    "FL",
-    "GA",
-    "HI",
-    "ID",
-    "IL",
-    "IN",
-    "IA",
-    "KS",
-    "KY",
-    "LA",
-    "ME",
-    "MD",
-    "MA",
-    "MI",
-    "MI",
-    "MN",
-    "MS",
-    "MO",
-    "MT",
-    "NE",
-    "NV",
-    "NH",
-    "NJ",
-    "NM",
-    "NY",
-    "NC",
-    "ND",
-    "OH",
-    "OR",
-    "PA",
-    "RI",
-    "SC",
-    "SD",
-    "TN",
-    "TX",
-    "UT",
-    "VT",
-    "VA",
-    "WA",
-    "WV",
-    "WI",
-    "WY",
   ];
 
   // VALIDATION
@@ -167,7 +114,7 @@ function ScheduleAdd() {
 
   // add schedule
   const [addSchedule] = useMutation(ADD_SCHEDULE);
-  //fix
+
   // add new schedule / job to the appropriate client
   const [updateClientSchedule] = useMutation(UPDATE_CLIENT_SCHEDULE);
 
@@ -290,6 +237,12 @@ function ScheduleAdd() {
   const handleAddScheduleSubmit = async (event) => {
     event.preventDefault();
 
+    //fix
+    let reformattedStartDate = format_date_string(startDate, startTime);
+    let reformattedEndDate = format_date_string(startDate, startTime);
+
+    console.log(reformattedEndDate, reformattedStartDate);
+
     try {
       // eslint-disable-next-line
       const { data } = await addSchedule({
@@ -300,8 +253,8 @@ function ScheduleAdd() {
           city,
           state,
           zip,
-          startDate,
-          endDate,
+          startDate: reformattedStartDate,
+          endDate: reformattedEndDate,
           startTime,
           endTime,
           squareFeet,
@@ -316,35 +269,28 @@ function ScheduleAdd() {
       });
 
       // console.log('hello', data)
-      // console.log('schedule data');
-      // console.log('schedule data = ', data.schedules[data.schedules.length - 1]);
-
     } catch (err) {
       console.error(err);
     }
 
     // refetch the list of schedules/jobs to get the most recent id added
-    let getScheduleId = await scheduleRefetch();
-    let mostRecentScheduleId = getScheduleId.data.schedules[getScheduleId.data.schedules.length - 1]._id;
-    console.log('test = ', getScheduleId.data.schedules)
-    console.log('test = ', getScheduleId.data.schedules[getScheduleId.data.schedules.length - 1]._id)
+    let getScheduleIds = await scheduleRefetch();
+    let scheduleIdsLength = getScheduleIds.data.schedules.length - 1;
+    let mostRecentScheduleId =
+      getScheduleIds.data.schedules[scheduleIdsLength]._id;
+
+    updateClientJobs(mostRecentScheduleId);
+    updateEmployeeJobs(mostRecentScheduleId);
 
     // resetForm();
+  };
 
-    
-    // update client schedule array
-    console.log(
-      "selected client = ",
-      clients?.clients
-        ?.filter((client) => client.businessName === businessName)
-        .map((id) => id._id)
-        .toString()
-    );
+  // update client schedule array
+  const updateClientJobs = async (mostRecentScheduleId) => {
     try {
       // eslint-disable-next-line
       const { data } = await updateClientSchedule({
         variables: {
-          // id: "6398fb54494aa98f85992da3",
           id: clients?.clients
             ?.filter((client) => client.businessName === businessName)
             .map((id) => id._id)
@@ -352,12 +298,14 @@ function ScheduleAdd() {
           schedule: mostRecentScheduleId,
         },
       });
-      console.log('what data = ', data);
+      console.log("what data = ", data);
     } catch (err) {
       console.error(err);
     }
+  };
 
-    // update employee schedule array
+  // update employee schedule array
+  const updateEmployeeJobs = async (mostRecentScheduleId) => {
     console.log("employees array = ", selectedEmployees);
     try {
       for (let i = 0; i < selectedEmployees.length; i++) {
@@ -369,8 +317,7 @@ function ScheduleAdd() {
           },
         });
         console.log(data);
-      };
-
+      }
     } catch (err) {
       console.error(err);
     }
@@ -443,7 +390,7 @@ function ScheduleAdd() {
             name={"form-select"}
             onChange={businessNameSelect}
           >
-            <option>{businessName}</option>
+            <option>Select</option>
             {clients?.clients?.map((client, index) => (
               <option key={index} value={client.businessName}>
                 {client.businessName}
@@ -515,8 +462,8 @@ function ScheduleAdd() {
               onBlur={handleBlurChange}
               //required
             >
-              {" "}
-              {stateCode.map((st) => (
+              <option>Select</option>
+              {STATE_DROPDOWN.map((st) => (
                 <option>{st}</option>
               ))}
             </Form.Control>
