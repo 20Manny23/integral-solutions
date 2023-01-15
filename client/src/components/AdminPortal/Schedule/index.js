@@ -1,14 +1,14 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-import Schedule from "./Schedule/ScheduleList";
-import ScheduleAdd from "./Schedule/ScheduleAdd";
-import ScheduleUpdate from "./Schedule/ScheduleUpdate";
+import Schedule from "./Schedule";
+import ScheduleAdd from "./ScheduleAdd";
+import ScheduleUpdate from "./ScheduleUpdate";
 
 function ScheduleList() {
   return (
     <Tabs
-      defaultActiveKey="scheduleList"
+      defaultActiveKey="employeeList"
       id="fill-tab-example"
       className="mb-3"
       fill
