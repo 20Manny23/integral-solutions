@@ -361,7 +361,7 @@ function ScheduleAdd() {
           />
         </Form.Group>
         <Row className="addy">
-          <Col xs={7}>
+          <Col xs={12}>
             <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
             <Form.Label
               className={`validation-color ${
@@ -381,7 +381,7 @@ function ScheduleAdd() {
               //required
             />
           </Col>
-          <Col>
+          <Col xs={5}>
             <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
             <Form.Label
               className={`validation-color ${

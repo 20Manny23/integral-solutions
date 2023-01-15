@@ -93,10 +93,10 @@ footer {
     justify-content: center;
     text-align: center;
   }
-  .footer-phone {
+  /* .footer-phone {
     
-    margin-top: -25px;
-  }
+    margin-left: 30px;
+  } */
   .full-logo{
     margin-top: -15px;
   }
@@ -118,26 +118,25 @@ footer {
     text-align: center;
   }
 
-  footer {
+  /* footer {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     align-content: center;
-  }
+  } */
 
   .footer-title {
     font-size: 26px;
   }
 
   .footer-phone {
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
-    align-content: center;
     font-size: 16px;
-    text-align: center;
+    text-align: center; */
     margin-top: 20px;
+    margin-left: none;
   }
 
 .full-logo{
@@ -162,10 +161,10 @@ margin-top: 2px;
 }
 @media only screen and (max-width:387px){
   .espanol{
-    font-size: 15px;
+    font-size: 20px;
   }
   .number{
-    font-size: 15px;
+    font-size: 20px;
     
   }
 }

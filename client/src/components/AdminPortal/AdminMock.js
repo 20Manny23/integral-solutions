@@ -13,13 +13,13 @@ function ScheduleList() {
       className="mb-3"
       fill
     >
-      <Tab eventKey="scheduleList" title="Schedule List">
+      <Tab eventKey="scheduleList" title="Schedule">
         <Schedule />
       </Tab>
-      <Tab eventKey="scheduleAdd" title="Add Schedule">
+      <Tab eventKey="scheduleAdd" title="Add Jobs">
         <ScheduleAdd />
       </Tab>
-      <Tab eventKey="scheduleUpdate" title="Update Schedule">
+      <Tab eventKey="scheduleUpdate" title="Update Jobs">
        <ScheduleUpdate />
       </Tab>
     </Tabs>
