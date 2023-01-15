@@ -4,19 +4,19 @@ import decode from "jwt-decode";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
-import { UPDATE_EMPLOYEE} from "../../utils/mutations";
+import { UPDATE_EMPLOYEE } from "../../utils/mutations";
 import { FORGOT_PASSWORD } from "../../utils/mutations";
 
 import { Form, Button, Alert } from "react-bootstrap";
 import "../../styles/button-home.css";
 
 function Employees() {
-  const [ tempPassword ] = useState('200');
-  const [ userFormData, setUserFormData ] = useState({ email: "", password: "" });
+  const [tempPassword] = useState('200');
+  const [userFormData, setUserFormData] = useState({ email: "", password: "" });
   // section get user using the email address
   const [employee, setEmployee] = useState({});
- 
-  
+
+
   // eslint-disable-next-line
   const { loading, data, error: getEmployeeError, refetch } = useQuery(QUERY_EMPLOYEE_BYEMAIL, {
     variables: { email: userFormData?.email },
@@ -32,7 +32,7 @@ function Employees() {
 
   // section set temporary password to be used to construct the token
   const [updatePassword, { error: passwordError }] = useMutation(UPDATE_EMPLOYEE);
-  
+
   const setPassword = async () => {
     // console.log('reset password = ', employee)
     try {
@@ -53,8 +53,8 @@ function Employees() {
   // section end
 
   // section Rods Code
-  const [ forgotPassword, { error } ] = useMutation(FORGOT_PASSWORD);
-  const [ payLoadToken, setPayLoadToken ] = useState({});
+  const [forgotPassword, { error }] = useMutation(FORGOT_PASSWORD);
+  const [payLoadToken, setPayLoadToken] = useState({});
 
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -88,9 +88,9 @@ function Employees() {
       });
 
       // let payLoadToken = { token: data.forgotPassword.token }
-      setPayLoadToken({token: data.forgotPassword.token});
+      setPayLoadToken({ token: data.forgotPassword.token });
       console.log(data.forgotPassword.token)
-      
+
       // decode token to check contents
       const decoded = decode(data.forgotPassword.token);
       console.log(decoded);  // decoded jwt delivers model fields and expiration data
@@ -100,6 +100,7 @@ function Employees() {
 
       // Bring user back to login page
       // window.location.assign(`/login`);
+      setShowAlert(true)
 
     } catch (e) {
       console.error('error = ', e);
@@ -115,10 +116,10 @@ function Employees() {
   // After payLoadToken state is updated, launch email to user
   useEffect(() => {
     sendEmail(payLoadToken);
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [payLoadToken]);
-  
-  
+
+
 
   const sendEmail = (token) => {
     const url = `http://localhost:3000/resetpassword/${token.token}`;
@@ -130,60 +131,71 @@ function Employees() {
 
   return (
     <>
-    <div className="d-flex flex-column align-items-center mt-3">
-      <div className="d-flex flex-column align-items-center">
-        <Form
-          noValidate
-          validated={validated}
-          // onSubmit={handleFormSubmit}
-          className="mx-2 mt-2 mb-1"
-          style={{ width: "280px" }}
-        >
-          <Form.Group>
-            <Form.Label htmlFor="email">Enter your email</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Your email"
-              name="email"
-              onChange={handleInputChange}
-              value={userFormData.email}
-              required
-            />
-            <Form.Control.Feedback type="invalid">
-              Email is required!
-            </Form.Control.Feedback>
-          </Form.Group>
-
-          <Button
-            disabled={!(userFormData.email)}
-            className="mb-3 submit-button-style"
-            type="submit"
-            variant="success"
-            onClick={handleFormSubmit}
+      <div className="d-flex flex-column align-items-center mt-3">
+        <div className="d-flex flex-column align-items-center">
+          <Form
+            noValidate
+            validated={validated}
+            // onSubmit={handleFormSubmit}
+            className="mx-2 mt-2 mb-1"
+            style={{ width: "280px" }}
           >
-            Submit
-          </Button>
-        </Form>
-      </div>
+            <Form.Group style={{ marginTop: "100px" }}>
+              <Form.Label htmlFor="email">Enter your email</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Your email"
+                name="email"
+                onChange={handleInputChange}
+                value={userFormData.email}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Email is required!
+              </Form.Control.Feedback>
+            </Form.Group>
 
-      {/* show alert if server response is bad */}
-      {error && (
-        <div className="d-flex justify-content-center">
-          <Alert
-            dismissible
-            onClose={() => setShowAlert(false)}
-            show={showAlert}
-            variant="danger"
-            className="mb-4 py-1 pl-1 bg-danger text-white"
-            style={{ width: "300px" }}
-          >
-            <p className="" style={{ width: "200px" }}>
-              Something went wrong with your login credentials!
-            </p>
-          </Alert>
+            <Button
+              disabled={!(userFormData.email)}
+              className="mb-3 submit-button-style"
+              type="submit"
+              variant="success"
+              onClick={handleFormSubmit}
+            >
+              Submit
+            </Button>
+          </Form>
         </div>
-      )}
-    </div>
+        <Alert 
+        dismissible
+        onClose={() => setShowAlert(false)}
+        variant="success"
+        show={showAlert}
+        className="mb- py-1 pl-3 bg-success text-white"
+        stlye={{ alignContent: "center" }}
+          >
+          <p style={{ width: "200px", padding: "8px", marginTop: "5px"}}>Email has been sent to <br></br>{userFormData.email}</p>
+          
+        </Alert>
+
+        {/* show alert if server response is bad */}
+        {error && (
+          <div className="d-flex justify-content-center">
+            <Alert
+              dismissible
+              onClose={() => setShowAlert(false)}
+              show={showAlert}
+              variant="danger"
+              className="mb-4 py-1 pl-1 bg-danger text-white"
+              style={{ width: "300px" }}
+            >
+              <p className="" style={{ width: "200px" }}>
+                Something went wrong with your login credentials!
+              </p>
+            </Alert>
+          </div>
+        )}
+      </div>
     </>
   );
 }
