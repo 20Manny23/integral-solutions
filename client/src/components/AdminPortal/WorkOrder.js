@@ -741,7 +741,6 @@ function WorkOrder() {
                 type="text"
                 value={"form-select"}
                 name={"form-select"}
-                // section
                 onChange={(event) => {
                   createSelectedEmployees(event);
                 }}
