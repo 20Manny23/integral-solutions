@@ -517,7 +517,7 @@ function ClientUpdate() {
                 //disabled={isDisabled}
                 required
               >
-                <option>Select</option>
+                <option>{prevClientData?.state ? prevClientData?.state : "Select"}</option>
                 {STATE_DROPDOWN.map((st) => (
                   <option>{st}</option>
                 ))}
