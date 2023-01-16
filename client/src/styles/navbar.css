@@ -18,7 +18,7 @@ Nav {
 
 .employee-navbar {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .heading-style {
@@ -81,6 +81,9 @@ Nav {
   .public-navbar {
     flex-direction: column;
   }
+  /* .employee-navbar{
+    flex-direction: column;
+  } */
   #navbar{
     border:2px solid black;
     width:50% !important;
