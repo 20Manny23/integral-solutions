@@ -1,32 +1,36 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import { QUERY_EVENTS } from "../../utils/queries";
-import { QUERY_SCHEDULE } from "../../utils/queries";
-import { QUERY_LOCATIONS } from "../../utils/queries";
+import Auth from "../../utils/auth";
+import { useQuery, useLazyQuery } from "@apollo/client";
+import { QUERY_SCHEDULE, QUERY_SINGLE_SCHEDULE } from "../../utils/queries";
 import LoadFullCalendar from "./LoadFullCalendar";
 import "../../styles/calendar.css";
-// import { INITIAL_EVENTS } from "../utils/event-utils"; // seed data if necessary
+
+import Modal from "../Modal";
+import Button from "react-bootstrap/Button";
+// import Modal from "react-bootstrap/Modal";
 
 const FullCalendarApp = () => {
-  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  // const navigate = useNavigate();
   // set state of sctive view through day# click
   const [activeView, setActiveView] = useState("dayGridMonth");
   const [weekendsVisible] = useState(true);
 
-  let colorArray = ["yellow", "red", "black", "green", "blue", "orange", "purple"];
+  const [currentScheduleId, setCurrentScheduleId] = useState("");
+  const [currentSchedule, setCurrentSchedule] = useState("");
+  const [displayModal, setDisplayModal] = useState(false);
 
+  let colorArray = ["yellow", "red", "green", "blue", "orange", "purple"];
   function getRandomInt(max) {
-
     let randomNumber = Math.floor(Math.random() * max);
-
     return randomNumber;
   }
-
-  console.log(getRandomInt(6));
-  console.log(colorArray[getRandomInt(colorArray.length)])
-
-  // console.log(["yellow", "red", "black", "green", "blue", "orange", "purple"].filter(({color, index}) => index === (Math.floor(Math.random() * 6))).map(color => color).join());
+  // console.log(getRandomInt(6));
+  // console.log(colorArray[getRandomInt(colorArray.length)])
 
   useEffect(() => {
     setActiveView("listDay");
@@ -39,9 +43,9 @@ const FullCalendarApp = () => {
 
   // query events
   //fix
-  const { loading: eventLoad, data: eventData } = useQuery(QUERY_EVENTS);
-   // eslint-disable-next-line
-   const {
+
+  // eslint-disable-next-line
+  const {
     // eslint-disable-next-line
     loading: scheduleLoad,
     // eslint-disable-next-line
@@ -52,75 +56,69 @@ const FullCalendarApp = () => {
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
 
-  //fix
-  if (!eventLoad) {
-    console.log(eventData)
-    console.log(schedule)
-  }
-
-  const { loading: locationLoad, data: locationData } =
-    useQuery(QUERY_LOCATIONS);
-
-  let locations;
-  if (!locationLoad) {
-    locations = locationData.locations;
-  }
-
-  const handleEventClick = (event) => {
-    let eventId = event.event._def.publicId;
-
-    let filteredLocation = locations.filter((element) => {
-      return element._id === eventId;
+  const [getASingleSchedule, { loading: lazyLoading, data: singleSchedule }] =
+    useLazyQuery(QUERY_SINGLE_SCHEDULE, {
+      variables: { scheduleId: currentScheduleId },
+      // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+      skip: !Auth.loggedIn(),
+      onCompleted: (singleSchedule) => {
+        // console.log(singleSchedule);
+        setCurrentSchedule(singleSchedule);
+      },
     });
 
-    navigate("/location", { state: { locationInfo: filteredLocation[0] } });
-    return;
-  };
+  const handleEventClick = async (event) => {
+    console.log("click");
 
-  let results = [];
+    let scheduleId = event.event._def.publicId;
+    setCurrentScheduleId(scheduleId);
 
-  // if (!eventLoad) {
-  //   rawEvents = eventData?.events;
-
-  //   results = rawEvents?.map((event) => {
-  //     return {
-  //       id: event._id,
-  //       title: event.title,
-  //       startTime: event.startTime,
-  //       endTime: event.endTime,
-  //       daysOfWeek: event.daysOfWeek,
-  //       startRecur: new Date(event.startRecur).toISOString(),
-  //       display: event.display,
-  //       backgroundColor: event.backgroundColor,
-  //       textColor: event.textColor,
-  //     };
-  //   });
+    let clickedSchedule = await getASingleSchedule();
+    // console.log(clickedSchedule);
 
     if (!scheduleLoad) {
-      // rawEvents = schedule?.events;
-  
-      results = schedule?.schedules?.map((job) => {
-        return {
-          id: job._id,
-          title: job.client.businessName,
-          // startTime: job.startTime,
-          // endTime: job.endTime,
-          // daysOfWeek: event.daysOfWeek,
-          // // daysOfWeek: [1],
-          start: new Date(job.startDate).toISOString(),
-          end: new Date(job.endDate).toISOString(),
-          // start: '2022-01-17 09:00:00',
-          // end: '2022-01-17 09:00:00',
-          // startRecur: new Date(job.startDate).toISOString(),
-          // display: event.display,
-          display: "block",
-          // backgroundColor: event.backgroundColor,
-          // backgroundColor: "yellow",
-          backgroundColor: colorArray[getRandomInt(colorArray.length)],
-          // textColor: event.textColor,
-          textColor: "black",
-        };
-      });
+      setCurrentSchedule(clickedSchedule.data.schedule);
+
+      // console.log("current schedule = ", currentSchedule);
+
+      handleShow();
+    }
+  };
+
+  // useEffect(() => {
+  //   // console.log("use effect = ", currentSchedule);
+
+  //   if (currentSchedule) {
+  //     handleShow();
+  //   }
+  // }, [currentSchedule]);
+
+  let results = [];
+  if (!scheduleLoad) {
+    // rawEvents = schedule?.events;
+
+    results = schedule?.schedules?.map((job) => {
+      return {
+        id: job._id,
+        title: job.client.businessName,
+        // startTime: job.startTime,
+        // endTime: job.endTime,
+        // daysOfWeek: event.daysOfWeek,
+        // // daysOfWeek: [1],
+        start: new Date(job.startDate).toISOString(),
+        end: new Date(job.endDate).toISOString(),
+        // start: '2022-01-17 09:00:00',
+        // end: '2022-01-17 09:00:00',
+        // startRecur: new Date(job.startDate).toISOString(),
+        // display: event.display,
+        display: "block",
+        // backgroundColor: event.backgroundColor,
+        // backgroundColor: "yellow",
+        backgroundColor: colorArray[getRandomInt(colorArray.length)],
+        // textColor: event.textColor,
+        textColor: "black",
+      };
+    });
 
     // prevents infinite render loop by comparing most recent returned query to previous query. if the same, terminates infinate loop
     if (
@@ -138,6 +136,15 @@ const FullCalendarApp = () => {
             renderEventContent={renderEventContent}
             handleEventClick={handleEventClick}
           />
+
+          {show && (
+            <Modal
+              currentSchedule={currentSchedule}
+              show={show}
+              handleClose={handleClose}
+              handleShow={handleShow}
+            />
+          )}
         </>
       );
     }
@@ -155,9 +162,6 @@ const FullCalendarApp = () => {
   window.mobilecheck = function () {
     var check = false;
 
-    console.log('mobile check = ', check)
-    alert(`1 mobile check ${check}`);
-
     (function (a) {
       if (
         /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(
@@ -170,17 +174,13 @@ const FullCalendarApp = () => {
         check = true;
     })(navigator.userAgent || navigator.vendor || window.opera);
 
-
-    console.log('2 mobile check = ', check)
-    alert(`2 mobile check ${check}`);
-
     return !check;
   };
 
   function renderEventContent(eventInfo) {
     return (
       <>
-        <b>{eventInfo.timeText}</b>
+        <b>{eventInfo.timeText} </b>
         <i>{eventInfo.event.title}</i>
       </>
     );
@@ -203,6 +203,16 @@ const FullCalendarApp = () => {
           renderEventContent={renderEventContent}
           handleEventClick={handleEventClick}
         />
+
+        {show && (
+          <Modal
+            currentSchedule={currentSchedule}
+            show={show}
+            handleClose={handleClose}
+            handleShow={handleShow}
+          />
+        )}
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit doloribus eius quae deleniti, iste harum excepturi assumenda qui perferendis rerum dicta dolores, repellendus quaerat corporis laborum id eum laudantium provident.</p>
       </>
     );
   }
