@@ -25,6 +25,11 @@ const FullCalendarApp = () => {
   // query events
   const { loading: eventLoad, data: eventData } = useQuery(QUERY_EVENTS);
 
+  if (!eventLoad) {
+    console.log(eventData)
+
+  }
+
   const { loading: locationLoad, data: locationData } =
     useQuery(QUERY_LOCATIONS);
 
