@@ -2,7 +2,7 @@ import React from "react";
 
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
 
-import { Row, Col, Button, Form } from "react-bootstrap";
+import { Row, Col, Button, Form, Container } from "react-bootstrap";
 import "../styles/Forms.css";
 import Footer from "../components/Home/Footer";
 
@@ -17,9 +17,11 @@ function ContactForm() {
   return (
     <>
       <div
-        className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary "
+        className=" mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary "
         style={{ margin: "30px 30px 30px 50%", textAlign: "center" }}
       >
+        {/* media queries for contact form are in navbar.css */}
+        <Container className="contact-form"> 
         <Row>
           <Col>
             <Form
@@ -298,6 +300,7 @@ function ContactForm() {
             </Form>
           </Col>
         </Row>
+        </Container>
       </div>
 
       <Footer />

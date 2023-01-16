@@ -58,6 +58,19 @@ Nav {
   text-decoration: none;
   
 }
+
+@media only screen and (max-width: 992px) and (min-width: 598px){
+  .contact-form{
+    margin-top: 90px
+  }
+}
+
+@media only screen and (max-width: 598px) and (min-width: 340px){
+  .overlay-box{
+    margin-top: 30px
+  }
+}
+
 @media screen and (max-width: 991px) {
   .logo {
     margin-top: -18px;
