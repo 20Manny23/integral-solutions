@@ -65,9 +65,15 @@ Nav {
   }
 }
 
-@media only screen and (max-width: 598px) and (min-width: 340px){
+@media only screen and (max-width: 598px) and (min-width: 320px){
   .overlay-box{
     margin-top: 30px
+  }
+}
+
+@media only screen and (max-width: 329px) {
+  .slogan {
+    font-size: 12px;
   }
 }
 
