@@ -26,8 +26,6 @@ function ScheduleList() {
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
 
-  console.log(schedule);
-
   // SECTION DELETE
   const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
 

@@ -101,7 +101,6 @@ function ScheduleUpdate() {
     error: scheduleError,
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
-  console.log(schedule);
 
   // eslint-disable-next-line
   const [getASingleSchedule, { loading: lazyLoading, data: singleSchedule }] =
@@ -150,7 +149,6 @@ function ScheduleUpdate() {
     // populate employee list with employees in list at the time of "select job" dropdown
     useEffect(() => {
       if (currentScheduleId !== "") {
-        console.log("on change");
         createCurrentEmployees();
       }
   
@@ -160,7 +158,6 @@ function ScheduleUpdate() {
   const createCurrentEmployees = async () => {
     // get employees currently assigned to a job
     let test = await getASingleSchedule();
-    console.log("click test = ", test);
 
     let currentEmployees = [];
     currentEmployees = test.data.schedule.employees;
@@ -183,7 +180,6 @@ function ScheduleUpdate() {
 
   const createSelectedEmployees = async (event) => {
     if (event) {
-      console.log("yes event");
       let firstName =
         event.target.options[event.target.selectedIndex].dataset.firstname;
       let lastName =
@@ -193,8 +189,6 @@ function ScheduleUpdate() {
 
       for (let i = 0; i < selectedEmployees.length; i++) {
         if (selectedEmployees[i].employeeId === employeeId) {
-
-      console.log('yes event 2')
 
           return;
         }
@@ -206,7 +200,6 @@ function ScheduleUpdate() {
       ]);
     }
 
-    console.log("2 = ", selectedEmployees);
   };
 
   function removeEmployee(event) {
@@ -302,17 +295,8 @@ function ScheduleUpdate() {
 
   // Wait for currentClientId OR current input to be updated
   useEffect(() => {
-    console.log(
-      "current id = ",
-      currentScheduleId,
-      "current input = ",
-      currentInput
-    );
-    console.log("prev data = ", prevScheduleData);
-
     if (currentScheduleId && currentInput) {
       handleEditScheduleSubmit();
-      // console.log("useEffect = ", currentClientId);
     }
 
     // eslint-disable-next-line
@@ -321,16 +305,7 @@ function ScheduleUpdate() {
   //fix
   const handleEditScheduleSubmit = async () => {
     let test = await getASingleSchedule();
-    console.log("test = ", test);
-
-    console.log("test id = ", test.data.schedule.client._id);
-    console.log(
-      "test emp = ",
-      test.data.schedule.employees.map((employee) => employee._id)
-    );
-
-    // Update current client data
-    //fix
+    
     try {
       await updateSchedule({
         variables: {
@@ -349,17 +324,15 @@ function ScheduleUpdate() {
           startDate: currentInput.startDate
             ? format_date_string(currentInput.startDate)
             : test.data.schedule.startDate,
-          // startDate: test.data.schedule.startDate,
-          // endDate: format_date_string(test.data.schedule.endDate),
           endDate: currentInput.endDate
             ? format_date_string(currentInput.endDate)
             : test.data.schedule.endDate,
           startTime: currentInput.startTime
-            ? currentInput.startTime
-            : test.data.schedule.startTime?.slice(0, 5).toString(),
+            ? currentInput.startTime + ":00 (MST)"
+            : `${test.data.schedule.startTime?.slice(0, 5).toString()}:00 (MST)`,
           endTime: currentInput.endTime
             ? currentInput.endTime
-            : test.data.schedule.endTime?.slice(0, 5).toString(),
+            : `${test.data.schedule.endTime?.slice(0, 5).toString()}:00 (MST)`,
           squareFeet: currentInput.squareFeet
             ? currentInput.squareFeet
             : test.data.schedule.squareFeet,
@@ -404,8 +377,6 @@ function ScheduleUpdate() {
       event.target.options[event.target.selectedIndex].dataset.id;
     setCurrentScheduleId(scheduleId);
 
-    console.log(scheduleId, currentScheduleId);
-
     // setIsDisabled(false);
 
     setBusinessName(event.target.value);
@@ -414,8 +385,6 @@ function ScheduleUpdate() {
     let currentScheduleData = await getASingleSchedule();
 
     setPrevScheduleData(currentScheduleData.data.schedule);
-
-    console.log("previous data business = ", prevScheduleData);
   }
 
   //SECTION ADD NEW JOB
@@ -531,10 +500,23 @@ function ScheduleUpdate() {
 
   // If all fields are populated then enable the submit button
   useEffect(() => {
+
+    console.log('state=', numberOfClientEmployees)
+
+    console.log(state.trim === " Select")
+    console.log((state.trim() === "" ))
+
+    console.log(state.trim === "Select" || state.trim() === "" )
+
     setAreAllFieldsFilled(
+      // true
       // businessName.trim() === "Select" ||
       //   numberOfClientEmployees.trim() === "Select" ||
-      state.trim() === "Select"
+      // (state.trim().length === 0 || state.trim().length > 3)
+      // &&
+      // numberOfClientEmployees.length === 0
+      // &&
+      // (state.trim().length === 0 || state.trim().length > 3)
       // && streetAddress.trim() === ""
       // && city.trim() === ""
       // && zip.trim() === ""
@@ -548,20 +530,20 @@ function ScheduleUpdate() {
       // || suite.trim() !== ""
       // || endTime.trim() === ""
     );
-    console.log(areAllFieldsFilled);
+    console.log('all fields = ', areAllFieldsFilled);
     // eslint-disable-next-line
   }, [
-    businessName,
+    // businessName,
     state,
-    numberOfClientEmployees,
-    streetAddress,
-    city,
-    zip,
-    startDate,
-    endDate,
-    startTime,
-    squareFeet,
-    jobDetails,
+    // numberOfClientEmployees,
+    // streetAddress,
+    // city,
+    // zip,
+    // startDate,
+    // endDate,
+    // startTime,
+    // squareFeet,
+    // jobDetails,
     // employees,
     // selectedEmployees,
     // suite,
@@ -926,21 +908,19 @@ function ScheduleUpdate() {
         </Form.Group>
 
         {/* Creates button when adding employee to job  */}
+        <Form.Group className="form-length">
         {selectedEmployees.map((employee) => (
           <Button
-            style={{
-              marginRight: "15px",
-              padding: "3px",
-              backgroundColor: "#007bff",
-            }}
+            className="m-1 p-2"
             onClick={removeEmployee}
-            variant="secondary"
+            variant="primary"
             data-id={emp._id}
             value={employee.employeeId}
           >
             {`${employee.firstName} ${employee.lastName}`}
           </Button>
         ))}
+        </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicMessage">
           <div className="form-label form-length">
@@ -982,6 +962,7 @@ function ScheduleUpdate() {
           type="submit"
           title="Submit to schedule job."
           disabled={areAllFieldsFilled}
+          // disabled
         >
           Update Job
         </Button>
