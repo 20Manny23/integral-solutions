@@ -23,3 +23,12 @@
   pointer-events: auto !important;
 
 }
+
+.error-text {
+  margin-top: 10px;
+}
+
+.form-alert{
+  margin: auto;
+  width: 50%;
+}
