@@ -26,8 +26,6 @@ function ScheduleList() {
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
 
-  console.log(schedule);
-
   // SECTION DELETE
   const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
 
@@ -89,7 +87,7 @@ function ScheduleList() {
                   >
                     <p className="mb-0 text-left">
 
-                    {job?.client.businessName} 
+                    {job?.client?.businessName} 
                     </p>
                     <p className="mb-0 text-left">
 
@@ -112,15 +110,15 @@ function ScheduleList() {
                 <div id={`#collapse-client-${index}`}>
                   <Container fluid="md">
                     <Row>
-                      <Col>Contact: {job?.client.contact}</Col>
-                      <Col> <a href={`mailto:${job?.client.email}`}> {job?.client.email}</a> </Col>
+                      <Col>Contact: {job?.client?.contact}</Col>
+                      <Col> <a href={`mailto:${job?.client?.email}`}> {job?.client?.email}</a> </Col>
                     </Row>
                     <Row>
-                      <Col>{job?.client.streetAddress}{job?.client.suite && `, ${job?.client.suite}`}</Col>
-                      <Col> <a href={`tel:+${job?.client.phone}`}> {job?.client.phone}</a> </Col>
+                      <Col>{job?.client?.streetAddress}{job?.client?.suite && `, ${job?.client?.suite}`}</Col>
+                      <Col> <a href={`tel:+${job?.client?.phone}`}> {job?.client?.phone}</a> </Col>
                     </Row>
                     <Row>
-                      <Col>{job?.client.city}, {job?.client.state} {job?.client.zip}</Col>
+                      <Col>{job?.client?.city}, {job?.client?.state} {job?.client?.zip}</Col>
                       <Col>Start: {job?.startDate}</Col>
                     </Row>
                     <Row>
@@ -136,7 +134,7 @@ function ScheduleList() {
                       {/* <hr></hr> */}
                       <h6 className="mx-3 mt-2" style={{ textDecoration: "underline" }}>EMPLOYEES</h6>
                       <section key={index} className="d-flex flex-row" style={{ width: "100%" }}>
-                        {job?.employees.map((employee, index) => (
+                        {job?.employees?.map((employee, index) => (
                           <article className="">
                             <p className="ml-3 mb-0"> {employee?.firstName} {employee?.lastName}</p>
                             <p className="ml-3 mb-0"> <a href={`mailto:${employee?.email}`}> {employee?.email}</a></p>

@@ -138,7 +138,7 @@ export const QUERY_ALL_EMPLOYEES = gql`
 
 export const QUERY_SINGLE_EMPLOYEE = gql`
   query getASingleEmployee($id: ID!) {
-    employeeById( _id: $id ) {
+    employeeById(_id: $id) {
       _id
       firstName
       lastName
@@ -213,6 +213,46 @@ export const QUERY_SCHEDULE = gql`
         phone
       }
       client {
+        _id
+        businessName
+        contact
+        email
+        phone
+        streetAddress
+        city
+        state
+        suite
+        zip
+      }
+    }
+  }
+`;
+
+export const QUERY_SINGLE_SCHEDULE = gql`
+  query scheduleFindOne($scheduleId: ID!) {
+    schedule(scheduleId: $scheduleId) {
+      _id
+      startDate
+      endDate
+      startTime
+      endTime
+      streetAddress
+      suite
+      state
+      city
+      zip
+      squareFeet
+      jobDetails
+      numberOfClientEmployees
+      employees {
+        _id
+        firstName
+        lastName
+        email
+        phone
+      }
+      client {
+        _id
         businessName
         contact
         email

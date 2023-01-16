@@ -8,7 +8,7 @@ import {
 } from "../../../utils/queries";
 import { UPDATE_EMPLOYEE_FORM } from "../../../utils/mutations";
 
-import { Row, Col, Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button } from "react-bootstrap";
 
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";

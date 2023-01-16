@@ -360,7 +360,7 @@ function ScheduleAdd() {
       // || suite.trim() !== ""
       // || endTime.trim() === ""
     );
-    console.log(areAllFieldsFilled);
+    // console.log(areAllFieldsFilled);
     // eslint-disable-next-line
   }, [
     businessName,
