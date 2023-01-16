@@ -11,6 +11,16 @@ Nav {
   color: white;
 }
 
+.public-navbar {
+  display: flex;
+  flex-direction: column;
+}
+
+.employee-navbar {
+  display: flex;
+  flex-direction: column;
+}
+
 .heading-style {
   display: inline-block;
   font-family: Georgia, "Times New Roman", serif;
@@ -75,6 +85,9 @@ Nav {
     margin-left: -0% !important;
   }
 }
+
+
+
 @media screen and (max-width: 588px) {
   .slogan {
     margin-left: -30% !important;
@@ -84,6 +97,13 @@ Nav {
   }
   .logo {
     margin-top: -3px;
+  }
+}
+
+  @media only screen and (max-width: 598px) and (min-width: 500px) {
+
+  .public-navbar {
+    flex-direction: row;
   }
 }
 @media screen and (max-width: 556px) {
@@ -114,4 +134,14 @@ Nav {
   .navbar-toggler-icon {
     background-image: none !important;
   }
+}
+
+@media only screen and (max-width: 500px) and (min-width: 300px) {
+  .public-navbar {
+    flex-direction: row;
+  }
+
+.employee-navbar {
+  flex-direction: row;
+}
 }
