@@ -95,6 +95,34 @@ export const UPDATE_EMPLOYEE_FORM = gql`
   }
 `;
 
+export const TOGGLE_ADMIN = gql`
+  mutation toggleAdmin($employeeId: ID!) {
+    toggleAdmin(employeeId: $employeeId) {
+      # message
+      employee {
+        _id
+        # username
+        isAdmin
+        isLocked
+      }
+    }
+  }
+`;
+
+export const TOGGLE_LOCKED = gql`
+  mutation toggleLocked($employeeId: ID!) {
+    toggleLocked(employeeId: $employeeId) {
+      # message
+      employee {
+        _id
+        # username
+        isAdmin
+        isLocked
+      }
+    }
+  }
+`;
+
 export const ADD_EMPLOYEE = gql`
   mutation addEmployee(
     $email: String
@@ -133,6 +161,17 @@ export const DELETE_EMPLOYEE = gql`
   mutation deleteEmployee($id: ID!) {
     deleteEmployee(_id: $id) {
       _id
+    }
+  }
+`;
+
+export const UPDATE_EMPLOYEE_SCHEDULE = gql`
+  mutation UpdateEmployeeSchedule($id: ID, $schedule: String) {
+    updateEmployeeSchedule(_id: $id, schedule: $schedule) {
+      _id
+      schedule {
+        _id
+      }
     }
   }
 `;
@@ -218,6 +257,17 @@ export const UPDATE_CLIENT = gql`
       state
       city
       zip
+    }
+  }
+`;
+
+export const UPDATE_CLIENT_SCHEDULE = gql`
+  mutation updateClientSchedule($id: ID, $schedule: String) {
+    updateClientSchedule(_id: $id, schedule: $schedule) {
+      _id
+      schedule {
+        _id
+      }
     }
   }
 `;

@@ -13,3 +13,4 @@ export function validateEmail(email) {
 }
 
 module.exports = format_phone;
+

@@ -63,6 +63,7 @@ function Clients() {
           {clients?.clients?.map((client, index) => (
             <div id="accordion" key={index} style={{ width: "98%" }}>
               <div className="card p-2 mb-1">
+              
                 <div
                   className="rounded directions-collapse"
                   id="headingOne"
@@ -92,6 +93,7 @@ function Clients() {
                         handleDeleteClient(event);
                       }}
                     />
+                    
                   </div>
                 </div>
                 <Collapse>
@@ -102,13 +104,13 @@ function Clients() {
                       </Row>
                       <Row>
                         <Col>{client?.streetAddress}</Col>
-                        <Col>{client?.phone}</Col>
+                        <Col> <a href= {`tel:+${client?.phone}`}>{client?.phone}</a></Col>
                       </Row>
                       <Row>
                         <Col>
                           {client?.city} {client?.state} {client?.zip}
                         </Col>
-                        <Col>{client?.email}</Col>
+                        <Col><FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon> <a href= {`mailto:${client?.email}`}><i className="fa-solid fa-phone"></i> {client?.email}</a></Col>
                       </Row>
                     </Container>
                   </div>

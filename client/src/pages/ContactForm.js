@@ -1,15 +1,27 @@
-// import React, { useEffect, useState } from "react";
-import { Row, Col, Button, Form, Container, Nav } from "react-bootstrap";
+import React from "react";
+
+import { STATE_DROPDOWN } from "../utils/stateDropdown";
+
+import { Row, Col, Button, Form, Container } from "react-bootstrap";
 import "../styles/Forms.css";
 import Footer from "../components/Home/Footer";
 
 function ContactForm() {
+  const numberOfEmployees = [
+    "Home Office",
+    "Less Than 50",
+    "50-99",
+    "More Than 100",
+  ];
+
   return (
     <>
       <div
-        className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary "
+        className=" mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary "
         style={{ margin: "30px 30px 30px 50%", textAlign: "center" }}
       >
+        {/* media queries for contact form are in navbar.css */}
+        <Container className="contact-form"> 
         <Row>
           <Col>
             <Form
@@ -17,8 +29,11 @@ function ContactForm() {
               style={{ width: "80vw" }}
               action="mailto:bhoff1980@gmail.com"
             >
-              <h2 className="display-6 custom-text heading" style={{fontStyle:'italic'}}>
-                Tell Us How We Can Help
+              <h2
+                className="display-6 custom-text heading"
+                style={{ fontStyle: "italic" }}
+              >
+                How We Can Help?
               </h2>
 
               <Form.Group
@@ -111,54 +126,89 @@ function ContactForm() {
               </Form.Group>
 
               <Row className="addy">
-                <Col xs={7}>
+                <Col sm={12} md={5} style={{ paddingBottom: "15px" }}>
                   <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
                   <Form.Control className="custom-border" placeholder="City" />
                 </Col>
-                <Col>
+
+                <Col style={{ marginRight: "auto", marginLeft: "auto" }}>
                   <Form.Label style={{ fontWeight: "bolder" }}>
                     State
                   </Form.Label>
                   <Form.Control
+                    as={"select"}
                     className="custom-border"
                     placeholder="State"
-                  />
+                    style={{ maxWidth: "150px" }}
+                  >
+                    <option>Select</option>
+                    {STATE_DROPDOWN.map((st) => (
+                      <option>{st}</option>
+                    ))}
+                  </Form.Control>
                 </Col>
-                <Col>
-                  <Form.Label style={{ fontWeight: "bolder" }}>
+                <Col style={{ marginRight: "auto", marginLeft: "auto" }}>
+                  <Form.Label style={{ fontWeight: "bolder", align: "right" }}>
                     Zipcode
                   </Form.Label>
-                  <Form.Control className="custom-border" placeholder="Zip" />
+                  <Form.Control
+                    className="custom-border"
+                    style={{ maxWidth: "150px" }}
+                    placeholder="Zip"
+                  />
                 </Col>
               </Row>
 
               <Row className="addy">
-                <Col xs={6}>
-                  <Form.Label style={{ fontWeight: "bolder" }}>Office Sqft</Form.Label>
-                  <Form.Control className="custom-border" placeholder="8000 Sqft" />
-                </Col>
-                <Col>
-                  <Form.Label style={{ fontWeight: "bolder", display:'flex', justifyContent:'center' }}>
-                   Number of Employees
+                <Col xs={6} style={{ marginRight: "auto", marginLeft: "auto" }}>
+                  <Form.Label style={{ fontWeight: "bolder" }}>
+                    Office Sqft
                   </Form.Label>
-                  <Form.Check
-                    inline
-                    label="Home Office"
-                  />
-                   <Form.Check
-                    inline
-                    label="Less than 50"
-                  />
-                    <Form.Check
-                    inline
-                    label="50-100"
-                  />
-                    <Form.Check
-                    inline
-                    label="More than 100"
+                  <Form.Control
+                    className="custom-border"
+                    placeholder="8000 Sqft"
                   />
                 </Col>
-             
+                {/* <Form.Group> */}
+                {/* <Col xs={12} md={6}> */}
+                <Col>
+                  <Form.Label
+                    style={{
+                      fontWeight: "bolder",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    # of Employees
+                  </Form.Label>
+                  {/* <Col xs={12}> */}
+                  <Col>
+                    {/* <Form.Label
+                      className={`validation-color ${
+                        showNumberOfClientEmployeesValidation ? "show" : "hide"
+                      }`}
+                    >
+                      *required
+                    </Form.Label> */}
+                    <Form.Control
+                      as="select"
+                      className="custom-border"
+                      type="text"
+                      // value={numberOfClientEmployees}
+                      // name="numberOfClientEmployees"
+                      // onChange={handleInputChange}
+                    >
+                      <option>Select</option>
+                      {numberOfEmployees.map((emp, index) => (
+                        <option
+                          key={index}
+                        >
+                          {emp}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  </Col>
+                </Col>
               </Row>
 
               <div className="d-flex justify-content-between">
@@ -250,6 +300,7 @@ function ContactForm() {
             </Form>
           </Col>
         </Row>
+        </Container>
       </div>
 
       <Footer />

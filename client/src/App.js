@@ -33,6 +33,7 @@ import ResetPassword from "./components/ResetPassword/ResetPassword";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
+  faPhone,
   faCross,
   faAdd,
   faPencil,
@@ -51,6 +52,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
+  faPhone,
   faCross,
   faAdd,
   faPencil,
@@ -309,6 +311,26 @@ function App() {
                     <EmployeePortal
                       renderPanel={"employee"}
                       calendarButtonIsActive={true}
+                      addemployeeButtonIsActive={true}
+                      clientlistButtonIsActive={false}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={false}
+                    />
+                  }
+                />
+               )} 
+                  {Auth.isLocked() === false && ( 
+                <Route
+                  exact
+                  path="/past"
+                  element={
+                    <EmployeePortal
+                      renderPanel={"past"}
+                      calendarButtonIsActive={false}
+                      addemployeeButtonIsActive={false}
+                      clientlistButtonIsActive={true}
                       workOrderButtonIsActive={false}
                       employeeListButtonIsActive={false}
                       clientListButtonIsActive={false}

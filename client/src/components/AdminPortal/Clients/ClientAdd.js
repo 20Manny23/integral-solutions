@@ -5,6 +5,8 @@ import { ADD_CLIENT } from "../../../utils/mutations";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 
+import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
+
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
@@ -172,7 +174,7 @@ function ClientAdd() {
 
   return (
     <Container>
-      <Form onSubmit={handleAddClientSubmit} style={{ width: "80vw" }}>
+      <Form onSubmit={handleAddClientSubmit}>
         <div id="example-collapse-text">
           <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
             <div className="form-label">
@@ -339,7 +341,7 @@ function ClientAdd() {
                 required
               />
             </Col>
-            <Col>
+            <Col xs={6}>
               <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
               <Form.Label
                 className={`validation-color ${
@@ -348,7 +350,9 @@ function ClientAdd() {
               >
                 * required
               </Form.Label>
+
               <Form.Control
+                as="select"
                 className="custom-border"
                 placeholder="State"
                 name="state"
@@ -356,8 +360,13 @@ function ClientAdd() {
                 // defaultValue="CO"
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                required
-              />
+                // required
+              >
+                <option>Select</option>
+                {STATE_DROPDOWN.map((st) => (
+                  <option>{st}</option>
+                ))}
+              </Form.Control>
             </Col>
             <Col>
               <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>

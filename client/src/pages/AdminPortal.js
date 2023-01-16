@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
 
-import Employees from "../components/AdminPortal/Employees";
+import Employees from "../components/AdminPortal/Employees(Admin)";
 import ClientList from "../components/AdminPortal/Clients";
 import WorkOrder from "../components/AdminPortal/WorkOrder";
 import AdminMock from "../components/AdminPortal/AdminMock";
@@ -50,7 +50,7 @@ const AdminPortal = ({
       <>
         <Container style={{ marginTop: "25px" }}>
           <Row className="justify-content-center">
-            <p style={{ fontSize: "30px" }}>
+            <p style={{ fontSize: "30px", marginTop: "10px" }}>
               <b>
               Administrator Panel
               </b>
@@ -80,7 +80,7 @@ const AdminPortal = ({
                     navigate("/workorder");
                   }}
                 >
-                  Work Order
+                  Jobs
                 </Button>
                 
                 <Button

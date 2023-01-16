@@ -4,16 +4,16 @@ import { useParams } from "react-router-dom";
 import decode from "jwt-decode";
 import { useMutation } from "@apollo/client";
 import { useQuery } from "@apollo/client";
-import { UPDATE_EMPLOYEE} from "../../utils/mutations";
+import { UPDATE_EMPLOYEE } from "../../utils/mutations";
 import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form, Button, Alert, InputGroup } from "react-bootstrap";
+import { Form, Button, Alert, InputGroup, ButtonGroup } from "react-bootstrap";
 import "../../styles/button-home.css";
 
 const ResetPassword = () => {
-  const [ validated ] = useState(false);
-  const [ showAlert, setShowAlert ] = useState(false);
-  const [ passwordFormData, setPasswordFormData ] = useState({ password: "", passwordCheck: "" });
+  const [validated] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [passwordFormData, setPasswordFormData] = useState({ password: "", passwordCheck: "" });
   console.log(passwordFormData);
 
   // section get token from URL
@@ -27,7 +27,7 @@ const ResetPassword = () => {
   // section use email address to get user information
   const [employee, setEmployee] = useState({});
   // eslint-disable-next-line
-  const {loading, data, error: getEmployeeError, refetch } = useQuery(QUERY_EMPLOYEE_BYEMAIL, {
+  const { loading, data, error: getEmployeeError, refetch } = useQuery(QUERY_EMPLOYEE_BYEMAIL, {
     variables: { email: decoded.data.email },
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     skip: !Auth.loggedIn(),
@@ -40,7 +40,7 @@ const ResetPassword = () => {
 
   // section set temporary password to be used to construct the token
   const [updatePassword, { error: passwordError }] = useMutation(UPDATE_EMPLOYEE);
-  
+
   const setPassword = async () => {
     console.log('reset password = ', passwordFormData)
     try {
@@ -60,7 +60,7 @@ const ResetPassword = () => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    console.log('inputChange = ', name,value, event.target);
+    console.log('inputChange = ', name, value, event.target);
     setPasswordFormData({ ...passwordFormData, [name]: value });
   };
 
@@ -112,8 +112,8 @@ const ResetPassword = () => {
           className="mx-2 mt-2 mb-1"
           style={{ width: "280px" }}
         >
-          <Form.Group>
-            <Form.Label htmlFor="password">Password</Form.Label>
+          <Form.Group style={{ marginTop: "100px"}}>
+            <Form.Label htmlFor="password">Create new password</Form.Label>
             <InputGroup className="mb-3">
               <Form.Control
                 type={showHidePassword}
@@ -150,7 +150,7 @@ const ResetPassword = () => {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label htmlFor="passwordCheck">Re-enter Password</Form.Label>
+            <Form.Label htmlFor="passwordCheck">Re-enter password</Form.Label>
             <InputGroup className="mb-3">
               <Form.Control
                 type={showHidePassword}
@@ -187,7 +187,7 @@ const ResetPassword = () => {
           </Form.Group>
 
           <Button
-            disabled={!(passwordFormData.password === passwordFormData.passwordCheck)}
+            disabled={!(passwordFormData.password !== "" && passwordFormData.password === passwordFormData.passwordCheck)}
             className="mb-3 submit-button-style"
             type="submit"
             variant="success"

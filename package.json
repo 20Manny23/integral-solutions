@@ -1,5 +1,7 @@
 {
   "name": "Integral Solutions",
+  "description": "Furniture Installation",
+  "name": "Integral Solutions",
   "description": "Cleaning at it's finest",
   "version": "1.0.0",
   "engines": {
@@ -21,6 +23,5 @@
     "concurrently": "^5.1.0"
   },
   "dependencies": {
-    "moment": "^2.29.4"
   }
 }

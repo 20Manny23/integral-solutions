@@ -5,8 +5,9 @@ import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { QUERY_ALL_CLIENTS, QUERY_SINGLE_CLIENT } from "../../../utils/queries";
 import { UPDATE_CLIENT } from "../../../utils/mutations";
 
-import { Row, Col, Container, Form, Button } from "react-bootstrap";
+import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
 
+import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
@@ -24,7 +25,7 @@ function ClientUpdate() {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
-    // const [isDisabled, setIsDisabled] = useState(true);
+  // const [isDisabled, setIsDisabled] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
   // VALIDATION
@@ -45,7 +46,7 @@ function ClientUpdate() {
   const [currentClientId, setCurrentClientId] = useState("");
   const [currentClient, setCurrentClient] = useState("");
 
-  // SECTION QUERIES & MUTATIONS 
+  // SECTION QUERIES & MUTATIONS
   // get all clients
   const {
     // eslint-disable-next-line
@@ -276,7 +277,6 @@ function ClientUpdate() {
             zip,
           });
         }}
-        style={{ width: "80vw" }}
       >
         <div id="example-collapse-text">
           <Form.Group className="form-length">
@@ -312,9 +312,7 @@ function ClientUpdate() {
             </Form.Control>
           </Form.Group>
 
-          <Form.Group
-            className="mb-3 form-length"
-          >
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
                 Company Name
@@ -509,6 +507,7 @@ function ClientUpdate() {
                 * required
               </Form.Label>
               <Form.Control
+                as={"select"}
                 className="custom-border"
                 placeholder="State"
                 name="state"
@@ -517,7 +516,12 @@ function ClientUpdate() {
                 onBlur={handleBlurChange}
                 //disabled={isDisabled}
                 required
-              />
+              >
+                <option>{prevClientData?.state ? prevClientData?.state : "Select"}</option>
+                {STATE_DROPDOWN.map((st) => (
+                  <option>{st}</option>
+                ))}
+              </Form.Control>
             </Col>
             <Col>
               <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>

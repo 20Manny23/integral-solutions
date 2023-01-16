@@ -4,7 +4,7 @@ import React from "react";
 import Auth from "../utils/auth";
 import { Link } from "react-router-dom";
 
-import { Navbar, Nav, Row } from "react-bootstrap";
+import { Navbar, Nav, Row, Container } from "react-bootstrap";
 import "../styles/navbar.css";
 
 import logoTop from "../assets/images/logo-no-slogan.png";
@@ -13,7 +13,7 @@ const AppNavbar = () => {
   return (
     <>
       <Navbar
-        
+
         className="shadow-sm navs"
         style={{ backgroundColor: "#0D2E4F" }}
         expand="lg"
@@ -27,13 +27,13 @@ const AppNavbar = () => {
           <h6 className="slogan-size"> Office Furniture Installation At The Snap Of Your Fingers!
           </h6>
         </Navbar.Brand>
-        
-          <Navbar.Toggle
-          
-            aria-controls="navbar"
-            className="white toggle-style hamburger"
-          />
-        
+
+        <Navbar.Toggle
+
+          aria-controls="navbar"
+          className="white toggle-style hamburger"
+        />
+
         <Navbar.Collapse id="navbar" className="">
           <Nav className="ml-auto">
             {Auth.loggedIn() && Auth.isAdmin() === true && Auth.isLocked() === false ? (
@@ -41,18 +41,20 @@ const AppNavbar = () => {
               // isAdmin explicity set to true to eliminate null values
               // access to home, adm portal, employee portal, logout
               <>
-                <Nav.Link style={{ color: 'white' }} className='navlink' as={Link} to="/home" eventKey="4" >
-                  Home
-                </Nav.Link>
-                <Nav.Link style={{ color: 'white' }} className='navlink' as={Link} to="/calendar" eventKey="4">
-                  Admin
-                </Nav.Link>
-                <Nav.Link style={{ color: 'white' }} className='navlink' as={Link} to="/employee" eventKey="10" >
-                  Employee
-                </Nav.Link>
-                <Nav.Link style={{ color: 'white' }} className='navlink' onClick={Auth.logout} eventKey="4" >
-                  Logout
-                </Nav.Link>
+                <Container className="employee-navbar">
+                  <Nav.Link style={{ color: 'white' }} className='navlink' as={Link} to="/home" eventKey="4" >
+                    Home
+                  </Nav.Link>
+                  <Nav.Link style={{ color: 'white' }} className='navlink' as={Link} to="/calendar" eventKey="4">
+                    Admin
+                  </Nav.Link>
+                  <Nav.Link style={{ color: 'white' }} className='navlink' as={Link} to="/employee" eventKey="10" >
+                    Employee
+                  </Nav.Link>
+                  <Nav.Link style={{ color: 'white' }} className='navlink' onClick={Auth.logout} eventKey="4" >
+                    Logout
+                  </Nav.Link>
+                </Container>
               </>
             ) : Auth.loggedIn() && Auth.isAdmin() === false && Auth.isLocked() === false ? (
               // User is logged in and is not Admin
@@ -72,6 +74,7 @@ const AppNavbar = () => {
             ) : (
               // User is not logged in; Home page nav
               <>
+              <Container className="public-navbar">
                 <Nav.Link style={{ color: 'white' }} as={Link} to="/home" eventKey="4" className="navlink">
                   Home
                 </Nav.Link>
@@ -81,6 +84,7 @@ const AppNavbar = () => {
                 <Nav.Link style={{ color: 'white' }} as={Link} to="/contact" eventKey="4" className="navlink">
                   Contact Us{" "}
                 </Nav.Link>
+                </Container>
               </>
             )}
           </Nav>
