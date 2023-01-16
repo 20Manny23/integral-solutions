@@ -83,12 +83,17 @@ Nav {
 @media screen and (max-width: 627px) {
   .slogan {
     margin-left: -0% !important;
+    margin-top: -10px;
   }
 }
 
+@media screen and (max-width: 992px) and (min-width: 628px) {
+  .slogan{
+    margin-top: -10px;
+  }
+}
 
-
-@media screen and (max-width: 588px) {
+@media screen and (max-width: 598px) {
   .slogan {
     margin-left: -30% !important;
   }
