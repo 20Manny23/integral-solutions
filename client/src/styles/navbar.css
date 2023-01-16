@@ -13,7 +13,7 @@ Nav {
 
 .public-navbar {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .employee-navbar {
@@ -64,6 +64,9 @@ Nav {
   }
   .slogan {
     margin-left: -32% !important;
+  }
+  .public-navbar {
+    flex-direction: column;
   }
   #navbar{
     border:2px solid black;
