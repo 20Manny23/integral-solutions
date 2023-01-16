@@ -387,58 +387,6 @@ function ScheduleUpdate() {
     setPrevScheduleData(currentScheduleData.data.schedule);
   }
 
-  //SECTION ADD NEW JOB
-  // add new jobs
-  // const handleAddScheduleSubmit = async (event) => {
-  //   event.preventDefault();
-
-  //   let reformattedStartDate = format_date_string(startDate, startTime);
-  //   let reformattedEndDate = format_date_string(startDate, startTime);
-
-  //   console.log(reformattedEndDate, reformattedStartDate);
-
-  //   try {
-  //     // eslint-disable-next-line
-  //     const { data } = await addSchedule({
-  //       variables: {
-  //         businessName,
-  //         streetAddress,
-  //         // suite,
-  //         city,
-  //         state,
-  //         zip,
-  //         startDate: reformattedStartDate,
-  //         endDate: reformattedEndDate,
-  //         startTime,
-  //         endTime,
-  //         squareFeet,
-  //         jobDetails,
-  //         numberOfClientEmployees,
-  //         client: clients?.clients
-  //           ?.filter((client) => client.businessName === businessName)
-  //           .map((id) => id._id)
-  //           .toString(), // convert client name to client._id
-  //         employees: selectedEmployees.map(({ employeeId }) => employeeId),
-  //       },
-  //     });
-
-  //     // console.log('hello', data)
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-
-  //   // refetch the list of schedules/jobs to get the most recent id added
-  //   let getScheduleIds = await scheduleRefetch();
-  //   let scheduleIdsLength = getScheduleIds.data.schedules.length - 1;
-  //   let mostRecentScheduleId =
-  //     getScheduleIds.data.schedules[scheduleIdsLength]._id;
-
-  //   updateClientJobs(mostRecentScheduleId);
-  //   updateEmployeeJobs(mostRecentScheduleId);
-
-  //   // resetForm();
-  // };
-
   // update client schedule array
   // const updateClientJobs = async (mostRecentScheduleId) => {
   //   try {
@@ -599,21 +547,20 @@ function ScheduleUpdate() {
             placeholder="Select Client"
             value={"form-select"}
             name={"form-select"}
-            // onChange={scheduleSelect}
+            onChange={scheduleSelect}
+            // onChange={(event) => {
+            //   scheduleSelect(event);
 
-            onChange={(event) => {
-              scheduleSelect(event);
+            //   //fix
 
-              //fix
+            //   // let scheduleId = event.currentTarget.getAttribute(
+            //   //   "data-editscheduleid"
+            //   // );
+            //   // setCurrentScheduleId(scheduleId);
 
-              // let scheduleId = event.currentTarget.getAttribute(
-              //   "data-editscheduleid"
-              // );
-              // setCurrentScheduleId(scheduleId);
-
-              // console.log("on change")
-              // createSelectedEmployees(event);
-            }}
+            //   // console.log("on change")
+            //   // createSelectedEmployees(event);
+            // }}
           >
             {/* fix */}
             <option>
@@ -651,9 +598,11 @@ function ScheduleUpdate() {
             className="custom-border"
             placeholder="Enter Address"
             name="streetAddress"
-            // value={streetAddress}
             defaultValue={prevScheduleData?.streetAddress}
-            onChange={handleInputChange}
+            // onChange={handleInputChange}
+            onChange={(event) => {
+              setStreetAddress(event.target.value)
+            }}
             onBlur={handleBlurChange}
             //required
           />
