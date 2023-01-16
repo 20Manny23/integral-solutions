@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
 
-import { Row, Col, Button, Form, Container } from "react-bootstrap";
+import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
 import "../styles/Forms.css";
 import Footer from "../components/Home/Footer";
 
@@ -70,7 +70,7 @@ function ContactForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if(!companyName || !contactName || !phoneNumber || !emailAddress || !city || !state || !squareFeet || !startDate || !jobDetails) {
-      setErrorMessage("This field is required");
+      setErrorMessage("Please fill in all required fields *");
       return;
     }
 
@@ -96,7 +96,7 @@ function ContactForm() {
   const launchEmail = () => {
     console.log(contactName, emailAddress, jobDetails);
     window.open(
-      `mailto:rod.bennett75@gmail.com?subject=Work Order&&body=Company Name=${companyName} %0D%0A%0D%0A Email Address=${emailAddress} %0D%0A%0D%0A City=${city} %0D%0A%0D%0A %0D%0A%0D%0A Contact Name=${contactName} %0D%0A%0D%0A Phone Number=${phoneNumber} %0D%0A%0D%0A Address=${address} %0D%0A%0D%0A  %0D%0A%0D%0A State=${state} Zip=${zip} %0D%0A%0D%0A Square Feet=${squareFeet} %0D%0A%0D%0A Employee Number=${employeeNumber} %0D%0A%0D%0A Start Date=${startDate} %0D%0A%0D%0A Services Needed=${services} %0D%0A%0D%0A Job Details=${jobDetails}`
+      `mailto:rod.bennett75@gmail.com?subject=Work Order&&body=Company Name=${companyName} %0D%0A%0D%0A Email Address=${emailAddress} %0D%0A%0D%0A City=${city} %0D%0A%0D%0A Contact Name=${contactName} %0D%0A%0D%0A Phone Number=${phoneNumber} %0D%0A%0D%0A Address=${address} %0D%0A%0D%0A State=${state} ${zip} %0D%0A%0D%0A Square Feet=${squareFeet} %0D%0A%0D%0A Employee Number=${employeeNumber} %0D%0A%0D%0A Start Date=${startDate} %0D%0A%0D%0A Services Needed=${services} %0D%0A%0D%0A Job Details=${jobDetails}`
     );
     return false;
   };
@@ -129,7 +129,7 @@ function ContactForm() {
                   >
                     <div className="form-label">
                       <Form.Label style={{ fontWeight: "bolder" }}>
-                        Company Name
+                        Company Name &nbsp;<span class="text-danger">*</span>
                       </Form.Label>
                     </div>
                     <Form.Control
@@ -148,7 +148,7 @@ function ContactForm() {
                   >
                     <div className="form-label">
                       <Form.Label style={{ fontWeight: "bolder" }}>
-                        Contact Name
+                        Contact Name &nbsp;<span class="text-danger">*</span>
                       </Form.Label>
                     </div>
                     <Form.Control
@@ -167,6 +167,27 @@ function ContactForm() {
                   >
                     <div className="form-label">
                       <Form.Label style={{ fontWeight: "bolder" }}>
+                        Email Address &nbsp;<span class="text-danger">*</span>
+                      </Form.Label>
+                    </div>
+
+                    <Form.Control
+                      className="custom-border"
+                      type="email"
+                      placeholder="Enter Email"
+                      name="email"
+                      onChange={handleChange}
+                      required
+                    />
+                  </Form.Group>
+
+
+                  <Form.Group
+                    className="mb-3 form-length"
+                    controlId="formBasicEmail"
+                  >
+                    <div className="form-label">
+                      <Form.Label style={{ fontWeight: "bolder" }}>
                         Phone Number
                       </Form.Label>
                     </div>
@@ -176,24 +197,6 @@ function ContactForm() {
                       placeholder="Enter phone 123-456-7890"
                       name="telNo"
                       pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                      onChange={handleChange}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group
-                    className="mb-3 form-length"
-                    controlId="formBasicEmail"
-                  >
-                    <div className="form-label">
-                      <Form.Label style={{ fontWeight: "bolder" }}>
-                        Email Address
-                      </Form.Label>
-                    </div>
-                    <Form.Control
-                      className="custom-border"
-                      type="email"
-                      placeholder="Enter Email"
-                      name="email"
                       onChange={handleChange}
                       required
                     />
@@ -324,7 +327,7 @@ function ContactForm() {
                     <Form.Group className="form-length" controlId="formBasicEmail">
                       <div className="form-label">
                         <Form.Label style={{ fontWeight: "bolder" }}>
-                          Estimated Date for Work to be Scheduled
+                          Estimated Date for Work to be Scheduled &nbsp;<span class="text-danger">*</span>
                         </Form.Label>
                       </div>
                       <Form.Control
@@ -346,7 +349,7 @@ function ContactForm() {
                         
                       }}
                     >
-                      Services Needed
+                      Services Needed &nbsp;<span class="text-danger">*</span>
                     </Form.Label>
                     {["checkbox"].map((type) => (
                       <div key={`inline-${type}`} className="mb-3">
@@ -400,7 +403,7 @@ function ContactForm() {
                   <Form.Group className="mb-3" controlId="formBasicMessage">
                     <div className="form-label">
                       <Form.Label style={{ fontWeight: "bolder" }}>
-                        Job Details
+                        Job Details &nbsp;<span class="text-danger">*</span>
                       </Form.Label>
                     </div>
                     <Form.Control
@@ -425,6 +428,14 @@ function ContactForm() {
                     Send Email
                   </Button>
                 </Form>
+                {errorMessage && (
+                  <Alert
+                  className="form-alert"
+                  variant="danger"
+                  >
+                    <p className="error-text">{errorMessage}</p>
+                  </Alert>
+                )}
               </Col>
             </Row>
           </Container>
