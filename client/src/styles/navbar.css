@@ -73,7 +73,7 @@ Nav {
 
 @media only screen and (max-width: 329px) {
   .slogan {
-    font-size: 12px;
+    font-size: 10px;
   }
 }
 
@@ -166,12 +166,18 @@ Nav {
   }
 }
 
-@media only screen and (max-width: 500px) and (min-width: 300px) {
+@media only screen and (max-width: 500px) and (min-width: 280px) {
   .public-navbar {
     flex-direction: row;
   }
 
 .employee-navbar {
   flex-direction: row;
+}
+}
+
+@media only screen and (max-width: 326px) {
+.slogan{
+  font-size: 10px;
 }
 }

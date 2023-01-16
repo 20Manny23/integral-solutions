@@ -130,7 +130,7 @@ function Employees() {
   const sendEmail = (token) => {
     const url = `http://localhost:3000/resetpassword/${token.token}`;
     window.open(
-      `mailto:${userFormData.email}?subject=Integral Solutions Employee Password Reset&body=Hello ${employee.firstName} %0D%0A%0D%0A Click on the link below to create a new pasword: %0D%0A%0D%0A ${url} %0D%0A%0D%0A This link will expire in 15 minutes. %0D%0A%0D%0A Thank you. %0D%0A%0D%0A Integral Solutions`
+      `mailto:${userFormData.email}?subject=Integral Solutions Employee Password Reset&body=Hello ${employee.firstName} %0D%0A%0D%0A Click on the link below to create a new pasword: %0D%0A%0D%0A ${url} %0D%0A%0D%0A This link will expire in 15 minutes. %0D%0A%0D%0A Thank you, %0D%0A%0D%0A Integral Solutions`
     )
   }
   // section end rods code
