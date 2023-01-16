@@ -12,6 +12,9 @@ import moment from "moment";
 import "../../styles/calendar.css";
 
 const LoadFullCalendar = ({ activeView, weekendsVisible, INITIAL_EVENTS, renderEventContent, handleEventClick}) => {
+
+  console.log(activeView, weekendsVisible, INITIAL_EVENTS, renderEventContent, handleEventClick);
+  
   return (
     <div className="cal-app my-3 p-1 shadow border border-secondary rounded-lg">
       <div id="calendar" className="cal-app-main">

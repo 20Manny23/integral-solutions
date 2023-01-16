@@ -27,6 +27,7 @@ db.once("open", async () => {
     await User.create(userSeeds);
     await Location.create(locationSeeds);
     await Incident.create(incidentSeeds);
+    await Event.create(eventSeeds);
     await Schedule.create(scheduleSeeds);
     await Client.create(clientSeeds);
     await Employee.create(employeeSeeds);
