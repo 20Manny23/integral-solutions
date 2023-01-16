@@ -10,52 +10,49 @@ function ShopLinks() {
   return (
     <div className="bk-img">
       <Container>
-      <Row>
+      <Row className="shop-links">
         <Col md={6}lg={3} sm={6}>
-          <img
+        <a  href="https://www.steelcase.com/"
+            target={"_blank"}><img
             className="company"
             src={steelcase}
-            href="https://www.steelcase.com/"
-            target={"_blank"}
             alt="steelcase"
-          ></img>
+          ></img></a>
         </Col>
         <Col md={6} lg={3} sm={6}>
-          <img
+          <a href="https://www.officescapes.com/"
+            target={"_blank"}><img
             className="company"
             src={officescapes}
-            href="https://www.officescapes.com/"
-            target={"_blank"}
             alt="officescapes"
-          ></img>
+          ></img></a>
         </Col>
 
         <Col lg={3} md={6} sm={6}>
-          <img
+          <a href="https://www.hermanmiller.com/"
+            target={"_blank"}><img
             className="company"
             src={hermanmiller}
-            href="https://www.hermanmiller.com/"
-            target={"_blank"}
             alt="Herman Miller"
-          ></img>
+          ></img></a>
         </Col>
 
         <Col lg={3} md={6} sm={6}>
-          <img
+          <a href="https://www.officestogo.com/"
+            target={"_blank"}><img
             className="company"
             src={officestogo}
-            href="https://www.officestogo.com/"
-            target={"_blank"}
             alt="OfficesToGo"
-          ></img>
+          ></img></a>
         </Col>
       </Row>
       </Container>
       <div className="head">
-        <h1>Needing The Best Office Furniture with Competitive Pricing? </h1>
-        <h2 style={{ fontStyle: "italic" }}>
+        <h1 className="oval-text">Need The Best Office Furniture at Competitive Prices? </h1>
+        <h2 className="oval-subtext">
           We Work Directly with these Suppliers!
         </h2>
+
       </div>
       
       <Footer />

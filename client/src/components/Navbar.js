@@ -41,7 +41,7 @@ const AppNavbar = () => {
               // isAdmin explicity set to true to eliminate null values
               // access to home, adm portal, employee portal, logout
               <>
-                <Container>
+                <Container className="employee-navbar">
                   <Nav.Link style={{ color: 'white' }} className='navlink' as={Link} to="/home" eventKey="4" >
                     Home
                   </Nav.Link>
@@ -74,6 +74,7 @@ const AppNavbar = () => {
             ) : (
               // User is not logged in; Home page nav
               <>
+              <Container className="public-navbar">
                 <Nav.Link style={{ color: 'white' }} as={Link} to="/home" eventKey="4" className="navlink">
                   Home
                 </Nav.Link>
@@ -83,6 +84,7 @@ const AppNavbar = () => {
                 <Nav.Link style={{ color: 'white' }} as={Link} to="/contact" eventKey="4" className="navlink">
                   Contact Us{" "}
                 </Nav.Link>
+                </Container>
               </>
             )}
           </Nav>

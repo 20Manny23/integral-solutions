@@ -50,7 +50,7 @@ const AdminPortal = ({
       <>
         <Container style={{ marginTop: "25px" }}>
           <Row className="justify-content-center">
-            <p style={{ fontSize: "30px", marginTop: "10px" }}>
+            <p style={{ fontSize: "30px", marginTop: "20px" }}>
               <b>
               Administrator Panel
               </b>

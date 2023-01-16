@@ -58,6 +58,7 @@ function Employees() {
 
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -100,7 +101,12 @@ function Employees() {
 
       // Bring user back to login page
       // window.location.assign(`/login`);
-      setShowAlert(true)
+      if (!employee.email) {
+        setShowError(true);
+      } else {
+        setShowAlert(true);
+      }
+      
 
     } catch (e) {
       console.error('error = ', e);
@@ -168,9 +174,9 @@ function Employees() {
         </div>
         <Alert 
         dismissible
-        onClose={() => setShowAlert(false)}
+        onClose={() => setShowError(false)}
         variant="success"
-        show={showAlert}
+        show={showError}
         className="mb- py-1 pl-3 bg-success text-white"
         stlye={{ alignContent: "center" }}
           >
@@ -189,8 +195,8 @@ function Employees() {
               className="mb-4 py-1 pl-1 bg-danger text-white"
               style={{ width: "300px" }}
             >
-              <p className="" style={{ width: "200px" }}>
-                Something went wrong with your login credentials!
+              <p className="" style={{ width: "200px", padding: "10px", marginTop: "5px" }}>
+                Email failed to send. Make sure to use the same email address you created your account with
               </p>
             </Alert>
           </div>
