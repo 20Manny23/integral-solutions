@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
 import {
@@ -31,14 +31,14 @@ function ScheduleAdd() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState(""); //fix double check - currently no endTime field
+  const [endTime, setEndTime] = useState("");
   const [squareFeet, setSquareFeet] = useState("");
   const [jobDetails, setJobDetails] = useState("");
   const [numberOfClientEmployees, setNumberOfClientEmployees] = useState("");
-  const [client, setClient] = useState(""); //fix double check - ?
+  const [client, setClient] = useState("");
   const [employees, setEmployees] = useState("");
-  const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
   const [selectedEmployees, setSelectedEmployees] = useState([]);
+  const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
   //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
   function businessNameSelect(e) {
@@ -207,7 +207,6 @@ function ScheduleAdd() {
     name === "zip" && value.trim() === ""
       ? setShowZipValidation(true)
       : setShowZipValidation(false);
-
     name === "startDate" && value.trim() === ""
       ? setStartDateValidation(true)
       : setStartDateValidation(false);
@@ -217,7 +216,6 @@ function ScheduleAdd() {
     name === "startTime" && value.trim() === ""
       ? setShowStartTimeValidation(true)
       : setShowStartTimeValidation(false);
-
     name === "endTime" && value.trim() === ""
       ? setShowEndTimeValidation(true)
       : setShowEndTimeValidation(false);
@@ -227,17 +225,16 @@ function ScheduleAdd() {
     name === "jobDetails" && value.trim() === ""
       ? setShowJobDetailsValidation(true)
       : setShowJobDetailsValidation(false);
-
     name === "numberOfClientEmployees" && value.trim() === ""
       ? setShowNumberOfClientEmployeesValidation(true)
       : setShowNumberOfClientEmployeesValidation(false);
   };
 
-  // SECTION ADD
+  //SECTION ADD NEW JOB
+  // add new jobs
   const handleAddScheduleSubmit = async (event) => {
     event.preventDefault();
 
-    //fix
     let reformattedStartDate = format_date_string(startDate, startTime);
     let reformattedEndDate = format_date_string(startDate, startTime);
 
@@ -282,7 +279,7 @@ function ScheduleAdd() {
     updateClientJobs(mostRecentScheduleId);
     updateEmployeeJobs(mostRecentScheduleId);
 
-    // resetForm();
+    resetForm();
   };
 
   // update client schedule array
@@ -323,45 +320,65 @@ function ScheduleAdd() {
     }
   };
 
+  //SECTION RESET FORM
   // Reset the add schedule form after submission
-  // const resetForm = () => {
-  //   setBusinessName("");
-  //   setContact("");
-  //   setPhone("");
-  //   setEmailClient("");
-  //   setStreetAddress("");
-  //   setSuite("");
-  //   setCity("");
-  //   setState("");
-  //   setZip("");
-  // };
+  const resetForm = () => {
+    setBusinessName("");
+    setStreetAddress("");
+    setSuite("");
+    setCity("");
+    setState("");
+    setZip("");
+    setStartDate("");
+    setEndDate("");
+    setStartTime("");
+    setEndTime("");
+    setSquareFeet("");
+    setJobDetails("");
+    setNumberOfClientEmployees("");
+    setClient("");
+    setEmployees("");
+    setAreAllFieldsFilled(false);
+  };
 
   // If all fields are populated then enable the submit button
-  // useEffect(() => {
-  //   setAreAllFieldsFilled(
-  //     businessName.trim() !== "" &&
-  //       contact.trim() !== "" &&
-  //       phone.trim() !== "" &&
-  //       emailClient.trim() !== "" &&
-  //       streetAddress.trim() !== "" &&
-  //       suite.trim() !== "" &&
-  //       city.trim() !== "" &&
-  //       state.trim() !== "" &&
-  //       zip.trim() !== ""
-  //   );
-  //   // console.log(areAllFieldsFilled);
-  //   // eslint-disable-next-line
-  // }, [
-  //   businessName,
-  //   contact,
-  //   phone,
-  //   emailClient,
-  //   streetAddress,
-  //   suite,
-  //   city,
-  //   state,
-  //   zip,
-  // ]);
+  useEffect(() => {
+    setAreAllFieldsFilled(
+      businessName.trim() === "Select" ||
+        numberOfClientEmployees.trim() === "Select" ||
+        state.trim() === "Select" ||
+        streetAddress.trim() === "" ||
+        city.trim() === "" ||
+        zip.trim() === "" ||
+        startDate.trim() === "" ||
+        endDate.trim() === "" ||
+        startTime.trim() === "" ||
+        squareFeet.trim() === "" ||
+        jobDetails.trim() === ""
+      // || employees.trim() === "Select"
+      // || selectedEmployees.length === 0
+      // || suite.trim() !== ""
+      // || endTime.trim() === ""
+    );
+    console.log(areAllFieldsFilled);
+    // eslint-disable-next-line
+  }, [
+    businessName,
+    state,
+    numberOfClientEmployees,
+    streetAddress,
+    city,
+    zip,
+    startDate,
+    endDate,
+    startTime,
+    squareFeet,
+    jobDetails,
+    // employees,
+    // selectedEmployees,
+    // suite,
+    // endTime,
+  ]);
 
   return (
     <Container>
@@ -413,9 +430,9 @@ function ScheduleAdd() {
           <Form.Control
             className="custom-border"
             placeholder="Enter Address"
-            value={streetAddress}
             name="streetAddress"
-            defaultValue={client?.streetAddress}
+            value={streetAddress}
+            // defaultValue={client?.streetAddress}
             onChange={handleInputChange}
             onBlur={handleBlurChange}
             //required
@@ -434,9 +451,9 @@ function ScheduleAdd() {
             <Form.Control
               className="custom-border"
               placeholder="City"
-              value={city}
               name="city"
-              defaultValue={client?.city}
+              value={city}
+              // defaultValue={client?.city}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               //required
@@ -455,9 +472,9 @@ function ScheduleAdd() {
               as={"select"}
               className="custom-border"
               placeholder="State"
-              value={state}
               name="state"
-              defaultValue={client?.state}
+              value={state}
+              // defaultValue={client?.state}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               //required
@@ -480,9 +497,9 @@ function ScheduleAdd() {
             <Form.Control
               className="custom-border"
               placeholder="Zip"
-              value={zip}
               name="zip"
-              defaultValue={client?.zip}
+              value={zip}
+              // defaultValue={client?.zip}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               //required
@@ -533,9 +550,9 @@ function ScheduleAdd() {
               <Form.Control
                 className="custom-border"
                 type="date"
-                value={endDate}
                 name="endDate"
-                defaultValue={client?.endDate}
+                value={endDate}
+                // defaultValue={client?.endDate}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 //required
@@ -559,9 +576,9 @@ function ScheduleAdd() {
               <Form.Control
                 className="custom-border"
                 type="time"
-                value={startTime}
                 name="startTime"
-                defaultValue={client?.startTime}
+                value={startTime}
+                // defaultValue={client?.startTime}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 //required
@@ -585,9 +602,9 @@ function ScheduleAdd() {
             <Form.Control
               className="custom-border"
               placeholder="8000 Sqft"
-              value={squareFeet}
               name="squareFeet"
-              defaultValue={client?.squareFeet}
+              value={squareFeet}
+              // defaultValue={client?.squareFeet}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               //required
@@ -610,19 +627,13 @@ function ScheduleAdd() {
                 as="select"
                 className="custom-border"
                 type="text"
-                value={numberOfClientEmployees}
                 name="numberOfClientEmployees"
-                // onChange={addEmployee}
+                value={numberOfClientEmployees}
                 onChange={handleInputChange}
               >
                 <option>Select</option>
                 {numberOfEmployees.map((emp, index) => (
-                  <option
-                    key={index}
-                    // value={emp}
-                  >
-                    {emp}
-                  </option>
+                  <option key={index}>{emp}</option>
                 ))}
               </Form.Control>
             </Form.Group>
@@ -720,6 +731,7 @@ function ScheduleAdd() {
           variant="primary"
           type="submit"
           title="Submit to schedule job."
+          disabled={areAllFieldsFilled}
         >
           Schedule Job
         </Button>
