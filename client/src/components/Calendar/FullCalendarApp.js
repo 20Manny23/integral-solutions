@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { QUERY_EVENTS } from "../../utils/queries";
+import { QUERY_SCHEDULE } from "../../utils/queries";
 import { QUERY_LOCATIONS } from "../../utils/queries";
 import LoadFullCalendar from "./LoadFullCalendar";
 import "../../styles/calendar.css";
@@ -13,6 +14,20 @@ const FullCalendarApp = () => {
   const [activeView, setActiveView] = useState("dayGridMonth");
   const [weekendsVisible] = useState(true);
 
+  let colorArray = ["yellow", "red", "black", "green", "blue", "orange", "purple"];
+
+  function getRandomInt(max) {
+
+    let randomNumber = Math.floor(Math.random() * max);
+
+    return randomNumber;
+  }
+
+  console.log(getRandomInt(6));
+  console.log(colorArray[getRandomInt(colorArray.length)])
+
+  // console.log(["yellow", "red", "black", "green", "blue", "orange", "purple"].filter(({color, index}) => index === (Math.floor(Math.random() * 6))).map(color => color).join());
+
   useEffect(() => {
     setActiveView("listDay");
   }, [activeView]);
@@ -23,7 +38,25 @@ const FullCalendarApp = () => {
   const previousValue = useRef(null);
 
   // query events
+  //fix
   const { loading: eventLoad, data: eventData } = useQuery(QUERY_EVENTS);
+   // eslint-disable-next-line
+   const {
+    // eslint-disable-next-line
+    loading: scheduleLoad,
+    // eslint-disable-next-line
+    data: schedule,
+    // eslint-disable-next-line
+    error: scheduleError,
+    // eslint-disable-next-line
+    refetch: scheduleRefetch,
+  } = useQuery(QUERY_SCHEDULE);
+
+  //fix
+  if (!eventLoad) {
+    console.log(eventData)
+    console.log(schedule)
+  }
 
   const { loading: locationLoad, data: locationData } =
     useQuery(QUERY_LOCATIONS);
@@ -46,22 +79,48 @@ const FullCalendarApp = () => {
 
   let results = [];
 
-  if (!eventLoad) {
-    rawEvents = eventData?.events;
+  // if (!eventLoad) {
+  //   rawEvents = eventData?.events;
 
-    results = rawEvents?.map((event) => {
-      return {
-        id: event._id,
-        title: event.title,
-        startTime: event.startTime,
-        endTime: event.endTime,
-        daysOfWeek: event.daysOfWeek,
-        startRecur: new Date(event.startRecur).toISOString(),
-        display: event.display,
-        backgroundColor: event.backgroundColor,
-        textColor: event.textColor,
-      };
-    });
+  //   results = rawEvents?.map((event) => {
+  //     return {
+  //       id: event._id,
+  //       title: event.title,
+  //       startTime: event.startTime,
+  //       endTime: event.endTime,
+  //       daysOfWeek: event.daysOfWeek,
+  //       startRecur: new Date(event.startRecur).toISOString(),
+  //       display: event.display,
+  //       backgroundColor: event.backgroundColor,
+  //       textColor: event.textColor,
+  //     };
+  //   });
+
+    if (!scheduleLoad) {
+      // rawEvents = schedule?.events;
+  
+      results = schedule?.schedules?.map((job) => {
+        return {
+          id: job._id,
+          title: job.client.businessName,
+          // startTime: job.startTime,
+          // endTime: job.endTime,
+          // daysOfWeek: event.daysOfWeek,
+          // // daysOfWeek: [1],
+          start: new Date(job.startDate).toISOString(),
+          end: new Date(job.endDate).toISOString(),
+          // start: '2022-01-17 09:00:00',
+          // end: '2022-01-17 09:00:00',
+          // startRecur: new Date(job.startDate).toISOString(),
+          // display: event.display,
+          display: "block",
+          // backgroundColor: event.backgroundColor,
+          // backgroundColor: "yellow",
+          backgroundColor: colorArray[getRandomInt(colorArray.length)],
+          // textColor: event.textColor,
+          textColor: "black",
+        };
+      });
 
     // prevents infinite render loop by comparing most recent returned query to previous query. if the same, terminates infinate loop
     if (
@@ -95,6 +154,10 @@ const FullCalendarApp = () => {
   // check for mobile device to set initial view
   window.mobilecheck = function () {
     var check = false;
+
+    console.log('mobile check = ', check)
+    alert(`1 mobile check ${check}`);
+
     (function (a) {
       if (
         /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(
@@ -106,7 +169,12 @@ const FullCalendarApp = () => {
       )
         check = true;
     })(navigator.userAgent || navigator.vendor || window.opera);
-    return check;
+
+
+    console.log('2 mobile check = ', check)
+    alert(`2 mobile check ${check}`);
+
+    return !check;
   };
 
   function renderEventContent(eventInfo) {

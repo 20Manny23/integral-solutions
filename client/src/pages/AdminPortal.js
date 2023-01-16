@@ -23,8 +23,7 @@ const AdminPortal = ({
   workOrderButtonIsActive,
   employeeListButtonIsActive,
   clientListButtonIsActive,
-  adminMockButtonIsActive
-  
+  adminMockButtonIsActive,
 }) => {
   // get user info to render to page
   const userId = getUserId();
@@ -51,9 +50,7 @@ const AdminPortal = ({
         <Container style={{ marginTop: "25px" }}>
           <Row className="justify-content-center">
             <p style={{ fontSize: "30px", marginTop: "20px" }}>
-              <b>
-              Administrator Panel
-              </b>
+              <b>Administrator Panel</b>
             </p>
           </Row>
         </Container>
@@ -82,10 +79,10 @@ const AdminPortal = ({
                 >
                   Jobs
                 </Button>
-                
+
                 <Button
                   variant="outline-primary"
-                  style={employeeListButtonIsActive  ? isActive : notActive}
+                  style={employeeListButtonIsActive ? isActive : notActive}
                   active={employeeListButtonIsActive}
                   onClick={() => {
                     navigate("/employees");
@@ -111,7 +108,7 @@ const AdminPortal = ({
                     navigate("/admin-mock");
                   }}
                 >
-                  Mock 
+                  Mock
                 </Button>
               </div>
 
@@ -122,7 +119,7 @@ const AdminPortal = ({
               ) : renderPanel === "employees" ? (
                 <Employees />
               ) : renderPanel === "clientlist" ? (
-                  <ClientList />
+                <ClientList />
               ) : (
                 <AdminMock />
               )}
@@ -138,7 +135,7 @@ export default AdminPortal;
 
 const isActive = {
   flex: "auto",
-   border: "solid 3px black",
+  border: "solid 3px black",
   borderRadius: "3px",
 };
 
