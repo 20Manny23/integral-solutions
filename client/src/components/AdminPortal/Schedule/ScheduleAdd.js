@@ -403,7 +403,7 @@ function ScheduleAdd() {
             className="custom-border"
             type="text"
             placeholder="Select Client"
-            // value={"form-select"}
+            value={"form-select"}
             name={"form-select"}
             onChange={businessNameSelect}
           >
@@ -431,7 +431,7 @@ function ScheduleAdd() {
             className="custom-border"
             placeholder="Enter Address"
             name="streetAddress"
-            // value={streetAddress}
+            value={streetAddress}
             // defaultValue={client?.streetAddress}
             onChange={handleInputChange}
             onBlur={handleBlurChange}
@@ -452,7 +452,7 @@ function ScheduleAdd() {
               className="custom-border"
               placeholder="City"
               name="city"
-              // value={city}
+              value={city}
               // defaultValue={client?.city}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
@@ -473,7 +473,7 @@ function ScheduleAdd() {
               className="custom-border"
               placeholder="State"
               name="state"
-              // value={state}
+              value={state}
               // defaultValue={client?.state}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
@@ -498,7 +498,7 @@ function ScheduleAdd() {
               className="custom-border"
               placeholder="Zip"
               name="zip"
-              // value={zip}
+              value={zip}
               // defaultValue={client?.zip}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
@@ -551,7 +551,7 @@ function ScheduleAdd() {
                 className="custom-border"
                 type="date"
                 name="endDate"
-                // value={endDate}
+                value={endDate}
                 // defaultValue={client?.endDate}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
@@ -577,7 +577,7 @@ function ScheduleAdd() {
                 className="custom-border"
                 type="time"
                 name="startTime"
-                // value={startTime}
+                value={startTime}
                 // defaultValue={client?.startTime}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
@@ -603,7 +603,7 @@ function ScheduleAdd() {
               className="custom-border"
               placeholder="8000 Sqft"
               name="squareFeet"
-              // value={squareFeet}
+              value={squareFeet}
               // defaultValue={client?.squareFeet}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
@@ -628,7 +628,7 @@ function ScheduleAdd() {
                 className="custom-border"
                 type="text"
                 name="numberOfClientEmployees"
-                // value={numberOfClientEmployees}
+                value={numberOfClientEmployees}
                 onChange={handleInputChange}
               >
                 <option>Select</option>
@@ -655,7 +655,7 @@ function ScheduleAdd() {
             as="select"
             className="custom-border"
             type="text"
-            // value={"form-select"}
+            value={"form-select"}
             name={"form-select"}
             onChange={(event) => {
               createSelectedEmployees(event);
@@ -685,7 +685,7 @@ function ScheduleAdd() {
               backgroundColor: "#007bff",
             }}
             onClick={removeEmployee}
-            // value={employee.employeeId}
+            value={employee.employeeId}
             variant="secondary"
             data-id={emp._id}
           >
@@ -717,7 +717,7 @@ function ScheduleAdd() {
             rows={4}
             type="textarea"
             placeholder="Enter additional information here."
-            // value={jobDetails}
+            value={jobDetails}
             name="jobDetails"
             onChange={handleInputChange}
             onBlur={handleBlurChange}
