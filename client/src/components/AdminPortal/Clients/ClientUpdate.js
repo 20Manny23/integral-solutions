@@ -12,7 +12,6 @@ import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
 function ClientUpdate() {
-  // SECTION START CLIENT
   const [prevClientData, setPrevClientData] = useState({});
 
   // GET CLIENT FORM DATA
