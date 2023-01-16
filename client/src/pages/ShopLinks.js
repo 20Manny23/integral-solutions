@@ -10,7 +10,7 @@ function ShopLinks() {
   return (
     <div className="bk-img">
       <Container>
-      <Row>
+      <Row className="shop-links">
         <Col md={6}lg={3} sm={6}>
           <img
             className="company"
@@ -52,10 +52,11 @@ function ShopLinks() {
       </Row>
       </Container>
       <div className="head">
-        <h1>Needing The Best Office Furniture with Competitive Pricing? </h1>
-        <h2 style={{ fontStyle: "italic" }}>
+        <h1 className="oval-text">Need The Best Office Furniture at Competitive Prices? </h1>
+        <h2 className="oval-subtext">
           We Work Directly with these Suppliers!
         </h2>
+
       </div>
       
       <Footer />

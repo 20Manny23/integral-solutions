@@ -11,6 +11,16 @@ Nav {
   color: white;
 }
 
+.public-navbar {
+  display: flex;
+  flex-direction: row;
+}
+
+.employee-navbar {
+  display: flex;
+  flex-direction: column;
+}
+
 .heading-style {
   display: inline-block;
   font-family: Georgia, "Times New Roman", serif;
@@ -48,12 +58,28 @@ Nav {
   text-decoration: none;
   
 }
+
+@media only screen and (max-width: 992px) and (min-width: 598px){
+  .contact-form{
+    margin-top: 90px
+  }
+}
+
+@media only screen and (max-width: 598px) and (min-width: 340px){
+  .overlay-box{
+    margin-top: 30px
+  }
+}
+
 @media screen and (max-width: 991px) {
   .logo {
     margin-top: -18px;
   }
   .slogan {
     margin-left: -32% !important;
+  }
+  .public-navbar {
+    flex-direction: column;
   }
   #navbar{
     border:2px solid black;
@@ -73,9 +99,17 @@ Nav {
 @media screen and (max-width: 627px) {
   .slogan {
     margin-left: -0% !important;
+    margin-top: -10px;
   }
 }
-@media screen and (max-width: 588px) {
+
+@media screen and (max-width: 992px) and (min-width: 628px) {
+  .slogan{
+    margin-top: -10px;
+  }
+}
+
+@media screen and (max-width: 598px) {
   .slogan {
     margin-left: -30% !important;
   }
@@ -84,6 +118,13 @@ Nav {
   }
   .logo {
     margin-top: -3px;
+  }
+}
+
+  @media only screen and (max-width: 598px) and (min-width: 500px) {
+
+  .public-navbar {
+    flex-direction: row;
   }
 }
 @media screen and (max-width: 556px) {
@@ -114,4 +155,14 @@ Nav {
   .navbar-toggler-icon {
     background-image: none !important;
   }
+}
+
+@media only screen and (max-width: 500px) and (min-width: 300px) {
+  .public-navbar {
+    flex-direction: row;
+  }
+
+.employee-navbar {
+  flex-direction: row;
+}
 }
