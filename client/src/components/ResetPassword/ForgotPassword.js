@@ -128,7 +128,7 @@ function Employees() {
 
 
   const sendEmail = (token) => {
-    const url = `http://localhost:3000/resetpassword/${token.token}`;
+    const url = `http://integratedofficesolution.com/resetpassword/${token.token}`;
     window.open(
       `mailto:${userFormData.email}?subject=Integral Solutions Employee Password Reset&body=Hello ${employee.firstName} %0D%0A%0D%0A Click <a href=${url}>here</a> to create a new pasword.`
     )
@@ -195,7 +195,7 @@ function Employees() {
               className="mb-4 py-1 pl-1 bg-danger text-white"
               style={{ width: "300px" }}
             >
-              <p className="" style={{ width: "200px", padding: "10px", maeginTop: "5px" }}>
+              <p className="" style={{ width: "200px", padding: "10px", marginTop: "5px" }}>
                 Email failed to send. Make sure to use the same email address you created your account with
               </p>
             </Alert>
