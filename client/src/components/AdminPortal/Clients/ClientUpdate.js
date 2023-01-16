@@ -12,7 +12,6 @@ import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
 function ClientUpdate() {
-  // SECTION START CLIENT
   const [prevClientData, setPrevClientData] = useState({});
 
   // GET CLIENT FORM DATA
@@ -44,7 +43,7 @@ function ClientUpdate() {
 
   const [currentInput, setCurrentInput] = useState({});
   const [currentClientId, setCurrentClientId] = useState("");
-  const [currentClient, setCurrentClient] = useState("");
+  const [currentClient, setCurrentClient] = useState({});
 
   // SECTION QUERIES & MUTATIONS
   // get all clients
@@ -197,7 +196,7 @@ function ClientUpdate() {
   };
 
   //  Reset the form after onSubmit
-  const resetForm = () => {
+  const resetForm = (event) => {
     setBusinessName("");
     setContact("");
     setPhone("");
@@ -207,6 +206,18 @@ function ClientUpdate() {
     setCity("");
     setState("");
     setZip("");
+
+    // setCurrentInput({
+    //   businessName: "",
+    //   contact: "",
+    //   phone: "",
+    //   emailClient: "",
+    //   streetAddress: "",
+    //   suite: "",
+    //   state: "",
+    //   city: "",
+    //   zip: "",
+    // });
   };
 
   // If all fields are populated then enable the submit button
@@ -244,17 +255,25 @@ function ClientUpdate() {
 
     console.log(event.target.value, clientId);
 
-    setBusinessName(event.target.value);
+    // setBusinessName(event.target.value);
 
     //await query single client
     let currentClientData = await getASingleClient();
 
-    console.log(currentClientData);
-
-    setPrevClientData(currentClientData.data.client);
-
-    console.log(prevClientData.businessName);
+    console.log('currentClient = ', currentClientData.data.client);
+    // setCurrentClient(currentClientData.data.client);
+    
+    // if (!lazyLoading) {
+      setPrevClientData(currentClientData.data.client);
+    //   console.log(prevClientData.businessName);
+    // }
+    // console.log(currentClient.businessName);
   }
+
+  useEffect(() => {
+    console.log('useeffect')
+  }, [getASingleClient])
+  
 
   return (
     <Container>
@@ -263,6 +282,7 @@ function ClientUpdate() {
         className="py-3 overflow-auto custom-about"
         // section submit
         onSubmit={(event) => {
+          event.preventDefault();
           let clientId = event.currentTarget.getAttribute("data-editclientid");
           setCurrentClientId(clientId);
           setCurrentInput({
