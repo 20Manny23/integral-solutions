@@ -69,7 +69,7 @@ function ContactForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if(!companyName || !contactName || !phoneNumber || !emailAddress || !city || !state || !squareFeet || !startDate || !jobDetails) {
+    if(!companyName || !contactName || !emailAddress || !startDate || !jobDetails) {
       setErrorMessage("Please fill in all required fields *");
       return;
     }
@@ -198,7 +198,6 @@ function ContactForm() {
                       name="telNo"
                       pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                       onChange={handleChange}
-                      required
                     />
                   </Form.Group>
 
@@ -230,7 +229,7 @@ function ContactForm() {
                         placeholder="City"
                         name="city"
                         onChange={handleChange}
-                        required
+                      
                       />
                     </Col>
 
@@ -245,7 +244,7 @@ function ContactForm() {
                         placeholder="State"
                         style={{ maxWidth: "150px" }}
                         onChange={handleChange}
-                        required
+                      
                       >
                         <option>Select</option>
                         {STATE_DROPDOWN.map((st) => (
@@ -349,7 +348,7 @@ function ContactForm() {
                         
                       }}
                     >
-                      Services Needed &nbsp;<span class="text-danger">*</span>
+                      Services Needed 
                     </Form.Label>
                     {["checkbox"].map((type) => (
                       <div key={`inline-${type}`} className="mb-3">
