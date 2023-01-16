@@ -1,8 +1,6 @@
 {
   "name": "Integral Solutions",
   "description": "Furniture Installation",
-  "name": "Integral Solutions",
-  "description": "Cleaning at it's finest",
   "version": "1.0.0",
   "engines": {
     "node": "16.16",
