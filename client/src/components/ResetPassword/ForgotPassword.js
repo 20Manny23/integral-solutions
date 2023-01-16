@@ -128,7 +128,7 @@ function Employees() {
 
 
   const sendEmail = (token) => {
-    const url = `http://integratedofficesolution.com/resetpassword/${token.token}`;
+    const url = `http://localhost:3000/resetpassword/${token.token}`;
     window.open(
       `mailto:${userFormData.email}?subject=Integral Solutions Employee Password Reset&body=Hello ${employee.firstName} %0D%0A%0D%0A Click <a href=${url}>here</a> to create a new pasword.`
     )

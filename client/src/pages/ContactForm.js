@@ -33,7 +33,7 @@ function ContactForm() {
                 className="display-6 custom-text heading"
                 style={{ fontStyle: "italic" }}
               >
-                How We Can Help?
+                How Can We Help?
               </h2>
 
               <Form.Group
