@@ -6,10 +6,16 @@ import {
   QUERY_ALL_CLIENTS,
   QUERY_ALL_EMPLOYEES,
 } from "../../../utils/queries";
-import { ADD_SCHEDULE } from "../../../utils/mutations";
+import {
+  ADD_SCHEDULE,
+  UPDATE_CLIENT_SCHEDULE,
+  UPDATE_EMPLOYEE_SCHEDULE,
+} from "../../../utils/mutations";
+
+import format_date_string from "../../../utils/dateFormat";
+import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
-
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 import "../../../styles/Forms.css";
@@ -25,14 +31,14 @@ function ScheduleAdd() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState(""); //fix double check - currently no endTime field
+  const [endTime, setEndTime] = useState("");
   const [squareFeet, setSquareFeet] = useState("");
   const [jobDetails, setJobDetails] = useState("");
   const [numberOfClientEmployees, setNumberOfClientEmployees] = useState("");
-  const [client, setClient] = useState(""); //fix double check - ?
+  const [client, setClient] = useState("");
   const [employees, setEmployees] = useState("");
-  const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
   const [selectedEmployees, setSelectedEmployees] = useState([]);
+  const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
   //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
   function businessNameSelect(e) {
@@ -51,7 +57,7 @@ function ScheduleAdd() {
     useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
-  const [showSuiteValidation, setShowSuiteValidation] = useState(false); // currently no suite field
+  const [showSuiteValidation, setShowSuiteValidation] = useState(false); // currently no suite field on input form
   const [showCityValidation, setShowCityValidation] = useState(false);
   const [showStateValidation, setShowStateValidation] = useState(false);
   const [showZipValidation, setShowZipValidation] = useState(false);
@@ -72,27 +78,7 @@ function ScheduleAdd() {
     useState(false);
 
   //SECTION QUERIES / MUTATIONS
-  const {
-    // eslint-disable-next-line
-    loading: clientsLoad,
-    data: clients,
-    // eslint-disable-next-line
-    error: clientError,
-    // eslint-disable-next-line
-    refetch: clientsRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
-
-  const {
-    // eslint-disable-next-line
-    loading: empLoad,
-    data: emp,
-    // eslint-disable-next-line
-    error: empError,
-    // eslint-disable-next-line
-    refetch: empRefectch,
-  } = useQuery(QUERY_ALL_EMPLOYEES);
-
-  // SECTION WORKORDER / SCHEDULE
+  // get schedule
   const {
     // eslint-disable-next-line
     loading: scheduleLoad,
@@ -103,11 +89,39 @@ function ScheduleAdd() {
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
   // console.log(schedule);
-  // SECTION END WORKORDER / SCHEDULE
 
+  // get clients
+  const {
+    // eslint-disable-next-line
+    loading: clientsLoad,
+    data: clients,
+    // eslint-disable-next-line
+    error: clientError,
+    // eslint-disable-next-line
+    refetch: clientsRefetch,
+  } = useQuery(QUERY_ALL_CLIENTS);
+
+  // get employees
+  const {
+    // eslint-disable-next-line
+    loading: empLoad,
+    data: emp,
+    // eslint-disable-next-line
+    error: empError,
+    // eslint-disable-next-line
+    refetch: empRefectch,
+  } = useQuery(QUERY_ALL_EMPLOYEES);
+
+  // add schedule
   const [addSchedule] = useMutation(ADD_SCHEDULE);
 
-  //SECTION CREATE / REMOVE SELECTED EMPLOYEE OBJECT
+  // add new schedule / job to the appropriate client
+  const [updateClientSchedule] = useMutation(UPDATE_CLIENT_SCHEDULE);
+
+  // add new schedule / job to the appropriate employee(s)
+  const [updateEmployeeSchedule] = useMutation(UPDATE_EMPLOYEE_SCHEDULE);
+
+  //SECTION ADD INTO OR REMOVE FROM SELECTED EMPLOYEE FROM PAGE
   const createSelectedEmployees = (event) => {
     let firstName =
       event.target.options[event.target.selectedIndex].dataset.firstname;
@@ -193,7 +207,6 @@ function ScheduleAdd() {
     name === "zip" && value.trim() === ""
       ? setShowZipValidation(true)
       : setShowZipValidation(false);
-
     name === "startDate" && value.trim() === ""
       ? setStartDateValidation(true)
       : setStartDateValidation(false);
@@ -203,7 +216,6 @@ function ScheduleAdd() {
     name === "startTime" && value.trim() === ""
       ? setShowStartTimeValidation(true)
       : setShowStartTimeValidation(false);
-
     name === "endTime" && value.trim() === ""
       ? setShowEndTimeValidation(true)
       : setShowEndTimeValidation(false);
@@ -213,15 +225,20 @@ function ScheduleAdd() {
     name === "jobDetails" && value.trim() === ""
       ? setShowJobDetailsValidation(true)
       : setShowJobDetailsValidation(false);
-
     name === "numberOfClientEmployees" && value.trim() === ""
       ? setShowNumberOfClientEmployeesValidation(true)
       : setShowNumberOfClientEmployeesValidation(false);
   };
 
-  // SECTION ADD
+  //SECTION ADD NEW JOB
+  // add new jobs
   const handleAddScheduleSubmit = async (event) => {
     event.preventDefault();
+
+    let reformattedStartDate = format_date_string(startDate, startTime);
+    let reformattedEndDate = format_date_string(startDate, startTime);
+
+    console.log(reformattedEndDate, reformattedStartDate);
 
     try {
       // eslint-disable-next-line
@@ -233,8 +250,8 @@ function ScheduleAdd() {
           city,
           state,
           zip,
-          startDate,
-          endDate,
+          startDate: reformattedStartDate,
+          endDate: reformattedEndDate,
           startTime,
           endTime,
           squareFeet,
@@ -248,59 +265,120 @@ function ScheduleAdd() {
         },
       });
 
-      console.log(data);
+      // console.log('hello', data)
     } catch (err) {
       console.error(err);
     }
 
-    // refetch a work order might be necessary when it is added
-    scheduleRefetch();
+    // refetch the list of schedules/jobs to get the most recent id added
+    let getScheduleIds = await scheduleRefetch();
+    let scheduleIdsLength = getScheduleIds.data.schedules.length - 1;
+    let mostRecentScheduleId =
+      getScheduleIds.data.schedules[scheduleIdsLength]._id;
 
-    // resetForm();
+    updateClientJobs(mostRecentScheduleId);
+    updateEmployeeJobs(mostRecentScheduleId);
 
-    // handleUpdateForDisabled(null, businessName, "addClient");
+    resetForm();
   };
 
+  // update client schedule array
+  const updateClientJobs = async (mostRecentScheduleId) => {
+    try {
+      // eslint-disable-next-line
+      const { data } = await updateClientSchedule({
+        variables: {
+          id: clients?.clients
+            ?.filter((client) => client.businessName === businessName)
+            .map((id) => id._id)
+            .toString(), // convert client name to client._id
+          schedule: mostRecentScheduleId,
+        },
+      });
+      console.log("what data = ", data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // update employee schedule array
+  const updateEmployeeJobs = async (mostRecentScheduleId) => {
+    console.log("employees array = ", selectedEmployees);
+    try {
+      for (let i = 0; i < selectedEmployees.length; i++) {
+        // eslint-disable-next-line
+        const { data } = await updateEmployeeSchedule({
+          variables: {
+            id: selectedEmployees[i].employeeId,
+            schedule: mostRecentScheduleId,
+          },
+        });
+        console.log(data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  //SECTION RESET FORM
   // Reset the add schedule form after submission
-  // const resetForm = () => {
-  //   setBusinessName("");
-  //   setContact("");
-  //   setPhone("");
-  //   setEmailClient("");
-  //   setStreetAddress("");
-  //   setSuite("");
-  //   setCity("");
-  //   setState("");
-  //   setZip("");
-  // };
+  const resetForm = () => {
+    setBusinessName("");
+    setStreetAddress("");
+    setSuite("");
+    setCity("");
+    setState("");
+    setZip("");
+    setStartDate("");
+    setEndDate("");
+    setStartTime("");
+    setEndTime("");
+    setSquareFeet("");
+    setJobDetails("");
+    setNumberOfClientEmployees("");
+    setClient("");
+    setEmployees("");
+    setAreAllFieldsFilled(false);
+  };
 
   // If all fields are populated then enable the submit button
-  // useEffect(() => {
-  //   setAreAllFieldsFilled(
-  //     businessName.trim() !== "" &&
-  //       contact.trim() !== "" &&
-  //       phone.trim() !== "" &&
-  //       emailClient.trim() !== "" &&
-  //       streetAddress.trim() !== "" &&
-  //       suite.trim() !== "" &&
-  //       city.trim() !== "" &&
-  //       state.trim() !== "" &&
-  //       zip.trim() !== ""
-  //   );
-  //   // console.log(areAllFieldsFilled);
-  //   // eslint-disable-next-line
-  // }, [
-  //   businessName,
-  //   contact,
-  //   phone,
-  //   emailClient,
-  //   streetAddress,
-  //   suite,
-  //   city,
-  //   state,
-  //   zip,
-  // ]);
-  const stateCode = ["CO","AL", "AK", "AS", "AZ", "AR", "CA",  "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MI", "MN", "MS", "MO", "MT", "NE", "NV" , "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY" ]
+  useEffect(() => {
+    setAreAllFieldsFilled(
+      businessName.trim() === "Select" ||
+        numberOfClientEmployees.trim() === "Select" ||
+        state.trim() === "Select" ||
+        streetAddress.trim() === "" ||
+        city.trim() === "" ||
+        zip.trim() === "" ||
+        startDate.trim() === "" ||
+        endDate.trim() === "" ||
+        startTime.trim() === "" ||
+        squareFeet.trim() === "" ||
+        jobDetails.trim() === ""
+      // || employees.trim() === "Select"
+      // || selectedEmployees.length === 0
+      // || suite.trim() !== ""
+      // || endTime.trim() === ""
+    );
+    console.log(areAllFieldsFilled);
+    // eslint-disable-next-line
+  }, [
+    businessName,
+    state,
+    numberOfClientEmployees,
+    streetAddress,
+    city,
+    zip,
+    startDate,
+    endDate,
+    startTime,
+    squareFeet,
+    jobDetails,
+    // employees,
+    // selectedEmployees,
+    // suite,
+    // endTime,
+  ]);
 
   return (
     <Container>
@@ -329,7 +407,7 @@ function ScheduleAdd() {
             name={"form-select"}
             onChange={businessNameSelect}
           >
-            <option>{businessName}</option>
+            <option>Select</option>
             {clients?.clients?.map((client, index) => (
               <option key={index} value={client.businessName}>
                 {client.businessName}
@@ -352,9 +430,9 @@ function ScheduleAdd() {
           <Form.Control
             className="custom-border"
             placeholder="Enter Address"
-            value={streetAddress}
             name="streetAddress"
-            defaultValue={client?.streetAddress}
+            value={streetAddress}
+            // defaultValue={client?.streetAddress}
             onChange={handleInputChange}
             onBlur={handleBlurChange}
             //required
@@ -373,9 +451,9 @@ function ScheduleAdd() {
             <Form.Control
               className="custom-border"
               placeholder="City"
-              value={city}
               name="city"
-              defaultValue={client?.city}
+              value={city}
+              // defaultValue={client?.city}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               //required
@@ -391,19 +469,21 @@ function ScheduleAdd() {
               *required
             </Form.Label>
             <Form.Control
-            as={"select"}
+              as={"select"}
               className="custom-border"
               placeholder="State"
-              value={state}
               name="state"
-              defaultValue={client?.state}
+              value={state}
+              // defaultValue={client?.state}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               //required
-            > {stateCode.map((st) =>
-              <option>{st}</option>
-            )}
-              </Form.Control>
+            >
+              <option>Select</option>
+              {STATE_DROPDOWN.map((st) => (
+                <option>{st}</option>
+              ))}
+            </Form.Control>
           </Col>
           <Col>
             <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>
@@ -417,9 +497,9 @@ function ScheduleAdd() {
             <Form.Control
               className="custom-border"
               placeholder="Zip"
-              value={zip}
               name="zip"
-              defaultValue={client?.zip}
+              value={zip}
+              // defaultValue={client?.zip}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               //required
@@ -470,9 +550,9 @@ function ScheduleAdd() {
               <Form.Control
                 className="custom-border"
                 type="date"
-                value={endDate}
                 name="endDate"
-                defaultValue={client?.endDate}
+                value={endDate}
+                // defaultValue={client?.endDate}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 //required
@@ -496,9 +576,9 @@ function ScheduleAdd() {
               <Form.Control
                 className="custom-border"
                 type="time"
-                value={startTime}
                 name="startTime"
-                defaultValue={client?.startTime}
+                value={startTime}
+                // defaultValue={client?.startTime}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 //required
@@ -522,9 +602,9 @@ function ScheduleAdd() {
             <Form.Control
               className="custom-border"
               placeholder="8000 Sqft"
-              value={squareFeet}
               name="squareFeet"
-              defaultValue={client?.squareFeet}
+              value={squareFeet}
+              // defaultValue={client?.squareFeet}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               //required
@@ -547,19 +627,13 @@ function ScheduleAdd() {
                 as="select"
                 className="custom-border"
                 type="text"
-                value={numberOfClientEmployees}
                 name="numberOfClientEmployees"
-                // onChange={addEmployee}
+                value={numberOfClientEmployees}
                 onChange={handleInputChange}
               >
                 <option>Select</option>
                 {numberOfEmployees.map((emp, index) => (
-                  <option
-                    key={index}
-                    // value={emp}
-                  >
-                    {emp}
-                  </option>
+                  <option key={index}>{emp}</option>
                 ))}
               </Form.Control>
             </Form.Group>
@@ -653,10 +727,11 @@ function ScheduleAdd() {
 
         <Button
           className="button-custom submit-button-style"
-          style={{display:'grid', margin:'auto'}}
+          style={{ display: "grid", margin: "auto" }}
           variant="primary"
           type="submit"
           title="Submit to schedule job."
+          disabled={areAllFieldsFilled}
         >
           Schedule Job
         </Button>

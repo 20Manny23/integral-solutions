@@ -517,7 +517,6 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-
     updateEmployeeSchedule: async (parent, { _id, schedule }, context) => {
       // if (context.user) {
       console.log("resolver update employee schedule = ", _id, schedule);
