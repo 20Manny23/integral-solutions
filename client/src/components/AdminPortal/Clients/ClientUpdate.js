@@ -264,7 +264,7 @@ function ClientUpdate() {
     // setCurrentClient(currentClientData.data.client);
     
     // if (!lazyLoading) {
-      setPrevClientData(currentClientData.data.client.businessName);
+      setPrevClientData(currentClientData.data.client);
     //   console.log(prevClientData.businessName);
     // }
     // console.log(currentClient.businessName);
