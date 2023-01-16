@@ -101,6 +101,98 @@ function ContactForm() {
     return false;
   };
 
+    //           <Form.Group
+    //             className="mb-3 form-length"
+    //             controlId="formBasicEmail"
+    //           >
+    //             <div className="form-label">
+    //               <Form.Label style={{ fontWeight: "bolder" }}>
+    //                 Address
+    //               </Form.Label>
+    //               <Form.Label></Form.Label>
+    //             </div>
+    //             <Form.Control
+    //               className="custom-border"
+    //               placeholder="Enter Address"
+    //               name="address"
+    //             />
+    //           </Form.Group>
+
+    //           <Row className="addy">
+    //             <Col sm={12} md={5} style={{paddingBottom:'15px'}}>
+    //               <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
+    //               <Form.Control className="custom-border" placeholder="City" />
+    //             </Col>
+                
+    //             <Col style={{marginRight:'auto', marginLeft:'auto'}} >
+    //               <Form.Label style={{ fontWeight: "bolder" }}>
+    //                 State
+    //               </Form.Label>
+    //               <Form.Control
+    //               as={"select"}
+                  
+    //                 className="custom-border"
+    //                 placeholder="State"
+    //                 style={{ maxWidth:'150px'}}
+    //               >       {stateCode.map((st) =>
+    //                 <option>{st}</option>
+    //                 )}</Form.Control>
+    //             </Col>
+    //             <Col  style={{marginRight:'auto', marginLeft:'auto'}}>
+    //               <Form.Label style={{ fontWeight: "bolder", align:'right' }}>
+    //                 Zipcode
+    //               </Form.Label>
+    //               <Form.Control className="custom-border" style={{ maxWidth:'150px'}} placeholder="Zip" />
+    //             </Col>
+    //           </Row>
+
+    //           <Row className="addy">
+    //             <Col xs={6} style={{marginRight:'auto', marginLeft:'auto'}}>
+    //               <Form.Label style={{ fontWeight: "bolder" }}>Office Sqft</Form.Label>
+    //               <Form.Control className="custom-border" placeholder="8000 Sqft" />
+    //             </Col>
+    //             <Col xs={12} md={6}>
+    //               <Form.Label style={{ fontWeight: "bolder", display:'flex', justifyContent:'center' }}>
+    //                Number of Employees
+    //               </Form.Label>
+    //               <Form.Check
+    //                 inline
+    //                 label="Home Office"
+    //               />
+    //                <Form.Check
+    //                 inline
+    //                 label="Less than 50"
+    //               />
+    //                 <Form.Check
+    //                 inline
+    //                 label="50-100"
+    //               />
+    //                 <Form.Check
+    //                 inline
+    //                 label="More than 100"
+    //               />
+    //             </Col>
+             
+    //           </Row>
+
+    //           <div className="d-flex justify-content-between">
+    //             <Form.Group className="form-length" controlId="formBasicEmail">
+    //               <div className="form-label">
+    //                 <Form.Label style={{ fontWeight: "bolder" }}>
+    //                   Estimated Date for Work to be Scheduled
+    //                 </Form.Label>
+    //               </div>
+    //               <Form.Control className="custom-border" type="date" />
+    //             </Form.Group>
+    //           </div>
+
+    //           <Form.Group className="mb-3" controlId="formBasicName">
+    //             <Form.Label
+    //               style={{
+    //                 display: "flex",
+    //                 justifyContent: "center",
+    //                 fontWeight: "bolder",
+    //               }}
     return (
       <>
         <div
@@ -116,12 +208,7 @@ function ContactForm() {
                   style={{ width: "80vw" }}
                   action="mailto:bhoff1980@gmail.com"
                 >
-                  <h2
-                    className="display-6 custom-text heading"
-                    style={{ fontStyle: "italic" }}
-                  >
-                    How Can We Help?
-                  </h2>
+
 
                   <Form.Group
                     className="mb-3 form-length"
@@ -426,7 +513,9 @@ function ContactForm() {
                   >
                     Send Email
                   </Button>
+                  
                 </Form>
+                
                 {errorMessage && (
                   <Alert
                   className="form-alert"
