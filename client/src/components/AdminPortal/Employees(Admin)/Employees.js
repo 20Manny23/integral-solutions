@@ -67,9 +67,6 @@ function Employees() {
     let employeeId = event.currentTarget.getAttribute("data-employeeid");
     let toggleTarget = event.currentTarget.name;
 
-    console.log(event.currentTarget);
-    console.log(event.currentTarget.name);
-
     let toggle;
     event.currentTarget.defaultValue === "true" ? toggle = false : toggle = true;
 
@@ -79,12 +76,13 @@ function Employees() {
         await toggleAdmin({
           variables: {
             employeeId: employeeId,
-            isAdmin: toggle,
+            isAdmin: toggle, // NOT A NECESSARY VARIABLE SINCE THE SERVER CHANGES THE STATE
           },
         });
   
-        // RELOAD CLIENT
+        // RELOAD EMPLOYEE
         empRefetch();
+
       } catch (err) {
         console.log(err);
       }
@@ -95,12 +93,13 @@ function Employees() {
         await toggleLocked({
           variables: {
             employeeId: employeeId,
-            isLocked: toggle,
+            isLocked: toggle, // NOT A NECESSARY VARIABLE SINCE THE SERVER CHANGES THE STATE
           },
         });
   
-        // RELOAD CLIENT
+        // RELOAD EMPLOYEE
         empRefetch();
+
       } catch (err) {
         console.log(err);
       }
