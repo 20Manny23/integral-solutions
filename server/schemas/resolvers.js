@@ -55,7 +55,7 @@ const resolvers = {
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
-    
+
     events: async (parent, args, context) => {
       // if (context.user) {
       return Event.find();
@@ -629,9 +629,12 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    deleteSchedule: async (parent, { scheduleId }, context) => {
+    deleteSchedule: async (parent, { _id }, context) => {
       // if (context.user) {
-      return Schedule.findOneAndDelete({ scheduleId });
+      console.log('hello');
+      console.log('id = ', _id);
+
+      return Schedule.findOneAndDelete({ _id });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },

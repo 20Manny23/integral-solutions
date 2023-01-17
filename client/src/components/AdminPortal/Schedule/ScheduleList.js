@@ -36,11 +36,9 @@ function ScheduleList() {
   // SECTION DELETE
   const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
 
-  const handledeleteSchedule = async (event) => {
+  const handleDeleteSchedule = async (event) => {
     let scheduleId = event.currentTarget.getAttribute("data-scheduleid");
-
     console.log(scheduleId);
-
     try {
       // eslint-disable-next-line
       await deleteSchedule({
@@ -51,7 +49,6 @@ function ScheduleList() {
 
       // RELOAD SCHEDULE
       scheduleRefetch();
-
     } catch (err) {
       console.log(err);
     }
@@ -111,7 +108,7 @@ function ScheduleList() {
                     className="p-2 fa-lg"
                     data-scheduleid={job?._id}
                     onClick={(event) => {
-                      handledeleteSchedule(event);
+                      handleDeleteSchedule(event);
                     }}
                   />
                 </div>
