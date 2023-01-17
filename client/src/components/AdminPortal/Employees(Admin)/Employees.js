@@ -66,14 +66,23 @@ function Employees() {
 
   const [toggleAdmin] = useMutation(TOGGLE_ADMIN);
   const handleToggle  = async (event) => {
-    console.log(emp.isAdmin)
+    let toggle = true
     
-    let clientId = event.currentTarget.getAttribute("data-clientid");
+    if(event.currentTarget.defaultValue === 'true'){
+       toggle = false
+      
+    }
+    else{
+       toggle = true
+    }
+    console.log(toggle)
+    let employeeId = event.currentTarget.getAttribute("data-clientid");
     try {
       // eslint-disable-next-line
       await toggleAdmin({
         variables: {
-          id: clientId,
+          id: employeeId,
+          isAdmin: toggle,
           
         },
       });
@@ -137,6 +146,7 @@ function Employees() {
                               id={`custom-check-${index}`}
                               data-clientid={emp?._id}
                               defaultChecked={emp.isAdmin}
+                              defaultValue={emp.isAdmin}
                               onClick={(event) =>
                                 handleToggle(event)
                               }
