@@ -322,13 +322,13 @@ function ScheduleUpdate() {
             : test.data.schedule.state,
           zip: currentInput.zip ? currentInput.zip : test.data.schedule.zip,
           startDate: currentInput.startDate
-            ? format_date_string(currentInput.startDate)
+            ? format_date_string(currentInput.startDate, currentInput.endTime)
             : test.data.schedule.startDate,
           endDate: currentInput.endDate
-            ? format_date_string(currentInput.endDate)
+            ? format_date_string(currentInput.endDate, currentInput.endTime ? currentInput.endTime : "09:00:00 (MST)" )
             : test.data.schedule.endDate,
           startTime: currentInput.startTime
-            ? currentInput.startTime + ":00 (MST)"
+            ? currentInput.startTime + ":00 (MST)" //incoming is 09:00 changed to 09:00:00 (MST)
             : `${test.data.schedule.startTime?.slice(0, 5).toString()}:00 (MST)`,
           endTime: currentInput.endTime
             ? currentInput.endTime

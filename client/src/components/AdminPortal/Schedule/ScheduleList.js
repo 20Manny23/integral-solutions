@@ -94,7 +94,7 @@ function ScheduleList() {
                   >
                     <p className="mb-0 text-left">
 
-                    {job?.client?.businessName} ( {job?._id} )
+                    {job?.client?.businessName}
                     </p>
                     <p className="mb-0 text-left">
 
