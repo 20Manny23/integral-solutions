@@ -1,11 +1,11 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-import Schedule from "./Schedule/ScheduleList";
+import ScheduleList from "./Schedule/ScheduleList";
 import ScheduleAdd from "./Schedule/ScheduleAdd";
 import ScheduleUpdate from "./Schedule/ScheduleUpdate";
 
-function ScheduleList() {
+function Schedule() {
   return (
     <Tabs
       defaultActiveKey="scheduleList"
@@ -14,7 +14,7 @@ function ScheduleList() {
       fill
     >
       <Tab eventKey="scheduleList" title="Job List">
-        <Schedule />
+        <ScheduleList />
       </Tab>
       <Tab eventKey="scheduleAdd" title="Add Jobs">
         <ScheduleAdd />
@@ -26,4 +26,4 @@ function ScheduleList() {
   );
 }
 
-export default ScheduleList;
+export default Schedule;
