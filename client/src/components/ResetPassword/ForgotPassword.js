@@ -34,10 +34,15 @@ function Employees() {
   const [updatePassword, { error: passwordError }] = useMutation(UPDATE_EMPLOYEE);
 
   const setPassword = async () => {
-    // console.log('reset password = ', employee)
+    console.log('reset password = ', employee)
     try {
       const { data } = await updatePassword({
-        variables: { ...employee, password: tempPassword }
+        variables: { 
+          id: employee._id,
+          firstName: employee.firstName,
+          lastName: employee.lastName,
+          email: employee.email,
+          password: tempPassword }
       })
     } catch (e) {
       console.error(e);

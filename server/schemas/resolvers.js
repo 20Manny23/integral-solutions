@@ -466,7 +466,7 @@ const resolvers = {
         schedule
       );
       return Employee.findOneAndUpdate(
-        { email },
+        { _id },
         {
           email,
           password,
