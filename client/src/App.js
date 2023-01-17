@@ -243,7 +243,7 @@ function App() {
               {Auth.isAdmin() && !Auth.isLocked() && (
                 <Route
                   exact
-                  path="/workorder"
+                  path="/work-order"
                   element={
                     <AdminPortal
                       renderPanel={"workorder"}

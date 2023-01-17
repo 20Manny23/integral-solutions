@@ -5,9 +5,9 @@ import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
 
-import Employees from "../components/AdminPortal/Employees(Admin)";
+import WorkOrder from "../components/AdminPortal/Schedule";
 import ClientList from "../components/AdminPortal/Clients";
-import WorkOrder from "../components/AdminPortal/WorkOrder";
+import Employees from "../components/AdminPortal/Employees(Admin)";
 import AdminMock from "../components/AdminPortal/AdminMock";
 
 import { Button, Container, Col, Row } from "react-bootstrap/";
@@ -74,7 +74,7 @@ const AdminPortal = ({
                   style={workOrderButtonIsActive ? isActive : notActive}
                   active={workOrderButtonIsActive}
                   onClick={() => {
-                    navigate("/workorder");
+                    navigate("/work-order");
                   }}
                 >
                   Jobs

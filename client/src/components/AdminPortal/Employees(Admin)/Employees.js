@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
-import { DELETE_EMPLOYEE, TOGGLE_ADMIN } from "../../../utils/mutations";
+import { DELETE_EMPLOYEE, TOGGLE_ADMIN, TOGGLE_LOCKED } from "../../../utils/mutations";
 
 import { Row, Col, Container, Form } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
@@ -12,8 +12,6 @@ import "../../../styles/button-style.css";
 
 function Employees() {
   const [openDetails, setOpenDetails] = useState(false);
-  const [adminToggle, setAdminToggle] = useState(true);
-  const [lockedToggle, setLockedToggle] = useState(false);
 
   //SECTION GET ALL EMPLOYEES
   // eslint-disable-next-line
@@ -24,14 +22,16 @@ function Employees() {
     refetch: empRefetch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
 
-  console.log(emp);
+  // toggle isAmin mutation
+  const [toggleAdmin] = useMutation(TOGGLE_ADMIN);
+  const [toggleLocked] = useMutation(TOGGLE_LOCKED);
 
   // SECTION DELETE
   const [deleteEmployee] = useMutation(DELETE_EMPLOYEE);
 
   const handleDeleteEmployee = async (event) => {
     let employeeId = event.currentTarget.getAttribute("data-clientid");
-    
+
     try {
       // eslint-disable-next-line
       await deleteEmployee({
@@ -62,129 +62,141 @@ function Employees() {
     }
   };
 
-  //Handle Toggle Update 
+  // SECTION HANDLE TOGGLE UPDATE
+  const handleToggle = async (event) => {
+    let employeeId = event.currentTarget.getAttribute("data-employeeid");
+    let toggleTarget = event.currentTarget.name;
 
-  const [toggleAdmin] = useMutation(TOGGLE_ADMIN);
-  const handleToggle  = async (event) => {
-    let toggle = true
-    
-    if(event.currentTarget.defaultValue === 'true'){
-       toggle = false
-      
-    }
-    else{
-       toggle = true
-    }
-    console.log(toggle)
-    let employeeId = event.currentTarget.getAttribute("data-clientid");
-    try {
-      // eslint-disable-next-line
-      await toggleAdmin({
-        variables: {
-          id: employeeId,
-          isAdmin: toggle,
-          
-        },
-      });
+    let toggle;
+    event.currentTarget.defaultValue === "true" ? toggle = false : toggle = true;
 
-      // RELOAD CLIENT
-      empRefetch();
-    } catch (err) {
-      console.log(err);
+    if (toggleTarget === "admin") {
+      try {
+        // eslint-disable-next-line
+        await toggleAdmin({
+          variables: {
+            employeeId: employeeId,
+            isAdmin: toggle, // NOT A NECESSARY VARIABLE SINCE THE SERVER CHANGES THE STATE
+          },
+        });
+  
+        // RELOAD EMPLOYEE
+        empRefetch();
+
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      console.log('not admin')
+      try {
+        // eslint-disable-next-line
+        await toggleLocked({
+          variables: {
+            employeeId: employeeId,
+            isLocked: toggle, // NOT A NECESSARY VARIABLE SINCE THE SERVER CHANGES THE STATE
+          },
+        });
+  
+        // RELOAD EMPLOYEE
+        empRefetch();
+
+      } catch (err) {
+        console.log(err);
+      }
     }
-   
   };
 
   return (
-    <>
-      <Container>
-        <Row style={{ display: "flex", justifyContent: "center" }}>
-          {emp?.employees?.map((emp, index) => (
-            <div id="accordion" key={index} style={{ width: "98%" }}>
-              <div className="card p-2 mb-1">
-                <div
-                  className="rounded directions-collapse"
-                  id="headingOne"
-                  style={{
-                    color: "black",
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <h5 className="mb-0 text-left">
-                    <button
-                      onClick={(event) => getElement(event)}
-                      aria-controls={`#collapse-client-${index}`}
-                      aria-expanded={openDetails}
-                      className="btn btn-link pl-1"
-                      data-target={`#collapse-client-${index}`}
-                    >
-                      {emp?.firstName} {emp?.lastName}
-                    </button>
-                  </h5>
-                  <div className="d-flex mr-2">
-                    <FontAwesomeIcon
-                      icon="fa-trash"
-                      className="p-2 fa-lg"
-                      data-clientid={emp?._id}
-                      data-target={`#collapse-client-${index}`}
-                      onClick={(event) => {
-                        handleDeleteEmployee(event);
-                      }}
-                    />
-                  </div>
+    <Container>
+      <Row style={{ display: "flex", justifyContent: "center" }}>
+        {emp?.employees?.map((emp, index) => (
+          <div id="accordion" key={index} style={{ width: "98%" }}>
+            <div className="card p-2 mb-1">
+              <div
+                className="rounded directions-collapse"
+                id="headingOne"
+                style={{
+                  color: "black",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <h5 className="mb-0 text-left">
+                  <button
+                    onClick={(event) => getElement(event)}
+                    aria-controls={`#collapse-client-${index}`}
+                    aria-expanded={openDetails}
+                    className="btn btn-link pl-1"
+                    data-target={`#collapse-client-${index}`}
+                  >
+                    {emp?.firstName} {emp?.lastName}
+                  </button>
+                </h5>
+                <div className="d-flex mr-2">
+                  <FontAwesomeIcon
+                    icon="fa-trash"
+                    className="p-2 fa-lg"
+                    data-clientid={emp?._id}
+                    data-target={`#collapse-client-${index}`}
+                    onClick={(event) => {
+                      handleDeleteEmployee(event);
+                    }}
+                  />
                 </div>
-                <Collapse>
-                  <div id={`#collapse-client-${index}`}>
-                    <Container fluid="md">
-                      <Row>
-                        <Col>
-                          <Row>
-                            Admin:{" "}
-                            <Form.Check
-                              type="switch"
-                              id={`custom-check-${index}`}
-                              data-clientid={emp?._id}
-                              defaultChecked={emp.isAdmin}
-                              defaultValue={emp.isAdmin}
-                              onClick={(event) =>
-                                handleToggle(event)
-                              }
-                              style={{ marginLeft: "5px" }}
-                            ></Form.Check>
-                          </Row>
-                        </Col>
-                        <Col>
-                          <a href={`mailto:${emp?.email}`}> {emp?.email}</a>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>Locked: {emp?.isLocked ? "True" : "False"}</Col>
-                        <Col>
-                          <a href={`tel:+${emp?.phone}`}> {emp?.phone}</a>
-                        </Col>
-                      </Row>
-                    </Container>
-                  </div>
-                </Collapse>
               </div>
+              <Collapse>
+                <div id={`#collapse-client-${index}`}>
+                  <Container fluid="md">
+                    <Row>
+                      <Col>
+                        <Row className="ml-3" >
+                          <h5 style={{ width: "75px" }}>Admin: </h5>
+                          <Form.Check
+                            type="switch"
+                            name="admin"
+                            id={`custom-admin-${index}`}
+                            data-employeeid={emp?._id}
+                            defaultChecked={emp.isAdmin}
+                            defaultValue={emp.isAdmin}
+                            onClick={(event) => handleToggle(event)}
+                            className="ml-4"                          
+                            style={{ transform: "scale(1.1)" }}
+                          ></Form.Check>
+                        </Row>
+                      </Col>
+                      <Col>
+                        <a href={`mailto:${emp?.email}`}> {emp?.email}</a>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Row className="ml-3">
+                          <h5 style={{ width: "75px" }}>Locked: </h5>
+                          <Form.Check
+                            type="switch"
+                            name="locked"
+                            id={`custom-locked-${index}`}
+                            data-employeeid={emp?._id}
+                            defaultChecked={emp.isLocked}
+                            defaultValue={emp.isLocked}
+                            onClick={(event) => handleToggle(event)}
+                            className="ml-4"                          
+                            style={{ transform: "scale(1.1)" }}
+                          ></Form.Check>
+                        </Row>
+                      </Col>
+                      <Col>
+                        <a href={`tel:+${emp?.phone}`}> {emp?.phone}</a>
+                      </Col>
+                    </Row>
+                  </Container>
+                </div>
+              </Collapse>
             </div>
-          ))}
-        </Row>
-      </Container>
-    </>
+          </div>
+        ))}
+      </Row>
+    </Container>
   );
 }
 export default Employees;
-
-const isDisplayed = {
-  display: "block",
-  color: "#017AFD",
-  marginTop: "-5px",
-};
-
-const isNotDisplayed = {
-  display: "none",
-  color: "#017AFD",
-  marginTop: "-5px",
-};
