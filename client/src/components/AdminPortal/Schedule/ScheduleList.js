@@ -4,6 +4,12 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_SCHEDULE } from "../../../utils/queries";
 import { DELETE_SCHEDULE } from "../../../utils/mutations";
 
+import {
+  format_date_string,
+  format_date_MMDDYYYY,
+} from "../../../utils/dateFormat";
+import { format_date_YYYYDDMM } from "../../../utils/dateFormat";
+
 import { Row, Col, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,12 +31,14 @@ function ScheduleList() {
     // eslint-disable-next-line
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
+  console.log(schedule);
 
   // SECTION DELETE
   const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
 
-  const handledeleteSchedule = async (event) => {
+  const handleDeleteSchedule = async (event) => {
     let scheduleId = event.currentTarget.getAttribute("data-scheduleid");
+    console.log(scheduleId);
     try {
       // eslint-disable-next-line
       await deleteSchedule({
@@ -41,7 +49,6 @@ function ScheduleList() {
 
       // RELOAD SCHEDULE
       scheduleRefetch();
-
     } catch (err) {
       console.log(err);
     }
@@ -87,11 +94,11 @@ function ScheduleList() {
                   >
                     <p className="mb-0 text-left">
 
-                    {job?.client?.businessName} 
+                    {job?.client?.businessName}
                     </p>
                     <p className="mb-0 text-left">
 
-                    {job?.startDate}
+                    {format_date_MMDDYYYY(job?.startDate)}
                     </p>
                   </button>
                 </h5>
@@ -101,7 +108,7 @@ function ScheduleList() {
                     className="p-2 fa-lg"
                     data-scheduleid={job?._id}
                     onClick={(event) => {
-                      handledeleteSchedule(event);
+                      handleDeleteSchedule(event);
                     }}
                   />
                 </div>
@@ -114,18 +121,18 @@ function ScheduleList() {
                       <Col> <a href={`mailto:${job?.client?.email}`}> {job?.client?.email}</a> </Col>
                     </Row>
                     <Row>
-                      <Col>{job?.client?.streetAddress}{job?.client?.suite && `, ${job?.client?.suite}`}</Col>
+                      <Col>{job?.streetAddress}{job?.suite && `, ${job?.suite}`}</Col>
                       <Col> <a href={`tel:+${job?.client?.phone}`}> {job?.client?.phone}</a> </Col>
                     </Row>
                     <Row>
-                      <Col>{job?.client?.city}, {job?.client?.state} {job?.client?.zip}</Col>
-                      <Col>Start: {job?.startDate}</Col>
+                      <Col>{job?.city}, {job?.state} {job?.zip}</Col>
+                      <Col>Start: {format_date_MMDDYYYY(job?.startDate)}</Col>
                     </Row>
                     <Row>
                       <Col>
                         Client Size: {job?.numberOfClientEmployees}
                       </Col>
-                      <Col>End: {job?.endDate}</Col>
+                      <Col>End: {format_date_MMDDYYYY(job?.endDate)}</Col>
                     </Row>
                     <Row>
                       <Col>Job Details: {job?.jobDetails}</Col>
@@ -133,9 +140,9 @@ function ScheduleList() {
                     <Row>
                       {/* <hr></hr> */}
                       <h6 className="mx-3 mt-2" style={{ textDecoration: "underline" }}>EMPLOYEES</h6>
-                      <section key={index} className="d-flex flex-row" style={{ width: "100%" }}>
+                      <section className="d-flex flex-row" style={{ width: "100%" }}>
                         {job?.employees?.map((employee, index) => (
-                          <article className="">
+                          <article key={index} className="">
                             <p className="ml-3 mb-0"> {employee?.firstName} {employee?.lastName}</p>
                             <p className="ml-3 mb-0"> <a href={`mailto:${employee?.email}`}> {employee?.email}</a></p>
                             <p className="ml-3 mb-0"> <a href={`tel:+${employee?.phone}`}> {employee?.phone}</a></p>

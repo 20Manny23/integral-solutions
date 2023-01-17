@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Auth from "../../../utils/auth";
 
-import { useNavigate } from "react-router-dom"; // section
+// import { useNavigate } from "react-router-dom"; // section
 
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import {
@@ -16,7 +16,7 @@ import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
 function EmployeeUpdate() {
-  const navigate = useNavigate();  // section
+  // const navigate = useNavigate();  // section
 
   const [prevEmployeeData, setPrevEmployeeData] = useState({});
 
@@ -106,12 +106,12 @@ function EmployeeUpdate() {
   const [updateEmployee] = useMutation(UPDATE_EMPLOYEE_FORM);
 
   useEffect(() => {
-    // console.log(
-    //   "current id = ",
-    //   currentEmployeeId,
-    //   "current input = ",
-    //   currentInput
-    // );
+    console.log(
+      "current id = ",
+      currentEmployeeId,
+      "current input = ",
+      currentInput
+    );
 
     if (currentEmployeeId && currentInput) {
       handleGetEditEmployee();
@@ -123,7 +123,7 @@ function EmployeeUpdate() {
   // call a function to get the single current employee
   const handleGetEditEmployee = async () => {
     let getEmployee = await getASingleEmployee();
-    // console.log("getEmployee = ", getEmployee.data);
+    console.log("getEmployee = ", getEmployee.data);
     // setPrevEmployeeData(getEmployee) This was causing the double click error;
   // };
 
@@ -138,20 +138,27 @@ function EmployeeUpdate() {
     //   return;
     // }
 
+    console.log('all input = ',
+      currentInput.firstName,
+      currentInput.lastName,
+      currentInput.email,
+      currentInput.phone
+    )
+
     try {
       await updateEmployee({
         variables: {
           id: currentEmployeeId,
-          firstName: currentInput?.firstName
+          firstName: currentInput.firstName
             ? currentInput.firstName
             : getEmployee.data.employeeById.firstName,
-          lastName: currentInput?.lastName
+          lastName: currentInput.lastName
             ? currentInput.lastName
             : getEmployee.data.employeeById.lastName,
-          email: currentInput?.email
+          email: currentInput.email
             ? currentInput.email
             : getEmployee.data.employeeById.email,
-          phone: currentInput?.phone
+          phone: currentInput.phone
             ? currentInput.phone
             : getEmployee.data.employeeById.phone,
         },
@@ -193,7 +200,7 @@ function EmployeeUpdate() {
   async function employeeEmailSelect(event) {
     if(currentEmployee){
 
-      // navigate("/home"); 
+      // navigate("/employees"); // section
       window.location.reload();
     }
    
@@ -238,6 +245,7 @@ function EmployeeUpdate() {
             isLocked,
           });
           resetForm();
+
 
           window.location.reload();
           // navigate("/home"); //section

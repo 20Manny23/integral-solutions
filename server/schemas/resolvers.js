@@ -55,6 +55,7 @@ const resolvers = {
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
+
     events: async (parent, args, context) => {
       // if (context.user) {
       return Event.find();
@@ -465,7 +466,7 @@ const resolvers = {
         schedule
       );
       return Employee.findOneAndUpdate(
-        { email },
+        { _id },
         {
           email,
           password,
@@ -504,7 +505,7 @@ const resolvers = {
         phone,
       );
       return Employee.findOneAndUpdate(
-        { email },
+        { _id },
         {
           firstName,
           lastName,
@@ -628,9 +629,9 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    deleteSchedule: async (parent, { scheduleId }, context) => {
+    deleteSchedule: async (parent, { _id }, context) => {
       // if (context.user) {
-      return Schedule.findOneAndDelete({ scheduleId });
+      return Schedule.findOneAndDelete({ _id });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
