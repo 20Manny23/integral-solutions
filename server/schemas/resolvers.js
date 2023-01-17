@@ -55,6 +55,7 @@ const resolvers = {
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
+    
     events: async (parent, args, context) => {
       // if (context.user) {
       return Event.find();

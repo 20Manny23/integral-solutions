@@ -1,6 +1,8 @@
 const moment = require("moment");
 
 const format_date_string = (date, time) => {
+  // FROM: "01/19/2023" & Time similar to "09:00 AM"
+  // TO: January 29 2023 09:00:00 (MST)
   const dateAndTime = date + " " + time;
   const tempdate = moment(dateAndTime).format("MMMM DD YYYY hh:mm:ss");
   const stringDateFormat = tempdate + " (MST)";

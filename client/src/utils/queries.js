@@ -224,6 +224,12 @@ export const QUERY_SCHEDULE = gql`
         suite
         zip
       }
+      suite
+      streetAddress
+      city
+      state
+      zip
+      squareFeet
     }
   }
 `;
