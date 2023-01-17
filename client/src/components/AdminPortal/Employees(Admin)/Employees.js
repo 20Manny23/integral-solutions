@@ -30,16 +30,17 @@ function Employees() {
   const [deleteEmployee] = useMutation(DELETE_EMPLOYEE);
 
   const handleDeleteEmployee = async (event) => {
-    let clientId = event.currentTarget.getAttribute("data-clientid");
+    let employeeId = event.currentTarget.getAttribute("data-clientid");
+    
     try {
       // eslint-disable-next-line
       await deleteEmployee({
         variables: {
-          id: clientId,
+          id: employeeId,
         },
       });
 
-      // RELOAD CLIENT
+      // RELOAD employee
       empRefetch();
     } catch (err) {
       console.log(err);
