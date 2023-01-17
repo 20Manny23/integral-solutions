@@ -102,12 +102,12 @@ function EmployeeUpdate() {
   const [updateEmployee] = useMutation(UPDATE_EMPLOYEE_FORM);
 
   useEffect(() => {
-    console.log(
-      "current id = ",
-      currentEmployeeId,
-      "current input = ",
-      currentInput
-    );
+    // console.log(
+    //   "current id = ",
+    //   currentEmployeeId,
+    //   "current input = ",
+    //   currentInput
+    // );
 
     if (currentEmployeeId && currentInput) {
       handleGetEditEmployee();
@@ -119,7 +119,7 @@ function EmployeeUpdate() {
   // call a function to get the single current employee
   const handleGetEditEmployee = async () => {
     let getEmployee = await getASingleEmployee();
-    console.log("getEmployee = ", getEmployee.data);
+    // console.log("getEmployee = ", getEmployee.data);
     // setPrevEmployeeData(getEmployee) This was causing the double click error;
   // };
 
@@ -127,6 +127,7 @@ function EmployeeUpdate() {
   // useEffect(() => {
     console.log(prevEmployeeData);
     console.log(Object.keys(prevEmployeeData).length === 0);
+    console.log(currentEmployee)
 
   //   // since useEffect will run on load, check if prevEmployeeData is empty
     // if (Object.keys(prevEmployeeData).length === 0) {
@@ -150,11 +151,12 @@ function EmployeeUpdate() {
             ? currentInput.phone
             : getEmployee.data.employeeById.phone,
         },
+        
       });
     } catch (err) {
       console.log(err);
     }
-
+   
     empRefetch();
 
     resetForm();
@@ -185,6 +187,10 @@ function EmployeeUpdate() {
 
   //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
   async function employeeEmailSelect(event) {
+    if(currentEmployee){
+      window.location.reload();
+    }
+   
     let employeeId =
       event.target.options[event.target.selectedIndex].dataset.id;
     setCurrentEmployeeId(employeeId);
@@ -201,9 +207,11 @@ function EmployeeUpdate() {
 
     setPrevEmployeeData(currentEmployeeData.data.employeeById);
 
-    console.log(prevEmployeeData.email);
+    console.log(prevEmployeeData?.email + "hi there");
+    resetForm();
+   
   }
-
+// console.log(currentInput)
   return (
     <Container>
       <Form
@@ -223,6 +231,8 @@ function EmployeeUpdate() {
             isAdmin,
             isLocked,
           });
+          resetForm();
+          // window.location.reload();
         }}
       >
         <div id="example-collapse-text">
@@ -250,7 +260,7 @@ function EmployeeUpdate() {
                 {firstName ? `${firstName} ${lastName}` : "Select"}
               </option>
               {emp?.employees?.map((emp, index) => (
-                <option key={index} value={emp.email} data-id={emp._id}>
+                <option key={index} value={[emp.email, emp.firtsName, emp.lastName, emp.phone]} data-id={emp._id}>
                   {`${emp.firstName} ${emp.lastName}`}
                 </option>
               ))}
@@ -321,12 +331,14 @@ function EmployeeUpdate() {
               </Form.Label>
             </div>
             <Form.Control
+            
               className="custom-border"
               type="tel"
               placeholder="example: 123-456-7899"
               name="phone"
+              plaintext="false"
               defaultValue={prevEmployeeData?.phone}
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
