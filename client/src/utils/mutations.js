@@ -72,7 +72,7 @@ export const UPDATE_EMPLOYEE = gql`
 `;
 
 export const UPDATE_EMPLOYEE_FORM = gql`
-  mutation UpdateEmployeeForm(
+  mutation updateEmployeeForm(
     $id: ID
     $firstName: String
     $lastName: String

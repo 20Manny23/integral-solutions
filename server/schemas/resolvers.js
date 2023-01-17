@@ -505,7 +505,7 @@ const resolvers = {
         phone,
       );
       return Employee.findOneAndUpdate(
-        { email },
+        { _id },
         {
           firstName,
           lastName,
@@ -631,9 +631,6 @@ const resolvers = {
 
     deleteSchedule: async (parent, { _id }, context) => {
       // if (context.user) {
-      console.log('hello');
-      console.log('id = ', _id);
-
       return Schedule.findOneAndDelete({ _id });
       // }
       // throw new AuthenticationError("You need to be logged in!");
