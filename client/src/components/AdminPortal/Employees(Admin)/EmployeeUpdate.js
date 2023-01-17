@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Auth from "../../../utils/auth";
 
+import { useNavigate } from "react-router-dom"; // section
+
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import {
   QUERY_ALL_EMPLOYEES,
@@ -14,6 +16,8 @@ import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
 function EmployeeUpdate() {
+  const navigate = useNavigate();  // section
+
   const [prevEmployeeData, setPrevEmployeeData] = useState({});
 
   //Get Employee Form Data
@@ -188,7 +192,9 @@ function EmployeeUpdate() {
   //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
   async function employeeEmailSelect(event) {
     if(currentEmployee){
-      window.location.reload();
+
+      navigate("/employees"); // section
+      // window.location.reload();
     }
    
     let employeeId =
@@ -232,7 +238,9 @@ function EmployeeUpdate() {
             isLocked,
           });
           resetForm();
+
           // window.location.reload();
+          navigate("/home"); //section
         }}
       >
         <div id="example-collapse-text">

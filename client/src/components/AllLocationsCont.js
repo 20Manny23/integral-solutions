@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // section
 import { useQuery } from "@apollo/client";
 import { QUERY_LOCATIONS } from "../utils/queries";
 import { Row, Col, Card, ListGroup } from "react-bootstrap/";
