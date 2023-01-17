@@ -96,14 +96,14 @@ export const UPDATE_EMPLOYEE_FORM = gql`
 `;
 
 export const TOGGLE_ADMIN = gql`
-  mutation toggleAdmin($employeeId: ID!) {
-    toggleAdmin(employeeId: $employeeId) {
+  mutation toggleAdmin($employeeId: ID! $isAdmin:Boolean) {
+    toggleAdmin(employeeId: $employeeId isAdmin: $isAdmin) {
       # message
       employee {
         _id
         # username
         isAdmin
-        isLocked
+        # isLocked
       }
     }
   }
