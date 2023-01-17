@@ -373,6 +373,10 @@ function ScheduleUpdate() {
 
   //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
   async function scheduleSelect(event) {
+
+    if(currentScheduleId){
+      window.location.reload();
+    }
     let scheduleId =
       event.target.options[event.target.selectedIndex].dataset.id;
     setCurrentScheduleId(scheduleId);
@@ -527,6 +531,7 @@ function ScheduleUpdate() {
             client,
             employees,
           });
+          window.location.reload();
         }}
       >
         <Form.Group className="form-length">
@@ -629,7 +634,7 @@ function ScheduleUpdate() {
             />
           </Col>
           <Col xs={5}>
-            <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
+            <Form.Label style={{ fontWeight: "bolder", marginTop:'15px' }}>State</Form.Label>
             <Form.Label
               className={`validation-color ${
                 showStateValidation ? "show" : "hide"
@@ -656,7 +661,7 @@ function ScheduleUpdate() {
             </Form.Control>
           </Col>
           <Col>
-            <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>
+            <Form.Label style={{ fontWeight: "bolder", marginTop:'15px' }}>Zipcode</Form.Label>
             <Form.Label
               className={`validation-color ${
                 showZipValidation ? "show" : "hide"

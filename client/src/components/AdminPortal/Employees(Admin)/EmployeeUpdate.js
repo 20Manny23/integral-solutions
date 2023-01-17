@@ -201,7 +201,7 @@ function EmployeeUpdate() {
     if(currentEmployee){
 
       // navigate("/employees"); // section
-      // window.location.reload();
+      window.location.reload();
     }
    
     let employeeId =
@@ -246,7 +246,8 @@ function EmployeeUpdate() {
           });
           resetForm();
 
-          // window.location.reload();
+
+          window.location.reload();
           // navigate("/home"); //section
         }}
       >
