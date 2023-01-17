@@ -107,17 +107,14 @@ export const TOGGLE_ADMIN = gql`
 `;
 
 export const TOGGLE_LOCKED = gql`
-  mutation toggleLocked($employeeId: ID!) {
-    toggleLocked(employeeId: $employeeId) {
-      # message
-      employee {
-        _id
-        # username
-        isAdmin
-        isLocked
-      }
+mutation ToggleLocked($employeeId: ID!) {
+  toggleLocked(employeeId: $employeeId) {
+    employee {
+      _id
+      isLocked
     }
   }
+}
 `;
 
 export const ADD_EMPLOYEE = gql`

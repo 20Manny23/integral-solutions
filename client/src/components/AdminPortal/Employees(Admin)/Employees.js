@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
-import { DELETE_EMPLOYEE, TOGGLE_ADMIN } from "../../../utils/mutations";
+import { DELETE_EMPLOYEE, TOGGLE_ADMIN, TOGGLE_LOCKED } from "../../../utils/mutations";
 
 import { Row, Col, Container, Form } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
@@ -12,8 +12,6 @@ import "../../../styles/button-style.css";
 
 function Employees() {
   const [openDetails, setOpenDetails] = useState(false);
-  const [adminToggle, setAdminToggle] = useState(true);
-  const [lockedToggle, setLockedToggle] = useState(false);
 
   //SECTION GET ALL EMPLOYEES
   // eslint-disable-next-line
@@ -24,7 +22,9 @@ function Employees() {
     refetch: empRefetch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
 
-  console.log(emp);
+  // toggle isAmin mutation
+  const [toggleAdmin] = useMutation(TOGGLE_ADMIN);
+  const [toggleLocked] = useMutation(TOGGLE_LOCKED);
 
   // SECTION DELETE
   const [deleteEmployee] = useMutation(DELETE_EMPLOYEE);
@@ -62,34 +62,48 @@ function Employees() {
     }
   };
 
-  // SECTION Handle Toggle Update
-  const [toggleAdmin] = useMutation(TOGGLE_ADMIN);
+  // SECTION HANDLE TOGGLE UPDATE
   const handleToggle = async (event) => {
-    let employeeId = event.currentTarget.getAttribute("data-clientid");
+    let employeeId = event.currentTarget.getAttribute("data-employeeid");
+    let toggleTarget = event.currentTarget.name;
+
+    console.log(event.currentTarget);
+    console.log(event.currentTarget.name);
 
     let toggle;
     event.currentTarget.defaultValue === "true" ? toggle = false : toggle = true;
 
-    // if (event.currentTarget.defaultValue === "true") {
-    //   toggle = false;
-    // } else {
-    //   toggle = true;
-    // }
-    // console.log(toggle);
-
-    try {
-      // eslint-disable-next-line
-      await toggleAdmin({
-        variables: {
-          employeeId: employeeId,
-          isAdmin: toggle,
-        },
-      });
-
-      // RELOAD CLIENT
-      empRefetch();
-    } catch (err) {
-      console.log(err);
+    if (toggleTarget === "admin") {
+      try {
+        // eslint-disable-next-line
+        await toggleAdmin({
+          variables: {
+            employeeId: employeeId,
+            isAdmin: toggle,
+          },
+        });
+  
+        // RELOAD CLIENT
+        empRefetch();
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      console.log('not admin')
+      try {
+        // eslint-disable-next-line
+        await toggleLocked({
+          variables: {
+            employeeId: employeeId,
+            isLocked: toggle,
+          },
+        });
+  
+        // RELOAD CLIENT
+        empRefetch();
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -140,8 +154,9 @@ function Employees() {
                           <h5 style={{ width: "75px" }}>Admin: </h5>
                           <Form.Check
                             type="switch"
-                            id={`custom-check-${index}`}
-                            data-clientid={emp?._id}
+                            name="admin"
+                            id={`custom-admin-${index}`}
+                            data-employeeid={emp?._id}
                             defaultChecked={emp.isAdmin}
                             defaultValue={emp.isAdmin}
                             onClick={(event) => handleToggle(event)}
@@ -158,16 +173,17 @@ function Employees() {
                       <Col>
                         <Row className="ml-3">
                           <h5 style={{ width: "75px" }}>Locked: </h5>
-                          {/* <Form.Check
+                          <Form.Check
                             type="switch"
-                            id={`custom-check-${index}`}
-                            data-clientid={emp?._id}
-                            defaultChecked={emp.isAdmin}
-                            defaultValue={emp.isAdmin}
+                            name="locked"
+                            id={`custom-locked-${index}`}
+                            data-employeeid={emp?._id}
+                            defaultChecked={emp.isLocked}
+                            defaultValue={emp.isLocked}
                             onClick={(event) => handleToggle(event)}
                             className="ml-4"                          
                             style={{ transform: "scale(1.1)" }}
-                          ></Form.Check> */}
+                          ></Form.Check>
                         </Row>
                       </Col>
                       <Col>
