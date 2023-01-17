@@ -12,7 +12,9 @@ import {
   UPDATE_EMPLOYEE_SCHEDULE,
 } from "../../../utils/mutations";
 
-import format_date_string from "../../../utils/dateFormat";
+import {
+  format_date_string
+} from "../../../utils/dateFormat";
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
