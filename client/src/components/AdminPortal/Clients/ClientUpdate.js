@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Auth from "../../../utils/auth";
-
+import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { QUERY_ALL_CLIENTS, QUERY_SINGLE_CLIENT } from "../../../utils/queries";
 import { UPDATE_CLIENT } from "../../../utils/mutations";
@@ -12,6 +12,7 @@ import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
 function ClientUpdate() {
+  const navigate = useNavigate();
   const [prevClientData, setPrevClientData] = useState({});
 
   // GET CLIENT FORM DATA
@@ -91,7 +92,7 @@ function ClientUpdate() {
       ? setState(value)
       : setZip(value);
 
-    console.log("email = ", emailClient);
+    // console.log("email = ", emailClient);
 
     return name;
   };
@@ -152,7 +153,7 @@ function ClientUpdate() {
 
   const handleEditClientSubmit = async () => {
     let test = await getASingleClient();
-    console.log("test = ", test);
+    // console.log("test = ", test);
 
     // Update current client data
     try {
@@ -246,21 +247,25 @@ function ClientUpdate() {
     state,
     zip,
   ]);
-
+  console.log(currentClient)
   //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
   async function businessNameSelect(event) {
+    console.log(currentClientId)
+    if (currentClientId){
+      window.location.reload();
+    }
     let clientId = event.target.options[event.target.selectedIndex].dataset.id;
     setCurrentClientId(clientId);
     // setIsDisabled(false);
 
-    console.log(event.target.value, clientId);
+    // console.log(event.target.value, clientId);
 
     // setBusinessName(event.target.value);
 
     //await query single client
     let currentClientData = await getASingleClient();
 
-    console.log('currentClient = ', currentClientData.data.client);
+    // console.log('currentClient = ', currentClientData.data.client);
     // setCurrentClient(currentClientData.data.client);
     
     // if (!lazyLoading) {
@@ -271,7 +276,7 @@ function ClientUpdate() {
   }
 
   useEffect(() => {
-    console.log('useeffect')
+    // console.log('useeffect')
   }, [getASingleClient])
   
 
@@ -296,6 +301,7 @@ function ClientUpdate() {
             city,
             zip,
           });
+          window.location.reload();
         }}
       >
         <div id="example-collapse-text">
