@@ -21,6 +21,7 @@ const resolvers = {
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
+
     user: async (parent, { userId }, context) => {
       if (context.user) {
         return User.findOne({ _id: userId });
@@ -535,7 +536,13 @@ const resolvers = {
     // toggleAdmin mutation that returns a success/fail message
     toggleAdmin: async (parent, { employeeId }) => {
       let message = "No such user exists";
+
+      console.log('employee id = ', employeeId)
+      
       const employee = await Employee.findById(employeeId);
+
+      console.log('employee = ', employee);
+
       if (employee) {
         try {
           employee.isAdmin = !employee.isAdmin;
@@ -549,6 +556,7 @@ const resolvers = {
       }
       return { message, employee };
     },
+
     // toggleLocked mutation that returns a success/fail message
     toggleLocked: async (parent, { employeeId }) => {
       let message = "No such employee exists";
