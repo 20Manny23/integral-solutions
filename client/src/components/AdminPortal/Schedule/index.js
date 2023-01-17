@@ -8,7 +8,7 @@ import ScheduleUpdate from "./ScheduleUpdate";
 function ScheduleList() {
   return (
     <Tabs
-      defaultActiveKey="employeeList"
+      defaultActiveKey="scheduleList"
       id="fill-tab-example"
       className="mb-3"
       fill

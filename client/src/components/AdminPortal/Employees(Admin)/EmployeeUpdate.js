@@ -193,8 +193,8 @@ function EmployeeUpdate() {
   async function employeeEmailSelect(event) {
     if(currentEmployee){
 
-      navigate("/employees"); // section
-      // window.location.reload();
+      // navigate("/home"); 
+      window.location.reload();
     }
    
     let employeeId =
@@ -239,8 +239,8 @@ function EmployeeUpdate() {
           });
           resetForm();
 
-          // window.location.reload();
-          navigate("/home"); //section
+          window.location.reload();
+          // navigate("/home"); //section
         }}
       >
         <div id="example-collapse-text">

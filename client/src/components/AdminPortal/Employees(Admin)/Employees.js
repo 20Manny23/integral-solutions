@@ -14,6 +14,8 @@ import "../../../styles/button-style.css";
 
 function Employees() {
   const [openDetails, setOpenDetails] = useState(false);
+   const [adminToggle, setAdminToggle] = useState(true);
+    const [lockedToggle, setLockedToggle] = useState(false);
 
   //SECTION GET ALL EMPLOYEES
   // eslint-disable-next-line
@@ -60,6 +62,17 @@ function Employees() {
       setOpenDetails(true);
     }
   };
+  const handleToggle = (toggle) => {
+    toggle === "admin"
+      ? setAdminToggle(!adminToggle)
+      : setLockedToggle(!lockedToggle);
+
+    // if (showHidePassword === "password") {
+    //   setShowHidePassword("test");
+    // } else {
+    //   setShowHidePassword("password");
+    // }
+  };
 
   return (
     <>
@@ -103,7 +116,21 @@ function Employees() {
                   <div id={`#collapse-client-${index}`}>
                     <Container fluid="md">
                       <Row>
-                      <Col>Admin: {emp?.isAdmin ? "True" : "False"}</Col>
+                      <Col>Admin: {emp?.isAdmin ?   <FontAwesomeIcon
+                      icon="fa-toggle-on"
+                      className="p-2"
+                      // onClick={() => console.log("toggle-on")}
+                      onClick={() => handleToggle("admin")}
+                      style={adminToggle ? isDisplayed : isNotDisplayed}
+                    />
+              
+  
+                       :       <FontAwesomeIcon
+                       icon="fa-toggle-off"
+                       className="p-2"
+                       onClick={() => handleToggle("admin")}
+                       style={!adminToggle ? isDisplayed : isNotDisplayed}
+                     />}</Col>
                       <Col><a href= {`mailto:${emp?.email}`}> {emp?.email}</a></Col>
                       </Row>
                       <Row>
@@ -122,3 +149,11 @@ function Employees() {
   );
 }
 export default Employees;
+
+const isDisplayed = {
+  display: "block",
+};
+
+const isNotDisplayed = {
+  display: "none",
+};
