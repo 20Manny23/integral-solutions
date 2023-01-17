@@ -8,7 +8,7 @@
     "lastName": "Bayliss",
     "phone": "970-867-5309",
     "isManager": "true",
-    "isAdmin": true,
+    "isAdmin": false,
     "isLocked": false,
     "schedule": [
       "423233343536373839303132"

@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
-import {
-  QUERY_ALL_EMPLOYEES,
-} from "../../../utils/queries";
-import { DELETE_EMPLOYEE } from "../../../utils/mutations";
+import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
+import { DELETE_EMPLOYEE, TOGGLE_ADMIN } from "../../../utils/mutations";
 
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container, Form } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/Contact.css";
@@ -14,8 +12,8 @@ import "../../../styles/button-style.css";
 
 function Employees() {
   const [openDetails, setOpenDetails] = useState(false);
-   const [adminToggle, setAdminToggle] = useState(true);
-    const [lockedToggle, setLockedToggle] = useState(false);
+  const [adminToggle, setAdminToggle] = useState(true);
+  const [lockedToggle, setLockedToggle] = useState(false);
 
   //SECTION GET ALL EMPLOYEES
   // eslint-disable-next-line
@@ -62,16 +60,29 @@ function Employees() {
       setOpenDetails(true);
     }
   };
-  const handleToggle = (toggle) => {
-    toggle === "admin"
-      ? setAdminToggle(!adminToggle)
-      : setLockedToggle(!lockedToggle);
 
-    // if (showHidePassword === "password") {
-    //   setShowHidePassword("test");
-    // } else {
-    //   setShowHidePassword("password");
-    // }
+  //Handle Toggle Update 
+
+  const [toggleAdmin] = useMutation(TOGGLE_ADMIN);
+  const handleToggle  = async (event) => {
+    console.log(emp.isAdmin)
+    
+    let clientId = event.currentTarget.getAttribute("data-clientid");
+    try {
+      // eslint-disable-next-line
+      await toggleAdmin({
+        variables: {
+          id: clientId,
+          
+        },
+      });
+
+      // RELOAD CLIENT
+      empRefetch();
+    } catch (err) {
+      console.log(err);
+    }
+   
   };
 
   return (
@@ -106,6 +117,7 @@ function Employees() {
                       icon="fa-trash"
                       className="p-2 fa-lg"
                       data-clientid={emp?._id}
+                      data-target={`#collapse-client-${index}`}
                       onClick={(event) => {
                         handleDeleteEmployee(event);
                       }}
@@ -116,26 +128,30 @@ function Employees() {
                   <div id={`#collapse-client-${index}`}>
                     <Container fluid="md">
                       <Row>
-                      <Col>Admin: {emp?.isAdmin ?   <FontAwesomeIcon
-                      icon="fa-toggle-on"
-                      className="p-2"
-                      // onClick={() => console.log("toggle-on")}
-                      onClick={() => handleToggle("admin")}
-                      style={adminToggle ? isDisplayed : isNotDisplayed}
-                    />
-              
-  
-                       :       <FontAwesomeIcon
-                       icon="fa-toggle-off"
-                       className="p-2"
-                       onClick={() => handleToggle("admin")}
-                       style={!adminToggle ? isDisplayed : isNotDisplayed}
-                     />}</Col>
-                      <Col><a href= {`mailto:${emp?.email}`}> {emp?.email}</a></Col>
+                        <Col>
+                          <Row>
+                            Admin:{" "}
+                            <Form.Check
+                              type="switch"
+                              id={`custom-check-${index}`}
+                              data-clientid={emp?._id}
+                              defaultChecked={emp.isAdmin}
+                              onClick={(event) =>
+                                handleToggle(event)
+                              }
+                              style={{ marginLeft: "5px" }}
+                            ></Form.Check>
+                          </Row>
+                        </Col>
+                        <Col>
+                          <a href={`mailto:${emp?.email}`}> {emp?.email}</a>
+                        </Col>
                       </Row>
                       <Row>
-                      <Col>Locked: {emp?.isLocked ? "True" : "False"}</Col>
-                        <Col><a href= {`tel:+${emp?.phone}`}> {emp?.phone}</a></Col>
+                        <Col>Locked: {emp?.isLocked ? "True" : "False"}</Col>
+                        <Col>
+                          <a href={`tel:+${emp?.phone}`}> {emp?.phone}</a>
+                        </Col>
                       </Row>
                     </Container>
                   </div>
@@ -152,8 +168,12 @@ export default Employees;
 
 const isDisplayed = {
   display: "block",
+  color: "#017AFD",
+  marginTop: "-5px",
 };
 
 const isNotDisplayed = {
   display: "none",
+  color: "#017AFD",
+  marginTop: "-5px",
 };
