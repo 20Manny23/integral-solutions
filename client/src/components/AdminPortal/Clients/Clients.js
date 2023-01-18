@@ -116,12 +116,17 @@ function Clients() {
                         </a>
                       </Row>
                       <Row>
+                      <a href={`https://www.google.com/maps/dir/?api=1&destination=${client?.streetAddress},${client?.city},${client?.state},${client?.zip}&travelmode=driving`}
+                          target="_blank"
+                          rel="noreferrer">
+
                         <FontAwesomeIcon
                           icon="fa-solid fa-location-dot"
                           style={{ marginTop: "4px", marginRight: "5px" }}
                         />
                         {client?.streetAddress} <br></br>
                         {client?.city} {client?.state} {client?.zip}
+                        </a>
                       </Row>
                     </Container>
                   </div>

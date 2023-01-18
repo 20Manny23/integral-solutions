@@ -76,13 +76,26 @@ function Employees() {
                   <Collapse in={open}>
                     <div id={`collapse-text-directions-${index}`}>
                       <div id="panel" className="card-body py-1 text-left">
+                      <Row>
+                          <span
+                            style={{ fontWeight: "bold", marginRight: "3px" }}
+                          >
+                            Contact:{" "}
+                          </span>{" "}
+                          {job?.client?.contact}
+                        </Row>
                         <Row>
+                        <a href={`https://www.google.com/maps/dir/?api=1&destination=${job?.streetAddress},${job?.city},${job?.state},${job?.zip}&travelmode=driving`}
+                          target="_blank"
+                          rel="noreferrer">
+
                           <FontAwesomeIcon
                             icon="fa-solid fa-location-dot"
                             style={{ marginTop: "4px", marginRight: "5px" }}
                           />{" "}
                           {job?.client?.streetAddress} {job?.client?.city}{" "}
                           {job?.client?.state} {job?.client?.zip}
+                          </a>
                         </Row>
                         <Row>
                           <a href={`tel:+${job?.client?.phone}`}>
