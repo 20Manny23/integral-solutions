@@ -65,6 +65,11 @@ function Employees() {
   const [showAlert, setShowAlert] = useState(false);
   const [showError, setShowError] = useState(false);
 
+
+  // set sate for tiny_url
+  const [tinyURI, setTinyURI] = useState("");
+
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
@@ -133,10 +138,40 @@ function Employees() {
 
 
   const sendEmail = (token) => {
-    const url = `http://localhost:3000/resetpassword/${token.token}`;
+    let encodedURI = "";
+    const uri = `http://localhost:3000/resetpassword/${token.token}`;
+
+    encodedURI = encodeURI(uri)
+
+        // fetch tinyURL
+        const tinyUrlApiPath = `https://api.tinyurl.com/create?api_token=${process.env.REACT_APP_TINY_URL_KEY}`; // set tinyurl api call path
+
+        postData(tinyUrlApiPath).then((data) => {
+          setTinyURI(data.data.tiny_url);
+        });
+    
     window.open(
-      `mailto:${userFormData.email}?subject=Integral Solutions Employee Password Reset&body=Hello ${employee.firstName} %0D%0A%0D%0A Click on the link below to create a new pasword: %0D%0A%0D%0A ${url} %0D%0A%0D%0A This link will expire in 15 minutes. %0D%0A%0D%0A Thank you, %0D%0A%0D%0A Integral Solutions`
+      `mailto:${userFormData.email}?subject=Integral Solutions Employee Password Reset&body=Hello ${employee.firstName} %0D%0A%0D%0A Click on the link below to create a new pasword: %0D%0A%0D%0A ${tinyURI} %0D%0A%0D%0A This link will expire in 15 minutes. %0D%0A%0D%0A Thank you, %0D%0A%0D%0A Integral Solutions`
     )
+  }
+
+  async function postData(url = "", data = {}) {
+    const response = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({
+        // url: encodedURI,
+        domain: "tiny.one",
+      }),
+    });
+    return response.json(); // parses JSON response into native JavaScript objects
   }
   // section end rods code
 
