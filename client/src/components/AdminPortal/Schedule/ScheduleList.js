@@ -93,12 +93,10 @@ function ScheduleList() {
                     data-target={`#collapse-client-${index}`}
                   >
                     <p className="mb-0 text-left">
-
-                    {job?.client?.businessName}
+                      {job?.client?.businessName}
                     </p>
                     <p className="mb-0 text-left">
-
-                    {format_date_MMDDYYYY(job?.startDate)}
+                      {format_date_MMDDYYYY(job?.startDate)}
                     </p>
                   </button>
                 </h5>
@@ -115,37 +113,84 @@ function ScheduleList() {
               </div>
               <Collapse>
                 <div id={`#collapse-client-${index}`}>
-                  <Container fluid="md">
+                  <Container fluid="auto">
+                
                     <Row>
-                      <Col>Contact: {job?.client?.contact}</Col>
-                      <Col> <a href={`mailto:${job?.client?.email}`}> {job?.client?.email}</a> </Col>
-                    </Row>
-                    <Row>
-                      <Col>{job?.streetAddress}{job?.suite && `, ${job?.suite}`}</Col>
-                      <Col> <a href={`tel:+${job?.client?.phone}`}> {job?.client?.phone}</a> </Col>
-                    </Row>
-                    <Row>
-                      <Col>{job?.city}, {job?.state} {job?.zip}</Col>
-                      <Col>Start: {format_date_MMDDYYYY(job?.startDate)}</Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        Client Size: {job?.numberOfClientEmployees}
+                    <Col xs={12} sm={6}><span style={{fontWeight:'bold'}}>
+                        Contact:</span> {job?.client?.contact}
+                        <br></br>
+                        {" "}
+                        <a href={`tel:+${job?.client?.phone}`}>
+                          <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
+                          {job?.client?.phone}
+                        </a>{" "}
+                        <br></br>
+                        {" "}
+                        <a href={`mailto:${job?.client?.email}`}>
+                          <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
+                          {job?.client?.email}
+                        </a>{" "}
+                        <br></br> <span style={{fontWeight:'bold'}}>Client Size:</span> {job?.numberOfClientEmployees}
                       </Col>
-                      <Col>End: {format_date_MMDDYYYY(job?.endDate)}</Col>
+                     
+                      <Col>
+                        <FontAwesomeIcon
+                          icon="fa-solid fa-location-dot"
+                          style={{ marginTop: "4px", marginRight: "5px" }}
+                        />
+                        {job?.streetAddress}
+                        {job?.suite && `, ${job?.suite}`}
+                        <br></br>
+                        {job?.city}, {job?.state} {job?.zip}
+                        <br></br>
+                        <span style={{fontWeight:'bold'}}>Start: </span>{format_date_MMDDYYYY(job?.startDate)}
+                        <br></br>
+                        <span style={{fontWeight:'bold'}}>End: </span> {format_date_MMDDYYYY(job?.endDate)}
+                      </Col>
+                  
+                    </Row>
+               
+                  
+                    <Row>
+                     
                     </Row>
                     <Row>
-                      <Col>Job Details: {job?.jobDetails}</Col>
+                      <Col ><span style={{fontWeight:'bold'}}>Job Details:</span> {job?.jobDetails}</Col>
                     </Row>
                     <Row>
                       {/* <hr></hr> */}
-                      <h6 className="mx-3 mt-2" style={{ textDecoration: "underline" }}>EMPLOYEES</h6>
-                      <section className="d-flex flex-row" style={{ width: "100%" }}>
+                      <h6
+                        className="mx-3 mt-2"
+                        style={{ textDecoration: "underline" }}
+                      >
+                        EMPLOYEES
+                      </h6>
+                      <section
+                        className="d-flex flex-row"
+                        style={{ width: "100%" }}
+                      >
                         {job?.employees?.map((employee, index) => (
                           <article key={index} className="">
-                            <p className="ml-3 mb-0"> {employee?.firstName} {employee?.lastName}</p>
-                            <p className="ml-3 mb-0"> <a href={`mailto:${employee?.email}`}> {employee?.email}</a></p>
-                            <p className="ml-3 mb-0"> <a href={`tel:+${employee?.phone}`}> {employee?.phone}</a></p>
+                            <p className="ml-3 mb-0">
+                              {" "}
+                              {employee?.firstName} {employee?.lastName}
+                            </p>
+                            <p className="ml-3 mb-0">
+                              {" "}
+                              <a href={`mailto:${employee?.email}`}>
+                                {" "}
+                                <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
+                                {employee?.email}
+                              </a>
+                            </p>
+                            <p className="ml-3 mb-0">
+                              {" "}
+                              <a href={`tel:+${employee?.phone}`}>
+                                {" "}
+                                <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
+                                {employee?.phone}
+                              </a>
+                            </p>
                           </article>
                         ))}
                       </section>

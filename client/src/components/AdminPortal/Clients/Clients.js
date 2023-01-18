@@ -63,7 +63,6 @@ function Clients() {
           {clients?.clients?.map((client, index) => (
             <div id="accordion" key={index} style={{ width: "98%" }}>
               <div className="card p-2 mb-1">
-              
                 <div
                   className="rounded directions-collapse"
                   id="headingOne"
@@ -93,25 +92,35 @@ function Clients() {
                         handleDeleteClient(event);
                       }}
                     />
-                    
                   </div>
                 </div>
                 <Collapse>
                   <div id={`#collapse-client-${index}`}>
                     <Container fluid="md">
                       <Row>
-                        <Col>Contact: {client?.contact}</Col>
+                        <a href={`tel:+${client?.phone}`}>
+                          <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
+                          {client?.phone}
+                        </a>
                       </Row>
+
                       <Row>
-                        <Col>{client?.streetAddress}</Col>
-                        <Col> <a href= {`tel:+${client?.phone}`}>{client?.phone}</a></Col>
+                        <a href={`mailto:${client?.email}`}>
+                          <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
+                          {client?.email}
+                        </a>
                       </Row>
-                      <Row>
-                        <Col>
-                          {client?.city} {client?.state} {client?.zip}
-                        </Col>
-                        <Col><FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon> <a href= {`mailto:${client?.email}`}><i className="fa-solid fa-phone"></i> {client?.email}</a></Col>
+                      <Row >
+                        <FontAwesomeIcon
+                          icon="fa-solid fa-location-dot"
+                          style={{ marginTop: "4px", marginRight: "5px" }}
+                        />
+                        {client?.streetAddress} {client?.city} {client?.state}{" "}
+                        {client?.zip}
                       </Row>
+                      <Row>Contact: {client?.contact}</Row>
+
+                     
                     </Container>
                   </div>
                 </Collapse>

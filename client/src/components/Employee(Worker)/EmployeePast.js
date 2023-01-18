@@ -7,6 +7,7 @@ import { QUERY_EMPLOYEE_BYID } from "../../utils/queries";
 
 import { Row, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getClippingParents } from "@fullcalendar/react";
 
 function Employees() {
@@ -71,17 +72,28 @@ function Employees() {
                       </button>
                     </h5>
                   </div>
-
+                  {console.log(job)}
                   <Collapse in={open}>
                     <div id={`collapse-text-directions-${index}`}>
                       <div id="panel" className="card-body py-1 text-left">
-                        Address: {job?.client?.streetAddress},{" "}
-                        {job?.client?.city} {job?.client?.state}{" "}
-                        {job?.client?.zip}
+                        <Row>
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-location-dot"
+                            style={{ marginTop: "4px", marginRight: "5px" }}
+                          />{" "}
+                          {job?.client?.streetAddress} {job?.client?.city}{" "}
+                          {job?.client?.state} {job?.client?.zip}
+                        </Row>
+                        <Row>
+                          <a href={`tel:+${job?.client?.phone}`}>
+                            <FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon>{" "}
+                            {job?.client?.phone}
+                          </a>
+                        </Row>
                       </div>
-                      <div id="panel" className="card-body py-1 text-left">
+                      <Row id="panel" className="card-body py-1 text-left">
                         Job Details: {job?.jobDetails}
-                      </div>
+                      </Row>
                       <div id="panel" className="card-body py-1 text-left">
                         # of Client Employees: {job?.numberOfClientEmployees}
                       </div>
