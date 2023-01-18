@@ -343,6 +343,25 @@ function App() {
                   }
                 />
                )} 
+               {Auth.isLocked() === false && ( 
+                <Route
+                  exact
+                  path="/hours"
+                  element={
+                    <EmployeePortal
+                      renderPanel={"hours"}
+                      calendarButtonIsActive={false}
+                      addemployeeButtonIsActive={false}
+                      clientlistButtonIsActive={false}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={false}
+                      hoursButtonIsActive={true}
+                    />
+                  }
+                />
+               )} 
 
               <Route exact path="/contact" element={<ContactUs />} />
               <Route exact path="/shoplinks" element={<ShopLinks />} />
