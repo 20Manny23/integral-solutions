@@ -55,57 +55,78 @@ const hours = [
 
 ]
 
-const dates = [
-  { id: "1", date: "2021-05-01" },
-  { id: "2", date: "2021-05-02" },
-  { id: "3", date: "2021-05-03" },
-  { id: "4", date: "2021-05-04" },
-  { id: "5", date: "2021-05-05" },
-  { id: "6", date: "2021-05-06" },
-  { id: "7", date: "2021-05-07" },
-]
-
-const today = dayjs().format("MM-DD-YYYY");
-const tomorrow = dayjs().add(1, "day").format("MM-DD-YYYY");
-
-const startWeek = dayjs().startOf('week').format("MM-DD-YYYY");
-const endWeek = dayjs().endOf('week').format("MM-DD-YYYY");
-
-const week = [
+const thisWeek = [
   {
     id: "1",
-    date: dayjs().startOf('week').format("MM-DD-YYYY"),
+    date: dayjs().startOf('week').format("MMM-DD-YYYY"),
     day: "Sunday"
   },
   {
     id: "2",
-    date: dayjs().startOf('week').add(1, "day").format("MM-DD-YYYY"),
+    date: dayjs().startOf('week').add(1, "day").format("MMM-DD-YYYY"),
     day: "Monday"
   },
   { 
     id: "3", 
-    date: dayjs().startOf('week').add(2, "day").format("MM-DD-YYYY"),
+    date: dayjs().startOf('week').add(2, "day").format("MMM-DD-YYYY"),
     day: "Tuesday"
    },
   { 
     id: "4", 
-    date: dayjs().startOf('week').add(3, "day").format("MM-DD-YYYY"),
+    date: dayjs().startOf('week').add(3, "day").format("MMM-DD-YYYY"),
     day: "Wednesday"
    },
   { 
     id: "5", 
-    date: dayjs().startOf('week').add(4, "day").format("MM-DD-YYYY"),
+    date: dayjs().startOf('week').add(4, "day").format("MMM-DD-YYYY"),
     day: "Thursday"
    },
   { 
     id: "6", 
-    date: dayjs().startOf('week').add(5, "day").format("MM-DD-YYYY"),
+    date: dayjs().startOf('week').add(5, "day").format("MMM-DD-YYYY"),
     day: "Friday" },
   { 
     id: "7", 
-    date: dayjs().startOf('week').add(6, "day").format("MM-DD-YYYY"),
+    date: dayjs().startOf('week').add(6, "day").format("MMM-DD-YYYY"),
     day: "Saturday"},
 ]
+
+const lastWeek = [
+  {
+    id: "1",
+    date: dayjs().startOf('week').subtract(7, "day").format("MMM-DD-YYYY"),
+    day: "Sunday"
+  },
+  {
+    id: "2",
+    date: dayjs().startOf('week').subtract(6, "day").format("MMM-DD-YYYY"),
+    day: "Monday"
+  },
+  { 
+    id: "3", 
+    date: dayjs().startOf('week').subtract(5, "day").format("MMM-DD-YYYY"),
+    day: "Tuesday"
+   },
+  { 
+    id: "4", 
+    date: dayjs().startOf('week').subtract(4, "day").format("MMM-DD-YYYY"),
+    day: "Wednesday"
+   },
+  { 
+    id: "5", 
+    date: dayjs().startOf('week').subtract(3, "day").format("MMM-DD-YYYY"),
+    day: "Thursday"
+   },
+  { 
+    id: "6", 
+    date: dayjs().startOf('week').subtract(2, "day").format("MMM-DD-YYYY"),
+    day: "Friday" },
+  { 
+    id: "7", 
+    date: dayjs().startOf('week').subtract(1, "day").format("MMM-DD-YYYY"),
+    day: "Saturday"},
+]
+
 
 
 function EmployeeHours() {
@@ -148,14 +169,14 @@ function EmployeeHours() {
     <>
       <Container>
       <Col style={{ fontWeight: "bold" }}> Week
-          {week.map(date => (
+          {thisWeek.map(date => (
             <Row key={date.id}>{date.day} {date.date}</Row>
           ))}
-          <Row>
+          <Row> </Row>
             <Form>
               
             </Form>
-          </Row>
+          
         </Col>
         <Row >Start Time {hours.map(hour => (
           <Col key={hour.id}>{hour.startHours}</Col>
@@ -168,9 +189,11 @@ function EmployeeHours() {
         <Row >Total {hours.map(hour => (
           <Col key={hour.id}>{hour.endHours}</Col>
         ))}
-        </Row>
-        <Row > Today {today}
-        </Row>
+        </Row> 
+        <Col > Last week {lastWeek.map(date => (
+          <Row key={date.id}>{date.day} {date.date}</Row>
+        ))}
+        </Col>
       </Container>
 
     </>
