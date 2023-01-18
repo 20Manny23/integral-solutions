@@ -411,11 +411,11 @@ function ScheduleAdd() {
             <option>{businessName ? businessName : "Select"}</option>
             {clients?.clients?.map((client, index) => (
             
-              <option
-                key={index}
-                value={client.businessName}
-                data-id={client._id}
-              >
+              // <option
+              //   key={index}
+              //   value={client.businessName}
+              //   data-id={client._id}
+              // >
               <option 
               key={index} 
               value={client.businessName} 
@@ -677,7 +677,7 @@ function ScheduleAdd() {
             ))}
           </Form.Control>
         </Form.Group>
-
+        <Form.Group className="form-length">
         {/* Creates button when adding employee to job  */}
         {selectedEmployees.map((employee) => (
           <Button
@@ -686,6 +686,7 @@ function ScheduleAdd() {
               padding: "3px",
               backgroundColor: "#007bff",
             }}
+            className="m-1 p-2"
             onClick={removeEmployee}
             value={employee.employeeId}
             variant="secondary"
@@ -694,7 +695,7 @@ function ScheduleAdd() {
             {`${employee.firstName} ${employee.lastName}`}
           </Button>
         ))}
-
+        </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicMessage">
           <div className="form-label form-length">
             <Form.Label style={{ fontWeight: "bolder" }}>
