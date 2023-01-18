@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
+import { SendEmail } from "../../../utils/sendEmail";
 
 import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
 import "../styles/Forms.css";
@@ -37,17 +38,19 @@ function ContactForm() {
     const name = target.name;
     const value = target.value;
 
-    // console.log(event.target.checked)
-    // console.log(event.target.value)
-
+    // set state for check box input
+    // if checkbox is checked and services state does not include value then add to services
     if (event.target.checked && !services.includes(value.trim())) {
-      setServices([...services, ` ${value} `]);
+      setServices([...services, ` ${value} `]); // add spaces to the value for email formatting
       return;
     } else if (!event.target.checked && name === "services") {
-      setServices(services.filter(service => value.trim() !== service.trim()))
+      setServices(
+        services.filter((service) => value.trim() !== service.trim()) 
+      ); // if target is unchecked and it is a services input then don't include in services state
       return;
-    }
+    };
 
+    //set state for all other inputs
     if (name === "company") {
       setCompanyName(value);
     } else if (name === "name") {
@@ -73,11 +76,11 @@ function ContactForm() {
     } else if (name === "body") {
       setJobDetails(value);
     } else {
-      console.log('error in handle change contact form input')
+      console.log("error in handle change contact form input");
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // console.log(services)
@@ -94,8 +97,11 @@ function ContactForm() {
     }
 
     if (contactName && emailAddress) {
-      launchEmail();
+      // launchEmail();
+      let test = await SendEmail();
+      console.log ('email message = ', test)
     }
+
     // set state back to empty form
     setCompanyName("");
     setContactName("");

@@ -377,3 +377,9 @@ export const QUERY_EVENTS = gql`
     }
   }
 `;
+
+const SEND_EMAIL = gql`
+  query Query {
+    sendEmail
+  }
+`;
