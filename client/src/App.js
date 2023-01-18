@@ -108,7 +108,7 @@ function App() {
               <Route exact path="/home" element={<Home />} />
               <Route exact path="/shoplinks" element={<ShopLinks />} />
               <Route exact path="/contact" element={<ContactUs />} />
-              <Route
+              {/* <Route
                 exact
                 path="/messages"
                 element={
@@ -119,7 +119,7 @@ function App() {
                     signupButtonIsActive={false}
                   />
                 }
-              />
+              /> */}
               <Route
                 exact
                 path="/login"
