@@ -6,6 +6,7 @@ import LoginForm from "../components/Login/LoginForm";
 import SignupForm from "../components/Login/SignupForm";
 import Container from "react-bootstrap/Container";
 import "../styles/button-home.css";
+import littleFella from "../assets/images/logo-no-slogan.png"
 
 const Login = ({
   renderPanel,
@@ -32,18 +33,22 @@ const Login = ({
           <div className="mx-4 mt-4 mb-4" style={{ height: "150px" }}>
             <div className="d-flex justify-content-center align-content-center align-item-center">
               {/* <CleanAsset /> */}
-              <div style={{ height: "150px", width: "150px", backgroundColor: "black", borderRadius: "50%"}}></div>
+              
+              <div >
+                <img src={littleFella} alt="little logo" style={{ marginTop:'15px',maxHeight: "120px", maxWidth: "120px", backgroundColor: "black", borderRadius: "50%"}}></img>
+              </div>
+
             </div>
           </div>
           <div style={{ display: "flex", flex: "auto", width: "100%" }}>
-            <button
+            {/* <button
               className={`baseline ${messageButtonIsActive && "isActive"}`}
               onClick={() => {
-                navigate("/messages");
+                navigate("/login");
               }}
             >
               Messages
-            </button>
+            </button> */}
             <button
               disabled={Auth.loggedIn()}
               className={`baseline ${loginButtonIsActive && "isActive"}`}
@@ -55,6 +60,7 @@ const Login = ({
             </button>
             <button
               disabled={Auth.loggedIn()}
+              style={{borderTop:'1pc solidblack'}}
               className={`baseline ${signupButtonIsActive ? "isActive" : ""}`}
               onClick={() => {
                 navigate("/signup");
@@ -64,10 +70,9 @@ const Login = ({
             </button>
           </div>
 
-          {renderPanel === "messages" ? (
-            <Message />
-          ) : renderPanel === "login" ? (
+          {renderPanel === "login" ? (
             <LoginForm />
+          
           ) : (
             <SignupForm />
           )}

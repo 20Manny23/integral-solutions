@@ -105,3 +105,13 @@
     margin-left: 16%;
   }
 }
+@media screen and (max-width: 325px) {
+  .company {
+    margin-left: 10%;
+  }
+}
+@media screen and (max-width: 311px) {
+  .company {
+    margin-left: 7%;
+  }
+}
