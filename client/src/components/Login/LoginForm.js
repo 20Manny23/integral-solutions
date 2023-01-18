@@ -87,7 +87,7 @@ const LoginForm = () => {
             <Form.Label htmlFor="email">Email</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Your email"
+              placeholder="Your email address"
               name="email"
               onChange={handleInputChange}
               value={userFormData.email}

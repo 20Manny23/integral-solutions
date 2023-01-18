@@ -90,6 +90,11 @@
     font-size: 1rem;
   }
 }
+@media screen and (max-width: 493px) {
+  .oval-text {
+    font-size: 25px
+  }
+}
 @media screen and (max-width: 450px) {
   .company {
     margin-left: 20%;
@@ -98,5 +103,15 @@
 @media screen and (max-width: 397px) {
   .company {
     margin-left: 16%;
+  }
+}
+@media screen and (max-width: 325px) {
+  .company {
+    margin-left: 10%;
+  }
+}
+@media screen and (max-width: 311px) {
+  .company {
+    margin-left: 7%;
   }
 }

@@ -531,6 +531,7 @@ function ScheduleAdd() {
               <Form.Control
                 className="custom-border"
                 type="date"
+                minValue= '01/23/2023'
                 name="startDate"
                 defaultValue={client?.startDate}
                 onChange={handleInputChange}
