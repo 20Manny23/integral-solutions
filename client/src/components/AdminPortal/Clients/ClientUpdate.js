@@ -325,16 +325,16 @@ function ClientUpdate() {
               name={"form-select"}
               onChange={businessNameSelect}
             >
-              <option>{businessName ? businessName : "Select"}</option>
-              {clients?.clients?.map((client, index) => (
-                <option
-                  key={index}
-                  value={client.businessName}
-                  data-id={client._id}
-                >
-                  {client.businessName}
-                </option>
-              ))}
+              <option>{prevClientData?.businessName ? prevClientData?.businessName : "Select"}</option>
+            {clients?.clients?.map((client, index) => (
+              <option
+                key={index}
+                value={client.businessName}
+                data-id={client._id}
+              >
+                {client.businessName}
+              </option>
+            ))}
             </Form.Control>
           </Form.Group>
 
