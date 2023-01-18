@@ -93,7 +93,9 @@ export const QUERY_EMPLOYEE_BYID = gql`
         client {
           _id
           businessName
+          contact
           streetAddress
+          phone
           suite
           city
           state

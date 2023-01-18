@@ -2,7 +2,11 @@ import React, { useState } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
-import { DELETE_EMPLOYEE, TOGGLE_ADMIN, TOGGLE_LOCKED } from "../../../utils/mutations";
+import {
+  DELETE_EMPLOYEE,
+  TOGGLE_ADMIN,
+  TOGGLE_LOCKED,
+} from "../../../utils/mutations";
 
 import { Row, Col, Container, Form } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
@@ -68,7 +72,9 @@ function Employees() {
     let toggleTarget = event.currentTarget.name;
 
     let toggle;
-    event.currentTarget.defaultValue === "true" ? toggle = false : toggle = true;
+    event.currentTarget.defaultValue === "true"
+      ? (toggle = false)
+      : (toggle = true);
 
     if (toggleTarget === "admin") {
       try {
@@ -79,15 +85,14 @@ function Employees() {
             isAdmin: toggle, // NOT A NECESSARY VARIABLE SINCE THE SERVER CHANGES THE STATE
           },
         });
-  
+
         // RELOAD EMPLOYEE
         empRefetch();
-
       } catch (err) {
         console.log(err);
       }
     } else {
-      console.log('not admin')
+      console.log("not admin");
       try {
         // eslint-disable-next-line
         await toggleLocked({
@@ -96,10 +101,9 @@ function Employees() {
             isLocked: toggle, // NOT A NECESSARY VARIABLE SINCE THE SERVER CHANGES THE STATE
           },
         });
-  
+
         // RELOAD EMPLOYEE
         empRefetch();
-
       } catch (err) {
         console.log(err);
       }
@@ -146,47 +150,47 @@ function Employees() {
               </div>
               <Collapse>
                 <div id={`#collapse-client-${index}`}>
-                  <Container fluid="md">
+                  <Container fluid="true">
                     <Row>
-                      <Col>
-                        <Row className="ml-3" >
-                          <h5 style={{ width: "75px" }}>Admin: </h5>
-                          <Form.Check
-                            type="switch"
-                            name="admin"
-                            id={`custom-admin-${index}`}
-                            data-employeeid={emp?._id}
-                            defaultChecked={emp.isAdmin}
-                            defaultValue={emp.isAdmin}
-                            onClick={(event) => handleToggle(event)}
-                            className="ml-4"                          
-                            style={{ transform: "scale(1.1)" }}
-                          ></Form.Check>
-                        </Row>
+                      <Col md={6} lg={6}>
+                        <a href={`tel:+${emp?.phone}`}>
+                          <FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon>{" "}
+                          {emp?.phone}
+                        </a>
+                        <br></br>
+                        <a href={`mailto:${emp?.email}`}>
+                          {" "}
+                          <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
+                          {emp?.email}
+                        </a>
                       </Col>
+
                       <Col>
-                        <a href={`mailto:${emp?.email}`}> {emp?.email}</a>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <Row className="ml-3">
-                          <h5 style={{ width: "75px" }}>Locked: </h5>
-                          <Form.Check
-                            type="switch"
-                            name="locked"
-                            id={`custom-locked-${index}`}
-                            data-employeeid={emp?._id}
-                            defaultChecked={emp.isLocked}
-                            defaultValue={emp.isLocked}
-                            onClick={(event) => handleToggle(event)}
-                            className="ml-4"                          
-                            style={{ transform: "scale(1.1)" }}
-                          ></Form.Check>
-                        </Row>
-                      </Col>
-                      <Col>
-                        <a href={`tel:+${emp?.phone}`}> {emp?.phone}</a>
+                        <Form.Check
+                          type="switch"
+                          name="admin"
+                          label="Admin"
+                          id={`custom-admin-${index}`}
+                          data-employeeid={emp?._id}
+                          defaultChecked={emp.isAdmin}
+                          defaultValue={emp.isAdmin}
+                          onClick={(event) => handleToggle(event)}
+                          className="ml-4"
+                          style={{ transform: "scale(1.1)" }}
+                        ></Form.Check>
+
+                        <Form.Check
+                          type="switch"
+                          name="locked"
+                          label="Locked"
+                          id={`custom-locked-${index}`}
+                          data-employeeid={emp?._id}
+                          defaultChecked={emp.isLocked}
+                          defaultValue={emp.isLocked}
+                          onClick={(event) => handleToggle(event)}
+                          className="ml-4"
+                          style={{ transform: "scale(1.1)" }}
+                        ></Form.Check>
                       </Col>
                     </Row>
                   </Container>

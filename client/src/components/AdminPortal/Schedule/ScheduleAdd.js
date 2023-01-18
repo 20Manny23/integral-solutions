@@ -449,7 +449,7 @@ function ScheduleAdd() {
           />
         </Form.Group>
         <Row className="addy">
-          <Col xs={12}>
+          <Col  xs={12}>
             <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
             <Form.Label
               className={`validation-color ${showCityValidation ? "show" : "hide"
