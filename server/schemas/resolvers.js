@@ -163,6 +163,7 @@ const resolvers = {
         .send(msg)
         .then(() => {
           console.log("Email sent");
+          return "will this return a message"
         })
         .catch((error) => {
           console.error(error);

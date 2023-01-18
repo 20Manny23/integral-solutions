@@ -1,12 +1,14 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import Footer from "../components/Home/Footer";
+import useEmailSend from "../components/EmailSend";
 
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
-import { SendEmail } from "../../../utils/sendEmail";
 
 import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
 import "../styles/Forms.css";
-import Footer from "../components/Home/Footer";
+import { isNull } from "util";
 
 function ContactForm() {
   const numberOfEmployees = [
@@ -33,6 +35,11 @@ function ContactForm() {
   const [services, setServices] = useState([]);
   const [jobDetails, setJobDetails] = useState("");
 
+
+  const [ submitInput, setSubmitInput ] = useState({});
+  const test = useEmailSend({ submitInput: submitInput })
+
+ // handle input change
   const handleChange = (event) => {
     const { target } = event;
     const name = target.name;
@@ -83,24 +90,39 @@ function ContactForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    setSubmitInput({ 
+      companyName: companyName ? companyName : "null",
+      contactName: contactName ? contactName: "null",
+      phoneNumber: phoneNumber ? phoneNumber: "null",
+      emailAddress: emailAddress ? emailAddress: "null",
+      address: address ? address : "null",
+      city: city ? city : "null",
+      state: state ? state : "null",
+      zip: zip ? zip : "null",
+      squareFeet: squareFeet ? squareFeet : "null",
+      employeeNumber: employeeNumber ? employeeNumber : "null",
+      startDate: startDate ? startDate : "null",
+      jobDetails: jobDetails ? jobDetails : "null",
+      services: services ? services : "null",
+    });
+
     // console.log(services)
+    //fix
+    // if (
+    //   !companyName ||
+    //   !contactName ||
+    //   !emailAddress ||
+    //   !startDate ||
+    //   !jobDetails
+    // ) {
+    //   setErrorMessage("Please fill in all required fields *");
+    //   return;
+    // }
 
-    if (
-      !companyName ||
-      !contactName ||
-      !emailAddress ||
-      !startDate ||
-      !jobDetails
-    ) {
-      setErrorMessage("Please fill in all required fields *");
-      return;
-    }
-
-    if (contactName && emailAddress) {
+    // if (contactName && emailAddress) {
+      //fix
       // launchEmail();
-      let test = await SendEmail();
-      console.log ('email message = ', test)
-    }
+    // }
 
     // set state back to empty form
     setCompanyName("");
@@ -139,7 +161,8 @@ function ContactForm() {
               <Form
                 className="py-3 overflow-auto custom-about"
                 style={{ width: "80vw" }}
-                action="mailto:bhoff1980@gmail.com"
+                onSubmit={handleSubmit} //section
+                // action="mailto:bhoff1980@gmail.com"
               >
                 <Form.Group
                   className="mb-3 form-length"
@@ -175,7 +198,7 @@ function ContactForm() {
                     placeholder="Enter Contact Name"
                     name="name"
                     onChange={handleChange}
-                    required
+                    // required
                   />
                 </Form.Group>
 
@@ -195,7 +218,7 @@ function ContactForm() {
                     placeholder="Enter Email"
                     name="email"
                     onChange={handleChange}
-                    required
+                    // required
                   />
                 </Form.Group>
 
@@ -354,7 +377,7 @@ function ContactForm() {
                       type="date"
                       name="startDate"
                       onChange={handleChange}
-                      required
+                      // required
                     />
                   </Form.Group>
                 </div>
@@ -434,7 +457,7 @@ function ContactForm() {
                     placeholder="Enter additional information here."
                     name="body"
                     onChange={handleChange}
-                    required
+                    // required
                   />
                 </Form.Group>
 
@@ -443,12 +466,11 @@ function ContactForm() {
                   variant="primary"
                   type="submit"
                   title="Enter all fields to send email"
-                  onClick={handleSubmit}
+                  // onClick={handleSubmit} //section
                 >
                   Send Email
                 </Button>
               </Form>
-
               {errorMessage && (
                 <Alert className="form-alert" variant="danger">
                   <p className="error-text">{errorMessage}</p>
@@ -458,7 +480,6 @@ function ContactForm() {
           </Row>
         </Container>
       </div>
-
       <Footer />
     </>
   );
