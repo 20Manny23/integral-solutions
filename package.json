@@ -21,5 +21,6 @@
     "concurrently": "^5.1.0"
   },
   "dependencies": {
+    "dayjs": "^1.11.7"
   }
 }
