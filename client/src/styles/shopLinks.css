@@ -90,6 +90,11 @@
     font-size: 1rem;
   }
 }
+@media screen and (max-width: 493px) {
+  .oval-text {
+    font-size: 25px
+  }
+}
 @media screen and (max-width: 450px) {
   .company {
     margin-left: 20%;
