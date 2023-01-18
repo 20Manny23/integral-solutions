@@ -111,6 +111,7 @@ function ScheduleList() {
                   />
                 </div>
               </div>
+            
               <Collapse>
                 <div id={`#collapse-client-${index}`}>
                   <Container fluid="auto">
@@ -138,6 +139,10 @@ function ScheduleList() {
                       </Col>
 
                       <Col style={{marginBottom: "15px", marginTop:'10px'}} >
+                      <a href={`https://www.google.com/maps/dir/?api=1&destination=${job?.client?.streetAddress},${job?.client?.city},${job?.client?.state},${job?.client?.zip}&travelmode=driving`}
+                          target="_blank"
+                          rel="noreferrer">
+
                         <FontAwesomeIcon
                           icon="fa-solid fa-location-dot"
                           style={{ marginTop: "4px", marginRight: "5px" }}
@@ -146,7 +151,7 @@ function ScheduleList() {
                         {job?.suite && `, ${job?.suite}`}
                         <br></br>
                         {job?.city}, {job?.state} {job?.zip}
-                        <br></br>
+                        <br></br></a>
                         <span style={{ fontWeight: "bold" }}>Start: </span>
                         {format_date_MMDDYYYY(job?.startDate)}
                         <br></br>
