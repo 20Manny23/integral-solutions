@@ -9,6 +9,8 @@ import { FORGOT_PASSWORD } from "../../utils/mutations";
 
 import { Form, Button, Alert } from "react-bootstrap";
 import "../../styles/button-home.css";
+import logo from "../../assets/images/logo.bkg.png";
+import Footer from "../Home/Footer";
 
 function Employees() {
   const [tempPassword] = useState('200');
@@ -143,7 +145,9 @@ function Employees() {
   return (
     <>
       <div className="d-flex flex-column align-items-center mt-3">
-        <div className="d-flex flex-column align-items-center">
+        <div className="d-flex flex-column align-items-center box-making"  >
+          <h2>Forgot Password</h2>
+          <p style={{textAlign:'center'}}>You will recieve an email with instructions to reset your password <br></br>if an account exists with this email address.  </p>
           <Form
             noValidate
             validated={validated}
@@ -151,7 +155,7 @@ function Employees() {
             className="mx-2 mt-2 mb-1"
             style={{ width: "280px" }}
           >
-            <Form.Group style={{ marginTop: "100px" }}>
+            <Form.Group style={{ marginTop: "25px" }}>
               <Form.Label htmlFor="email">Enter your email</Form.Label>
               <Form.Control
                 type="text"
@@ -167,6 +171,7 @@ function Employees() {
             </Form.Group>
 
             <Button
+            style={{marginRigt:'auto', marginLeft:'auto'}}
               disabled={!(userFormData.email)}
               className="mb-3 submit-button-style"
               type="submit"
@@ -203,10 +208,15 @@ function Employees() {
               <p className="" style={{ width: "200px", padding: "10px", marginTop: "5px" }}>
                 Email failed to send. Make sure to use the same email address you created your account with
               </p>
+              
             </Alert>
           </div>
         )}
+        {/* <img src={logo} alt="large logo"
+        style={{borderRadius:'55%', marginTop:'20px'}}></img> */}
+        
       </div>
+      <Footer></Footer>
     </>
   );
 }

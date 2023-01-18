@@ -22,4 +22,10 @@
 .baseline:disabled {
   color: #495057;
 }
-
+.box-making{
+  border: 1px solid black;
+  min-width: 50%;
+  border-radius: 10px;
+   margin: 50px 15px 10% 15px;
+  padding:10px;
+}
