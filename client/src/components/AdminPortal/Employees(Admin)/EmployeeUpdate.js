@@ -273,13 +273,19 @@ function EmployeeUpdate() {
               onChange={employeeEmailSelect}
             >
               <option>
-                {firstName ? `${firstName} ${lastName}` : "Select"}
+                {prevEmployeeData?.firstName ? `${prevEmployeeData.firstName} ${prevEmployeeData.lastName}` : "Select"}
               </option>
               {emp?.employees?.map((emp, index) => (
-                <option key={index} value={[emp.email, emp.firtsName, emp.lastName, emp.phone]} data-id={emp._id}>
+                <option 
+                key={index} 
+                value={[emp.email, emp.firstName, emp.lastName, emp.phone]} 
+                data-id={emp._id}
+                >
                   {`${emp.firstName} ${emp.lastName}`}
                 </option>
               ))}
+
+
             </Form.Control>
           </Form.Group>
           
