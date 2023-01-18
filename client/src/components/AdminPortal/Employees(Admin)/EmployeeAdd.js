@@ -208,6 +208,7 @@ function EmployeeAdd() {
               onChange={handleInputChange}
               // onBlur={handleBlurChange}
               required
+              
             />
           </Form.Group>
 
