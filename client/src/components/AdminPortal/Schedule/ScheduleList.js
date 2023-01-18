@@ -112,7 +112,7 @@ function ScheduleList() {
                 </div>
               </div>
             
-              <Collapse>
+              <Collapse className="center-screen2">
                 <div id={`#collapse-client-${index}`}>
                   <Container fluid="auto">
                     <Row>

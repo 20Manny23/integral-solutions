@@ -104,11 +104,11 @@ function Employees() {
                           </a>
                         </Row>
                       </div>
-                      <Row id="panel" className="card-body py-1 text-left">
-                        Job Details: {job?.jobDetails}
-                      </Row>
                       <div id="panel" className="card-body py-1 text-left">
-                        # of Client Employees: {job?.numberOfClientEmployees}
+                      <span style={{fontWeight:'bold', marginLeft:'-14px'}}>Job Details:</span> {job?.jobDetails}
+                      </div>
+                      <div id="panel" className="card-body py-1 text-left">
+                        <span style={{fontWeight:'bold', marginLeft:'-14px'}}>Client Employees: </span>{job?.numberOfClientEmployees}
                       </div>
                     </div>
                   </Collapse>
