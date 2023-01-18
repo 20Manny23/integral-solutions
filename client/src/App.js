@@ -148,7 +148,7 @@ function App() {
                   />
                 }
               />
-               <Route
+              <Route
                 exact
                 path="/forgotpassword"
                 element={
@@ -218,15 +218,15 @@ function App() {
                 }
               />
               {Auth.isAdmin() && !Auth.isLocked() && (
-               <Route
-                exact
-                path="/forgotpassword"
-                element={
-                  <ForgotPassword
-                    renderPanel={"forgotpassword"}
-                  />
-                }
-              />
+                <Route
+                  exact
+                  path="/forgotpassword"
+                  element={
+                    <ForgotPassword
+                      renderPanel={"forgotpassword"}
+                    />
+                  }
+                />
               )}
               {Auth.isAdmin() && !Auth.isLocked() && (
                 <Route
@@ -306,8 +306,8 @@ function App() {
                     />
                   }
                 />
-               )} 
-                {Auth.isLocked() === false && ( 
+              )}
+              {Auth.isLocked() === false && (
                 <Route
                   exact
                   path="/employee"
@@ -324,8 +324,8 @@ function App() {
                     />
                   }
                 />
-               )} 
-                  {Auth.isLocked() === false && ( 
+              )}
+              {Auth.isLocked() === false && (
                 <Route
                   exact
                   path="/past"
@@ -342,14 +342,15 @@ function App() {
                     />
                   }
                 />
-               )} 
-               {Auth.isLocked() === false && ( 
+              )}
+              {Auth.isLocked() === false && (
                 <Route
                   exact
                   path="/hours"
                   element={
                     <EmployeePortal
                       renderPanel={"hours"}
+                      hoursButtonIsActive={true}
                       calendarButtonIsActive={false}
                       addemployeeButtonIsActive={false}
                       clientlistButtonIsActive={false}
@@ -357,11 +358,11 @@ function App() {
                       employeeListButtonIsActive={false}
                       clientListButtonIsActive={false}
                       adminMockButtonIsActive={false}
-                      hoursButtonIsActive={true}
+
                     />
                   }
                 />
-               )} 
+              )}
 
               <Route exact path="/contact" element={<ContactUs />} />
               <Route exact path="/shoplinks" element={<ShopLinks />} />

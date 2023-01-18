@@ -6,8 +6,7 @@ import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
 import EmployeePast from "../components/Employee(Worker)/EmployeePast";
 import EmployeeFuture from "../components/Employee(Worker)/EmployeeFuture";
-import EmployeeHoursPast from "../components/Employee(Worker)/EmployeeHoursPast";
-import EmployeeHoursCurrent from "../components/Employee(Worker)/EmployeeHoursCurrent";
+import EmployeeHours from "../components/Employee(Worker)/EmployeeHours";
 import { Button, Container, Col, Row } from "react-bootstrap/";
 import "../styles/spinner.css";
 
@@ -98,7 +97,7 @@ const EmployeePortal = ({
               ) : renderPanel === "past" ? (
                 <EmployeePast />
               ) : renderPanel === "hours" ? (
-                <EmployeeHoursCurrent />
+                <EmployeeHours />
               ) : (
                 <EmployeePortal />
               )}
