@@ -98,6 +98,11 @@ function Clients() {
                   <div id={`#collapse-client-${index}`}>
                     <Container fluid="md">
                       <Row>
+                        <span style={{ fontWeight: "bold", marginRight:'4px' }}>Contact:</span>{" "}
+                        {client?.contact}
+                      </Row>
+
+                      <Row>
                         <a href={`tel:+${client?.phone}`}>
                           <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
                           {client?.phone}
@@ -110,17 +115,14 @@ function Clients() {
                           {client?.email}
                         </a>
                       </Row>
-                      <Row >
+                      <Row>
                         <FontAwesomeIcon
                           icon="fa-solid fa-location-dot"
                           style={{ marginTop: "4px", marginRight: "5px" }}
                         />
-                        {client?.streetAddress} {client?.city} {client?.state}{" "}
-                        {client?.zip}
+                        {client?.streetAddress} <br></br>
+                        {client?.city} {client?.state} {client?.zip}
                       </Row>
-                      <Row>Contact: {client?.contact}</Row>
-
-                     
                     </Container>
                   </div>
                 </Collapse>

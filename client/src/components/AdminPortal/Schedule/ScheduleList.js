@@ -114,26 +114,30 @@ function ScheduleList() {
               <Collapse>
                 <div id={`#collapse-client-${index}`}>
                   <Container fluid="auto">
-                
                     <Row>
-                    <Col xs={12} sm={6}><span style={{fontWeight:'bold'}}>
-                        Contact:</span> {job?.client?.contact}
-                        <br></br>
-                        {" "}
+                      <Col xs={12} sm={6} style={{marginBottom: "15px", marginTop:'10px'}}>
+                        <span style={{ fontWeight: "bold" }}>Contact:</span>{" "}
+                        {job?.client?.contact}
+                        <br></br>{" "}
                         <a href={`tel:+${job?.client?.phone}`}>
                           <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
                           {job?.client?.phone}
                         </a>{" "}
-                        <br></br>
-                        {" "}
-                        <a href={`mailto:${job?.client?.email}`}>
+                        <br></br>{" "}
+                        <a href={`mailto:${job?.client?.email}`} >
                           <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
                           {job?.client?.email}
                         </a>{" "}
-                        <br></br> <span style={{fontWeight:'bold'}}>Client Size:</span> {job?.numberOfClientEmployees}
+                        <br></br>{" "}
+                        <span
+                          style={{ fontWeight: "bold" }}
+                        >
+                          Client Size:
+                        </span>{" "}
+                        {job?.numberOfClientEmployees}
                       </Col>
-                     
-                      <Col>
+
+                      <Col style={{marginBottom: "15px", marginTop:'10px'}} >
                         <FontAwesomeIcon
                           icon="fa-solid fa-location-dot"
                           style={{ marginTop: "4px", marginRight: "5px" }}
@@ -143,19 +147,19 @@ function ScheduleList() {
                         <br></br>
                         {job?.city}, {job?.state} {job?.zip}
                         <br></br>
-                        <span style={{fontWeight:'bold'}}>Start: </span>{format_date_MMDDYYYY(job?.startDate)}
+                        <span style={{ fontWeight: "bold" }}>Start: </span>
+                        {format_date_MMDDYYYY(job?.startDate)}
                         <br></br>
-                        <span style={{fontWeight:'bold'}}>End: </span> {format_date_MMDDYYYY(job?.endDate)}
+                        <span style={{ fontWeight: "bold" }}>End: </span>{" "}
+                        {format_date_MMDDYYYY(job?.endDate)}
                       </Col>
-                  
                     </Row>
-               
-                  
+
                     <Row>
-                     
-                    </Row>
-                    <Row>
-                      <Col ><span style={{fontWeight:'bold'}}>Job Details:</span> {job?.jobDetails}</Col>
+                      <Col>
+                        <span style={{ fontWeight: "bold" }}>Job Details:</span>{" "}
+                        {job?.jobDetails}
+                      </Col>
                     </Row>
                     <Row>
                       {/* <hr></hr> */}
