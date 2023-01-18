@@ -96,26 +96,25 @@ function Clients() {
                 </div>
                 <Collapse>
                   <div id={`#collapse-client-${index}`}>
-                    <Container fluid="md">
+                    <Container fluid="md" className="center-screen">
                       <Row>
+                      <Col md={6} style={{ marginTop:'10px'}}>
                         <span style={{ fontWeight: "bold", marginRight:'4px' }}>Contact:</span>{" "}
                         {client?.contact}
-                      </Row>
-
-                      <Row>
+                        <br></br>
                         <a href={`tel:+${client?.phone}`}>
                           <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
                           {client?.phone}
                         </a>
-                      </Row>
-
-                      <Row>
+                        <br></br>
                         <a href={`mailto:${client?.email}`}>
                           <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
                           {client?.email}
                         </a>
-                      </Row>
-                      <Row>
+                      </Col>
+
+                     
+                      <Col className='margin-break'>
                       <a href={`https://www.google.com/maps/dir/?api=1&destination=${client?.streetAddress},${client?.city},${client?.state},${client?.zip}&travelmode=driving`}
                           target="_blank"
                           rel="noreferrer">
@@ -127,6 +126,7 @@ function Clients() {
                         {client?.streetAddress} <br></br>
                         {client?.city} {client?.state} {client?.zip}
                         </a>
+                      </Col>
                       </Row>
                     </Container>
                   </div>

@@ -150,7 +150,7 @@ function Employees() {
               </div>
               <Collapse>
                 <div id={`#collapse-client-${index}`}>
-                  <Container fluid="true">
+                  <Container fluid="true" className="center-screen">
                     <Row>
                       <Col md={6} lg={6}>
                         <a href={`tel:+${emp?.phone}`}>
