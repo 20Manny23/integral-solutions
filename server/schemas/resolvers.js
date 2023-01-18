@@ -145,32 +145,56 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    sendEmail: async () => {
+    // sendEmail: async (parent, { companyName, contact, }, context) => {
+    sendEmail: async (parent, args, context) => {
       const sgMail = require("@sendgrid/mail");
       sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
       const msg = {
         to: "callasteven@gmail.com", // Change to your recipient
         from: "callasteven@gmail.com", // Change to your verified sender
-        subject: "Sending with SendGrid is Fun",
-        text: "and easy to do anywhere, even with Node.js",
-        html: "<strong>and easy to do anywhere, even with Node.js</strong>",
+        subject: `Contact Us: ${args.companyName},  ${args.contactName}`,
+        text: `
+        This is the text format
+        Company Name: ${args.companyName}
+        Email Address: ${args.emailAddress} 
+        Contact Name: ${args.ontactName}
+        Phone Number: ${args.phoneNumber}
+        Address: ${args.address}, ${args.city}, ${args.state} ${args.zip}
+        Square Feet: ${args.squareFeet} 
+        Employee Number: ${args.employeeNumber} 
+        Start Date: ${args.startDate}
+        Services Needed: ${args.services}
+        Job Details: ${args.jobDetails}`,
+        html: `
+        <p>This is the html format</p>
+        <p>Company Name: ${args.companyName}</p>
+        <p>Email Address: ${args.emailAddress}</p>
+        <p>Contact Name: ${args.ontactName}</p>
+        <p>Phone Number: ${args.phoneNumber}</p>
+        <p>Address: ${args.address}, ${args.city}, ${args.state} ${args.zip}</p>
+        <p>Square Feet: ${args.squareFeet} </p>
+        <p>Employee Number: ${args.employeeNumber} </p>
+        <p>Start Date: ${args.startDate}</p>
+        <p>Services Needed: ${args.services}</p>
+        <p>Job Details: ${args.jobDetails}</p>`,
       };
-
-      console.log(msg);
 
       sgMail
         .send(msg)
         .then(() => {
           console.log("Email sent");
-          return "will this return a message"
+          alert("Your information was sent to Integral Solutions. They'll be in touch soon.")
         })
         .catch((error) => {
           console.error(error);
           console.error(error.response.body.errors);
         });
+
+        // const hello = "hello"
+        // return { hello };
     },
-    
+
   },
 
   Mutation: {

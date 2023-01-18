@@ -2,13 +2,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 import Footer from "../components/Home/Footer";
-import useEmailSend from "../components/EmailSend";
+import useEmailSendContactUs from "../components/EmailSendContactUs";
 
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
 
 import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
 import "../styles/Forms.css";
-import { isNull } from "util";
 
 function ContactForm() {
   const numberOfEmployees = [
@@ -35,9 +34,8 @@ function ContactForm() {
   const [services, setServices] = useState([]);
   const [jobDetails, setJobDetails] = useState("");
 
-
-  const [ submitInput, setSubmitInput ] = useState({});
-  const test = useEmailSend({ submitInput: submitInput })
+  const [ emailContent, setEmailContent ] = useState({});
+  const submitEmailContent = useEmailSendContactUs(emailContent);
 
  // handle input change
   const handleChange = (event) => {
@@ -48,7 +46,7 @@ function ContactForm() {
     // set state for check box input
     // if checkbox is checked and services state does not include value then add to services
     if (event.target.checked && !services.includes(value.trim())) {
-      setServices([...services, ` ${value} `]); // add spaces to the value for email formatting
+      setServices([...services, ` ${value}`]); // add spaces to the value for email formatting
       return;
     } else if (!event.target.checked && name === "services") {
       setServices(
@@ -90,7 +88,7 @@ function ContactForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    setSubmitInput({ 
+    setEmailContent({ 
       companyName: companyName ? companyName : "null",
       contactName: contactName ? contactName: "null",
       phoneNumber: phoneNumber ? phoneNumber: "null",
@@ -119,11 +117,6 @@ function ContactForm() {
     //   return;
     // }
 
-    // if (contactName && emailAddress) {
-      //fix
-      // launchEmail();
-    // }
-
     // set state back to empty form
     setCompanyName("");
     setContactName("");
@@ -140,14 +133,6 @@ function ContactForm() {
     setServices([]);
   };
 
-  const launchEmail = () => {
-    console.log(contactName, emailAddress, jobDetails);
-    window.open(
-      `mailto:rod.bennett75@gmail.com?subject=Work Order&&body=Company Name=${companyName} %0D%0A%0D%0A Email Address=${emailAddress} %0D%0A%0D%0A City=${city} %0D%0A%0D%0A Contact Name=${contactName} %0D%0A%0D%0A Phone Number=${phoneNumber} %0D%0A%0D%0A Address=${address} %0D%0A%0D%0A State=${state} ${zip} %0D%0A%0D%0A Square Feet=${squareFeet} %0D%0A%0D%0A Employee Number=${employeeNumber} %0D%0A%0D%0A Start Date=${startDate} %0D%0A%0D%0A Services Needed=${services} %0D%0A%0D%0A Job Details=${jobDetails}`
-    );
-    return false;
-  };
-
   return (
     <>
       <div
@@ -161,8 +146,7 @@ function ContactForm() {
               <Form
                 className="py-3 overflow-auto custom-about"
                 style={{ width: "80vw" }}
-                onSubmit={handleSubmit} //section
-                // action="mailto:bhoff1980@gmail.com"
+                onSubmit={handleSubmit}
               >
                 <Form.Group
                   className="mb-3 form-length"
@@ -321,8 +305,6 @@ function ContactForm() {
                       onChange={handleChange}
                     />
                   </Col>
-                  {/* <Form.Group> */}
-                  {/* <Col xs={12} md={6}> */}
                   <Col>
                     <Form.Label
                       style={{
@@ -348,9 +330,6 @@ function ContactForm() {
                         type="text"
                         name="employeeNumber"
                         onChange={handleChange}
-                        // value={numberOfClientEmployees}
-                        // name="numberOfClientEmployees"
-                        // onChange={handleInputChange}
                       >
                         <option>Select</option>
                         {numberOfEmployees.map((emp, index) => (
@@ -466,7 +445,6 @@ function ContactForm() {
                   variant="primary"
                   type="submit"
                   title="Enter all fields to send email"
-                  // onClick={handleSubmit} //section
                 >
                   Send Email
                 </Button>

@@ -140,8 +140,6 @@ const typeDefs = gql`
     incidentDetails: String
   }
 
-
-
   type Query {
     users: [User]!
     user(email: String!): User
@@ -157,8 +155,24 @@ const typeDefs = gql`
     employeeById(_id: ID!): Employee
     schedules: [Schedule]
     schedule(scheduleId: ID!): Schedule
-    sendEmail: String
+  }
 
+  type Query {
+    sendEmail(
+      companyName: String
+      contactName: String    
+      phoneNumber: String
+      emailAddress: String
+      address: String
+      city: String
+      state: String
+      zip: String
+      squareFeet: String
+      employeeNumber: String
+      startDate: String
+      jobDetails: String
+      services: [String]
+    ): String 
   }
 
   type Mutation {

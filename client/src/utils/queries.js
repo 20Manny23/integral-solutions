@@ -273,6 +273,41 @@ export const QUERY_SINGLE_SCHEDULE = gql`
   }
 `;
 
+// SECTION SEND EMAIL
+export const SEND_EMAIL = gql`
+  query Query(
+    $companyName: String
+    $contactName: String      
+    $phoneNumber: String
+    $emailAddress: String
+    $address: String
+    $city: String
+    $state: String
+    $zip: String
+    $squareFeet: String
+    $employeeNumber: String
+    $startDate: String
+    $jobDetails: String
+    $services: [String]
+  ) {
+    sendEmail(
+      companyName: $companyName,
+      contactName: $contactName,
+      phoneNumber: $phoneNumber,
+      emailAddress: $emailAddress,
+      address: $address,
+      city: $city,
+      state: $state,
+      zip: $zip,
+      squareFeet: $squareFeet,
+      employeeNumber: $employeeNumber,
+      startDate: $startDate,
+      jobDetails: $jobDetails,
+      services: $services,
+    )
+  }
+`;
+
 // SECTION LEGACY CODE
 export const QUERY_SINGLE_LOCATION = gql`
   query getSingleLocation($locationId: ID!) {
@@ -375,11 +410,5 @@ export const QUERY_EVENTS = gql`
       backgroundColor
       textColor
     }
-  }
-`;
-
-export const SEND_EMAIL = gql`
-  query Query {
-    sendEmail
   }
 `;
