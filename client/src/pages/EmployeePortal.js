@@ -6,6 +6,8 @@ import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
 import EmployeePast from "../components/Employee(Worker)/EmployeePast";
 import EmployeeFuture from "../components/Employee(Worker)/EmployeeFuture";
+import EmployeeHoursPast from "../components/Employee(Worker)/EmployeeHoursPast";
+import EmployeeHoursCurrent from "../components/Employee(Worker)/EmployeeHoursCurrent";
 import { Button, Container, Col, Row } from "react-bootstrap/";
 import "../styles/spinner.css";
 
@@ -21,6 +23,7 @@ const EmployeePortal = ({
   // workorderButtonIsActive,
   addemployeeButtonIsActive,
   clientlistButtonIsActive,
+  hoursButtonIsActive,
 }) => {
   // const [upcomingPanel, setUpcomingPanel] = useState(isActive)
   // const [pastPanel, setPastPanel] = useState(notActive)
@@ -78,9 +81,28 @@ const EmployeePortal = ({
                 >
                   Past Jobs
                 </Button>
+                <Button
+                  variant="outline-primary"
+                  style={hoursButtonIsActive ? isActive : notActive}
+                  active={hoursButtonIsActive}
+                  onClick={() => {
+                    navigate("/hours");
+                  }}
+                >
+                  Enter Hours
+                </Button>
               </div>
 
-              {renderPanel === "employee" ? <EmployeeFuture /> : <EmployeePast />}
+              {renderPanel === "employee" ? (
+                <EmployeeFuture />
+              ) : renderPanel === "past" ? (
+                <EmployeePast />
+              ) : renderPanel === "hours" ? (
+                <EmployeeHoursCurrent />
+              ) : (
+                <EmployeePortal />
+              )}
+
             </Col>
           </Row>
         </Container>
@@ -95,7 +117,7 @@ const isActive = {
   flex: "auto",
   border: "solid 3px black",
   borderRadius: "3px",
-  backgroundColor:'#007AFF'
+  backgroundColor: '#007AFF'
 };
 
 const notActive = {
