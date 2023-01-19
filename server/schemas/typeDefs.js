@@ -157,6 +157,24 @@ const typeDefs = gql`
     schedule(scheduleId: ID!): Schedule
   }
 
+  type Query {
+    sendEmailContactUs(
+      companyName: String
+      contactName: String    
+      phoneNumber: String
+      emailAddress: String
+      address: String
+      city: String
+      state: String
+      zip: String
+      squareFeet: String
+      employeeNumber: String
+      startDate: String
+      jobDetails: String
+      services: [String]
+    ): String 
+  }
+
   type Mutation {
     login(email: String!, password: String!): Auth
     forgotPassword(email: String!, password: String!): Auth

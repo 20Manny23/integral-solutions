@@ -1,11 +1,13 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import Footer from "../components/Home/Footer";
+import useEmailSendContactUs from "../components/EmailSendContactUs";
 
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
 
 import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
 import "../styles/Forms.css";
-import Footer from "../components/Home/Footer";
 
 function ContactForm() {
   const numberOfEmployees = [
@@ -32,38 +34,52 @@ function ContactForm() {
   const [services, setServices] = useState([]);
   const [jobDetails, setJobDetails] = useState("");
 
+  const [emailContent, setEmailContent] = useState({});
+  // eslint-disable-next-line
+
+  const submitEmailContent = useEmailSendContactUs(emailContent);
+
+  // console.log('email content = ', emailContent)
+
+  // handle input change
   // VALIDATION
-  const [showCompanyNameValidation, setShowCompanyNameValidation] = useState("");
-  const [showContactNameValidation, setShowContactNameValidation] = useState("");
-  const [showPhoneNumberValidation, setShowPhoneNumberValidation] = useState("");
-  const [showEmailAddressValidation, setShowEmailAddressValidation] = useState("");
+  const [showCompanyNameValidation, setShowCompanyNameValidation] =
+    useState("");
+  const [showContactNameValidation, setShowContactNameValidation] =
+    useState("");
+  const [showPhoneNumberValidation, setShowPhoneNumberValidation] =
+    useState("");
+  const [showEmailAddressValidation, setShowEmailAddressValidation] =
+    useState("");
   const [showAddressValidation, setShowAddressValidation] = useState("");
   const [showCityValidation, setShowCityValidation] = useState("");
   const [showStateValidation, setShowStateValidation] = useState("");
   const [showZipValidation, setShowZipValidation] = useState("");
   const [showSquareFeetValidation, setShowSquareFeetValidation] = useState("");
-  const [showEmployeeNumberValidation, setShowEmployeeNumberValidation] = useState("");
+  const [showEmployeeNumberValidation, setShowEmployeeNumberValidation] =
+    useState("");
   const [showStartDateValidation, setShowStartDateValidation] = useState("");
   const [showServicesValidation, setShowServicesValidation] = useState("");
   const [showJobDetailsValidation, setShowJobDetailsValidation] = useState("");
-
 
   const handleChange = (event) => {
     const { target } = event;
     const name = target.name;
     const value = target.value;
 
-    // console.log(event.target.checked)
-    // console.log(event.target.value)
-
+    // set state for check box input
+    // if checkbox is checked and services state does not include value then add to services
     if (event.target.checked && !services.includes(value.trim())) {
-      setServices([...services, ` ${value} `]);
+      setServices([...services, ` ${value}`]); // add spaces to the value for email formatting
       return;
     } else if (!event.target.checked && name === "services") {
-      setServices(services.filter(service => value.trim() !== service.trim()))
+      setServices(
+        services.filter((service) => value.trim() !== service.trim())
+      ); // if target is unchecked and it is a services input then don't include in services state
       return;
     }
 
+    //set state for all other inputs
     if (name === "company") {
       setCompanyName(value);
     } else if (name === "name") {
@@ -89,81 +105,103 @@ function ContactForm() {
     } else if (name === "body") {
       setJobDetails(value);
     } else {
-      console.log('error in handle change contact form input')
+      console.log("error in handle change contact form input");
     }
   };
 
-// VALIDATION BLUR
-const handleBlurChange = (event) => {
-  const { name, value } = event.target;
+  // VALIDATION BLUR
+  const handleBlurChange = (event) => {
+    const { name, value } = event.target;
 
-  name === "company" && value.trim() === ""
-    ? setShowCompanyNameValidation(true)
-    : setShowCompanyNameValidation(false);
-  name === "name" && value.trim() === ""
-    ? setShowContactNameValidation(true)
-    : setShowContactNameValidation(false);
-  name === "email" && value.trim() === ""
-    ? setShowEmailAddressValidation(true)
-    : setShowEmailAddressValidation(false);
-  name === "telNo" && value.trim() === ""
-  ? setShowPhoneNumberValidation(true)
-  : setShowPhoneNumberValidation(false);
-  name === "address" && value.trim() === ""
-    ? setShowAddressValidation(true)
-    : setShowAddressValidation(false);
-  name === "city" && value.trim() === ""
-    ? setShowCityValidation(true)
-    : setShowCityValidation(false);
-  name === "state" && value.trim() === ""
-    ? setShowStateValidation(true)
-    : setShowStateValidation(false);
-  name === "zip" && value.trim() === ""
-    ? setShowZipValidation(true)
-    : setShowZipValidation(false);
-  name === "squareFeet" && value.trim() === ""
-    ? setShowSquareFeetValidation(true)
-    : setShowSquareFeetValidation(false);
-  name === "employeeNumber" && value.trim() === ""
-    ? setShowEmployeeNumberValidation(true)
-    : setShowEmployeeNumberValidation(false);
-  name === "startDate" && value.trim() === ""
-    ? setShowStartDateValidation(true)
-    : setShowStartDateValidation(false);
-  name === "services" && value.trim() === ""
-    ? setShowServicesValidation(true)
-    : setShowServicesValidation(false);
-  name === "body" && value.trim() === ""
-    ? setShowJobDetailsValidation(true)
-    : setShowJobDetailsValidation(false);
-};
+    name === "company" && value.trim() === ""
+      ? setShowCompanyNameValidation(true)
+      : setShowCompanyNameValidation(false);
+    name === "name" && value.trim() === ""
+      ? setShowContactNameValidation(true)
+      : setShowContactNameValidation(false);
+    name === "email" && value.trim() === ""
+      ? setShowEmailAddressValidation(true)
+      : setShowEmailAddressValidation(false);
+    name === "telNo" && value.trim() === ""
+      ? setShowPhoneNumberValidation(true)
+      : setShowPhoneNumberValidation(false);
+    name === "address" && value.trim() === ""
+      ? setShowAddressValidation(true)
+      : setShowAddressValidation(false);
+    name === "city" && value.trim() === ""
+      ? setShowCityValidation(true)
+      : setShowCityValidation(false);
+    name === "state" && value.trim() === ""
+      ? setShowStateValidation(true)
+      : setShowStateValidation(false);
+    name === "zip" && value.trim() === ""
+      ? setShowZipValidation(true)
+      : setShowZipValidation(false);
+    name === "squareFeet" && value.trim() === ""
+      ? setShowSquareFeetValidation(true)
+      : setShowSquareFeetValidation(false);
+    name === "employeeNumber" && value.trim() === ""
+      ? setShowEmployeeNumberValidation(true)
+      : setShowEmployeeNumberValidation(false);
+    name === "startDate" && value.trim() === ""
+      ? setShowStartDateValidation(true)
+      : setShowStartDateValidation(false);
+    name === "services" && value.trim() === ""
+      ? setShowServicesValidation(true)
+      : setShowServicesValidation(false);
+    name === "body" && value.trim() === ""
+      ? setShowJobDetailsValidation(true)
+      : setShowJobDetailsValidation(false);
+  };
 
   const handleSubmit = (event) => {
+    setErrorMessage("");
     event.preventDefault();
 
-    // console.log(services)
+    // console.log("handlesubmit");
 
-    if (!state) 
-    {
+    if (
+      !companyName ||
+      !contactName ||
+      !emailAddress ||
+      !startDate ||
+      !jobDetails
+    ) {
+      setErrorMessage("Please fill in all required fields *");
+      return;
+    }
+
+    if (!state) {
       setErrorMessage("Please choose a state");
       return;
     }
 
-    if (!employeeNumber)
-    {
+    if (!employeeNumber) {
       setErrorMessage("Please choose a number of employees");
       return;
     }
 
-    if (!services.length)
-    {
+    if (!services.length) {
       setErrorMessage("Please choose at least one service");
       return;
     }
 
-    if (contactName && emailAddress) {
-      launchEmail();
-    }
+    setEmailContent({
+      companyName: companyName ? companyName : "null",
+      contactName: contactName ? contactName : "null",
+      phoneNumber: phoneNumber ? phoneNumber : "null",
+      emailAddress: emailAddress ? emailAddress : "null",
+      address: address ? address : "null",
+      city: city ? city : "null",
+      state: state ? state : "null",
+      zip: zip ? zip : "null",
+      squareFeet: squareFeet ? squareFeet : "null",
+      employeeNumber: employeeNumber ? employeeNumber : "null",
+      startDate: startDate ? startDate : "null",
+      jobDetails: jobDetails ? jobDetails : "null",
+      services: services ? services : "null",
+    });
+
     // set state back to empty form
     setCompanyName("");
     setContactName("");
@@ -180,14 +218,6 @@ const handleBlurChange = (event) => {
     setServices([]);
   };
 
-  const launchEmail = () => {
-    console.log(contactName, emailAddress, jobDetails);
-    window.open(
-      `mailto:rod.bennett75@gmail.com?subject=Work Order&&body=Company Name=${companyName} %0D%0A%0D%0A Email Address=${emailAddress} %0D%0A%0D%0A City=${city} %0D%0A%0D%0A Contact Name=${contactName} %0D%0A%0D%0A Phone Number=${phoneNumber} %0D%0A%0D%0A Address=${address} %0D%0A%0D%0A State=${state} ${zip} %0D%0A%0D%0A Square Feet=${squareFeet} %0D%0A%0D%0A Employee Number=${employeeNumber} %0D%0A%0D%0A Start Date=${startDate} %0D%0A%0D%0A Services Needed=${services} %0D%0A%0D%0A Job Details=${jobDetails}`
-    );
-    return false;
-  };
-
   return (
     <>
       <div
@@ -201,7 +231,7 @@ const handleBlurChange = (event) => {
               <Form
                 className="py-3 overflow-auto custom-about"
                 style={{ width: "80vw" }}
-                action="mailto:bhoff1980@gmail.com"
+                onSubmit={handleSubmit}
               >
                 <Form.Group
                   className="mb-3 form-length"
@@ -212,9 +242,9 @@ const handleBlurChange = (event) => {
                       Company Name
                     </Form.Label>
                     <Form.Label
-                    className={`text-danger ${showCompanyNameValidation 
-                      ? "show" 
-                      : "hide"}` }
+                      className={`text-danger ${
+                        showCompanyNameValidation ? "show" : "hide"
+                      }`}
                     >
                       * field is required
                     </Form.Label>
@@ -239,13 +269,14 @@ const handleBlurChange = (event) => {
                       Contact Name
                     </Form.Label>
                     <Form.Label
-                    className={`text-danger ${showContactNameValidation
-                    ? "show" : "hide"}` }
+                      className={`text-danger ${
+                        showContactNameValidation ? "show" : "hide"
+                      }`}
                     >
                       * field is required
                     </Form.Label>
                   </div>
-      
+
                   <Form.Control
                     className="custom-border"
                     type="text"
@@ -266,8 +297,9 @@ const handleBlurChange = (event) => {
                       Email Address
                     </Form.Label>
                     <Form.Label
-                    className={`text-danger ${showEmailAddressValidation 
-                      ? "show" : "hide"}` }
+                      className={`text-danger ${
+                        showEmailAddressValidation ? "show" : "hide"
+                      }`}
                     >
                       * field is required
                     </Form.Label>
@@ -293,11 +325,12 @@ const handleBlurChange = (event) => {
                       Phone Number
                     </Form.Label>
                     <Form.Label
-                    className={`text-danger ${showPhoneNumberValidation 
-                      ? "show" : "hide"}` }
-                      >
+                      className={`text-danger ${
+                        showPhoneNumberValidation ? "show" : "hide"
+                      }`}
+                    >
                       * field is required
-                      </Form.Label>
+                    </Form.Label>
                   </div>
                   <Form.Control
                     className="custom-border"
@@ -319,8 +352,9 @@ const handleBlurChange = (event) => {
                       Address
                     </Form.Label>
                     <Form.Label
-                    className={`text-danger ${showAddressValidation 
-                      ? "show" : "hide"}` }
+                      className={`text-danger ${
+                        showAddressValidation ? "show" : "hide"
+                      }`}
                     >
                       * field is required
                     </Form.Label>
@@ -340,11 +374,12 @@ const handleBlurChange = (event) => {
                       City
                     </Form.Label>
                     <Form.Label
-                    className={`text-danger ${showCityValidation
-                      ? "show" : "hide"}` }
-                      >
+                      className={`text-danger ${
+                        showCityValidation ? "show" : "hide"
+                      }`}
+                    >
                       * field is required
-                      </Form.Label>
+                    </Form.Label>
                     <Form.Control
                       className="custom-border"
                       placeholder="City"
@@ -359,11 +394,12 @@ const handleBlurChange = (event) => {
                       State
                     </Form.Label>
                     <Form.Label
-                    className={`text-danger ${showStateValidation
-                      ? "show" : "hide"}` }
-                      >
+                      className={`text-danger ${
+                        showStateValidation ? "show" : "hide"
+                      }`}
+                    >
                       * field is required
-                      </Form.Label>
+                    </Form.Label>
                     <Form.Control
                       as={"select"}
                       name="state"
@@ -380,21 +416,21 @@ const handleBlurChange = (event) => {
                       ))}
                     </Form.Control>
                   </Col>
-                  <Col  >
+                  <Col>
                     <Form.Label
                       style={{ fontWeight: "bolder", align: "right" }}
                     >
                       Zipcode
                     </Form.Label>
                     <Form.Label
-                    className={`text-danger ${showZipValidation
-                      ? "show" : "hide"}` }
-                      >
+                      className={`text-danger ${
+                        showZipValidation ? "show" : "hide"
+                      }`}
+                    >
                       * field is required
-                      </Form.Label>
+                    </Form.Label>
                     <Form.Control
                       className="custom-border"
-
                       style={{ maxWidth: "150px" }}
                       placeholder="Zip"
                       name="zip"
@@ -413,11 +449,12 @@ const handleBlurChange = (event) => {
                       Office Sqft
                     </Form.Label>
                     <Form.Label
-                    className={`text-danger ${showSquareFeetValidation
-                      ? "show" : "hide"}` }
-                      >
+                      className={`text-danger ${
+                        showSquareFeetValidation ? "show" : "hide"
+                      }`}
+                    >
                       * field is required
-                      </Form.Label>
+                    </Form.Label>
                     <Form.Control
                       className="custom-border"
                       placeholder="8000 Sqft"
@@ -428,7 +465,7 @@ const handleBlurChange = (event) => {
                   </Col>
                   {/* <Form.Group> */}
                   {/* <Col xs={12} md={6}> */}
-                  <Col  className="margin-expand">
+                  <Col className="margin-expand">
                     <Form.Label
                       style={{
                         fontWeight: "bolder",
@@ -439,11 +476,12 @@ const handleBlurChange = (event) => {
                       # of Employees
                     </Form.Label>
                     <Form.Label
-                    className={`text-danger ${showEmployeeNumberValidation
-                      ? "show" : "hide"}` }
-                      >
+                      className={`text-danger ${
+                        showEmployeeNumberValidation ? "show" : "hide"
+                      }`}
+                    >
                       * field is required
-                      </Form.Label>
+                    </Form.Label>
                     {/* <Col xs={12}> */}
                     <Col>
                       {/* <Form.Label
@@ -483,11 +521,12 @@ const handleBlurChange = (event) => {
                         Estimated Date for Work to be Scheduled
                       </Form.Label>
                       <Form.Label
-                      className={`text-danger ${showStartDateValidation
-                        ? "show" : "hide"}` }
-                        >
+                        className={`text-danger ${
+                          showStartDateValidation ? "show" : "hide"
+                        }`}
+                      >
                         * field is required
-                        </Form.Label>
+                      </Form.Label>
                     </div>
                     <Form.Control
                       className="custom-border"
@@ -530,7 +569,6 @@ const handleBlurChange = (event) => {
                         type={type}
                         id={`inline-${type}-1`}
                         onChange={handleChange}
-
                       />
                       <Form.Check
                         inline
@@ -540,7 +578,6 @@ const handleBlurChange = (event) => {
                         type={type}
                         id={`inline-${type}-2`}
                         onChange={handleChange}
-                    
                       />
                       <Form.Check
                         inline
@@ -570,11 +607,12 @@ const handleBlurChange = (event) => {
                       Job Details
                     </Form.Label>
                     <Form.Label
-                    className={`text-danger ${showJobDetailsValidation
-                      ? "show" : "hide"}` }
-                      >
+                      className={`text-danger ${
+                        showJobDetailsValidation ? "show" : "hide"
+                      }`}
+                    >
                       * field is required
-                      </Form.Label>
+                    </Form.Label>
                   </div>
                   <Form.Control
                     className="custom-border"
@@ -593,7 +631,6 @@ const handleBlurChange = (event) => {
                   variant="primary"
                   type="submit"
                   title="Enter all fields to send email"
-                  onClick={handleSubmit}
                 >
                   Send Email
                 </Button>
@@ -608,7 +645,6 @@ const handleBlurChange = (event) => {
           </Row>
         </Container>
       </div>
-
       <Footer />
     </>
   );

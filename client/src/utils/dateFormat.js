@@ -50,9 +50,6 @@ module.exports = {
   format_date_YYYYDDMM,
 };
 
-
-
-
   // if (date) {
   //   dateYYYYDDMM = new Date(date).toISOString().substring(0, 10)
   // }
