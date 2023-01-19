@@ -7,7 +7,7 @@ import { QUERY_EMPLOYEE_BYID } from "../../utils/queries";
 
 import { Row, Container, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { format_date_MMDDYYYY} from "../../utils/dateFormat"
 import Collapse from "react-bootstrap/Collapse";
 
 function Employees() {
@@ -71,8 +71,8 @@ function Employees() {
                         aria-expanded={open}
                         style={{ textDecoration: "none" }}
                       >
-                        {job?.client?.businessName}: {job?.startDate}
-                        {/* {job?.startTime} */}
+                        {job?.client?.businessName}: {format_date_MMDDYYYY(job?.startDate)} 
+                        {" "}at {" "} {job?.startTime}
                       </button>
                     </h5>
                   </div>

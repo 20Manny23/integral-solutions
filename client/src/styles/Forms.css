@@ -11,6 +11,9 @@
     margin-right: auto !important;
     padding-bottom: 15px;
 }
+.margin-expand {
+    margin-right:-12px;
+}
 
 @media screen and (max-width: 650px){
 
