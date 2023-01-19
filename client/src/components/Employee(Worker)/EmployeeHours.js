@@ -17,6 +17,15 @@ import { Form, Col, Row, Container, Collapse, Button } from "react-bootstrap";
 
 import "../../styles/hours.css"
 
+import Time, { sum } from 'time-value';
+
+const time1 = new Time(1, 'h');
+const time2 = new Time(30, 'm');
+const time3 = new Time(1, 'h');
+
+sum([time1, time2, time3]); // 2h 30m
+console.log(sum)
+
 function EmployeeHours() {
   // set up state for form data
   const [startHours, setStartHours] = useState("");
@@ -74,10 +83,10 @@ function EmployeeHours() {
         <Row className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary "
         >Current Week
           {thisWeek.map((date, index) => (
-            <div id="accordion" key={index} style={{ width: "25%" }}>{date.day} {date.date}
+            <div id="accordion" key={index} style={{ width: "25%", margin: "auto" }}>{date.day} {date.date}
             <Row>
               <Button className="btn btn-link pl-1"
-                style={{ color: "white" }}
+                style={{ color: "white", margin: "auto" }}
                 onClick={(event) => getElement(event)}
                 aria-expanded={open}
                 aria-controls="example-fade-text"
@@ -127,8 +136,8 @@ function EmployeeHours() {
         </Row>
       </Container>
       <hr></hr>
-      <Container >
-        <Row className=" mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary "
+      <Container>
+        <Row className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary" style={{ width: "97%"}}
         >
           <Button className="btn btn-link pl-1"
             style={{ color: "white" }}
@@ -140,9 +149,9 @@ function EmployeeHours() {
           <Collapse in={open}
             aria-expanded={open}
           >
-            <div id="example-collapse-text">
-              <Row className=" mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary "> {lastWeek.map((date, index) => (
-                <div id="accordion" key={index} style={{ width: "50%" }}>{date.day} {date.date}
+            <div id="example-collapse-text" style={{width: "100%"}}>
+              <Row style={{ width: "97%", margin: "auto"}}className=" mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary "> {lastWeek.map((date, index) => (
+                <div id="accordion" key={index} style={{ width: "70%"}}>{date.day} {date.date}
                   <Row>Hours worked: { }</Row>
                 </div>
               ))}
