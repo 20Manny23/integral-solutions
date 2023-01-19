@@ -175,6 +175,16 @@ const typeDefs = gql`
     ): String 
   }
 
+  type Query {
+    sendEmail(    
+      toEmail: String
+      fromEmail: String
+      subject: String
+      textContent: String
+      htmlContent: String  
+    ): String 
+  }
+
   type Mutation {
     login(email: String!, password: String!): Auth
     forgotPassword(email: String!, password: String!): Auth

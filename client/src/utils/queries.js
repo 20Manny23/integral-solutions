@@ -314,6 +314,24 @@ export const SEND_EMAIL_CONTACT_US = gql`
   }
 `;
 
+export const SEND_EMAIL = gql`
+  query emailContent(
+    $toEmail: String
+    $fromEmail: String
+    $subject: String
+    $textContent: String
+    $htmlContent: String      
+  ) {
+    sendEmail(
+      toEmail: $toEmail,
+      fromEmail: $fromEmail,
+      subject: $subject,
+      textContent: $textContent,
+      htmlContent: $htmlContent,
+    )
+  }
+`;
+
 // SECTION LEGACY CODE
 export const QUERY_SINGLE_LOCATION = gql`
   query getSingleLocation($locationId: ID!) {
