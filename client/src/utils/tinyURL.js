@@ -1,16 +1,16 @@
 // set tinyURL path
-let tinyUrlApiPath = `https://api.tinyurl.com/create?api_token=${process.env.REACT_APP_TINY_URL_KEY}`;
+export const TINY_URL_PATH = `https://api.tinyurl.com/create?api_token=${process.env.REACT_APP_TINY_URL_KEY}`;
 
 
 // TINY URL API CALL
 export const getTinyURL = async (token, data = {}) => {
-  console.log(token, tinyUrlApiPath, data);
+  console.log(token, TINY_URL_PATH, data);
 
-  const uri = `http://localhost:3000/resetpassword/${token.token}`;
+  const uri = `http://localhost:3000/resetpassword/${token?.token}`;
   console.log('uri = ', uri);
   let encodedURI = encodeURI(uri);
 
-  const response = await fetch(tinyUrlApiPath, {
+  const response = await fetch(TINY_URL_PATH, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -25,6 +25,6 @@ export const getTinyURL = async (token, data = {}) => {
       domain: "tiny.one",
     }),
   });
-  // console.log('tinyurl response = ', response );
+  
   return response.json(); // parses JSON response into native JavaScript objects
 };

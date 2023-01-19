@@ -1,5 +1,5 @@
+import React, { useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
-import { useEffect } from "react";
 import "../../styles/Contact.css";
 
 import { SEND_EMAIL } from "../../utils/queries";
@@ -10,14 +10,19 @@ import {
   reset_html_template,
 } from "./templates/resetTemplate";
 
-import { getTinyURL } from "../../utils/tinyURL";
+import { TINY_URL_PATH, getTinyURL } from "../../utils/tinyURL";
 
 // section start email
 function useEmailSend(props) {
   console.log("useEmail hook,props = ", props);
 
-  let tokenURL = getTinyURL(props.token);
-  console.log('tokenURL = ', tokenURL);
+  const [tinyURI, setTinyURI] = useState("");
+
+  getTinyURL(props.token).then((data) => {
+    setTinyURI(data.data.tiny_url);
+  });
+
+  console.log('tokenURL = ', tinyURI);
 
   // const toEmail = props.toEmail ? "callasteven@gmail.com" : "";
   const toEmail = "callasteven@gmail.com";
