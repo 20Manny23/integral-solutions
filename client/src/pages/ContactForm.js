@@ -35,7 +35,11 @@ function ContactForm() {
   const [jobDetails, setJobDetails] = useState("");
 
   const [ emailContent, setEmailContent ] = useState({});
+  // eslint-disable-next-line
+  
   const submitEmailContent = useEmailSendContactUs(emailContent);
+  
+  console.log('email content = ', emailContent)
 
  // handle input change
   const handleChange = (event) => {
@@ -88,6 +92,20 @@ function ContactForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    console.log('handlesubmit')
+
+    // if (
+    //   // !companyName 
+    //   // ||
+    //   // !contactName ||
+    //   // !emailAddress ||
+    //   // !startDate ||
+    //   // !jobDetails
+    // ) {
+    //   setErrorMessage("Please fill in all required fields *");
+    //   return;
+    // }
+
     setEmailContent({ 
       companyName: companyName ? companyName : "null",
       contactName: contactName ? contactName: "null",
@@ -103,19 +121,6 @@ function ContactForm() {
       jobDetails: jobDetails ? jobDetails : "null",
       services: services ? services : "null",
     });
-
-    // console.log(services)
-    //fix
-    // if (
-    //   !companyName ||
-    //   !contactName ||
-    //   !emailAddress ||
-    //   !startDate ||
-    //   !jobDetails
-    // ) {
-    //   setErrorMessage("Please fill in all required fields *");
-    //   return;
-    // }
 
     // set state back to empty form
     setCompanyName("");
@@ -449,11 +454,13 @@ function ContactForm() {
                   Send Email
                 </Button>
               </Form>
+
               {errorMessage && (
                 <Alert className="form-alert" variant="danger">
                   <p className="error-text">{errorMessage}</p>
                 </Alert>
               )}
+              
             </Col>
           </Row>
         </Container>

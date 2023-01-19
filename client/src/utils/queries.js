@@ -274,8 +274,8 @@ export const QUERY_SINGLE_SCHEDULE = gql`
 `;
 
 // SECTION SEND EMAIL
-export const SEND_EMAIL = gql`
-  query Query(
+export const SEND_EMAIL_CONTACT_US = gql`
+  query contactUs(
     $companyName: String
     $contactName: String      
     $phoneNumber: String
@@ -290,7 +290,7 @@ export const SEND_EMAIL = gql`
     $jobDetails: String
     $services: [String]
   ) {
-    sendEmail(
+    sendEmailContactUs(
       companyName: $companyName,
       contactName: $contactName,
       phoneNumber: $phoneNumber,

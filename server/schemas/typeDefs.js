@@ -158,7 +158,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    sendEmail(
+    sendEmailContactUs(
       companyName: String
       contactName: String    
       phoneNumber: String

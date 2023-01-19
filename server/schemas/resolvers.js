@@ -10,6 +10,7 @@ const {
 } = require("../models");
 const { signToken } = require("../utils/auth");
 const bcrypt = require("bcrypt");
+const { addAbortSignal } = require("stream");
 
 let expiration = "2h"; // 2 hours
 
@@ -145,15 +146,19 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    // sendEmail: async (parent, { companyName, contact, }, context) => {
-    sendEmail: async (parent, args, context) => {
+    sendEmailContactUs: async (parent, args, context) => {
       const sgMail = require("@sendgrid/mail");
       sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+      let message = `Your information was sent to Integral Solutions. A represenative will be in touch soon.`;
+
+      console.log('lazy query');
+      console.log('args = ', args);
 
       const msg = {
         to: "callasteven@gmail.com", // Change to your recipient
         from: "callasteven@gmail.com", // Change to your verified sender
-        subject: `Contact Us: ${args.companyName},  ${args.contactName}`,
+        subject: `Contact Us: ${args.companyName}, Start: ${args.startDate} Services: ${args.services}`,
         text: `
         This is the text format
         Company Name: ${args.companyName}
@@ -184,17 +189,16 @@ const resolvers = {
         .send(msg)
         .then(() => {
           console.log("Email sent");
-          alert("Your information was sent to Integral Solutions. They'll be in touch soon.")
         })
         .catch((error) => {
           console.error(error);
           console.error(error.response.body.errors);
+          message = "Something went wrong. Give us a call at 555-555-1212."
         });
 
-        // const hello = "hello"
-        // return { hello };
+        console.log(message)
+        return message;
     },
-
   },
 
   Mutation: {
@@ -584,6 +588,7 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
+    // SECTION TOGGLE RESOLVERS
     // toggleAdmin mutation that returns a success/fail message
     toggleAdmin: async (parent, { employeeId }) => {
       let message = "No such user exists";

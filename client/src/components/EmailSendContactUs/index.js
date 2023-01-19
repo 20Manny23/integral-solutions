@@ -2,16 +2,16 @@ import { gql, useLazyQuery} from "@apollo/client";
 import { useState, useEffect } from "react";
 import "../../styles/Contact.css";
 
-import {
-  SEND_EMAIL,
-} from "../../utils/queries";
+import { SEND_EMAIL_CONTACT_US } from "../../utils/queries";
 
 // section start email
 function useEmailSendContactUs(props) { 
+  const [ message, setMessage] = useState("");
+  // console.log('useEmail hook,props = ', props);
 
   // eslint-disable-next-line
-  const [sendEmail, { loading: emailLoad, error: emailError, data: emailData },
-  ] = useLazyQuery(SEND_EMAIL, {
+  const [sendEmailContactUs, { loading: emailLoad, error: emailError, data: emailData },
+  ] = useLazyQuery(SEND_EMAIL_CONTACT_US, {
     variables: { 
       companyName: props.companyName,
       contactName: props.contactName,
@@ -28,25 +28,24 @@ function useEmailSendContactUs(props) {
       services: props.services,
     },
     fetchPolicy: 'cache-and-network', // ensure the query executes after each click
-    onCompleted: () => {
-      console.log('lazyQuery data = ', emailData)
-      console.log('complete')
-    },
   });
 
   useEffect(() => {
-    console.log(props.companyName, props.companyName === null)
-
     if ( props.companyName ) {
-      sendEmail();
+      // console.log('props passed');
+
+      sendEmailContactUs();
+
+      if (emailError) {
+        console.log(`Error! ${emailError}`);
+        alert`Error! ${emailError}`;
+      }
     }
     // eslint-disable-next-line
   }, [props])
-  
-  if (emailLoad) return console.log('email load');
-  if (emailError) return console.log(`Error! ${emailError}`);
+
 
   return;
 }
 
-export default useEmailSend;
+export default useEmailSendContactUs;
