@@ -37,7 +37,7 @@ function useEmailSend(props) {
   // SECTION SET EMAIL CONTENT
   const toEmail = props?.source === "resetPassword" ? "callasteven@gmail.com" : "callasteven@gmail.com"; //fix reset password should use props.toEmail;
   const fromEmail = FROM_EMAIL;
-  const subject = props?.source === "resetPassword" ? RESET_SUBJECT : CONTACT_US_SUBJECT;
+  const subject = props?.source === "resetPassword" ? RESET_SUBJECT(props) : CONTACT_US_SUBJECT(props);
   const textContent =
     props?.source === "resetPassword"
     // ? reset_text_template(tinyURI, props.firstName)
@@ -69,20 +69,15 @@ function useEmailSend(props) {
   useEffect(() => {
     // console.log('use effect = ', props, props.token, !props.token, Object.keys(props).length !== 0  )
     
-    // console.log('length = ', Object.keys(props).length !== 0)
-    // console.log('props = ', Object.keys(props));
-    // console.log('source = ', props.source);
+    console.log('length = ', Object.keys(props).length !== 0)
+    console.log('props = ', Object.keys(props));
+    console.log('props = ', props)
+    console.log('source = ', props.source);
     // console.log('token = ', props.token?.token);
 
-    if (props.token?.token) {
+    if (props?.token?.token || props?.companyName) {
       // get tiny url
       tiny_url();
-      // getTinyURL(props.token).then((data) => {
-      //   setTinyURI(data.data.tiny_url);
-      // });
-      // console.log("tokenURL = ", tinyURI);
-
-      // console.log('props passed');
 
       // send email
       sendEmail();
