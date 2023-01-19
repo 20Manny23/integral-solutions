@@ -126,7 +126,7 @@ function EmployeeHours() {
                     Submit Hours
                   </Button>
                   <br></br>
-                  <Row classname="total">Day's Total: { }</Row>
+                  <Row className="total">Day's Total: { }</Row>
                 </div>
               </Collapse>
               <hr></hr>
