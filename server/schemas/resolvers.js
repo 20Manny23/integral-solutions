@@ -185,16 +185,16 @@ const resolvers = {
         <p>Job Details: ${args.jobDetails}</p>`,
       };
 
-      sgMail
-        .send(msg)
-        .then(() => {
-          console.log("Email sent");
-        })
-        .catch((error) => {
-          console.error(error);
-          console.error(error.response.body.errors);
-          message = "Something went wrong. Give us a call at 555-555-1212."
-        });
+      // sgMail
+      //   .send(msg)
+      //   .then(() => {
+      //     console.log("Email sent");
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //     console.error(error.response.body.errors);
+      //     message = "Something went wrong. Give us a call at 555-555-1212."
+      //   });
 
         console.log(message)
         return message;
