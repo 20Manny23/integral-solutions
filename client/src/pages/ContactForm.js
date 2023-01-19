@@ -39,9 +39,25 @@ function ContactForm() {
   
   const submitEmailContent = useEmailSendContactUs(emailContent);
   
-  console.log('email content = ', emailContent)
+  // console.log('email content = ', emailContent)
 
  // handle input change
+  // VALIDATION
+  const [showCompanyNameValidation, setShowCompanyNameValidation] = useState("");
+  const [showContactNameValidation, setShowContactNameValidation] = useState("");
+  const [showPhoneNumberValidation, setShowPhoneNumberValidation] = useState("");
+  const [showEmailAddressValidation, setShowEmailAddressValidation] = useState("");
+  const [showAddressValidation, setShowAddressValidation] = useState("");
+  const [showCityValidation, setShowCityValidation] = useState("");
+  const [showStateValidation, setShowStateValidation] = useState("");
+  const [showZipValidation, setShowZipValidation] = useState("");
+  const [showSquareFeetValidation, setShowSquareFeetValidation] = useState("");
+  const [showEmployeeNumberValidation, setShowEmployeeNumberValidation] = useState("");
+  const [showStartDateValidation, setShowStartDateValidation] = useState("");
+  const [showServicesValidation, setShowServicesValidation] = useState("");
+  const [showJobDetailsValidation, setShowJobDetailsValidation] = useState("");
+
+
   const handleChange = (event) => {
     const { target } = event;
     const name = target.name;
@@ -89,7 +105,52 @@ function ContactForm() {
     }
   };
 
-  const handleSubmit = async (event) => {
+// VALIDATION BLUR
+const handleBlurChange = (event) => {
+  const { name, value } = event.target;
+
+  name === "company" && value.trim() === ""
+    ? setShowCompanyNameValidation(true)
+    : setShowCompanyNameValidation(false);
+  name === "name" && value.trim() === ""
+    ? setShowContactNameValidation(true)
+    : setShowContactNameValidation(false);
+  name === "email" && value.trim() === ""
+    ? setShowEmailAddressValidation(true)
+    : setShowEmailAddressValidation(false);
+  name === "telNo" && value.trim() === ""
+  ? setShowPhoneNumberValidation(true)
+  : setShowPhoneNumberValidation(false);
+  name === "address" && value.trim() === ""
+    ? setShowAddressValidation(true)
+    : setShowAddressValidation(false);
+  name === "city" && value.trim() === ""
+    ? setShowCityValidation(true)
+    : setShowCityValidation(false);
+  name === "state" && value.trim() === ""
+    ? setShowStateValidation(true)
+    : setShowStateValidation(false);
+  name === "zip" && value.trim() === ""
+    ? setShowZipValidation(true)
+    : setShowZipValidation(false);
+  name === "squareFeet" && value.trim() === ""
+    ? setShowSquareFeetValidation(true)
+    : setShowSquareFeetValidation(false);
+  name === "employeeNumber" && value.trim() === ""
+    ? setShowEmployeeNumberValidation(true)
+    : setShowEmployeeNumberValidation(false);
+  name === "startDate" && value.trim() === ""
+    ? setShowStartDateValidation(true)
+    : setShowStartDateValidation(false);
+  name === "services" && value.trim() === ""
+    ? setShowServicesValidation(true)
+    : setShowServicesValidation(false);
+  name === "body" && value.trim() === ""
+    ? setShowJobDetailsValidation(true)
+    : setShowJobDetailsValidation(false);
+};
+
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     console.log('handlesubmit')
@@ -121,6 +182,23 @@ function ContactForm() {
       jobDetails: jobDetails ? jobDetails : "null",
       services: services ? services : "null",
     });
+    if (!state) 
+    {
+      setErrorMessage("Please choose a state");
+      return;
+    }
+
+    if (!employeeNumber)
+    {
+      setErrorMessage("Please choose a number of employees");
+      return;
+    }
+
+    if (!services.length)
+    {
+      setErrorMessage("Please choose at least one service");
+      return;
+    }
 
     // set state back to empty form
     setCompanyName("");
@@ -159,7 +237,14 @@ function ContactForm() {
                 >
                   <div className="form-label">
                     <Form.Label style={{ fontWeight: "bolder" }}>
-                      Company Name &nbsp;<span className="text-danger">*</span>
+                      Company Name
+                    </Form.Label>
+                    <Form.Label
+                    className={`text-danger ${showCompanyNameValidation 
+                      ? "show" 
+                      : "hide"}` }
+                    >
+                      * field is required
                     </Form.Label>
                   </div>
                   <Form.Control
@@ -168,6 +253,7 @@ function ContactForm() {
                     placeholder="Enter Company Name"
                     name="company"
                     onChange={handleChange}
+                    onBlur={handleBlurChange}
                     required
                   />
                 </Form.Group>
@@ -178,16 +264,24 @@ function ContactForm() {
                 >
                   <div className="form-label">
                     <Form.Label style={{ fontWeight: "bolder" }}>
-                      Contact Name &nbsp;<span className="text-danger">*</span>
+                      Contact Name
+                    </Form.Label>
+                    <Form.Label
+                    className={`text-danger ${showContactNameValidation
+                    ? "show" : "hide"}` }
+                    >
+                      * field is required
                     </Form.Label>
                   </div>
+      
                   <Form.Control
                     className="custom-border"
                     type="text"
                     placeholder="Enter Contact Name"
                     name="name"
                     onChange={handleChange}
-                    // required
+                    onBlur={handleBlurChange}
+                    required
                   />
                 </Form.Group>
 
@@ -197,7 +291,13 @@ function ContactForm() {
                 >
                   <div className="form-label">
                     <Form.Label style={{ fontWeight: "bolder" }}>
-                      Email Address &nbsp;<span className="text-danger">*</span>
+                      Email Address
+                    </Form.Label>
+                    <Form.Label
+                    className={`text-danger ${showEmailAddressValidation 
+                      ? "show" : "hide"}` }
+                    >
+                      * field is required
                     </Form.Label>
                   </div>
 
@@ -207,7 +307,8 @@ function ContactForm() {
                     placeholder="Enter Email"
                     name="email"
                     onChange={handleChange}
-                    // required
+                    onBlur={handleBlurChange}
+                    required
                   />
                 </Form.Group>
 
@@ -219,6 +320,12 @@ function ContactForm() {
                     <Form.Label style={{ fontWeight: "bolder" }}>
                       Phone Number
                     </Form.Label>
+                    <Form.Label
+                    className={`text-danger ${showPhoneNumberValidation 
+                      ? "show" : "hide"}` }
+                      >
+                      * field is required
+                      </Form.Label>
                   </div>
                   <Form.Control
                     className="custom-border"
@@ -227,6 +334,7 @@ function ContactForm() {
                     name="telNo"
                     pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                     onChange={handleChange}
+                    onBlur={handleBlurChange}
                   />
                 </Form.Group>
 
@@ -238,13 +346,19 @@ function ContactForm() {
                     <Form.Label style={{ fontWeight: "bolder" }}>
                       Address
                     </Form.Label>
-                    <Form.Label></Form.Label>
+                    <Form.Label
+                    className={`text-danger ${showAddressValidation 
+                      ? "show" : "hide"}` }
+                    >
+                      * field is required
+                    </Form.Label>
                   </div>
                   <Form.Control
                     className="custom-border"
                     placeholder="Enter Address"
                     name="address"
                     onChange={handleChange}
+                    onBlur={handleBlurChange}
                   />
                 </Form.Group>
 
@@ -253,11 +367,18 @@ function ContactForm() {
                     <Form.Label style={{ fontWeight: "bolder" }}>
                       City
                     </Form.Label>
+                    <Form.Label
+                    className={`text-danger ${showCityValidation
+                      ? "show" : "hide"}` }
+                      >
+                      * field is required
+                      </Form.Label>
                     <Form.Control
                       className="custom-border"
                       placeholder="City"
                       name="city"
                       onChange={handleChange}
+                      onBlur={handleBlurChange}
                     />
                   </Col>
 
@@ -265,6 +386,12 @@ function ContactForm() {
                     <Form.Label style={{ fontWeight: "bolder" }}>
                       State
                     </Form.Label>
+                    <Form.Label
+                    className={`text-danger ${showStateValidation
+                      ? "show" : "hide"}` }
+                      >
+                      * field is required
+                      </Form.Label>
                     <Form.Control
                       as={"select"}
                       name="state"
@@ -272,6 +399,8 @@ function ContactForm() {
                       placeholder="State"
                       style={{ maxWidth: "150px" }}
                       onChange={handleChange}
+                      onBlur={handleBlurChange}
+                      required
                     >
                       <option>Select</option>
                       {STATE_DROPDOWN.map((st, index) => (
@@ -279,18 +408,26 @@ function ContactForm() {
                       ))}
                     </Form.Control>
                   </Col>
-                  <Col style={{ marginRight: "auto", marginLeft: "auto" }}>
+                  <Col  >
                     <Form.Label
                       style={{ fontWeight: "bolder", align: "right" }}
                     >
                       Zipcode
                     </Form.Label>
+                    <Form.Label
+                    className={`text-danger ${showZipValidation
+                      ? "show" : "hide"}` }
+                      >
+                      * field is required
+                      </Form.Label>
                     <Form.Control
                       className="custom-border"
+
                       style={{ maxWidth: "150px" }}
                       placeholder="Zip"
                       name="zip"
                       onChange={handleChange}
+                      onBlur={handleBlurChange}
                     />
                   </Col>
                 </Row>
@@ -303,14 +440,23 @@ function ContactForm() {
                     <Form.Label style={{ fontWeight: "bolder" }}>
                       Office Sqft
                     </Form.Label>
+                    <Form.Label
+                    className={`text-danger ${showSquareFeetValidation
+                      ? "show" : "hide"}` }
+                      >
+                      * field is required
+                      </Form.Label>
                     <Form.Control
                       className="custom-border"
                       placeholder="8000 Sqft"
                       name="squareFeet"
                       onChange={handleChange}
+                      onBlur={handleBlurChange}
                     />
                   </Col>
-                  <Col>
+                  {/* <Form.Group> */}
+                  {/* <Col xs={12} md={6}> */}
+                  <Col  className="margin-expand">
                     <Form.Label
                       style={{
                         fontWeight: "bolder",
@@ -320,6 +466,12 @@ function ContactForm() {
                     >
                       # of Employees
                     </Form.Label>
+                    <Form.Label
+                    className={`text-danger ${showEmployeeNumberValidation
+                      ? "show" : "hide"}` }
+                      >
+                      * field is required
+                      </Form.Label>
                     {/* <Col xs={12}> */}
                     <Col>
                       {/* <Form.Label
@@ -335,6 +487,11 @@ function ContactForm() {
                         type="text"
                         name="employeeNumber"
                         onChange={handleChange}
+                        onBlur={handleBlurChange}
+                        required
+                        // value={numberOfClientEmployees}
+                        // name="numberOfClientEmployees"
+                        // onChange={handleInputChange}
                       >
                         <option>Select</option>
                         {numberOfEmployees.map((emp, index) => (
@@ -344,7 +501,6 @@ function ContactForm() {
                     </Col>
                   </Col>
                 </Row>
-
                 <div className="d-flex justify-content-between">
                   <Form.Group
                     className="form-length"
@@ -352,16 +508,22 @@ function ContactForm() {
                   >
                     <div className="form-label">
                       <Form.Label style={{ fontWeight: "bolder" }}>
-                        Estimated Date for Work to be Scheduled &nbsp;
-                        <span className="text-danger">*</span>
+                        Estimated Date for Work to be Scheduled
                       </Form.Label>
+                      <Form.Label
+                      className={`text-danger ${showStartDateValidation
+                        ? "show" : "hide"}` }
+                        >
+                        * field is required
+                        </Form.Label>
                     </div>
                     <Form.Control
                       className="custom-border"
                       type="date"
                       name="startDate"
                       onChange={handleChange}
-                      // required
+                      onBlur={handleBlurChange}
+                      required
                     />
                   </Form.Group>
                 </div>
@@ -386,6 +548,7 @@ function ContactForm() {
                         type={type}
                         id={`inline-${type}-1`}
                         onChange={handleChange}
+                        onBlur={handleBlurChange}
                       />
                       <Form.Check
                         inline
@@ -395,6 +558,7 @@ function ContactForm() {
                         type={type}
                         id={`inline-${type}-1`}
                         onChange={handleChange}
+
                       />
                       <Form.Check
                         inline
@@ -404,6 +568,7 @@ function ContactForm() {
                         type={type}
                         id={`inline-${type}-2`}
                         onChange={handleChange}
+                    
                       />
                       <Form.Check
                         inline
@@ -430,8 +595,14 @@ function ContactForm() {
                 <Form.Group className="mb-3" controlId="formBasicMessage">
                   <div className="form-label">
                     <Form.Label style={{ fontWeight: "bolder" }}>
-                      Job Details &nbsp;<span className="text-danger">*</span>
+                      Job Details
                     </Form.Label>
+                    <Form.Label
+                    className={`text-danger ${showJobDetailsValidation
+                      ? "show" : "hide"}` }
+                      >
+                      * field is required
+                      </Form.Label>
                   </div>
                   <Form.Control
                     className="custom-border"
@@ -441,10 +612,10 @@ function ContactForm() {
                     placeholder="Enter additional information here."
                     name="body"
                     onChange={handleChange}
-                    // required
+                    onBlur={handleBlurChange}
+                    required
                   />
                 </Form.Group>
-
                 <Button
                   className="button-custom submit-button-style"
                   variant="primary"

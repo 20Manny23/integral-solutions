@@ -9,6 +9,8 @@ import { FORGOT_PASSWORD } from "../../utils/mutations";
 
 import { Form, Button, Alert } from "react-bootstrap";
 import "../../styles/button-home.css";
+import logo from "../../assets/images/logo.bkg.png";
+import Footer from "../Home/Footer";
 
 function Employees() {
   const [tempPassword] = useState('200');
@@ -64,6 +66,11 @@ function Employees() {
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [showError, setShowError] = useState(false);
+
+
+  // set sate for tiny_url
+  const [tinyURI, setTinyURI] = useState("");
+
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -133,17 +140,49 @@ function Employees() {
 
 
   const sendEmail = (token) => {
-    const url = `http://localhost:3000/resetpassword/${token.token}`;
+    let encodedURI = "";
+    const uri = `http://localhost:3000/resetpassword/${token.token}`;
+
+    encodedURI = encodeURI(uri)
+
+        // fetch tinyURL
+        const tinyUrlApiPath = `https://api.tinyurl.com/create?api_token=${process.env.REACT_APP_TINY_URL_KEY}`; // set tinyurl api call path
+
+        postData(tinyUrlApiPath).then((data) => {
+          setTinyURI(data.data.tiny_url);
+        });
+    
     window.open(
-      `mailto:${userFormData.email}?subject=Integral Solutions Employee Password Reset&body=Hello ${employee.firstName} %0D%0A%0D%0A Click on the link below to create a new pasword: %0D%0A%0D%0A ${url} %0D%0A%0D%0A This link will expire in 15 minutes. %0D%0A%0D%0A Thank you, %0D%0A%0D%0A Integral Solutions`
+      `mailto:${userFormData.email}?subject=Integral Solutions Employee Password Reset&body=Hello ${employee.firstName} %0D%0A%0D%0A Click on the link below to create a new pasword: %0D%0A%0D%0A ${tinyURI} %0D%0A%0D%0A This link will expire in 15 minutes. %0D%0A%0D%0A Thank you, %0D%0A%0D%0A Integral Solutions`
     )
+  }
+
+  async function postData(url = "", data = {}) {
+    const response = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({
+        // url: encodedURI,
+        domain: "tiny.one",
+      }),
+    });
+    return response.json(); // parses JSON response into native JavaScript objects
   }
   // section end rods code
 
   return (
     <>
       <div className="d-flex flex-column align-items-center mt-3">
-        <div className="d-flex flex-column align-items-center">
+        <div className="d-flex flex-column align-items-center box-making"  >
+          <h2>Forgot Password</h2>
+          <p style={{textAlign:'center'}}>You will recieve an email with instructions to reset your password <br></br>if an account exists with this email address.  </p>
           <Form
             noValidate
             validated={validated}
@@ -151,7 +190,7 @@ function Employees() {
             className="mx-2 mt-2 mb-1"
             style={{ width: "280px" }}
           >
-            <Form.Group style={{ marginTop: "100px" }}>
+            <Form.Group style={{ marginTop: "25px" }}>
               <Form.Label htmlFor="email">Enter your email</Form.Label>
               <Form.Control
                 type="text"
@@ -167,6 +206,7 @@ function Employees() {
             </Form.Group>
 
             <Button
+            style={{marginRigt:'auto', marginLeft:'auto'}}
               disabled={!(userFormData.email)}
               className="mb-3 submit-button-style"
               type="submit"
@@ -203,10 +243,15 @@ function Employees() {
               <p className="" style={{ width: "200px", padding: "10px", marginTop: "5px" }}>
                 Email failed to send. Make sure to use the same email address you created your account with
               </p>
+              
             </Alert>
           </div>
         )}
+        {/* <img src={logo} alt="large logo"
+        style={{borderRadius:'55%', marginTop:'20px'}}></img> */}
+        
       </div>
+      <Footer></Footer>
     </>
   );
 }

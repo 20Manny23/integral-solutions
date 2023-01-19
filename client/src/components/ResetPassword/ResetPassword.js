@@ -8,6 +8,7 @@ import { UPDATE_EMPLOYEE } from "../../utils/mutations";
 import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form, Button, Alert, InputGroup, ButtonGroup } from "react-bootstrap";
+import Footer from "../Home/Footer";
 import "../../styles/button-home.css";
 
 const ResetPassword = () => {
@@ -103,8 +104,12 @@ const ResetPassword = () => {
   };
 
   return (
+  <>
     <div className="d-flex flex-column align-items-center mt-3">
-      <div className="d-flex flex-column align-items-center">
+      <div className="d-flex flex-column align-items-center box-making">
+      <h2>Reset Password</h2>
+          <p style={{textAlign:'center'}}>This will assign a new password to your account. </p>
+
         <Form
           noValidate
           validated={validated}
@@ -112,7 +117,7 @@ const ResetPassword = () => {
           className="mx-2 mt-2 mb-1"
           style={{ width: "280px" }}
         >
-          <Form.Group style={{ marginTop: "100px"}}>
+          <Form.Group style={{ marginTop: "25px"}}>
             <Form.Label htmlFor="password">Create new password</Form.Label>
             <InputGroup className="mb-3">
               <Form.Control
@@ -215,7 +220,10 @@ const ResetPassword = () => {
           </Alert>
         </div>
       )} */}
+      
     </div>
+    <Footer></Footer>
+  </>
   );
 };
 

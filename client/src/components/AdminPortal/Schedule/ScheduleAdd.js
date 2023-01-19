@@ -160,28 +160,28 @@ function ScheduleAdd() {
     name === "startDate"
       ? setStartDate(value)
       : name === "endDate"
-      ? setEndDate(value)
-      : name === "startTime"
-      ? setStartTime(value)
-      : name === "endTime"
-      ? setEndTime(value)
-      : name === "squareFeet"
-      ? setSquareFeet(value)
-      : name === "jobDetails"
-      ? setJobDetails(value)
-      : name === "numberOfClientEmployees"
-      ? setNumberOfClientEmployees(value)
-      : name === "client"
-      ? setClient(value)
-      : name === "employees"
-      ? setEmployees(value)
-      : name === "streetAddress"
-      ? setStreetAddress(value)
-      : name === "state"
-      ? setState(value)
-      : name === "city"
-      ? setCity(value)
-      : setZip(value);
+        ? setEndDate(value)
+        : name === "startTime"
+          ? setStartTime(value)
+          : name === "endTime"
+            ? setEndTime(value)
+            : name === "squareFeet"
+              ? setSquareFeet(value)
+              : name === "jobDetails"
+                ? setJobDetails(value)
+                : name === "numberOfClientEmployees"
+                  ? setNumberOfClientEmployees(value)
+                  : name === "client"
+                    ? setClient(value)
+                    : name === "employees"
+                      ? setEmployees(value)
+                      : name === "streetAddress"
+                        ? setStreetAddress(value)
+                        : name === "state"
+                          ? setState(value)
+                          : name === "city"
+                            ? setCity(value)
+                            : setZip(value);
 
     return name;
   };
@@ -347,16 +347,16 @@ function ScheduleAdd() {
   useEffect(() => {
     setAreAllFieldsFilled(
       businessName.trim() === "Select" ||
-        numberOfClientEmployees.trim() === "Select" ||
-        state.trim() === "Select" ||
-        streetAddress.trim() === "" ||
-        city.trim() === "" ||
-        zip.trim() === "" ||
-        startDate.trim() === "" ||
-        endDate.trim() === "" ||
-        startTime.trim() === "" ||
-        squareFeet.trim() === "" ||
-        jobDetails.trim() === ""
+      numberOfClientEmployees.trim() === "Select" ||
+      state.trim() === "Select" ||
+      streetAddress.trim() === "" ||
+      city.trim() === "" ||
+      zip.trim() === "" ||
+      startDate.trim() === "" ||
+      endDate.trim() === "" ||
+      startTime.trim() === "" ||
+      squareFeet.trim() === "" ||
+      jobDetails.trim() === ""
       // || employees.trim() === "Select"
       // || selectedEmployees.length === 0
       // || suite.trim() !== ""
@@ -394,9 +394,8 @@ function ScheduleAdd() {
             Select Client
           </Form.Label>
           <Form.Label
-            className={`validation-color ${
-              showBusinessNameValidation ? "show" : "hide"
-            }`}
+            className={`validation-color ${showBusinessNameValidation ? "show" : "hide"
+              }`}
           >
             *required
           </Form.Label>
@@ -409,12 +408,22 @@ function ScheduleAdd() {
             name={"form-select"}
             onChange={businessNameSelect}
           >
-            <option>Select</option>
+           <option>{businessName ? businessName : "Select"}</option>
             {clients?.clients?.map((client, index) => (
-              <option key={index} value={client.businessName}>
+            
+              // <option
+              //   key={index}
+              //   value={client.businessName}
+              //   data-id={client._id}
+              // >
+              <option 
+              key={index} 
+              value={client.businessName} 
+              data-id={client._id}>
                 {client.businessName}
               </option>
             ))}
+            
           </Form.Control>
         </Form.Group>
 
@@ -422,9 +431,8 @@ function ScheduleAdd() {
           <div className="form-label">
             <Form.Label style={{ fontWeight: "bolder" }}>Address</Form.Label>
             <Form.Label
-              className={`validation-color ${
-                showStreetAddressValidation ? "show" : "hide"
-              }`}
+              className={`validation-color ${showStreetAddressValidation ? "show" : "hide"
+                }`}
             >
               *required
             </Form.Label>
@@ -437,16 +445,15 @@ function ScheduleAdd() {
             // defaultValue={client?.streetAddress}
             onChange={handleInputChange}
             onBlur={handleBlurChange}
-            //required
+          //required
           />
         </Form.Group>
         <Row className="addy">
-          <Col xs={12}>
+          <Col  xs={12}>
             <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
             <Form.Label
-              className={`validation-color ${
-                showCityValidation ? "show" : "hide"
-              }`}
+              className={`validation-color ${showCityValidation ? "show" : "hide"
+                }`}
             >
               *required
             </Form.Label>
@@ -458,15 +465,14 @@ function ScheduleAdd() {
               // defaultValue={client?.city}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //required
+            //required
             />
           </Col>
           <Col xs={5}>
             <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
             <Form.Label
-              className={`validation-color ${
-                showStateValidation ? "show" : "hide"
-              }`}
+              className={`validation-color ${showStateValidation ? "show" : "hide"
+                }`}
             >
               *required
             </Form.Label>
@@ -479,7 +485,7 @@ function ScheduleAdd() {
               // defaultValue={client?.state}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //required
+            //required
             >
               <option>Select</option>
               {STATE_DROPDOWN.map((st) => (
@@ -490,9 +496,8 @@ function ScheduleAdd() {
           <Col>
             <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>
             <Form.Label
-              className={`validation-color ${
-                showZipValidation ? "show" : "hide"
-              }`}
+              className={`validation-color ${showZipValidation ? "show" : "hide"
+                }`}
             >
               *required
             </Form.Label>
@@ -504,7 +509,7 @@ function ScheduleAdd() {
               // defaultValue={client?.zip}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //required
+            //required
             />
           </Col>
         </Row>
@@ -517,9 +522,8 @@ function ScheduleAdd() {
                 </Form.Label>
 
                 <Form.Label
-                  className={`validation-color ${
-                    showStartDateValidation ? "show" : "hide"
-                  }`}
+                  className={`validation-color ${showStartDateValidation ? "show" : "hide"
+                    }`}
                 >
                   *required
                 </Form.Label>
@@ -527,12 +531,12 @@ function ScheduleAdd() {
               <Form.Control
                 className="custom-border"
                 type="date"
-                minValue= '01/23/2023'
+                minValue='01/23/2023'
                 name="startDate"
                 defaultValue={client?.startDate}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                //required
+              //required
               />
             </Form.Group>
           </Col>
@@ -543,9 +547,8 @@ function ScheduleAdd() {
                   Job End Date
                 </Form.Label>
                 <Form.Label
-                  className={`validation-color ${
-                    showEndDateValidation ? "show" : "hide"
-                  }`}
+                  className={`validation-color ${showEndDateValidation ? "show" : "hide"
+                    }`}
                 >
                   *required
                 </Form.Label>
@@ -558,7 +561,7 @@ function ScheduleAdd() {
                 // defaultValue={client?.endDate}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                //required
+              //required
               />
             </Form.Group>
           </Col>
@@ -569,9 +572,8 @@ function ScheduleAdd() {
                   Start Time
                 </Form.Label>
                 <Form.Label
-                  className={`validation-color ${
-                    showStartTimeValidation ? "show" : "hide"
-                  }`}
+                  className={`validation-color ${showStartTimeValidation ? "show" : "hide"
+                    }`}
                 >
                   *required
                 </Form.Label>
@@ -584,7 +586,7 @@ function ScheduleAdd() {
                 // defaultValue={client?.startTime}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                //required
+              //required
               />
             </Form.Group>
           </Col>
@@ -596,9 +598,8 @@ function ScheduleAdd() {
               Office Sqft
             </Form.Label>
             <Form.Label
-              className={`validation-color ${
-                showSquareFeetValidation ? "show" : "hide"
-              }`}
+              className={`validation-color ${showSquareFeetValidation ? "show" : "hide"
+                }`}
             >
               *required
             </Form.Label>
@@ -610,7 +611,7 @@ function ScheduleAdd() {
               // defaultValue={client?.squareFeet}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //required
+            //required
             />
           </Col>
 
@@ -620,9 +621,8 @@ function ScheduleAdd() {
                 Number of Employees
               </Form.Label>
               <Form.Label
-                className={`validation-color ${
-                  showNumberOfClientEmployeesValidation ? "show" : "hide"
-                }`}
+                className={`validation-color ${showNumberOfClientEmployeesValidation ? "show" : "hide"
+                  }`}
               >
                 *required
               </Form.Label>
@@ -648,9 +648,8 @@ function ScheduleAdd() {
             Select Employees for Job
           </Form.Label>
           <Form.Label
-            className={`validation-color ${
-              showSelectedEmployeesValidation ? "show" : "hide"
-            }`}
+            className={`validation-color ${showSelectedEmployeesValidation ? "show" : "hide"
+              }`}
           >
             *required
           </Form.Label>
@@ -678,7 +677,7 @@ function ScheduleAdd() {
             ))}
           </Form.Control>
         </Form.Group>
-
+        <Form.Group className="form-length">
         {/* Creates button when adding employee to job  */}
         {selectedEmployees.map((employee) => (
           <Button
@@ -687,6 +686,7 @@ function ScheduleAdd() {
               padding: "3px",
               backgroundColor: "#007bff",
             }}
+            className="m-1 p-2"
             onClick={removeEmployee}
             value={employee.employeeId}
             variant="secondary"
@@ -695,16 +695,15 @@ function ScheduleAdd() {
             {`${employee.firstName} ${employee.lastName}`}
           </Button>
         ))}
-
+        </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicMessage">
           <div className="form-label form-length">
             <Form.Label style={{ fontWeight: "bolder" }}>
               Job Details
             </Form.Label>
             <Form.Label
-              className={`validation-color ${
-                showJobDetailsValidation ? "show" : "hide"
-              }`}
+              className={`validation-color ${showJobDetailsValidation ? "show" : "hide"
+                }`}
             >
               *required
             </Form.Label>
@@ -724,7 +723,7 @@ function ScheduleAdd() {
             name="jobDetails"
             onChange={handleInputChange}
             onBlur={handleBlurChange}
-            //required
+          //required
           />
         </Form.Group>
 

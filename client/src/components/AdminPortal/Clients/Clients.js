@@ -63,7 +63,6 @@ function Clients() {
           {clients?.clients?.map((client, index) => (
             <div id="accordion" key={index} style={{ width: "98%" }}>
               <div className="card p-2 mb-1">
-              
                 <div
                   className="rounded directions-collapse"
                   id="headingOne"
@@ -93,24 +92,41 @@ function Clients() {
                         handleDeleteClient(event);
                       }}
                     />
-                    
                   </div>
                 </div>
                 <Collapse>
                   <div id={`#collapse-client-${index}`}>
-                    <Container fluid="md">
+                    <Container fluid="md" className="center-screen">
                       <Row>
-                        <Col>Contact: {client?.contact}</Col>
-                      </Row>
-                      <Row>
-                        <Col>{client?.streetAddress}</Col>
-                        <Col> <a href= {`tel:+${client?.phone}`}>{client?.phone}</a></Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          {client?.city} {client?.state} {client?.zip}
-                        </Col>
-                        <Col><FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon> <a href= {`mailto:${client?.email}`}><i className="fa-solid fa-phone"></i> {client?.email}</a></Col>
+                      <Col md={6} style={{ marginTop:'10px'}}>
+                        <span style={{ fontWeight: "bold", marginRight:'4px' }}>Contact:</span>{" "}
+                        {client?.contact}
+                        <br></br>
+                        <a href={`tel:+${client?.phone}`}>
+                          <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
+                          {client?.phone}
+                        </a>
+                        <br></br>
+                        <a href={`mailto:${client?.email}`}>
+                          <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
+                          {client?.email}
+                        </a>
+                      </Col>
+
+                     
+                      <Col className='margin-break'>
+                      <a href={`https://www.google.com/maps/dir/?api=1&destination=${client?.streetAddress},${client?.city},${client?.state},${client?.zip}&travelmode=driving`}
+                          target="_blank"
+                          rel="noreferrer">
+
+                        <FontAwesomeIcon
+                          icon="fa-solid fa-location-dot"
+                          style={{ marginTop: "4px", marginRight: "5px" }}
+                        />
+                        {client?.streetAddress} <br></br>
+                        {client?.city} {client?.state} {client?.zip}
+                        </a>
+                      </Col>
                       </Row>
                     </Container>
                   </div>

@@ -86,6 +86,10 @@ export const QUERY_EMPLOYEE_BYID = gql`
       schedule {
         startDate
         startTime
+        streetAddress
+        city
+        state
+        zip
         endDate
         endTime
         jobDetails
@@ -93,7 +97,9 @@ export const QUERY_EMPLOYEE_BYID = gql`
         client {
           _id
           businessName
+          contact
           streetAddress
+          phone
           suite
           city
           state
