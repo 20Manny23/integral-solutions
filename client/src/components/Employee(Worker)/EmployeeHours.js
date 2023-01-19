@@ -17,14 +17,14 @@ import { Form, Col, Row, Container, Collapse, Button } from "react-bootstrap";
 
 import "../../styles/hours.css"
 
-import Time, { sum } from 'time-value';
+// import Time, { sum } from 'time-value';
 
-const time1 = new Time(1, 'h');
-const time2 = new Time(30, 'm');
-const time3 = new Time(1, 'h');
+// const time1 = new Time(1, 'h');
+// const time2 = new Time(30, 'm');
+// const time3 = new Time(1, 'h');
 
-sum([time1, time2, time3]); // 2h 30m
-console.log(sum)
+// sum([time1, time2, time3]); // 2h 30m
+// console.log(sum)
 
 function EmployeeHours() {
   // set up state for form data
