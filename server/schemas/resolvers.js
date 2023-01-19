@@ -199,6 +199,38 @@ const resolvers = {
         console.log(message)
         return message;
     },
+
+    sendEmail: async (parent, args, context) => {
+      const sgMail = require("@sendgrid/mail");
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+      // let message = `Your information was sent to Integral Solutions. A represenative will be in touch soon.`;
+
+      console.log('lazy query');
+      console.log('args = ', args);
+
+      const msg = {
+        to: args.toEmail ? `${args.toEmail}` : 'callasteven@gmail.com', // Change to your recipient
+        from: args.fromEmail ? `${args.fromEmail}` : 'callasteven@gmail.com', // Change to your verified sender
+        subject: args.subject,
+        text: args.textContent,
+        html: args.htmlContent,
+      };
+
+      // sgMail
+      //   .send(msg)
+      //   .then(() => {
+      //     console.log("Email sent");
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //     console.error(error.response.body.errors);
+      //     message = "Something went wrong. Give us a call at 555-555-1212."
+      //   });
+
+        console.log(message)
+        return message;
+    },
   },
 
   Mutation: {
