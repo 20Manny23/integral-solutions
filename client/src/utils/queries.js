@@ -323,10 +323,11 @@ export const SEND_EMAIL = gql`
     $htmlContent: String      
   ) {
     sendEmail(
-      textContent: $companyName,
-      htmlContent: $contactName,
-      toEmail: $phoneNumber,
-      fromEmail: $emailAddress,
+      toEmail: $toEmail,
+      fromEmail: $fromEmail,
+      subject: $subject,
+      textContent: $textContent,
+      htmlContent: $htmlContent,
     )
   }
 `;

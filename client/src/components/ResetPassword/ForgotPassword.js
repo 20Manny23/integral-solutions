@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Auth from "../../utils/auth";
-import decode from "jwt-decode";
+// import decode from "jwt-decode";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
 import { UPDATE_EMPLOYEE } from "../../utils/mutations";
 import { FORGOT_PASSWORD } from "../../utils/mutations";
 
+import useEmailSend from "../../components/EmailSend";
+
+import Footer from "../Home/Footer";
+// import logo from "../../assets/images/logo.bkg.png";
+
 import { Form, Button, Alert } from "react-bootstrap";
 import "../../styles/button-home.css";
-import logo from "../../assets/images/logo.bkg.png";
-import Footer from "../Home/Footer";
 
 function Employees() {
   const [tempPassword] = useState("200");
@@ -34,7 +37,6 @@ function Employees() {
       console.log("hello employee = ", employee);
     },
   });
-  // section end
 
   // section set temporary password to be used to construct the token
   const [updatePassword, { error: passwordError }] =
@@ -63,7 +65,6 @@ function Employees() {
     setPassword();
     // eslint-disable-next-line
   }, [employee]);
-  // section end
 
   // section Rods Code
   const [forgotPassword, { error }] = useMutation(FORGOT_PASSWORD);
@@ -81,6 +82,9 @@ function Employees() {
     setUserFormData({ ...userFormData, [name]: value });
   };
 
+  //section
+  const [ toEmail, setToEmail ] = useState("");
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     // check if form has everything (as per react-bootstrap docs)
@@ -91,10 +95,13 @@ function Employees() {
       event.stopPropagation();
       return false;
     }
-
+    
     await refetch();
 
-    // create token payload
+    //section
+    setToEmail(userFormData.email);
+
+    // section create token payload
     let payload = { email: userFormData.email, password: tempPassword };
     console.log("payload ", payload);
 
@@ -104,15 +111,14 @@ function Employees() {
         variables: { ...payload },
       });
 
-      // let payLoadToken = { token: data.forgotPassword.token }
       setPayLoadToken({ token: data.forgotPassword.token });
       console.log(data.forgotPassword.token);
 
       // decode token to check contents
-      const decoded = decode(data.forgotPassword.token);
-      console.log(decoded); // decoded jwt delivers model fields and expiration data
+      // const decoded = decode(data.forgotPassword.token);
+      // console.log(decoded); // decoded jwt delivers model fields and expiration data
 
-      // Don't save token to local storage at that will log the user id
+      // Don't save token to local storage as that will log the user id
       // Auth.login(payLoadToken);
 
       // Bring user back to login page
@@ -132,49 +138,28 @@ function Employees() {
     // });
   };
 
+  //section
+  const [emailContent, setEmailContent] = useState({});
+  // eslint-disable-next-line
+  const submitEmailContent = useEmailSend(emailContent);
+  //section
+
   // After payLoadToken state is updated, launch email to user
   useEffect(() => {
     sendEmail(payLoadToken);
     // eslint-disable-next-line
   }, [payLoadToken]);
 
+  //section
   const sendEmail = (token) => {
-    let encodedURI = "";
-    const uri = `http://localhost:3000/resetpassword/${token.token}`;
-
-    // encodedURI = encodeURI(uri);
-
-    // // fetch tinyURL
-    // const tinyUrlApiPath = `https://api.tinyurl.com/create?api_token=${process.env.REACT_APP_TINY_URL_KEY}`; // set tinyurl api call path
-
-    // postData(tinyUrlApiPath).then((data) => {
-    //   setTinyURI(data.data.tiny_url);
-    // });
-
-    window.open(
-      `mailto:${userFormData.email}?subject=Integral Solutions Employee Password Reset&body=Hello ${employee.firstName} %0D%0A%0D%0A Click on the link below to create a new pasword: %0D%0A%0D%0A ${uri} %0D%0A%0D%0A This link will expire in 15 minutes. %0D%0A%0D%0A Thank you, %0D%0A%0D%0A Integral Solutions`
-    );
-  };
-
-  async function postData(url = "", data = {}) {
-    const response = await fetch(url, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify({
-        // url: encodedURI,
-        domain: "tiny.one",
-      }),
+    setEmailContent({
+      source: "resetPassword",
+      token: token,
+      toEmail: toEmail,
+      firstName: employee.firstName,
     });
-    return response.json(); // parses JSON response into native JavaScript objects
-  }
-  // section end rods code
+    //section
+  };
 
   return (
     <>

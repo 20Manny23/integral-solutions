@@ -204,14 +204,14 @@ const resolvers = {
       const sgMail = require("@sendgrid/mail");
       sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-      // let message = `Your information was sent to Integral Solutions. A represenative will be in touch soon.`;
+      let message = `Your information was sent to Integral Solutions. A represenative will be in touch soon.`;
 
       console.log('lazy query');
       console.log('args = ', args);
 
       const msg = {
-        to: args.toEmail ? `${args.toEmail}` : 'callasteven@gmail.com', // Change to your recipient
-        from: args.fromEmail ? `${args.fromEmail}` : 'callasteven@gmail.com', // Change to your verified sender
+        to: args.toEmail ? `${args.toEmail}` : 'callasteven@gmail.com',
+        from: args.fromEmail ? `${args.fromEmail}` : 'callasteven@gmail.com',
         subject: args.subject,
         text: args.textContent,
         html: args.htmlContent,

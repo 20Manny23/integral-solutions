@@ -6,7 +6,7 @@ import { SEND_EMAIL_CONTACT_US } from "../../utils/queries";
 
 // section start email
 function useEmailSendContactUs(props) { 
-  const [ message, setMessage] = useState("");
+  // const [ message, setMessage] = useState("");
   // console.log('useEmail hook,props = ', props);
 
   // eslint-disable-next-line

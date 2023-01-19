@@ -1,40 +1,57 @@
-import { gql, useLazyQuery} from "@apollo/client";
-import { useState, useEffect } from "react";
+import { useLazyQuery } from "@apollo/client";
+import { useEffect } from "react";
 import "../../styles/Contact.css";
 
-import { SEND_EMAIL_CONTACT_US } from "../../utils/queries";
+import { SEND_EMAIL } from "../../utils/queries";
+import {
+  reset_text_template,
+  RESET_SUBJECT,
+  FROM_EMAIL,
+  reset_html_template,
+} from "./templates/resetTemplate";
+
+import { getTinyURL } from "../../utils/tinyURL";
 
 // section start email
-function useEmailSendContactUs(props) { 
-  const [ message, setMessage] = useState("");
-  // console.log('useEmail hook,props = ', props);
+function useEmailSend(props) {
+  console.log("useEmail hook,props = ", props);
+
+  let tokenURL = getTinyURL(props.token);
+  console.log('tokenURL = ', tokenURL);
+
+  // const toEmail = props.toEmail ? "callasteven@gmail.com" : "";
+  const toEmail = "callasteven@gmail.com";
+  const fromEmail = FROM_EMAIL;
+  const subject = props.source === "resetPassword" ? RESET_SUBJECT : "TBD";
+  const textContent =
+    props.source === "resetPassword"
+      ? reset_text_template(props.tokenURL, props.firstName)
+      : "TBD";
+  const htmlContent =
+    props.source === "resetPassword"
+      ? reset_html_template(props.tokenURL, props.firstName)
+      : "TBD";
 
   // eslint-disable-next-line
-  const [sendEmailContactUs, { loading: emailLoad, error: emailError, data: emailData },
-  ] = useLazyQuery(SEND_EMAIL_CONTACT_US, {
-    variables: { 
-      companyName: props.companyName,
-      contactName: props.contactName,
-      phoneNumber: props.phoneNumber,
-      emailAddress: props.emailAddress,
-      address: props.address,
-      city: props.city,
-      state: props.state,
-      zip: props.zip,
-      squareFeet: props.squareFeet,
-      employeeNumber: props.employeeNumber,
-      startDate: props.startDate,
-      jobDetails: props.jobDetails,
-      services: props.services,
+  const [
+    sendEmail,
+    { loading: emailLoad, error: emailError, data: emailData },
+  ] = useLazyQuery(SEND_EMAIL, {
+    variables: {
+      toEmail: toEmail,
+      fromEmail: fromEmail,
+      subject: subject,
+      textContent: textContent,
+      htmlContent: htmlContent,
     },
-    fetchPolicy: 'cache-and-network', // ensure the query executes after each click
+    fetchPolicy: "cache-and-network", // ensure the query executes after each click
   });
 
   useEffect(() => {
-    if ( props.companyName ) {
+    // console.log('use effect = ', props, props.token )
+    if (props.token) {
       // console.log('props passed');
-
-      sendEmailContactUs();
+      sendEmail();
 
       if (emailError) {
         console.log(`Error! ${emailError}`);
@@ -42,10 +59,9 @@ function useEmailSendContactUs(props) {
       }
     }
     // eslint-disable-next-line
-  }, [props])
-
+  }, [props]);
 
   return;
 }
 
-export default useEmailSendContactUs;
+export default useEmailSend;

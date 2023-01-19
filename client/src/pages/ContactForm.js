@@ -1,9 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-import Footer from "../components/Home/Footer";
 import useEmailSendContactUs from "../components/EmailSendContactUs";
 
+import Footer from "../components/Home/Footer";
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
 
 import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
@@ -36,7 +36,6 @@ function ContactForm() {
 
   const [emailContent, setEmailContent] = useState({});
   // eslint-disable-next-line
-
   const submitEmailContent = useEmailSendContactUs(emailContent);
 
   // console.log('email content = ', emailContent)
