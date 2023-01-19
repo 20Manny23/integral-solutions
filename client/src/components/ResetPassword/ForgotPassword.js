@@ -40,11 +40,12 @@ function Employees() {
     try {
       const { data } = await updatePassword({
         variables: { 
-          id: employee._id,
-          firstName: employee.firstName,
-          lastName: employee.lastName,
-          email: employee.email,
-          password: tempPassword }
+          id: employee?._id,
+          firstName: employee?.firstName,
+          lastName: employee?.lastName,
+          email: employee?.email,
+          password: tempPassword,
+        }
       })
     } catch (e) {
       console.error(e);
