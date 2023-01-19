@@ -17,6 +17,15 @@ import { Form, Col, Row, Container, Collapse, Button } from "react-bootstrap";
 
 import "../../styles/hours.css"
 
+import Time, { sum } from 'time-value';
+
+const time1 = new Time(1, 'h');
+const time2 = new Time(30, 'm');
+const time3 = new Time(1, 'h');
+
+sum([time1, time2, time3]); // 2h 30m
+console.log(sum)
+
 function EmployeeHours() {
   // set up state for form data
   const [startHours, setStartHours] = useState("");
@@ -73,70 +82,83 @@ function EmployeeHours() {
       <Container >
         <Row className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary "
         >Current Week
-            {thisWeek.map((date, index) => (
-              <div id="accordion" key={index} style={{ width: "25%" }}>{date.day} {date.date}
-                <Button className="btn btn-link pl-1"
-                style={{ color: "white"}}
-                  onClick={(event) => getElement(event)}
-                  aria-expanded={open}
-                  aria-controls="example-fade-text"
-                  data-target={`#collapseTarget-${index}`}
-                >
-                  Expand
-                </Button>
-
-                <Collapse >
-                  <div id={`#collapseTarget-${index}`}>
-                    <Form onSubmit={handleHoursSubmit}>
-                      <Form.Label className="form-label">Start Time </Form.Label>
-                      <Form.Control
-                        className="custom-border"
-                        type="text"
-                        placeholder="Ex. 9:15am"
-                        name="start"
-                        onChange={handleChange}
-                      // NEEDS FORMAT VALIDATOR (HH:MM)
-                      />
-                      <Form.Label className="form-label">End Time </Form.Label>
-                      <Form.Control
-                        className="custom-border"
-                        type="text"
-                        placeholder="Ex. 5:45pm"
-                        name="end"
-                        onChange={handleChange}
-                      // NEEDS FORMAT VALIDATOR (HH:MM)
-                      />
-                    </Form>
-                    <Button>Submit Hours</Button>
-                    <Row classname="total">Day's Total: { }</Row>
-                  </div>
-                </Collapse>
-              </div>
-            ))}
-            <Row>Weekly Total: { }</Row>
-          
+          {thisWeek.map((date, index) => (
+            <div id="accordion" key={index} style={{ width: "25%", margin: "auto" }}>{date.day} {date.date}
+            <Row>
+              <Button className="btn btn-link pl-1"
+                style={{ color: "white", margin: "auto" }}
+                onClick={(event) => getElement(event)}
+                aria-expanded={open}
+                aria-controls="example-fade-text"
+                data-target={`#collapseTarget-${index}`}
+              >
+                Expand
+              </Button>
+              </Row>
+              <Collapse >
+                <div id={`#collapseTarget-${index}`}>
+                  <Form onSubmit={handleHoursSubmit}>
+                    <Form.Label className="form-label">Start Time </Form.Label>
+                    <Form.Control
+                      className="custom-border"
+                      type="text"
+                      placeholder="Ex. 9:15am"
+                      name="start"
+                      onChange={handleChange}
+                    // NEEDS FORMAT VALIDATOR (HH:MM)
+                    />
+                    <Form.Label className="form-label">End Time </Form.Label>
+                    <Form.Control
+                      className="custom-border"
+                      type="text"
+                      placeholder="Ex. 5:45pm"
+                      name="end"
+                      onChange={handleChange}
+                    // NEEDS FORMAT VALIDATOR (HH:MM)
+                    />
+                  </Form>
+                  <br></br>
+                  <Button
+                    className="button-custom submit-button-style"
+                    type="submit"
+                    onClick={handleHoursSubmit}
+                  >
+                    Submit Hours
+                  </Button>
+                  <br></br>
+                  <Row className="total">Day's Total: { }</Row>
+                </div>
+              </Collapse>
+              <hr></hr>
+            </div>
+          ))}
+          <Row>Weekly Total: { }</Row>
         </Row>
       </Container>
-      <Container >
-        <Row className=" mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary "
+      <hr></hr>
+      <Container>
+        <Row className="mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary" style={{ width: "97%"}}
         >
           <Button className="btn btn-link pl-1"
-        style={{ color: "white" }}
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
-        >
+            style={{ color: "white" }}
+            onClick={() => setOpen(!open)}
+            aria-expanded={open}
+          >
             Last Week
           </Button>
           <Collapse in={open}
-          aria-expanded={open}
+            aria-expanded={open}
           >
-            <div id="example-collapse-text">
-             <Row className=" mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary "> {lastWeek.map((date, index) => (
-                <div id="accordion" key={index} style={{ width: "50%" }}>{date.day} {date.date}
-            </div>
+            <div id="example-collapse-text" style={{width: "100%"}}>
+              <Row style={{ width: "97%", margin: "auto"}}className=" mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary "> {lastWeek.map((date, index) => (
+                <div id="accordion" key={index} style={{ width: "70%"}}>{date.day} {date.date}
+                  <Row>Hours worked: { }</Row>
+                </div>
               ))}
+                <Row>Weekly Total: { }</Row>
               </Row>
             </div>
+
           </Collapse>
         </Row>
       </Container>
