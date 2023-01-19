@@ -2,18 +2,25 @@ import { useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 
 import { SEND_EMAIL } from "../../utils/queries";
+import { getTinyURL } from "../../utils/tinyURL";
 
-import { TINY_URL_PATH, getTinyURL } from "../../utils/tinyURL";
 import {
-  reset_text_template,
-  RESET_SUBJECT,
   FROM_EMAIL,
+  RESET_SUBJECT,
+  reset_text_template,
   reset_html_template,
 } from "./templates/resetTemplate";
 
+import {
+  FROM_EMAIL,
+  CONTACT_US_SUBJECT,
+  contactus_text_template,
+  contactus_html_template,
+} from "./templates/contactUsTemplate";
 import "../../styles/Contact.css";
 
 function useEmailSend(props) {
+
   console.log("useEmail hook,props = ", props);
 
   // SECTION get tiny url
@@ -21,18 +28,19 @@ function useEmailSend(props) {
 
 
   // SECTION SET EMAIL CONTENT
-  // const toEmail = props.toEmail ? "callasteven@gmail.com" : "";
-  const toEmail = "callasteven@gmail.com";
+  const toEmail = props?.source === "resetPassword" ? "callasteven@gmail.com" : "callasteven@gmail.com"; //fix reset password should use props.toEmail;
   const fromEmail = FROM_EMAIL;
-  const subject = props.source === "resetPassword" ? RESET_SUBJECT : "TBD";
+  const subject = props?.source === "resetPassword" ? RESET_SUBJECT : CONTACT_US_SUBJECT;
   const textContent =
-    props.source === "resetPassword"
-      ? reset_text_template(tinyURI, props.firstName)
-      : "TBD";
+    props?.source === "resetPassword"
+    // ? reset_text_template(tinyURI, props.firstName)
+    ? reset_text_template(props)
+      : contactus_text_template(props);
   const htmlContent =
-    props.source === "resetPassword"
-      ? reset_html_template(tinyURI, props.firstName)
-      : "TBD";
+    props?.source === "resetPassword"
+    // ? reset_html_template(tinyURI, props.firstName)
+    ? reset_html_template(props)
+      : contactus_html_template(props);
 
   // SECTION TO SEND EMAIL VIA LAZY QUERY
   // eslint-disable-next-line
