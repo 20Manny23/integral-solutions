@@ -160,7 +160,6 @@ const resolvers = {
         from: "callasteven@gmail.com", // Change to your verified sender
         subject: `Contact Us: ${args.companyName}, Start: ${args.startDate} Services: ${args.services}`,
         text: `
-        This is the text format
         Company Name: ${args.companyName}
         Email Address: ${args.emailAddress} 
         Contact Name: ${args.ontactName}
@@ -172,7 +171,6 @@ const resolvers = {
         Services Needed: ${args.services}
         Job Details: ${args.jobDetails}`,
         html: `
-        <p>This is the html format</p>
         <p>Company Name: ${args.companyName}</p>
         <p>Email Address: ${args.emailAddress}</p>
         <p>Contact Name: ${args.ontactName}</p>

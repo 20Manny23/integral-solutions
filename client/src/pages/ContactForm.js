@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-import useEmailSendContactUs from "../components/EmailSendContactUs";
+import useEmailSend from "../components/EmailSend";
+// import useEmailSendContactUs from "../components/EmailSendContactUs";
 
 import Footer from "../components/Home/Footer";
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
@@ -33,12 +34,6 @@ function ContactForm() {
   const [startDate, setStartDate] = useState("");
   const [services, setServices] = useState([]);
   const [jobDetails, setJobDetails] = useState("");
-
-  const [emailContent, setEmailContent] = useState({});
-  // eslint-disable-next-line
-  const submitEmailContent = useEmailSendContactUs(emailContent);
-
-  // console.log('email content = ', emailContent)
 
   // handle input change
   // VALIDATION
@@ -153,6 +148,14 @@ function ContactForm() {
       : setShowJobDetailsValidation(false);
   };
 
+  //section
+  const [emailContent, setEmailContent] = useState({});
+  // const submitEmailContent = useEmailSendContactUs(emailContent);
+  // eslint-disable-next-line
+  const submitEmailContent = useEmailSend(emailContent);
+  // console.log('email content = ', emailContent)
+  //section
+
   const handleSubmit = (event) => {
     setErrorMessage("");
     event.preventDefault();
@@ -186,6 +189,7 @@ function ContactForm() {
     }
 
     setEmailContent({
+      source: "contactUs",
       companyName: companyName ? companyName : "null",
       contactName: contactName ? contactName : "null",
       phoneNumber: phoneNumber ? phoneNumber : "null",
