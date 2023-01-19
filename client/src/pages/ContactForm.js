@@ -380,7 +380,7 @@ const handleBlurChange = (event) => {
                       ))}
                     </Form.Control>
                   </Col>
-                  <Col style={{ marginRight: "auto", marginLeft: "auto" }}>
+                  <Col  >
                     <Form.Label
                       style={{ fontWeight: "bolder", align: "right" }}
                     >
@@ -394,6 +394,7 @@ const handleBlurChange = (event) => {
                       </Form.Label>
                     <Form.Control
                       className="custom-border"
+
                       style={{ maxWidth: "150px" }}
                       placeholder="Zip"
                       name="zip"
@@ -427,7 +428,7 @@ const handleBlurChange = (event) => {
                   </Col>
                   {/* <Form.Group> */}
                   {/* <Col xs={12} md={6}> */}
-                  <Col>
+                  <Col  className="margin-expand">
                     <Form.Label
                       style={{
                         fontWeight: "bolder",

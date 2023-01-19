@@ -9,6 +9,7 @@ import { Row, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getClippingParents } from "@fullcalendar/react";
+import { format_date_MMDDYYYY} from "../../utils/dateFormat"
 
 function Employees() {
   const [open, setOpen] = useState(false);
@@ -67,7 +68,8 @@ function Employees() {
                         aria-controls={`collapse-text-directions-${index}`}
                         aria-expanded={open}
                       >
-                        {job?.client?.businessName}: {job?.startDate} at{" "}
+                        {job?.client?.businessName}: {format_date_MMDDYYYY(job?.startDate)} 
+                        at{" "}
                         {job?.startTime}
                       </button>
                     </h5>
