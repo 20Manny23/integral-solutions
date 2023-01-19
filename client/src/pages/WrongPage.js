@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Auth from "../utils/auth";
 import { Link, useNavigate } from "react-router-dom";
-import wrongPageImg from "../assets/WrongPage.png";
+import wrongPageImg from "../assets/not-found.png";
 import { Container, Row, Button } from "react-bootstrap/";
 import "../styles/button-style.css";
 
@@ -33,7 +33,7 @@ const WrongPage = ({ renderPanel }) => {
           <img
             src={wrongPageImg}
             alt="404 Wrong Page"
-            style={{ maxHeight: "40vh" }}
+            style={{ maxHeight: "60evh" }}
           />
         </Button>
       </Row>
