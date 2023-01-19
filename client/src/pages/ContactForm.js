@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-import useEmailSend from "../../components/EmailSend";
+import useEmailSend from "../components/EmailSend";
 // import useEmailSendContactUs from "../components/EmailSendContactUs";
 
 import Footer from "../components/Home/Footer";

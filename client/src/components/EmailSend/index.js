@@ -12,7 +12,6 @@ import {
 } from "./templates/resetTemplate";
 
 import {
-  FROM_EMAIL,
   CONTACT_US_SUBJECT,
   contactus_text_template,
   contactus_html_template,
