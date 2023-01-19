@@ -173,7 +173,7 @@ const resolvers = {
         html: `
         <p>Company Name: ${args.companyName}</p>
         <p>Email Address: ${args.emailAddress}</p>
-        <p>Contact Name: ${args.ontactName}</p>
+        <p>Contact Name: ${args.contactName}</p>
         <p>Phone Number: ${args.phoneNumber}</p>
         <p>Address: ${args.address}, ${args.city}, ${args.state} ${args.zip}</p>
         <p>Square Feet: ${args.squareFeet} </p>
