@@ -3,7 +3,10 @@ import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_EMPLOYEE_BYID } from "../../utils/queries";
 
-import { Form, Col, Row, Container } from "react-bootstrap";
+
+import { thisWeek, lastWeek, hours } from "../../utils/hoursDates";
+
+import { Form, Col, Row, Container, Collapse } from "react-bootstrap";
 // import Collapse from "react-bootstrap/Collapse";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { getClippingParents } from "@fullcalendar/react";
@@ -14,125 +17,12 @@ import { Form, Col, Row, Container } from "react-bootstrap";
 
 import "../../styles/hours.css"
 
-const dayjs = require("dayjs");
-
-const hours = [
-  {
-    id: "1",
-    startHours: "8:00",
-    endHours: "5:00",
-  },
-  {
-    id: "2",
-    startHours: "9:00",
-    endHours: "6:00",
-  },
-  {
-    id: "3",
-    startHours: "7:00",
-    endHours: "7:00",
-  },
-  {
-    id: "4",
-    startHours: "9:00",
-    endHours: "4:00",
-  },
-  {
-    id: "5",
-    startHours: "8:00",
-    endHours: "6:00",
-  },
-  {
-    id: "6",
-    startHours: "11:00",
-    endHours: "9:00",
-  },
-  {
-    id: "7",
-    startHours: "12:00",
-    endHours: "8:00",
-  },
-
-]
-
-const thisWeek = [
-  {
-    id: "1",
-    date: dayjs().startOf('week').format("MMM-DD-YYYY"),
-    day: "Sunday"
-  },
-  {
-    id: "2",
-    date: dayjs().startOf('week').add(1, "day").format("MMM-DD-YYYY"),
-    day: "Monday"
-  },
-  { 
-    id: "3", 
-    date: dayjs().startOf('week').add(2, "day").format("MMM-DD-YYYY"),
-    day: "Tuesday"
-   },
-  { 
-    id: "4", 
-    date: dayjs().startOf('week').add(3, "day").format("MMM-DD-YYYY"),
-    day: "Wednesday"
-   },
-  { 
-    id: "5", 
-    date: dayjs().startOf('week').add(4, "day").format("MMM-DD-YYYY"),
-    day: "Thursday"
-   },
-  { 
-    id: "6", 
-    date: dayjs().startOf('week').add(5, "day").format("MMM-DD-YYYY"),
-    day: "Friday" },
-  { 
-    id: "7", 
-    date: dayjs().startOf('week').add(6, "day").format("MMM-DD-YYYY"),
-    day: "Saturday"},
-]
-
-const lastWeek = [
-  {
-    id: "1",
-    date: dayjs().startOf('week').subtract(7, "day").format("MMM-DD-YYYY"),
-    day: "Sunday"
-  },
-  {
-    id: "2",
-    date: dayjs().startOf('week').subtract(6, "day").format("MMM-DD-YYYY"),
-    day: "Monday"
-  },
-  { 
-    id: "3", 
-    date: dayjs().startOf('week').subtract(5, "day").format("MMM-DD-YYYY"),
-    day: "Tuesday"
-   },
-  { 
-    id: "4", 
-    date: dayjs().startOf('week').subtract(4, "day").format("MMM-DD-YYYY"),
-    day: "Wednesday"
-   },
-  { 
-    id: "5", 
-    date: dayjs().startOf('week').subtract(3, "day").format("MMM-DD-YYYY"),
-    day: "Thursday"
-   },
-  { 
-    id: "6", 
-    date: dayjs().startOf('week').subtract(2, "day").format("MMM-DD-YYYY"),
-    day: "Friday" },
-  { 
-    id: "7", 
-    date: dayjs().startOf('week').subtract(1, "day").format("MMM-DD-YYYY"),
-    day: "Saturday"},
-]
-
-
-
 function EmployeeHours() {
   // set up state for form data
   const [startHours, setStartHours] = useState("");
   const [endHours, setEndHours] = useState("");
+  const [open, setOpen] = useState(false);
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -165,37 +55,75 @@ function EmployeeHours() {
     setEndHours("");
   }
 
+  const getElement = (event) => {
+    let currentAvailTarget = event.currentTarget.getAttribute("data-target");
+    let currentAvailTable = document.getElementById(currentAvailTarget);
+    if (currentAvailTable.classList.contains("show")) {
+      currentAvailTable.classList.remove("show");
+      setOpen(false);
+    } else {
+      currentAvailTable.classList.add("show");
+      setOpen(true);
+    }
+  };
+
+
   return (
     <>
-      <Container>
-      <Col style={{ fontWeight: "bold" }}> Week
-          {thisWeek.map(date => (
-            <Row key={date.id}>{date.day} {date.date}</Row>
-          ))}
-          <Row> </Row>
-            <Form>
-              
-            </Form>
-          
-        </Col>
-        <Row >Start Time {hours.map(hour => (
-          <Col key={hour.id}>{hour.startHours}</Col>
-        ))}
-        </Row>
-        <Row >End Time {hours.map(hour => (
-          <Col key={hour.id}>{hour.endHours}</Col>
-        ))}
-        </Row>
-        <Row >Total {hours.map(hour => (
-          <Col key={hour.id}>{hour.endHours}</Col>
-        ))}
-        </Row> 
-        <Col > Last week {lastWeek.map(date => (
-          <Row key={date.id}>{date.day} {date.date}</Row>
-        ))}
-        </Col>
-      </Container>
+      <Container >
+        <Row className=" mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary "
+        > Current Week
+          {thisWeek.map((date, index) => (
+            <div id="accordion" key={index} style={{ width: "25%" }}>{date.day} {date.date}
+              <button className="btn btn-link pl-1"
+                onClick={(event) => getElement(event)}
+                aria-expanded={open}
+                aria-controls="example-fade-text"
+                data-target={`#collapseTarget-${index}`}
+              >
+                Expand
+              </button>
 
+              <Collapse>
+                <div id={`#collapseTarget-${index}`}>
+                  <Form onSubmit={handleHoursSubmit}>
+                    <Form.Label className="form-label">Start Time </Form.Label>
+                    <Form.Control
+                      className="custom-border"
+                      type="text"
+                      placeholder="Ex. 9:15am"
+                      name="start"
+                      onChange={handleChange}
+                    // NEEDS FORMAT VALIDATOR (HH:MM)
+                    />
+                    <Form.Label className="form-label">End Time </Form.Label>
+                    <Form.Control
+                      className="custom-border"
+                      type="text"
+                      placeholder="Ex. 5:45pm"
+                      name="end"
+                      onChange={handleChange}
+                    // NEEDS FORMAT VALIDATOR (HH:MM)
+                    />
+                  </Form>
+                  <Row classname="total">Day's Total: { }</Row>
+                  <Row></Row>
+                </div>
+              </Collapse>
+            </div>
+          ))}
+          <Row>Weekly Total: {}</Row>
+        </Row>
+      </Container>
+      <Container >
+        <Row className=" mx-3 pb-2 d-flex flex-column align-self-center align-items-center shadow rounded-lg border border-secondary "
+        > <button className="btn btn-link pl-1"
+        >
+          Last Week
+        </button>
+        
+        </Row>
+      </Container>
     </>
   )
 
