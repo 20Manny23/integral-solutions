@@ -13,11 +13,11 @@ import Collapse from "react-bootstrap/Collapse";
 function Employees() {
   const [open, setOpen] = useState(false);
   const [schedule, setSchedule] = useState([]);
-  // console.log('schedule = ', schedule);
+
 
   // get id for logged in employee
   const userId = getUserId();
-  // console.log(userId);
+ 
 
   // get schedule useQuery for the specific id
   // eslint-disable-next-line
@@ -53,9 +53,11 @@ function Employees() {
   } else {
     return (
       <>
+
         <Container>
           <Row style={{ display: "flex", justifyContent: "center" }}>
             {schedule.map((job, index) => (
+              
               <div id="accordion" key={index} style={{ width: "100%" }}>
                 <div className="card p-2 mb-1">
                   <div
