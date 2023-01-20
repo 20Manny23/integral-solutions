@@ -7,6 +7,7 @@ const {
   Schedule,
   Client,
   Employee,
+  Hours,
 } = require("../models");
 const { signToken } = require("../utils/auth");
 const bcrypt = require("bcrypt");

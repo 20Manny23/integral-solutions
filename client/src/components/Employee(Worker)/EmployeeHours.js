@@ -60,7 +60,7 @@ function EmployeeHours() {
    
     //   try {
     //     const { data } = await addHours({
-    //       variables: { startHours, endHours },
+    //       variables: { startHours, workDate },
     //     });
     //     console.log(data)
     //   } catch (err) {

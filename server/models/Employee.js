@@ -40,6 +40,10 @@ const employeeSchema = new Schema(
       type: Schema.Types.Array,
       ref: "Schedule",
     },
+    hours:{
+      type: Schema.Types.Array,
+      ref: "Hours",
+    },
   },
   {
     toJSON: {
