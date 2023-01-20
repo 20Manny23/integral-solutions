@@ -30,7 +30,7 @@ function useEmailSend(props) {
       setTinyURI(data.data.tiny_url);
     });
 
-    // console.log('tinyuri = ', tinyURI);
+    console.log('tinyuri = ', tinyURI);
 
   }
 

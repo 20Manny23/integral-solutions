@@ -4,7 +4,7 @@ import Auth from "../../utils/auth";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
-import { UPDATE_EMPLOYEE } from "../../utils/mutations";
+// import { UPDATE_EMPLOYEE } from "../../utils/mutations";
 import { UPDATE_PASSWORD } from "../../utils/mutations";
 import { FORGOT_PASSWORD } from "../../utils/mutations";
 
