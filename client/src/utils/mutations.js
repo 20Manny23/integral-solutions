@@ -478,3 +478,19 @@ export const ADD_INCIDENT = gql`
     }
   }
 `;
+// Start Hours Section
+
+export const ADD_HOURS = gql`
+mutation addHours(
+  $workDate: String!
+  $hours: String!
+){
+  addHours(
+    _id: $id
+    workDate: $workDate
+    hours: $Hours
+  ){
+    _idworkDate
+    hours
+  }
+}`;
