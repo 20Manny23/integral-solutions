@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 
 import { SEND_EMAIL } from "../../utils/queries";
-import { getTinyURL } from "../../utils/tinyURL";
+import { getTinyURL, createURL } from "../../utils/tinyURL";
 
 import {
   FROM_EMAIL,
@@ -20,26 +20,34 @@ import "../../styles/Contact.css";
 
 function useEmailSend(props) {
 
-  console.log("useEmail hook,props = ", props);
+  // console.log("useEmail hook,props = ", props);
 
   // SECTION get tiny url
   const [tinyURI, setTinyURI] = useState("");
 
+  const tiny_url = async () => {
+    getTinyURL(props.token).then((data) => {
+      setTinyURI(data.data.tiny_url);
+    });
+
+    console.log('tinyuri = ', tinyURI);
+
+  }
 
   // SECTION SET EMAIL CONTENT
   const toEmail = props?.source === "resetPassword" ? "callasteven@gmail.com" : "callasteven@gmail.com"; //fix reset password should use props.toEmail;
   const fromEmail = FROM_EMAIL;
-  const subject = props?.source === "resetPassword" ? RESET_SUBJECT : CONTACT_US_SUBJECT;
+  const subject = props?.source === "resetPassword" ? RESET_SUBJECT(props) : CONTACT_US_SUBJECT(props);
   const textContent =
     props?.source === "resetPassword"
     // ? reset_text_template(tinyURI, props.firstName)
-    ? reset_text_template(props)
-      : contactus_text_template(props);
+    ? reset_text_template(props, tinyURI, createURL(props.token))
+      : contactus_text_template(props, tinyURI, createURL(props.token));
   const htmlContent =
     props?.source === "resetPassword"
     // ? reset_html_template(tinyURI, props.firstName)
-    ? reset_html_template(props)
-      : contactus_html_template(props);
+    ? reset_html_template(props, tinyURI, createURL(props.token))
+      : contactus_html_template(props, tinyURI, createURL(props.token));
 
   // SECTION TO SEND EMAIL VIA LAZY QUERY
   // eslint-disable-next-line
@@ -59,16 +67,17 @@ function useEmailSend(props) {
 
   // SECTION USE EFFECT TO RUN SENDEMAIL IF TOKEN IS POPULATED (since this hook will run on every render for this component)
   useEffect(() => {
-    console.log('use effect = ', props, props.token, !props.token, Object.keys(props).length !== 0  )
+    // console.log('use effect = ', props, props.token, !props.token, Object.keys(props).length !== 0  )
+    
+    console.log('length = ', Object.keys(props).length !== 0)
+    console.log('props = ', Object.keys(props));
+    console.log('props = ', props)
+    console.log('source = ', props.source);
+    // console.log('token = ', props.token?.token);
 
-    if (props.token || Object.keys(props).length !== 0) {
+    if (props?.token?.token || props?.companyName) {
       // get tiny url
-      getTinyURL(props.token).then((data) => {
-        setTinyURI(data.data.tiny_url);
-      });
-      console.log("tokenURL = ", tinyURI);
-
-      // console.log('props passed');
+      tiny_url();
 
       // send email
       sendEmail();

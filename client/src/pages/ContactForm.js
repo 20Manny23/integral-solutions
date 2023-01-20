@@ -153,40 +153,42 @@ function ContactForm() {
   // const submitEmailContent = useEmailSendContactUs(emailContent);
   // eslint-disable-next-line
   const submitEmailContent = useEmailSend(emailContent);
-  // console.log('email content = ', emailContent)
+  console.log('submit 4 = ', emailContent)
   //section
 
   const handleSubmit = (event) => {
     setErrorMessage("");
     event.preventDefault();
 
+    console.log('submit 1')
+
     // console.log("handlesubmit");
 
-    if (
-      !companyName ||
-      !contactName ||
-      !emailAddress ||
-      !startDate ||
-      !jobDetails
-    ) {
-      setErrorMessage("Please fill in all required fields *");
-      return;
-    }
+    // if (
+    //   !companyName ||
+    //   !contactName ||
+    //   !emailAddress ||
+    //   !startDate ||
+    //   !jobDetails
+    // ) {
+    //   setErrorMessage("Please fill in all required fields *");
+    //   return;
+    // }
 
-    if (!state) {
-      setErrorMessage("Please choose a state");
-      return;
-    }
+    // if (!state) {
+    //   setErrorMessage("Please choose a state");
+    //   return;
+    // }
 
-    if (!employeeNumber) {
-      setErrorMessage("Please choose a number of employees");
-      return;
-    }
+    // if (!employeeNumber) {
+    //   setErrorMessage("Please choose a number of employees");
+    //   return;
+    // }
 
-    if (!services.length) {
-      setErrorMessage("Please choose at least one service");
-      return;
-    }
+    // if (!services.length) {
+    //   setErrorMessage("Please choose at least one service");
+    //   return;
+    // }
 
     setEmailContent({
       source: "contactUs",
@@ -205,20 +207,22 @@ function ContactForm() {
       services: services ? services : "null",
     });
 
+    // console.log('submit 2 = ', emailContent);
+
     // set state back to empty form
-    setCompanyName("");
-    setContactName("");
-    setPhoneNumber("");
-    setEmailAddress("");
-    setAddress("");
-    setCity("");
-    setState("");
-    setZip("");
-    setSquareFeet("");
-    setEmployeeNumber("");
-    setStartDate("");
-    setJobDetails("");
-    setServices([]);
+    // setCompanyName("");
+    // setContactName("");
+    // setPhoneNumber("");
+    // setEmailAddress("");
+    // setAddress("");
+    // setCity("");
+    // setState("");
+    // setZip("");
+    // setSquareFeet("");
+    // setEmployeeNumber("");
+    // setStartDate("");
+    // setJobDetails("");
+    // setServices([]);
   };
 
   return (
