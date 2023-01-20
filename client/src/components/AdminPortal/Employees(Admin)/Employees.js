@@ -110,6 +110,9 @@ function Employees() {
     }
   };
 
+
+
+
   return (
     <Container>
       <Row style={{ display: "flex", justifyContent: "center" }}>
@@ -133,7 +136,7 @@ function Employees() {
                     className="btn btn-link pl-1"
                     data-target={`#collapse-client-${index}`}
                   >
-                    {emp?.firstName} {emp?.lastName}
+                    {emp?.lastName} {emp?.firstName} 
                   </button>
                 </h5>
                 <div className="d-flex mr-2">

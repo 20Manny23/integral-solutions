@@ -10,7 +10,7 @@ export const FROM_EMAIL = "callasteven@gmail.com";
 // export const reset_text_template = (tokenURL, firstName) => {
 export const reset_text_template = (props, tinyURI = "blank", normalURL) => {
 
-  console.log(props, 'tinyURI = ', tinyURI, normalURL);
+  // console.log(props, 'tinyURI = ', tinyURI, normalURL);
 
   const template = `Hello ${props.firstName},
   
@@ -30,7 +30,7 @@ export const reset_text_template = (props, tinyURI = "blank", normalURL) => {
 // export const reset_html_template = (tokenURL, firstName) => {
 export const reset_html_template = (props, tinyURI, normalURL) => {
   
-  console.log(props, 'tinyURI = ', tinyURI, normalURL);
+  // console.log(props, 'tinyURI = ', tinyURI, normalURL);
 
   const template = `<p>Hello ${props.firstName},</p>
   

@@ -26,6 +26,13 @@ const typeDefs = gql`
     isAdmin: Boolean
     isLocked: Boolean
     schedule: [Schedule]
+    hours: [Hour]
+  }
+  type Hour {
+    _id: ID
+    workDate: String
+    hours: String
+    
   }
 
   type Message {
@@ -188,6 +195,12 @@ const typeDefs = gql`
   type Mutation {
     login(email: String!, password: String!): Auth
     forgotPassword(email: String!, password: String!): Auth
+
+    updatePassword(
+      _id: ID
+      password: String
+    ): Employee
+
     addUser(email: String!, password: String!): Auth
     deleteUser(_id: ID!): User
     updateAvailability(
