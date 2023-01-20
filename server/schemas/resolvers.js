@@ -10,7 +10,6 @@ const {
 } = require("../models");
 const { signToken } = require("../utils/auth");
 const bcrypt = require("bcrypt");
-const { addAbortSignal } = require("stream");
 
 let expiration = "2h"; // 2 hours
 
@@ -152,10 +151,8 @@ const resolvers = {
 
       let message = `Your information was sent to Integral Solutions. A represenative will be in touch soon.`;
 
-      console.log(args);
-
-      console.log('lazy query');
-      console.log('args = ', args);
+      // console.log('lazy query');
+      // console.log('args = ', args);
 
       const msg = {
         to: args.toEmail ? `${args.toEmail}` : 'callasteven@gmail.com',
@@ -176,7 +173,7 @@ const resolvers = {
       //     message = "Something went wrong. Give us a call at 555-555-1212."
       //   });
 
-        console.log(message)
+        // console.log(message)
         return message;
     },
   },
@@ -287,11 +284,44 @@ const resolvers = {
       // if (!correctPw) {
       //   throw new AuthenticationError("Incorrect credentials");
       // }
+
       expiration = 900; // 15 minutes
       const token = signToken(employee, expiration);
       // const token = signToken(employee);
 
       return { token, employee };
+    },
+
+    updatePassword: async (
+      parent,
+      {
+        _id,
+        password,
+      },
+      context
+    ) => {
+      // if (context.user) {
+      console.log(
+        "resolver update password = ",
+        _id,
+        password,
+      );
+      return Employee.findOneAndUpdate(
+        { _id },
+        {
+          password,
+          // email,
+          // firstName,
+          // lastName,
+          // phone,
+          // isManager,
+          // isAdmin,
+          // isLocked,
+          // schedule,
+        },
+      );
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
     },
 
     updateAvailability: async (

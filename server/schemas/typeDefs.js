@@ -188,6 +188,12 @@ const typeDefs = gql`
   type Mutation {
     login(email: String!, password: String!): Auth
     forgotPassword(email: String!, password: String!): Auth
+
+    updatePassword(
+      _id: ID
+      password: String
+    ): Employee
+
     addUser(email: String!, password: String!): Auth
     deleteUser(_id: ID!): User
     updateAvailability(

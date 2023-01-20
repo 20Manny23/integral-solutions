@@ -5,6 +5,7 @@ import Auth from "../../utils/auth";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
 import { UPDATE_EMPLOYEE } from "../../utils/mutations";
+import { UPDATE_PASSWORD } from "../../utils/mutations";
 import { FORGOT_PASSWORD } from "../../utils/mutations";
 
 import useEmailSend from "../../components/EmailSend";
@@ -39,8 +40,8 @@ function Employees() {
   });
 
   // section set temporary password to be used to construct the token
-  const [updatePassword, { error: passwordError }] =
-    useMutation(UPDATE_EMPLOYEE);
+  const [ updatePassword, { error: passwordError } ] =
+    useMutation(UPDATE_PASSWORD);
 
   const setPassword = async () => {
     console.log("reset password = ", employee);
@@ -48,10 +49,14 @@ function Employees() {
       const { data } = await updatePassword({
         variables: {
           id: employee?._id,
-          firstName: employee?.firstName,
-          lastName: employee?.lastName,
-          email: employee?.email,
           password: tempPassword,
+          // firstName: employee?.firstName,
+          // lastName: employee?.lastName,
+          // email: employee?.email,
+          // isAdmin: employee?.isAdmin,
+          // isLocked: employee?.isLocked,
+          // schedule: employee?.schedule,
+          // phone: employee?.phone,
         },
       });
     } catch (e) {

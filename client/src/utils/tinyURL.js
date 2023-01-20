@@ -4,7 +4,7 @@ export const TINY_URL_PATH = `https://api.tinyurl.com/create?api_token=${process
 export const createURL = (token) => {
   let uri = `http://localhost:3000/resetpassword/${token?.token}`;
 
-  console.log('uri = ', uri);
+  // console.log('uri = ', uri);
 
   let encodedURI = encodeURI(uri);
 
@@ -13,7 +13,7 @@ export const createURL = (token) => {
 
 // TINY URL API CALL
 export const getTinyURL = async (token, data = {}) => {
-  console.log(token, TINY_URL_PATH, data);
+  // console.log(token, TINY_URL_PATH, data);
 
   const encodedURI = createURL(token);
 

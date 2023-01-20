@@ -68,6 +68,10 @@ export const QUERY_EMPLOYEE_BYEMAIL = gql`
       isAdmin
       isLocked
       password
+      phone
+      schedule {
+        _id
+      }
     }
   }
 `;
