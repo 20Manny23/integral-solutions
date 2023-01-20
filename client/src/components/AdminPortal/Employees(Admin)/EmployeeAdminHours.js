@@ -61,7 +61,7 @@ function EmployeeAdminHours() {
                     className="btn btn-link pl-1"
                     data-target={`#collapse-client-${index}`}
                   >
-                    {emp?.firstName} {emp?.lastName}
+                     {emp?.lastName}, {emp?.firstName}
                   </button>
                 </h5>
                 <div className="d-flex mr-2">
@@ -74,7 +74,7 @@ function EmployeeAdminHours() {
                     <Row>
                       <Col sm={12} md={6} lg={6}>
                       {thisWeek.map((date, index) => (
-            <div id="accordion" key={index} >{format_date_MMDD (date.date)}{": "}
+            <div id="accordion" key={index} style={{marginLeft:'20px'}}>{format_date_MMDD (date.date)}{": "}
             </div>
                   ))}
                       </Col>
