@@ -13,6 +13,8 @@ const { Client } = require("../models");
 const clientSeeds = require("./clientSeeds.json");
 const { Employee } = require("../models");
 const employeeSeeds = require("./employeeSeeds.json");
+const { Hour } = require("../models")
+const hourSeeds = require("./hourSeeds.json")
 
 db.once("open", async () => {
   try {
@@ -23,7 +25,10 @@ db.once("open", async () => {
     await Schedule.deleteMany({});
     await Client.deleteMany({});
     await Employee.deleteMany({});
+    await Hour.deleteMany({});
 
+
+    await Hour.create(hourSeeds);
     await User.create(userSeeds);
     await Location.create(locationSeeds);
     await Incident.create(incidentSeeds);

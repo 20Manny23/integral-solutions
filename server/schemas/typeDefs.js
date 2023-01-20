@@ -26,9 +26,9 @@ const typeDefs = gql`
     isAdmin: Boolean
     isLocked: Boolean
     schedule: [Schedule]
-    hours: [Hours]
+    hours: [Hour]
   }
-  type Hours {
+  type Hour {
     _id: ID
     workDate: String
     hours: String

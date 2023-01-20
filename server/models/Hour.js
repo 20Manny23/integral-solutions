@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 
-const hoursSchema = new Schema(
+const hourSchema = new Schema(
   {
     hours: {
       type: String,
@@ -21,6 +21,6 @@ const hoursSchema = new Schema(
 
 
 
-const Hours = model("Hours", hoursSchema);
+const Hour = model("Hour", hourSchema);
 
-module.exports = Hours;
+module.exports = Hour;
