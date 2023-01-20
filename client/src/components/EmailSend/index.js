@@ -31,7 +31,6 @@ function useEmailSend(props) {
     });
 
     console.log('tinyuri = ', tinyURI);
-
   }
 
   // SECTION SET EMAIL CONTENT
@@ -75,6 +74,7 @@ function useEmailSend(props) {
 
     if (props?.token?.token || props?.companyName) {
       // get tiny url
+      // tiny_url();
       tiny_url();
 
       // send email

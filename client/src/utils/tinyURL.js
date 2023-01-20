@@ -8,7 +8,7 @@ export const createURL = (token) => {
 
   let encodedURI = encodeURI(uri);
 
-  return (encodedURI, uri);
+  return encodedURI, uri;
 };
 
 // TINY URL API CALL
@@ -32,6 +32,6 @@ export const getTinyURL = async (token, data = {}) => {
       domain: "tiny.one",
     }),
   });
-  
+
   return response.json(); // parses JSON response into native JavaScript objects
 };
