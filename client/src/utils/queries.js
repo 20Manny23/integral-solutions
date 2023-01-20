@@ -280,40 +280,6 @@ export const QUERY_SINGLE_SCHEDULE = gql`
 `;
 
 // SECTION SEND EMAIL
-export const SEND_EMAIL_CONTACT_US = gql`
-  query contactUs(
-    $companyName: String
-    $contactName: String      
-    $phoneNumber: String
-    $emailAddress: String
-    $address: String
-    $city: String
-    $state: String
-    $zip: String
-    $squareFeet: String
-    $employeeNumber: String
-    $startDate: String
-    $jobDetails: String
-    $services: [String]
-  ) {
-    sendEmailContactUs(
-      companyName: $companyName,
-      contactName: $contactName,
-      phoneNumber: $phoneNumber,
-      emailAddress: $emailAddress,
-      address: $address,
-      city: $city,
-      state: $state,
-      zip: $zip,
-      squareFeet: $squareFeet,
-      employeeNumber: $employeeNumber,
-      startDate: $startDate,
-      jobDetails: $jobDetails,
-      services: $services,
-    )
-  }
-`;
-
 export const SEND_EMAIL = gql`
   query emailContent(
     $toEmail: String
