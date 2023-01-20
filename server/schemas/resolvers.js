@@ -111,8 +111,8 @@ const resolvers = {
     employeeById: async (parent, { _id }, context) => {
       // if (context.user) {
 
-        console.log('employee by id', _id);
-        
+      console.log("employee by id", _id);
+
       return Employee.findOne({ _id }).populate({
         path: "schedule",
         populate: { path: "client" },
@@ -155,26 +155,26 @@ const resolvers = {
       // console.log('args = ', args);
 
       const msg = {
-        to: args.toEmail ? `${args.toEmail}` : 'callasteven@gmail.com',
-        from: args.fromEmail ? `${args.fromEmail}` : 'callasteven@gmail.com',
+        to: args.toEmail ? `${args.toEmail}` : "callasteven@gmail.com",
+        from: args.fromEmail ? `${args.fromEmail}` : "callasteven@gmail.com",
         subject: args.subject,
         text: args.textContent,
         html: args.htmlContent,
       };
 
-      // sgMail
-      //   .send(msg)
-      //   .then(() => {
-      //     console.log("Email sent");
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //     console.error(error.response.body.errors);
-      //     message = "Something went wrong. Give us a call at 555-555-1212."
-      //   });
+      sgMail
+        .send(msg)
+        .then(() => {
+          console.log("Email sent");
+        })
+        .catch((error) => {
+          console.error(error);
+          console.error(error.response.body.errors);
+          message = "Something went wrong. Give us a call at 555-555-1212."
+        });
 
-        // console.log(message)
-        return message;
+      // console.log(message)
+      return message;
     },
   },
 
@@ -292,33 +292,14 @@ const resolvers = {
       return { token, employee };
     },
 
-    updatePassword: async (
-      parent,
-      {
-        _id,
-        password,
-      },
-      context
-    ) => {
+    updatePassword: async (parent, { _id, password }, context) => {
       // if (context.user) {
-      console.log(
-        "resolver update password = ",
-        _id,
-        password,
-      );
+      console.log("resolver update password = ", _id, password);
       return Employee.findOneAndUpdate(
         { _id },
         {
           password,
-          // email,
-          // firstName,
-          // lastName,
-          // phone,
-          // isManager,
-          // isAdmin,
-          // isLocked,
-          // schedule,
-        },
+        }
       );
       // }
       // throw new AuthenticationError("You need to be logged in!");
@@ -552,13 +533,7 @@ const resolvers = {
 
     updateEmployeeForm: async (
       parent,
-      {
-        _id,
-        firstName,
-        lastName,
-        email,
-        phone,
-      },
+      { _id, firstName, lastName, email, phone },
       context
     ) => {
       // if (context.user) {
@@ -568,7 +543,7 @@ const resolvers = {
         firstName,
         lastName,
         email,
-        phone,
+        phone
       );
       return Employee.findOneAndUpdate(
         { _id },
@@ -603,11 +578,11 @@ const resolvers = {
     toggleAdmin: async (parent, { employeeId }) => {
       let message = "No such user exists";
 
-      console.log('employee id = ', employeeId)
-      
+      console.log("employee id = ", employeeId);
+
       const employee = await Employee.findById(employeeId);
 
-      console.log('employee = ', employee);
+      console.log("employee = ", employee);
 
       if (employee) {
         try {
