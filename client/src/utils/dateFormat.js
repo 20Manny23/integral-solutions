@@ -31,7 +31,7 @@ const format_date_MMDD = (date) => {
   // TO: "Wed Jan 11 "
 
   
-  const dateMMDD = moment(date).format("ddd, MMM DD");
+  const dateMMDD = moment(date).format("dddd, MMM DD");
   // if (date) {
   //   dateMMDD = new Date(date).toDateString();
   //   console.log(dateMMDD)
