@@ -13,7 +13,7 @@ const WrongPage = ({ renderPanel }) => {
     if (!Auth.loggedIn()) {
       setTimeout(() => navigate("/login"), 7000);
     } else {
-      setTimeout(() => navigate("/home"), 7000);
+      setTimeout(() => navigate("/"), 7000);
     }
   // eslint-disable-next-line
   }, []);
