@@ -69,6 +69,8 @@
     "isManager": "true",
     "isAdmin": true,
     "isLocked": false,
-    "schedule": []
+    "schedule": [
+      "423233343536373839303132"
+    ]
   }
 ]
