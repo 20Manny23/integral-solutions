@@ -20,6 +20,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^4.6.2",
+    "dayjs": "^1.11.7",
     "fullcalendar": "^5.11.3",
     "graphql": "^15.4.0",
     "jwt-decode": "^2.2.0",
@@ -47,8 +48,7 @@
     "workbox-range-requests": "^6.5.4",
     "workbox-routing": "^6.5.4",
     "workbox-strategies": "^6.5.4",
-    "workbox-streams": "^6.5.4",
-    "dayjs": "^1.11.7"
+    "workbox-streams": "^6.5.4"
   },
   "scripts": {
     "start": "react-scripts start",

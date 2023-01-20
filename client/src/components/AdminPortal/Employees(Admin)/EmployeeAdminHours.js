@@ -80,8 +80,8 @@ function EmployeeAdminHours() {
                       </Col>
 
                       <Col>
-                      <p style={{fontWeight:'bold', marginTop:'12px'}}>Month to Date Hours:</p>
-                      <p style={{fontWeight:'bold', marginTop:'-8px'}}>Year to Date Hours:</p>
+                      <p style={{fontWeight:'bold', marginTop:'12px', marginLeft:'20px'}}>Month to Date Hours:</p>
+                      <p style={{fontWeight:'bold', marginTop:'-8px', marginLeft:'20px'}}>Year to Date Hours:</p>
 
                        
                       </Col>

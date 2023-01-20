@@ -28,19 +28,17 @@ const format_date_MMDDYYYY = (date) => {
 };
 const format_date_MMDD = (date) => {
   // FROM: "November 29 2022 09:00:00 (MST)"
-  // TO: "Wed Jan 11 "
+  // TO: "Wedneday Jan 11"
 
-  
   const dateMMDD = moment(date).format("dddd, MMM DD");
-  // if (date) {
-  //   dateMMDD = new Date(date).toDateString();
-  //   console.log(dateMMDD)
-  // }
-
-  // console.log(new Date(date).toDateString());
-
+ 
   return dateMMDD;
 };
+const format_date_no_hyphen = (date) => {
+
+  const newDate = moment(date).format("dddd, MMM DD YYYY")
+  return newDate
+}
 
 const format_date_YYYYDDMM = (date) => {
   // FROM: "November 29 2022 09:00:00 (MST)"
@@ -63,7 +61,8 @@ module.exports = {
   format_date_string,
   format_date_MMDDYYYY,
   format_date_YYYYDDMM,
-  format_date_MMDD
+  format_date_MMDD,
+  format_date_no_hyphen
 };
 
   // if (date) {
