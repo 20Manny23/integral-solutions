@@ -23,6 +23,28 @@ export const FORGOT_PASSWORD = gql`
   }
 `;
 
+export const UPDATE_PASSWORD = gql`
+  mutation UpdatePassword(
+    $id: ID
+    $password: String
+  ) {
+    updatePassword(
+      _id: $id
+      password: $password
+    ) {
+      _id
+      email
+      firstName
+      lastName
+      password
+      phone
+      isManager
+      isAdmin
+      isLocked
+    }
+  }
+`;
+
 // SECTION EMPLOYEE
 export const SIGNUP_EMPLOYEE = gql`
   mutation signupEmployee($email: String!, $password: String!) {

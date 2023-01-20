@@ -10,7 +10,6 @@ const {
 } = require("../models");
 const { signToken } = require("../utils/auth");
 const bcrypt = require("bcrypt");
-const { addAbortSignal } = require("stream");
 
 let expiration = "2h"; // 2 hours
 
@@ -112,8 +111,8 @@ const resolvers = {
     employeeById: async (parent, { _id }, context) => {
       // if (context.user) {
 
-        console.log('employee by id', _id);
-        
+      console.log("employee by id", _id);
+
       return Employee.findOne({ _id }).populate({
         path: "schedule",
         populate: { path: "client" },
@@ -146,72 +145,18 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    sendEmailContactUs: async (parent, args, context) => {
-      const sgMail = require("@sendgrid/mail");
-      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-      let message = `Your information was sent to Integral Solutions. A represenative will be in touch soon.`;
-
-      console.log('lazy query');
-      console.log('args = ', args);
-
-      const msg = {
-        to: "callasteven@gmail.com", // Change to your recipient
-        from: "callasteven@gmail.com", // Change to your verified sender
-        subject: `Contact Us: ${args.companyName}, Start: ${args.startDate} Services: ${args.services}`,
-        text: `
-        Company Name: ${args.companyName}
-        Email Address: ${args.emailAddress} 
-        Contact Name: ${args.ontactName}
-        Phone Number: ${args.phoneNumber}
-        Address: ${args.address}, ${args.city}, ${args.state} ${args.zip}
-        Square Feet: ${args.squareFeet} 
-        Employee Number: ${args.employeeNumber} 
-        Start Date: ${args.startDate}
-        Services Needed: ${args.services}
-        Job Details: ${args.jobDetails}`,
-        html: `
-        <p>Company Name: ${args.companyName}</p>
-        <p>Email Address: ${args.emailAddress}</p>
-        <p>Contact Name: ${args.ontactName}</p>
-        <p>Phone Number: ${args.phoneNumber}</p>
-        <p>Address: ${args.address}, ${args.city}, ${args.state} ${args.zip}</p>
-        <p>Square Feet: ${args.squareFeet} </p>
-        <p>Employee Number: ${args.employeeNumber} </p>
-        <p>Start Date: ${args.startDate}</p>
-        <p>Services Needed: ${args.services}</p>
-        <p>Job Details: ${args.jobDetails}</p>`,
-      };
-
-      sgMail
-        .send(msg)
-        .then(() => {
-          console.log("Email sent");
-        })
-        .catch((error) => {
-          console.error(error);
-          console.error(error.response.body.errors);
-          message = "Something went wrong. Give us a call at 555-555-1212."
-        });
-
-        console.log(message)
-        return message;
-    },
-
     sendEmail: async (parent, args, context) => {
       const sgMail = require("@sendgrid/mail");
       sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
       let message = `Your information was sent to Integral Solutions. A represenative will be in touch soon.`;
 
-      console.log(args);
-
-      console.log('lazy query');
-      console.log('args = ', args);
+      // console.log('lazy query');
+      // console.log('args = ', args);
 
       const msg = {
-        to: args.toEmail ? `${args.toEmail}` : 'callasteven@gmail.com',
-        from: args.fromEmail ? `${args.fromEmail}` : 'callasteven@gmail.com',
+        to: args.toEmail ? `${args.toEmail}` : "callasteven@gmail.com",
+        from: args.fromEmail ? `${args.fromEmail}` : "callasteven@gmail.com",
         subject: args.subject,
         text: args.textContent,
         html: args.htmlContent,
@@ -228,8 +173,8 @@ const resolvers = {
           message = "Something went wrong. Give us a call at 555-555-1212."
         });
 
-        console.log(message)
-        return message;
+      // console.log(message)
+      return message;
     },
   },
 
@@ -339,11 +284,25 @@ const resolvers = {
       // if (!correctPw) {
       //   throw new AuthenticationError("Incorrect credentials");
       // }
+
       expiration = 900; // 15 minutes
       const token = signToken(employee, expiration);
       // const token = signToken(employee);
 
       return { token, employee };
+    },
+
+    updatePassword: async (parent, { _id, password }, context) => {
+      // if (context.user) {
+      console.log("resolver update password = ", _id, password);
+      return Employee.findOneAndUpdate(
+        { _id },
+        {
+          password,
+        }
+      );
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
     },
 
     updateAvailability: async (
@@ -574,13 +533,7 @@ const resolvers = {
 
     updateEmployeeForm: async (
       parent,
-      {
-        _id,
-        firstName,
-        lastName,
-        email,
-        phone,
-      },
+      { _id, firstName, lastName, email, phone },
       context
     ) => {
       // if (context.user) {
@@ -590,7 +543,7 @@ const resolvers = {
         firstName,
         lastName,
         email,
-        phone,
+        phone
       );
       return Employee.findOneAndUpdate(
         { _id },
@@ -625,11 +578,11 @@ const resolvers = {
     toggleAdmin: async (parent, { employeeId }) => {
       let message = "No such user exists";
 
-      console.log('employee id = ', employeeId)
-      
+      console.log("employee id = ", employeeId);
+
       const employee = await Employee.findById(employeeId);
 
-      console.log('employee = ', employee);
+      console.log("employee = ", employee);
 
       if (employee) {
         try {
