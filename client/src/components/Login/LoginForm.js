@@ -48,7 +48,7 @@ const LoginForm = () => {
 
       Auth.login(data.login);
 
-      window.location.assign(`/home`);
+      window.location.assign(`/`);
 
     } catch (e) {
       console.error(e);
