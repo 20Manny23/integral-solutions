@@ -26,6 +26,13 @@ const typeDefs = gql`
     isAdmin: Boolean
     isLocked: Boolean
     schedule: [Schedule]
+    hours: [Hours]
+  }
+  type Hours {
+    _id: ID
+    workDate: String
+    hours: String
+    
   }
 
   type Message {
