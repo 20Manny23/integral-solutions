@@ -4,7 +4,7 @@ import React from "react";
 import Auth from "../utils/auth";
 import { Link } from "react-router-dom";
 
-import { Navbar, Nav, Row, Container } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
 import "../styles/navbar.css";
 
 import logoTop from "../assets/images/logo-no-slogan.png";
@@ -13,7 +13,6 @@ const AppNavbar = () => {
   return (
     <>
       <Navbar
-
         className="shadow-sm navs"
         style={{ backgroundColor: "#0D2E4F" }}
         expand="lg"
@@ -22,7 +21,7 @@ const AppNavbar = () => {
         <Navbar.Brand as={Link} reloadDocument to="/" className="">
           <img className="logo" src={logoTop} alt="logo"></img>
         </Navbar.Brand>
-        <Navbar.Brand className="slogan" style={{ fontSize: "30px", color: '#ffffff', marginLeft: "20px" }}>
+        <Navbar.Brand className="brand-name" style={{ fontSize: "30px", color: '#ffffff', marginLeft: "20px" }}>
           Integral Solutions
           <h6 className="slogan-size"> Office Furniture Installation At The Snap Of Your Fingers!
           </h6>
