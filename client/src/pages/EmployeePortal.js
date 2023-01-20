@@ -7,6 +7,7 @@ import { getUserId } from "../utils/getUserId";
 import EmployeePast from "../components/Employee(Worker)/EmployeePast";
 import EmployeeFuture from "../components/Employee(Worker)/EmployeeFuture";
 import EmployeeHours from "../components/Employee(Worker)/EmployeeHours";
+import EmployeeAdminHours from "../components/AdminPortal/Employees(Admin)/EmployeeAdminHours";
 import { Button, Container, Col, Row } from "react-bootstrap/";
 import "../styles/spinner.css";
 
@@ -23,6 +24,7 @@ const EmployeePortal = ({
   addemployeeButtonIsActive,
   clientlistButtonIsActive,
   hoursButtonIsActive,
+  hoursAdminButtonIsActive,
 }) => {
   // const [upcomingPanel, setUpcomingPanel] = useState(isActive)
   // const [pastPanel, setPastPanel] = useState(notActive)
@@ -90,6 +92,16 @@ const EmployeePortal = ({
                 >
                   Enter Hours
                 </Button>
+                <Button
+                  variant="outline-primary"
+                  style={hoursAdminButtonIsActive ? isActive : notActive}
+                  active={hoursAdminButtonIsActive}
+                  onClick={() => {
+                    navigate("/hoursadmin");
+                  }}
+                >
+                  Hours Admin
+                </Button>
               </div>
 
               {renderPanel === "employee" ? (
@@ -98,6 +110,8 @@ const EmployeePortal = ({
                 <EmployeePast />
               ) : renderPanel === "hours" ? (
                 <EmployeeHours />
+                ) : renderPanel === "hoursadmin" ? (
+                  <EmployeeAdminHours />
               ) : (
                 <EmployeePortal />
               )}
