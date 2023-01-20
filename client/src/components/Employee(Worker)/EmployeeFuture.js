@@ -7,41 +7,45 @@ import { QUERY_EMPLOYEE_BYID } from "../../utils/queries";
 
 import { Row, Container, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { format_date_MMDDYYYY} from "../../utils/dateFormat"
+import { format_date_MMDDYYYY } from "../../utils/dateFormat";
 import Collapse from "react-bootstrap/Collapse";
 
 function Employees() {
   const [open, setOpen] = useState(false);
   const [schedule, setSchedule] = useState([]);
-  // console.log('schedule = ', schedule);
+
 
   // get id for logged in employee
   const userId = getUserId();
-  // console.log(userId);
 
   // get schedule useQuery for the specific id
   // eslint-disable-next-line
+
   const { loading, data, error, refetch } = useQuery(QUERY_EMPLOYEE_BYID, {
     variables: { id: userId },
 
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+    
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
-      console.log("EMPLOYEE DATA = ", data);
+   
+      
       const todayDate = Date.now();
       const upcoming = [];
       for (let i = 0; i < data.employeeById.schedule.length; i++) {
-        console.log(data.employeeById.schedule.length);
-
         const date = new Date(data.employeeById.schedule[i].startDate);
         const jobDate = date.getTime();
 
         if (jobDate >= todayDate || jobDate === "") {
           upcoming.push(data.employeeById.schedule[i]);
         }
-      }
+      
 
       setSchedule(upcoming);
+    }
+
+      
+
     },
   });
 
@@ -71,12 +75,13 @@ function Employees() {
                         aria-expanded={open}
                         style={{ textDecoration: "none" }}
                       >
-                        {job?.client?.businessName}: {format_date_MMDDYYYY(job?.startDate)} 
-                        {" "}at {" "} {job?.startTime}
+                        {job?.client?.businessName}:{" "}
+                        {format_date_MMDDYYYY(job?.startDate)} at{" "}
+                        {job?.startTime}
                       </button>
                     </h5>
                   </div>
-                 
+
                   <Collapse in={open}>
                     <div id={`collapse-text-directions-${index}`}>
                       <div id="panel" className="card-body py-1 text-left">
@@ -90,16 +95,18 @@ function Employees() {
                         </Row>
 
                         <Row>
-                          <a href={`https://www.google.com/maps/dir/?api=1&destination=${job?.streetAddress},${job?.city},${job?.state},${job?.zip}&travelmode=driving`}
-                          target="_blank"
-                          rel="noreferrer">
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-location-dot"
-                            style={{ marginTop: "4px", marginRight: "5px" }}
-                          />
-                          
-                          {job?.streetAddress} {job?.city}{" "}
-                          {job?.state} {job?.zip}</a>
+                          <a
+                            href={`https://www.google.com/maps/dir/?api=1&destination=${job?.streetAddress},${job?.city},${job?.state},${job?.zip}&travelmode=driving`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <FontAwesomeIcon
+                              icon="fa-solid fa-location-dot"
+                              style={{ marginTop: "4px", marginRight: "5px" }}
+                            />
+                            {job?.streetAddress} {job?.city} {job?.state}{" "}
+                            {job?.zip}
+                          </a>
                         </Row>
                         <Row>
                           <a href={`tel:+${job?.client?.phone}`}>
@@ -109,10 +116,20 @@ function Employees() {
                         </Row>
                       </div>
                       <div id="panel" className="card-body py-1 text-left">
-                        <span style={{fontWeight:'bold', marginLeft:'-14px'}}>Job Details:</span> {job?.jobDetails}
+                        <span
+                          style={{ fontWeight: "bold", marginLeft: "-14px" }}
+                        >
+                          Job Details:
+                        </span>{" "}
+                        {job?.jobDetails}
                       </div>
                       <div id="panel" className="card-body py-1 text-left">
-                        <span style={{fontWeight:'bold', marginLeft:'-14px'}}>Client Employees:</span> {job?.numberOfClientEmployees}
+                        <span
+                          style={{ fontWeight: "bold", marginLeft: "-14px" }}
+                        >
+                          Client Employees:
+                        </span>{" "}
+                        {job?.numberOfClientEmployees}
                       </div>
                     </div>
                   </Collapse>

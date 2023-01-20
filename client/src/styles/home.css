@@ -53,6 +53,7 @@
 }
 
 footer {
+  bottom: 0;
   background-color: #0D2E4F;
   color:white ;
   border-top: 1px solid black;
