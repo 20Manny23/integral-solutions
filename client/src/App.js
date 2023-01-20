@@ -314,6 +314,7 @@ function App() {
                   element={
                     <EmployeePortal
                       renderPanel={"employee"}
+                      
                       calendarButtonIsActive={true}
                       addemployeeButtonIsActive={true}
                       clientlistButtonIsActive={false}
@@ -332,9 +333,29 @@ function App() {
                   element={
                     <EmployeePortal
                       renderPanel={"past"}
+                      
                       calendarButtonIsActive={false}
                       addemployeeButtonIsActive={false}
                       clientlistButtonIsActive={true}
+                      workOrderButtonIsActive={false}
+                      employeeListButtonIsActive={false}
+                      clientListButtonIsActive={false}
+                      adminMockButtonIsActive={false}
+                    />
+                  }
+                />
+              )}
+                    {Auth.isLocked() === false && (
+                <Route
+                  exact
+                  path="/hoursadmin"
+                  element={
+                    <EmployeePortal
+                      renderPanel={"hoursadmin"}
+                      calendarButtonIsActive={false}
+                      hoursAdminButtonIsActive={true}
+                      addemployeeButtonIsActive={false}
+                      clientlistButtonIsActive={false}
                       workOrderButtonIsActive={false}
                       employeeListButtonIsActive={false}
                       clientListButtonIsActive={false}
@@ -358,6 +379,7 @@ function App() {
                       employeeListButtonIsActive={false}
                       clientListButtonIsActive={false}
                       adminMockButtonIsActive={false}
+                      hoursAdminButtonIsActive={false}
 
                     />
                   }

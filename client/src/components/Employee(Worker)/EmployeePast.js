@@ -41,7 +41,7 @@ function Employees() {
           past.push(data.employeeById.schedule[i]);
         }
       }
-      console.log(past);
+      
       setSchedule(past);
     },
   });

@@ -26,6 +26,21 @@ const format_date_MMDDYYYY = (date) => {
 
   return dateMMDDYYYY;
 };
+const format_date_MMDD = (date) => {
+  // FROM: "November 29 2022 09:00:00 (MST)"
+  // TO: "Wed Jan 11 "
+
+  
+  const dateMMDD = moment(date).format("MMMM DD");
+  // if (date) {
+  //   dateMMDD = new Date(date).toDateString();
+  //   console.log(dateMMDD)
+  // }
+
+  // console.log(new Date(date).toDateString());
+
+  return dateMMDD;
+};
 
 const format_date_YYYYDDMM = (date) => {
   // FROM: "November 29 2022 09:00:00 (MST)"
@@ -48,6 +63,7 @@ module.exports = {
   format_date_string,
   format_date_MMDDYYYY,
   format_date_YYYYDDMM,
+  format_date_MMDD
 };
 
   // if (date) {
