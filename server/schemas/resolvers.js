@@ -90,6 +90,7 @@ const resolvers = {
     employees: async (parent, args, context) => {
       // if (context.user) {
       return Employee.find().populate({
+        path: "hour",
         path: "schedule",
         populate: { path: "client" },
       });
@@ -532,6 +533,7 @@ const resolvers = {
         isAdmin,
         isLocked,
         schedule,
+        hours
       },
       context
     ) => {
@@ -547,7 +549,8 @@ const resolvers = {
         isManager,
         isAdmin,
         isLocked,
-        schedule
+        schedule,
+        hours
       );
       return Employee.findOneAndUpdate(
         { _id },
@@ -608,6 +611,17 @@ const resolvers = {
       );
       // }
       // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    updateEmployeeHours: async (parent, { _id, hours }, context) => {
+      console.log("RESOLVER FOR UPDATE EMPLOYEE HOURS", _id, hours)
+      return Employee.findOneAndUpdate(
+        { _id },
+        {
+          $addToSet: { hours },
+        },
+        { new: true }
+      );
     },
 
     // SECTION TOGGLE RESOLVERS
