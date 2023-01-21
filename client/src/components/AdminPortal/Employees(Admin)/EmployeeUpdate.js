@@ -156,6 +156,8 @@ function EmployeeUpdate() {
     setSelectEmail(false);
 
     resetForm(); // fix
+
+    setFormIsDisabled(true); //set form disabled = true
   };
 
   //SECTION HANDLE SELECTED EMPLOYEE
