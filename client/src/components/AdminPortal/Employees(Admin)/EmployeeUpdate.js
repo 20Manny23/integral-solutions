@@ -11,7 +11,6 @@ import {
 import { UPDATE_EMPLOYEE_FORM } from "../../../utils/mutations";
 
 import { Container, Form, Button } from "react-bootstrap";
-
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
@@ -29,6 +28,8 @@ function EmployeeUpdate() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLocked, setIsLocked] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
+
+  console.log(email);
 
   // VALIDATION
   const [showUsernameValidation, setShowUsernameValidation] = useState(false);
@@ -63,20 +64,45 @@ function EmployeeUpdate() {
       },
     });
 
+    const [ selectFirstName, setSelectFirstName ] = useState(false);
+    const [ selectLastName, setSelectLastName ] = useState(false);
+    const [ selectPhone, setSelectPhone ] = useState(false);
+    const [ selectEmail, setSelectEmail ] = useState(false);
+    const [ selectPassword, setSelectPassword ] = useState(false);
+
   //SECTION HANDLE INPUT
   const handleInputChange = (event) => {
+    // setSelect(false); //fix
+
     const { name, value } = event.target;
     // console.log(e)
 
-    name === "firstName"
-      ? setFirstName(value)
-      : name === "lastName"
-      ? setLastName(value)
-      : name === "phone"
-      ? setPhone(value)
-      : name === "email"
-      ? setEmail(value)
-      : setPassword(value);
+    if (name === "firstName") {
+      setFirstName(value);
+      setSelectFirstName(false);
+    } else if (name === "lastName") {
+      setLastName(value);
+      setSelectLastName(false);
+    } else if (name === "phone") {
+      setPhone(value);
+      setSelectPhone(false);
+    } else if (name === "email") {
+      setEmail(value);
+      setSelectEmail(false);
+    } else {
+      setPassword(value);
+      setSelectEmail(false);
+    }
+
+    // name === "firstName"
+    //   ? (setFirstName(value), selectFirstName(true))
+    //   : name === "lastName"
+    //   ? setLastName(value)
+    //   : name === "phone"
+    //   ? setPhone(value)
+    //   : name === "email"
+    //   ? setEmail(value)
+    //   : setPassword(value);
 
     return name;
   };
@@ -125,25 +151,26 @@ function EmployeeUpdate() {
     let getEmployee = await getASingleEmployee();
     console.log("getEmployee = ", getEmployee.data);
     // setPrevEmployeeData(getEmployee) This was causing the double click error;
-  // };
+    // };
 
-  // // use effect - when singleEmployee is updated then update employee
-  // useEffect(() => {
+    // // use effect - when singleEmployee is updated then update employee
+    // useEffect(() => {
     console.log(prevEmployeeData);
     console.log(Object.keys(prevEmployeeData).length === 0);
-    console.log(currentEmployee)
+    console.log(currentEmployee);
 
-  //   // since useEffect will run on load, check if prevEmployeeData is empty
+    //   // since useEffect will run on load, check if prevEmployeeData is empty
     // if (Object.keys(prevEmployeeData).length === 0) {
     //   return;
     // }
 
-    console.log('all input = ',
+    console.log(
+      "all input = ",
       currentInput.firstName,
       currentInput.lastName,
       currentInput.email,
       currentInput.phone
-    )
+    );
 
     try {
       await updateEmployee({
@@ -162,25 +189,22 @@ function EmployeeUpdate() {
             ? currentInput.phone
             : getEmployee.data.employeeById.phone,
         },
-        
       });
     } catch (err) {
       console.log(err);
     }
-   
+
     empRefetch();
 
     resetForm();
-  }
-    // eslint-disable-next-line
-  // }, [prevEmployeeData]);
+  };
 
   const resetForm = () => {
-    setEmail("");
     setFirstName("");
     setLastName("");
     setPhone("");
     setPassword("");
+    setEmail("");
     setIsAdmin("");
     setIsLocked("");
   };
@@ -196,14 +220,24 @@ function EmployeeUpdate() {
     // eslint-disable-next-line
   }, [email, phone, firstName, lastName]);
 
+  const [ select, setSelect ] = useState(false); //fix
+
   //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
   async function employeeEmailSelect(event) {
-    if(currentEmployee){
-
+    if (currentEmployee) {
       // navigate("/employees"); // section
-      window.location.reload();
+      // window.location.reload(); // fix
     }
-   
+
+    resetForm(); //fix
+    setSelect(true); //fix
+      setSelectFirstName(true);
+      setSelectLastName(true);
+      setSelectPhone(true);
+      setSelectEmail(true);
+      setSelectEmail(true);
+    //fix
+
     let employeeId =
       event.target.options[event.target.selectedIndex].dataset.id;
     setCurrentEmployeeId(employeeId);
@@ -222,9 +256,8 @@ function EmployeeUpdate() {
 
     console.log(prevEmployeeData?.email + "hi there");
     resetForm();
-   
   }
-// console.log(currentInput)
+  // console.log(currentInput)
   return (
     <Container>
       <Form
@@ -246,8 +279,7 @@ function EmployeeUpdate() {
           });
           resetForm();
 
-
-          window.location.reload();
+          // window.location.reload();
           // navigate("/"); //section
         }}
       >
@@ -257,9 +289,9 @@ function EmployeeUpdate() {
               Select Client (to populate below)
             </Form.Label>
             <Form.Label
-            className={`validation-color ${
-              showEmailEmployeeValidation ? "show" : "hide"
-            }`}
+              className={`validation-color ${
+                showEmailEmployeeValidation ? "show" : "hide"
+              }`}
             >
               *required
             </Form.Label>
@@ -273,31 +305,31 @@ function EmployeeUpdate() {
               onChange={employeeEmailSelect}
             >
               <option>
-                {prevEmployeeData?.firstName ? `${prevEmployeeData.firstName} ${prevEmployeeData.lastName}` : "Select"}
+                {prevEmployeeData?.firstName
+                  ? `${prevEmployeeData.firstName} ${prevEmployeeData.lastName}`
+                  : "Select"}
               </option>
               {emp?.employees?.map((emp, index) => (
-                <option 
-                key={index} 
-                value={[emp.email, emp.firstName, emp.lastName, emp.phone]} 
-                data-id={emp._id}
+                <option
+                  key={index}
+                  value={[emp.email, emp.firstName, emp.lastName, emp.phone]}
+                  data-id={emp._id}
                 >
                   {`${emp.firstName} ${emp.lastName}`}
                 </option>
               ))}
-
-
             </Form.Control>
           </Form.Group>
-          
+
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
                 First Name
               </Form.Label>
               <Form.Label
-              className={`validation-color ${
-                showFirstNameValidation ? "show" : "hide"
-              }`}
+                className={`validation-color ${
+                  showFirstNameValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
@@ -307,7 +339,8 @@ function EmployeeUpdate() {
               type="text"
               placeholder="Enter First Name"
               name="firstName"
-              defaultValue={prevEmployeeData?.firstName}
+              // defaultValue={prevEmployeeData?.firstName} //fix
+              value={selectFirstName ? prevEmployeeData.firstName : firstName} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -319,9 +352,9 @@ function EmployeeUpdate() {
                 Last Name
               </Form.Label>
               <Form.Label
-              className={`validation-color ${
-                showLastNameValidation ? "show" : "hide"
-              }`}
+                className={`validation-color ${
+                  showLastNameValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
@@ -331,15 +364,15 @@ function EmployeeUpdate() {
               type="text"
               placeholder="Enter Last Name"
               name="lastName"
-              defaultValue={prevEmployeeData?.lastName}
+              // defaultValue={prevEmployeeData?.lastName} //fix
+              value={selectLastName ? prevEmployeeData.lastName : lastName} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
             />
           </Form.Group>
-          <Form.Group
-            className="mb-3 form-length"
-          >
+
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
                 Phone Number
@@ -353,40 +386,38 @@ function EmployeeUpdate() {
               </Form.Label>
             </div>
             <Form.Control
-            
               className="custom-border"
               type="tel"
               placeholder="example: 123-456-7899"
               name="phone"
-              plaintext="false"
-              defaultValue={prevEmployeeData?.phone}
-              // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              // defaultValue={prevEmployeeData?.phone} //fix
+              value={selectPhone ? prevEmployeeData.phone : phone} // fix
+              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
             />
           </Form.Group>
 
-          <Form.Group
-            className="mb-3 form-length"
-            //controlId={formId}
-          >
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label>
+              <Form.Label htmlFor="email" style={{ fontWeight: "bolder" }}>Email</Form.Label>
+              {/* <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label> */}
               <Form.Label
-              className={`validation-color ${
-                showEmailEmployeeValidation ? "show" : "hide"
-              }`}
+                className={`validation-color ${
+                  showEmailEmployeeValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
             </div>
             <Form.Control
               className="custom-border"
-              type="email"
+              type="text"
               placeholder="Employee Email"
               name="email"
-              defaultValue={prevEmployeeData?.email}
+              // defaultValue={prevEmployeeData?.email} // fix
+              value={selectEmail ? prevEmployeeData.email : email} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               // required

@@ -58,19 +58,24 @@ function Employees() {
                     id="headingOne"
                     style={{ color: "black" }}
                   >
-                    <h5 className="mb-0 text-left">
+                    <h5 className="d-flex flex-column mb-0 text-left">
                       <button
                         className="btn btn-link pl-1"
                         onClick={() => setOpen(!open)}
                         aria-controls={`collapse-text-directions-${index}`}
                         aria-expanded={open}
                       >
-                        {job?.client?.businessName}:{" "}
-                        {format_date_MMDDYYYY(job?.startDate)} at {job?.startTime}
+                        <p className="mb-0 text-left">
+                          {job?.client?.businessName}
+                        </p>
+                        <p className="mb-0 text-left">
+                          {format_date_MMDDYYYY(job?.startDate)} at{" "}
+                          {job?.startTime}
+                        </p>
                       </button>
                     </h5>
                   </div>
-                  
+
                   <Collapse in={open}>
                     <div id={`collapse-text-directions-${index}`}>
                       <div id="panel" className="card-body py-1 text-left">

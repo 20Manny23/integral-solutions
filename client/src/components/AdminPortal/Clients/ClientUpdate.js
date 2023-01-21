@@ -247,11 +247,11 @@ function ClientUpdate() {
     state,
     zip,
   ]);
-  console.log(currentClient)
+  console.log(currentClient);
   //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
   async function businessNameSelect(event) {
-    console.log(currentClientId)
-    if (currentClientId){
+    console.log(currentClientId);
+    if (currentClientId) {
       window.location.reload();
     }
     let clientId = event.target.options[event.target.selectedIndex].dataset.id;
@@ -267,9 +267,9 @@ function ClientUpdate() {
 
     // console.log('currentClient = ', currentClientData.data.client);
     // setCurrentClient(currentClientData.data.client);
-    
+
     // if (!lazyLoading) {
-      setPrevClientData(currentClientData.data.client);
+    setPrevClientData(currentClientData.data.client);
     //   console.log(prevClientData.businessName);
     // }
     // console.log(currentClient.businessName);
@@ -277,8 +277,7 @@ function ClientUpdate() {
 
   useEffect(() => {
     // console.log('useeffect')
-  }, [getASingleClient])
-  
+  }, [getASingleClient]);
 
   return (
     <Container>
@@ -325,16 +324,20 @@ function ClientUpdate() {
               name={"form-select"}
               onChange={businessNameSelect}
             >
-              <option>{prevClientData?.businessName ? prevClientData?.businessName : "Select"}</option>
-            {clients?.clients?.map((client, index) => (
-              <option
-                key={index}
-                value={client.businessName}
-                data-id={client._id}
-              >
-                {client.businessName}
+              <option>
+                {prevClientData?.businessName
+                  ? prevClientData?.businessName
+                  : "Select"}
               </option>
-            ))}
+              {clients?.clients?.map((client, index) => (
+                <option
+                  key={index}
+                  value={client.businessName}
+                  data-id={client._id}
+                >
+                  {client.businessName}
+                </option>
+              ))}
             </Form.Control>
           </Form.Group>
 
@@ -393,10 +396,7 @@ function ClientUpdate() {
             />
           </Form.Group>
 
-          <Form.Group
-            className="mb-3 form-length"
-            // controlId="formBasicEmail"
-          >
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
                 Phone Number
@@ -543,7 +543,9 @@ function ClientUpdate() {
                 //disabled={isDisabled}
                 required
               >
-                <option>{prevClientData?.state ? prevClientData?.state : "Select"}</option>
+                <option>
+                  {prevClientData?.state ? prevClientData?.state : "Select"}
+                </option>
                 {STATE_DROPDOWN.map((st) => (
                   <option>{st}</option>
                 ))}
