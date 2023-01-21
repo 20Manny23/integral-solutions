@@ -356,38 +356,8 @@ function ContactForm() {
               />
             </Form.Group>
 
-            {/* section */}
-    <Form noValidate onSubmit={handleSubmit}>
-      <Row className="mb-3">
-        <Form.Group as={Col} md="6" controlId="validationCustom03">
-          <Form.Label>City</Form.Label>
-          <Form.Control type="text" placeholder="City" required />
-          <Form.Control.Feedback type="invalid">
-            Please provide a valid city.
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group as={Col} md="3" controlId="validationCustom04">
-          <Form.Label>State</Form.Label>
-          <Form.Control type="text" placeholder="State" required />
-          <Form.Control.Feedback type="invalid">
-            Please provide a valid state.
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group as={Col} md="3" controlId="validationCustom05">
-          <Form.Label>Zip</Form.Label>
-          <Form.Control type="text" placeholder="Zip" required />
-          <Form.Control.Feedback type="invalid">
-            Please provide a valid zip.
-          </Form.Control.Feedback>
-        </Form.Group>
-      </Row>
-      <Button type="submit">Submit form</Button>
-    </Form>
-
-            {/* section */}
-
-            <Row className="addy">
-              <Col sm={12} md={5} style={{ paddingBottom: "15px" }}>
+            <Row className="addy" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
+              <Col sm={12} md={5}>
                 <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
                 <Form.Label
                   className={`text-danger ${
@@ -419,7 +389,6 @@ function ContactForm() {
                   name="state"
                   className="custom-border"
                   placeholder="State"
-                  // style={{ maxWidth: "150px" }}
                   onChange={handleChange}
                   onBlur={handleBlurChange}
                   required
@@ -443,7 +412,6 @@ function ContactForm() {
                 </Form.Label>
                 <Form.Control
                   className="custom-border"
-                  // style={{ maxWidth: "150px" }}
                   placeholder="Zip"
                   name="zip"
                   onChange={handleChange}
@@ -472,9 +440,7 @@ function ContactForm() {
                   onBlur={handleBlurChange}
                 />
               </Col>
-              {/* <Form.Group> */}
-              {/* <Col xs={12} md={6}> */}
-              <Col className="margin-expand">
+              <Col className="margin-expand" style={{ paddingLeft: "0px" }}>
                 <Form.Label
                   style={{
                     fontWeight: "bolder",
@@ -548,10 +514,12 @@ function ContactForm() {
                   Services Needed
                 </Form.Label>
               </div>
+
+              {/* <div className="d-flex justify-content-between"> */}
               {["checkbox"].map((type) => (
-                <div key={`inline-${type}`} className="mb-3">
+                <div key={`inline-${type}`} className="mb-3 d-flex justify-content-around flex-wrap" style={{ textAlign: "left" }}>
                   <Form.Check
-                    inline
+                    style={{ width: "250px" }}
                     label="Delivery"
                     name="services"
                     value="Delivery"
@@ -561,7 +529,7 @@ function ContactForm() {
                     onBlur={handleBlurChange}
                   />
                   <Form.Check
-                    inline
+                    style={{ width: "250px" }}
                     label="Furniture Installation"
                     name="services"
                     value="Furniture Installation"
@@ -570,7 +538,16 @@ function ContactForm() {
                     onChange={handleChange}
                   />
                   <Form.Check
-                    inline
+                    style={{ width: "250px" }}
+                    name="services"
+                    label="Cleaning after Installation"
+                    value="Cleaning after Installation"
+                    type={type}
+                    id={`inline-${type}-4`}
+                    onChange={handleChange}
+                  />
+                  <Form.Check
+                    style={{ width: "250px" }}
                     label="Moving an Office"
                     name="services"
                     value="Moving an Office"
@@ -579,7 +556,7 @@ function ContactForm() {
                     onChange={handleChange}
                   />
                   <Form.Check
-                    inline
+                    style={{ width: "250px" }}
                     label="Office Reconfiguration"
                     name="services"
                     value="Office Reconfiguration"
@@ -587,17 +564,9 @@ function ContactForm() {
                     id={`inline-${type}-3`}
                     onChange={handleChange}
                   />
-                  <Form.Check
-                    inline
-                    name="services"
-                    label="Cleaning after Installation"
-                    value="Cleaning after Installation"
-                    type={type}
-                    id={`inline-${type}-4`}
-                    onChange={handleChange}
-                  />
                 </div>
               ))}
+              {/* </div> */}
             </Form.Group>
 
             {/* <Form.Group 
