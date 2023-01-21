@@ -26,7 +26,7 @@ const WrongPage = ({ renderPanel }) => {
       >
         <Button
           as={Link}
-          to="/calendar"
+          to="/work-order"
           className="rounded-pill wrong-page-button"
           style={{ backgroundColor: "white", border: "none" }}
         >
