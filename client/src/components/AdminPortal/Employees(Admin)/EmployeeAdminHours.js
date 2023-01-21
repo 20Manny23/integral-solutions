@@ -22,7 +22,11 @@ function EmployeeAdminHours() {
     data: emp,
     error: empError,
     refetch: empRefetch,
+
   } = useQuery(QUERY_ALL_EMPLOYEES);
+
+
+
 
 
   // SECTION HANDLE COLLAPSE
@@ -39,6 +43,23 @@ function EmployeeAdminHours() {
       setOpenDetails(true);
     }
   };
+
+
+// const thisWeeksHours = hours(thisWeek);
+// // const lastWeeksHours = hours(lastWeek);
+
+// const thisHours =[];
+
+// for(let i = 0; i < thisWeeksHours.length; i++){
+//   console.log(thisWeeksHours[i].hours)
+//   const thisWeekHours = (data?.emp?.hours[i].hours)
+//   const thisWeekDate = (data?.emp?.hours[i].workDate)
+
+//   thisHours.push({hours: thisWeekHours, date: thisWeekDate})
+
+// }
+
+
 
 
   return (
@@ -68,9 +89,14 @@ function EmployeeAdminHours() {
                   </button>
                 </h5>
                 <div className="d-flex mr-2">
-                   <p style={{fontWeight:'bold'}}>Hours This Week: {}</p>
+                  {emp?.hours?.map((emp, index) => (
+                   <p key={index} style={{fontWeight:'bold'}}>Hours This Week: {emp?.hours} {emp?.workDate}</p>
+                   ))}
                 </div>
+               
+                
               </div>
+
               <Collapse>
                 <div id={`#collapse-client-${index}`}>
                   <Container fluid="true">

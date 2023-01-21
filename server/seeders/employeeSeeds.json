@@ -10,6 +10,20 @@
     "isManager": "true",
     "isAdmin": false,
     "isLocked": false,
+    "hours": [
+      {
+        "hours": "30",
+        "workDate": "1/11/1111"
+      },
+      {
+        "hours": "20",
+        "workDate": "2/11/1111"
+      },
+      {
+        "hours": "30",
+        "workDate": "3/11/1111"
+      }
+    ],
     "schedule": [
       "423233343536373839303132"
     ]
@@ -25,6 +39,20 @@
     "isManager": "false",
     "isAdmin": true,
     "isLocked": false,
+    "hours": [
+      {
+        "hours": "10",
+        "workDate": "2/22/2222"
+      },
+      {
+        "hours": "20",
+        "workDate": "2/11/1111"
+      },
+      {
+        "hours": "30",
+        "workDate": "3/11/1111"
+      }
+    ],
     "schedule": [
       "413233343536373839303132",
       "423233343536373839303132"
@@ -41,6 +69,20 @@
     "isManager": "true",
     "isAdmin": true,
     "isLocked": false,
+    "hours": [
+      {
+        "hours": "15",
+        "workDate": "3/33/3333"
+      },
+      {
+        "hours": "20",
+        "workDate": "2/11/1111"
+      },
+      {
+        "hours": "30",
+        "workDate": "3/11/1111"
+      }
+    ],
     "schedule": [
       "423233343536373839303132"
     ]
@@ -56,6 +98,20 @@
     "isManager": "true",
     "isAdmin": true,
     "isLocked": false,
+    "hours": [
+      {
+        "hours": "7",
+        "workDate": "4/44/4444"
+      },
+      {
+        "hours": "20",
+        "workDate": "2/11/1111"
+      },
+      {
+        "hours": "30",
+        "workDate": "3/11/1111"
+      }
+    ],
     "schedule": []
   },
   {
@@ -69,6 +125,20 @@
     "isManager": "true",
     "isAdmin": true,
     "isLocked": false,
+    "hours": [
+      {
+        "hours": "45",
+        "workDate": "5/55/5555"
+      },
+      {
+        "hours": "20",
+        "workDate": "2/11/1111"
+      },
+      {
+        "hours": "30",
+        "workDate": "3/11/1111"
+      }
+    ],
     "schedule": [
       "423233343536373839303132"
     ]
