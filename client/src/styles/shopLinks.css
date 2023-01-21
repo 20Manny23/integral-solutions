@@ -13,7 +13,7 @@
   width: 700px;
   height: 200px;
   margin: 0 auto;
-  margin-bottom: 50px;
+  margin-bottom: 75px;
   background-color: #335270;
   color: white;
   font-size: 20px;
@@ -22,18 +22,24 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.company {
-  margin-top: 50px;
+.company-logos {
   width: 15rem;
-  margin-bottom: 50px;
+  margin: 75px 0px 75px 0px;
   border-radius: 50%;
 }
 
 .oval-text {
+  padding: 10px 0px 10px 0px;
   text-align: center;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 775px) {
+  .company-logos {
+    width: 15rem;
+    margin: 40px 0px 40px 0px;
+    border-radius: 50%;
+  }
+
   .head {
     width: 400px;
     height: 200px;
@@ -49,7 +55,7 @@
   }
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 470px) {
   .head {
     width: 330px;
     height: 150px;
@@ -57,7 +63,7 @@
 
   .oval-text {
     font-size: 28px;
-    padding: 0px 0px 8px 0px;
+    padding: 0px 0px 0px 0px;
   }
 
   .oval-subtext {

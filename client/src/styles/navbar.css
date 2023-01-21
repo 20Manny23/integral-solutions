@@ -1,6 +1,5 @@
-.custom-nav {  
+.custom-nav {
   min-width: 280px;
-  padding: 0;
   background-color: #0d2e4f !important;
   color: white !important;
   z-index: 6;
@@ -8,8 +7,8 @@
 
 /* Nav links / hamburger menu */
 .navLink {
-  margin-left: 15px;
-  font-size: 18px;
+  margin-left: 15px !important;
+  font-size: 32px !important;
   color: white !important;
 }
 
@@ -18,11 +17,6 @@
   text-decoration: none;
   background-color: #335270 !important;
 }
-
-/* .container {
-  display: flex;
-  flex-direction: columnn !important;
-} */
 
 /* brand name & slogan */
 .brand-container {
@@ -39,7 +33,7 @@
 
 .brand-name {
   color: white;
-  font-size: 30px;
+  font-size: 40px;
 }
 
 .slogan {
@@ -49,9 +43,21 @@
 }
 
 /* MEDIA QUERIES */
-@media screen and (max-width: 598px) {
+@media screen and (max-width: 1600px) {
+  .navLink {
+    padding: 0px 0px 0px 10px !important;
+    color: white !important;
+    font-size: 30px !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
   .slogan {
     display: none;
+  }
+
+  .brand-container {
+    margin-left: 5px;
   }
 }
 
@@ -64,12 +70,12 @@
     height: 40px;
     width: 40px;
   }
-  
+
   .brand-name {
     margin: 0px;
     font-size: 20px;
   }
-  
+
   .slogan {
     display: none;
   }

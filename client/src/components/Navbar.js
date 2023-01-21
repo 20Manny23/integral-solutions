@@ -2,21 +2,19 @@ import React from "react";
 import Auth from "../utils/auth";
 import { Link } from "react-router-dom";
 
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import "../styles/navbar.css";
 
 import logoTop from "../assets/images/logo-no-slogan.png";
 
 const AppNavbar = () => {
   return (
-    <>
-      {/* section */}
       <Navbar collapseOnSelect expand="xl" className="custom-nav">
         <Navbar.Brand
           as={Link}
           reloadDocument
           to="/"
-          className="d-flex flex-nowrap mr-0"
+          className="d-flex flex-nowrap mx-0"
         >
           <img className="logo" src={logoTop} alt="logo"></img>
           <div className="brand-container">
@@ -27,13 +25,11 @@ const AppNavbar = () => {
           </div>
         </Navbar.Brand>
 
-        <div className="d-flex justify-content-center">
         <Navbar.Toggle
           className="hamburger"
           aria-controls="responsive-navbar-nav"
-          size="sm"
         />
-        </div>
+
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="custom-nav ml-auto">
             <Nav.Link className="navLink" as={Link} to="/">
@@ -83,7 +79,6 @@ const AppNavbar = () => {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-    </>
   );
 };
 

@@ -19,7 +19,7 @@ function ShopLinks() {
               target={"_blank"}
               rel="noreferrer"
             >
-              <img className="company" src={steelcase} alt="Steelcase"></img>
+              <img className="company-logos" src={steelcase} alt="Steelcase"></img>
             </a>
           </Col>
           <Col className="d-flex justify-content-center" md={6} lg={3} sm={6}>
@@ -29,7 +29,7 @@ function ShopLinks() {
               rel="noreferrer"
             >
               <img
-                className="company"
+                className="company-logos"
                 src={officescapes}
                 alt="Office Scapes"
               ></img>
@@ -43,7 +43,7 @@ function ShopLinks() {
               rel="noreferrer"
             >
               <img
-                className="company"
+                className="company-logos"
                 src={hermanmiller}
                 alt="Herman Miller"
               ></img>
@@ -57,7 +57,7 @@ function ShopLinks() {
               rel="noreferrer"
             >
               <img
-                className="company"
+                className="company-logos"
                 src={officestogo}
                 alt="Offices To Go"
               ></img>
