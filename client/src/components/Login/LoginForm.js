@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Form, Button, Alert, InputGroup, Nav } from "react-bootstrap";
+import Auth from "../../utils/auth";
+
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
-import Auth from "../../utils/auth";
+
+import { Form, Button, Alert, InputGroup, Nav } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/button-home.css";
 
