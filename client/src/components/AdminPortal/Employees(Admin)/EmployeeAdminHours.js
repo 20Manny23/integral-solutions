@@ -88,9 +88,9 @@ function EmployeeAdminHours() {
                      {emp?.lastName}, {emp?.firstName}
                   </button>
                 </h5>
-                <div className="d-flex mr-2">
+                <div  style={{fontWeight:'bold'}}className="d-flex mr-2">Hours This Week:
                   {emp?.hours?.map((emp, index) => (
-                   <p key={index} style={{fontWeight:'bold'}}>Hours This Week: {emp?.hours} {emp?.workDate}</p>
+                   <p key={index} style={{fontWeight:'bold'}}> {emp?.hours} {emp?.workDate}</p>
                    ))}
                 </div>
                
