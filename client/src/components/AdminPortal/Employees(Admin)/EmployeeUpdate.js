@@ -20,7 +20,7 @@ function EmployeeUpdate() {
   const [lastName, setLastName] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLocked, setIsLocked] = useState(true);
-  const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
+  const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
 
   //set current employee selected
   const [currentEmployee, setCurrentEmployee] = useState("");
@@ -41,7 +41,8 @@ function EmployeeUpdate() {
   const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
   const [showLastNameValidation, setShowLastNameValidation] = useState(false);
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-  const [showEmailEmployeeValidation, setShowEmailEmployeeStateValidation] = useState(false);
+  const [showEmailEmployeeValidation, setShowEmailEmployeeStateValidation] =
+    useState(false);
 
   //SECTION GET ALL EMPLOYEES
   // eslint-disable-next-line
@@ -85,45 +86,53 @@ function EmployeeUpdate() {
       setEmail(value);
       setSelectEmail(false);
     } else {
-      console.log('Error in form input at EmployeeUpdate.js')
+      console.log("Error in form input at EmployeeUpdate.js");
     }
     return name;
   };
 
   //SECTION UPDATE EMPLOYEE
   useEffect(() => {
-    console.log(
-      "current id = ",
-      currentEmployeeId,
-      "current input = ",
-      currentInput
-    );
-
     if (currentEmployeeId && currentInput) {
       handleEmployeeUpdate();
     }
 
-    // eslint-disable-next-line
-    // }, [currentEmployeeId, currentInput]);
-    // eslint-disable-next-line
+    // console.log(
+    //   "current id = ",
+    //   currentEmployeeId,
+    //   "current input = ",
+    //   currentInput
+    // );
+
+  // eslint-disable-next-line
   }, [currentInput]); //fix
 
   // call a function to get the single current employee
-  const handleEmployeeUpdate = async () => {
+  const handleEmployeeUpdate = async (event) => {
+    event.preventDefault();
+
+    setCurrentInput({ //sets state for current input
+      firstName,
+      lastName,
+      phone,
+      email,
+      isAdmin,
+      isLocked,
+    });
+
     let getEmployee = await getASingleEmployee();
 
-    console.log("getEmployee = ", getEmployee.data);
-    console.log(prevEmployeeData);
-    console.log(Object.keys(prevEmployeeData).length === 0);
-    console.log(currentEmployee);
-
-    console.log(
-      "all input = ",
-      currentInput.firstName,
-      currentInput.lastName,
-      currentInput.email,
-      currentInput.phone
-    );
+    // console.log("getEmployee = ", getEmployee.data);
+    // console.log(prevEmployeeData);
+    // console.log(Object.keys(prevEmployeeData).length === 0);
+    // console.log(currentEmployee);
+    // console.log(
+    //   "all input = ",
+    //   currentInput.firstName,
+    //   currentInput.lastName,
+    //   currentInput.email,
+    //   currentInput.phone
+    // );
 
     try {
       await updateEmployee({
@@ -157,7 +166,7 @@ function EmployeeUpdate() {
 
     resetForm(); // fix
 
-    setFormIsDisabled(true); //set form disabled = true
+    setFormIsDisabled(true); //fix //set form disabled = true
   };
 
   //SECTION HANDLE SELECTED EMPLOYEE
@@ -230,7 +239,7 @@ function EmployeeUpdate() {
 
   //enable submit button = if input is added to at least one input field
   useEffect(() => {
-    setAreAllFieldsFilled(
+    setOneFieldHasInput(
       email.trim() !== "" ||
         phone.trim() !== "" ||
         firstName.trim() !== "" ||
@@ -244,21 +253,19 @@ function EmployeeUpdate() {
       <Form
         data-editemployeeid={prevEmployeeData?._id}
         className="py-3 overflow-auto custom-about"
-        onSubmit={(event) => {
-          event.preventDefault();
-          // let empId = event.currentTarget.getAttribute("data-editemployeeid");
-          // console.log(empId);
-          // setCurrentEmployeeId(empId);
-          setCurrentInput({
-            firstName,
-            lastName,
-            phone,
-            email,
-            isAdmin,
-            isLocked,
-          });
-          resetForm();
-        }}
+        onSubmit={handleEmployeeUpdate}
+        // onSubmit={(event) => {
+        //   event.preventDefault();
+        //   // setCurrentInput({ //triggers useEffect which triggers the handleEmployeeUpdate function
+        //   //   firstName,
+        //   //   lastName,
+        //   //   phone,
+        //   //   email,
+        //   //   isAdmin,
+        //   //   isLocked,
+        //   // });
+        //   // resetForm();
+        // }}
       >
         <div id="example-collapse-text">
           <Form.Group className="form-length">
@@ -384,7 +391,6 @@ function EmployeeUpdate() {
               <Form.Label htmlFor="email" style={{ fontWeight: "bolder" }}>
                 Email
               </Form.Label>
-              {/* <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label> */}
               <Form.Label
                 className={`validation-color ${
                   showEmailEmployeeValidation ? "show" : "hide"
@@ -411,7 +417,7 @@ function EmployeeUpdate() {
               className="submit-button-style"
               variant="primary"
               type="submit"
-              disabled={!areAllFieldsFilled}
+              disabled={!oneFieldHasInput}
               title="Enter all fields to add a new client"
             >
               Update Employee
