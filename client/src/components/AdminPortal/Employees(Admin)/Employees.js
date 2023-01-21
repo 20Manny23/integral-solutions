@@ -7,6 +7,7 @@ import {
   TOGGLE_ADMIN,
   TOGGLE_LOCKED,
 } from "../../../utils/mutations";
+import format_phone from "../../../utils/helpers";
 
 import { Row, Col, Container, Form } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
@@ -128,7 +129,7 @@ function Employees() {
                   justifyContent: "space-between",
                 }}
               >
-                <h5 className="mb-0 text-left">
+                  <h5 className="d-flex flex-column mb-0 text-left">
                   <button
                     onClick={(event) => getElement(event)}
                     aria-controls={`#collapse-client-${index}`}
@@ -136,7 +137,10 @@ function Employees() {
                     className="btn btn-link pl-1"
                     data-target={`#collapse-client-${index}`}
                   >
-                    {emp?.lastName} {emp?.firstName} 
+                    <p className="mb-0 text-left">{emp?.lastName}, {emp?.firstName}</p>
+                      <p className="mb-0 text-left">
+                          {format_phone(emp?.phone)}
+                      </p>
                   </button>
                 </h5>
                 <div className="d-flex mr-2">
@@ -158,7 +162,7 @@ function Employees() {
                       <Col md={6} lg={6}>
                         <a href={`tel:+${emp?.phone}`}>
                           <FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon>{" "}
-                          {emp?.phone}
+                          {format_phone(emp?.phone)}
                         </a>
                         <br></br>
                         <a href={`mailto:${emp?.email}`}>

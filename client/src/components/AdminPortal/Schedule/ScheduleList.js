@@ -5,10 +5,9 @@ import { QUERY_SCHEDULE } from "../../../utils/queries";
 import { DELETE_SCHEDULE } from "../../../utils/mutations";
 
 import {
-  format_date_string,
   format_date_MMDDYYYY,
 } from "../../../utils/dateFormat";
-import { format_date_YYYYDDMM } from "../../../utils/dateFormat";
+import format_phone from "../../../utils/helpers";
 
 import { Row, Col, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
@@ -121,8 +120,9 @@ function ScheduleList() {
                         {job?.client?.contact}
                         <br></br>{" "}
                         <a href={`tel:+${job?.client?.phone}`}>
+                        
                           <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
-                          {job?.client?.phone}
+                          {format_phone(job?.client?.phone)}
                         </a>{" "}
                         <br></br>{" "}
                         <a href={`mailto:${job?.client?.email}`} >
@@ -197,7 +197,7 @@ function ScheduleList() {
                               <a href={`tel:+${employee?.phone}`}>
                                 {" "}
                                 <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
-                                {employee?.phone}
+                                {format_phone(employee?.phone)}
                               </a>
                             </p>
                           </article>

@@ -4,6 +4,7 @@ import Auth from "../../utils/auth";
 import { getUserId } from "../../utils/getUserId";
 import { useQuery } from "@apollo/client";
 import { QUERY_EMPLOYEE_BYID } from "../../utils/queries";
+import format_phone from "../../utils/helpers";
 
 import { Row, Container, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -110,8 +111,8 @@ function Employees() {
                         </Row>
                         <Row>
                           <a href={`tel:+${job?.client?.phone}`}>
-                            <FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon>{" "}
-                            {job?.client?.phone}
+                            <FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon>
+                            {format_phone(job?.client?.phone)}
                           </a>
                         </Row>
                       </div>
@@ -120,7 +121,7 @@ function Employees() {
                           style={{ fontWeight: "bold", marginLeft: "-14px" }}
                         >
                           Job Details:
-                        </span>{" "}
+                        </span>
                         {job?.jobDetails}
                       </div>
                       <div id="panel" className="card-body py-1 text-left">

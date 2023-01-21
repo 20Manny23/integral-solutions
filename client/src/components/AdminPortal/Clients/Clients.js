@@ -4,6 +4,8 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_CLIENTS } from "../../../utils/queries";
 import { DELETE_CLIENT } from "../../../utils/mutations";
 
+import format_phone from "../../../utils/helpers";
+
 import { Row, Col, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -72,7 +74,7 @@ function Clients() {
                     justifyContent: "space-between",
                   }}
                 >
-                  <h5 className="mb-0 text-left">
+                  <h5 className="d-flex flex-column mb-0 text-left">
                     <button
                       onClick={(event) => getElement(event)}
                       aria-controls={`#collapse-client-${index}`}
@@ -80,7 +82,10 @@ function Clients() {
                       className="btn btn-link pl-1"
                       data-target={`#collapse-client-${index}`}
                     >
-                      {client?.businessName}
+                      <p className="mb-0 text-left">{client?.businessName}</p>
+                      <p className="mb-0 text-left">
+                        {format_phone(client?.phone)}
+                      </p>
                     </button>
                   </h5>
                   <div className="mr-2" style={{ display: "flex" }}>
@@ -98,35 +103,39 @@ function Clients() {
                   <div id={`#collapse-client-${index}`}>
                     <Container fluid="md" className="center-screen">
                       <Row>
-                      <Col md={6} style={{ marginTop:'10px'}}>
-                        <span style={{ fontWeight: "bold", marginRight:'4px' }}>Contact:</span>{" "}
-                        {client?.contact}
-                        <br></br>
-                        <a href={`tel:+${client?.phone}`}>
-                          <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
-                          {client?.phone}
-                        </a>
-                        <br></br>
-                        <a href={`mailto:${client?.email}`}>
-                          <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
-                          {client?.email}
-                        </a>
-                      </Col>
+                        <Col md={6} style={{ marginTop: "10px" }}>
+                          <span
+                            style={{ fontWeight: "bold", marginRight: "4px" }}
+                          >
+                            Contact:
+                          </span>{" "}
+                          {client?.contact}
+                          <br></br>
+                          <a href={`tel:+${client?.phone}`}>
+                            <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
+                            {format_phone(client?.phone)}
+                          </a>
+                          <br></br>
+                          <a href={`mailto:${client?.email}`}>
+                            <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
+                            {client?.email}
+                          </a>
+                        </Col>
 
-                     
-                      <Col className='margin-break'>
-                      <a href={`https://www.google.com/maps/dir/?api=1&destination=${client?.streetAddress},${client?.city},${client?.state},${client?.zip}&travelmode=driving`}
-                          target="_blank"
-                          rel="noreferrer">
-
-                        <FontAwesomeIcon
-                          icon="fa-solid fa-location-dot"
-                          style={{ marginTop: "4px", marginRight: "5px" }}
-                        />
-                        {client?.streetAddress} <br></br>
-                        {client?.city} {client?.state} {client?.zip}
-                        </a>
-                      </Col>
+                        <Col className="margin-break">
+                          <a
+                            href={`https://www.google.com/maps/dir/?api=1&destination=${client?.streetAddress},${client?.city},${client?.state},${client?.zip}&travelmode=driving`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <FontAwesomeIcon
+                              icon="fa-solid fa-location-dot"
+                              style={{ marginTop: "4px", marginRight: "5px" }}
+                            />
+                            {client?.streetAddress} <br></br>
+                            {client?.city} {client?.state} {client?.zip}
+                          </a>
+                        </Col>
                       </Row>
                     </Container>
                   </div>
