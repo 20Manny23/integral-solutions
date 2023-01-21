@@ -1,21 +1,20 @@
-import React, { useState } from "react";
-// import Auth from "../../utils/auth";
+import React, { useState, useEffect } from "react";
+import Auth from "../../utils/auth";
 import { useQuery } from "@apollo/client";
-import { QUERY_EMPLOYEE_BYID } from "../../utils/queries";
+import { QUERY_SINGLE_EMPLOYEE } from "../../utils/queries";
 
 import { thisWeek, lastWeek, hours } from "../../utils/hoursDates";
 import { format_date_no_hyphen } from "../../utils/dateFormat";
 import { Form, Col, Row, Container, Collapse, Button } from "react-bootstrap";
-// import Collapse from "react-bootstrap/Collapse";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { getClippingParents } from "@fullcalendar/react";
 
-// import { useMutation } from "@apollo/client";
-// import { ADD_HOURS } from "../../utils/mutations";
+import { useMutation } from "@apollo/client";
+import { UPDATE_EMPLOYEE_HOURS } from "../../utils/mutations";
 // import { UPDATE_HOURS } from "../../utils/mutations";
 
 import "../../styles/hours.css";
-import moment from "moment";
+import moment from "moment"
 
 function EmployeeHours() {
   // set up state for form data
@@ -24,16 +23,27 @@ function EmployeeHours() {
   const [dayTotal, setDayTotal] = useState("");
   const [open, setOpen] = useState(false);
 
-  
+  // const [currentEmployeeId, setCurrentEmployeeId] = useState("")
+
+  // const [getASingleEmployee, { loading, data }] = 
+  // useQuery(QUERY_SINGLE_EMPLOYEE, {
+  //   variables: { id: currentEmployeeId },
+  //   skip: !Auth.loggedin(),
+  //   onCompleted: (singleEmployee) => {
+  //     setCurrentEmployeeId(singleEmployee);
+  //   }
+  // });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    // console.log(event)
 
     name === "startTime" ? setStartHours(value) : setEndHours(value);
 
     return name;
   };
+
+  // const [updateEmployeeHours] = useMutation(UPDATE_EMPLOYEE_HOURS);
+  
 
   const handleHoursSubmit = async (event) => {
     event.preventDefault();
