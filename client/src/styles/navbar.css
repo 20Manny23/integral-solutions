@@ -1,18 +1,17 @@
-Nav {  
+.custom-nav {  
   min-width: 280px;
   padding: 0;
-  background-color: #0d2e4f;
+  background-color: #0d2e4f !important;
   color: white !important;
   z-index: 6;
 }
 
 /* Nav links / hamburger menu */
-.nav-link {
+.navLink {
   margin-left: 15px;
   font-size: 18px;
   color: white !important;
 }
-
 
 /* hamburger menu */
 .hamburger {

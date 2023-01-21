@@ -11,7 +11,7 @@ const AppNavbar = () => {
   return (
     <>
       {/* section */}
-      <Navbar collapseOnSelect expand="xl">
+      <Navbar collapseOnSelect expand="xl" className="custom-nav">
         <Navbar.Brand
           as={Link}
           reloadDocument
@@ -35,13 +35,13 @@ const AppNavbar = () => {
         />
         </div>
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="ml-auto">
-            <Nav.Link className="nav-link" as={Link} to="/">
+          <Nav className="custom-nav ml-auto">
+            <Nav.Link className="navLink" as={Link} to="/">
               Home
             </Nav.Link>
             {!Auth.loggedIn() && (
               <>
-                <Nav.Link className="nav-link" as={Link} to="/shoplinks">
+                <Nav.Link className="navLink" as={Link} to="/shoplinks">
                   Shop Furniture
                 </Nav.Link>
               </>
@@ -51,7 +51,7 @@ const AppNavbar = () => {
               Auth.isAdmin() === true &&
               Auth.isLocked() === false && (
                 <>
-                  <Nav.Link className="nav-link" as={Link} to="/calendar">
+                  <Nav.Link className="navLink" as={Link} to="/calendar">
                     Admin
                   </Nav.Link>
                 </>
@@ -59,7 +59,7 @@ const AppNavbar = () => {
 
             {Auth.loggedIn() && Auth.isLocked() === false && (
               <>
-                <Nav.Link className="nav-link" as={Link} to="/employee">
+                <Nav.Link className="navLink" as={Link} to="/employee">
                   Employee
                 </Nav.Link>
               </>
@@ -67,7 +67,7 @@ const AppNavbar = () => {
 
             {!Auth.loggedIn() && (
               <>
-                <Nav.Link className="nav-link" as={Link} to="/contact">
+                <Nav.Link className="navLink" as={Link} to="/contact">
                   Contact Us
                 </Nav.Link>
               </>
@@ -75,7 +75,7 @@ const AppNavbar = () => {
 
             {Auth.loggedIn() && (
               <>
-                <Nav.Link className="nav-link" onClick={Auth.logout}>
+                <Nav.Link className="navLink" onClick={Auth.logout}>
                   Logout
                 </Nav.Link>
               </>

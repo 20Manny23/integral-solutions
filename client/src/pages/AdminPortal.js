@@ -100,7 +100,7 @@ const AdminPortal = ({
                 >
                   Clients
                 </Button>
-                <Button
+                {/* <Button
                   variant="outline-primary"
                   style={adminMockButtonIsActive ? isActive : notActive}
                   active={adminMockButtonIsActive}
@@ -109,7 +109,7 @@ const AdminPortal = ({
                   }}
                 >
                   Mock
-                </Button>
+                </Button> */}
               </div>
 
               {renderPanel === "calendar" ? (
