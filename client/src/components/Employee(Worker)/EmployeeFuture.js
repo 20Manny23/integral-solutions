@@ -5,48 +5,41 @@ import { getUserId } from "../../utils/getUserId";
 import { useQuery } from "@apollo/client";
 import { QUERY_EMPLOYEE_BYID } from "../../utils/queries";
 import format_phone from "../../utils/helpers";
-
-import { Row, Container, Col } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { format_date_MMDDYYYY } from "../../utils/dateFormat";
+
+import { Row, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Employees() {
   const [open, setOpen] = useState(false);
   const [schedule, setSchedule] = useState([]);
-
 
   // get id for logged in employee
   const userId = getUserId();
 
   // get schedule useQuery for the specific id
   // eslint-disable-next-line
-
   const { loading, data, error, refetch } = useQuery(QUERY_EMPLOYEE_BYID, {
     variables: { id: userId },
 
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
-    
+
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
-   
-      
       const todayDate = Date.now();
       const upcoming = [];
-      for (let i = 0; i < data.employeeById.schedule.length; i++) {
-        const date = new Date(data.employeeById.schedule[i].startDate);
+
+      for (let i = 0; i < data?.employeeById?.schedule.length; i++) {
+        const date = new Date(data?.employeeById?.schedule[i].startDate);
         const jobDate = date.getTime();
 
         if (jobDate >= todayDate || jobDate === "") {
-          upcoming.push(data.employeeById.schedule[i]);
+          upcoming.push(data?.employeeById?.schedule[i]);
         }
-      
 
-      setSchedule(upcoming);
-    }
-
-      
-
+        setSchedule(upcoming);
+      }
     },
   });
 
@@ -60,7 +53,7 @@ function Employees() {
       <>
         <Container>
           <Row style={{ display: "flex", justifyContent: "center" }}>
-            {schedule.map((job, index) => (
+            {schedule?.map((job, index) => (
               <div id="accordion" key={index} style={{ width: "100%" }}>
                 <div className="card p-2 mb-1">
                   <div
@@ -77,8 +70,7 @@ function Employees() {
                         style={{ textDecoration: "none" }}
                       >
                         {job?.client?.businessName}:{" "}
-                        {format_date_MMDDYYYY(job?.startDate)} at{" "}
-                        {job?.startTime}
+                        {format_date_MMDDYYYY(job?.startDate)} at {job?.startTime}
                       </button>
                     </h5>
                   </div>
@@ -105,7 +97,7 @@ function Employees() {
                               icon="fa-solid fa-location-dot"
                               style={{ marginTop: "4px", marginRight: "5px" }}
                             />
-                            {job?.streetAddress} {job?.city} {job?.state}{" "}
+                            {job?.streetAddress}, {job?.city} {job?.state}
                             {job?.zip}
                           </a>
                         </Row>
