@@ -450,6 +450,20 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
+    addHours: async (
+      parent,
+      {
+        _id,
+        hours,
+        workDate },
+      context) => {
+      const hour = await Hour.create({
+        hours,
+        workDate,
+      });
+      return { hours, workDate };
+    },
+
     // SECTION EMPLOYEE
     addEmployee: async (
       parent,
@@ -623,6 +637,7 @@ const resolvers = {
       return { message, employee };
     },
 
+
     // SECTION SCHEDULE
     addSchedule: async (
       parent,
@@ -737,6 +752,7 @@ const resolvers = {
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
+
   },
 };
 

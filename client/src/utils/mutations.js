@@ -192,6 +192,7 @@ export const UPDATE_EMPLOYEE_SCHEDULE = gql`
   }
 `;
 
+
 // SECTION CLIENT
 export const ADD_CLIENT = gql`
   mutation addClient(

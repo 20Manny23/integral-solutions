@@ -313,7 +313,14 @@ const typeDefs = gql`
 
     toggleLocked(employeeId: ID!): Message
 
-      
+    addHours(
+      _id: ID
+      hours: String
+      workDate: String
+    ) : Hour
+
+
+
     addSchedule(
       _id: ID
       streetAddress: String
