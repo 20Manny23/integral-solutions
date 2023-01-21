@@ -7,7 +7,7 @@ const {
   Schedule,
   Client,
   Employee,
-  Hours,
+  Hour,
 } = require("../models");
 const { signToken } = require("../utils/auth");
 const bcrypt = require("bcrypt");
@@ -128,6 +128,12 @@ const resolvers = {
     //   // }
     //   // throw new AuthenticationError("You need to be logged in!");
     // },
+
+    hours: async (parent, args, context) => {
+      // if (context.user) {
+      return Hour.find().populate("employee");
+    },
+
 
     schedules: async (parent, args, context) => {
       // if (context.user) {

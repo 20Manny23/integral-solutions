@@ -153,6 +153,7 @@ const typeDefs = gql`
     me(_id: ID!): User
     locations: [Location]!
     location(locationId: ID!): Location
+    hours: [Hour]!
     incidents: [Incident]!
     events: [Event]!
     clients: [Client]!
@@ -311,7 +312,8 @@ const typeDefs = gql`
     toggleAdmin(employeeId: ID!): Message
 
     toggleLocked(employeeId: ID!): Message
-    
+
+      
     addSchedule(
       _id: ID
       streetAddress: String
