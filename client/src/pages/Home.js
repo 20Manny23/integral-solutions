@@ -140,7 +140,7 @@ const Home = () => {
         </Row>
       </Container>
 
-      {/* <Footer /> */}
+      <Footer />
 
     </>
   );

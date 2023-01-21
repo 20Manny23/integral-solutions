@@ -12,6 +12,12 @@
   color: white !important;
 }
 
+.navbar-nav {
+  flex-direction: row !important;
+  justify-content: center;
+  margin: 0px 20px 0px 20px;
+}
+
 /* hamburger menu */
 .hamburger {
   text-decoration: none;
@@ -50,14 +56,32 @@
     font-size: 30px !important;
   }
 }
+@media screen and (max-width: 1199px) {
+  .navbar-nav {
+    flex-direction: row !important;
+    justify-content: center;
+    margin: 0px 20px 0px 20px;
+    border: 1px solid #335270;
+    border-radius: 50px;
+  }
+}
 
 @media screen and (max-width: 768px) {
+  .brand-container {
+    margin-left: 5px;
+  }
+
+  .brand-name {
+    margin: 0px;
+    font-size: 20px;
+  }
+
   .slogan {
     display: none;
   }
 
-  .brand-container {
-    margin-left: 5px;
+  .navLink {
+    font-size: 20px !important;
   }
 }
 
@@ -79,11 +103,21 @@
   .slogan {
     display: none;
   }
+
+  .navbar-nav {
+    flex-direction: column !important;
+    justify-content: flex-start;
+    border: none;
+  }
+
+  .navLink {
+    font-size: 15px !important;
+  }
 }
 
 @media screen and (max-width: 300px) {
   .navbar {
-    flex-wrap: nowrap !important;
+    /* flex-wrap: nowrap !important; */
     padding-left: 0px !important;
   }
 }
@@ -91,5 +125,9 @@
 @media screen and (max-width: 280px) {
   .logo {
     display: none;
+  }
+
+  .navLink {
+    font-size: 10px !important;
   }
 }
