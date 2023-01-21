@@ -1,6 +1,6 @@
 export const CONTACT_US_SUBJECT = (props) => {
 
-  let template = `Contact Us: ${props.companyName}, Start: ${props.startDate} Services: ${props.services}`;
+  let template = `Contact Us: ${props.companyName}, Start: ${props.startDate}, Services: ${props.services}`;
 
   return (template);
 };
@@ -15,7 +15,7 @@ export const contactus_text_template = (props) => {
   `
 Company Name: ${props.companyName}
 Email Address: ${props.emailAddress} 
-Contact Name: ${props.ontactName}
+Contact Name: ${props.contactName}
 Phone Number: ${props.phoneNumber}
 Address: ${props.address}, ${props.city}, ${props.state} ${props.zip}
 Square Feet: ${props.squareFeet} 
@@ -35,7 +35,7 @@ export const contactus_html_template = (props) => {
   const template = `
       <p>Company Name: ${props.companyName}</p>
       <p>Email Address: ${props.emailAddress}</p>
-      <p>Contact Name: ${props.ontactName}</p>
+      <p>Contact Name: ${props.contactName}</p>
       <p>Phone Number: ${props.phoneNumber}</p>
       <p>Address: ${props.address}, ${props.city}, ${props.state} ${props.zip}</p>
       <p>Square Feet: ${props.squareFeet} </p>
