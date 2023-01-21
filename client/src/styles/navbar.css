@@ -1,183 +1,133 @@
-.slogan {
-  font-style: italic;
-  font-weight: bold;
-  margin-left: -10px;
-}
-.slogan-size {
-  color: white;
-}
-Nav {
-  border-bottom: 1px solid black;
-  color: white;
+.custom-nav {
+  min-width: 280px;
+  background-color: #0d2e4f !important;
+  color: white !important;
+  z-index: 6;
 }
 
-.public-navbar {
+/* Nav links / hamburger menu */
+.navLink {
+  margin-left: 15px !important;
+  font-size: 32px !important;
+  color: white !important;
+}
+
+.navbar-nav {
+  flex-direction: row !important;
+  justify-content: center;
+  margin: 0px 20px 0px 20px;
+}
+
+/* hamburger menu */
+.hamburger {
+  text-decoration: none;
+  background-color: #335270 !important;
+}
+
+/* brand name & slogan */
+.brand-container {
   display: flex;
-  flex-direction: row;
-}
-
-.employee-navbar {
-  display: flex;
-  flex-direction: row;
-}
-
-.heading-style {
-  display: inline-block;
-  font-family: Georgia, "Times New Roman", serif;
-  z-index: 4;
-}
-
-.toggle-style {
-  z-index: 5;
-}
-
-.navlink {
-  font-size: 18px;
-  color: white;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
 }
 
 .logo {
-  max-height: 60px;
-  margin-bottom: 0;
+  height: 60px;
+  width: 60px;
 }
 
-.navs {
-  max-height: 80px;
-}
-#navbar {
-  background-color: #0d2e4f;
-  border-radius: 10px;
-  padding: 0;
-  text-align: center;
-  color: white !important;
-  width: 25%;
-  z-index: 6;
-}
-.hamburger {
-  background-color: #335270 !important;
-  text-decoration: none;
-  
+.brand-name {
+  color: white;
+  font-size: 40px;
 }
 
-@media only screen and (max-width: 992px) and (min-width: 598px){
-  .contact-form{
-    margin-top: 90px
+.slogan {
+  color: white;
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 1600px) {
+  .navLink {
+    padding: 0px 0px 0px 10px !important;
+    color: white !important;
+    font-size: 30px !important;
+  }
+}
+@media screen and (max-width: 1199px) {
+  .navbar-nav {
+    flex-direction: row !important;
+    justify-content: center;
+    margin: 0px 20px 0px 20px;
+    border: 1px solid #335270;
+    border-radius: 50px;
   }
 }
 
-@media only screen and (max-width: 598px) and (min-width: 320px){
-  .overlay-box{
-    margin-top: 30px
+@media screen and (max-width: 768px) {
+  .brand-container {
+    margin-left: 5px;
   }
-}
 
-@media only screen and (max-width: 329px) {
+  .brand-name {
+    margin: 0px;
+    font-size: 20px;
+  }
+
   .slogan {
-    font-size: 10px;
-  }
-}
-
-@media screen and (max-width: 991px) {
-  .logo {
-    margin-top: -18px;
-  }
-  .slogan {
-    margin-left: -32% !important;
-  }
-  .public-navbar {
-    flex-direction: column;
-  }
-  /* .employee-navbar{
-    flex-direction: column;
-  } */
-  #navbar{
-    border:2px solid black;
-    width:50% !important;
-  }
-}
-@media screen and (max-width: 805px) {
-  .slogan {
-    margin-left: -20% !important;
-  }
-}
-@media screen and (max-width: 697px) {
-  .slogan {
-    margin-left: -12% !important;
-  }
-}
-@media screen and (max-width: 627px) {
-  .slogan {
-    margin-left: -0% !important;
-    margin-top: -10px;
-  }
-}
-
-@media screen and (max-width: 992px) and (min-width: 628px) {
-  .slogan{
-    margin-top: -10px;
-  }
-}
-
-@media screen and (max-width: 598px) {
-  .slogan {
-    margin-left: -30% !important;
-  }
-  .slogan-size {
     display: none;
   }
+
+  .navLink {
+    font-size: 20px !important;
+  }
+}
+
+@media screen and (max-width: 410px) {
+  .navbar {
+    padding-left: 0px !important;
+  }
+
   .logo {
-    margin-top: -3px;
+    height: 40px;
+    width: 40px;
   }
-}
 
-  @media only screen and (max-width: 598px) and (min-width: 500px) {
-
-  .public-navbar {
-    flex-direction: row;
+  .brand-name {
+    margin: 0px;
+    font-size: 20px;
   }
-}
-@media screen and (max-width: 556px) {
+
   .slogan {
-    margin-left: -20% !important;
+    display: none;
   }
-}
-@media screen and (max-width: 486px) {
-  .slogan {
-    margin-left: -10% !important;
+
+  .navbar-nav {
+    flex-direction: column !important;
+    justify-content: flex-start;
+    border: none;
+  }
+
+  .navLink {
+    font-size: 15px !important;
   }
 }
 
-@media screen and (max-width: 423px) {
-  .slogan {
-    font-weight: 200;
-  }
-}
-@media screen and (max-width: 388px) {
-  .slogan {
-    margin-left: -2% !important;
-  }
-  .hamburger {
-    width: 10px !important;
-    height: 10px !important;
-  
-  }
-  .navbar-toggler-icon {
-    background-image: none !important;
+@media screen and (max-width: 300px) {
+  .navbar {
+    /* flex-wrap: nowrap !important; */
+    padding-left: 0px !important;
   }
 }
 
-@media only screen and (max-width: 500px) and (min-width: 280px) {
-  .public-navbar {
-    flex-direction: row;
+@media screen and (max-width: 280px) {
+  .logo {
+    display: none;
   }
 
-.employee-navbar {
-  flex-direction: row;
-}
-}
-
-@media only screen and (max-width: 326px) {
-.slogan{
-  font-size: 10px;
-}
+  .navLink {
+    font-size: 10px !important;
+  }
 }

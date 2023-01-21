@@ -1,26 +1,26 @@
-
-.form-length{
-   width:  60%;
-   margin-left: auto;
-   margin-right: auto;
+.form-length {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .addy {
-    width: 63%;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    padding-bottom: 15px;
+  width: 63%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-bottom: 15px;
 }
+
 .margin-expand {
-    margin-right:-12px;
+  margin-right: -12px;
 }
 
-@media screen and (max-width: 650px){
+@media screen and (max-width: 650px) {
+  .form-length {
+    width: 90%;
+  }
 
-    .form-length{
-        width:90%;
-    }
-    .addy {
-        width:95%;
-    }
+  .addy {
+    width: 95%;
+  }
 }

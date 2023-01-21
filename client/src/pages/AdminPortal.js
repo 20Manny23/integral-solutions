@@ -5,6 +5,7 @@ import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
 
+import FullCalendarApp from "../components/Calendar/FullCalendarApp";
 import WorkOrder from "../components/AdminPortal/Schedule";
 import ClientList from "../components/AdminPortal/Clients";
 import Employees from "../components/AdminPortal/Employees(Admin)";
@@ -13,7 +14,6 @@ import AdminMock from "../components/AdminPortal/AdminMock";
 import { Button, Container, Col, Row } from "react-bootstrap/";
 import "../styles/spinner.css";
 
-import FullCalendarApp from "../components/Calendar/FullCalendarApp";
 // import Location from "./Location";
 // import AllEmployeesCont from "../components/AllEmployeesCont";
 
@@ -59,7 +59,7 @@ const AdminPortal = ({
           <Row>
             <Col>
               <div className="d-flex flex-row mb-1 p-0 border border-secondary rounded-lg">
-                <Button
+                {/* <Button
                   variant="outline-primary"
                   style={calendarButtonIsActive ? isActive : notActive}
                   active={calendarButtonIsActive}
@@ -68,7 +68,7 @@ const AdminPortal = ({
                   }}
                 >
                   Calendar
-                </Button>
+                </Button> */}
                 <Button
                   variant="outline-primary"
                   style={workOrderButtonIsActive ? isActive : notActive}
@@ -100,7 +100,7 @@ const AdminPortal = ({
                 >
                   Clients
                 </Button>
-                <Button
+                {/* <Button
                   variant="outline-primary"
                   style={adminMockButtonIsActive ? isActive : notActive}
                   active={adminMockButtonIsActive}
@@ -109,7 +109,7 @@ const AdminPortal = ({
                   }}
                 >
                   Mock
-                </Button>
+                </Button> */}
               </div>
 
               {renderPanel === "calendar" ? (

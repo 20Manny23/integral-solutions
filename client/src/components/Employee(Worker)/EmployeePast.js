@@ -8,8 +8,8 @@ import { QUERY_EMPLOYEE_BYID } from "../../utils/queries";
 import { Row, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getClippingParents } from "@fullcalendar/react";
-import { format_date_MMDDYYYY} from "../../utils/dateFormat"
+import { format_date_MMDDYYYY} from "../../utils/dateFormat";
+import format_phone from "../../utils/helpers";
 
 function Employees() {
   const [open, setOpen] = useState(false);
@@ -101,8 +101,8 @@ function Employees() {
                         </Row>
                         <Row>
                           <a href={`tel:+${job?.client?.phone}`}>
-                            <FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon>{" "}
-                            {job?.client?.phone}
+                            <FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon>
+                            {format_phone(job?.client?.phone)}
                           </a>
                         </Row>
                       </div>

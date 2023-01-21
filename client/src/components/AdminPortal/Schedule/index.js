@@ -1,6 +1,7 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
+import FullCalendarApp from '../../Calendar/FullCalendarApp';
 import ScheduleList from "./ScheduleList";
 import ScheduleAdd from "./ScheduleAdd";
 import ScheduleUpdate from "./ScheduleUpdate";
@@ -8,11 +9,14 @@ import ScheduleUpdate from "./ScheduleUpdate";
 function Schedule() {
   return (
     <Tabs
-      defaultActiveKey="scheduleList"
+      defaultActiveKey="calendar"
       id="fill-tab-example"
       className="mb-3"
       fill
     >
+      <Tab eventKey="calendar" title="Calendar">
+        <FullCalendarApp />
+      </Tab>
       <Tab eventKey="scheduleList" title="Job List">
         <ScheduleList />
       </Tab>
