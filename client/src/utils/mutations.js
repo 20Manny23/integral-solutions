@@ -495,3 +495,10 @@ mutation addHours(
     hours
   }
 }`;
+
+export const DELETE_HOURS = gql`
+  mutation deleteHours($id: ID!) {
+    deleteHours(_id: $id) {
+      _id
+  }
+  }`;
