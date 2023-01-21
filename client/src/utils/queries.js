@@ -125,6 +125,10 @@ export const QUERY_ALL_EMPLOYEES = gql`
       isAdmin
       isLocked
       password
+      hours {
+        hours
+        workDate
+      }
       schedule {
         startDate
         startTime
