@@ -14,18 +14,16 @@ import "../../../styles/button-style.css";
 
 function EmployeeUpdate() {
   //form = input fields
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isLocked, setIsLocked] = useState(true);
+  const [email, setEmail] = useState("default");
+  const [phone, setPhone] = useState("defaults");
+  const [firstName, setFirstName] = useState("defailt");
+  const [lastName, setLastName] = useState("defatuls");
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
 
   //set current employee selected
-  const [currentEmployee, setCurrentEmployee] = useState("");
+  // const [currentEmployee, setCurrentEmployee] = useState("");
   const [currentEmployeeId, setCurrentEmployeeId] = useState("");
-  const [currentInput, setCurrentInput] = useState({});
+  // const [currentInput, setCurrentInput] = useState({});
   const [prevEmployeeData, setPrevEmployeeData] = useState({});
 
   //set the state of the value in the input fields (either the input by the user or populate based on selected employee)
@@ -61,7 +59,7 @@ function EmployeeUpdate() {
       // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
       skip: !Auth.loggedIn(),
       onCompleted: (singleEmployee) => {
-        setCurrentEmployee(singleEmployee);
+        // setCurrentEmployee(singleEmployee);
       },
     });
 
@@ -91,89 +89,11 @@ function EmployeeUpdate() {
     return name;
   };
 
-  //SECTION UPDATE EMPLOYEE
-  useEffect(() => {
-    if (currentEmployeeId && currentInput) {
-      handleEmployeeUpdate();
-    }
-
-    // console.log(
-    //   "current id = ",
-    //   currentEmployeeId,
-    //   "current input = ",
-    //   currentInput
-    // );
-
-  // eslint-disable-next-line
-  }, [currentInput]); //fix
-
-  // call a function to get the single current employee
-  const handleEmployeeUpdate = async (event) => {
-    event.preventDefault();
-
-    setCurrentInput({ //sets state for current input
-      firstName,
-      lastName,
-      phone,
-      email,
-      isAdmin,
-      isLocked,
-    });
-
-    let getEmployee = await getASingleEmployee();
-
-    // console.log("getEmployee = ", getEmployee.data);
-    // console.log(prevEmployeeData);
-    // console.log(Object.keys(prevEmployeeData).length === 0);
-    // console.log(currentEmployee);
-    // console.log(
-    //   "all input = ",
-    //   currentInput.firstName,
-    //   currentInput.lastName,
-    //   currentInput.email,
-    //   currentInput.phone
-    // );
-
-    try {
-      await updateEmployee({
-        variables: {
-          id: currentEmployeeId,
-          firstName: currentInput.firstName
-            ? currentInput.firstName
-            : getEmployee.data.employeeById.firstName,
-          lastName: currentInput.lastName
-            ? currentInput.lastName
-            : getEmployee.data.employeeById.lastName,
-          email: currentInput.email
-            ? currentInput.email
-            : getEmployee.data.employeeById.email,
-          phone: currentInput.phone
-            ? currentInput.phone
-            : getEmployee.data.employeeById.phone,
-        },
-      });
-    } catch (err) {
-      console.log(err);
-    }
-
-    empRefetch();
-
-    setSelectFirstName(false); //fix
-    setSelectLastName(false);
-    setSelectPhone(false);
-    setSelectEmail(false);
-    setSelectEmail(false);
-
-    resetForm(); // fix
-
-    setFormIsDisabled(true); //fix //set form disabled = true
-  };
-
   //SECTION HANDLE SELECTED EMPLOYEE
   //set the state for the selected employee dropdown
   async function handleSelectedEmployee(event) {
     //fix start
-    resetForm(); //remove all prior input form the form
+    // resetForm(); //remove all prior input form the form
 
     // populate form with selected employee data
     setSelectFirstName(true);
@@ -197,13 +117,55 @@ function EmployeeUpdate() {
     //await query single client
     let currentEmployeeData = await getASingleEmployee();
 
-    console.log(currentEmployeeData.data.employeeById);
+    // console.log(currentEmployeeData.data.employeeById);
 
     setPrevEmployeeData(currentEmployeeData.data.employeeById);
 
-    console.log(prevEmployeeData?.email + "hi there");
+    // console.log(prevEmployeeData?.email + "hi there");
+
     resetForm();
   }
+
+  //SECTION UPDATE EMPLOYEE
+  const handleEmployeeUpdate = async (event) => {
+    event.preventDefault();
+
+    let getEmployee = await getASingleEmployee();
+
+    try {
+      await updateEmployee({
+        variables: {
+          id: currentEmployeeId,
+          firstName: firstName
+            ? firstName
+            : getEmployee.data.employeeById.firstName,
+          lastName: lastName
+            ? lastName
+            : getEmployee.data.employeeById.lastName,
+          email: email
+            ? email
+            : getEmployee.data.employeeById.email,
+          phone: phone
+            ? phone
+            : getEmployee.data.employeeById.phone,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    empRefetch();
+
+    setSelectFirstName(false); //fix
+    setSelectLastName(false);
+    setSelectPhone(false);
+    setSelectEmail(false);
+    setSelectEmail(false);
+
+    resetForm(); // fix
+
+    setFormIsDisabled(true); //fix //set form disabled = true
+  };
 
   //SECTION UTILITY FUNCTIONS
   //validation
@@ -233,8 +195,6 @@ function EmployeeUpdate() {
     setLastName("");
     setPhone("");
     setEmail("");
-    setIsAdmin("");
-    setIsLocked("");
   };
 
   //enable submit button = if input is added to at least one input field
@@ -272,20 +232,13 @@ function EmployeeUpdate() {
             <Form.Label style={{ fontWeight: "bolder" }}>
               Select Client (to populate below)
             </Form.Label>
-            <Form.Label
-              className={`validation-color ${
-                showEmailEmployeeValidation ? "show" : "hide"
-              }`}
-            >
-              *required
-            </Form.Label>
             <Form.Control
               as="select"
               className="custom-border"
               type="text"
               placeholder="Select Client"
-              value={"form-select"}
-              name={"form-select"}
+              // value={"form-select" || ""}
+              name={"form-select" || ""}
               onChange={handleSelectedEmployee}
             >
               <option>
@@ -296,7 +249,7 @@ function EmployeeUpdate() {
               {emp?.employees?.map((emp, index) => (
                 <option
                   key={index}
-                  value={[emp.email, emp.firstName, emp.lastName, emp.phone]}
+                  // value={[emp.email, emp.firstName, emp.lastName, emp.phone]}
                   data-id={emp._id}
                 >
                   {`${emp.firstName} ${emp.lastName}`}
@@ -325,6 +278,7 @@ function EmployeeUpdate() {
               name="firstName"
               // defaultValue={prevEmployeeData?.firstName} //fix
               value={selectFirstName ? prevEmployeeData.firstName : firstName} // fix
+              // value={firstName} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
@@ -351,6 +305,7 @@ function EmployeeUpdate() {
               name="lastName"
               // defaultValue={prevEmployeeData?.lastName} //fix
               value={selectLastName ? prevEmployeeData.lastName : lastName} // fix
+              // value={lastName} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
@@ -378,6 +333,7 @@ function EmployeeUpdate() {
               name="phone"
               // defaultValue={prevEmployeeData?.phone} //fix
               value={selectPhone ? prevEmployeeData.phone : phone} // fix
+              // value={phone} // fix
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
@@ -406,6 +362,7 @@ function EmployeeUpdate() {
               name="email"
               // defaultValue={prevEmployeeData?.email} // fix
               value={selectEmail ? prevEmployeeData.email : email} // fix
+              // value={email} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
