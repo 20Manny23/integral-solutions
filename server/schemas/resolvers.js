@@ -465,7 +465,19 @@ const resolvers = {
     },
 
     deleteHours: async (parent, { _id }, context) => {
-      return Hour.findOneAndDelete({_id })
+      return Hour.findOneAndDelete({ _id })
+    },
+
+    updateHours: async (parent, { _id, hours, workDate }, context) => {
+      return Hour.findOneAndUpdate(
+        { _id },
+        {
+          hours,
+          workDate,
+        },
+        { new: true }
+
+      )
     },
 
     // SECTION EMPLOYEE

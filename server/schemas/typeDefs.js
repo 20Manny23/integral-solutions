@@ -317,9 +317,15 @@ const typeDefs = gql`
       _id: ID
       hours: String
       workDate: String
-    ) : Hour
+    ): Hour
 
- deleteHours (_id: ID!): Hour
+    updateHours(
+      _id: ID
+      hours: String
+      workDate: String
+    ): Hour
+
+    deleteHours (_id: ID!): Hour
 
     addSchedule(
       _id: ID
