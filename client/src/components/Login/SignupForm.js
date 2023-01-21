@@ -56,7 +56,7 @@ const SignupForm = ({ setShowModal }) => {
       console.log(decoded);
 
       // window.location.assign(`/dashboard`);
-      window.location.assign(`/home`);
+      window.location.assign(`/`);
 
     } catch (e) {
       console.error(e);

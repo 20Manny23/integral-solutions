@@ -157,6 +157,10 @@ export const QUERY_SINGLE_EMPLOYEE = gql`
       isAdmin
       isLocked
       password
+      hours {
+        hours
+        workDate
+      }
     }
   }
 `;

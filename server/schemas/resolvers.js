@@ -7,7 +7,7 @@ const {
   Schedule,
   Client,
   Employee,
-  Hours,
+  Hour,
 } = require("../models");
 const { signToken } = require("../utils/auth");
 const bcrypt = require("bcrypt");
@@ -90,6 +90,7 @@ const resolvers = {
     employees: async (parent, args, context) => {
       // if (context.user) {
       return Employee.find().populate({
+        path: "hour",
         path: "schedule",
         populate: { path: "client" },
       });
@@ -128,6 +129,12 @@ const resolvers = {
     //   // }
     //   // throw new AuthenticationError("You need to be logged in!");
     // },
+
+    hours: async (parent, args, context) => {
+      // if (context.user) {
+      return Hour.find().populate("employee");
+    },
+
 
     schedules: async (parent, args, context) => {
       // if (context.user) {
@@ -444,6 +451,36 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
+    addHours: async (
+      parent,
+      {
+        _id,
+        hours,
+        workDate },
+      context) => {
+      const hour = await Hour.create({
+        hours,
+        workDate,
+      });
+      return { hours, workDate };
+    },
+
+    deleteHours: async (parent, { _id }, context) => {
+      return Hour.findOneAndDelete({ _id })
+    },
+
+    updateHours: async (parent, { _id, hours, workDate }, context) => {
+      return Hour.findOneAndUpdate(
+        { _id },
+        {
+          hours,
+          workDate,
+        },
+        { new: true }
+
+      )
+    },
+
     // SECTION EMPLOYEE
     addEmployee: async (
       parent,
@@ -496,6 +533,7 @@ const resolvers = {
         isAdmin,
         isLocked,
         schedule,
+        hours
       },
       context
     ) => {
@@ -511,7 +549,8 @@ const resolvers = {
         isManager,
         isAdmin,
         isLocked,
-        schedule
+        schedule,
+        hours
       );
       return Employee.findOneAndUpdate(
         { _id },
@@ -574,6 +613,17 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
+    updateEmployeeHours: async (parent, { _id, hours, workDate }, context) => {
+      console.log("RESOLVER FOR UPDATE EMPLOYEE HOURS", _id, hours, workDate)
+      return Employee.findOneAndUpdate(
+        { _id },
+        {
+          $addToSet: { hours, workDate },
+        },
+        { new: true }
+      );
+    },
+
     // SECTION TOGGLE RESOLVERS
     // toggleAdmin mutation that returns a success/fail message
     toggleAdmin: async (parent, { employeeId }) => {
@@ -616,6 +666,7 @@ const resolvers = {
       }
       return { message, employee };
     },
+
 
     // SECTION SCHEDULE
     addSchedule: async (
@@ -731,6 +782,7 @@ const resolvers = {
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
+
   },
 };
 

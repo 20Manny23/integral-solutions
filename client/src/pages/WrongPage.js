@@ -11,9 +11,9 @@ const WrongPage = ({ renderPanel }) => {
 
   useEffect(() => {
     if (!Auth.loggedIn()) {
-      setTimeout(() => navigate("/messages"), 7000);
+      setTimeout(() => navigate("/login"), 7000);
     } else {
-      setTimeout(() => navigate("/calendar"), 7000);
+      setTimeout(() => navigate("/"), 7000);
     }
   // eslint-disable-next-line
   }, []);

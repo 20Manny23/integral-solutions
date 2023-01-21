@@ -248,7 +248,7 @@ function EmployeeUpdate() {
 
 
           window.location.reload();
-          // navigate("/home"); //section
+          // navigate("/"); //section
         }}
       >
         <div id="example-collapse-text">

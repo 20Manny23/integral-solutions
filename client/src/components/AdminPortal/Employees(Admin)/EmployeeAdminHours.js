@@ -6,6 +6,8 @@ import { format_date_MMDDYYYY, format_date_MMDD } from "../../../utils/dateForma
 import { Row, Col, Container, Form } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 
+import EmployeeHours from "../../Employee(Worker)/EmployeeHours";
+
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
@@ -38,6 +40,7 @@ function EmployeeAdminHours() {
     }
   };
 
+
   return (
     <Container>
       <Row style={{ display: "flex", justifyContent: "center" }}>
@@ -65,7 +68,7 @@ function EmployeeAdminHours() {
                   </button>
                 </h5>
                 <div className="d-flex mr-2">
-                   <p style={{fontWeight:'bold'}}>Hours This Week: </p>
+                   <p style={{fontWeight:'bold'}}>Hours This Week: {}</p>
                 </div>
               </div>
               <Collapse>

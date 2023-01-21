@@ -93,29 +93,29 @@ export const UPDATE_EMPLOYEE = gql`
   }
 `;
 
-export const UPDATE_EMPLOYEE_FORM = gql`
-  mutation updateEmployeeForm(
-    $id: ID
-    $firstName: String
-    $lastName: String
-    $email: String
-    $phone: String
-  ) {
-    updateEmployeeForm(
-      _id: $id
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-      phone: $phone
-    ) {
-      _id
-      firstName
-      lastName
-      email
-      phone
-    }
-  }
-`;
+// export const UPDATE_EMPLOYEE_FORM = gql`
+//   mutation updateEmployeeForm(
+//     $id: ID
+//     $firstName: String
+//     $lastName: String
+//     $email: String
+//     $phone: String
+//   ) {
+//     updateEmployeeForm(
+//       _id: $id
+//       firstName: $firstName
+//       lastName: $lastName
+//       email: $email
+//       phone: $phone
+//     ) {
+//       _id
+//       firstName
+//       lastName
+//       email
+//       phone
+//     }
+//   }
+// `;
 
 export const TOGGLE_ADMIN = gql`
   mutation ToggleAdmin($employeeId: ID!) {
@@ -191,6 +191,20 @@ export const UPDATE_EMPLOYEE_SCHEDULE = gql`
     }
   }
 `;
+
+export const UPDATE_EMPLOYEE_HOURS = gql`
+    mutation updateEmployeeHours($id: ID, $hours: String, $workDate: String) {
+      updateEmployeeHours(_id: $id, hours: $hours, workDate: $workDate) {
+        _id
+        hours {
+          _id
+          hours
+          workDate
+        }
+    }
+  }
+`;
+
 
 // SECTION CLIENT
 export const ADD_CLIENT = gql`
@@ -490,7 +504,59 @@ mutation addHours(
     workDate: $workDate
     hours: $Hours
   ){
-    _idworkDate
+    _id
+    workDate
     hours
   }
 }`;
+
+export const UPDATE_HOURS = gql`
+  mutation updateHours(
+    $id: ID!
+    $hours: String
+    $workDate: String
+  ) {
+    updateHours(
+      _id: $id
+      hours: $hours
+      workDate: $workDate
+    ) {
+      _id
+      hours
+      workDate
+    }
+  }
+`;
+
+
+export const UPDATE_EMPLOYEE_FORM = gql`
+  mutation updateEmployeeForm(
+    $id: ID
+    $firstName: String
+    $lastName: String
+    $email: String
+    $phone: String
+  ) {
+    updateEmployeeForm(
+      _id: $id
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      phone: $phone
+    ) {
+      _id
+      firstName
+      lastName
+      email
+      phone
+    }
+  }
+`;
+
+
+export const DELETE_HOURS = gql`
+  mutation deleteHours($id: ID!) {
+    deleteHours(_id: $id) {
+      _id
+  }
+  }`;
