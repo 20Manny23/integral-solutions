@@ -74,10 +74,13 @@
     "isManager": "true",
     "isAdmin": true,
     "isLocked": false,
-    "hours": {
-        "hours": "45",
-        "workDate": "2/22/2023"
-      },
+    "hours": [
+      {
+        "hours": "7",
+        "workDate": "4/44/4444"
+      }
+    ],
+
     "schedule": []
   },
   {

@@ -90,9 +90,17 @@ function EmployeeAdminHours() {
                 </h5>
                 <div  style={{fontWeight:'bold'}}className="d-flex mr-2">Hours This Week:
                   {emp?.hours?.map((emp, index) => (
+<<<<<<< HEAD
                    <p key={index} style={{fontWeight:'bold'}}>{emp?.hours}</p>
                    ))}
                 </div>     
+=======
+                   <p key={index} style={{fontWeight:'bold'}}> {emp?.hours} {emp?.workDate}</p>
+                   ))}
+                </div>
+               
+                
+>>>>>>> 56d49f7b6744874de3d851a578a22014e6ecf537
               </div>
 
               <Collapse>
