@@ -42,7 +42,7 @@ const employeeSchema = new Schema(
     },
     hours:{
       type: Schema.Types.Array,
-      ref: "Hours",
+      ref: "Hour",
     },
   },
   {
