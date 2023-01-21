@@ -92,36 +92,31 @@ function EmployeeUpdate() {
   //SECTION HANDLE SELECTED EMPLOYEE
   //set the state for the selected employee dropdown
   async function handleSelectedEmployee(event) {
+    console.log(firstName, lastName, phone, email)
     //fix start
     // resetForm(); //remove all prior input form the form
 
-    // populate form with selected employee data
+    // allow form to populate with selected employee data
     setSelectFirstName(true);
     setSelectLastName(true);
     setSelectPhone(true);
-    setSelectEmail(true);
     setSelectEmail(true);
 
     setFormIsDisabled(false); // enable form for input
     //fix end
 
+    console.log(firstName, lastName, phone, email)
+
     let employeeId =
       event.target.options[event.target.selectedIndex].dataset.id;
     setCurrentEmployeeId(employeeId);
-    // setIsDisabled(false);
 
-    console.log(event.target.value, employeeId);
-
-    setEmail(event.target.value);
+    // setEmail(event.target.value); //fix
 
     //await query single client
     let currentEmployeeData = await getASingleEmployee();
 
-    // console.log(currentEmployeeData.data.employeeById);
-
     setPrevEmployeeData(currentEmployeeData.data.employeeById);
-
-    // console.log(prevEmployeeData?.email + "hi there");
 
     resetForm();
   }
@@ -142,12 +137,8 @@ function EmployeeUpdate() {
           lastName: lastName
             ? lastName
             : getEmployee.data.employeeById.lastName,
-          email: email
-            ? email
-            : getEmployee.data.employeeById.email,
-          phone: phone
-            ? phone
-            : getEmployee.data.employeeById.phone,
+          email: email ? email : getEmployee.data.employeeById.email,
+          phone: phone ? phone : getEmployee.data.employeeById.phone,
         },
       });
     } catch (err) {
@@ -159,7 +150,6 @@ function EmployeeUpdate() {
     setSelectFirstName(false); //fix
     setSelectLastName(false);
     setSelectPhone(false);
-    setSelectEmail(false);
     setSelectEmail(false);
 
     resetForm(); // fix

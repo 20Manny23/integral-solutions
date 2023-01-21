@@ -49,7 +49,7 @@
     "password": "12",
     "firstName": "Rod",
     "lastName": "Bennett",
-    "phone": "9706554455",
+    "phone":  "719-867-5309",
     "isManager": "true",
     "isAdmin": true,
     "isLocked": false,
