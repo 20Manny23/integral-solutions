@@ -13,7 +13,7 @@ function ShopLinks() {
       <Row className="shop-links">
         <Col md={6}lg={3} sm={6}>
         <a  href="https://www.steelcase.com/"
-            target={"_blank"}><img
+            target={"_blank"} rel="noreferrer"><img
             className="company"
             src={steelcase}
             alt="steelcase"
@@ -21,7 +21,7 @@ function ShopLinks() {
         </Col>
         <Col md={6} lg={3} sm={6}>
           <a href="https://www.officescapes.com/"
-            target={"_blank"}><img
+            target={"_blank"} rel="noreferrer"><img
             className="company"
             src={officescapes}
             alt="officescapes"
@@ -30,7 +30,7 @@ function ShopLinks() {
 
         <Col lg={3} md={6} sm={6}>
           <a href="https://www.hermanmiller.com/"
-            target={"_blank"}><img
+            target={"_blank"} rel="noreferrer"><img
             className="company"
             src={hermanmiller}
             alt="Herman Miller"
@@ -39,7 +39,7 @@ function ShopLinks() {
 
         <Col lg={3} md={6} sm={6}>
           <a href="https://www.officestogo.com/"
-            target={"_blank"}><img
+            target={"_blank"} rel="noreferrer"><img
             className="company"
             src={officestogo}
             alt="OfficesToGo"
