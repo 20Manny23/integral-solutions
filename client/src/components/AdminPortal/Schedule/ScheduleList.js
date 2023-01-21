@@ -4,9 +4,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_SCHEDULE } from "../../../utils/queries";
 import { DELETE_SCHEDULE } from "../../../utils/mutations";
 
-import {
-  format_date_MMDDYYYY,
-} from "../../../utils/dateFormat";
+import { format_date_MMDDYYYY } from "../../../utils/dateFormat";
 import format_phone from "../../../utils/helpers";
 
 import { Row, Col, Container } from "react-bootstrap";
@@ -95,7 +93,7 @@ function ScheduleList() {
                       {job?.client?.businessName}
                     </p>
                     <p className="mb-0 text-left">
-                      {format_date_MMDDYYYY(job?.startDate)}
+                      {format_date_MMDDYYYY(job?.startDate)} at {job?.startTime}
                     </p>
                   </button>
                 </h5>
@@ -110,48 +108,49 @@ function ScheduleList() {
                   />
                 </div>
               </div>
-            
+
               <Collapse className="center-screen2">
                 <div id={`#collapse-client-${index}`}>
                   <Container fluid="auto">
                     <Row>
-                      <Col xs={12} sm={6} style={{marginBottom: "15px", marginTop:'10px'}}>
+                      <Col
+                        xs={12}
+                        sm={6}
+                        style={{ marginBottom: "15px", marginTop: "10px" }}
+                      >
                         <span style={{ fontWeight: "bold" }}>Contact:</span>{" "}
                         {job?.client?.contact}
                         <br></br>{" "}
                         <a href={`tel:+${job?.client?.phone}`}>
-                        
                           <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
                           {format_phone(job?.client?.phone)}
                         </a>{" "}
                         <br></br>{" "}
-                        <a href={`mailto:${job?.client?.email}`} >
+                        <a href={`mailto:${job?.client?.email}`}>
                           <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
                           {job?.client?.email}
                         </a>{" "}
                         <br></br>{" "}
-                        <span
-                          style={{ fontWeight: "bold" }}
-                        >
-                          Client Size:
-                        </span>{" "}
+                        <span style={{ fontWeight: "bold" }}>Client Size:</span>{" "}
                         {job?.numberOfClientEmployees}
                       </Col>
 
-                      <Col style={{marginBottom: "15px", marginTop:'10px'}} >
-                      <a href={`https://www.google.com/maps/dir/?api=1&destination=${job?.client?.streetAddress},${job?.client?.city},${job?.client?.state},${job?.client?.zip}&travelmode=driving`}
+                      <Col style={{ marginBottom: "15px", marginTop: "10px" }}>
+                        <a
+                          href={`https://www.google.com/maps/dir/?api=1&destination=${job?.client?.streetAddress},${job?.client?.city},${job?.client?.state},${job?.client?.zip}&travelmode=driving`}
                           target="_blank"
-                          rel="noreferrer">
-
-                        <FontAwesomeIcon
-                          icon="fa-solid fa-location-dot"
-                          style={{ marginTop: "4px", marginRight: "5px" }}
-                        />
-                        {job?.streetAddress}
-                        {job?.suite && `, ${job?.suite}`}
-                        <br></br>
-                        {job?.city}, {job?.state} {job?.zip}
-                        <br></br></a>
+                          rel="noreferrer"
+                        >
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-location-dot"
+                            style={{ marginTop: "4px", marginRight: "5px" }}
+                          />
+                          {job?.streetAddress}
+                          {job?.suite && `, ${job?.suite}`}
+                          <br></br>
+                          {job?.city}, {job?.state} {job?.zip}
+                          <br></br>
+                        </a>
                         <span style={{ fontWeight: "bold" }}>Start: </span>
                         {format_date_MMDDYYYY(job?.startDate)}
                         <br></br>

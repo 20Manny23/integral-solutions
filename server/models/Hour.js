@@ -1,15 +1,16 @@
 const { Schema, model } = require("mongoose");
+// const dayjs = require("dayjs");
 
 
 const hourSchema = new Schema(
   {
     hours: {
-      type: String,
-      required: true,
-    },
+        type: String,
+        required: true,
+      },
     workDate: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     employees: {
       type: Schema.Types.Array,

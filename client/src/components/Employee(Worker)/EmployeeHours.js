@@ -71,13 +71,13 @@ function EmployeeHours() {
     //     console.error(err);
     //   }
 
-    resetForm();
+    // resetForm();
   };
 
-  const resetForm = () => {
-    setStartHours("");
-    setEndHours("");
-  };
+  // const resetForm = () => {
+  //   setStartHours("");
+  //   setEndHours("");
+  // };
 
   const getElement = (event) => {
     let currentAvailTarget = event.currentTarget.getAttribute("data-target");
@@ -143,6 +143,7 @@ function EmployeeHours() {
                             defaultValue={"form-select"}
                             onChange={handleChange}
                           />
+                          Clock in: {startHours}
                         </Form.Group>
                       </Col>
 
@@ -161,6 +162,7 @@ function EmployeeHours() {
                             defaultValue={"form-select"}
                             onChange={handleChange}
                           />
+                          Clock out {endHours}
                         </Form.Group>
                       </Col>
                     </Row>
@@ -180,7 +182,7 @@ function EmployeeHours() {
                     </Row>
                   </Form>
                   <br></br>
-                  <Row className="mr-4 total">Day's Total: {dayTotal}</Row>
+                  <Row className="mr-4 total">Day's Total: {dayTotal} </Row>
                 </div>
               </Collapse>
           

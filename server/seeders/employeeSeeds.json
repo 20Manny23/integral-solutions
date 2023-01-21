@@ -10,6 +10,12 @@
     "isManager": "true",
     "isAdmin": false,
     "isLocked": false,
+    "hours": [
+      {
+      "hours": "15",
+      "workDate": "2/22/2023"
+    }
+  ],
     "schedule": [
       "423233343536373839303132"
     ]
@@ -25,6 +31,12 @@
     "isManager": "false",
     "isAdmin": true,
     "isLocked": false,
+    "hours": [
+      {
+      "hours": "25",
+      "workDate": "2/22/2023"
+    }
+  ],
     "schedule": [
       "413233343536373839303132",
       "423233343536373839303132"
@@ -41,6 +53,12 @@
     "isManager": "true",
     "isAdmin": true,
     "isLocked": false,
+    "hours": [
+      {
+      "hours": "20",
+      "workDate": "2/22/2023"
+    }
+  ],
     "schedule": [
       "423233343536373839303132"
     ]
@@ -56,6 +74,10 @@
     "isManager": "true",
     "isAdmin": true,
     "isLocked": false,
+    "hours": {
+        "hours": "45",
+        "workDate": "2/22/2023"
+      },
     "schedule": []
   },
   {
@@ -69,6 +91,12 @@
     "isManager": "true",
     "isAdmin": true,
     "isLocked": false,
+    "hours": [
+      {
+      "hours": "30",
+      "workDate": "2/22/2023"
+    }
+  ],
     "schedule": [
       "423233343536373839303132"
     ]

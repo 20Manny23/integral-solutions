@@ -61,7 +61,7 @@ function Employees() {
                     id="headingOne"
                     style={{ color: "black" }}
                   >
-                    <h5 className="mb-0 text-left">
+                    <h5 className="d-flex flex-column mb-0 text-left">
                       <button
                         className="btn btn-link pl-1"
                         onClick={() => setOpen(!open)}
@@ -69,8 +69,13 @@ function Employees() {
                         aria-expanded={open}
                         style={{ textDecoration: "none" }}
                       >
-                        {job?.client?.businessName}:{" "}
-                        {format_date_MMDDYYYY(job?.startDate)} at {job?.startTime}
+                        <p className="mb-0 text-left">
+                          {job?.client?.businessName}
+                        </p>
+                        <p className="mb-0 text-left">
+                          {format_date_MMDDYYYY(job?.startDate)} at{" "}
+                          {job?.startTime}
+                        </p>
                       </button>
                     </h5>
                   </div>
