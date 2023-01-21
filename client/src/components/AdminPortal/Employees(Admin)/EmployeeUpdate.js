@@ -29,6 +29,8 @@ function EmployeeUpdate() {
   const [isLocked, setIsLocked] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
+  console.log(email);
+
   // VALIDATION
   const [showUsernameValidation, setShowUsernameValidation] = useState(false);
   const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
@@ -62,20 +64,45 @@ function EmployeeUpdate() {
       },
     });
 
+    const [ selectFirstName, setSelectFirstName ] = useState(false);
+    const [ selectLastName, setSelectLastName ] = useState(false);
+    const [ selectPhone, setSelectPhone ] = useState(false);
+    const [ selectEmail, setSelectEmail ] = useState(false);
+    const [ selectPassword, setSelectPassword ] = useState(false);
+
   //SECTION HANDLE INPUT
   const handleInputChange = (event) => {
+    // setSelect(false); //fix
+
     const { name, value } = event.target;
     // console.log(e)
 
-    name === "firstName"
-      ? setFirstName(value)
-      : name === "lastName"
-      ? setLastName(value)
-      : name === "phone"
-      ? setPhone(value)
-      : name === "email"
-      ? setEmail(value)
-      : setPassword(value);
+    if (name === "firstName") {
+      setFirstName(value);
+      setSelectFirstName(false);
+    } else if (name === "lastName") {
+      setLastName(value);
+      setSelectLastName(false);
+    } else if (name === "phone") {
+      setPhone(value);
+      setSelectPhone(false);
+    } else if (name === "email") {
+      setEmail(value);
+      setSelectEmail(false);
+    } else {
+      setPassword(value);
+      setSelectEmail(false);
+    }
+
+    // name === "firstName"
+    //   ? (setFirstName(value), selectFirstName(true))
+    //   : name === "lastName"
+    //   ? setLastName(value)
+    //   : name === "phone"
+    //   ? setPhone(value)
+    //   : name === "email"
+    //   ? setEmail(value)
+    //   : setPassword(value);
 
     return name;
   };
@@ -173,11 +200,11 @@ function EmployeeUpdate() {
   };
 
   const resetForm = () => {
-    setEmail("");
     setFirstName("");
     setLastName("");
     setPhone("");
     setPassword("");
+    setEmail("");
     setIsAdmin("");
     setIsLocked("");
   };
@@ -193,12 +220,23 @@ function EmployeeUpdate() {
     // eslint-disable-next-line
   }, [email, phone, firstName, lastName]);
 
+  const [ select, setSelect ] = useState(false); //fix
+
   //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
   async function employeeEmailSelect(event) {
     if (currentEmployee) {
       // navigate("/employees"); // section
-      window.location.reload();
+      // window.location.reload(); // fix
     }
+
+    resetForm(); //fix
+    setSelect(true); //fix
+      setSelectFirstName(true);
+      setSelectLastName(true);
+      setSelectPhone(true);
+      setSelectEmail(true);
+      setSelectEmail(true);
+    //fix
 
     let employeeId =
       event.target.options[event.target.selectedIndex].dataset.id;
@@ -241,7 +279,7 @@ function EmployeeUpdate() {
           });
           resetForm();
 
-          window.location.reload();
+          // window.location.reload();
           // navigate("/"); //section
         }}
       >
@@ -301,7 +339,8 @@ function EmployeeUpdate() {
               type="text"
               placeholder="Enter First Name"
               name="firstName"
-              defaultValue={prevEmployeeData?.firstName}
+              // defaultValue={prevEmployeeData?.firstName} //fix
+              value={selectFirstName ? prevEmployeeData.firstName : firstName} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -325,13 +364,14 @@ function EmployeeUpdate() {
               type="text"
               placeholder="Enter Last Name"
               name="lastName"
-              defaultValue={prevEmployeeData?.lastName}
+              // defaultValue={prevEmployeeData?.lastName} //fix
+              value={selectLastName ? prevEmployeeData.lastName : lastName} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
             />
           </Form.Group>
-          
+
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
@@ -350,7 +390,8 @@ function EmployeeUpdate() {
               type="tel"
               placeholder="example: 123-456-7899"
               name="phone"
-              defaultValue={prevEmployeeData?.phone}
+              // defaultValue={prevEmployeeData?.phone} //fix
+              value={selectPhone ? prevEmployeeData.phone : phone} // fix
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
@@ -358,12 +399,10 @@ function EmployeeUpdate() {
             />
           </Form.Group>
 
-          <Form.Group
-            className="mb-3 form-length"
-            //controlId={formId}
-          >
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label>
+              <Form.Label htmlFor="email" style={{ fontWeight: "bolder" }}>Email</Form.Label>
+              {/* <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label> */}
               <Form.Label
                 className={`validation-color ${
                   showEmailEmployeeValidation ? "show" : "hide"
@@ -374,10 +413,11 @@ function EmployeeUpdate() {
             </div>
             <Form.Control
               className="custom-border"
-              type="email"
+              type="text"
               placeholder="Employee Email"
               name="email"
-              defaultValue={prevEmployeeData?.email}
+              // defaultValue={prevEmployeeData?.email} // fix
+              value={selectEmail ? prevEmployeeData.email : email} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               // required
