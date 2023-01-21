@@ -1,5 +1,3 @@
-// color:'#C59435'
-
 import React from "react";
 import Auth from "../utils/auth";
 import { Link } from "react-router-dom";
@@ -12,141 +10,74 @@ import logoTop from "../assets/images/logo-no-slogan.png";
 const AppNavbar = () => {
   return (
     <>
-      <Navbar
-        expand="lg"
-      >
-        <Navbar.Brand as={Link} reloadDocument to="/" className="d-flex flex-nowrap">
+      {/* section */}
+      <Navbar collapseOnSelect expand="xl">
+        <Navbar.Brand
+          as={Link}
+          reloadDocument
+          to="/"
+          className="d-flex flex-nowrap mr-0"
+        >
           <img className="logo" src={logoTop} alt="logo"></img>
           <div className="brand-container">
-            <h2
-              className="brand-name"
-            >
-              Integral Solutions
-            </h2>
+            <h2 className="brand-name">Integral Solutions</h2>
             <h6 className="slogan">
               Office Furniture Installation At The Snap Of Your Fingers!
             </h6>
           </div>
         </Navbar.Brand>
 
+        <div className="d-flex justify-content-center">
         <Navbar.Toggle
-          aria-controls="navbar"
           className="hamburger"
+          aria-controls="responsive-navbar-nav"
+          size="sm"
         />
-
-        <Navbar.Collapse className="" id="" >
+        </div>
+        <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
-            {Auth.loggedIn() &&
-            Auth.isAdmin() === true &&
-            Auth.isLocked() === false ? (
-              // User is loggedIn and isAdmin
-              // isAdmin explicity set to true to eliminate null values
-              // access to home, adm portal, employee portal, logout
+            <Nav.Link className="nav-link" as={Link} to="/">
+              Home
+            </Nav.Link>
+            {!Auth.loggedIn() && (
               <>
-                <Container className="employee-navbar">
-                  <Nav.Link
-                    style={{ color: "white" }}
-                    className="navlink"
-                    as={Link}
-                    to="/home"
-                    eventKey="4"
-                  >
-                    Home
-                  </Nav.Link>
-                  <Nav.Link
-                    style={{ color: "white" }}
-                    className="navlink"
-                    as={Link}
-                    to="/calendar"
-                    eventKey="4"
-                  >
+                <Nav.Link className="nav-link" as={Link} to="/shoplinks">
+                  Shop Furniture
+                </Nav.Link>
+              </>
+            )}
+
+            {Auth.loggedIn() &&
+              Auth.isAdmin() === true &&
+              Auth.isLocked() === false && (
+                <>
+                  <Nav.Link className="nav-link" as={Link} to="/calendar">
                     Admin
                   </Nav.Link>
-                  <Nav.Link
-                    style={{ color: "white" }}
-                    className="navlink"
-                    as={Link}
-                    to="/employee"
-                    eventKey="10"
-                  >
-                    Employee
-                  </Nav.Link>
-                  <Nav.Link
-                    style={{ color: "white" }}
-                    className="navlink"
-                    onClick={Auth.logout}
-                    eventKey="4"
-                  >
-                    Logout
-                  </Nav.Link>
-                </Container>
-              </>
-            ) : Auth.loggedIn() &&
-              Auth.isAdmin() === false &&
-              Auth.isLocked() === false ? (
-              // User is logged in and is not Admin
-              // isAdmin explicity set to true to eliminate null values
-              // access to home, employee portal, logout
+                </>
+              )}
+
+            {Auth.loggedIn() && Auth.isLocked() === false && (
               <>
-                <Nav.Link
-                  style={{ color: "white" }}
-                  as={Link}
-                  to="/home"
-                  eventKey="4"
-                  className="navlink"
-                >
-                  Home
-                </Nav.Link>
-                <Nav.Link
-                  style={{ color: "white" }}
-                  as={Link}
-                  to="/employee"
-                  eventKey="10"
-                  className="navlink"
-                >
+                <Nav.Link className="nav-link" as={Link} to="/employee">
                   Employee
                 </Nav.Link>
-                <Nav.Link
-                  style={{ color: "white" }}
-                  onClick={Auth.logout}
-                  eventKey="4"
-                  className="navlink"
-                >
-                  Logout
+              </>
+            )}
+
+            {!Auth.loggedIn() && (
+              <>
+                <Nav.Link className="nav-link" as={Link} to="/contact">
+                  Contact Us
                 </Nav.Link>
               </>
-            ) : (
-              // User is not logged in; Home page nav
+            )}
+
+            {Auth.loggedIn() && (
               <>
-                <Container className="">
-                  <Nav.Link
-                    style={{ color: "white" }}
-                    as={Link}
-                    to="/home"
-                    eventKey="4"
-                    className="navlink"
-                  >
-                    Home
-                  </Nav.Link>
-                  <Nav.Link
-                    style={{ color: "white" }}
-                    as={Link}
-                    to="/shoplinks"
-                    eventKey="4"
-                    className="navlink"
-                  >
-                    Shop Furniture
-                  </Nav.Link>
-                  <Nav.Link
-                    style={{ color: "white" }}
-                    as={Link}
-                    to="/contact"
-                    eventKey="4"
-                    className="navlink"
-                  >
-                    Contact Us{" "}
-                  </Nav.Link>
-                </Container>
+                <Nav.Link className="nav-link" onClick={Auth.logout}>
+                  Logout
+                </Nav.Link>
               </>
             )}
           </Nav>

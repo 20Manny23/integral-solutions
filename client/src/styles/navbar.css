@@ -1,4 +1,5 @@
-Nav {
+Nav {  
+  min-width: 280px;
   padding: 0;
   background-color: #0d2e4f;
   color: white !important;
@@ -6,10 +7,12 @@ Nav {
 }
 
 /* Nav links / hamburger menu */
-.navlink {
+.nav-link {
+  margin-left: 15px;
   font-size: 18px;
-  color: white;
+  color: white !important;
 }
+
 
 /* hamburger menu */
 .hamburger {
@@ -17,10 +20,10 @@ Nav {
   background-color: #335270 !important;
 }
 
-.container {
+/* .container {
   display: flex;
   flex-direction: columnn !important;
-}
+} */
 
 /* brand name & slogan */
 .brand-container {
@@ -31,7 +34,8 @@ Nav {
 }
 
 .logo {
-  max-height: 60px;
+  height: 60px;
+  width: 60px;
 }
 
 .brand-name {
@@ -52,17 +56,35 @@ Nav {
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 410px) {
+  .navbar {
+    padding-left: 0px !important;
+  }
+
+  .logo {
+    height: 40px;
+    width: 40px;
+  }
+  
+  .brand-name {
+    margin: 0px;
+    font-size: 20px;
+  }
+  
   .slogan {
     display: none;
   }
+}
 
-  .brand-container {
-    margin-left: 5px;
+@media screen and (max-width: 300px) {
+  .navbar {
+    flex-wrap: nowrap !important;
+    padding-left: 0px !important;
   }
+}
 
-  .brand-name {
-    font-size: 25px;
+@media screen and (max-width: 280px) {
+  .logo {
+    display: none;
   }
-
 }
