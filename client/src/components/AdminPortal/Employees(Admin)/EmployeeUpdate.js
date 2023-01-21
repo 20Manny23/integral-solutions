@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Auth from "../../../utils/auth";
 
-// import { useNavigate } from "react-router-dom"; // section
-
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import {
   QUERY_ALL_EMPLOYEES,
@@ -15,29 +13,35 @@ import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
 function EmployeeUpdate() {
-  // const navigate = useNavigate();  // section
-
-  const [prevEmployeeData, setPrevEmployeeData] = useState({});
-
-  //Get Employee Form Data
+  //form = input fields
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [password, setPassword] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLocked, setIsLocked] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
-  console.log(email);
+  //set current employee selected
+  const [currentEmployee, setCurrentEmployee] = useState("");
+  const [currentEmployeeId, setCurrentEmployeeId] = useState("");
+  const [currentInput, setCurrentInput] = useState({});
+  const [prevEmployeeData, setPrevEmployeeData] = useState({});
 
-  // VALIDATION
-  const [showUsernameValidation, setShowUsernameValidation] = useState(false);
+  //set the state of the value in the input fields (either the input by the user or populate based on selected employee)
+  const [selectFirstName, setSelectFirstName] = useState(false);
+  const [selectLastName, setSelectLastName] = useState(false);
+  const [selectPhone, setSelectPhone] = useState(false);
+  const [selectEmail, setSelectEmail] = useState(false);
+
+  //enable/disable form
+  const [formIsDisabled, setFormIsDisabled] = useState(true);
+
+  //validation
   const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
   const [showLastNameValidation, setShowLastNameValidation] = useState(false);
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-  const [showEmailEmployeeValidation, setShowEmailEmployeeStateValidation] =
-    useState(false);
+  const [showEmailEmployeeValidation, setShowEmailEmployeeStateValidation] = useState(false);
 
   //SECTION GET ALL EMPLOYEES
   // eslint-disable-next-line
@@ -49,10 +53,6 @@ function EmployeeUpdate() {
   } = useQuery(QUERY_ALL_EMPLOYEES);
 
   //SECTION get a single employee Query
-  const [currentEmployee, setCurrentEmployee] = useState("");
-  const [currentEmployeeId, setCurrentEmployeeId] = useState("");
-  const [currentInput, setCurrentInput] = useState({});
-
   // eslint-disable-next-line
   const [getASingleEmployee, { loading: lazyLoading, data: singleEmployee }] =
     useLazyQuery(QUERY_SINGLE_EMPLOYEE, {
@@ -64,22 +64,17 @@ function EmployeeUpdate() {
       },
     });
 
-    const [ selectFirstName, setSelectFirstName ] = useState(false);
-    const [ selectLastName, setSelectLastName ] = useState(false);
-    const [ selectPhone, setSelectPhone ] = useState(false);
-    const [ selectEmail, setSelectEmail ] = useState(false);
-    const [ selectPassword, setSelectPassword ] = useState(false);
+  //mutation to update employee databse record
+  const [updateEmployee] = useMutation(UPDATE_EMPLOYEE_FORM);
 
   //SECTION HANDLE INPUT
   const handleInputChange = (event) => {
-    // setSelect(false); //fix
-
     const { name, value } = event.target;
     // console.log(e)
 
     if (name === "firstName") {
-      setFirstName(value);
-      setSelectFirstName(false);
+      setFirstName(value); //capture input on the form
+      setSelectFirstName(false); //allows value property to accept input
     } else if (name === "lastName") {
       setLastName(value);
       setSelectLastName(false);
@@ -90,47 +85,12 @@ function EmployeeUpdate() {
       setEmail(value);
       setSelectEmail(false);
     } else {
-      setPassword(value);
-      setSelectEmail(false);
+      console.log('Error in form input at EmployeeUpdate.js')
     }
-
-    // name === "firstName"
-    //   ? (setFirstName(value), selectFirstName(true))
-    //   : name === "lastName"
-    //   ? setLastName(value)
-    //   : name === "phone"
-    //   ? setPhone(value)
-    //   : name === "email"
-    //   ? setEmail(value)
-    //   : setPassword(value);
-
     return name;
   };
 
-  //SECTION VALIDATION BLUR
-  const handleBlurChange = (e) => {
-    const { name, value } = e.target;
-
-    name === "email" && value.trim() === ""
-      ? setShowEmailEmployeeStateValidation(true)
-      : setShowEmailEmployeeStateValidation(false);
-    name === "phone" && value.trim() === ""
-      ? setShowPhoneValidation(true)
-      : setShowPhoneValidation(false);
-    name === "phone" && value.trim() === ""
-      ? setShowPhoneValidation(true)
-      : setShowPhoneValidation(false);
-    name === "first-name" && value.trim() === ""
-      ? setShowFirstNameValidation(true)
-      : setShowFirstNameValidation(false);
-    name === "last-name" && value.trim() === ""
-      ? setShowLastNameValidation(true)
-      : setShowLastNameValidation(false);
-  };
-
   //SECTION UPDATE EMPLOYEE
-  const [updateEmployee] = useMutation(UPDATE_EMPLOYEE_FORM);
-
   useEffect(() => {
     console.log(
       "current id = ",
@@ -140,29 +100,22 @@ function EmployeeUpdate() {
     );
 
     if (currentEmployeeId && currentInput) {
-      handleGetEditEmployee();
+      handleEmployeeUpdate();
     }
 
     // eslint-disable-next-line
-  }, [currentEmployeeId, currentInput]);
+    // }, [currentEmployeeId, currentInput]);
+    // eslint-disable-next-line
+  }, [currentInput]); //fix
 
   // call a function to get the single current employee
-  const handleGetEditEmployee = async () => {
+  const handleEmployeeUpdate = async () => {
     let getEmployee = await getASingleEmployee();
-    console.log("getEmployee = ", getEmployee.data);
-    // setPrevEmployeeData(getEmployee) This was causing the double click error;
-    // };
 
-    // // use effect - when singleEmployee is updated then update employee
-    // useEffect(() => {
+    console.log("getEmployee = ", getEmployee.data);
     console.log(prevEmployeeData);
     console.log(Object.keys(prevEmployeeData).length === 0);
     console.log(currentEmployee);
-
-    //   // since useEffect will run on load, check if prevEmployeeData is empty
-    // if (Object.keys(prevEmployeeData).length === 0) {
-    //   return;
-    // }
 
     console.log(
       "all input = ",
@@ -196,47 +149,30 @@ function EmployeeUpdate() {
 
     empRefetch();
 
-    resetForm();
+    setSelectFirstName(false); //fix
+    setSelectLastName(false);
+    setSelectPhone(false);
+    setSelectEmail(false);
+    setSelectEmail(false);
+
+    resetForm(); // fix
   };
 
-  const resetForm = () => {
-    setFirstName("");
-    setLastName("");
-    setPhone("");
-    setPassword("");
-    setEmail("");
-    setIsAdmin("");
-    setIsLocked("");
-  };
+  //SECTION HANDLE SELECTED EMPLOYEE
+  //set the state for the selected employee dropdown
+  async function handleSelectedEmployee(event) {
+    //fix start
+    resetForm(); //remove all prior input form the form
 
-  useEffect(() => {
-    setAreAllFieldsFilled(
-      email.trim() !== "" &&
-        phone.trim() !== "" &&
-        firstName.trim() !== "" &&
-        lastName.trim() !== ""
-    );
+    // populate form with selected employee data
+    setSelectFirstName(true);
+    setSelectLastName(true);
+    setSelectPhone(true);
+    setSelectEmail(true);
+    setSelectEmail(true);
 
-    // eslint-disable-next-line
-  }, [email, phone, firstName, lastName]);
-
-  const [ select, setSelect ] = useState(false); //fix
-
-  //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
-  async function employeeEmailSelect(event) {
-    if (currentEmployee) {
-      // navigate("/employees"); // section
-      // window.location.reload(); // fix
-    }
-
-    resetForm(); //fix
-    setSelect(true); //fix
-      setSelectFirstName(true);
-      setSelectLastName(true);
-      setSelectPhone(true);
-      setSelectEmail(true);
-      setSelectEmail(true);
-    //fix
+    setFormIsDisabled(false); // enable form for input
+    //fix end
 
     let employeeId =
       event.target.options[event.target.selectedIndex].dataset.id;
@@ -257,18 +193,60 @@ function EmployeeUpdate() {
     console.log(prevEmployeeData?.email + "hi there");
     resetForm();
   }
-  // console.log(currentInput)
+
+  //SECTION UTILITY FUNCTIONS
+  //validation
+  const handleBlurChange = (e) => {
+    const { name, value } = e.target;
+
+    name === "email" && value.trim() === ""
+      ? setShowEmailEmployeeStateValidation(true)
+      : setShowEmailEmployeeStateValidation(false);
+    name === "phone" && value.trim() === ""
+      ? setShowPhoneValidation(true)
+      : setShowPhoneValidation(false);
+    name === "phone" && value.trim() === ""
+      ? setShowPhoneValidation(true)
+      : setShowPhoneValidation(false);
+    name === "first-name" && value.trim() === ""
+      ? setShowFirstNameValidation(true)
+      : setShowFirstNameValidation(false);
+    name === "last-name" && value.trim() === ""
+      ? setShowLastNameValidation(true)
+      : setShowLastNameValidation(false);
+  };
+
+  //reset = resets form to placeholder values
+  const resetForm = () => {
+    setFirstName("");
+    setLastName("");
+    setPhone("");
+    setEmail("");
+    setIsAdmin("");
+    setIsLocked("");
+  };
+
+  //enable submit button = if input is added to at least one input field
+  useEffect(() => {
+    setAreAllFieldsFilled(
+      email.trim() !== "" ||
+        phone.trim() !== "" ||
+        firstName.trim() !== "" ||
+        lastName.trim() !== ""
+    );
+    // eslint-disable-next-line
+  }, [email, phone, firstName, lastName]);
+
   return (
     <Container>
       <Form
-        // id={`#collapse-employee-${index}`}
         data-editemployeeid={prevEmployeeData?._id}
         className="py-3 overflow-auto custom-about"
         onSubmit={(event) => {
           event.preventDefault();
-          let empId = event.currentTarget.getAttribute("data-editemployeeid");
-          console.log(empId);
-          setCurrentEmployeeId(empId);
+          // let empId = event.currentTarget.getAttribute("data-editemployeeid");
+          // console.log(empId);
+          // setCurrentEmployeeId(empId);
           setCurrentInput({
             firstName,
             lastName,
@@ -278,9 +256,6 @@ function EmployeeUpdate() {
             isLocked,
           });
           resetForm();
-
-          // window.location.reload();
-          // navigate("/"); //section
         }}
       >
         <div id="example-collapse-text">
@@ -302,7 +277,7 @@ function EmployeeUpdate() {
               placeholder="Select Client"
               value={"form-select"}
               name={"form-select"}
-              onChange={employeeEmailSelect}
+              onChange={handleSelectedEmployee}
             >
               <option>
                 {prevEmployeeData?.firstName
@@ -343,6 +318,7 @@ function EmployeeUpdate() {
               value={selectFirstName ? prevEmployeeData.firstName : firstName} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
+              disabled={formIsDisabled}
               required
             />
           </Form.Group>
@@ -368,6 +344,7 @@ function EmployeeUpdate() {
               value={selectLastName ? prevEmployeeData.lastName : lastName} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
+              disabled={formIsDisabled}
               required
             />
           </Form.Group>
@@ -395,13 +372,16 @@ function EmployeeUpdate() {
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
+              disabled={formIsDisabled}
               required
             />
           </Form.Group>
 
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
-              <Form.Label htmlFor="email" style={{ fontWeight: "bolder" }}>Email</Form.Label>
+              <Form.Label htmlFor="email" style={{ fontWeight: "bolder" }}>
+                Email
+              </Form.Label>
               {/* <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label> */}
               <Form.Label
                 className={`validation-color ${
@@ -420,6 +400,7 @@ function EmployeeUpdate() {
               value={selectEmail ? prevEmployeeData.email : email} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
+              disabled={formIsDisabled}
               // required
             />
           </Form.Group>
@@ -428,7 +409,7 @@ function EmployeeUpdate() {
               className="submit-button-style"
               variant="primary"
               type="submit"
-              // disabled={!areAllFieldsFilled}
+              disabled={!areAllFieldsFilled}
               title="Enter all fields to add a new client"
             >
               Update Employee

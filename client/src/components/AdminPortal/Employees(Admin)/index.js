@@ -8,7 +8,7 @@ import EmployeeUpdate from "./EmployeeUpdate"
 function EmployeesList() {
   return (
     <Tabs
-      defaultActiveKey="employeeList"
+      defaultActiveKey="employeeUpdate"
       id="fill-tab-example"
       className="mb-3"
       fill
