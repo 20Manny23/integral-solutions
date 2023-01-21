@@ -329,6 +329,7 @@ const typeDefs = gql`
     updateEmployeeHours(
       _id: ID
       hours: String
+      workDate: String
     ) : Employee
 
     deleteHours (_id: ID!): Hour
