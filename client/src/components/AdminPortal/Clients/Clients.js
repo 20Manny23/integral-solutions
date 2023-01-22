@@ -57,12 +57,22 @@ function Clients() {
       setOpenDetails(true);
     }
   };
-console.log(clients);
+  let arrayForSort =[]
+  if(clients){
+    // console.log(clients.clients)
+    arrayForSort = [...clients.clients]
+  arrayForSort.sort(function(a, b){
+    if(a.businessName.toLowerCase() < b.businessName.toLowerCase()) return -1;
+    if(a.businessName.toLowerCase() > b.businessName.toLowerCase()) return 1;
+    return 0;
+  })
+  }
+  console.log(arrayForSort)
   return (
     <>
       <Container>
         <Row style={{ display: "flex", justifyContent: "center" }}>
-          {clients?.clients?.map((client, index) => (
+          {arrayForSort?.map((client, index) => (
             <div id="accordion" key={index} style={{ width: "98%" }}>
               <div className="card p-2 mb-1">
                 <div
