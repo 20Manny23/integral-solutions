@@ -498,15 +498,19 @@ export const ADD_HOURS = gql`
 mutation addHours(
   $workDate: String!
   $hours: String!
+  $startTIme: String!
+  $endTime: String!
 ){
   addHours(
-    _id: $id
     workDate: $workDate
     hours: $Hours
+    startTime: $startTime
+    endTime: $endTime
   ){
-    _id
     workDate
     hours
+    startTime
+    endTime
   }
 }`;
 

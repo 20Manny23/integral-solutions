@@ -32,7 +32,8 @@ const typeDefs = gql`
     _id: ID
     workDate: String
     hours: String
-    
+    startTime: String
+    endTime: String
   }
 
   type Message {
@@ -318,6 +319,8 @@ const typeDefs = gql`
       _id: ID
       hours: String
       workDate: String
+      startTime: String
+      endTime: String
     ): Hour
 
     updateHours(
