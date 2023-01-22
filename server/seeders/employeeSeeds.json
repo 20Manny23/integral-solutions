@@ -13,7 +13,9 @@
     "hours": [
       {
       "hours": "15",
-      "workDate": "2/22/2023"
+      "workDate": "2/22/2023",
+      "startTime": "8:00",
+      "endTime": "5:00"
     }
   ],
     "schedule": [
@@ -34,7 +36,9 @@
     "hours": [
       {
       "hours": "25",
-      "workDate": "2/22/2023"
+      "workDate": "2/22/2023",
+      "startTime": "8:00",
+      "endTime": "5:00"
     }
   ],
     "schedule": [
@@ -56,7 +60,9 @@
     "hours": [
       {
       "hours": "20",
-      "workDate": "2/22/2023"
+      "workDate": "2/22/2023",
+      "startTime": "8:00",
+      "endTime": "5:00"
     }
   ],
     "schedule": [
@@ -77,10 +83,11 @@
     "hours": [
       {
         "hours": "7",
-        "workDate": "4/44/4444"
+        "workDate": "4/44/4444",
+        "startTime": "8:00",
+        "endTime": "5:00"
       }
     ],
-
     "schedule": []
   },
   {
@@ -97,7 +104,9 @@
     "hours": [
       {
       "hours": "30",
-      "workDate": "2/22/2023"
+      "workDate": "2/22/2023",
+      "startTime": "8:00",
+      "endTime": "5:00"
     }
   ],
     "schedule": [

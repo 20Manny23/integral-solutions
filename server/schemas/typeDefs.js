@@ -328,12 +328,13 @@ const typeDefs = gql`
       _id: ID
       hours: String
       workDate: String
+      startTime: String
+      endTime: String
     ): Hour
 
     updateEmployeeHours(
       _id: ID
       hours: String
-      workDate: String
     ) : Employee
 
     deleteHours (_id: ID!): Hour

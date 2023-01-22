@@ -622,12 +622,12 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    updateEmployeeHours: async (parent, { _id, hours, workDate }, context) => {
-      console.log("RESOLVER FOR UPDATE EMPLOYEE HOURS", _id, hours, workDate)
+    updateEmployeeHours: async (parent, { _id, hours }, context) => {
+      console.log("RESOLVER FOR UPDATE EMPLOYEE HOURS", _id, hours)
       return Employee.findOneAndUpdate(
         { _id },
         {
-          $addToSet: { hours, workDate },
+          $addToSet: { hours },
         },
         { new: true }
       );
