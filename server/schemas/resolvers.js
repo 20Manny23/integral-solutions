@@ -456,13 +456,18 @@ const resolvers = {
       {
         _id,
         hours,
-        workDate },
+        workDate,
+        startTime,
+        endTime
+      },
       context) => {
       const hour = await Hour.create({
         hours,
         workDate,
+        startTime,
+        endTime
       });
-      return { hours, workDate };
+      return { hour, workDate };
     },
 
     deleteHours: async (parent, { _id }, context) => {
