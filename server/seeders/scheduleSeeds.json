@@ -67,5 +67,22 @@
     "numberOfClientEmployees": "String",
     "client": "323233343536373839303132",
     "employees": [ "6398fb54494aa98f85992da2", "6398fb54494aa98f85992da3" ]
+  },
+  {
+    "_id": "423233343536373839303145",
+    "streetAddress": "22222 Star Trek Place",
+    "suite": "",
+    "city": "Denver",
+    "state": "CO",
+    "zip": "0/801",
+    "startDate": "January 25 2023 09:00:00 (MST)",
+    "endDate": "January 25 2023 17:00:00 (MST)",
+    "startTime": "08:00:00 (MST)",
+    "endTime": "10:00:00 (MST)",
+    "squareFeet": "5000",
+    "jobDetails": "A new job with different dates to check if if future past merge is working correctly",
+    "numberOfClientEmployees": "String",
+    "client": "323233343536373839303132",
+    "employees": [ "6398fb54494aa98f85992da2", "6398fb54494aa98f85992da3" ]
   }
 ]

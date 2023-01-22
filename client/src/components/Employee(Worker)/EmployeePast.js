@@ -11,18 +11,20 @@ import { Row, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getClippingParents } from "@fullcalendar/react";
+import "../../styles/calendar.css";
 
-function Employees({pastOrFuture}) {
+function Employees ({ pastOrFuture }) {
   const [open, setOpen] = useState(false);
   const [schedule, setSchedule] = useState([]);
   const [past, setPast] = useState([]);
-  const[future, setFuture] = useState([]);
+  const [future, setFuture] = useState([]);
 
   // get id for logged in employee
   const userId = getUserId();
 
   // get schedule useQuery for the specific id
   // eslint-disable-next-line
+  
   const { loading, data, error, refetch } = useQuery(QUERY_EMPLOYEE_BYID, {
     variables: { id: userId },
 
@@ -30,48 +32,47 @@ function Employees({pastOrFuture}) {
 
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
-      
-        refetch()
-      
+    
+
       const todayDate = Date.now();
-      console.log(pastOrFuture)
+    
 
       for (let i = 0; i < data?.employeeById?.schedule?.length; i++) {
         const date = new Date(data?.employeeById?.schedule[i].startDate);
         const jobDate = date.getTime();
 
         if (jobDate < todayDate) {
-          past.push(data?.employeeById?.schedule[i]);
-        }
-        else{
-          future.push(data?.employeeById?.schedule[i])
+          setPast([...past,data?.employeeById?.schedule[i]]);
+        } else {
+          setFuture([...future, data?.employeeById?.schedule[i]]);
         }
       }
-
-
     },
     
   });
-
-useEffect (() => {
-
-  if(pastOrFuture === "past"  ){
-    setSchedule(past);
-   
-  }
-
-},[pastOrFuture])
-useEffect (() => {
-  console.log('useeffect')
-  if(pastOrFuture === "future"  ){
-    setSchedule(future);
   
-  }
+  useEffect(() => {
+    if (pastOrFuture === "past") {
+      setSchedule(past);
+      console.log('when')
+    }
+  }, [pastOrFuture, data]);
+  useEffect(() => {
+    if (pastOrFuture === "future") {
+      
+      setSchedule(future);
+      console.log('future');
+    }
+  }, [pastOrFuture, data]);
 
-},[pastOrFuture])
- 
+
+
   if (loading) {
-    
+    return (
+      <div className="d-flex justify-content-center">
+        <div className="lds-hourglass"></div>
+      </div>
+    );
   } else {
     return (
       <>
