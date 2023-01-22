@@ -517,31 +517,32 @@ function ScheduleUpdate() {
         data-editscheduleid={prevScheduleData?._id}
         className="py-3 overflow-auto custom-about border border-secondary"
         style={{ alignContent: "left" }}
-        onSubmit={(event) => {
-          event.preventDefault();
-          let scheduleId = event.currentTarget.getAttribute(
-            "data-editscheduleid"
-          );
-          setCurrentScheduleId(scheduleId);
-          setCurrentInput({
-            businessName,
-            streetAddress,
-            // suite,
-            city,
-            state,
-            zip,
-            startDate,
-            endDate,
-            startTime,
-            endTime,
-            squareFeet,
-            jobDetails,
-            numberOfClientEmployees,
-            client,
-            employees,
-          });
-          window.location.reload();
-        }}
+        onSubmit={handleScheduleUpdate}
+        // onSubmit={(event) => {
+        //   event.preventDefault();
+        //   let scheduleId = event.currentTarget.getAttribute(
+        //     "data-editscheduleid"
+        //   );
+        //   setCurrentScheduleId(scheduleId);
+        //   setCurrentInput({
+        //     businessName,
+        //     streetAddress,
+        //     // suite,
+        //     city,
+        //     state,
+        //     zip,
+        //     startDate,
+        //     endDate,
+        //     startTime,
+        //     endTime,
+        //     squareFeet,
+        //     jobDetails,
+        //     numberOfClientEmployees,
+        //     client,
+        //     employees,
+        //   });
+        //   window.location.reload();
+        // }}
       >
         <Form.Group className="form-length">
           <Form.Label style={{ fontWeight: "bolder" }}>Select Job</Form.Label>
@@ -600,7 +601,7 @@ function ScheduleUpdate() {
             //   setStreetAddress(event.target.value);
             // }}
             onBlur={handleBlurChange}
-            //required
+            disabled={formIsDisabled}
           />
         </Form.Group>
         <Row className="addy">
@@ -622,7 +623,7 @@ function ScheduleUpdate() {
               value={selectCity ? prevScheduleData.city : city} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //required
+              disabled={formIsDisabled}
             />
           </Col>
           <Col xs={5}>
@@ -645,7 +646,7 @@ function ScheduleUpdate() {
               value={selectState ? prevScheduleData.state : state} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //required
+              disabled={formIsDisabled}
             >
               <option>
                 {prevScheduleData?.state ? prevScheduleData?.state : "Select"}
@@ -674,7 +675,7 @@ function ScheduleUpdate() {
               value={selectZip ? prevScheduleData.zip : zip} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //required
+              disabled={formIsDisabled}
             />
           </Col>
         </Row>
@@ -699,10 +700,14 @@ function ScheduleUpdate() {
                 type="date"
                 name="startDate"
                 // defaultValue={format_date_YYYYDDMM(prevScheduleData?.startDate)} //fix
-                value={selectStartDate ? format_date_YYYYDDMM(prevScheduleData.startDate) : startDate} // fix
+                value={
+                  selectStartDate
+                    ? format_date_YYYYDDMM(prevScheduleData.startDate)
+                    : startDate
+                } // fix
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                //required
+                disabled={formIsDisabled}
               />
             </Form.Group>
           </Col>
@@ -725,10 +730,14 @@ function ScheduleUpdate() {
                 type="date"
                 name="endDate"
                 // defaultValue={format_date_YYYYDDMM(prevScheduleData?.endDate)} //fix
-                value={selectEndDate ? format_date_YYYYDDMM(prevScheduleData.endDate) : endDate} // fix
+                value={
+                  selectEndDate
+                    ? format_date_YYYYDDMM(prevScheduleData.endDate)
+                    : endDate
+                } // fix
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                //required
+                disabled={formIsDisabled}
               />
             </Form.Group>
           </Col>
@@ -754,11 +763,15 @@ function ScheduleUpdate() {
                 //   prevScheduleData &&
                 //   prevScheduleData?.startTime?.slice(0, 5).toString()
                 // } //fix
-                value={selectStartTime ? format_time_HHmmss(prevScheduleData.startTime) : startTime} // fix
+                value={
+                  selectStartTime
+                    ? format_time_HHmmss(prevScheduleData.startTime)
+                    : startTime
+                } // fix
                 // defaultValue="13:30"
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                //required
+                disabled={formIsDisabled}
               />
             </Form.Group>
           </Col>
@@ -787,7 +800,7 @@ function ScheduleUpdate() {
               } // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //required
+              disabled={formIsDisabled}
             />
           </Col>
 
@@ -851,7 +864,8 @@ function ScheduleUpdate() {
             onChange={(event) => {
               createSelectedEmployees(event);
             }}
-            defaultValue={prevScheduleData?.endDate}
+            // fix
+            // defaultValue={prevScheduleData?.endDate}
           >
             {/* fix */}
             {/* <option>{prevScheduleData?.employees[0]?.firstName ? `${prevScheduleData?.employees[0].firstName} ${prevScheduleData?.employees[0].lastName}` : "Select"}</option> */}
@@ -916,7 +930,7 @@ function ScheduleUpdate() {
             value={selectJobDetails ? prevScheduleData.jobDetails : jobDetails} // fix
             onChange={handleInputChange}
             onBlur={handleBlurChange}
-            //required
+            disabled={formIsDisabled}
           />
         </Form.Group>
 

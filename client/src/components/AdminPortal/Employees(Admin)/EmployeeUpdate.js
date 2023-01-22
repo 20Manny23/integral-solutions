@@ -266,7 +266,6 @@ function EmployeeUpdate() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3 form-length">
@@ -292,7 +291,6 @@ function EmployeeUpdate() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
-              required
             />
           </Form.Group>
 
@@ -321,7 +319,6 @@ function EmployeeUpdate() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
-              required
             />
           </Form.Group>
 
