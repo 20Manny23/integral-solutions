@@ -459,14 +459,14 @@ const resolvers = {
       parent,
       {
         _id,
-        hours,
+        dayHours,
         workDate,
         startTime,
         endTime
       },
       context) => {
       const hour = await Hour.create({
-        hours,
+        dayHours,
         workDate,
         startTime,
         endTime
@@ -478,12 +478,14 @@ const resolvers = {
       return Hour.findOneAndDelete({ _id })
     },
 
-    updateHours: async (parent, { _id, hours, workDate }, context) => {
+    updateHours: async (parent, { _id, dayHours, workDate, startTime, endTime }, context) => {
       return Hour.findOneAndUpdate(
         { _id },
         {
-          hours,
+          dayHours,
           workDate,
+          startTime,
+          endTime
         },
         { new: true }
 
@@ -542,7 +544,7 @@ const resolvers = {
         isAdmin,
         isLocked,
         schedule,
-        hours
+        hour
       },
       context
     ) => {
@@ -559,7 +561,7 @@ const resolvers = {
         isAdmin,
         isLocked,
         schedule,
-        hours
+        hour
       );
       return Employee.findOneAndUpdate(
         { _id },
@@ -622,12 +624,12 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    updateEmployeeHours: async (parent, { _id, hours }, context) => {
-      console.log("RESOLVER FOR UPDATE EMPLOYEE HOURS", _id, hours)
+    updateEmployeeHours: async (parent, { _id, hour }, context) => {
+      console.log("RESOLVER FOR UPDATE EMPLOYEE HOURS", _id, hour)
       return Employee.findOneAndUpdate(
         { _id },
         {
-          $addToSet: { hours },
+          $addToSet: { hour },
         },
         { new: true }
       );
