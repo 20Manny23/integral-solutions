@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import Auth from "../../../utils/auth";
 
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
-import { QUERY_ALL_EMPLOYEES, QUERY_SINGLE_EMPLOYEE } from "../../../utils/queries";
+import {
+  QUERY_ALL_EMPLOYEES,
+  QUERY_SINGLE_EMPLOYEE,
+} from "../../../utils/queries";
 import { UPDATE_EMPLOYEE_FORM } from "../../../utils/mutations";
 
 import { Container, Form, Button } from "react-bootstrap";
@@ -89,7 +92,8 @@ function EmployeeUpdate() {
   //SECTION HANDLE SELECTED EMPLOYEE
   //set the state for the selected employee dropdown
   async function handleSelectedEmployee(event) {
-    let employeeId = event.target.options[event.target.selectedIndex].dataset.id; //get selected employee id
+    let employeeId =
+      event.target.options[event.target.selectedIndex].dataset.id; //get selected employee id
     setCurrentEmployeeId(employeeId); //set state of current id
 
     //await query single client
@@ -144,8 +148,8 @@ function EmployeeUpdate() {
 
     resetForm();
 
-    setFormIsDisabled(true);  //set form disabled = true
-    //fix 
+    setFormIsDisabled(true); //set form disabled = true
+    //fix
   };
 
   //SECTION UTILITY FUNCTIONS

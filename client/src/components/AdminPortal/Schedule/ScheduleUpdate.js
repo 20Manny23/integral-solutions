@@ -28,12 +28,10 @@ import "../../../styles/button-style.css";
 import "../../../styles/Forms.css";
 
 function ScheduleUpdate() {
-  const [prevScheduleData, setPrevScheduleData] = useState({});
-
-  // GET FORM INPUT
+  //form = input fields
   const [businessName, setBusinessName] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
-  const [suite, setSuite] = useState("");
+  // const [suite, setSuite] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
@@ -49,10 +47,11 @@ function ScheduleUpdate() {
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
-  //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
-  function businessNameSelect(e) {
-    setBusinessName(e.target.value);
-  }
+  //set selected schedule
+  const [currentInput, setCurrentInput] = useState({});
+  const [currentScheduleId, setCurrentScheduleId] = useState("");
+  const [currentSchedule, setCurrentSchedule] = useState("");
+  const [prevScheduleData, setPrevScheduleData] = useState({});
 
   const numberOfEmployees = [
     "Home Office",
@@ -61,19 +60,22 @@ function ScheduleUpdate() {
     "More Than 100",
   ];
 
-  // VALIDATION
+  //enable/disable form
+  const [formIsDisabled, setFormIsDisabled] = useState(true);
+
+  //validation
   const [showBusinessNameValidation, setShowBusinessNameValidation] =
     useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
-  const [showSuiteValidation, setShowSuiteValidation] = useState(false); // currently no suite field on input form
+  // const [showSuiteValidation, setShowSuiteValidation] = useState(false); // currently no suite field on input form
   const [showCityValidation, setShowCityValidation] = useState(false);
   const [showStateValidation, setShowStateValidation] = useState(false);
   const [showZipValidation, setShowZipValidation] = useState(false);
   const [showStartDateValidation, setStartDateValidation] = useState(false);
   const [showEndDateValidation, setShowEndDateValidation] = useState(false);
   const [showStartTimeValidation, setShowStartTimeValidation] = useState(false);
-  const [showEndTimeValidation, setShowEndTimeValidation] = useState(false);
+  // const [showEndTimeValidation, setShowEndTimeValidation] = useState(false);
   const [showSquareFeetValidation, setShowSquareFeetValidation] =
     useState(false);
   const [showJobDetailsValidation, setShowJobDetailsValidation] =
@@ -86,12 +88,7 @@ function ScheduleUpdate() {
   const [showSelectedEmployeesValidation, setShowSelectedEmployeesValidation] =
     useState(false);
 
-  const [currentInput, setCurrentInput] = useState({});
-  const [currentScheduleId, setCurrentScheduleId] = useState("");
-  const [currentSchedule, setCurrentSchedule] = useState("");
-
-  //SECTION QUERIES / MUTATIONS
-  // get schedule
+  //SECTION GET ALL JOBS
   const {
     // eslint-disable-next-line
     loading: scheduleLoad,
@@ -99,9 +96,11 @@ function ScheduleUpdate() {
     data: schedule,
     // eslint-disable-next-line
     error: scheduleError,
+    // eslint-disable-next-line
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
 
+  //SECTION get a single job
   // eslint-disable-next-line
   const [getASingleSchedule, { loading: lazyLoading, data: singleSchedule }] =
     useLazyQuery(QUERY_SINGLE_SCHEDULE, {
@@ -109,11 +108,11 @@ function ScheduleUpdate() {
       // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
       skip: !Auth.loggedIn(),
       onCompleted: (singleSchedule) => {
-        setCurrentSchedule(singleSchedule);
+        // setCurrentSchedule(singleSchedule);
       },
     });
 
-  // get clients
+  //SECTION get clients for dropdown
   const {
     // eslint-disable-next-line
     loading: clientsLoad,
@@ -124,7 +123,7 @@ function ScheduleUpdate() {
     refetch: clientsRefetch,
   } = useQuery(QUERY_ALL_CLIENTS);
 
-  // get employees
+  //SECTION get employees for dropdown
   const {
     // eslint-disable-next-line
     loading: empLoad,
@@ -135,79 +134,19 @@ function ScheduleUpdate() {
     refetch: empRefectch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
 
-  // add schedule
+  //SECTION create a schedule/job
   const [addSchedule] = useMutation(ADD_SCHEDULE);
 
-  // add new schedule / job to the appropriate client
+  //SECTION add new schedule / job to the appropriate client
   const [updateClientSchedule] = useMutation(UPDATE_CLIENT_SCHEDULE);
 
-  // add new schedule / job to the appropriate employee(s)
+  //SECTION add new schedule / job to the appropriate employee(s)
   const [updateEmployeeSchedule] = useMutation(UPDATE_EMPLOYEE_SCHEDULE);
 
-  //SECTION ADD INTO OR REMOVE FROM SELECTED EMPLOYEE FROM PAGE
-  // set state of selectedEmployees upon load useEffect
-    // populate employee list with employees in list at the time of "select job" dropdown
-    useEffect(() => {
-      if (currentScheduleId !== "") {
-        createCurrentEmployees();
-      }
-  
-      // eslint-disable-next-line
-    }, [currentScheduleId]);
 
-  const createCurrentEmployees = async () => {
-    // get employees currently assigned to a job
-    let test = await getASingleSchedule();
-
-    let currentEmployees = [];
-    currentEmployees = test.data.schedule.employees;
-
-    let temp = [];
-    for (let i = 0; i < currentEmployees.length; i++) {
-
-      let firstName = currentEmployees[i].firstName;
-      let lastName = currentEmployees[i].lastName;
-      let employeeId = currentEmployees[i]._id;
-
-      temp.push({ firstName, lastName, employeeId });
-    }
-
-    // setSelectedEmployees([...currentEmployees]);
-    setSelectedEmployees([ ...temp ]);
-
-    console.log("1 = ", selectedEmployees);
-  }
-
-  const createSelectedEmployees = async (event) => {
-    if (event) {
-      let firstName =
-        event.target.options[event.target.selectedIndex].dataset.firstname;
-      let lastName =
-        event.target.options[event.target.selectedIndex].dataset.lastname;
-      let employeeId =
-        event.target.options[event.target.selectedIndex].dataset.id;
-
-      for (let i = 0; i < selectedEmployees.length; i++) {
-        if (selectedEmployees[i].employeeId === employeeId) {
-
-          return;
-        }
-      }
-
-      setSelectedEmployees((selectedEmployee) => [
-        ...selectedEmployees,
-        { firstName, lastName, employeeId },
-      ]);
-    }
-
-  };
-
-  function removeEmployee(event) {
-    let keepEmployees = selectedEmployees.filter(
-      (item) => item.employeeId !== event.target.value
-    );
-
-    setSelectedEmployees(keepEmployees);
+  //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
+  function businessNameSelect(e) {
+    setBusinessName(e.target.value);
   }
 
   //SECTION HANDLE INPUT
@@ -305,7 +244,7 @@ function ScheduleUpdate() {
   //fix
   const handleEditScheduleSubmit = async () => {
     let test = await getASingleSchedule();
-    
+
     try {
       await updateSchedule({
         variables: {
@@ -325,11 +264,16 @@ function ScheduleUpdate() {
             ? format_date_string(currentInput.startDate, currentInput.endTime)
             : test.data.schedule.startDate,
           endDate: currentInput.endDate
-            ? format_date_string(currentInput.endDate, currentInput.endTime ? currentInput.endTime : "09:00:00 (MST)" )
+            ? format_date_string(
+                currentInput.endDate,
+                currentInput.endTime ? currentInput.endTime : "09:00:00 (MST)"
+              )
             : test.data.schedule.endDate,
           startTime: currentInput.startTime
             ? currentInput.startTime + ":00 (MST)" //incoming is 09:00 changed to 09:00:00 (MST)
-            : `${test.data.schedule.startTime?.slice(0, 5).toString()}:00 (MST)`,
+            : `${test.data.schedule.startTime
+                ?.slice(0, 5)
+                .toString()}:00 (MST)`,
           endTime: currentInput.endTime
             ? currentInput.endTime
             : `${test.data.schedule.endTime?.slice(0, 5).toString()}:00 (MST)`,
@@ -339,12 +283,11 @@ function ScheduleUpdate() {
           jobDetails: currentInput.jobDetails
             ? currentInput.jobDetails
             : test.data.schedule.jobDetails,
-          numberOfClientEmployees: 
-            currentInput.numberOfClientEmployees
-              ? currentInput.numberOfClientEmployees
-              : test.data.schedule.numberOfClientEmployees,
+          numberOfClientEmployees: currentInput.numberOfClientEmployees
+            ? currentInput.numberOfClientEmployees
+            : test.data.schedule.numberOfClientEmployees,
           client: test.data.schedule.client._id,
-          // employees: 
+          // employees:
           //   selectedEmployees.length > 0
           //     ? selectedEmployees.map(({ employeeId }) => employeeId)
           //     : test.data.schedule.employees.map((employee) => employee._id),
@@ -373,8 +316,7 @@ function ScheduleUpdate() {
 
   //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
   async function scheduleSelect(event) {
-
-    if(currentScheduleId){
+    if (currentScheduleId) {
       window.location.reload();
     }
     let scheduleId =
@@ -411,23 +353,23 @@ function ScheduleUpdate() {
   // };
 
   // update employee schedule array
-  // const updateEmployeeJobs = async (mostRecentScheduleId) => {
-  //   console.log("employees array = ", selectedEmployees);
-  //   try {
-  //     for (let i = 0; i < selectedEmployees.length; i++) {
-  //       // eslint-disable-next-line
-  //       const { data } = await updateEmployeeSchedule({
-  //         variables: {
-  //           id: selectedEmployees[i].employeeId,
-  //           schedule: mostRecentScheduleId,
-  //         },
-  //       });
-  //       console.log(data);
-  //     }
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
+  const updateEmployeeJobs = async (mostRecentScheduleId) => {
+    console.log("employees array = ", selectedEmployees);
+    try {
+      for (let i = 0; i < selectedEmployees.length; i++) {
+        // eslint-disable-next-line
+        const { data } = await updateEmployeeSchedule({
+          variables: {
+            id: selectedEmployees[i].employeeId,
+            schedule: mostRecentScheduleId,
+          },
+        });
+        console.log(data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   //SECTION RESET FORM
   // Reset the add schedule form after submission
@@ -452,37 +394,35 @@ function ScheduleUpdate() {
 
   // If all fields are populated then enable the submit button
   useEffect(() => {
+    console.log("state=", numberOfClientEmployees);
 
-    console.log('state=', numberOfClientEmployees)
+    console.log(state.trim === " Select");
+    console.log(state.trim() === "");
 
-    console.log(state.trim === " Select")
-    console.log((state.trim() === "" ))
+    console.log(state.trim === "Select" || state.trim() === "");
 
-    console.log(state.trim === "Select" || state.trim() === "" )
-
-    setAreAllFieldsFilled(
-      // true
-      // businessName.trim() === "Select" ||
-      //   numberOfClientEmployees.trim() === "Select" ||
-      // (state.trim().length === 0 || state.trim().length > 3)
-      // &&
-      // numberOfClientEmployees.length === 0
-      // &&
-      // (state.trim().length === 0 || state.trim().length > 3)
-      // && streetAddress.trim() === ""
-      // && city.trim() === ""
-      // && zip.trim() === ""
-      // && startDate.trim() === ""
-      // && endDate.trim() === ""
-      // && startTime.trim() === ""
-      // && squareFeet.trim() === ""
-      // && jobDetails.trim() === ""
-      // || employees.trim() === "Select"
-      // || selectedEmployees.length === 0
-      // || suite.trim() !== ""
-      // || endTime.trim() === ""
-    );
-    console.log('all fields = ', areAllFieldsFilled);
+    setAreAllFieldsFilled();
+    // true
+    // businessName.trim() === "Select" ||
+    //   numberOfClientEmployees.trim() === "Select" ||
+    // (state.trim().length === 0 || state.trim().length > 3)
+    // &&
+    // numberOfClientEmployees.length === 0
+    // &&
+    // (state.trim().length === 0 || state.trim().length > 3)
+    // && streetAddress.trim() === ""
+    // && city.trim() === ""
+    // && zip.trim() === ""
+    // && startDate.trim() === ""
+    // && endDate.trim() === ""
+    // && startTime.trim() === ""
+    // && squareFeet.trim() === ""
+    // && jobDetails.trim() === ""
+    // || employees.trim() === "Select"
+    // || selectedEmployees.length === 0
+    // || suite.trim() !== ""
+    // || endTime.trim() === ""
+    console.log("all fields = ", areAllFieldsFilled);
     // eslint-disable-next-line
   }, [
     // businessName,
@@ -501,6 +441,69 @@ function ScheduleUpdate() {
     // suite,
     // endTime,
   ]);
+
+  //SECTION ADD OR REMOVE SELECTED EMPLOYEE FROM PAGE
+  // set state of selectedEmployees upon load useEffect
+  // populate employee list with employees in list at the time of "select job" dropdown
+  useEffect(() => {
+    if (currentScheduleId !== "") {
+      createCurrentEmployees();
+    }
+
+    // eslint-disable-next-line
+  }, [currentScheduleId]);
+
+  const createCurrentEmployees = async () => {
+    // get employees currently assigned to a job
+    let test = await getASingleSchedule();
+
+    let currentEmployees = [];
+    currentEmployees = test.data.schedule.employees;
+
+    let temp = [];
+    for (let i = 0; i < currentEmployees.length; i++) {
+      let firstName = currentEmployees[i].firstName;
+      let lastName = currentEmployees[i].lastName;
+      let employeeId = currentEmployees[i]._id;
+
+      temp.push({ firstName, lastName, employeeId });
+    }
+
+    // setSelectedEmployees([...currentEmployees]);
+    setSelectedEmployees([...temp]);
+
+    console.log("1 = ", selectedEmployees);
+  };
+
+  const createSelectedEmployees = async (event) => {
+    if (event) {
+      let firstName =
+        event.target.options[event.target.selectedIndex].dataset.firstname;
+      let lastName =
+        event.target.options[event.target.selectedIndex].dataset.lastname;
+      let employeeId =
+        event.target.options[event.target.selectedIndex].dataset.id;
+
+      for (let i = 0; i < selectedEmployees.length; i++) {
+        if (selectedEmployees[i].employeeId === employeeId) {
+          return;
+        }
+      }
+
+      setSelectedEmployees((selectedEmployee) => [
+        ...selectedEmployees,
+        { firstName, lastName, employeeId },
+      ]);
+    }
+  };
+
+  function removeEmployee(event) {
+    let keepEmployees = selectedEmployees.filter(
+      (item) => item.employeeId !== event.target.value
+    );
+
+    setSelectedEmployees(keepEmployees);
+  }
 
   return (
     <Container>
@@ -606,7 +609,7 @@ function ScheduleUpdate() {
             defaultValue={prevScheduleData?.streetAddress}
             // onChange={handleInputChange}
             onChange={(event) => {
-              setStreetAddress(event.target.value)
+              setStreetAddress(event.target.value);
             }}
             onBlur={handleBlurChange}
             //required
@@ -634,7 +637,9 @@ function ScheduleUpdate() {
             />
           </Col>
           <Col xs={5}>
-            <Form.Label style={{ fontWeight: "bolder", marginTop:'15px' }}>State</Form.Label>
+            <Form.Label style={{ fontWeight: "bolder", marginTop: "15px" }}>
+              State
+            </Form.Label>
             <Form.Label
               className={`validation-color ${
                 showStateValidation ? "show" : "hide"
@@ -661,7 +666,9 @@ function ScheduleUpdate() {
             </Form.Control>
           </Col>
           <Col>
-            <Form.Label style={{ fontWeight: "bolder", marginTop:'15px' }}>Zipcode</Form.Label>
+            <Form.Label style={{ fontWeight: "bolder", marginTop: "15px" }}>
+              Zipcode
+            </Form.Label>
             <Form.Label
               className={`validation-color ${
                 showZipValidation ? "show" : "hide"
@@ -863,17 +870,17 @@ function ScheduleUpdate() {
 
         {/* Creates button when adding employee to job  */}
         <Form.Group className="form-length">
-        {selectedEmployees.map((employee) => (
-          <Button
-            className="m-1 p-2"
-            onClick={removeEmployee}
-            variant="primary"
-            data-id={emp._id}
-            value={employee.employeeId}
-          >
-            {`${employee.firstName} ${employee.lastName}`}
-          </Button>
-        ))}
+          {selectedEmployees.map((employee) => (
+            <Button
+              className="m-1 p-2"
+              onClick={removeEmployee}
+              variant="primary"
+              data-id={emp._id}
+              value={employee.employeeId}
+            >
+              {`${employee.firstName} ${employee.lastName}`}
+            </Button>
+          ))}
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicMessage">
