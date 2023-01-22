@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import Auth from "../../../utils/auth";
 
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
-import { QUERY_ALL_EMPLOYEES, QUERY_SINGLE_EMPLOYEE } from "../../../utils/queries";
+import {
+  QUERY_ALL_EMPLOYEES,
+  QUERY_SINGLE_EMPLOYEE,
+} from "../../../utils/queries";
 import { UPDATE_EMPLOYEE_FORM } from "../../../utils/mutations";
 
 import { Container, Form, Button } from "react-bootstrap";
@@ -89,7 +92,8 @@ function EmployeeUpdate() {
   //SECTION HANDLE SELECTED EMPLOYEE
   //set the state for the selected employee dropdown
   async function handleSelectedEmployee(event) {
-    let employeeId = event.target.options[event.target.selectedIndex].dataset.id; //get selected employee id
+    let employeeId =
+      event.target.options[event.target.selectedIndex].dataset.id; //get selected employee id
     setCurrentEmployeeId(employeeId); //set state of current id
 
     //await query single client
@@ -144,12 +148,12 @@ function EmployeeUpdate() {
 
     resetForm();
 
-    setFormIsDisabled(true);  //set form disabled = true
-    //fix 
+    setFormIsDisabled(true); //set form disabled = true
+    //fix
   };
 
   //SECTION UTILITY FUNCTIONS
-  //validation - if a suer clicks off field w/out entering text, then validation is required displays
+  //validation - if a user clicks off field w/out entering text, then validation is required displays
   const handleBlurChange = (e) => {
     const { name, value } = e.target;
 
@@ -262,7 +266,6 @@ function EmployeeUpdate() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3 form-length">
@@ -288,7 +291,6 @@ function EmployeeUpdate() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
-              required
             />
           </Form.Group>
 
@@ -317,7 +319,6 @@ function EmployeeUpdate() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
-              required
             />
           </Form.Group>
 
