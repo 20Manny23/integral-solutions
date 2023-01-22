@@ -193,10 +193,10 @@ export const UPDATE_EMPLOYEE_SCHEDULE = gql`
 `;
 
 export const UPDATE_EMPLOYEE_HOURS = gql`
-    mutation updateEmployeeHours($id: ID, $hours: String) {
-      updateEmployeeHours(_id: $id, hours: $hours) {
+    mutation updateEmployeeHours($id: ID, $hour: String) {
+      updateEmployeeHours(_id: $id, hour: $hour) {
         _id
-        hours {
+        hour {
           _id
         }
     }
@@ -495,18 +495,18 @@ export const ADD_INCIDENT = gql`
 export const ADD_HOURS = gql`
 mutation addHours(
   $workDate: String!
-  $hours: String!
-  $startTIme: String!
+  $dayHours: String!
+  $startTime: String!
   $endTime: String!
 ){
   addHours(
     workDate: $workDate
-    hours: $Hours
+    dayHours: $dayHours
     startTime: $startTime
     endTime: $endTime
   ){
     workDate
-    hours
+    dayHours
     startTime
     endTime
   }
@@ -515,16 +515,16 @@ mutation addHours(
 export const UPDATE_HOURS = gql`
   mutation updateHours(
     $id: ID!
-    $hours: String
+    $dayHours: String
     $workDate: String
   ) {
     updateHours(
       _id: $id
-      hours: $hours
+      dayHours: $dayHours
       workDate: $workDate
     ) {
       _id
-      hours
+      dayHours
       workDate
     }
   }

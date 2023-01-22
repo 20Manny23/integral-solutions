@@ -10,9 +10,9 @@
     "isManager": "true",
     "isAdmin": false,
     "isLocked": false,
-    "hours": [
+    "hour": [
       {
-      "hours": "15",
+      "dayHours": "15",
       "workDate": "2/22/2023",
       "startTime": "8:00",
       "endTime": "5:00"
@@ -33,9 +33,9 @@
     "isManager": "false",
     "isAdmin": true,
     "isLocked": false,
-    "hours": [
+    "hour": [
       {
-      "hours": "25",
+      "dayHours": "25",
       "workDate": "2/22/2023",
       "startTime": "8:00",
       "endTime": "5:00"
@@ -57,9 +57,9 @@
     "isManager": "true",
     "isAdmin": true,
     "isLocked": false,
-    "hours": [
+    "hour": [
       {
-      "hours": "20",
+      "dayHours": "20",
       "workDate": "2/22/2023",
       "startTime": "8:00",
       "endTime": "5:00"
@@ -80,9 +80,9 @@
     "isManager": "true",
     "isAdmin": true,
     "isLocked": false,
-    "hours": [
+    "hour": [
       {
-        "hours": "7",
+        "dayHours": "7",
         "workDate": "4/44/4444",
         "startTime": "8:00",
         "endTime": "5:00"
@@ -101,9 +101,9 @@
     "isManager": "true",
     "isAdmin": true,
     "isLocked": false,
-    "hours": [
+    "hour": [
       {
-      "hours": "30",
+      "dayHours": "30",
       "workDate": "2/22/2023",
       "startTime": "8:00",
       "endTime": "5:00"
