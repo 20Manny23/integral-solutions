@@ -377,7 +377,7 @@ function ScheduleUpdate() {
 
   function removeEmployee(event) {
     setOneFieldHasInput(true); //enable submit button if an employee is selected
-    
+
     let keepEmployees = selectedEmployees.filter(
       (item) => item.employeeId !== event.target.value
     );
@@ -627,9 +627,10 @@ function ScheduleUpdate() {
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
             >
-              <option>
+              {/* <option>
                 {prevScheduleData?.state ? prevScheduleData?.state : "Select"}
-              </option>
+              </option> */}
+              <option>Select</option>
               {STATE_DROPDOWN.map((st, index) => (
                 <option key={index}>{st}</option>
               ))}
@@ -827,7 +828,7 @@ function ScheduleUpdate() {
 
         <Form.Group className="form-length">
           <Form.Label style={{ fontWeight: "bolder" }}>
-            Select Employees
+            Select Employee(s)
           </Form.Label>
           <Form.Label
             className={`validation-color ${
