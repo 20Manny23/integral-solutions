@@ -14,6 +14,7 @@ import {
 
 import { format_date_string } from "../../../utils/dateFormat";
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
+import { NUMBER_OF_EMPLOYEES } from "../../../utils/numberOfEmployees";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
@@ -44,13 +45,6 @@ function ScheduleAdd() {
   function businessNameSelect(e) {
     setBusinessName(e.target.value);
   }
-
-  const numberOfEmployees = [
-    "Home Office",
-    "Less Than 50",
-    "50-99",
-    "More Than 100",
-  ];
 
   // VALIDATION
   const [showBusinessNameValidation, setShowBusinessNameValidation] =
@@ -642,7 +636,7 @@ function ScheduleAdd() {
                 onChange={handleInputChange}
               >
                 <option>Select</option>
-                {numberOfEmployees.map((emp, index) => (
+                {NUMBER_OF_EMPLOYEES.map((emp, index) => (
                   <option key={index}>{emp}</option>
                 ))}
               </Form.Control>

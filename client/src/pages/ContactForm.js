@@ -5,17 +5,12 @@ import useEmailSend from "../components/EmailSend";
 
 import Footer from "../components/Home/Footer";
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
+import { NUMBER_OF_EMPLOYEES } from "../utils/numberOfEmployees";
 
 import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
 import "../styles/Forms.css";
 
 function ContactForm() {
-  const numberOfEmployees = [
-    "Home Office",
-    "Less Than 50",
-    "50-99",
-    "More Than 100",
-  ];
   // set error state
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -476,7 +471,7 @@ function ContactForm() {
                     required
                   >
                     <option>Select</option>
-                    {numberOfEmployees.map((emp, index) => (
+                    {NUMBER_OF_EMPLOYEES.map((emp, index) => (
                       <option key={index}>{emp}</option>
                     ))}
                   </Form.Control>

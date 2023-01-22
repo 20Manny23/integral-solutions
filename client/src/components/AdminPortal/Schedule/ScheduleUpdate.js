@@ -23,6 +23,7 @@ import {
   format_date_YYYYDDMM,
 } from "../../../utils/dateFormat";
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
+import { NUMBER_OF_EMPLOYEES } from "../../../utils/numberOfEmployees";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
@@ -68,13 +69,6 @@ function ScheduleUpdate() {
   // client
   //  employees selected for job?
   const [selectJobDetails, setSelectJobDetails] = useState(false);
-
-  const numberOfEmployees = [
-    "Home Office",
-    "Less Than 50",
-    "50-99",
-    "More Than 100",
-  ];
 
   //enable/disable form
   const [formIsDisabled, setFormIsDisabled] = useState(true);
@@ -816,7 +810,7 @@ function ScheduleUpdate() {
                     ? prevScheduleData?.numberOfClientEmployees
                     : "Select"}
                 </option>
-                {numberOfEmployees.map((emp, index) => (
+                {NUMBER_OF_EMPLOYEES.map((emp, index) => (
                   <option key={index}>{emp}</option>
                 ))}
               </Form.Control>
