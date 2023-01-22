@@ -32,7 +32,7 @@
     "jobDetails": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit doloribus eius quae deleniti, iste harum excepturi.",
     "numberOfClientEmployees": "String",
     "client": "323233343536373839303132",
-    "employees": [ "6398fb54494aa98f85992da2", "6398fb54494aa98f85992da3" ]
+    "employees": [ "6398fb54494aa98f85992da2", "6398fb54494aa98f85992da3", "6498fb54494aa98f85992da5", "6398fb54494aa98f85992da4" ]
   },
   {
     "_id": "433233343536373839303132",
@@ -66,7 +66,7 @@
     "jobDetails": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit doloribus eius quae deleniti, iste harum excepturi.",
     "numberOfClientEmployees": "String",
     "client": "323233343536373839303132",
-    "employees": [ "6398fb54494aa98f85992da2", "6398fb54494aa98f85992da3" ]
+    "employees": [ "6398fb54494aa98f85992da2", "6398fb54494aa98f85992da3", "6398fb54494aa98f85992da5" ]
   },
   {
     "_id": "423233343536373839303145",

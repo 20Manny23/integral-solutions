@@ -114,7 +114,7 @@ function ScheduleUpdate() {
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
 
-  console.log('schedule = ', schedule);
+  console.log("schedule = ", schedule);
 
   //SECTION get a single job
   // eslint-disable-next-line
@@ -149,7 +149,7 @@ function ScheduleUpdate() {
     // eslint-disable-next-line
     refetch: empRefectch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
-  console.log('employees = ', emp);
+  console.log("employees = ", emp);
 
   //SECTION create a schedule/job
   // const [addSchedule] = useMutation(ADD_SCHEDULE);
@@ -238,10 +238,16 @@ function ScheduleUpdate() {
   }
 
   //SECTION SCHEDULE UPDATE
-  console.log('current selected = ', prevScheduleData);
-  console.log('current emp ids = ', prevScheduleData?.employees?.map((emp) => emp._id))
+  console.log("current selected = ", prevScheduleData);
+  console.log(
+    "current emp ids = ",
+    prevScheduleData?.employees?.map((emp) => emp._id)
+  );
   // console.log('selected emp ids = ', selectedEmployees)
-  console.log('selected emp ids = ', selectedEmployees.map(emp => emp.employeeId));
+  console.log(
+    "selected emp ids = ",
+    selectedEmployees.map((emp) => emp.employeeId)
+  );
 
   //section
   const handleScheduleUpdate = async (event) => {
@@ -301,21 +307,23 @@ function ScheduleUpdate() {
     //compare revised array with original arrray
     //section
     //create an array of current employees on the job
-    let currentJobEmployeeIds = prevScheduleData.employees.map((emp) => emp._id);
-    let selectedJobEmployeeIds = selectedEmployees.map(emp => emp.employeeId);
+    let currentJobEmployeeIds = prevScheduleData.employees.map(
+      (emp) => emp._id
+    );
+    let selectedJobEmployeeIds = selectedEmployees.map((emp) => emp.employeeId);
 
     for (let i = 0; i < selectedJobEmployeeIds.length; i++) {
       //database seems to add schedule/jobs to employee schedule array automatical but not delete; regardless we are running an add and delete from set
       if (!currentJobEmployeeIds.includes(selectedJobEmployeeIds[i])) {
-            const { data } = await updateEmployeeSchedule({
-              variables: {
-                id: selectedJobEmployeeIds[i],
-                schedule: currentScheduleId,
-              },
-            });
-            console.log(data);
+        const { data } = await updateEmployeeSchedule({
+          variables: {
+            id: selectedJobEmployeeIds[i],
+            schedule: currentScheduleId,
+          },
+        });
+        console.log(data);
       } else {
-        console.log('no')
+        console.log("no");
         // removeEmployeeSchedule
       }
     }
@@ -324,15 +332,15 @@ function ScheduleUpdate() {
     for (let i = 0; i < currentJobEmployeeIds.length; i++) {
       //database seems to add schedule/jobs to employee schedule array automatical but not delete; regardless we are running an add and delete from set
       if (!selectedJobEmployeeIds.includes(currentJobEmployeeIds[i])) {
-            const { data } = await removeEmployeeSchedule({
-              variables: {
-                id: currentJobEmployeeIds[i],
-                schedule: currentScheduleId,
-              },
-            });
-            console.log(data);
+        const { data } = await removeEmployeeSchedule({
+          variables: {
+            id: currentJobEmployeeIds[i],
+            schedule: currentScheduleId,
+          },
+        });
+        console.log(data);
       } else {
-        console.log('no 2')
+        console.log("no 2");
       }
     }
 
@@ -354,17 +362,6 @@ function ScheduleUpdate() {
     resetForm();
 
     setFormIsDisabled(true); // enable form for input
-    //fix end
-
-    //fix end
-    // refetch the list of schedules/jobs to get the most recent id added
-      let getScheduleIds = await scheduleRefetch();
-      let scheduleIdsLength = getScheduleIds.data.schedules.length - 1;
-      let mostRecentScheduleId =
-        getScheduleIds.data.schedules[scheduleIdsLength]._id;
-
-    //   updateClientJobs(mostRecentScheduleId);
-      // updateEmployeeJobs(mostRecentScheduleId);
     //fix end
   };
 
@@ -435,44 +432,6 @@ function ScheduleUpdate() {
     setSelectedEmployees(keepEmployees);
   }
 
-  // update client schedule array
-  // const updateClientJobs = async (mostRecentScheduleId) => {
-  //   try {
-  //     // eslint-disable-next-line
-  //     const { data } = await updateClientSchedule({
-  //       variables: {
-  //         id: clients?.clients
-  //           ?.filter((client) => client.businessName === businessName)
-  //           .map((id) => id._id)
-  //           .toString(), // convert client name to client._id
-  //         schedule: mostRecentScheduleId,
-  //       },
-  //     });
-  //     console.log("what data = ", data);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
-  // update employee schedule array
-  const updateEmployeeJobs = async (mostRecentScheduleId) => {
-    console.log("employees array = ", selectedEmployees);
-    try {
-      for (let i = 0; i < selectedEmployees.length; i++) {
-        // eslint-disable-next-line
-        const { data } = await updateEmployeeSchedule({
-          variables: {
-            id: selectedEmployees[i].employeeId,
-            schedule: mostRecentScheduleId,
-          },
-        });
-        console.log(data);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   //SECTION UTILITY FUNCTIONS
 
   //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
@@ -535,6 +494,7 @@ function ScheduleUpdate() {
     setNumberOfClientEmployees("");
     setClient("");
     setEmployees("");
+    setSelectedEmployees([]);
   };
 
   // If all fields are populated then enable the submit button
@@ -677,9 +637,6 @@ function ScheduleUpdate() {
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
             >
-              {/* <option>
-                {prevScheduleData?.state ? prevScheduleData?.state : "Select"}
-              </option> */}
               <option>Select</option>
               {STATE_DROPDOWN.map((st, index) => (
                 <option key={index}>{st}</option>
@@ -858,8 +815,7 @@ function ScheduleUpdate() {
                     : numberOfClientEmployees
                 } // fix
                 onChange={handleInputChange}
-
-              disabled={formIsDisabled} //fix section
+                disabled={formIsDisabled} //fix section
               >
                 {/* fix */}
                 <option>
@@ -867,7 +823,6 @@ function ScheduleUpdate() {
                     ? prevScheduleData?.numberOfClientEmployees
                     : "Select"}
                 </option>
-                {/* <option>Select</option> */}
                 {numberOfEmployees.map((emp, index) => (
                   <option key={index}>{emp}</option>
                 ))}
