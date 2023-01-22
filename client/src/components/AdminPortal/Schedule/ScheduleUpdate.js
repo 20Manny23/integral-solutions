@@ -352,6 +352,8 @@ function ScheduleUpdate() {
   };
 
   const createSelectedEmployees = async (event) => {
+    setOneFieldHasInput(true); //enable submit button if an employee is selected
+
     if (event) {
       let firstName =
         event.target.options[event.target.selectedIndex].dataset.firstname;
@@ -374,6 +376,8 @@ function ScheduleUpdate() {
   };
 
   function removeEmployee(event) {
+    setOneFieldHasInput(true); //enable submit button if an employee is selected
+    
     let keepEmployees = selectedEmployees.filter(
       (item) => item.employeeId !== event.target.value
     );
@@ -518,31 +522,6 @@ function ScheduleUpdate() {
         className="py-3 overflow-auto custom-about border border-secondary"
         style={{ alignContent: "left" }}
         onSubmit={handleScheduleUpdate}
-        // onSubmit={(event) => {
-        //   event.preventDefault();
-        //   let scheduleId = event.currentTarget.getAttribute(
-        //     "data-editscheduleid"
-        //   );
-        //   setCurrentScheduleId(scheduleId);
-        //   setCurrentInput({
-        //     businessName,
-        //     streetAddress,
-        //     // suite,
-        //     city,
-        //     state,
-        //     zip,
-        //     startDate,
-        //     endDate,
-        //     startTime,
-        //     endTime,
-        //     squareFeet,
-        //     jobDetails,
-        //     numberOfClientEmployees,
-        //     client,
-        //     employees,
-        //   });
-        //   window.location.reload();
-        // }}
       >
         <Form.Group className="form-length">
           <Form.Label style={{ fontWeight: "bolder" }}>Select Job</Form.Label>
@@ -684,7 +663,7 @@ function ScheduleUpdate() {
             <Form.Group controlId="formBasicEmail">
               <div className="form-label">
                 <Form.Label style={{ fontWeight: "bolder" }}>
-                  Job Start Date
+                  Start Date
                 </Form.Label>
 
                 <Form.Label
@@ -715,7 +694,7 @@ function ScheduleUpdate() {
             <Form.Group controlId="formBasicEmail">
               <div className="form-label">
                 <Form.Label style={{ fontWeight: "bolder" }}>
-                  Job End Date
+                  End Date
                 </Form.Label>
                 <Form.Label
                   className={`validation-color ${
@@ -828,6 +807,8 @@ function ScheduleUpdate() {
                     : numberOfClientEmployees
                 } // fix
                 onChange={handleInputChange}
+
+              disabled={formIsDisabled} //fix section
               >
                 {/* fix */}
                 <option>
@@ -846,7 +827,7 @@ function ScheduleUpdate() {
 
         <Form.Group className="form-length">
           <Form.Label style={{ fontWeight: "bolder" }}>
-            Select Employees for Job
+            Select Employees
           </Form.Label>
           <Form.Label
             className={`validation-color ${
@@ -859,16 +840,16 @@ function ScheduleUpdate() {
             as="select"
             className="custom-border"
             type="text"
-            value={"form-select"}
             name={"form-select"}
+            value={"form-select"}
             onChange={(event) => {
               createSelectedEmployees(event);
             }}
+            disabled={formIsDisabled}
             // fix
             // defaultValue={prevScheduleData?.endDate}
           >
             {/* fix */}
-            {/* <option>{prevScheduleData?.employees[0]?.firstName ? `${prevScheduleData?.employees[0].firstName} ${prevScheduleData?.employees[0].lastName}` : "Select"}</option> */}
             <option>Select</option>
             {emp?.employees?.map((emp, index) => (
               <option
