@@ -10,7 +10,7 @@ import {
 } from "../../utils/mutations";
 
 import moment from "moment";
-import { NUMBER_OF_EMPLOYEES } from "../utils/numberOfEmployees";
+import { NUMBER_OF_EMPLOYEES } from "../../utils/numberOfEmployees";
 
 import { Row, Col, Button, Form, Collapse, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
