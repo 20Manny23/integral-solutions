@@ -73,7 +73,7 @@
 
   .brand-name {
     margin: 0px;
-    font-size: 20px;
+    font-size: 30px;
   }
 
   .slogan {
@@ -125,6 +125,11 @@
 @media screen and (max-width: 280px) {
   .logo {
     display: none;
+  }
+
+  .brand-name {
+    margin: 5px;
+    font-size: 20px;
   }
 
   .navLink {
