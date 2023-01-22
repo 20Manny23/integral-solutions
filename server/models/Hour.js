@@ -4,7 +4,7 @@ const { Schema, model } = require("mongoose");
 
 const hourSchema = new Schema(
   {
-    hours: {
+    dayHours: {
         type: String,
         required: true,
       },
@@ -12,8 +12,16 @@ const hourSchema = new Schema(
         type: String,
         required: true,
     },
-    employees: {
-      type: Schema.Types.Array,
+    startTime: {
+        type: String,
+        required: true,
+    },
+    endTime: {
+        type: String,
+        required: true,
+    },
+    employee: {
+      type: Schema.Types.String,
       ref: "Employee",
     },
   },
