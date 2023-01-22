@@ -18,8 +18,9 @@ import {
 import {
   format_date_string,
   format_date_MMDDYYYY,
+  format_time_HHmmss,
+  format_date_YYYYDDMM,
 } from "../../../utils/dateFormat";
-import { format_date_YYYYDDMM } from "../../../utils/dateFormat";
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
@@ -435,9 +436,6 @@ function ScheduleUpdate() {
     name === "streetAddress" && value.trim() === ""
       ? setShowStreetAddressValidation(true)
       : setShowStreetAddressValidation(false);
-    name === "suite" && value.trim() === ""
-      ? setShowSuiteValidation(true)
-      : setShowSuiteValidation(false);
     name === "city" && value.trim() === ""
       ? setShowCityValidation(true)
       : setShowCityValidation(false);
@@ -456,9 +454,6 @@ function ScheduleUpdate() {
     name === "startTime" && value.trim() === ""
       ? setShowStartTimeValidation(true)
       : setShowStartTimeValidation(false);
-    name === "endTime" && value.trim() === ""
-      ? setShowEndTimeValidation(true)
-      : setShowEndTimeValidation(false);
     name === "squareFeet" && value.trim() === ""
       ? setShowSquareFeetValidation(true)
       : setShowSquareFeetValidation(false);
@@ -474,7 +469,6 @@ function ScheduleUpdate() {
   const resetForm = () => {
     setBusinessName("");
     setStreetAddress("");
-    setSuite("");
     setCity("");
     setState("");
     setZip("");
@@ -705,7 +699,7 @@ function ScheduleUpdate() {
                 type="date"
                 name="startDate"
                 // defaultValue={format_date_YYYYDDMM(prevScheduleData?.startDate)} //fix
-                value={selectStartDate ? prevScheduleData.startDate : startDate} // fix
+                value={selectStartDate ? format_date_YYYYDDMM(prevScheduleData.startDate) : startDate} // fix
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 //required
@@ -731,7 +725,7 @@ function ScheduleUpdate() {
                 type="date"
                 name="endDate"
                 // defaultValue={format_date_YYYYDDMM(prevScheduleData?.endDate)} //fix
-                value={selectEndDate ? prevScheduleData.endDate : endDate} // fix
+                value={selectEndDate ? format_date_YYYYDDMM(prevScheduleData.endDate) : endDate} // fix
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 //required
@@ -760,7 +754,7 @@ function ScheduleUpdate() {
                 //   prevScheduleData &&
                 //   prevScheduleData?.startTime?.slice(0, 5).toString()
                 // } //fix
-                value={selectStartTime ? prevScheduleData.startTime : startTime} // fix
+                value={selectStartTime ? format_time_HHmmss(prevScheduleData.startTime) : startTime} // fix
                 // defaultValue="13:30"
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
@@ -878,8 +872,9 @@ function ScheduleUpdate() {
 
         {/* Creates button when adding employee to job  */}
         <Form.Group className="form-length">
-          {selectedEmployees.map((employee) => (
+          {selectedEmployees.map((employee, index) => (
             <Button
+              key={index}
               className="m-1 p-2"
               onClick={removeEmployee}
               variant="primary"
