@@ -14,10 +14,10 @@ import "../../../styles/button-style.css";
 
 function EmployeeUpdate() {
   //form = input fields
-  const [email, setEmail] = useState("default");
-  const [phone, setPhone] = useState("defaults");
-  const [firstName, setFirstName] = useState("defailt");
-  const [lastName, setLastName] = useState("defatuls");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
 
   //set current employee selected
@@ -92,10 +92,17 @@ function EmployeeUpdate() {
   //SECTION HANDLE SELECTED EMPLOYEE
   //set the state for the selected employee dropdown
   async function handleSelectedEmployee(event) {
-    console.log(firstName, lastName, phone, email);
-    //fix start
-    // resetForm(); //remove all prior input form the form
+    let employeeId = event.target.options[event.target.selectedIndex].dataset.id; //get selected employee id
+    setCurrentEmployeeId(employeeId); //set state of current id
 
+    //await query single client
+    let currentEmployeeData = await getASingleEmployee(); //get selected employee data
+
+    // console.log(currentEmployeeData.data.employeeById);
+
+    setPrevEmployeeData(currentEmployeeData.data.employeeById); //set data state and rerender in form
+
+    //fix start
     // allow form to populate with selected employee data
     setSelectFirstName(true);
     setSelectLastName(true);
@@ -104,21 +111,6 @@ function EmployeeUpdate() {
 
     setFormIsDisabled(false); // enable form for input
     //fix end
-
-    console.log(firstName, lastName, phone, email);
-
-    let employeeId =
-      event.target.options[event.target.selectedIndex].dataset.id;
-    setCurrentEmployeeId(employeeId);
-
-    // setEmail(event.target.value); //fix
-
-    //await query single client
-    let currentEmployeeData = await getASingleEmployee();
-
-    setPrevEmployeeData(currentEmployeeData.data.employeeById);
-
-    resetForm();
   }
 
   //SECTION UPDATE EMPLOYEE
