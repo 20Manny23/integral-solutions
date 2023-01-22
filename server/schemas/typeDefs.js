@@ -155,7 +155,7 @@ const typeDefs = gql`
     locations: [Location]!
     location(locationId: ID!): Location
     hours: [Hour]!
-    hoursByEmployee(employeeId: ID!): [Hour]
+    getHoursByEmployee(employeeId: ID!): [Hour]
     incidents: [Incident]!
     events: [Event]!
     clients: [Client]!

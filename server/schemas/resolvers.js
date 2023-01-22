@@ -135,7 +135,7 @@ const resolvers = {
       return Hour.find().populate("employee");
     },
 
-    hoursByEmployee: async (parent, { employeeId }, context) => {
+    getHoursByEmployee: async (parent, { employeeId }, context) => {
       return Hour.find().populate("employee");
     },
 
