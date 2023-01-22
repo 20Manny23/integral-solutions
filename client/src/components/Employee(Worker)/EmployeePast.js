@@ -118,7 +118,7 @@ function Employees ({ pastOrFuture }) {
                         </Row>
                         <Row>
                           <a
-                            href={`https://www.google.com/maps/dir/?api=1&destination=${job?.streetAddress},${job?.city},${job?.state},${job?.zip}&travelmode=driving`}
+                            href={`https://www.google.com/maps/dir/?api=1&destination=${job?.streetAddress}+${job?.city}+${job?.state}+${job?.zip}&travelmode=driving`}
                             target="_blank"
                             rel="noreferrer"
                           >

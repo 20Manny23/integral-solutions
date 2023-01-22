@@ -137,7 +137,7 @@ function ScheduleList() {
 
                       <Col style={{ marginBottom: "15px", marginTop: "10px" }}>
                         <a
-                          href={`https://www.google.com/maps/dir/?api=1&destination=${job?.client?.streetAddress},${job?.client?.city},${job?.client?.state},${job?.client?.zip}&travelmode=driving`}
+                          href={`https://www.google.com/maps/dir/?api=1&destination=${job?.client?.streetAddress}+${job?.client?.city}+${job?.client?.state}+${job?.client?.zip}&travelmode=driving`}
                           target="_blank"
                           rel="noreferrer"
                         >

@@ -33,7 +33,7 @@ function GenericModal({
         </Modal.Title>
         <Modal.Body className="py-2">
           <a
-            href={`https://www.google.com/maps/dir/?api=1&destination=${schedule.streetAddress},${schedule.city},${schedule.state},${schedule.zip}&travelmode=driving`}
+            href={`https://www.google.com/maps/dir/?api=1&destination=${schedule.streetAddress}+${schedule.city}+${schedule.state}+${schedule.zip}&travelmode=driving`}
             target="_blank"
             rel="noreferrer"
           >

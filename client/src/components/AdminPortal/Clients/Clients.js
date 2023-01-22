@@ -134,7 +134,7 @@ function Clients() {
 
                         <Col className="margin-break">
                           <a
-                            href={`https://www.google.com/maps/dir/?api=1&destination=${client?.streetAddress},${client?.city},${client?.state},${client?.zip}&travelmode=driving`}
+                            href={`https://www.google.com/maps/dir/?api=1&destination=${client?.streetAddress}+${client?.city}+${client?.state}+${client?.zip}&travelmode=driving`}
                             target="_blank"
                             rel="noreferrer"
                           >
