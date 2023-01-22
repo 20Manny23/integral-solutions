@@ -303,7 +303,7 @@ function ScheduleUpdate() {
 
     resetForm();
 
-    setFormIsDisabled(false); // enable form for input
+    setFormIsDisabled(true); // enable form for input
     //fix end
 
     //fix end

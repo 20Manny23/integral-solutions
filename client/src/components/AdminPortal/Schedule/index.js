@@ -9,7 +9,7 @@ import ScheduleUpdate from "./ScheduleUpdate";
 function Schedule() {
   return (
     <Tabs
-      defaultActiveKey="calendar"
+      defaultActiveKey="scheduleUpdate"
       id="fill-tab-example"
       className="mb-3"
       fill //sizes tabs to fit available space
