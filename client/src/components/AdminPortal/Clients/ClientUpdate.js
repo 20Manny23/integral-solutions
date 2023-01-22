@@ -546,8 +546,8 @@ function ClientUpdate() {
                 <option>
                   {prevClientData?.state ? prevClientData?.state : "Select"}
                 </option>
-                {STATE_DROPDOWN.map((st) => (
-                  <option>{st}</option>
+                {STATE_DROPDOWN.map((st, index) => (
+                  <option key={index}>{st}</option>
                 ))}
               </Form.Control>
             </Col>
