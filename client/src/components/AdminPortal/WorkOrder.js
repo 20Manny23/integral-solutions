@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_SCHEDULE } from "../../utils/queries";
@@ -9,20 +9,16 @@ import {
   UPDATE_SCHEDULE,
 } from "../../utils/mutations";
 
+import moment from "moment";
+import { NUMBER_OF_EMPLOYEES } from "../utils/numberOfEmployees";
+
 import { Row, Col, Button, Form, Collapse, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import moment from "moment";
 import "../../styles/Contact.css";
 import "../../styles/button-style.css";
 import "../../styles/Forms.css";
 
 function WorkOrder() {
-  const numberOfEmployees = [
-    "Home Office",
-    "Less Than 50",
-    "50-99",
-    "More Than 100",
-  ];
   const [open, setOpen] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
 
@@ -733,7 +729,7 @@ function WorkOrder() {
                     onChange={handleInputChange}
                   >
                     <option>Select</option>
-                    {numberOfEmployees.map((emp, index) => (
+                    {NUMBER_OF_EMPLOYEES.map((emp, index) => (
                       <option
                         key={index}
                         // value={emp}

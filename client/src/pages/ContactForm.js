@@ -5,17 +5,12 @@ import useEmailSend from "../components/EmailSend";
 
 import Footer from "../components/Home/Footer";
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
+import { NUMBER_OF_EMPLOYEES } from "../utils/numberOfEmployees";
 
 import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
 import "../styles/Forms.css";
 
 function ContactForm() {
-  const numberOfEmployees = [
-    "Home Office",
-    "Less Than 50",
-    "50-99",
-    "More Than 100",
-  ];
   // set error state
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -163,31 +158,31 @@ function ContactForm() {
 
     // console.log("handlesubmit");
 
-    // if (
-    //   !companyName ||
-    //   !contactName ||
-    //   !emailAddress ||
-    //   !startDate ||
-    //   !jobDetails
-    // ) {
-    //   setErrorMessage("Please fill in all required fields *");
-    //   return;
-    // }
+    if (
+      !companyName ||
+      !contactName ||
+      !emailAddress ||
+      !startDate ||
+      !jobDetails
+    ) {
+      setErrorMessage("Please fill in all required fields *");
+      return;
+    }
 
-    // if (!state) {
-    //   setErrorMessage("Please choose a state");
-    //   return;
-    // }
+    if (!state) {
+      setErrorMessage("Please choose a state");
+      return;
+    }
 
-    // if (!employeeNumber) {
-    //   setErrorMessage("Please choose a number of employees");
-    //   return;
-    // }
+    if (!employeeNumber) {
+      setErrorMessage("Please choose a number of employees");
+      return;
+    }
 
-    // if (!services.length) {
-    //   setErrorMessage("Please choose at least one service");
-    //   return;
-    // }
+    if (!services.length) {
+      setErrorMessage("Please choose at least one service");
+      return;
+    }
 
     setEmailContent({
       source: "contactUs",
@@ -209,19 +204,19 @@ function ContactForm() {
     // console.log('submit 2 = ', emailContent);
 
     // set state back to empty form
-    // setCompanyName("");
-    // setContactName("");
-    // setPhoneNumber("");
-    // setEmailAddress("");
-    // setAddress("");
-    // setCity("");
-    // setState("");
-    // setZip("");
-    // setSquareFeet("");
-    // setEmployeeNumber("");
-    // setStartDate("");
-    // setJobDetails("");
-    // setServices([]);
+    setCompanyName("");
+    setContactName("");
+    setPhoneNumber("");
+    setEmailAddress("");
+    setAddress("");
+    setCity("");
+    setState("");
+    setZip("");
+    setSquareFeet("");
+    setEmployeeNumber("");
+    setStartDate("");
+    setJobDetails("");
+    setServices([]);
   };
 
   return (
@@ -232,6 +227,11 @@ function ContactForm() {
       >
         {/* media queries for contact form are in navbar.css */}
         <Container className="">
+          {errorMessage && (
+            <Alert className="form-alert" variant="danger">
+              <p className="error-text">{errorMessage}</p>
+            </Alert>
+          )}
           <Form
             className="py-3 overflow-auto custom-about"
             onSubmit={handleSubmit}
@@ -356,7 +356,10 @@ function ContactForm() {
               />
             </Form.Group>
 
-            <Row className="addy" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
+            <Row
+              className="addy"
+              style={{ paddingLeft: "0px", paddingRight: "0px" }}
+            >
               <Col sm={12} md={5}>
                 <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
                 <Form.Label
@@ -468,7 +471,7 @@ function ContactForm() {
                     required
                   >
                     <option>Select</option>
-                    {numberOfEmployees.map((emp, index) => (
+                    {NUMBER_OF_EMPLOYEES.map((emp, index) => (
                       <option key={index}>{emp}</option>
                     ))}
                   </Form.Control>
@@ -517,7 +520,11 @@ function ContactForm() {
 
               {/* <div className="d-flex justify-content-between"> */}
               {["checkbox"].map((type) => (
-                <div key={`inline-${type}`} className="mb-3 d-flex justify-content-around flex-wrap" style={{ textAlign: "left" }}>
+                <div
+                  key={`inline-${type}`}
+                  className="mb-3 d-flex justify-content-around flex-wrap"
+                  style={{ textAlign: "left" }}
+                >
                   <Form.Check
                     style={{ width: "250px" }}
                     label="Delivery"
@@ -568,98 +575,6 @@ function ContactForm() {
               ))}
               {/* </div> */}
             </Form.Group>
-
-            {/* <Form.Group 
-                  className="mb-3" 
-                  controlId="formBasicName"
-                  >
-                  <Form.Label
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      fontWeight: "bolder",
-                    }}
-                  >
-                    Services Needed
-                  </Form.Label>
-                  {["checkbox"].map((type) => (
-                    <div key={`inline-${type}`} className="mb-3">
-                      <Form.Check
-                        inline
-                        label="Delivery"
-                        name="services"
-                        value="Delivery"
-                        type={type}
-                        id={`inline-${type}-1`}
-                        onChange={handleChange}
-                        onBlur={handleBlurChange}
-                      />
-                      <Form.Check
-                        inline
-                        label="Furniture Installation"
-                        name="services"
-                        value="Furniture Installation"
-                        type={type}
-                        id={`inline-${type}-1`}
-                        onChange={handleChange}
-                      />
-                      <Form.Check
-                        inline
-                        label="Moving an Office"
-                        name="services"
-                        value="Moving an Office"
-                        type={type}
-                        id={`inline-${type}-2`}
-                        onChange={handleChange}
-                      />
-                      <Form.Check
-                        inline
-                        label="Office Reconfiguration"
-                        name="services"
-                        value="Office Reconfiguration"
-                        type={type}
-                        id={`inline-${type}-3`}
-                        onChange={handleChange}
-                      />
-                      <Form.Check
-                        inline
-                        name="services"
-                        label="Cleaning after Installation"
-                        value="Cleaning after Installation"
-                        type={type}
-                        id={`inline-${type}-4`}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  ))}
-                </Form.Group> */}
-
-            {/* <Form.Group className="mb-3" controlId="formBasicMessage">
-                  <div className="form-label">
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      Job Details
-                    </Form.Label>
-                    <Form.Label
-                      className={`text-danger ${
-                        showJobDetailsValidation ? "show" : "hide"
-                      }`}
-                    >
-                      * field is required
-                    </Form.Label>
-                  </div>
-                  <Form.Control
-                    className="custom-border"
-                    as="textarea"
-                    rows={4}
-                    type="textarea"
-                    placeholder="Enter additional information here."
-                    name="body"
-                    onChange={handleChange}
-                    onBlur={handleBlurChange}
-                    required
-                  />
-                </Form.Group> */}
-
             <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
               <div className="form-label">
                 <Form.Label style={{ fontWeight: "bolder" }}>
@@ -696,11 +611,11 @@ function ContactForm() {
             </Button>
           </Form>
 
-          {errorMessage && (
+          {/* {errorMessage && (
             <Alert className="form-alert" variant="danger">
               <p className="error-text">{errorMessage}</p>
             </Alert>
-          )}
+          )} */}
         </Container>
       </div>
       <Footer />
