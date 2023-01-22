@@ -11,7 +11,8 @@ function EmployeesList() {
       defaultActiveKey="employeeUpdate"
       id="fill-tab-example"
       className="mb-3"
-      fill
+      fill //sizes tabs to fit available space
+      unmountOnExit //removes content when entering a different tab
     >
       <Tab eventKey="employeeList" title="Employee List">
         <Employees />
