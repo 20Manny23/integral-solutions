@@ -8,7 +8,7 @@ import ClientUpdate from "./ClientUpdate";
 function AdminClient() {
   return (
     <Tabs
-      defaultActiveKey="clientList"
+      defaultActiveKey="clientUpdate"
       id="fill-tab-example"
       className="mb-3"
       fill //sizes tabs to fit available space
