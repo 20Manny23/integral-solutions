@@ -57,7 +57,7 @@ function Clients() {
       setOpenDetails(true);
     }
   };
-
+console.log(clients);
   return (
     <>
       <Container>

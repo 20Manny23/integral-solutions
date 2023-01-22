@@ -151,20 +151,12 @@ function App() {
               <Route
                 exact
                 path="/forgotpassword"
-                element={
-                  <ForgotPassword
-                    renderPanel={"forgotpassword"}
-                  />
-                }
+                element={<ForgotPassword renderPanel={"forgotpassword"} />}
               />
               <Route
                 exact
                 path="/resetpassword/:token"
-                element={
-                  <ResetPassword
-                    renderPanel={"resetpassword"}
-                  />
-                }
+                element={<ResetPassword renderPanel={"resetpassword"} />}
               />
               <Route path="*" element={<WrongPage />} />
             </Routes>
@@ -221,11 +213,7 @@ function App() {
                 <Route
                   exact
                   path="/forgotpassword"
-                  element={
-                    <ForgotPassword
-                      renderPanel={"forgotpassword"}
-                    />
-                  }
+                  element={<ForgotPassword renderPanel={"forgotpassword"} />}
                 />
               )}
               {Auth.isAdmin() && !Auth.isLocked() && (
@@ -310,15 +298,11 @@ function App() {
               {Auth.isLocked() === false && (
                 <Route
                   exact
-                  // shouldRevalidate={({ currentUrl }) => {
-                  //   // only revalidate if the submission originates from
-                  //   // the `/meal-plans/new` route.
-                  //   return currentUrl.pathname === "/past";}}
                   path="/employee"
                   element={
                     <EmployeePortal
                       renderPanel={"employee"}
-                      pastOrFuture= {"future"}
+                      pastOrFuture={"future"}
                       calendarButtonIsActive={true}
                       addemployeeButtonIsActive={true}
                       clientlistButtonIsActive={false}
@@ -333,13 +317,6 @@ function App() {
               {Auth.isLocked() === false && (
                 <Route
                   exact
-                  
-
-                  // shouldRevalidate={({ currentUrl }) => {
-                  //   // only revalidate if the submission originates from
-                  //   // the `/meal-plans/new` route.
-                  //   return currentUrl.pathname === "/employee";}}
-                  
                   path="/past"
                   element={
                     <EmployeePortal
@@ -356,7 +333,7 @@ function App() {
                   }
                 />
               )}
-                    {Auth.isLocked() === false && (
+              {Auth.isLocked() === false && (
                 <Route
                   exact
                   path="/hoursadmin"
@@ -382,7 +359,6 @@ function App() {
                   element={
                     <EmployeePortal
                       renderPanel={"hours"}
-                      
                       hoursButtonIsActive={true}
                       calendarButtonIsActive={false}
                       addemployeeButtonIsActive={false}
@@ -392,7 +368,6 @@ function App() {
                       clientListButtonIsActive={false}
                       adminMockButtonIsActive={false}
                       hoursAdminButtonIsActive={false}
-
                     />
                   }
                 />

@@ -117,6 +117,7 @@ const resolvers = {
 
       return Employee.findOne({ _id }).populate({
         path: "schedule",
+        
         populate: { path: "client" },
       });
       // }
@@ -136,6 +137,7 @@ const resolvers = {
     },
 
     getHoursByEmployee: async (parent, { employeeId }, context) => {
+      console.log(employeeId)
       return Hour.findOne({_id: employeeId}).populate("employee");
     },
 
