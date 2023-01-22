@@ -34,6 +34,7 @@ const typeDefs = gql`
     dayHours: String
     startTime: String
     endTime: String
+    employee: Employee
   }
 
   type Message {
@@ -317,19 +318,19 @@ const typeDefs = gql`
     toggleLocked(employeeId: ID!): Message
 
     addHours(
-      _id: ID
-      hour: String
+      dayHours: String
       workDate: String
       startTime: String
       endTime: String
+      employee: String
     ): Hour
 
     updateHours(
-      _id: ID
       hour: String
       workDate: String
       startTime: String
       endTime: String
+      employee: String
     ): Hour
 
     updateEmployeeHours(
