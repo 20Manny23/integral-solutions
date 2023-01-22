@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
+
 function Employees() {
   const [openDetails, setOpenDetails] = useState(false);
 
@@ -111,13 +112,21 @@ function Employees() {
     }
   };
 
-
-
+  let arrayForSort =[]
+  if(emp){
+    
+    arrayForSort = [...emp.employees]
+  arrayForSort.sort(function(a, b){
+    if(a.lastName.toLowerCase() < b.lastName.toLowerCase()) return -1;
+    if(a.lastName.toLowerCase() > b.lastName.toLowerCase()) return 1;
+    return 0;
+  })
+  }
 
   return (
     <Container>
       <Row style={{ display: "flex", justifyContent: "center" }}>
-        {emp?.employees?.map((emp, index) => (
+        {arrayForSort?.map((emp, index) => (
           <div id="accordion" key={index} style={{ width: "98%" }}>
             <div className="card p-2 mb-1">
               <div

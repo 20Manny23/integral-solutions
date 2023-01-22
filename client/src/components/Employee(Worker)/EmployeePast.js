@@ -69,10 +69,12 @@ function Employees ({ pastOrFuture }) {
 
   if (loading) {
     return (
+      
       <div className="d-flex justify-content-center">
         <div className="lds-hourglass"></div>
       </div>
     );
+    
   } else {
     return (
       <>

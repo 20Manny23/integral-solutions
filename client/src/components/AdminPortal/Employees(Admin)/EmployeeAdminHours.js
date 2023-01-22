@@ -25,16 +25,7 @@ function EmployeeAdminHours() {
 
   } = useQuery(QUERY_ALL_EMPLOYEES);
 
-  const {
-    loading: hoursLoad,
-    data: hours,
-    error: hoursError,
-    refetch: hoursRefetch,
-
-  } = useQuery(QUERY_ALL_EMPLOYEES);
-
-console.log(emp)
-
+  
   // SECTION HANDLE COLLAPSE
   const getElement = (event) => {
     let currentAvailTarget = event.currentTarget.getAttribute("data-target");
