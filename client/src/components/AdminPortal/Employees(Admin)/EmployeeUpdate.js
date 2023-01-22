@@ -92,7 +92,7 @@ function EmployeeUpdate() {
   //SECTION HANDLE SELECTED EMPLOYEE
   //set the state for the selected employee dropdown
   async function handleSelectedEmployee(event) {
-    console.log(firstName, lastName, phone, email)
+    console.log(firstName, lastName, phone, email);
     //fix start
     // resetForm(); //remove all prior input form the form
 
@@ -105,7 +105,7 @@ function EmployeeUpdate() {
     setFormIsDisabled(false); // enable form for input
     //fix end
 
-    console.log(firstName, lastName, phone, email)
+    console.log(firstName, lastName, phone, email);
 
     let employeeId =
       event.target.options[event.target.selectedIndex].dataset.id;

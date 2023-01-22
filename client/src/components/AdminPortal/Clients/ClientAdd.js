@@ -363,8 +363,8 @@ function ClientAdd() {
                 // required
               >
                 <option>Select</option>
-                {STATE_DROPDOWN.map((st) => (
-                  <option>{st}</option>
+                {STATE_DROPDOWN.map((st, index) => (
+                  <option key={index}>{st}</option>
                 ))}
               </Form.Control>
             </Col>
