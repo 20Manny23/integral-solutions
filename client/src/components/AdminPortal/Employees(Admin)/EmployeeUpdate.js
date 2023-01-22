@@ -153,7 +153,7 @@ function EmployeeUpdate() {
   };
 
   //SECTION UTILITY FUNCTIONS
-  //validation - if a suer clicks off field w/out entering text, then validation is required displays
+  //validation - if a user clicks off field w/out entering text, then validation is required displays
   const handleBlurChange = (e) => {
     const { name, value } = e.target;
 
