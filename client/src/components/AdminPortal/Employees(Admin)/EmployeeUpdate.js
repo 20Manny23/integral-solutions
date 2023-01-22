@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import Auth from "../../../utils/auth";
 
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
-import {
-  QUERY_ALL_EMPLOYEES,
-  QUERY_SINGLE_EMPLOYEE,
-} from "../../../utils/queries";
+import { QUERY_ALL_EMPLOYEES, QUERY_SINGLE_EMPLOYEE } from "../../../utils/queries";
 import { UPDATE_EMPLOYEE_FORM } from "../../../utils/mutations";
 
 import { Container, Form, Button } from "react-bootstrap";
@@ -20,7 +17,7 @@ function EmployeeUpdate() {
   const [lastName, setLastName] = useState("");
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
 
-  //set current employee selected
+  //set selected employee
   // const [currentEmployee, setCurrentEmployee] = useState("");
   const [currentEmployeeId, setCurrentEmployeeId] = useState("");
   // const [currentInput, setCurrentInput] = useState({});
@@ -43,15 +40,16 @@ function EmployeeUpdate() {
     useState(false);
 
   //SECTION GET ALL EMPLOYEES
-  // eslint-disable-next-line
   const {
+    // eslint-disable-next-line
     loading: empLoad,
     data: emp,
+    // eslint-disable-next-line
     error: empError,
     refetch: empRefetch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
 
-  //SECTION get a single employee Query
+  //SECTION get a single employee
   // eslint-disable-next-line
   const [getASingleEmployee, { loading: lazyLoading, data: singleEmployee }] =
     useLazyQuery(QUERY_SINGLE_EMPLOYEE, {
@@ -63,17 +61,16 @@ function EmployeeUpdate() {
       },
     });
 
-  //mutation to update employee databse record
+  // SECTION UPDATE EMPLOYEE IN DATABASE
   const [updateEmployee] = useMutation(UPDATE_EMPLOYEE_FORM);
 
   //SECTION HANDLE INPUT
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    // console.log(e)
 
     if (name === "firstName") {
       setFirstName(value); //capture input on the form
-      setSelectFirstName(false); //allows value property to accept input
+      setSelectFirstName(false); //allows value property to accept input //fix
     } else if (name === "lastName") {
       setLastName(value);
       setSelectLastName(false);
@@ -100,7 +97,7 @@ function EmployeeUpdate() {
 
     // console.log(currentEmployeeData.data.employeeById);
 
-    setPrevEmployeeData(currentEmployeeData.data.employeeById); //set data state and rerender in form
+    setPrevEmployeeData(currentEmployeeData?.data?.employeeById); //set data state and rerender in form
 
     //fix start
     // allow form to populate with selected employee data
@@ -113,7 +110,7 @@ function EmployeeUpdate() {
     //fix end
   }
 
-  //SECTION UPDATE EMPLOYEE
+  //SECTION EMPLOYEE UPDATE
   const handleEmployeeUpdate = async (event) => {
     event.preventDefault();
 
@@ -138,19 +135,21 @@ function EmployeeUpdate() {
     }
 
     empRefetch();
-
-    setSelectFirstName(false); //fix
+    //fix
+    // allow form to populate with selected client data
+    setSelectFirstName(false);
     setSelectLastName(false);
     setSelectPhone(false);
     setSelectEmail(false);
 
-    resetForm(); // fix
+    resetForm();
 
-    setFormIsDisabled(true); //fix //set form disabled = true
+    setFormIsDisabled(true);  //set form disabled = true
+    //fix 
   };
 
   //SECTION UTILITY FUNCTIONS
-  //validation
+  //validation - if a suer clicks off field w/out entering text, then validation is required displays
   const handleBlurChange = (e) => {
     const { name, value } = e.target;
 
@@ -212,13 +211,13 @@ function EmployeeUpdate() {
         <div id="example-collapse-text">
           <Form.Group className="form-length">
             <Form.Label style={{ fontWeight: "bolder" }}>
-              Select Client (to populate below)
+              Select Client
             </Form.Label>
             <Form.Control
               as="select"
               className="custom-border"
               type="text"
-              placeholder="Select Client"
+              placeholder="Select Employee"
               // value={"form-select" || ""}
               name={"form-select" || ""}
               onChange={handleSelectedEmployee}
@@ -260,7 +259,6 @@ function EmployeeUpdate() {
               name="firstName"
               // defaultValue={prevEmployeeData?.firstName} //fix
               value={selectFirstName ? prevEmployeeData.firstName : firstName} // fix
-              // value={firstName} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
@@ -287,7 +285,6 @@ function EmployeeUpdate() {
               name="lastName"
               // defaultValue={prevEmployeeData?.lastName} //fix
               value={selectLastName ? prevEmployeeData.lastName : lastName} // fix
-              // value={lastName} // fix
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}

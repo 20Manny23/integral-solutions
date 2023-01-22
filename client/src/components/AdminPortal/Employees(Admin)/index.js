@@ -8,7 +8,7 @@ import EmployeeUpdate from "./EmployeeUpdate"
 function EmployeesList() {
   return (
     <Tabs
-      defaultActiveKey="employeeUpdate"
+      defaultActiveKey="employeeList"
       id="fill-tab-example"
       className="mb-3"
       fill //sizes tabs to fit available space
