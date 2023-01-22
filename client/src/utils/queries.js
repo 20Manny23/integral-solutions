@@ -126,8 +126,10 @@ export const QUERY_ALL_EMPLOYEES = gql`
       isLocked
       password
       hours {
-        hours
+        dayHours
         workDate
+        startTime
+        endTime
       }
       schedule {
         startDate
@@ -162,8 +164,10 @@ export const QUERY_SINGLE_EMPLOYEE = gql`
       isLocked
       password
       hours {
-        hours
+        dayHours
         workDate
+        startTime
+        endTime
       }
     }
   }
