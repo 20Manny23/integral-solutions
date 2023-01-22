@@ -20,8 +20,8 @@ const hourSchema = new Schema(
         type: String,
         required: true,
     },
-    employees: {
-      type: Schema.Types.Array,
+    employee: {
+      type: Schema.Types.String,
       ref: "Employee",
     },
   },
