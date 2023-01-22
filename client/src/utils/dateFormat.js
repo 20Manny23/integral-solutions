@@ -3,11 +3,10 @@ const moment = require("moment");
 const format_date_string = (date, time) => {
   // FROM: "01/19/2023" & Time similar to "09:00 AM"
   // TO: January 29 2023 09:00:00 (MST)
+
   const dateAndTime = date + " " + time;
   const tempdate = moment(dateAndTime).format("MMMM DD YYYY hh:mm:ss");
   const stringDateFormat = tempdate + " (MST)";
-
-  // console.log(correctDateFormat);
 
   return stringDateFormat;
 };
@@ -22,8 +21,6 @@ const format_date_MMDDYYYY = (date) => {
     dateMMDDYYYY = new Date(date).toDateString();
   }
 
-  // console.log(new Date(date).toDateString());
-
   return dateMMDDYYYY;
 };
 const format_date_MMDD = (date) => {
@@ -35,7 +32,6 @@ const format_date_MMDD = (date) => {
   return dateMMDD;
 };
 const format_date_no_hyphen = (date) => {
-
   const newDate = moment(date).format("dddd, MMM DD YYYY")
   return newDate
 }
@@ -50,19 +46,33 @@ const format_date_YYYYDDMM = (date) => {
     dateYYYYDDMM = new Date(date).toLocaleDateString("en-CA").toString();
   }
 
-  // console.log(new Date(date).toDateString());
-  // console.log(dateYYYYDDMM);
-
   return dateYYYYDDMM;
-
 };
+
+const format_time_HHmmss = (time) => {
+  // FROM: "08:00:00 (MST)"
+  // TO: "HH:mm:ss"
+
+  let time_HHmmss;
+
+  if (time) {
+    time_HHmmss = time.substring(0, 8);
+  }
+  
+  console.log(time_HHmmss);
+
+  return time_HHmmss;
+};
+
+// The specified value "08:00:00 (MST)" does not conform to the required format.  The format is "HH:mm", "HH:mm:ss" or "HH:mm:ss.SSS" where HH is 00-23, mm is 00-59, ss is 00-59, and SSS is 000-999.
 
 module.exports = {
   format_date_string,
   format_date_MMDDYYYY,
   format_date_YYYYDDMM,
   format_date_MMDD,
-  format_date_no_hyphen
+  format_date_no_hyphen,
+  format_time_HHmmss,
 };
 
   // if (date) {

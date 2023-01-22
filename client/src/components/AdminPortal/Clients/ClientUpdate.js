@@ -248,7 +248,7 @@ function ClientUpdate() {
 
   //enable submit button = if input is added to at least one input field
   useEffect(() => {
-    setOneFieldHasInput(
+    setOneFieldHasInput (
       businessName.trim() !== "" ||
         contact.trim() !== "" ||
         phone.trim() !== "" ||
@@ -266,7 +266,7 @@ function ClientUpdate() {
     phone,
     email,
     streetAddress,
-    // suite,
+    suite,
     city,
     state,
     zip,
