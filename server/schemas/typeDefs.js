@@ -155,8 +155,6 @@ const typeDefs = gql`
     me(_id: ID!): User
     locations: [Location]!
     location(locationId: ID!): Location
-    hours: [Hour]!
-    getHoursByEmployee(employeeId: ID!): [Hour]
     incidents: [Incident]!
     events: [Event]!
     clients: [Client]!
@@ -166,6 +164,8 @@ const typeDefs = gql`
     employeeById(_id: ID!): Employee
     schedules: [Schedule]
     schedule(scheduleId: ID!): Schedule
+    hours: [Hour]!
+    hoursByEmployee(employeeId: ID!): [Hour]
   }
 
   # SECTION SEND EMAILS
