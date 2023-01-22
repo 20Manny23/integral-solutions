@@ -59,7 +59,7 @@ const format_time_HHmmss = (time) => {
     time_HHmmss = time.substring(0, 8);
   }
   
-  console.log(time_HHmmss);
+  // console.log(time_HHmmss);
 
   return time_HHmmss;
 };
