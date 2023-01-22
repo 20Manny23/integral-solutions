@@ -135,6 +135,10 @@ const resolvers = {
       return Hour.find().populate("employee");
     },
 
+    getHoursByEmployee: async (parent, { employeeId }, context) => {
+      return Hour.find().populate("employee");
+    },
+
 
     schedules: async (parent, args, context) => {
       // if (context.user) {
@@ -456,13 +460,18 @@ const resolvers = {
       {
         _id,
         hours,
-        workDate },
+        workDate,
+        startTime,
+        endTime
+      },
       context) => {
       const hour = await Hour.create({
         hours,
         workDate,
+        startTime,
+        endTime
       });
-      return { hours, workDate };
+      return { hour, workDate };
     },
 
     deleteHours: async (parent, { _id }, context) => {
@@ -613,12 +622,12 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    updateEmployeeHours: async (parent, { _id, hours, workDate }, context) => {
-      console.log("RESOLVER FOR UPDATE EMPLOYEE HOURS", _id, hours, workDate)
+    updateEmployeeHours: async (parent, { _id, hours }, context) => {
+      console.log("RESOLVER FOR UPDATE EMPLOYEE HOURS", _id, hours)
       return Employee.findOneAndUpdate(
         { _id },
         {
-          $addToSet: { hours, workDate },
+          $addToSet: { hours },
         },
         { new: true }
       );

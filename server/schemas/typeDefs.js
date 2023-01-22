@@ -32,7 +32,8 @@ const typeDefs = gql`
     _id: ID
     workDate: String
     hours: String
-    
+    startTime: String
+    endTime: String
   }
 
   type Message {
@@ -154,6 +155,7 @@ const typeDefs = gql`
     locations: [Location]!
     location(locationId: ID!): Location
     hours: [Hour]!
+    getHoursByEmployee(employeeId: ID!): [Hour]
     incidents: [Incident]!
     events: [Event]!
     clients: [Client]!
@@ -318,18 +320,21 @@ const typeDefs = gql`
       _id: ID
       hours: String
       workDate: String
+      startTime: String
+      endTime: String
     ): Hour
 
     updateHours(
       _id: ID
       hours: String
       workDate: String
+      startTime: String
+      endTime: String
     ): Hour
 
     updateEmployeeHours(
       _id: ID
       hours: String
-      workDate: String
     ) : Employee
 
     deleteHours (_id: ID!): Hour
