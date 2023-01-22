@@ -114,7 +114,7 @@ function ScheduleUpdate() {
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
 
-  console.log("schedule = ", schedule);
+  // console.log("schedule = ", schedule);
 
   //SECTION get a single job
   // eslint-disable-next-line
@@ -149,7 +149,7 @@ function ScheduleUpdate() {
     // eslint-disable-next-line
     refetch: empRefectch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
-  console.log("employees = ", emp);
+  // console.log("employees = ", emp);
 
   //SECTION create a schedule/job
   // const [addSchedule] = useMutation(ADD_SCHEDULE);
@@ -238,16 +238,16 @@ function ScheduleUpdate() {
   }
 
   //SECTION SCHEDULE UPDATE
-  console.log("current selected = ", prevScheduleData);
-  console.log(
-    "current emp ids = ",
-    prevScheduleData?.employees?.map((emp) => emp._id)
-  );
+  // console.log("current selected = ", prevScheduleData);
+  // console.log(
+  // "current emp ids = ",
+  //   prevScheduleData?.employees?.map((emp) => emp._id)
+  // );
   // console.log('selected emp ids = ', selectedEmployees)
-  console.log(
-    "selected emp ids = ",
-    selectedEmployees.map((emp) => emp.employeeId)
-  );
+  // console.log(
+  //   "selected emp ids = ",
+  //   selectedEmployees.map((emp) => emp.employeeId)
+  // );
 
   //section
   const handleScheduleUpdate = async (event) => {
@@ -305,7 +305,7 @@ function ScheduleUpdate() {
 
     //loop to determine adds and deletes
     //compare revised array with original arrray
-    //section
+    //SECTION UPDATE EMPLOYEE SCHEDULE ARRAY - ADD OR DELETE
     //create an array of current employees on the job
     let currentJobEmployeeIds = prevScheduleData.employees.map(
       (emp) => emp._id
@@ -313,7 +313,6 @@ function ScheduleUpdate() {
     let selectedJobEmployeeIds = selectedEmployees.map((emp) => emp.employeeId);
 
     for (let i = 0; i < selectedJobEmployeeIds.length; i++) {
-      //database seems to add schedule/jobs to employee schedule array automatical but not delete; regardless we are running an add and delete from set
       if (!currentJobEmployeeIds.includes(selectedJobEmployeeIds[i])) {
         const { data } = await updateEmployeeSchedule({
           variables: {
@@ -321,16 +320,12 @@ function ScheduleUpdate() {
             schedule: currentScheduleId,
           },
         });
-        console.log(data);
-      } else {
-        console.log("no");
-        // removeEmployeeSchedule
+        // console.log(data);
       }
     }
 
-    //if selected employee ids does not include an id, remove it from the database
+    //if selected employee ids does not include an id in the original array/database, remove it from the database
     for (let i = 0; i < currentJobEmployeeIds.length; i++) {
-      //database seems to add schedule/jobs to employee schedule array automatical but not delete; regardless we are running an add and delete from set
       if (!selectedJobEmployeeIds.includes(currentJobEmployeeIds[i])) {
         const { data } = await removeEmployeeSchedule({
           variables: {
@@ -338,9 +333,7 @@ function ScheduleUpdate() {
             schedule: currentScheduleId,
           },
         });
-        console.log(data);
-      } else {
-        console.log("no 2");
+        // console.log(data);
       }
     }
 
@@ -395,7 +388,7 @@ function ScheduleUpdate() {
     // setSelectedEmployees([...currentEmployees]);
     setSelectedEmployees([...temp]);
 
-    console.log("1 = ", selectedEmployees);
+    // console.log("1 = ", selectedEmployees);
   };
 
   const createSelectedEmployees = async (event) => {
