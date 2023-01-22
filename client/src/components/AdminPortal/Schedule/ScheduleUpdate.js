@@ -12,6 +12,7 @@ import {
   // ADD_SCHEDULE,
   UPDATE_CLIENT_SCHEDULE,
   UPDATE_EMPLOYEE_SCHEDULE,
+  REMOVE_EMPLOYEE_SCHEDULE,
   UPDATE_SCHEDULE,
 } from "../../../utils/mutations";
 
@@ -79,8 +80,8 @@ function ScheduleUpdate() {
   const [formIsDisabled, setFormIsDisabled] = useState(true);
 
   //validation
-  const [showBusinessNameValidation, setShowBusinessNameValidation] =
-    useState(false);
+  // const [showBusinessNameValidation, setShowBusinessNameValidation] =
+  //   useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
   const [showCityValidation, setShowCityValidation] = useState(false);
@@ -97,7 +98,7 @@ function ScheduleUpdate() {
     showNumberOfClientEmployeesValidation,
     setShowNumberOfClientEmployeesValidation,
   ] = useState(false);
-  const [showClientValidation, setShowClientValidation] = useState(false);
+  // const [showClientValidation, setShowClientValidation] = useState(false);
   const [showSelectedEmployeesValidation, setShowSelectedEmployeesValidation] =
     useState(false);
 
@@ -112,6 +113,8 @@ function ScheduleUpdate() {
     // eslint-disable-next-line
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
+
+  console.log('schedule = ', schedule);
 
   //SECTION get a single job
   // eslint-disable-next-line
@@ -136,7 +139,7 @@ function ScheduleUpdate() {
     refetch: clientsRefetch,
   } = useQuery(QUERY_ALL_CLIENTS);
 
-  //SECTION get employees for dropdown
+  //SECTION get employees for dropdown & to add/remove schedule/jobs from employee schedule array
   const {
     // eslint-disable-next-line
     loading: empLoad,
@@ -146,6 +149,7 @@ function ScheduleUpdate() {
     // eslint-disable-next-line
     refetch: empRefectch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
+  console.log('employees = ', emp);
 
   //SECTION create a schedule/job
   // const [addSchedule] = useMutation(ADD_SCHEDULE);
@@ -158,6 +162,7 @@ function ScheduleUpdate() {
 
   //SECTION add new schedule / job to the appropriate employee(s)
   const [updateEmployeeSchedule] = useMutation(UPDATE_EMPLOYEE_SCHEDULE);
+  const [removeEmployeeSchedule] = useMutation(REMOVE_EMPLOYEE_SCHEDULE);
 
   //SECTION HANDLE INPUT //fix
   const handleInputChange = (event) => {
@@ -233,6 +238,12 @@ function ScheduleUpdate() {
   }
 
   //SECTION SCHEDULE UPDATE
+  console.log('current selected = ', prevScheduleData);
+  console.log('current emp ids = ', prevScheduleData?.employees?.map((emp) => emp._id))
+  // console.log('selected emp ids = ', selectedEmployees)
+  console.log('selected emp ids = ', selectedEmployees.map(emp => emp.employeeId));
+
+  //section
   const handleScheduleUpdate = async (event) => {
     event.preventDefault();
 
@@ -286,6 +297,45 @@ function ScheduleUpdate() {
       console.log(err);
     }
 
+    //loop to determine adds and deletes
+    //compare revised array with original arrray
+    //section
+    //create an array of current employees on the job
+    let currentJobEmployeeIds = prevScheduleData.employees.map((emp) => emp._id);
+    let selectedJobEmployeeIds = selectedEmployees.map(emp => emp.employeeId);
+
+    for (let i = 0; i < selectedJobEmployeeIds.length; i++) {
+      //database seems to add schedule/jobs to employee schedule array automatical but not delete; regardless we are running an add and delete from set
+      if (!currentJobEmployeeIds.includes(selectedJobEmployeeIds[i])) {
+            const { data } = await updateEmployeeSchedule({
+              variables: {
+                id: selectedJobEmployeeIds[i],
+                schedule: currentScheduleId,
+              },
+            });
+            console.log(data);
+      } else {
+        console.log('no')
+        // removeEmployeeSchedule
+      }
+    }
+
+    //if selected employee ids does not include an id, remove it from the database
+    for (let i = 0; i < currentJobEmployeeIds.length; i++) {
+      //database seems to add schedule/jobs to employee schedule array automatical but not delete; regardless we are running an add and delete from set
+      if (!selectedJobEmployeeIds.includes(currentJobEmployeeIds[i])) {
+            const { data } = await removeEmployeeSchedule({
+              variables: {
+                id: currentJobEmployeeIds[i],
+                schedule: currentScheduleId,
+              },
+            });
+            console.log(data);
+      } else {
+        console.log('no 2')
+      }
+    }
+
     scheduleRefetch();
 
     //fix start
@@ -307,14 +357,14 @@ function ScheduleUpdate() {
     //fix end
 
     //fix end
-    // // refetch the list of schedules/jobs to get the most recent id added
-    //   let getScheduleIds = await scheduleRefetch();
-    //   let scheduleIdsLength = getScheduleIds.data.schedules.length - 1;
-    //   let mostRecentScheduleId =
-    //     getScheduleIds.data.schedules[scheduleIdsLength]._id;
+    // refetch the list of schedules/jobs to get the most recent id added
+      let getScheduleIds = await scheduleRefetch();
+      let scheduleIdsLength = getScheduleIds.data.schedules.length - 1;
+      let mostRecentScheduleId =
+        getScheduleIds.data.schedules[scheduleIdsLength]._id;
 
     //   updateClientJobs(mostRecentScheduleId);
-    //   updateEmployeeJobs(mostRecentScheduleId);
+      // updateEmployeeJobs(mostRecentScheduleId);
     //fix end
   };
 
@@ -405,38 +455,38 @@ function ScheduleUpdate() {
   // };
 
   // update employee schedule array
-  // const updateEmployeeJobs = async (mostRecentScheduleId) => {
-  //   console.log("employees array = ", selectedEmployees);
-  //   try {
-  //     for (let i = 0; i < selectedEmployees.length; i++) {
-  //       // eslint-disable-next-line
-  //       const { data } = await updateEmployeeSchedule({
-  //         variables: {
-  //           id: selectedEmployees[i].employeeId,
-  //           schedule: mostRecentScheduleId,
-  //         },
-  //       });
-  //       console.log(data);
-  //     }
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
+  const updateEmployeeJobs = async (mostRecentScheduleId) => {
+    console.log("employees array = ", selectedEmployees);
+    try {
+      for (let i = 0; i < selectedEmployees.length; i++) {
+        // eslint-disable-next-line
+        const { data } = await updateEmployeeSchedule({
+          variables: {
+            id: selectedEmployees[i].employeeId,
+            schedule: mostRecentScheduleId,
+          },
+        });
+        console.log(data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   //SECTION UTILITY FUNCTIONS
 
   //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
-  function businessNameSelect(event) {
-    setBusinessName(event.target.value);
-  }
+  // function businessNameSelect(event) {
+  //   setBusinessName(event.target.value); //fix don't think this is necessary
+  // }
 
   //validation - if a user clicks off field w/out entering text, then validation is required displays
   const handleBlurChange = (e) => {
     const { name, value } = e.target;
 
-    name === "businessName" && value.trim() === ""
-      ? setShowBusinessNameValidation(true)
-      : setShowBusinessNameValidation(false);
+    // name === "businessName" && value.trim() === ""
+    //   ? setShowBusinessNameValidation(true)
+    //   : setShowBusinessNameValidation(false);
     name === "streetAddress" && value.trim() === ""
       ? setShowStreetAddressValidation(true)
       : setShowStreetAddressValidation(false);
@@ -847,8 +897,6 @@ function ScheduleUpdate() {
               createSelectedEmployees(event);
             }}
             disabled={formIsDisabled}
-            // fix
-            // defaultValue={prevScheduleData?.endDate}
           >
             {/* fix */}
             <option>Select</option>

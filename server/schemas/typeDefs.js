@@ -168,7 +168,9 @@ const typeDefs = gql`
     schedule(scheduleId: ID!): Schedule
   }
 
+  # SECTION SEND EMAILS
   type Query {
+    # should be able to delete this query
     sendEmailContactUs(
       companyName: String
       contactName: String    
@@ -184,9 +186,8 @@ const typeDefs = gql`
       jobDetails: String
       services: [String]
     ): String 
-  }
 
-  type Query {
+    # send email via SendGrid
     sendEmail(    
       toEmail: String
       fromEmail: String
@@ -197,7 +198,9 @@ const typeDefs = gql`
   }
 
   type Mutation {
+    # SECTION LOGIN & RESET PASSWORD
     login(email: String!, password: String!): Auth
+
     forgotPassword(email: String!, password: String!): Auth
 
     updatePassword(
@@ -205,37 +208,7 @@ const typeDefs = gql`
       password: String
     ): Employee
 
-    addUser(email: String!, password: String!): Auth
-    deleteUser(_id: ID!): User
-    updateAvailability(
-      _id: ID!
-      mondayAm: Boolean
-      mondayPm: Boolean
-      tuesdayAm: Boolean
-      tuesdayPm: Boolean
-      wednesdayAm: Boolean
-      wednesdayPm: Boolean
-      thursdayAm: Boolean
-      thursdayPm: Boolean
-      fridayAm: Boolean
-      fridayPm: Boolean
-      saturdayAm: Boolean
-      saturdayPm: Boolean
-      sundayAm: Boolean
-      sundayPm: Boolean
-    ): User
-
-    addIncident(
-      employeeName: String!
-      locationName: String!
-      employeePhone: String!
-      subject: String!
-      urgent: String!
-      incidentDetails: String!
-    ): Incident
-
-    deleteIncident(_id: ID!): Incident
-
+    # SECTION CLIENT
     addClient(
       businessName: String
       streetAddress: String
@@ -268,6 +241,7 @@ const typeDefs = gql`
       schedule: String
     ): Client
 
+    # SECTION EMPLOYEE
     addEmployee(
       email: String
       password: String
@@ -313,10 +287,16 @@ const typeDefs = gql`
       schedule: String
     ): Employee
 
+    removeEmployeeSchedule(
+      _id: ID
+      schedule: String
+    ): Employee
+
     toggleAdmin(employeeId: ID!): Message
 
     toggleLocked(employeeId: ID!): Message
 
+    # SECTION HOURS
     addHours(
       dayHours: String
       workDate: String
@@ -340,6 +320,7 @@ const typeDefs = gql`
 
     deleteHours (_id: ID!): Hour
 
+    # SECTION SCHEDULE / JOB
     addSchedule(
       _id: ID
       streetAddress: String
@@ -377,6 +358,39 @@ const typeDefs = gql`
       client: String
       employees: [String]
     ): Schedule
+
+    # SECTION LEGACY
+    addUser(email: String!, password: String!): Auth
+    deleteUser(_id: ID!): User
+
+    updateAvailability(
+      _id: ID!
+      mondayAm: Boolean
+      mondayPm: Boolean
+      tuesdayAm: Boolean
+      tuesdayPm: Boolean
+      wednesdayAm: Boolean
+      wednesdayPm: Boolean
+      thursdayAm: Boolean
+      thursdayPm: Boolean
+      fridayAm: Boolean
+      fridayPm: Boolean
+      saturdayAm: Boolean
+      saturdayPm: Boolean
+      sundayAm: Boolean
+      sundayPm: Boolean
+    ): User
+
+    addIncident(
+      employeeName: String!
+      locationName: String!
+      employeePhone: String!
+      subject: String!
+      urgent: String!
+      incidentDetails: String!
+    ): Incident
+
+    deleteIncident(_id: ID!): Incident
   }
 `;
 

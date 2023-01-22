@@ -457,6 +457,8 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
+    // SECTION HOURS
+
     addHours: async (
       parent,
       {
@@ -633,18 +635,21 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    updateEmployeeHours: async (parent, { _id, hours }, context) => {
-      console.log("RESOLVER FOR UPDATE EMPLOYEE HOURS", _id, hours)
+    // removes job/schedule from the employee schedule array
+    removeEmployeeSchedule: async (parent, { _id, schedule }, context) => {
+      // if (context.user) {
+      console.log("resolver update employee schedule = ", _id, schedule);
       return Employee.findOneAndUpdate(
         { _id },
         {
-          $addToSet: { hours },
+          $pull: { schedule },
         },
         { new: true }
       );
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
     },
 
-    // SECTION TOGGLE RESOLVERS
     // toggleAdmin mutation that returns a success/fail message
     toggleAdmin: async (parent, { employeeId }) => {
       let message = "No such user exists";
@@ -687,6 +692,16 @@ const resolvers = {
       return { message, employee };
     },
 
+    updateEmployeeHours: async (parent, { _id, hours }, context) => {
+      console.log("RESOLVER FOR UPDATE EMPLOYEE HOURS", _id, hours)
+      return Employee.findOneAndUpdate(
+        { _id },
+        {
+          $addToSet: { hours },
+        },
+        { new: true }
+      );
+    },
 
     // SECTION SCHEDULE
     addSchedule: async (
