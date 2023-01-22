@@ -310,11 +310,15 @@ function App() {
               {Auth.isLocked() === false && (
                 <Route
                   exact
+                  // shouldRevalidate={({ currentUrl }) => {
+                  //   // only revalidate if the submission originates from
+                  //   // the `/meal-plans/new` route.
+                  //   return currentUrl.pathname === "/past";}}
                   path="/employee"
                   element={
                     <EmployeePortal
                       renderPanel={"employee"}
-                      
+                      pastOrFuture= {"future"}
                       calendarButtonIsActive={true}
                       addemployeeButtonIsActive={true}
                       clientlistButtonIsActive={false}
@@ -329,11 +333,18 @@ function App() {
               {Auth.isLocked() === false && (
                 <Route
                   exact
+                  
+
+                  // shouldRevalidate={({ currentUrl }) => {
+                  //   // only revalidate if the submission originates from
+                  //   // the `/meal-plans/new` route.
+                  //   return currentUrl.pathname === "/employee";}}
+                  
                   path="/past"
                   element={
                     <EmployeePortal
                       renderPanel={"past"}
-                      
+                      pastOrFuture={"past"}
                       calendarButtonIsActive={false}
                       addemployeeButtonIsActive={false}
                       clientlistButtonIsActive={true}
@@ -371,6 +382,7 @@ function App() {
                   element={
                     <EmployeePortal
                       renderPanel={"hours"}
+                      
                       hoursButtonIsActive={true}
                       calendarButtonIsActive={false}
                       addemployeeButtonIsActive={false}

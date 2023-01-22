@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Auth from "../../utils/auth";
 
 import { getUserId } from "../../utils/getUserId";
@@ -10,10 +10,13 @@ import { format_date_MMDDYYYY } from "../../utils/dateFormat";
 import { Row, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getClippingParents } from "@fullcalendar/react";
 
-function Employees() {
+function Employees({pastOrFuture}) {
   const [open, setOpen] = useState(false);
   const [schedule, setSchedule] = useState([]);
+  const [past, setPast] = useState([]);
+  const[future, setFuture] = useState([]);
 
   // get id for logged in employee
   const userId = getUserId();
@@ -27,8 +30,11 @@ function Employees() {
 
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
+      
+        refetch()
+      
       const todayDate = Date.now();
-      const past = [];
+      console.log(pastOrFuture)
 
       for (let i = 0; i < data?.employeeById?.schedule?.length; i++) {
         const date = new Date(data?.employeeById?.schedule[i].startDate);
@@ -37,14 +43,35 @@ function Employees() {
         if (jobDate < todayDate) {
           past.push(data?.employeeById?.schedule[i]);
         }
+        else{
+          future.push(data?.employeeById?.schedule[i])
+        }
       }
 
-      setSchedule(past);
+
     },
+    
   });
 
+useEffect (() => {
+
+  if(pastOrFuture === "past"  ){
+    setSchedule(past);
+   
+  }
+
+},[pastOrFuture])
+useEffect (() => {
+  console.log('useeffect')
+  if(pastOrFuture === "future"  ){
+    setSchedule(future);
+  
+  }
+
+},[pastOrFuture])
+ 
   if (loading) {
-    // console.log(loading); // need to add a spinner
+    
   } else {
     return (
       <>

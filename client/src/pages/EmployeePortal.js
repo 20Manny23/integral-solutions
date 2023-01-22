@@ -19,6 +19,7 @@ import "../styles/spinner.css";
 
 const EmployeePortal = ({
   renderPanel,
+  pastOrFuture,
   // calendarButtonIsActive,
   // workorderButtonIsActive,
   addemployeeButtonIsActive,
@@ -105,9 +106,9 @@ const EmployeePortal = ({
               </div>
 
               {renderPanel === "employee" ? (
-                <EmployeeFuture />
+                <EmployeePast pastOrFuture= "future"/>
               ) : renderPanel === "past" ? (
-                <EmployeePast />
+                <EmployeePast pastOrFuture= "past"/>
               ) : renderPanel === "hours" ? (
                 <EmployeeHours />
                 ) : renderPanel === "hoursadmin" ? (
