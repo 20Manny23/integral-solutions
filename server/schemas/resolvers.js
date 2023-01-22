@@ -458,20 +458,27 @@ const resolvers = {
     addHours: async (
       parent,
       {
-        _id,
         dayHours,
         workDate,
         startTime,
-        endTime
+        endTime,
+        employee
       },
       context) => {
       const hour = await Hour.create({
         dayHours,
         workDate,
         startTime,
-        endTime
+        endTime,
+        employee
       });
-      return { hour, workDate };
+      return { 
+        dayHours, 
+        workDate, 
+        startTime, 
+        endTime, 
+        employee 
+      };
     },
 
     deleteHours: async (parent, { _id }, context) => {

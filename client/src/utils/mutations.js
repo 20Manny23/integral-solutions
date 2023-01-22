@@ -498,17 +498,20 @@ mutation addHours(
   $dayHours: String!
   $startTime: String!
   $endTime: String!
-){
+  $employee: String!
+) {
   addHours(
     workDate: $workDate
     dayHours: $dayHours
     startTime: $startTime
     endTime: $endTime
+    employee: $employee
   ){
     workDate
     dayHours
     startTime
     endTime
+    employee
   }
 }`;
 
