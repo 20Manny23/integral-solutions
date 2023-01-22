@@ -26,7 +26,7 @@ const typeDefs = gql`
     isAdmin: Boolean
     isLocked: Boolean
     schedule: [Schedule]
-    hour: [Hour]
+    hours: [Hour]
   }
   type Hour {
     _id: ID
@@ -297,7 +297,7 @@ const typeDefs = gql`
       isAdmin: Boolean
       isLocked: Boolean
       schedule: String
-      hour: String
+      hours: String
     ): Employee
 
     updateEmployeeForm(
@@ -326,7 +326,7 @@ const typeDefs = gql`
     ): Hour
 
     updateHours(
-      hour: String
+      dayHours: String
       workDate: String
       startTime: String
       endTime: String
@@ -335,7 +335,7 @@ const typeDefs = gql`
 
     updateEmployeeHours(
       _id: ID
-      hour: String
+      hours: String
     ) : Employee
 
     deleteHours (_id: ID!): Hour
