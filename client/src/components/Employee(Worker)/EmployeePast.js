@@ -10,7 +10,6 @@ import { format_date_MMDDYYYY } from "../../utils/dateFormat";
 import { Row, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getClippingParents } from "@fullcalendar/react";
 import "../../styles/calendar.css";
 
 function Employees ({ pastOrFuture }) {

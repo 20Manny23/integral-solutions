@@ -14,7 +14,7 @@ import { UPDATE_EMPLOYEE_HOURS } from "../../utils/mutations";
 // import { UPDATE_HOURS } from "../../utils/mutations";
 
 import "../../styles/hours.css";
-import moment from "moment"
+import moment from "moment";
 
 function EmployeeHours() {
   // set up state for form data
@@ -25,7 +25,7 @@ function EmployeeHours() {
 
   // const [currentEmployeeId, setCurrentEmployeeId] = useState("")
 
-  // const [getASingleEmployee, { loading, data }] = 
+  // const [getASingleEmployee, { loading, data }] =
   // useQuery(QUERY_SINGLE_EMPLOYEE, {
   //   variables: { id: currentEmployeeId },
   //   skip: !Auth.loggedin(),
@@ -43,22 +43,20 @@ function EmployeeHours() {
   };
 
   // const [updateEmployeeHours] = useMutation(UPDATE_EMPLOYEE_HOURS);
-  
 
   const handleHoursSubmit = async (event) => {
     event.preventDefault();
 
-    // console.log(event.currentTarget.date.value); -- This will get the date 
-    const startingTime = moment(event.currentTarget.startTime.value, 'HH:mm');
-    const endingTime = moment(event.currentTarget.endTime.value, 'HH:mm');
+    // console.log(event.currentTarget.date.value); -- This will get the date
+    const startingTime = moment(event.currentTarget.startTime.value, "HH:mm");
+    const endingTime = moment(event.currentTarget.endTime.value, "HH:mm");
     if (startingTime < endingTime) {
-      const duration = moment.duration(endingTime.diff(startingTime))
-      const hours = parseInt(duration.asMinutes()) / 60
-      const roundedHours = hours.toFixed(2)
-      await setDayTotal(roundedHours)
-    }
-    else {
-      alert("Please make sure your start time is before your end time. ")
+      const duration = moment.duration(endingTime.diff(startingTime));
+      const hours = parseInt(duration.asMinutes()) / 60;
+      const roundedHours = hours.toFixed(2);
+      await setDayTotal(roundedHours);
+    } else {
+      alert("Please make sure your start time is before your end time. ");
     }
     // console.log(hours);
 
@@ -91,7 +89,7 @@ function EmployeeHours() {
     }
   };
 
-  console.log(dayTotal)
+  console.log(dayTotal);
   return (
     <>
       <Container>
@@ -100,12 +98,8 @@ function EmployeeHours() {
             Current Week
           </span>
           {thisWeek.map((date, index) => (
-            <div
-              id="accordion"
-              key={index}
-              style={{ width: "25%"}}
-            >
-              <Row >
+            <div id="accordion" key={index} style={{ width: "25%" }}>
+              <Row>
                 <button
                   className="btn btn-link pl-1"
                   style={{
@@ -124,17 +118,22 @@ function EmployeeHours() {
               </Row>
               <Collapse>
                 <div id={`#collapseTarget-${index}`}>
-                  <Form style={{ width: "40vw" }}
-                    onSubmit={handleHoursSubmit}>
+                  <Form style={{ width: "40vw" }} onSubmit={handleHoursSubmit}>
                     <Row>
-                      <Col sm={12} md={5} style={{ marginBottom: "-15px"}}>
-                        <Form.Group controlId="formBasicEmail" style={{ padding: "10px",marginLeft: "-40px", marginRight: "20px"}}>
+                      <Col sm={12} md={5} style={{ marginBottom: "-15px" }}>
+                        <Form.Group
+                          controlId="formBasicEmail"
+                          style={{
+                            padding: "10px",
+                            marginLeft: "-40px",
+                            marginRight: "20px",
+                          }}
+                        >
                           {/* <div className="form-label"> */}
-                            <Form.Label style={{ fontWeight: "bolder" }}>
-                              Start Time
-                            </Form.Label>
+                          <Form.Label style={{ fontWeight: "bolder" }}>
+                            Start Time
+                          </Form.Label>
                           {/* </div> */}
-
                           <Form.Control
                             className="custom-border"
                             type="time"
@@ -147,12 +146,19 @@ function EmployeeHours() {
                         </Form.Group>
                       </Col>
 
-                      <Col sm={12} md={5} style={{ marginBottom: "-10px"}}>
-                        <Form.Group controlId="formBasicEmail" style={{ padding: "10px", marginLeft: "-40px", marginRight: "20px"}}>
+                      <Col sm={12} md={5} style={{ marginBottom: "-10px" }}>
+                        <Form.Group
+                          controlId="formBasicEmail"
+                          style={{
+                            padding: "10px",
+                            marginLeft: "-40px",
+                            marginRight: "20px",
+                          }}
+                        >
                           {/* <div className="form-label"> */}
-                            <Form.Label style={{ fontWeight: "bolder" }}>
-                              End Time
-                            </Form.Label>
+                          <Form.Label style={{ fontWeight: "bolder" }}>
+                            End Time
+                          </Form.Label>
                           {/* </div> */}
                           <Form.Control
                             className="custom-border"
@@ -168,28 +174,31 @@ function EmployeeHours() {
                     </Row>
                     {/* <br></br> */}
                     <Row>
-                    <Col sm={12} md={4} style={{ marginBottom: "5px", maginLeft: "-10%"}}>
-                    <Button
-                      className="button-custom submit-button-style mr-1 shadow rounded-lg border-secondary"
-                      type="submit"
-                      name="date"
-                      value={date.date}
-                      
-                    >
-                      Submit Hours
-                    </Button>
-                    </Col>
+                      <Col
+                        sm={12}
+                        md={4}
+                        style={{ marginBottom: "5px", maginLeft: "-10%" }}
+                      >
+                        <Button
+                          className="button-custom submit-button-style mr-1 shadow rounded-lg border-secondary"
+                          type="submit"
+                          name="date"
+                          value={date.date}
+                        >
+                          Submit Hours
+                        </Button>
+                      </Col>
                     </Row>
                   </Form>
                   <br></br>
                   <Row className="mr-4 total">Day's Total: {dayTotal} </Row>
                 </div>
               </Collapse>
-          
+
               <hr></hr>
             </div>
           ))}
-          <Row>Weekly Total: { }</Row>
+          <Row>Weekly Total: {}</Row>
         </Row>
       </Container>
       <hr></hr>
@@ -216,10 +225,10 @@ function EmployeeHours() {
                 {lastWeek.map((date, index) => (
                   <div id="accordion" key={index} style={{ width: "70%" }}>
                     {date.day} {date.date}
-                    <Row>Hours worked: { }</Row>
+                    <Row>Hours worked: {}</Row>
                   </div>
                 ))}
-                <Row>Weekly Total: { }</Row>
+                <Row>Weekly Total: {}</Row>
               </Row>
             </div>
           </Collapse>
