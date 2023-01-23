@@ -38,9 +38,6 @@ const FullCalendarApp = () => {
   const [renderCalendar, setRenderCalendar] = useState(false);
   const previousValue = useRef(null);
 
-  // query events
-  //fix
-
   // eslint-disable-next-line
   const {
     // eslint-disable-next-line
@@ -53,6 +50,7 @@ const FullCalendarApp = () => {
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
 
+  // eslint-disable-next-line
   const [getASingleSchedule, { loading: lazyLoading, data: singleSchedule }] =
     useLazyQuery(QUERY_SINGLE_SCHEDULE, {
       variables: { scheduleId: currentScheduleId },
