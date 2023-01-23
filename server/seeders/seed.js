@@ -5,8 +5,8 @@ const { Client } = require("../models");
 const clientSeeds = require("./clientSeeds.json");
 const { Employee } = require("../models");
 const employeeSeeds = require("./employeeSeeds.json");
-const { Hour } = require("../models")
-const hourSeeds = require("./hourSeeds.json")
+const { Hour } = require("../models");
+const hourSeeds = require("./hourSeeds.json");
 
 db.once("open", async () => {
   try {

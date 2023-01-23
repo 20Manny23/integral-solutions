@@ -1,5 +1,5 @@
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 
 import Clients from "./Clients";
 import ClientAdd from "./ClientAdd";
@@ -18,7 +18,7 @@ function AdminClient() {
         <Clients />
       </Tab>
       <Tab eventKey="clientAdd" title="Add New Client">
-       <ClientAdd />
+        <ClientAdd />
       </Tab>
       <Tab eventKey="clientUpdate" title="Update Client">
         <ClientUpdate />

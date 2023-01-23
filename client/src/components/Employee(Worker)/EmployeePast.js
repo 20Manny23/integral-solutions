@@ -12,7 +12,7 @@ import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/calendar.css";
 
-function Employees ({ pastOrFuture }) {
+function Employees({ pastOrFuture }) {
   const [open, setOpen] = useState(false);
   const [schedule, setSchedule] = useState([]);
   const [past, setPast] = useState([]);
@@ -31,50 +31,41 @@ function Employees ({ pastOrFuture }) {
 
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
-    
-
       const todayDate = Date.now();
-    
 
       for (let i = 0; i < data?.employeeById?.schedule?.length; i++) {
         const date = new Date(data?.employeeById?.schedule[i].startDate);
         const jobDate = date.getTime();
 
         if (jobDate < todayDate) {
-          setPast([...past,data?.employeeById?.schedule[i]]);
+          setPast([...past, data?.employeeById?.schedule[i]]);
         } else {
           setFuture([...future, data?.employeeById?.schedule[i]]);
         }
       }
     },
-    
   });
-  
+
   useEffect(() => {
     if (pastOrFuture === "past") {
       setSchedule(past);
     }
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [pastOrFuture, data]);
 
   useEffect(() => {
     if (pastOrFuture === "future") {
-      
       setSchedule(future);
     }
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [pastOrFuture, data]);
-
-
 
   if (loading) {
     return (
-      
       <div className="d-flex justify-content-center">
         <div className="lds-hourglass"></div>
       </div>
     );
-    
   } else {
     return (
       <>

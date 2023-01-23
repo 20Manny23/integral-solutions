@@ -119,7 +119,7 @@ function ClientUpdate() {
       setSelectZip(false);
     } else {
       console.log("Error in form input at ClientUpdate.js");
-    };
+    }
     return name;
   };
 
@@ -248,7 +248,7 @@ function ClientUpdate() {
 
   //enable submit button = if input is added to at least one input field
   useEffect(() => {
-    setOneFieldHasInput (
+    setOneFieldHasInput(
       businessName.trim() !== "" ||
         contact.trim() !== "" ||
         phone.trim() !== "" ||

@@ -202,9 +202,7 @@ function EmployeeUpdate() {
       >
         <div id="example-collapse-text">
           <Form.Group className="form-length">
-            <Form.Label style={{ fontWeight: "bolder" }}>
-              Select
-            </Form.Label>
+            <Form.Label style={{ fontWeight: "bolder" }}>Select</Form.Label>
             <Form.Control
               as="select"
               className="custom-border"

@@ -10,4 +10,3 @@ const format_phone = (phone) => {
 // console.log(phoneFormatted);
 
 module.exports = format_phone;
-

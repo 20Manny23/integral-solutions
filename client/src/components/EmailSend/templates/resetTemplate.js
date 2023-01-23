@@ -9,7 +9,6 @@ export const FROM_EMAIL = "callasteven@gmail.com";
 // SENDGRID RECOMMENDS INCLUDING A TEXT VERSION AS A BACKUP IF HTML ISN'T ACCEPTED
 // export const reset_text_template = (tokenURL, firstName) => {
 export const reset_text_template = (props, tinyURI = "blank", normalURL) => {
-
   // console.log(props, 'tinyURI = ', tinyURI, normalURL);
 
   const template = `Hello ${props.firstName},
@@ -29,7 +28,6 @@ export const reset_text_template = (props, tinyURI = "blank", normalURL) => {
 // DEFAULT HTML TEMPLATE WILL BE USED BY MOST BUT NOT ALL PLATFORMS
 // export const reset_html_template = (tokenURL, firstName) => {
 export const reset_html_template = (props, tinyURI, normalURL) => {
-  
   // console.log(props, 'tinyURI = ', tinyURI, normalURL);
 
   const template = `<p>Hello ${props.firstName},</p>
@@ -37,7 +35,9 @@ export const reset_html_template = (props, tinyURI, normalURL) => {
   <p>Click on the link below to create a new password:</p>
 
   <p>
-    <a style="background-color: #1a73e8; padding: 10px 20px; color: white; text-decoration:none;font-size:14px; font-family:Roboto,sans-serif;border-radius:5px" href= ${tinyURI ? tinyURI : normalURL}
+    <a style="background-color: #1a73e8; padding: 10px 20px; color: white; text-decoration:none;font-size:14px; font-family:Roboto,sans-serif;border-radius:5px" href= ${
+      tinyURI ? tinyURI : normalURL
+    }
     >
       Click Here
     </a>

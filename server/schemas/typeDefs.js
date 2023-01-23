@@ -95,7 +95,7 @@ const typeDefs = gql`
     # should be able to delete this query
     sendEmailContactUs(
       companyName: String
-      contactName: String    
+      contactName: String
       phoneNumber: String
       emailAddress: String
       address: String
@@ -107,16 +107,16 @@ const typeDefs = gql`
       startDate: String
       jobDetails: String
       services: [String]
-    ): String 
+    ): String
 
     # send email via SendGrid
-    sendEmail(    
+    sendEmail(
       toEmail: String
       fromEmail: String
       subject: String
       textContent: String
-      htmlContent: String  
-    ): String 
+      htmlContent: String
+    ): String
   }
 
   type Mutation {
@@ -125,10 +125,7 @@ const typeDefs = gql`
 
     forgotPassword(email: String!, password: String!): Auth
 
-    updatePassword(
-      _id: ID
-      password: String
-    ): Employee
+    updatePassword(_id: ID, password: String): Employee
 
     # SECTION CLIENT
     addClient(
@@ -158,10 +155,7 @@ const typeDefs = gql`
       email: String
     ): Client
 
-    updateClientSchedule(
-      _id: ID
-      schedule: String
-    ): Client
+    updateClientSchedule(_id: ID, schedule: String): Client
 
     # SECTION EMPLOYEE
     addEmployee(
@@ -174,10 +168,7 @@ const typeDefs = gql`
       isLocked: Boolean
     ): Employee
 
-    signupEmployee(
-      email: String
-      password: String
-    ): Auth
+    signupEmployee(email: String, password: String): Auth
 
     deleteEmployee(_id: ID!): Employee
 
@@ -202,15 +193,9 @@ const typeDefs = gql`
       phone: String
     ): Employee
 
-    updateEmployeeSchedule(
-      _id: ID
-      schedule: String
-    ): Employee
+    updateEmployeeSchedule(_id: ID, schedule: String): Employee
 
-    removeEmployeeSchedule(
-      _id: ID
-      schedule: String
-    ): Employee
+    removeEmployeeSchedule(_id: ID, schedule: String): Employee
 
     toggleAdmin(employeeId: ID!): Message
 
@@ -233,12 +218,9 @@ const typeDefs = gql`
       employee: String
     ): Hour
 
-    updateEmployeeHours(
-      _id: ID
-      hours: String
-    ) : Employee
+    updateEmployeeHours(_id: ID, hours: String): Employee
 
-    deleteHours (_id: ID!): Hour
+    deleteHours(_id: ID!): Hour
 
     # SECTION SCHEDULE / JOB
     addSchedule(
@@ -260,7 +242,7 @@ const typeDefs = gql`
     ): Schedule
 
     deleteSchedule(_id: ID!): Schedule
-    
+
     updateSchedule(
       _id: ID
       streetAddress: String
@@ -278,7 +260,6 @@ const typeDefs = gql`
       client: String
       employees: [String]
     ): Schedule
-
   }
 `;
 

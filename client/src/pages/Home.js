@@ -57,7 +57,7 @@ const Home = () => {
       <section>
         <p className="service-title">Services We Offer</p>
       </section>
-      
+
       <Container>
         <Row>
           <Col className="d-flex justify-content-center mb-2">

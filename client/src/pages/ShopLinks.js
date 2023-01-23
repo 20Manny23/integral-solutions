@@ -19,7 +19,11 @@ function ShopLinks() {
               target={"_blank"}
               rel="noreferrer"
             >
-              <img className="company-logos" src={steelcase} alt="Steelcase"></img>
+              <img
+                className="company-logos"
+                src={steelcase}
+                alt="Steelcase"
+              ></img>
             </a>
           </Col>
           <Col className="d-flex justify-content-center" md={6} lg={3} sm={6}>
@@ -66,7 +70,9 @@ function ShopLinks() {
         </Row>
       </Container>
       <div className="head">
-        <h1 className="d-flex justify-content-center oval-text">The Best Office Furniture at Competitive Prices!!</h1>
+        <h1 className="d-flex justify-content-center oval-text">
+          The Best Office Furniture at Competitive Prices!!
+        </h1>
         <h2 className="oval-subtext">We Work Directly with these Suppliers!</h2>
       </div>
 
