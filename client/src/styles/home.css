@@ -3,6 +3,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   width: 100%;
+  min-width: 280px;
 }
 
 .overlay-box {

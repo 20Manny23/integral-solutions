@@ -1,162 +1,89 @@
-.bk-img {
-  background-image: url("../assets/images/office.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  width: 100%;
-}
-
-.overlay-box {
-  width: 500px;
-  margin: 8px 8px 50px 35px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  color: white;
-  background-color: #0d2e4f;
-  border-radius: 5px;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-  border: 1px solid black;
-}
-
-.overlay-header {
-  padding-top: 14px;
-  margin-bottom: 0;
-  font-size: 37px;
-  font-weight: bolder;
-  text-align: center;
-}
-
-.overlay-sub-header {
-  font-size: 16px;
-  padding: 14px;
-}
-
-.service-title {
-  padding: 10px 0 10px 0;
-  font-size: 35px;
-  color: white;
-  background-color: #0d2e4f;
-  text-align: center;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-}
-
-.contact-btn {
-  margin-left: 15px;
-  background-color: #0d2e4f;
-}
-
-.card-body {
-  padding: 15px 0 5px 0;
-  text-align: center;
-}
-
 footer {
+  min-width: 280px;
+  padding: 0px 15px 0px 15px;
   background-color: #0d2e4f;
   color: white;
   border-top: 1px solid black;
 }
 
-logo-container {
+.footer-title {
+  margin: 15px 0px 10px 0px;
+  padding: 0px 15px 0px 15px;
+  text-align: center;
+  font-style: italic;
+}
+
+.footer-container {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  /* flex-wrap: wrap; */
 }
 
 .full-logo {
   height: 150px;
+  /* width: 150px; */
   padding-right: 0px;
 }
 
-.footer-title {
-  margin-bottom: 10px;
-  margin-top: 15px;
-  text-align: center;
-  font-style: italic;
+.phone-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+    align-items: center;
+  width: 100%;
+  font-size: 25px;
 }
 
 .footer-phone {
-  font-size: 25px;
-  font-weight: 600;
   text-align: center;
+  font-weight: 600;
   font-style: italic;
 }
 
-.footer-nav {
+.footer-nav-menu {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: flex-end;
+  width: 300px;
+  padding: 0px !important;
   color: white;
+}
+
+.menu-text {
+  text-align: right;
 }
 
 .footer-copy {
   display: flex;
   justify-content: center;
-  height: 25px;
   margin: 0px;
+  height: 25px;
 }
 
-@media only screen and (max-width: 992px) and (min-width: 598px) {
-  .overlay-box {
-    margin-top: 120px;
-  }
-
-  logo-phone-container {
-    /* display: flex; */
-    justify-content: column;
-    flex-wrap: wrap;
-  }
-
-  .footer-nav {
+@media only screen and (max-width: 598px) {
+  .footer-container {
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
+  }
+
+  .full-logo {
+    height: 150px;
+    width: 150px;
+  }
+
+  .phone-container {
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+  }
+
+  .menu-text {
     text-align: center;
   }
-}
 
-@media only screen and (max-width: 598px) and (min-width: 340px) {
-  .overlay-box {
-    margin-top: 30px;
-  }
-}
-
-@media only screen and (max-width: 767px) {
-  .footer-nav {
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .espanol,
-  .number {
-    font-size: 20px;
-  }
-}
-
-@media only screen and (max-width: 576px) {
-  .overlay-box {
-    max-width: 75%;
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  .overlay-header {
-    margin-bottom: 0px;
-    font-size: 20px;
-  }
-
-  .overlay-sub-header {
-    font-size: 14px;
-    text-align: center;
-  }
-}
-
-@media only screen and (max-width: 500px) {
-  .espanol,
-  .number {
-    font-size: 15px;
-  }
-
-  .footer-nav {
-    font-size: 12px;
+  .footer-nav-menu {
+    flex-direction: row;
+    width: 100%;
   }
 }
