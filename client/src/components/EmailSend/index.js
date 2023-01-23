@@ -16,7 +16,7 @@ import {
   contactus_text_template,
   contactus_html_template,
 } from "./templates/contactUsTemplate";
-import "../../styles/contact.css";
+import "../../styles/Contact.css";
 
 function useEmailSend(props) {
   // SECTION get tiny url

@@ -5,7 +5,7 @@ import { ADD_EMPLOYEE } from "../../../utils/mutations";
 
 import { Container, Form, Button } from "react-bootstrap";
 
-import "../../../styles/contact.css";
+import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
 function EmployeeAdd() {

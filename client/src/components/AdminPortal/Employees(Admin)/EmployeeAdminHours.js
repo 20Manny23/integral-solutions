@@ -11,7 +11,7 @@ import Collapse from "react-bootstrap/Collapse";
 
 import EmployeeHours from "../../Employee(Worker)/EmployeeHours";
 
-import "../../../styles/contact.css";
+import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
 function EmployeeAdminHours() {
