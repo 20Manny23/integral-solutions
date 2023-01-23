@@ -25,7 +25,6 @@ function ScheduleAdd() {
   // GET FORM INPUT
   const [businessName, setBusinessName] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
-  const [suite, setSuite] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
@@ -37,7 +36,6 @@ function ScheduleAdd() {
   const [jobDetails, setJobDetails] = useState("");
   const [numberOfClientEmployees, setNumberOfClientEmployees] = useState("");
   const [client, setClient] = useState("");
-  const [employees, setEmployees] = useState("");
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
@@ -51,14 +49,12 @@ function ScheduleAdd() {
     useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
-  const [showSuiteValidation, setShowSuiteValidation] = useState(false); // currently no suite field on input form
   const [showCityValidation, setShowCityValidation] = useState(false);
   const [showStateValidation, setShowStateValidation] = useState(false);
   const [showZipValidation, setShowZipValidation] = useState(false);
   const [showStartDateValidation, setStartDateValidation] = useState(false);
   const [showEndDateValidation, setShowEndDateValidation] = useState(false);
   const [showStartTimeValidation, setShowStartTimeValidation] = useState(false);
-  const [showEndTimeValidation, setShowEndTimeValidation] = useState(false);
   const [showSquareFeetValidation, setShowSquareFeetValidation] =
     useState(false);
   const [showJobDetailsValidation, setShowJobDetailsValidation] =
@@ -67,9 +63,6 @@ function ScheduleAdd() {
     showNumberOfClientEmployeesValidation,
     setShowNumberOfClientEmployeesValidation,
   ] = useState(false);
-  const [showClientValidation, setShowClientValidation] = useState(false);
-  const [showSelectedEmployeesValidation, setShowSelectedEmployeesValidation] =
-    useState(false);
 
   //SECTION QUERIES / MUTATIONS
   // get schedule
@@ -165,8 +158,6 @@ function ScheduleAdd() {
       ? setNumberOfClientEmployees(value)
       : name === "client"
       ? setClient(value)
-      : name === "employees"
-      ? setEmployees(value)
       : name === "streetAddress"
       ? setStreetAddress(value)
       : name === "state"
@@ -189,9 +180,6 @@ function ScheduleAdd() {
     name === "streetAddress" && value.trim() === ""
       ? setShowStreetAddressValidation(true)
       : setShowStreetAddressValidation(false);
-    name === "suite" && value.trim() === ""
-      ? setShowSuiteValidation(true)
-      : setShowSuiteValidation(false);
     name === "city" && value.trim() === ""
       ? setShowCityValidation(true)
       : setShowCityValidation(false);
@@ -210,9 +198,6 @@ function ScheduleAdd() {
     name === "startTime" && value.trim() === ""
       ? setShowStartTimeValidation(true)
       : setShowStartTimeValidation(false);
-    name === "endTime" && value.trim() === ""
-      ? setShowEndTimeValidation(true)
-      : setShowEndTimeValidation(false);
     name === "squareFeet" && value.trim() === ""
       ? setShowSquareFeetValidation(true)
       : setShowSquareFeetValidation(false);
@@ -319,7 +304,6 @@ function ScheduleAdd() {
   const resetForm = () => {
     setBusinessName("");
     setStreetAddress("");
-    setSuite("");
     setCity("");
     setState("");
     setZip("");
@@ -331,7 +315,6 @@ function ScheduleAdd() {
     setJobDetails("");
     setNumberOfClientEmployees("");
     setClient("");
-    setEmployees("");
     setAreAllFieldsFilled(false);
   };
 
@@ -647,13 +630,6 @@ function ScheduleAdd() {
         <Form.Group className="form-length">
           <Form.Label style={{ fontWeight: "bolder" }}>
             Select Employees for Job
-          </Form.Label>
-          <Form.Label
-            className={`validation-color ${
-              showSelectedEmployeesValidation ? "show" : "hide"
-            }`}
-          >
-            *required
           </Form.Label>
           <Form.Control
             as="select"
