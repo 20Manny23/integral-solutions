@@ -16,12 +16,9 @@ import {
   contactus_text_template,
   contactus_html_template,
 } from "./templates/contactUsTemplate";
-import "../../styles/Contact.css";
+import "../../styles/contact.css";
 
 function useEmailSend(props) {
-
-  // console.log("useEmail hook,props = ", props);
-
   // SECTION get tiny url
   const [tinyURI, setTinyURI] = useState("");
 
@@ -30,7 +27,7 @@ function useEmailSend(props) {
       setTinyURI(data.data.tiny_url);
     });
 
-    console.log('tinyuri = ', tinyURI);
+    // console.log('tinyuri = ', tinyURI);
   }
 
   // SECTION SET EMAIL CONTENT

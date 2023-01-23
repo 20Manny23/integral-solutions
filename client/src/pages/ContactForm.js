@@ -8,7 +8,7 @@ import { STATE_DROPDOWN } from "../utils/stateDropdown";
 import { NUMBER_OF_EMPLOYEES } from "../utils/numberOfEmployees";
 
 import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
-import "../styles/Forms.css";
+import "../styles/forms.css";
 
 function ContactForm() {
   // set error state
@@ -29,8 +29,7 @@ function ContactForm() {
   const [services, setServices] = useState([]);
   const [jobDetails, setJobDetails] = useState("");
 
-  // handle input change
-  // VALIDATION
+  //  validation
   const [showCompanyNameValidation, setShowCompanyNameValidation] =
     useState("");
   const [showContactNameValidation, setShowContactNameValidation] =
@@ -142,21 +141,13 @@ function ContactForm() {
       : setShowJobDetailsValidation(false);
   };
 
-  //section
   const [emailContent, setEmailContent] = useState({});
-  // const submitEmailContent = useEmailSendContactUs(emailContent);
   // eslint-disable-next-line
   const submitEmailContent = useEmailSend(emailContent);
-  console.log("submit 4 = ", emailContent);
-  //section
 
   const handleSubmit = (event) => {
     setErrorMessage("");
     event.preventDefault();
-
-    console.log("submit 1");
-
-    // console.log("handlesubmit");
 
     if (
       !companyName ||
@@ -200,8 +191,6 @@ function ContactForm() {
       jobDetails: jobDetails ? jobDetails : "null",
       services: services ? services : "null",
     });
-
-    // console.log('submit 2 = ', emailContent);
 
     // set state back to empty form
     setCompanyName("");
@@ -517,8 +506,6 @@ function ContactForm() {
                   Services Needed
                 </Form.Label>
               </div>
-
-              {/* <div className="d-flex justify-content-between"> */}
               {["checkbox"].map((type) => (
                 <div
                   key={`inline-${type}`}
@@ -573,7 +560,6 @@ function ContactForm() {
                   />
                 </div>
               ))}
-              {/* </div> */}
             </Form.Group>
             <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
               <div className="form-label">
@@ -610,12 +596,6 @@ function ContactForm() {
               Send Email
             </Button>
           </Form>
-
-          {/* {errorMessage && (
-            <Alert className="form-alert" variant="danger">
-              <p className="error-text">{errorMessage}</p>
-            </Alert>
-          )} */}
         </Container>
       </div>
       <Footer />

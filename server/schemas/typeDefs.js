@@ -1,7 +1,6 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
-
   type User {
     _id: ID
     username: String
@@ -11,8 +10,6 @@ const typeDefs = gql`
     lastName: String
     cell: String
     isManager: Boolean
-    availability: Availability
-    locations: [Location]
   }
 
   type Employee {
@@ -60,39 +57,10 @@ const typeDefs = gql`
     employees: [Employee]
   }
 
-  type Availability {
-    mondayAm: Boolean
-    mondayPm: Boolean
-    tuesdayAm: Boolean
-    tuesdayPm: Boolean
-    wednesdayAm: Boolean
-    wednesdayPm: Boolean
-    thursdayAm: Boolean
-    thursdayPm: Boolean
-    fridayAm: Boolean
-    fridayPm: Boolean
-    saturdayAm: Boolean
-    saturdayPm: Boolean
-    sundayAm: Boolean
-    sundayPm: Boolean
-  }
-
   type Auth {
     token: ID!
     user: User
     employee: Employee
-  }
-
-  type Location {
-    _id: ID
-    businessName: String
-    address: String
-    businessContact: String
-    shifts: String
-    daysOfWeek: String
-    startTime: String
-    laborHours: Float
-    instructions: Instructions
   }
 
   type Client {
@@ -109,54 +77,10 @@ const typeDefs = gql`
     schedule: [Schedule]
   }
 
-  type Instructions {
-    facilityType: String
-    cleaningType: String
-    bathrooms: String
-    lobby: String
-    sittingArea: String
-    breakRoom: String
-    frontdesk: String
-    appliances: String
-    dusting: String
-    windows: String
-    trash: String
-    vacuum: String
-    mop: String
-    additionalServices: String
-    exclusions: String
-  }
-
-  type Event {
-    _id: ID!
-    title: String
-    startTime: String
-    endTime: String
-    daysOfWeek: [Int]
-    startRecur: String
-    display: String
-    backgroundColor: String
-    textColor: String
-  }
-
-  type Incident {
-    _id: ID
-    employeeName: String
-    locationName: String
-    employeePhone: String
-    subject: String
-    urgent: String
-    incidentDetails: String
-  }
-
   type Query {
     users: [User]!
     user(email: String!): User
     me(_id: ID!): User
-    locations: [Location]!
-    location(locationId: ID!): Location
-    incidents: [Incident]!
-    events: [Event]!
     clients: [Client]!
     client(_id: ID!): Client
     employees: [Employee]!
@@ -359,38 +283,6 @@ const typeDefs = gql`
       employees: [String]
     ): Schedule
 
-    # SECTION LEGACY
-    addUser(email: String!, password: String!): Auth
-    deleteUser(_id: ID!): User
-
-    updateAvailability(
-      _id: ID!
-      mondayAm: Boolean
-      mondayPm: Boolean
-      tuesdayAm: Boolean
-      tuesdayPm: Boolean
-      wednesdayAm: Boolean
-      wednesdayPm: Boolean
-      thursdayAm: Boolean
-      thursdayPm: Boolean
-      fridayAm: Boolean
-      fridayPm: Boolean
-      saturdayAm: Boolean
-      saturdayPm: Boolean
-      sundayAm: Boolean
-      sundayPm: Boolean
-    ): User
-
-    addIncident(
-      employeeName: String!
-      locationName: String!
-      employeePhone: String!
-      subject: String!
-      urgent: String!
-      incidentDetails: String!
-    ): Incident
-
-    deleteIncident(_id: ID!): Incident
   }
 `;
 

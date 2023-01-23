@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import Auth from "../utils/auth";
+
 import { Link, useNavigate } from "react-router-dom";
-import wrongPageImg from "../assets/not-found.png";
+
 import { Container, Row, Button } from "react-bootstrap/";
 import "../styles/button-style.css";
 
+import wrongPageImg from "../assets/not-found.png";
+
 const WrongPage = ({ renderPanel }) => {
   const navigate = useNavigate();
-
 
   useEffect(() => {
     if (!Auth.loggedIn()) {
@@ -15,7 +17,7 @@ const WrongPage = ({ renderPanel }) => {
     } else {
       setTimeout(() => navigate("/"), 7000);
     }
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
   return (

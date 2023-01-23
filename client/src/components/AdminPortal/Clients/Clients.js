@@ -9,7 +9,7 @@ import format_phone from "../../../utils/helpers";
 import { Row, Col, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../../../styles/Contact.css";
+import "../../../styles/contact.css";
 import "../../../styles/button-style.css";
 
 function Clients() {

@@ -27,68 +27,6 @@ const userSchema = new Schema(
     cell: {
       type: String,
     },
-    isManager: {
-      type: Boolean,
-      default: false,
-    },
-    // availability: [availabilitySchema],
-    availability: {
-      userEmail: {
-        type: String,
-      },
-      mondayAm: {
-        type: Boolean,
-      },
-      mondayPm: {
-        type: Boolean,
-      },
-      tuesdayAm: {
-        type: Boolean,
-      },
-      tuesdayPm: {
-        type: Boolean,
-      },
-      wednesdayAm: {
-        type: Boolean,
-      },
-      wednesdayPm: {
-        type: Boolean,
-      },
-      thursdayAm: {
-        type: Boolean,
-      },
-      thursdayPm: {
-        type: Boolean,
-      },
-      fridayAm: {
-        type: Boolean,
-      },
-      fridayPm: {
-        type: Boolean,
-      },
-      saturdayAm: {
-        type: Boolean,
-      },
-      saturdayPm: {
-        type: Boolean,
-      },
-      sundayAm: {
-        type: Boolean,
-      },
-      sundayPm: {
-        type: Boolean,
-      },
-    },
-    // locations: [
-    //   {
-    //     type: String,
-    //   },
-    // ],
-
-    locations: {
-      type: Schema.Types.Array,
-      ref: "Location",
-    },
   },
 
   // locations: [Location.schema]

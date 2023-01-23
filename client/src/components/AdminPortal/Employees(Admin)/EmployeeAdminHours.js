@@ -8,7 +8,7 @@ import Collapse from "react-bootstrap/Collapse";
 
 import EmployeeHours from "../../Employee(Worker)/EmployeeHours";
 
-import "../../../styles/Contact.css";
+import "../../../styles/contact.css";
 import "../../../styles/button-style.css";
 
 

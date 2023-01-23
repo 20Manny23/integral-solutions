@@ -7,36 +7,6 @@
     "firstName": "Brendan",
     "lastName": "Bayliss",
     "cell": "9708675309",
-    "isManager": "true",
-    "availability": {
-      "userEmail": "b@b.com",
-      "mondayAm": "true",
-      "mondayPm": "true",
-      "tuesdayAm": "true",
-      "tuesdayPm": "true",
-      "wednesdayAm": "true",
-      "wednesdayPm": "true",
-      "thursdayAm": "true",
-      "thursdayPm": "true",
-      "fridayAm": "true",
-      "fridayPm": "true",
-      "saturdayAm": "true",
-      "saturdayPm": "true",
-      "sundayAm": "true",
-      "sundayPm": "true"
-    },
-    "locations": [
-      "313233343536373839303132",
-      "323233343536373839303132",
-      "333233343536373839303132",
-      "343233343536373839303132",
-      "353233343536373839303132",
-      "363233343536373839303132",
-      "373233343536373839303132",
-      "383233343536373839303132",
-      "393233343536373839303132",
-      "303233343536373839303132"
-    ]
   },
   {
     "_id": "6398fb54494aa98f85992da3",
@@ -46,29 +16,5 @@
     "firstName": "Ryan",
     "lastName": "Stasick",
     "cell": "7198675309",
-    "isManager": "false",
-    "availability": {
-      "userEmail": "a@a.com",
-      "mondayAm": "true",
-      "mondayPm": "true",
-      "tuesdayAm": "true",
-      "tuesdayPm": "true",
-      "wednesdayAm": "true",
-      "wednesdayPm": "true",
-      "thursdayAm": "false",
-      "thursdayPm": "false",
-      "fridayAm": "false",
-      "fridayPm": "false",
-      "saturdayAm": "false",
-      "saturdayPm": "false",
-      "sundayAm": "false",
-      "sundayPm": "false"
-    },
-    "locations": [
-      "313233343536373839303132",
-      "323233343536373839303132",
-      "333233343536373839303132",
-      "343233343536373839303132"
-    ]
   }
 ]
