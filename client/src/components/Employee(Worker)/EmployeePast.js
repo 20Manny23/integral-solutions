@@ -22,9 +22,9 @@ function Employees ({ pastOrFuture }) {
   const userId = getUserId();
 
   // get schedule useQuery for the specific id
+
   // eslint-disable-next-line
-  
-  const { loading, data, error, refetch } = useQuery(QUERY_EMPLOYEE_BYID, {
+  const { loading, data, error } = useQuery(QUERY_EMPLOYEE_BYID, {
     variables: { id: userId },
 
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
@@ -53,15 +53,16 @@ function Employees ({ pastOrFuture }) {
   useEffect(() => {
     if (pastOrFuture === "past") {
       setSchedule(past);
-      console.log('when')
     }
+  // eslint-disable-next-line
   }, [pastOrFuture, data]);
+
   useEffect(() => {
     if (pastOrFuture === "future") {
       
       setSchedule(future);
-      console.log('future');
     }
+  // eslint-disable-next-line
   }, [pastOrFuture, data]);
 
 

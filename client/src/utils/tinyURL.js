@@ -3,9 +3,9 @@ export const TINY_URL_PATH = `https://api.tinyurl.com/create?api_token=${process
 
 export const createURL = (token) => {
 
-  console.log(process.env.NODE_ENV);
-  console.log(process.env.REACT_APP_DEVELOPMENT_URL);
-  console.log(process.env.REACT_APP_TINY_URL_KEY);
+  // console.log(process.env.NODE_ENV);
+  // console.log(process.env.REACT_APP_DEVELOPMENT_URL);
+  // console.log(process.env.REACT_APP_TINY_URL_KEY);
 
   let uri = process.env.NODE_ENV === "development" ? `${process.env.REACT_APP_DEVELOPMENT_URL}/resetpassword/${token?.token}`: `${process.env.REACT_APP_PRODUCTION_URL}/resetpassword/${token?.token}`;
 
