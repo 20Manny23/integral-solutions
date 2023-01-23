@@ -51,20 +51,84 @@
   text-align: center;
 }
 
+footer {
+  background-color: #0d2e4f;
+  color: white;
+  border-top: 1px solid black;
+}
+
 logo-container {
   display: flex;
   justify-content: flex-start;
+}
+
+.full-logo {
+  height: 150px;
+  padding-right: 0px;
+}
+
+.footer-title {
+  margin-bottom: 10px;
+  margin-top: 15px;
+  text-align: center;
+  font-style: italic;
+}
+
+.footer-phone {
+  font-size: 25px;
+  font-weight: 600;
+  text-align: center;
+  font-style: italic;
+}
+
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: white;
+}
+
+.footer-copy {
+  display: flex;
+  justify-content: center;
+  height: 25px;
+  margin: 0px;
 }
 
 @media only screen and (max-width: 992px) and (min-width: 598px) {
   .overlay-box {
     margin-top: 120px;
   }
+
+  logo-phone-container {
+    /* display: flex; */
+    justify-content: column;
+    flex-wrap: wrap;
+  }
+
+  .footer-nav {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
 }
 
 @media only screen and (max-width: 598px) and (min-width: 340px) {
   .overlay-box {
     margin-top: 30px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .footer-nav {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .espanol,
+  .number {
+    font-size: 20px;
   }
 }
 
@@ -83,5 +147,16 @@ logo-container {
   .overlay-sub-header {
     font-size: 14px;
     text-align: center;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .espanol,
+  .number {
+    font-size: 15px;
+  }
+
+  .footer-nav {
+    font-size: 12px;
   }
 }
