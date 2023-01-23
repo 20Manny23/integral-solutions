@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Row, Col, Container, Nav } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 import "../../styles/footer.css";
 import logo from "../../assets/images/logo.bkg.png";
 

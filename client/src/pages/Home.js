@@ -54,14 +54,11 @@ const Home = () => {
         <br></br>
       </main>
 
-
-      <Container
-        className=""
-        // style={{ marginTop: "50px", marginBottom: "35px" }}
-      >
       <section>
         <p className="service-title">Services We Offer</p>
       </section>
+      
+      <Container>
         <Row>
           <Col className="d-flex justify-content-center mb-2">
             <Card style={{ width: "15rem", border: "none" }}>
