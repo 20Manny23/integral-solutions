@@ -17,7 +17,7 @@ import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
 import { NUMBER_OF_EMPLOYEES } from "../../../utils/numberOfEmployees";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
-import "../../../styles/contact.css";
+import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 import "../../../styles/forms.css";
 

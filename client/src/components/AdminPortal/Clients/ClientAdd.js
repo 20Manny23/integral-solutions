@@ -7,7 +7,7 @@ import { Row, Col, Container, Form, Button } from "react-bootstrap";
 
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
 
-import "../../../styles/contact.css";
+import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
 function ClientAdd() {

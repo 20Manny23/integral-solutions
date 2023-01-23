@@ -8,7 +8,7 @@ import { UPDATE_CLIENT } from "../../../utils/mutations";
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
-import "../../../styles/contact.css";
+import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
 function ClientUpdate() {
