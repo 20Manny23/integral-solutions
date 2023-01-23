@@ -64,7 +64,20 @@ const format_time_HHmmss = (time) => {
   return time_HHmmss;
 };
 
-// The specified value "08:00:00 (MST)" does not conform to the required format.  The format is "HH:mm", "HH:mm:ss" or "HH:mm:ss.SSS" where HH is 00-23, mm is 00-59, ss is 00-59, and SSS is 000-999.
+const format_date_ISOString = (date) => {
+  // FROM: Mon Jan 23 2023 10:55:38 GMT-0700 (Mountain Standard Time)
+  // TO: 2023-01-23T17:55:38.020Z
+
+  let date_iso_string;
+
+  if (date) {
+    date_iso_string = new Date(date).toISOString();
+  }
+
+
+  return date_iso_string;
+};
+
 
 module.exports = {
   format_date_string,
@@ -73,6 +86,7 @@ module.exports = {
   format_date_MMDD,
   format_date_no_hyphen,
   format_time_HHmmss,
+  format_date_ISOString,
 };
 
 // if (date) {

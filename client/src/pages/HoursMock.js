@@ -57,26 +57,6 @@ const EmployeePortal = ({
               <div className="d-flex flex-row mb-1 p-0 border border-secondary rounded-lg">
                 <Button
                   variant="outline-primary"
-                  style={addemployeeButtonIsActive ? isActive : notActive}
-                  active={addemployeeButtonIsActive}
-                  onClick={() => {
-                    navigate("/employee");
-                  }}
-                >
-                  Upcoming Jobs
-                </Button>
-                <Button
-                  variant="outline-primary"
-                  style={clientlistButtonIsActive ? isActive : notActive}
-                  active={clientlistButtonIsActive}
-                  onClick={() => {
-                    navigate("/past");
-                  }}
-                >
-                  Past Jobs
-                </Button>
-                {/* <Button
-                  variant="outline-primary"
                   style={hoursButtonIsActive ? isActive : notActive}
                   active={hoursButtonIsActive}
                   onClick={() => {
@@ -84,8 +64,19 @@ const EmployeePortal = ({
                   }}
                 >
                   Enter Hours
-                </Button> */}
+                </Button>
+                <Button
+                  variant="outline-primary"
+                  style={hoursAdminButtonIsActive ? isActive : notActive}
+                  active={hoursAdminButtonIsActive}
+                  onClick={() => {
+                    navigate("/hoursadmin");
+                  }}
+                >
+                  Hours Admin
+                </Button>
               </div>
+
               {renderPanel === "employee" ? (
                 <EmployeePast pastOrFuture="future" />
               ) : renderPanel === "past" ? (
