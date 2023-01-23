@@ -8,7 +8,7 @@ import { STATE_DROPDOWN } from "../utils/stateDropdown";
 import { NUMBER_OF_EMPLOYEES } from "../utils/numberOfEmployees";
 
 import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
-import "../styles/forms.css";
+import "../styles/Forms.css";
 
 function ContactForm() {
   // set error state
