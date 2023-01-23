@@ -59,7 +59,7 @@ footer {
   height: 25px;
 }
 
-@media only screen and (max-width: 605px) {
+@media only screen and (max-width: 650px) {
   .footer-container {
     flex-direction: column;
     align-items: center;

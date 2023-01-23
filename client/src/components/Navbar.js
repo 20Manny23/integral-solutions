@@ -55,7 +55,12 @@ const AppNavbar = () => {
 
           {Auth.loggedIn() && Auth.isLocked() === false && (
             <>
-              <Nav.Link className="navLink" as={Link} to="/employee">
+              <Nav.Link
+                className="navLink"
+                as={Link}
+                to="/employee"
+                reloadDocument
+              >
                 Employee
               </Nav.Link>
             </>
