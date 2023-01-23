@@ -258,14 +258,14 @@ export const SEND_EMAIL = gql`
     $fromEmail: String
     $subject: String
     $textContent: String
-    $htmlContent: String      
+    $htmlContent: String
   ) {
     sendEmail(
-      toEmail: $toEmail,
-      fromEmail: $fromEmail,
-      subject: $subject,
-      textContent: $textContent,
-      htmlContent: $htmlContent,
+      toEmail: $toEmail
+      fromEmail: $fromEmail
+      subject: $subject
+      textContent: $textContent
+      htmlContent: $htmlContent
     )
   }
 `;

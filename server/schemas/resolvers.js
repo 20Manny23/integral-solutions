@@ -87,7 +87,7 @@ const resolvers = {
 
       return Employee.findOne({ _id }).populate({
         path: "schedule",
-        
+
         populate: { path: "client" },
       });
       // }
@@ -100,8 +100,8 @@ const resolvers = {
     },
 
     hoursByEmployee: async (parent, { employeeId }, context) => {
-      console.log(employeeId)
-      return Hour.findOne({_id: employeeId}).populate("employee");
+      console.log(employeeId);
+      return Hour.findOne({ _id: employeeId }).populate("employee");
     },
 
     schedules: async (parent, args, context) => {
@@ -146,7 +146,7 @@ const resolvers = {
         .catch((error) => {
           console.error(error);
           console.error(error.response.body.errors);
-          message = "Something went wrong. Give us a call at 555-555-1212."
+          message = "Something went wrong. Give us a call at 555-555-1212.";
         });
 
       // console.log(message)
@@ -306,60 +306,50 @@ const resolvers = {
 
     addHours: async (
       parent,
-      {
-        dayHours,
-        workDate,
-        startTime,
-        endTime,
-        employee
-      },
-      context) => {
+      { dayHours, workDate, startTime, endTime, employee },
+      context
+    ) => {
       const hours = await Hour.create({
         dayHours,
         workDate,
         startTime,
         endTime,
-        employee
+        employee,
       });
-      return { 
-        dayHours, 
-        workDate, 
-        startTime, 
-        endTime, 
-        employee 
+      return {
+        dayHours,
+        workDate,
+        startTime,
+        endTime,
+        employee,
       };
     },
 
     deleteHours: async (parent, { _id }, context) => {
-      return Hour.findOneAndDelete({ _id })
+      return Hour.findOneAndDelete({ _id });
     },
 
-    updateHours: async (parent, { _id, dayHours, workDate, startTime, endTime }, context) => {
+    updateHours: async (
+      parent,
+      { _id, dayHours, workDate, startTime, endTime },
+      context
+    ) => {
       return Hour.findOneAndUpdate(
         { _id },
         {
           dayHours,
           workDate,
           startTime,
-          endTime
+          endTime,
         },
         { new: true }
-
-      )
+      );
     },
 
     // SECTION EMPLOYEE
     addEmployee: async (
       parent,
-      {
-        email,
-        password,
-        firstName,
-        lastName,
-        phone,
-        isAdmin,
-        isLocked,
-      },
+      { email, password, firstName, lastName, phone, isAdmin, isLocked },
       context
     ) => {
       // if (context.user) {
@@ -397,7 +387,7 @@ const resolvers = {
         isAdmin,
         isLocked,
         schedule,
-        hours
+        hours,
       },
       context
     ) => {
@@ -533,7 +523,7 @@ const resolvers = {
     },
 
     updateEmployeeHours: async (parent, { _id, hours }, context) => {
-      console.log("RESOLVER FOR UPDATE EMPLOYEE HOURS", _id, hours)
+      console.log("RESOLVER FOR UPDATE EMPLOYEE HOURS", _id, hours);
       return Employee.findOneAndUpdate(
         { _id },
         {
@@ -657,7 +647,6 @@ const resolvers = {
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
-
   },
 };
 

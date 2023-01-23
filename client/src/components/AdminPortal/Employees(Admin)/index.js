@@ -1,9 +1,9 @@
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 
 import Employees from "./Employees";
-import EmployeeAdd from "./EmployeeAdd"
-import EmployeeUpdate from "./EmployeeUpdate"
+import EmployeeAdd from "./EmployeeAdd";
+import EmployeeUpdate from "./EmployeeUpdate";
 
 function EmployeesList() {
   return (
@@ -21,7 +21,7 @@ function EmployeesList() {
         <EmployeeAdd />
       </Tab>
       <Tab eventKey="employeeUpdate" title="Update Employee">
-       <EmployeeUpdate />
+        <EmployeeUpdate />
       </Tab>
     </Tabs>
   );

@@ -1,18 +1,15 @@
 export const CONTACT_US_SUBJECT = (props) => {
-
   let template = `Contact Us: ${props.companyName}, Start: ${props.startDate}, Services: ${props.services}`;
 
-  return (template);
+  return template;
 };
 
 export const TO_EMAIL = "callasteven@gmail.com";
 
 // SENDGRID RECOMMENDS INCLUDING A TEXT VERSION AS A BACKUP IF HTML ISN'T ACCEPTED
 export const contactus_text_template = (props) => {
-
   //NEEDS TO BE SPACED AS BELOW TO DISPLAY PROPERLY IN THE EMAIL
-  const template = 
-  `
+  const template = `
 Company Name: ${props.companyName}
 Email Address: ${props.emailAddress} 
 Contact Name: ${props.contactName}
@@ -24,13 +21,12 @@ Start Date: ${props.startDate}
 Services Needed: ${props.services}
 Job Details: ${props.jobDetails}
 `;
-  
-  return (template);
+
+  return template;
 };
 
 // DEFAULT HTML TEMPLATE WILL BE USED BY MOST BUT NOT ALL PLATFORMS
 export const contactus_html_template = (props) => {
-  
   //NEEDS TO BE SPACED AS BELOW TO DISPLAY PROPERLY IN THE EMAIL
   const template = `
       <p>Company Name: ${props.companyName}</p>
@@ -43,6 +39,6 @@ export const contactus_html_template = (props) => {
       <p>Start Date: ${props.startDate}</p>
       <p>Services Needed: ${props.services}</p>
       <p>Job Details: ${props.jobDetails}</p>`;
-  
-  return (template);
+
+  return template;
 };

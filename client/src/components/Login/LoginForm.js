@@ -11,10 +11,9 @@ import "../../styles/button-home.css";
 const LoginForm = () => {
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  
+
   const [userFormData, setUserFormData] = useState({ email: "", password: "" });
   const [login, { error }] = useMutation(LOGIN_USER);
-
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -38,7 +37,7 @@ const LoginForm = () => {
         variables: { ...userFormData },
       });
 
-      // for reference ... 
+      // for reference ...
       // console.log(data)
       // console.log(data.login)
       // console.log(data.login.token)
@@ -49,7 +48,6 @@ const LoginForm = () => {
       Auth.login(data.login);
 
       window.location.assign(`/`);
-
     } catch (e) {
       console.error(e);
       setShowAlert(true);
@@ -145,7 +143,9 @@ const LoginForm = () => {
           </Button>
         </Form>
         <Nav.Item>
-          <Nav.Link href="/forgotpassword" className="text-blue">Forgot Password?</Nav.Link>
+          <Nav.Link href="/forgotpassword" className="text-blue">
+            Forgot Password?
+          </Nav.Link>
         </Nav.Item>
       </div>
 

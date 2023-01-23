@@ -57,17 +57,18 @@ function Clients() {
       setOpenDetails(true);
     }
   };
-  let arrayForSort =[]
-  if(clients){
+  let arrayForSort = [];
+  if (clients) {
     // console.log(clients.clients)
-    arrayForSort = [...clients.clients]
-  arrayForSort.sort(function(a, b){
-    if(a.businessName.toLowerCase() < b.businessName.toLowerCase()) return -1;
-    if(a.businessName.toLowerCase() > b.businessName.toLowerCase()) return 1;
-    return 0;
-  })
+    arrayForSort = [...clients.clients];
+    arrayForSort.sort(function (a, b) {
+      if (a.businessName.toLowerCase() < b.businessName.toLowerCase())
+        return -1;
+      if (a.businessName.toLowerCase() > b.businessName.toLowerCase()) return 1;
+      return 0;
+    });
   }
-  console.log(arrayForSort)
+  console.log(arrayForSort);
   return (
     <>
       <Container>

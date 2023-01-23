@@ -28,19 +28,23 @@ function useEmailSend(props) {
     });
 
     // console.log('tinyuri = ', tinyURI);
-  }
+  };
 
   // SECTION SET EMAIL CONTENT
-  const toEmail = props?.source === "resetPassword" ? props?.email : "callasteven@gmail.com";
+  const toEmail =
+    props?.source === "resetPassword" ? props?.email : "callasteven@gmail.com";
   const fromEmail = FROM_EMAIL;
-  const subject = props?.source === "resetPassword" ? RESET_SUBJECT(props) : CONTACT_US_SUBJECT(props);
+  const subject =
+    props?.source === "resetPassword"
+      ? RESET_SUBJECT(props)
+      : CONTACT_US_SUBJECT(props);
   const textContent =
     props?.source === "resetPassword"
-    ? reset_text_template(props, tinyURI, createURL(props.token))
+      ? reset_text_template(props, tinyURI, createURL(props.token))
       : contactus_text_template(props, tinyURI, createURL(props.token));
   const htmlContent =
     props?.source === "resetPassword"
-    ? reset_html_template(props, tinyURI, createURL(props.token))
+      ? reset_html_template(props, tinyURI, createURL(props.token))
       : contactus_html_template(props, tinyURI, createURL(props.token));
 
   // SECTION TO SEND EMAIL VIA LAZY QUERY
@@ -62,7 +66,7 @@ function useEmailSend(props) {
   // SECTION USE EFFECT TO RUN SENDEMAIL IF TOKEN IS POPULATED (since this hook will run on every render for this component)
   useEffect(() => {
     // console.log('use effect = ', props, props.token, !props.token, Object.keys(props).length !== 0  )
-    
+
     // console.log('length = ', Object.keys(props).length !== 0)
     // console.log('props = ', Object.keys(props));
     // console.log('props = ', props)

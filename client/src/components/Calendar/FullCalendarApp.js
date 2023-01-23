@@ -212,7 +212,12 @@ const FullCalendarApp = () => {
             handleShow={handleShow}
           />
         )}
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit doloribus eius quae deleniti, iste harum excepturi assumenda qui perferendis rerum dicta dolores, repellendus quaerat corporis laborum id eum laudantium provident.</p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
+          doloribus eius quae deleniti, iste harum excepturi assumenda qui
+          perferendis rerum dicta dolores, repellendus quaerat corporis laborum
+          id eum laudantium provident.
+        </p>
       </>
     );
   }

@@ -40,7 +40,7 @@ function Employees() {
   });
 
   // section set temporary password to be used to construct the token
-  const [ updatePassword, { error: passwordError } ] =
+  const [updatePassword, { error: passwordError }] =
     useMutation(UPDATE_PASSWORD);
 
   const setPassword = async () => {
@@ -88,7 +88,7 @@ function Employees() {
   };
 
   //section
-  const [ toEmail, setToEmail ] = useState("");
+  const [toEmail, setToEmail] = useState("");
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -100,7 +100,7 @@ function Employees() {
       event.stopPropagation();
       return false;
     }
-    
+
     await refetch();
 
     //section
