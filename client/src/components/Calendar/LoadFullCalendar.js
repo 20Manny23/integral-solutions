@@ -20,6 +20,8 @@ const LoadFullCalendar = ({
   handleEventClick,
 }) => {
   // console.log(activeView, weekendsVisible, INITIAL_EVENTS, renderEventContent, handleEventClick);
+  
+  window.mobilecheck = mobile_check();
 
   return (
     <div className="cal-app my-3 p-1 shadow border border-secondary rounded-lg">
@@ -56,8 +58,7 @@ const LoadFullCalendar = ({
           }}
           navLinkDayClick={activeView}
           slotMinTime="06:00:00"
-          // initialView={window.mobilecheck() ? "dayGridMonth" : "listWeek"}
-          initialView={mobile_check ? "dayGridMonth" : "listWeek"}
+          initialView={window.mobilecheck ? "dayGridMonth" : "listWeek"}
           initialDate={moment().format()}
           editable={true}
           selectable={true}

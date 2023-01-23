@@ -1,4 +1,4 @@
-const mobile_check = function () {
+export const mobile_check = function () {
   var check = false;
 
   (function (a) {
@@ -16,6 +16,6 @@ const mobile_check = function () {
   return !check;
 };
 
-module.exports = {
-  mobile_check,
-};
+// module.exports = {
+//   mobile_check,
+// };
