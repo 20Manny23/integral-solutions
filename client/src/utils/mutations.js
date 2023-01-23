@@ -32,7 +32,6 @@ export const UPDATE_PASSWORD = gql`
       lastName
       password
       phone
-      isManager
       isAdmin
       isLocked
     }
@@ -59,7 +58,6 @@ export const UPDATE_EMPLOYEE = gql`
     $firstName: String
     $lastName: String
     $phone: String
-    $isManager: Boolean
     $isAdmin: Boolean
     $isLocked: Boolean
   ) {
@@ -70,7 +68,6 @@ export const UPDATE_EMPLOYEE = gql`
       firstName: $firstName
       lastName: $lastName
       phone: $phone
-      isManager: $isManager
       isAdmin: $isAdmin
       isLocked: $isLocked
     ) {
@@ -80,7 +77,6 @@ export const UPDATE_EMPLOYEE = gql`
       lastName
       password
       phone
-      isManager
       isAdmin
       isLocked
     }
@@ -140,7 +136,6 @@ export const ADD_EMPLOYEE = gql`
     $firstName: String
     $lastName: String
     $phone: String
-    $isManager: Boolean
     $isAdmin: Boolean
     $isLocked: Boolean
   ) {
@@ -150,14 +145,12 @@ export const ADD_EMPLOYEE = gql`
       firstName: $firstName
       lastName: $lastName
       phone: $phone
-      isManager: $isManager
       isAdmin: $isAdmin
       isLocked: $isLocked
     ) {
       _id
       email
       firstName
-      isManager
       lastName
       password
       phone

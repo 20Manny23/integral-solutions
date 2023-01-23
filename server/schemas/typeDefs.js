@@ -9,7 +9,6 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     cell: String
-    isManager: Boolean
   }
 
   type Employee {
@@ -19,7 +18,6 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     phone: String
-    isManager: Boolean
     isAdmin: Boolean
     isLocked: Boolean
     schedule: [Schedule]
@@ -172,7 +170,6 @@ const typeDefs = gql`
       firstName: String
       lastName: String
       phone: String
-      isManager: Boolean
       isAdmin: Boolean
       isLocked: Boolean
     ): Employee
@@ -191,7 +188,6 @@ const typeDefs = gql`
       firstName: String
       lastName: String
       phone: String
-      isManager: Boolean
       isAdmin: Boolean
       isLocked: Boolean
       schedule: String
