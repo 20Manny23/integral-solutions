@@ -11,6 +11,7 @@ import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
+import googleMap from "../../../utils/googleMap";
 
 function Clients() {
   const [openDetails, setOpenDetails] = useState(false);
@@ -135,7 +136,8 @@ function Clients() {
 
                         <Col className="margin-break">
                           <a
-                            href={`https://www.google.com/maps/dir/?api=1&destination=${client?.streetAddress},${client?.city},${client?.state},${client?.zip}&travelmode=driving`}
+                           
+                            href= {googleMap(client?.streetAddress, client?.city, client?.state, client?.zip)}
                             target="_blank"
                             rel="noreferrer"
                           >
