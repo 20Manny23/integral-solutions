@@ -5,22 +5,24 @@ import { QUERY_ALL_CLIENTS } from "../../../utils/queries";
 import { DELETE_CLIENT } from "../../../utils/mutations";
 
 import format_phone from "../../../utils/helpers";
+import googleMap from "../../../utils/googleMap";
 
 import { Row, Col, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
-import googleMap from "../../../utils/googleMap";
 
 function Clients() {
   const [openDetails, setOpenDetails] = useState(false);
 
-  // eslint-disable-next-line
   const {
+    // eslint-disable-next-line
     loading: clientsLoad,
     data: clients,
+    // eslint-disable-next-line
     error: clientError,
+    // eslint-disable-next-line
     refetch: clientsRefetch,
   } = useQuery(QUERY_ALL_CLIENTS);
 
@@ -136,8 +138,12 @@ function Clients() {
 
                         <Col className="margin-break">
                           <a
-                           
-                            href= {googleMap(client?.streetAddress, client?.city, client?.state, client?.zip)}
+                            href={googleMap(
+                              client?.streetAddress,
+                              client?.city,
+                              client?.state,
+                              client?.zip
+                            )}
                             target="_blank"
                             rel="noreferrer"
                           >

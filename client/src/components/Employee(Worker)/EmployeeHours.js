@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
 import Auth from "../../utils/auth";
-import { useQuery } from "@apollo/client";
-import { QUERY_SINGLE_EMPLOYEE } from "../../utils/queries";
+import moment from "moment";
+
+import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
+import {
+  QUERY_ALL_HOURS,
+  QUERY_HOURS_BYEMPLOYEEID,
+  QUERY_HOURS_BYEMPLOYEEID_BYJOBDATE,
+} from "../../utils/queries";
+import {
+  ADD_HOURS,
+  UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE,
+  DELETE_HOURS_BYEMPLOYEEID_BYJOBDATE,
+} from "../../utils/mutations";
 
 import { thisWeek, lastWeek, hours } from "../../utils/hoursDates";
 import { format_date_no_hyphen } from "../../utils/dateFormat";
 import { Form, Col, Row, Container, Collapse, Button } from "react-bootstrap";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { getClippingParents } from "@fullcalendar/react";
-
-import { useMutation } from "@apollo/client";
-import { UPDATE_EMPLOYEE_HOURS } from "../../utils/mutations";
-// import { UPDATE_HOURS } from "../../utils/mutations";
 
 import "../../styles/hours.css";
-import moment from "moment";
 
 function EmployeeHours() {
   // set up state for form data
@@ -23,16 +27,119 @@ function EmployeeHours() {
   const [dayTotal, setDayTotal] = useState("");
   const [open, setOpen] = useState(false);
 
-  // const [currentEmployeeId, setCurrentEmployeeId] = useState("")
+  //SECTION QUERIES
+  //get all hours
+  const {
+    // eslint-disable-next-line
+    loading: hourLoad,
+    // eslint-disable-next-line
+    data: hour,
+    // eslint-disable-next-line
+    error: hourError,
+    // eslint-disable-next-line
+    refetch: clientsRefetch,
+  } = useQuery(QUERY_ALL_HOURS);
+  console.log("all hours = ", hour);
 
-  // const [getASingleEmployee, { loading, data }] =
-  // useQuery(QUERY_SINGLE_EMPLOYEE, {
-  //   variables: { id: currentEmployeeId },
-  //   skip: !Auth.loggedin(),
-  //   onCompleted: (singleEmployee) => {
-  //     setCurrentEmployeeId(singleEmployee);
+  //get hours by employee id
+  const [currentEmployeeId, setCurrentEmployeeId] = useState("6398fb54494aa98f85992da3");
+  const [currentJobDate, setCurrentJobDate] = useState("January 29 2023 09:00:00 (MST)");
+
+  // eslint-disable-next-line
+  const [
+    getAnEmployeeHours,
+    { loading: singleLazyLoad, data: singleEmployeeHours },
+  ] = useLazyQuery(QUERY_HOURS_BYEMPLOYEEID, {
+    variables: { employee: currentEmployeeId },
+    // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+    skip: !Auth.loggedIn()
+    // onCompleted: (singleEmployeeHours) => {
+    //   // setCurrentClient(singleClient);
+    // },
+  });
+
+  useEffect(() => {
+    getAnEmployeeHours();
+  }, [])
+  
+  if (!singleLazyLoad) {
+    console.log("single employee = ", singleEmployeeHours);
+  }
+
+  //get hours by employee id and job date
+    // eslint-disable-next-line
+    const [
+      getAnEmployeeHoursByHour,
+      { loading: byJobDateLazyLoad, data: singleEmployeeHoursJobDate },
+    ] = useLazyQuery(QUERY_HOURS_BYEMPLOYEEID_BYJOBDATE, {
+      variables: { employee: currentEmployeeId, jobDate: currentJobDate },
+      // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+      skip: !Auth.loggedIn()
+      // onCompleted: (singleEmployeeHours) => {
+      //   // setCurrentClient(singleClient);
+      // },
+    });
+  
+    useEffect(() => {
+      getAnEmployeeHoursByHour();
+    }, [])
+    
+    if (!byJobDateLazyLoad) {
+      console.log("single employee by date = ", singleEmployeeHoursJobDate);
+    }
+
+  //add hours
+  const [addHours] = useMutation(ADD_HOURS);
+
+  // useEffect(() => {
+  //   handleSubmit();
+  // }, [])
+
+  //pass in an "event" with data rather than as I do here
+  //replace the data with event variables wrapped in functions to convert dates and times to format shown
+  // const handleSubmit = async () => {
+  //   try {
+  //     // eslint-disable-next-line
+  //     const { data } = await addHours({
+  //       variables: {
+  //         jobDate: "January 20 2023 09:00:00 (MST)",
+  //         startTime: "12:00:00 (MST)",
+  //         endTime: "22:00:00 (MST)",
+  //         hoursWorked: "10.0",
+  //         employee: "6398fb54494aa98f85992da3"
+  //       },
+  //     });
+  //   } catch (err) {
+  //     console.error(err);
   //   }
-  // });
+  // }
+  
+  //update hours by employee id and job date
+  const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE);
+
+  useEffect(() => {
+    handleUpdate();
+  }, []);
+
+  //   pass in an "event" with data rather than as I do here
+  // replace the data with event variables wrapped in functions to convert dates and times to format shown
+  const handleUpdate = async () => {
+    try {
+      // eslint-disable-next-line
+      const { data } = await updateHours({
+        variables: {
+          jobDate: "January 20 2023 09:00:00 (MST)",
+          startTime: "12:00:00 (MST)",
+          endTime: "15:00:00 (MST)",
+          hoursWorked: "3.0",
+          employee: "6398fb54494aa98f85992da3"
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;

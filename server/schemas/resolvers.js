@@ -9,6 +9,7 @@ const {
 } = require("../models");
 const { signToken } = require("../utils/auth");
 const bcrypt = require("bcrypt");
+const { deflateRaw } = require("zlib");
 
 let expiration = "2h"; // 2 hours
 
@@ -98,24 +99,17 @@ const resolvers = {
 
     hoursById: async (parent, { _id }, context) => {
       // if (context.user) {
-      console.log("resolver employee by id = ", _id);
+      console.log("resolver hours by id = ", _id);
       return Hour.findOne({ _id }).populate("employee");
       // throw new AuthenticationError("You need to be logged in!");
     },
 
     hoursByEmployeeId: async (parent, { employee }, context) => {
       // if (context.user) {
-      console.log("resolver employee by id = ", employee);
+      console.log("resolver hours by employee id = ", employee);
       return Hour.find({ employee: employee }).populate("employee");
       // throw new AuthenticationError("You need to be logged in!");
     },
-
-    // hoursByJobDate: async (parent, { employee }, context) => {
-    //   // if (context.user) {
-    //   console.log("resolver employee by id = ", employee);
-    //   return Hour.find({ employee: employee }).populate("employee");
-    //   // throw new AuthenticationError("You need to be logged in!");
-    // },
 
     hoursByEmployeeIdByJobDate: async (
       parent,
@@ -123,7 +117,7 @@ const resolvers = {
       context
     ) => {
       // if (context.user) {
-      console.log("resolver employee by id = ", employee);
+      console.log("resolver hours by employee id by job date = ", employee, jobDate);
       return Hour.find({ employee: employee, jobDate: jobDate }).populate(
         "employee"
       );
