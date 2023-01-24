@@ -1,16 +1,22 @@
 .fc .fc-toolbar-title {
   color: #1a252f;
   font-family: Georgia, "Times New Roman", serif;
-  
 }
 
 .fc-list-day-side-text {
   display: none;
 }
-.fc-event-time, .fc-event-title {
+.fc-event-time,
+.fc-event-title {
   padding: 0 1px;
   white-space: normal;
-  }
+}
+
+.event-title {
+  display: flex;
+  height: 25px;
+  overflow: scroll;
+}
 
 @media only screen and (max-width: 576px) {
   .fc-media-screen {
