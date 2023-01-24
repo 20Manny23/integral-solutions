@@ -10,9 +10,9 @@ import hermanmiller from "../assets/images/hermanmiller2.png";
 
 function ShopLinks() {
   return (
-    <div className="bk-img">
+    <div className="bk-img" style={{minHeight:'80vh'}}>
       <Container>
-        <Row className="d-flex justify-content-center">
+        <Row className="d-flex justify-content-center" >
           <Col className="d-flex justify-content-center" md={6} lg={3} sm={6}>
             <a
               href="https://www.steelcase.com/"

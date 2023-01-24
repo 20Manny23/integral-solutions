@@ -11,20 +11,20 @@ import wrongPageImg from "../assets/not-found.png";
 const WrongPage = ({ renderPanel }) => {
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (!Auth.loggedIn()) {
-  //     setTimeout(() => navigate("/login"), 7000);
-  //   } else {
-  //     setTimeout(() => navigate("/"), 7000);
-  //   }
-    // eslint-disable-next-line
-  // }, []);
+  useEffect(() => {
+    if (!Auth.loggedIn()) {
+      setTimeout(() => navigate("/login"), 7000);
+    } else {
+      setTimeout(() => navigate("/"), 7000);
+    }
+    //eslint-disable-next-line
+  }, []);
 
   return (
     <Container>
       <Row
         className=" justify-content-center align-items-center "
-        // style={{ minHeight: "80vh" }}
+       
       >
         <Button
           as={Link}
