@@ -125,3 +125,4 @@ Contributor Covenant Code of Conduct
 This project is licensed under the terms of the <span style="color:red">The MIT License</span>. Please click on the license badge for more information.
 
 # integral-solutions-dev
+# In-Solutions
