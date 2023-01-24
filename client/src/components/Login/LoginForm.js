@@ -177,5 +177,5 @@ const isDisplayed = {
 };
 
 const isNotDisplayed = {
-  display: "none",
+  displa: "none",
 };
