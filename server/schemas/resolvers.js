@@ -46,9 +46,7 @@ const resolvers = {
 
     client: async (parent, { _id }, context) => {
       // if (context.user) {
-
       console.log("resolver = ", _id);
-
       return Client.findOne({ _id }).populate({
         path: "schedule",
         populate: { path: "client" },

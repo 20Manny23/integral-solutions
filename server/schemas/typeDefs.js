@@ -1,7 +1,7 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
-  type User {
+   type User {
     _id: ID
     username: String
     email: String
@@ -25,10 +25,11 @@ const typeDefs = gql`
   }
   type Hour {
     _id: ID
-    workDate: String
-    dayHours: String
+    jobDate: String
     startTime: String
     endTime: String
+    hoursWorked: String
+    #employee: String
     employee: Employee
   }
 
@@ -86,7 +87,9 @@ const typeDefs = gql`
     employeeById(_id: ID!): Employee
     schedules: [Schedule]
     schedule(scheduleId: ID!): Schedule
-    hours: [Hour]!
+
+    hours: [Hour]
+
     hoursByEmployee(employeeId: ID!): [Hour]
   }
 
