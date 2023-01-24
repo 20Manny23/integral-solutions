@@ -6,12 +6,14 @@ import { DELETE_SCHEDULE } from "../../../utils/mutations";
 
 import { format_date_MMDDYYYY } from "../../../utils/dateFormat";
 import format_phone from "../../../utils/helpers";
+import googleMap from "../../../utils/googleMap";
 
 import { Row, Col, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
+
 
 function ScheduleList() {
   const [openDetails, setOpenDetails] = useState(false);
@@ -137,7 +139,7 @@ function ScheduleList() {
 
                       <Col style={{ marginBottom: "15px", marginTop: "10px" }}>
                         <a
-                          href={`https://www.google.com/maps/dir/?api=1&destination=${job?.client?.streetAddress},${job?.client?.city},${job?.client?.state},${job?.client?.zip}&travelmode=driving`}
+                          href= {googleMap(job?.streetAddress, job?.city, job?.state, job?.zip)}
                           target="_blank"
                           rel="noreferrer"
                         >

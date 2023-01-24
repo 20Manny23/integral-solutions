@@ -152,18 +152,7 @@ function App() {
             <Routes>
               <Route exact path="/" element={<Home />} />
               <Route exact path="/home" element={<Home />} />
-              {/* <Route
-                exact
-                path="/messages"
-                element={
-                  <Login
-                    renderPanel={"messages"}
-                    messageButtonIsActive={true}
-                    loginButtonIsActive={false}
-                    signupButtonIsActive={false}
-                  />
-                }
-              /> */}
+       
               <Route
                 exact
                 path="/login"
