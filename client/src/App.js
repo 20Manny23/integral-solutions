@@ -23,7 +23,7 @@ import ResetPassword from "./components/ResetPassword/ResetPassword";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
-  faArrowAltCircleRight,
+
   faLocationDot,
   faEnvelopeOpenText,
   faPhone,
@@ -45,7 +45,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
-  faArrowAltCircleRight,
+ 
   faLocationDot,
   faEnvelopeOpenText,
   faPhone,
