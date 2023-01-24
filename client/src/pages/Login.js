@@ -2,14 +2,14 @@ import React from "react";
 import Auth from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 import LoginForm from "../components/Login/LoginForm";
-import SignupForm from "../components/Login/SignupForm";
+// import SignupForm from "../components/Login/SignupForm";
 
 import Container from "react-bootstrap/Container";
 import "../styles/button-home.css";
 
 import littleFella from "../assets/images/logo-no-slogan.png";
 
-const Login = ({ renderPanel, loginButtonIsActive, signupButtonIsActive }) => {
+const Login = ({ renderPanel, loginButtonIsActive }) => {
   let navigate = useNavigate();
 
   return (
@@ -45,13 +45,14 @@ const Login = ({ renderPanel, loginButtonIsActive, signupButtonIsActive }) => {
             <button
               disabled={Auth.loggedIn()}
               className={`baseline ${loginButtonIsActive && "isActive"}`}
+              style={{fontSize:'35px', border:'none', marginBottom:'-20px', marginTop:'-10px', color:'black'}}
               onClick={() => {
                 navigate("/login");
               }}
             >
-              Login
+              Login 
             </button>
-            <button
+            {/* <button
               disabled={Auth.loggedIn()}
               style={{ borderTop: "1pc solidblack" }}
               className={`baseline ${signupButtonIsActive ? "isActive" : ""}`}
@@ -60,9 +61,10 @@ const Login = ({ renderPanel, loginButtonIsActive, signupButtonIsActive }) => {
               }}
             >
               Sign Up
-            </button>
+            </button> */}
           </div>
-          {renderPanel === "login" ? <LoginForm /> : <SignupForm />}
+          {/* {renderPanel === "login" ? <LoginForm /> : <SignupForm />} */}
+          <LoginForm/>
         </div>
       </div>
     </Container>
