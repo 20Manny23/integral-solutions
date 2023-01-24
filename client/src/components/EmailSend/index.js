@@ -19,6 +19,8 @@ import {
 import "../../styles/Contact.css";
 
 function useEmailSend(props) {
+  console.log('forgot password props = ', props, props.email)
+
   // SECTION get tiny url
   const [tinyURI, setTinyURI] = useState("");
 
@@ -32,7 +34,7 @@ function useEmailSend(props) {
 
   // SECTION SET EMAIL CONTENT
   const toEmail =
-    props?.source === "resetPassword" ? props?.email : "callasteven@gmail.com";
+    props?.source === "resetPassword" ? props?.toEmail : "callasteven@gmail.com";
   const fromEmail = FROM_EMAIL;
   const subject =
     props?.source === "resetPassword"
@@ -47,7 +49,7 @@ function useEmailSend(props) {
       ? reset_html_template(props, tinyURI, createURL(props.token))
       : contactus_html_template(props, tinyURI, createURL(props.token));
 
-  // SECTION TO SEND EMAIL VIA LAZY QUERY
+  // SECTION SEND EMAIL VIA LAZY QUERY
   // eslint-disable-next-line
   const [
     sendEmail,

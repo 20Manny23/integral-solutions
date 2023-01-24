@@ -8,7 +8,6 @@ import { UPDATE_PASSWORD } from "../../utils/mutations";
 import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form, Button, Alert, InputGroup, ButtonGroup } from "react-bootstrap";
-import Footer from "../Home/Footer";
 import "../../styles/button-home.css";
 
 const ResetPassword = () => {
@@ -216,32 +215,12 @@ const ResetPassword = () => {
               className="mb-3 submit-button-style"
               type="submit"
               variant="success"
-              onClick={handleFormSubmit}
             >
               Submit
             </Button>
           </Form>
         </div>
-
-        {/* show alert if server response is bad */}
-        {/* {error && (
-        <div className="d-flex justify-content-center">
-          <Alert
-            dismissible
-            onClose={() => setShowAlert(false)}
-            show={showAlert}
-            variant="danger"
-            className="mb-4 py-1 pl-1 bg-danger text-white"
-            style={{ width: "300px" }}
-          >
-            <p className="" style={{ width: "200px" }}>
-              Something went wrong with your login credentials!
-            </p>
-          </Alert>
-        </div>
-      )} */}
       </div>
-      <Footer></Footer>
     </>
   );
 };
