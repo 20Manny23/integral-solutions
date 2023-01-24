@@ -11,6 +11,7 @@ import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
+import googleMap from "../../../utils/googleMap";
 
 function Clients() {
   const [openDetails, setOpenDetails] = useState(false);
@@ -59,7 +60,7 @@ function Clients() {
   };
   let arrayForSort = [];
   if (clients) {
-    // console.log(clients.clients)
+  
     arrayForSort = [...clients.clients];
     arrayForSort.sort(function (a, b) {
       if (a.businessName.toLowerCase() < b.businessName.toLowerCase())
@@ -68,7 +69,7 @@ function Clients() {
       return 0;
     });
   }
-  console.log(arrayForSort);
+
   return (
     <>
       <Container>
@@ -135,7 +136,7 @@ function Clients() {
 
                         <Col className="margin-break">
                           <a
-                            href={`https://www.google.com/maps/dir/?api=1&destination=${client?.streetAddress},${client?.city},${client?.state},${client?.zip}&travelmode=driving`}
+                            href= {googleMap(client?.streetAddress, client?.city, client?.state, client?.zip)}
                             target="_blank"
                             rel="noreferrer"
                           >

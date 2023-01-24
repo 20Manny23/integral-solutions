@@ -88,3 +88,14 @@
   transform: translate(2px, 2px);
   border: none;
 }
+.not-found{
+  max-height:60vh;
+
+}
+@media  screen and (max-width: 825px) {
+  .not-found{
+    max-width: 80%;
+    
+  }
+  
+}
