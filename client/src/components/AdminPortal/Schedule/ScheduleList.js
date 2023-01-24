@@ -15,8 +15,11 @@ import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
 
-function ScheduleList() {
+function ScheduleList({pastOrFuture}) {
   const [openDetails, setOpenDetails] = useState(false);
+  const [past, setPast] = useState([]);
+  const [future, setFuture] = useState([]);
+  const [completed, setCompleted] = useState([])
 
   //SECTION GET SCHEDULE
   // eslint-disable-next-line
@@ -29,8 +32,34 @@ function ScheduleList() {
     error: scheduleError,
     // eslint-disable-next-line
     refetch: scheduleRefetch,
-  } = useQuery(QUERY_SCHEDULE);
-  console.log(schedule);
+  } = useQuery(QUERY_SCHEDULE, {
+    onCompleted: (data) => {
+
+      const todayDate = Date.now();
+
+      for (let i = 0; i < data?.schedules?.length; i++) {
+        const date = new Date(data?.schedules[i].startDate);
+        const jobDate = date.getTime();
+
+        if (jobDate < todayDate) {
+         
+          past.push(data.schedules[i])
+        } else {
+       
+          future.push(data.schedules[i])
+        }
+      }
+   
+      if(pastOrFuture === "past"){
+        setCompleted(past)
+      }
+      else{
+        setCompleted(future)
+      }
+    }
+    
+  });
+
 
   // SECTION DELETE
   const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
@@ -56,7 +85,7 @@ function ScheduleList() {
   // SECTION HANDLE COLLAPSE
   const getElement = (event) => {
     let currentAvailTarget = event.currentTarget.getAttribute("data-target");
-    console.log(currentAvailTarget);
+    
     let currentAvailTable = document.getElementById(currentAvailTarget);
 
     if (currentAvailTable.classList.contains("show")) {
@@ -67,11 +96,29 @@ function ScheduleList() {
       setOpenDetails(true);
     }
   };
-
+  //Sorts decending for upcoming ascending for completed
+  
+  let arrayForSortDate = [];
+  if(pastOrFuture === "future"){
+    arrayForSortDate = [...completed];
+    arrayForSortDate.sort(function (a, b) {
+      if (a.startDate.toLowerCase() < b.startDate.toLowerCase()) return -1;
+      if (a.startDate.toLowerCase() > b.startDate.toLowerCase()) return 1;
+      return 0;
+    });
+  }
+  else {
+    arrayForSortDate = [...completed];
+    arrayForSortDate.sort(function (a, b) {
+      if (a.startDate.toLowerCase() < b.startDate.toLowerCase()) return 1;
+      if (a.startDate.toLowerCase() > b.startDate.toLowerCase()) return -1;
+      return 0;
+    })
+  }
   return (
     <Container>
       <Row style={{ display: "flex", justifyContent: "center" }}>
-        {schedule?.schedules?.map((job, index) => (
+        {arrayForSortDate.map((job, index) => (
           <div id="accordion" key={index} style={{ width: "98%" }}>
             <div className="card p-2 mb-1">
               <div
