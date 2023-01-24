@@ -512,6 +512,15 @@ function ScheduleUpdate() {
     jobDetails,
   ]);
 
+  let arrayForSortEmp = [];
+  if (emp) {
+    arrayForSortEmp = [...emp.employees];
+    arrayForSortEmp.sort(function (a, b) {
+      if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) return -1;
+      if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) return 1;
+      return 0;
+    });
+  }
   return (
     <Container>
       <Form
@@ -842,7 +851,7 @@ function ScheduleUpdate() {
           >
             {/* fix */}
             <option>Select</option>
-            {emp?.employees?.map((emp, index) => (
+            {arrayForSortEmp.map((emp, index) => (
               <option
                 key={index}
                 value={emp.firstName}
@@ -850,7 +859,7 @@ function ScheduleUpdate() {
                 data-lastname={emp.lastName}
                 data-id={emp._id}
               >
-                {emp.firstName} {emp.lastName}
+                {emp.lastName}, {emp.firstName} 
               </option>
             ))}
           </Form.Control>

@@ -271,7 +271,17 @@ function ClientUpdate() {
     state,
     zip,
   ]);
-
+  let arrayForSort = [];
+  if (clients) {
+    // console.log(clients.clients)
+    arrayForSort = [...clients.clients];
+    arrayForSort.sort(function (a, b) {
+      if (a.businessName.toLowerCase() < b.businessName.toLowerCase())
+        return -1;
+      if (a.businessName.toLowerCase() > b.businessName.toLowerCase()) return 1;
+      return 0;
+    });
+  }
   return (
     <Container>
       <Form
@@ -299,7 +309,7 @@ function ClientUpdate() {
                   : "Select"}
               </option> */}
               <option>Select</option>
-              {clients?.clients?.map((client, index) => (
+              {arrayForSort.map((client, index) => (
                 <option
                   key={index}
                   // value={client.businessName}
