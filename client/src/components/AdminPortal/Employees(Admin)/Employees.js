@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
+import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
 import {
-  QUERY_ALL_EMPLOYEES,
-} from "../../../utils/queries";
-import { DELETE_EMPLOYEE } from "../../../utils/mutations";
+  DELETE_EMPLOYEE,
+  TOGGLE_ADMIN,
+  TOGGLE_LOCKED,
+} from "../../../utils/mutations";
+import format_phone from "../../../utils/helpers";
 
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container, Form } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/Contact.css";
@@ -24,22 +27,25 @@ function Employees() {
     refetch: empRefetch,
   } = useQuery(QUERY_ALL_EMPLOYEES);
 
-  console.log(emp);
+  // toggle isAmin mutation
+  const [toggleAdmin] = useMutation(TOGGLE_ADMIN);
+  const [toggleLocked] = useMutation(TOGGLE_LOCKED);
 
   // SECTION DELETE
   const [deleteEmployee] = useMutation(DELETE_EMPLOYEE);
 
   const handleDeleteEmployee = async (event) => {
-    let clientId = event.currentTarget.getAttribute("data-clientid");
+    let employeeId = event.currentTarget.getAttribute("data-clientid");
+
     try {
       // eslint-disable-next-line
       await deleteEmployee({
         variables: {
-          id: clientId,
+          id: employeeId,
         },
       });
 
-      // RELOAD CLIENT
+      // RELOAD employee
       empRefetch();
     } catch (err) {
       console.log(err);
@@ -61,64 +67,154 @@ function Employees() {
     }
   };
 
+  // SECTION HANDLE TOGGLE UPDATE
+  const handleToggle = async (event) => {
+    let employeeId = event.currentTarget.getAttribute("data-employeeid");
+    let toggleTarget = event.currentTarget.name;
+
+    let toggle;
+    event.currentTarget.defaultValue === "true"
+      ? (toggle = false)
+      : (toggle = true);
+
+    if (toggleTarget === "admin") {
+      try {
+        // eslint-disable-next-line
+        await toggleAdmin({
+          variables: {
+            employeeId: employeeId,
+            isAdmin: toggle, // NOT A NECESSARY VARIABLE SINCE THE SERVER CHANGES THE STATE
+          },
+        });
+
+        // RELOAD EMPLOYEE
+        empRefetch();
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      console.log("not admin");
+      try {
+        // eslint-disable-next-line
+        await toggleLocked({
+          variables: {
+            employeeId: employeeId,
+            isLocked: toggle, // NOT A NECESSARY VARIABLE SINCE THE SERVER CHANGES THE STATE
+          },
+        });
+
+        // RELOAD EMPLOYEE
+        empRefetch();
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+  let arrayForSort = [];
+  if (emp) {
+    arrayForSort = [...emp.employees];
+    arrayForSort.sort(function (a, b) {
+      if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) return -1;
+      if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) return 1;
+      return 0;
+    });
+  }
+
   return (
-    <>
-      <Container>
-        <Row style={{ display: "flex", justifyContent: "center" }}>
-          {emp?.employees?.map((emp, index) => (
-            <div id="accordion" key={index} style={{ width: "98%" }}>
-              <div className="card p-2 mb-1">
-                <div
-                  className="rounded directions-collapse"
-                  id="headingOne"
-                  style={{
-                    color: "black",
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <h5 className="mb-0 text-left">
-                    <button
-                      onClick={(event) => getElement(event)}
-                      aria-controls={`#collapse-client-${index}`}
-                      aria-expanded={openDetails}
-                      className="btn btn-link pl-1"
-                      data-target={`#collapse-client-${index}`}
-                    >
-                      {emp?.firstName} {emp?.lastName}
-                    </button>
-                  </h5>
-                  <div className="d-flex mr-2">
-                    <FontAwesomeIcon
-                      icon="fa-trash"
-                      className="p-2 fa-lg"
-                      data-clientid={emp?._id}
-                      onClick={(event) => {
-                        handleDeleteEmployee(event);
-                      }}
-                    />
-                  </div>
+    <Container>
+      <Row style={{ display: "flex", justifyContent: "center" }}>
+        {arrayForSort?.map((emp, index) => (
+          <div id="accordion" key={index} style={{ width: "98%" }}>
+            <div className="card p-2 mb-1">
+              <div
+                className="rounded directions-collapse"
+                id="headingOne"
+                style={{
+                  color: "black",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <h5 className="d-flex flex-column mb-0 text-left">
+                  <button
+                    onClick={(event) => getElement(event)}
+                    aria-controls={`#collapse-client-${index}`}
+                    aria-expanded={openDetails}
+                    className="btn btn-link pl-1"
+                    data-target={`#collapse-client-${index}`}
+                  >
+                    <p className="mb-0 text-left">
+                      {emp?.lastName}, {emp?.firstName}
+                    </p>
+                    <p className="mb-0 text-left">{format_phone(emp?.phone)}</p>
+                  </button>
+                </h5>
+                <div className="d-flex mr-2">
+                  <FontAwesomeIcon
+                    icon="fa-trash"
+                    className="p-2 fa-lg"
+                    data-clientid={emp?._id}
+                    data-target={`#collapse-client-${index}`}
+                    onClick={(event) => {
+                      handleDeleteEmployee(event);
+                    }}
+                  />
                 </div>
-                <Collapse>
-                  <div id={`#collapse-client-${index}`}>
-                    <Container fluid="md">
-                      <Row>
-                      <Col>Admin: {emp?.isAdmin ? "True" : "False"}</Col>
-                      <Col><a href= {`mailto:${emp?.email}`}> {emp?.email}</a></Col>
-                      </Row>
-                      <Row>
-                      <Col>Locked: {emp?.isLocked ? "True" : "False"}</Col>
-                        <Col><a href= {`tel:+${emp?.phone}`}> {emp?.phone}</a></Col>
-                      </Row>
-                    </Container>
-                  </div>
-                </Collapse>
               </div>
+              <Collapse>
+                <div id={`#collapse-client-${index}`}>
+                  <Container fluid="true" className="center-screen">
+                    <Row>
+                      <Col md={6} lg={6}>
+                        <a href={`tel:+${emp?.phone}`}>
+                          <FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon>{" "}
+                          {format_phone(emp?.phone)}
+                        </a>
+                        <br></br>
+                        <a href={`mailto:${emp?.email}`}>
+                          {" "}
+                          <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
+                          {emp?.email}
+                        </a>
+                      </Col>
+
+                      <Col>
+                        <Form.Check
+                          type="switch"
+                          name="admin"
+                          label="Admin"
+                          id={`custom-admin-${index}`}
+                          data-employeeid={emp?._id}
+                          defaultChecked={emp.isAdmin}
+                          defaultValue={emp.isAdmin}
+                          onClick={(event) => handleToggle(event)}
+                          className="ml-4"
+                          style={{ transform: "scale(1.1)" }}
+                        ></Form.Check>
+
+                        <Form.Check
+                          type="switch"
+                          name="locked"
+                          label="Locked"
+                          id={`custom-locked-${index}`}
+                          data-employeeid={emp?._id}
+                          defaultChecked={emp.isLocked}
+                          defaultValue={emp.isLocked}
+                          onClick={(event) => handleToggle(event)}
+                          className="ml-4"
+                          style={{ transform: "scale(1.1)" }}
+                        ></Form.Check>
+                      </Col>
+                    </Row>
+                  </Container>
+                </div>
+              </Collapse>
             </div>
-          ))}
-        </Row>
-      </Container>
-    </>
+          </div>
+        ))}
+      </Row>
+    </Container>
   );
 }
 export default Employees;

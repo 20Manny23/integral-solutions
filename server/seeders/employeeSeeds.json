@@ -7,24 +7,38 @@
     "firstName": "Brendan",
     "lastName": "Bayliss",
     "phone": "970-867-5309",
-    "isManager": "true",
-    "isAdmin": true,
+    "isAdmin": false,
     "isLocked": false,
+    "hour": [
+      {
+      "dayHours": "15",
+      "workDate": "2/22/2023",
+      "startTime": "8:00",
+      "endTime": "5:00"
+    }
+  ],
     "schedule": [
       "423233343536373839303132"
     ]
   },
   {
     "_id": "6398fb54494aa98f85992da3",
-    "username": "Clearn",
+    "username": "Cleaner",
     "email": "a@a.com",
     "password": "12",
     "firstName": "Ryan",
     "lastName": "Stasick",
     "phone": "719-867-5309",
-    "isManager": "false",
     "isAdmin": true,
     "isLocked": false,
+    "hour": [
+      {
+      "dayHours": "25",
+      "workDate": "2/22/2023",
+      "startTime": "8:00",
+      "endTime": "5:00"
+    }
+  ],
     "schedule": [
       "413233343536373839303132",
       "423233343536373839303132"
@@ -37,13 +51,61 @@
     "password": "12",
     "firstName": "Rod",
     "lastName": "Bennett",
-    "phone": "9706554455",
-    "isManager": "true",
+    "phone":  "719-867-5309",
     "isAdmin": true,
     "isLocked": false,
+    "hour": [
+      {
+      "dayHours": "20",
+      "workDate": "2/22/2023",
+      "startTime": "8:00",
+      "endTime": "5:00"
+    }
+  ],
+    "schedule": [
+      "423233343536373839303132"
+    ]
+  },
+  {
+    "_id": "6398fb54494aa98f85992da5",
+    "username": "Hoff",
+    "email": "bhoff1980@gmail.com",
+    "password": "12",
+    "firstName": "Bryan",
+    "lastName": "Wienhoff",
+    "phone": "217-725-2526",
+    "isAdmin": true,
+    "isLocked": false,
+    "hour": [
+      {
+        "dayHours": "7",
+        "workDate": "4/44/4444",
+        "startTime": "8:00",
+        "endTime": "5:00"
+      }
+    ],
+    "schedule": ["443233343536373839303132"]
+  },
+  {
+    "_id": "6498fb54494aa98f85992da5",
+    "username": "Calla",
+    "email": "callasteven@gmail.com",
+    "password": "12",
+    "firstName": "Steve",
+    "lastName": "Calla",
+    "phone": "123-456-2526",
+    "isAdmin": true,
+    "isLocked": false,
+    "hour": [
+      {
+      "dayHours": "30",
+      "workDate": "2/22/2023",
+      "startTime": "8:00",
+      "endTime": "5:00"
+    }
+  ],
     "schedule": [
       "423233343536373839303132"
     ]
   }
-
 ]

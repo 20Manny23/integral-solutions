@@ -1,31 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import Auth from "../utils/auth";
+
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
+
 import EmployeePast from "../components/Employee(Worker)/EmployeePast";
-import EmployeeFuture from "../components/Employee(Worker)/EmployeeFuture";
+import EmployeeHours from "../components/Employee(Worker)/EmployeeHours";
+import EmployeeAdminHours from "../components/AdminPortal/Employees(Admin)/EmployeeAdminHours";
+
 import { Button, Container, Col, Row } from "react-bootstrap/";
 import "../styles/spinner.css";
 
-// import AllEmployeesCont from "../components/AllEmployeesCont";
-// import ClientList from "./ClientList";
-// import FullCalendarApp from "../components/Calendar/FullCalendarApp";
-// import Location from "./Location";
-// import WorkOrder from "./WorkOrder";
-
 const EmployeePortal = ({
   renderPanel,
-  // calendarButtonIsActive,
-  // workorderButtonIsActive,
+  pastOrFuture,
   addemployeeButtonIsActive,
   clientlistButtonIsActive,
+  hoursButtonIsActive,
+  hoursAdminButtonIsActive,
 }) => {
-  // const [upcomingPanel, setUpcomingPanel] = useState(isActive)
-  // const [pastPanel, setPastPanel] = useState(notActive)
   // get user info to render to page
   const userId = getUserId();
+  // eslint-disable-next-line
   const { loading, data } = useQuery(QUERY_ME, {
     variables: { id: userId },
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
@@ -78,9 +76,28 @@ const EmployeePortal = ({
                 >
                   Past Jobs
                 </Button>
+                {/* <Button
+                  variant="outline-primary"
+                  style={hoursButtonIsActive ? isActive : notActive}
+                  active={hoursButtonIsActive}
+                  onClick={() => {
+                    navigate("/hours");
+                  }}
+                >
+                  Enter Hours
+                </Button> */}
               </div>
-
-              {renderPanel === "employee" ? <EmployeeFuture /> : <EmployeePast />}
+              {renderPanel === "employee" ? (
+                <EmployeePast pastOrFuture="future" />
+              ) : renderPanel === "past" ? (
+                <EmployeePast pastOrFuture="past" />
+              ) : renderPanel === "hours" ? (
+                <EmployeeHours />
+              ) : renderPanel === "hoursadmin" ? (
+                <EmployeeAdminHours />
+              ) : (
+                <EmployeePortal />
+              )}
             </Col>
           </Row>
         </Container>
@@ -95,7 +112,7 @@ const isActive = {
   flex: "auto",
   border: "solid 3px black",
   borderRadius: "3px",
-  backgroundColor:'#007AFF'
+  backgroundColor: "#007AFF",
 };
 
 const notActive = {

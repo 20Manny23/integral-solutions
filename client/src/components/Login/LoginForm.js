@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import { Form, Button, Alert, InputGroup, Nav } from "react-bootstrap";
+import Auth from "../../utils/auth";
+
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
-import Auth from "../../utils/auth";
+
+import { Form, Button, Alert, InputGroup, Nav } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/button-home.css";
 
-import decode from "jwt-decode";
-
-
 const LoginForm = () => {
-  const [userFormData, setUserFormData] = useState({ email: "", password: "" });
-  const [login, { error }] = useMutation(LOGIN_USER);
-
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+
+  const [userFormData, setUserFormData] = useState({ email: "", password: "" });
+  const [login, { error }] = useMutation(LOGIN_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -38,7 +37,7 @@ const LoginForm = () => {
         variables: { ...userFormData },
       });
 
-      // for reference ... 
+      // for reference ...
       // console.log(data)
       // console.log(data.login)
       // console.log(data.login.token)
@@ -48,8 +47,7 @@ const LoginForm = () => {
 
       Auth.login(data.login);
 
-      window.location.assign(`/home`);
-
+      window.location.assign(`/`);
     } catch (e) {
       console.error(e);
       setShowAlert(true);
@@ -87,7 +85,7 @@ const LoginForm = () => {
             <Form.Label htmlFor="email">Email</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Your email"
+              placeholder="Your email address"
               name="email"
               onChange={handleInputChange}
               value={userFormData.email}
@@ -145,7 +143,9 @@ const LoginForm = () => {
           </Button>
         </Form>
         <Nav.Item>
-          <Nav.Link href="/forgotpassword" className="text-blue">Forgot Password?</Nav.Link>
+          <Nav.Link href="/forgotpassword" className="text-blue">
+            Forgot Password?
+          </Nav.Link>
         </Nav.Item>
       </div>
 

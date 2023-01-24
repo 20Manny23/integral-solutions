@@ -4,6 +4,9 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_SCHEDULE } from "../../../utils/queries";
 import { DELETE_SCHEDULE } from "../../../utils/mutations";
 
+import { format_date_MMDDYYYY } from "../../../utils/dateFormat";
+import format_phone from "../../../utils/helpers";
+
 import { Row, Col, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,14 +28,14 @@ function ScheduleList() {
     // eslint-disable-next-line
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE);
-
   console.log(schedule);
 
   // SECTION DELETE
   const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
 
-  const handledeleteSchedule = async (event) => {
+  const handleDeleteSchedule = async (event) => {
     let scheduleId = event.currentTarget.getAttribute("data-scheduleid");
+    console.log(scheduleId);
     try {
       // eslint-disable-next-line
       await deleteSchedule({
@@ -43,7 +46,6 @@ function ScheduleList() {
 
       // RELOAD SCHEDULE
       scheduleRefetch();
-
     } catch (err) {
       console.log(err);
     }
@@ -88,12 +90,10 @@ function ScheduleList() {
                     data-target={`#collapse-client-${index}`}
                   >
                     <p className="mb-0 text-left">
-
-                    {job?.client.businessName} 
+                      {job?.client?.businessName}
                     </p>
                     <p className="mb-0 text-left">
-
-                    {job?.startDate}
+                      {format_date_MMDDYYYY(job?.startDate)} at {job?.startTime}
                     </p>
                   </button>
                 </h5>
@@ -103,44 +103,102 @@ function ScheduleList() {
                     className="p-2 fa-lg"
                     data-scheduleid={job?._id}
                     onClick={(event) => {
-                      handledeleteSchedule(event);
+                      handleDeleteSchedule(event);
                     }}
                   />
                 </div>
               </div>
-              <Collapse>
+
+              <Collapse className="center-screen2">
                 <div id={`#collapse-client-${index}`}>
-                  <Container fluid="md">
+                  <Container fluid="auto">
                     <Row>
-                      <Col>Contact: {job?.client.contact}</Col>
-                      <Col> <a href={`mailto:${job?.client.email}`}> {job?.client.email}</a> </Col>
+                      <Col
+                        xs={12}
+                        sm={6}
+                        style={{ marginBottom: "15px", marginTop: "10px" }}
+                      >
+                        <span style={{ fontWeight: "bold" }}>Contact:</span>{" "}
+                        {job?.client?.contact}
+                        <br></br>{" "}
+                        <a href={`tel:+${job?.client?.phone}`}>
+                          <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
+                          {format_phone(job?.client?.phone)}
+                        </a>{" "}
+                        <br></br>{" "}
+                        <a href={`mailto:${job?.client?.email}`}>
+                          <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
+                          {job?.client?.email}
+                        </a>{" "}
+                        <br></br>{" "}
+                        <span style={{ fontWeight: "bold" }}>Client Size:</span>{" "}
+                        {job?.numberOfClientEmployees}
+                      </Col>
+
+                      <Col style={{ marginBottom: "15px", marginTop: "10px" }}>
+                        <a
+                          href={`https://www.google.com/maps/dir/?api=1&destination=${job?.client?.streetAddress},${job?.client?.city},${job?.client?.state},${job?.client?.zip}&travelmode=driving`}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-location-dot"
+                            style={{ marginTop: "4px", marginRight: "5px" }}
+                          />
+                          {job?.streetAddress}
+                          {job?.suite && `, ${job?.suite}`}
+                          <br></br>
+                          {job?.city}, {job?.state} {job?.zip}
+                          <br></br>
+                        </a>
+                        <span style={{ fontWeight: "bold" }}>Start: </span>
+                        {format_date_MMDDYYYY(job?.startDate)}
+                        <br></br>
+                        <span style={{ fontWeight: "bold" }}>End: </span>{" "}
+                        {format_date_MMDDYYYY(job?.endDate)}
+                      </Col>
                     </Row>
-                    <Row>
-                      <Col>{job?.client.streetAddress}{job?.client.suite && `, ${job?.client.suite}`}</Col>
-                      <Col> <a href={`tel:+${job?.client.phone}`}> {job?.client.phone}</a> </Col>
-                    </Row>
-                    <Row>
-                      <Col>{job?.client.city}, {job?.client.state} {job?.client.zip}</Col>
-                      <Col>Start: {job?.startDate}</Col>
-                    </Row>
+
                     <Row>
                       <Col>
-                        Client Size: {job?.numberOfClientEmployees}
+                        <span style={{ fontWeight: "bold" }}>Job Details:</span>{" "}
+                        {job?.jobDetails}
                       </Col>
-                      <Col>End: {job?.endDate}</Col>
-                    </Row>
-                    <Row>
-                      <Col>Job Details: {job?.jobDetails}</Col>
                     </Row>
                     <Row>
                       {/* <hr></hr> */}
-                      <h6 className="mx-3 mt-2" style={{ textDecoration: "underline" }}>EMPLOYEES</h6>
-                      <section key={index} className="d-flex flex-row" style={{ width: "100%" }}>
-                        {job?.employees.map((employee, index) => (
-                          <article className="">
-                            <p className="ml-3 mb-0"> {employee?.firstName} {employee?.lastName}</p>
-                            <p className="ml-3 mb-0"> <a href={`mailto:${employee?.email}`}> {employee?.email}</a></p>
-                            <p className="ml-3 mb-0"> <a href={`tel:+${employee?.phone}`}> {employee?.phone}</a></p>
+                      <h6
+                        className="mx-3 mt-2"
+                        style={{ textDecoration: "underline" }}
+                      >
+                        EMPLOYEES
+                      </h6>
+                      <section
+                        className="d-flex flex-row"
+                        style={{ width: "100%" }}
+                      >
+                        {job?.employees?.map((employee, index) => (
+                          <article key={index} className="">
+                            <p className="ml-3 mb-0">
+                              {" "}
+                              {employee?.firstName} {employee?.lastName}
+                            </p>
+                            <p className="ml-3 mb-0">
+                              {" "}
+                              <a href={`mailto:${employee?.email}`}>
+                                {" "}
+                                <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
+                                {employee?.email}
+                              </a>
+                            </p>
+                            <p className="ml-3 mb-0">
+                              {" "}
+                              <a href={`tel:+${employee?.phone}`}>
+                                {" "}
+                                <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
+                                {format_phone(employee?.phone)}
+                              </a>
+                            </p>
                           </article>
                         ))}
                       </section>

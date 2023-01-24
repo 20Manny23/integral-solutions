@@ -7,51 +7,7 @@ export const QUERY_ME = gql`
       username
       email
       firstName
-      isManager
       lastName
-      availability {
-        mondayAm
-        mondayPm
-        tuesdayAm
-        tuesdayPm
-        wednesdayAm
-        wednesdayPm
-        thursdayAm
-        thursdayPm
-        fridayAm
-        fridayPm
-        saturdayAm
-        saturdayPm
-        sundayAm
-        sundayPm
-      }
-      locations {
-        _id
-        businessName
-        address
-        businessContact
-        shifts
-        daysOfWeek
-        startTime
-        laborHours
-        instructions {
-          facilityType
-          cleaningType
-          bathrooms
-          lobby
-          sittingArea
-          breakRoom
-          frontdesk
-          appliances
-          dusting
-          windows
-          trash
-          vacuum
-          mop
-          additionalServices
-          exclusions
-        }
-      }
     }
   }
 `;
@@ -68,6 +24,10 @@ export const QUERY_EMPLOYEE_BYEMAIL = gql`
       isAdmin
       isLocked
       password
+      phone
+      schedule {
+        _id
+      }
     }
   }
 `;
@@ -86,6 +46,10 @@ export const QUERY_EMPLOYEE_BYID = gql`
       schedule {
         startDate
         startTime
+        streetAddress
+        city
+        state
+        zip
         endDate
         endTime
         jobDetails
@@ -93,7 +57,9 @@ export const QUERY_EMPLOYEE_BYID = gql`
         client {
           _id
           businessName
+          contact
           streetAddress
+          phone
           suite
           city
           state
@@ -115,6 +81,12 @@ export const QUERY_ALL_EMPLOYEES = gql`
       isAdmin
       isLocked
       password
+      hours {
+        dayHours
+        workDate
+        startTime
+        endTime
+      }
       schedule {
         startDate
         startTime
@@ -138,7 +110,7 @@ export const QUERY_ALL_EMPLOYEES = gql`
 
 export const QUERY_SINGLE_EMPLOYEE = gql`
   query getASingleEmployee($id: ID!) {
-    employeeById( _id: $id ) {
+    employeeById(_id: $id) {
       _id
       firstName
       lastName
@@ -147,6 +119,12 @@ export const QUERY_SINGLE_EMPLOYEE = gql`
       isAdmin
       isLocked
       password
+      hours {
+        dayHours
+        workDate
+        startTime
+        endTime
+      }
     }
   }
 `;
@@ -213,6 +191,52 @@ export const QUERY_SCHEDULE = gql`
         phone
       }
       client {
+        _id
+        businessName
+        contact
+        email
+        phone
+        streetAddress
+        city
+        state
+        suite
+        zip
+      }
+      suite
+      streetAddress
+      city
+      state
+      zip
+      squareFeet
+    }
+  }
+`;
+
+export const QUERY_SINGLE_SCHEDULE = gql`
+  query scheduleFindOne($scheduleId: ID!) {
+    schedule(scheduleId: $scheduleId) {
+      _id
+      startDate
+      endDate
+      startTime
+      endTime
+      streetAddress
+      suite
+      state
+      city
+      zip
+      squareFeet
+      jobDetails
+      numberOfClientEmployees
+      employees {
+        _id
+        firstName
+        lastName
+        email
+        phone
+      }
+      client {
+        _id
         businessName
         contact
         email
@@ -227,107 +251,21 @@ export const QUERY_SCHEDULE = gql`
   }
 `;
 
-// SECTION LEGACY CODE
-export const QUERY_SINGLE_LOCATION = gql`
-  query getSingleLocation($locationId: ID!) {
-    location(locationId: $locationId) {
-      _id
-      businessName
-      businessContact
-      address
-    }
-  }
-`;
-
-export const QUERY_LOCATIONS = gql`
-  query allLocations {
-    locations {
-      _id
-      businessName
-      address
-      businessContact
-      shifts
-      daysOfWeek
-      startTime
-      laborHours
-      instructions {
-        facilityType
-        cleaningType
-        bathrooms
-        lobby
-        sittingArea
-        breakRoom
-        frontdesk
-        appliances
-        dusting
-        windows
-        trash
-        vacuum
-        mop
-        additionalServices
-        exclusions
-      }
-    }
-  }
-`;
-
-export const QUERY_INCIDENTS = gql`
-  query allIncidents {
-    incidents {
-      _id
-      employeeName
-      locationName
-      employeePhone
-      subject
-      urgent
-      incidentDetails
-    }
-  }
-`;
-
-export const QUERY_USERS = gql`
-  query allUsers {
-    users {
-      _id
-      username
-      email
-      password
-      firstName
-      lastName
-      cell
-      isManager
-      availability {
-        mondayAm
-        mondayPm
-        tuesdayAm
-        tuesdayPm
-        wednesdayAm
-        wednesdayPm
-        thursdayAm
-        thursdayPm
-        fridayAm
-        fridayPm
-        saturdayAm
-        saturdayPm
-        sundayAm
-        sundayPm
-      }
-    }
-  }
-`;
-
-export const QUERY_EVENTS = gql`
-  query events {
-    events {
-      _id
-      title
-      startTime
-      endTime
-      daysOfWeek
-      startRecur
-      display
-      backgroundColor
-      textColor
-    }
+// SECTION SEND EMAIL
+export const SEND_EMAIL = gql`
+  query emailContent(
+    $toEmail: String
+    $fromEmail: String
+    $subject: String
+    $textContent: String
+    $htmlContent: String
+  ) {
+    sendEmail(
+      toEmail: $toEmail
+      fromEmail: $fromEmail
+      subject: $subject
+      textContent: $textContent
+      htmlContent: $htmlContent
+    )
   }
 `;

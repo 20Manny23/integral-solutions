@@ -20,6 +20,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^4.6.2",
+    "dayjs": "^1.11.7",
     "fullcalendar": "^5.11.3",
     "graphql": "^15.4.0",
     "jwt-decode": "^2.2.0",

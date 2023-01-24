@@ -1,29 +1,34 @@
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 
-import Schedule from "./Schedule";
+import FullCalendarApp from "../../Calendar/FullCalendarApp";
+import ScheduleList from "./ScheduleList";
 import ScheduleAdd from "./ScheduleAdd";
 import ScheduleUpdate from "./ScheduleUpdate";
 
-function ScheduleList() {
+function Schedule() {
   return (
     <Tabs
-      defaultActiveKey="employeeList"
+      defaultActiveKey="calendar"
       id="fill-tab-example"
       className="mb-3"
-      fill
+      fill //sizes tabs to fit available space
+      unmountOnExit //removes content when entering a different tab
     >
+      <Tab eventKey="calendar" title="Calendar">
+        <FullCalendarApp />
+      </Tab>
       <Tab eventKey="scheduleList" title="Job List">
-        <Schedule />
+        <ScheduleList />
       </Tab>
       <Tab eventKey="scheduleAdd" title="Add Jobs">
         <ScheduleAdd />
       </Tab>
       <Tab eventKey="scheduleUpdate" title="Update Jobs">
-       <ScheduleUpdate />
+        <ScheduleUpdate />
       </Tab>
     </Tabs>
   );
 }
 
-export default ScheduleList;
+export default Schedule;

@@ -12,8 +12,9 @@ import {
   UPDATE_EMPLOYEE_SCHEDULE,
 } from "../../../utils/mutations";
 
-import format_date_string from "../../../utils/dateFormat";
+import { format_date_string } from "../../../utils/dateFormat";
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
+import { NUMBER_OF_EMPLOYEES } from "../../../utils/numberOfEmployees";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
@@ -24,7 +25,6 @@ function ScheduleAdd() {
   // GET FORM INPUT
   const [businessName, setBusinessName] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
-  const [suite, setSuite] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
@@ -36,7 +36,6 @@ function ScheduleAdd() {
   const [jobDetails, setJobDetails] = useState("");
   const [numberOfClientEmployees, setNumberOfClientEmployees] = useState("");
   const [client, setClient] = useState("");
-  const [employees, setEmployees] = useState("");
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
@@ -45,26 +44,17 @@ function ScheduleAdd() {
     setBusinessName(e.target.value);
   }
 
-  const numberOfEmployees = [
-    "Home Office",
-    "Less Than 50",
-    "50-99",
-    "More Than 100",
-  ];
-
   // VALIDATION
   const [showBusinessNameValidation, setShowBusinessNameValidation] =
     useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
-  const [showSuiteValidation, setShowSuiteValidation] = useState(false); // currently no suite field on input form
   const [showCityValidation, setShowCityValidation] = useState(false);
   const [showStateValidation, setShowStateValidation] = useState(false);
   const [showZipValidation, setShowZipValidation] = useState(false);
   const [showStartDateValidation, setStartDateValidation] = useState(false);
   const [showEndDateValidation, setShowEndDateValidation] = useState(false);
   const [showStartTimeValidation, setShowStartTimeValidation] = useState(false);
-  const [showEndTimeValidation, setShowEndTimeValidation] = useState(false);
   const [showSquareFeetValidation, setShowSquareFeetValidation] =
     useState(false);
   const [showJobDetailsValidation, setShowJobDetailsValidation] =
@@ -73,9 +63,6 @@ function ScheduleAdd() {
     showNumberOfClientEmployeesValidation,
     setShowNumberOfClientEmployeesValidation,
   ] = useState(false);
-  const [showClientValidation, setShowClientValidation] = useState(false);
-  const [showSelectedEmployeesValidation, setShowSelectedEmployeesValidation] =
-    useState(false);
 
   //SECTION QUERIES / MUTATIONS
   // get schedule
@@ -171,8 +158,6 @@ function ScheduleAdd() {
       ? setNumberOfClientEmployees(value)
       : name === "client"
       ? setClient(value)
-      : name === "employees"
-      ? setEmployees(value)
       : name === "streetAddress"
       ? setStreetAddress(value)
       : name === "state"
@@ -195,9 +180,6 @@ function ScheduleAdd() {
     name === "streetAddress" && value.trim() === ""
       ? setShowStreetAddressValidation(true)
       : setShowStreetAddressValidation(false);
-    name === "suite" && value.trim() === ""
-      ? setShowSuiteValidation(true)
-      : setShowSuiteValidation(false);
     name === "city" && value.trim() === ""
       ? setShowCityValidation(true)
       : setShowCityValidation(false);
@@ -216,9 +198,6 @@ function ScheduleAdd() {
     name === "startTime" && value.trim() === ""
       ? setShowStartTimeValidation(true)
       : setShowStartTimeValidation(false);
-    name === "endTime" && value.trim() === ""
-      ? setShowEndTimeValidation(true)
-      : setShowEndTimeValidation(false);
     name === "squareFeet" && value.trim() === ""
       ? setShowSquareFeetValidation(true)
       : setShowSquareFeetValidation(false);
@@ -325,7 +304,6 @@ function ScheduleAdd() {
   const resetForm = () => {
     setBusinessName("");
     setStreetAddress("");
-    setSuite("");
     setCity("");
     setState("");
     setZip("");
@@ -337,7 +315,6 @@ function ScheduleAdd() {
     setJobDetails("");
     setNumberOfClientEmployees("");
     setClient("");
-    setEmployees("");
     setAreAllFieldsFilled(false);
   };
 
@@ -360,7 +337,7 @@ function ScheduleAdd() {
       // || suite.trim() !== ""
       // || endTime.trim() === ""
     );
-    console.log(areAllFieldsFilled);
+    // console.log(areAllFieldsFilled);
     // eslint-disable-next-line
   }, [
     businessName,
@@ -407,9 +384,18 @@ function ScheduleAdd() {
             name={"form-select"}
             onChange={businessNameSelect}
           >
-            <option>Select</option>
+            <option>{businessName ? businessName : "Select"}</option>
             {clients?.clients?.map((client, index) => (
-              <option key={index} value={client.businessName}>
+              // <option
+              //   key={index}
+              //   value={client.businessName}
+              //   data-id={client._id}
+              // >
+              <option
+                key={index}
+                value={client.businessName}
+                data-id={client._id}
+              >
                 {client.businessName}
               </option>
             ))}
@@ -480,8 +466,8 @@ function ScheduleAdd() {
               //required
             >
               <option>Select</option>
-              {STATE_DROPDOWN.map((st) => (
-                <option>{st}</option>
+              {STATE_DROPDOWN.map((st, index) => (
+                <option key={index}>{st}</option>
               ))}
             </Form.Control>
           </Col>
@@ -525,6 +511,7 @@ function ScheduleAdd() {
               <Form.Control
                 className="custom-border"
                 type="date"
+                minvalue="01/23/2023"
                 name="startDate"
                 defaultValue={client?.startDate}
                 onChange={handleInputChange}
@@ -632,7 +619,7 @@ function ScheduleAdd() {
                 onChange={handleInputChange}
               >
                 <option>Select</option>
-                {numberOfEmployees.map((emp, index) => (
+                {NUMBER_OF_EMPLOYEES.map((emp, index) => (
                   <option key={index}>{emp}</option>
                 ))}
               </Form.Control>
@@ -643,13 +630,6 @@ function ScheduleAdd() {
         <Form.Group className="form-length">
           <Form.Label style={{ fontWeight: "bolder" }}>
             Select Employees for Job
-          </Form.Label>
-          <Form.Label
-            className={`validation-color ${
-              showSelectedEmployeesValidation ? "show" : "hide"
-            }`}
-          >
-            *required
           </Form.Label>
           <Form.Control
             as="select"
@@ -675,24 +655,25 @@ function ScheduleAdd() {
             ))}
           </Form.Control>
         </Form.Group>
-
-        {/* Creates button when adding employee to job  */}
-        {selectedEmployees.map((employee) => (
-          <Button
-            style={{
-              marginRight: "15px",
-              padding: "3px",
-              backgroundColor: "#007bff",
-            }}
-            onClick={removeEmployee}
-            value={employee.employeeId}
-            variant="secondary"
-            data-id={emp._id}
-          >
-            {`${employee.firstName} ${employee.lastName}`}
-          </Button>
-        ))}
-
+        <Form.Group className="form-length">
+          {/* Creates button when adding employee to job  */}
+          {selectedEmployees.map((employee) => (
+            <Button
+              style={{
+                marginRight: "15px",
+                padding: "3px",
+                backgroundColor: "#007bff",
+              }}
+              className="m-1 p-2"
+              onClick={removeEmployee}
+              value={employee.employeeId}
+              variant="secondary"
+              data-id={emp._id}
+            >
+              {`${employee.firstName} ${employee.lastName}`}
+            </Button>
+          ))}
+        </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicMessage">
           <div className="form-label form-length">
             <Form.Label style={{ fontWeight: "bolder" }}>
