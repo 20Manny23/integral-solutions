@@ -308,9 +308,10 @@ function ClientUpdate() {
                   ? prevClientData?.businessName
                   : "Select"}
               </option> */}
-              <option>{prevClientData?.businessName ? prevClientData.businessName : "Select"} </option>
-              {clients?.clients?.map((client, index) => (
-              <option>Select</option>
+              <option> 
+              {prevClientData?.businessName
+                  ? prevClientData?.businessName
+                  : "Select"} </option>
               {arrayForSort.map((client, index) => (
                 <option
                   key={index}
