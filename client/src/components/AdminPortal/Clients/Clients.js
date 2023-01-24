@@ -57,9 +57,11 @@ function Clients() {
       setOpenDetails(true);
     }
   };
+
+  //Sort Clients Alphabetically
   let arrayForSort =[]
   if(clients){
-    // console.log(clients.clients)
+    
     arrayForSort = [...clients.clients]
   arrayForSort.sort(function(a, b){
     if(a.businessName.toLowerCase() < b.businessName.toLowerCase()) return -1;
@@ -67,7 +69,7 @@ function Clients() {
     return 0;
   })
   }
-  console.log(arrayForSort)
+
   return (
     <>
       <Container>
