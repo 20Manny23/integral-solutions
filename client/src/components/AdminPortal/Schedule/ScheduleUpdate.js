@@ -29,6 +29,7 @@ import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 import "../../../styles/Forms.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function ScheduleUpdate() {
   //form = input fields
@@ -521,6 +522,17 @@ function ScheduleUpdate() {
       return 0;
     });
   }
+
+  let arrayForSortDate = [];
+  if(schedule){
+    arrayForSortDate = [...schedule.schedules];
+    arrayForSortDate.sort(function (a, b) {
+      if (a.startDate.toLowerCase() < b.startDate.toLowerCase()) return 1;
+      if (a.startDate.toLowerCase() > b.startDate.toLowerCase()) return -1;
+      return 0;
+    });
+  }
+
   return (
     <Container>
       <Form
@@ -547,14 +559,15 @@ function ScheduleUpdate() {
                   }: ${format_date_MMDDYYYY(prevScheduleData?.startDate)}`
                 : "Select"}
             </option>
-            {schedule?.schedules?.map((job, index) => (
+            {arrayForSortDate.map((job, index) => (
               <option
                 key={index}
                 // value={job?.client?.businessName}
                 data-id={job?._id}
               >
-                {index}: {job?.client?.businessName}:{" "}
-                {format_date_MMDDYYYY(job?.startDate)}
+                {index +1}: {format_date_MMDDYYYY(job?.startDate)} {"--"}  
+                {job?.client?.businessName}
+                
               </option>
             ))}
           </Form.Control>
