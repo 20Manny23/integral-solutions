@@ -10,7 +10,6 @@ import { format_date_ISOString } from "../../utils/dateFormat";
 
 import "../../styles/calendar.css";
 
-
 const FullCalendarApp = () => {
   const [show, setShow] = useState(false);
 
@@ -73,16 +72,14 @@ const FullCalendarApp = () => {
 
     if (!scheduleLoad) {
       setCurrentSchedule(clickedSchedule.data.schedule);
-
       // console.log("current schedule = ", currentSchedule);
-
       handleShow();
     }
   };
 
+  //section
   let results = [];
   if (!scheduleLoad) {
-    
     results = schedule?.schedules?.map((job) => {
       return {
         id: job._id,
@@ -134,10 +131,10 @@ const FullCalendarApp = () => {
 
   function renderEventContent(eventInfo) {
     return (
-      <>
+      <div>
         <b>{eventInfo.timeText} </b>
-        <i>{eventInfo.event.title}</i>
-      </>
+        <i className="event-title">{eventInfo.event.title}</i>
+      </div>
     );
   }
 

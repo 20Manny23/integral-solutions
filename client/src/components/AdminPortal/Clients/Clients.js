@@ -5,6 +5,7 @@ import { QUERY_ALL_CLIENTS } from "../../../utils/queries";
 import { DELETE_CLIENT } from "../../../utils/mutations";
 
 import format_phone from "../../../utils/helpers";
+import googleMap from "../../../utils/googleMap";
 
 import { Row, Col, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
@@ -15,11 +16,13 @@ import "../../../styles/button-style.css";
 function Clients() {
   const [openDetails, setOpenDetails] = useState(false);
 
-  // eslint-disable-next-line
   const {
+    // eslint-disable-next-line
     loading: clientsLoad,
     data: clients,
+    // eslint-disable-next-line
     error: clientError,
+    // eslint-disable-next-line
     refetch: clientsRefetch,
   } = useQuery(QUERY_ALL_CLIENTS);
 
@@ -59,7 +62,7 @@ function Clients() {
   };
   let arrayForSort = [];
   if (clients) {
-    // console.log(clients.clients)
+  
     arrayForSort = [...clients.clients];
     arrayForSort.sort(function (a, b) {
       if (a.businessName.toLowerCase() < b.businessName.toLowerCase())
@@ -68,7 +71,7 @@ function Clients() {
       return 0;
     });
   }
-  console.log(arrayForSort);
+
   return (
     <>
       <Container>
@@ -135,7 +138,8 @@ function Clients() {
 
                         <Col className="margin-break">
                           <a
-                            href={`https://www.google.com/maps/dir/?api=1&destination=${client?.streetAddress},${client?.city},${client?.state},${client?.zip}&travelmode=driving`}
+                            href= {googleMap(client?.streetAddress, client?.city, client?.state, client?.zip)}
+                         
                             target="_blank"
                             rel="noreferrer"
                           >

@@ -20,19 +20,10 @@ import EmployeePortal from "./pages/EmployeePortal";
 import ForgotPassword from "./components/ResetPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 
-// import Employee from "./components/Employee/Employee";
-// import EmployeeMock from "./components/Employee/EmployeeMock";
-// import Employees from "./pages/Employees";
-// import WorkOrder from "./pages/WorkOrder";
-// import ClientList from "./pages/ClientList";
-// import Availability from "./pages/Availability";
-// import Timeoff from "./pages/Timeoff";
-// import Incident from "./pages/Incident";
-// import IncidentList from "./pages/IncidentList";
-
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
+
   faLocationDot,
   faEnvelopeOpenText,
   faPhone,
@@ -54,6 +45,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
+ 
   faLocationDot,
   faEnvelopeOpenText,
   faPhone,
@@ -112,31 +104,20 @@ function App() {
               <Route exact path="/home" element={<Home />} />
               <Route exact path="/shoplinks" element={<ShopLinks />} />
               <Route exact path="/contact" element={<ContactUs />} />
-              {/* <Route
-                exact
-                path="/messages"
-                element={
-                  <Login
-                    renderPanel={"messages"}
-                    messageButtonIsActive={true}
-                    loginButtonIsActive={false}
-                    signupButtonIsActive={false}
-                  />
-                }
-              /> */}
+     
               <Route
                 exact
                 path="/login"
                 element={
                   <Login
                     renderPanel={"login"}
-                    messageButtonIsActive={false}
+                    // messageButtonIsActive={false}
                     loginButtonIsActive={true}
-                    signupButtonIsActive={false}
+                   
                   />
                 }
               />
-              <Route
+              {/* <Route
                 exact
                 path="/signup"
                 element={
@@ -144,10 +125,10 @@ function App() {
                     renderPanel={"signup"}
                     messageButtonIsActive={false}
                     loginButtonIsActive={false}
-                    signupButtonIsActive={true}
+                    
                   />
                 }
-              />
+              /> */}
               <Route
                 exact
                 path="/forgotpassword"
@@ -173,7 +154,7 @@ function App() {
             <Routes>
               <Route exact path="/" element={<Home />} />
               <Route exact path="/home" element={<Home />} />
-              <Route
+              {/* <Route
                 exact
                 path="/messages"
                 element={
@@ -184,20 +165,20 @@ function App() {
                     signupButtonIsActive={false}
                   />
                 }
-              />
+              /> */}
               <Route
                 exact
                 path="/login"
                 element={
                   <Login
                     renderPanel={"login"}
-                    messageButtonIsActive={false}
+                    // messageButtonIsActive={false}
                     loginButtonIsActive={true}
-                    signupButtonIsActive={false}
+                   
                   />
                 }
               />
-              <Route
+              {/* <Route
                 exact
                 path="/signup"
                 element={
@@ -208,7 +189,7 @@ function App() {
                     signupButtonIsActive={true}
                   />
                 }
-              />
+              /> */}
               {Auth.isAdmin() && !Auth.isLocked() && (
                 <Route
                   exact
@@ -376,10 +357,6 @@ function App() {
               <Route exact path="/contact" element={<ContactUs />} />
               <Route exact path="/shoplinks" element={<ShopLinks />} />
 
-              {/* <Route exact path="/availability" element={<Availability />} /> */}
-              {/* <Route exact path="/timeoff" element={<Timeoff />} /> */}
-              {/* <Route exact path="/incident" element={<Incident />} /> */}
-              {/* <Route exact path="/incidentlist" element={<IncidentList />} /> */}
 
               <Route path="*" element={<WrongPage />} />
             </Routes>

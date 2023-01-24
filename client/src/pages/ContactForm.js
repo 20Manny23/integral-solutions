@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import useEmailSend from "../components/EmailSend";
 
@@ -48,6 +48,8 @@ function ContactForm() {
   const [showStartDateValidation, setShowStartDateValidation] = useState("");
   const [showServicesValidation, setShowServicesValidation] = useState("");
   const [showJobDetailsValidation, setShowJobDetailsValidation] = useState("");
+  const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
+
 
   const handleChange = (event) => {
     const { target } = event;
@@ -207,6 +209,37 @@ function ContactForm() {
     setJobDetails("");
     setServices([]);
   };
+
+  useEffect(() => {
+    setAreAllFieldsFilled(
+      companyName.trim() !== "" &&
+        contactName.trim() !== "" &&
+        phoneNumber.trim() !== "" &&
+        emailAddress.trim() !== "" &&
+        address.trim() !== "" &&
+        // suite.trim() !== "" &&
+        city.trim() !== "" &&
+        state.trim() !== "" &&
+        zip.trim() !== "" &&
+        squareFeet.trim() !== "" &&
+        employeeNumber.trim() !== "" &&
+        startDate.trim() !== "" &&
+        jobDetails.trim() !== ""
+    );
+  }, [
+    companyName,
+    contactName,
+    phoneNumber,
+    emailAddress,
+    address,
+    city,
+    state,
+    zip,
+    squareFeet,
+    employeeNumber,
+    startDate,
+    jobDetails
+  ]);
 
   return (
     <>
@@ -592,6 +625,7 @@ function ContactForm() {
               variant="primary"
               type="submit"
               title="Enter all fields to send email"
+              disabled={!areAllFieldsFilled}
             >
               Send Email
             </Button>

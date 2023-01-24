@@ -356,7 +356,26 @@ function ScheduleAdd() {
     // suite,
     // endTime,
   ]);
-
+  let arrayForSort = [];
+  if (clients) {
+  
+    arrayForSort = [...clients.clients];
+    arrayForSort.sort(function (a, b) {
+      if (a.businessName.toLowerCase() < b.businessName.toLowerCase())
+        return -1;
+      if (a.businessName.toLowerCase() > b.businessName.toLowerCase()) return 1;
+      return 0;
+    });
+  }
+  let arrayForSortEmp = [];
+  if (emp) {
+    arrayForSortEmp = [...emp.employees];
+    arrayForSortEmp.sort(function (a, b) {
+      if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) return -1;
+      if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) return 1;
+      return 0;
+    });
+  }
   return (
     <Container>
       <Form
@@ -385,7 +404,7 @@ function ScheduleAdd() {
             onChange={businessNameSelect}
           >
             <option>{businessName ? businessName : "Select"}</option>
-            {clients?.clients?.map((client, index) => (
+            {arrayForSort.map((client, index) => (
               // <option
               //   key={index}
               //   value={client.businessName}
@@ -565,7 +584,7 @@ function ScheduleAdd() {
                 type="time"
                 name="startTime"
                 value={startTime}
-                // defaultValue={client?.startTime}
+                
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 //required
@@ -642,7 +661,7 @@ function ScheduleAdd() {
             }}
           >
             <option>Select</option>
-            {emp?.employees?.map((emp, index) => (
+            {arrayForSortEmp.map((emp, index) => (
               <option
                 key={index}
                 value={emp.firstName}
@@ -650,7 +669,7 @@ function ScheduleAdd() {
                 data-lastname={emp.lastName}
                 data-id={emp._id}
               >
-                {emp.firstName} {emp.lastName}
+                {emp.lastName}, {emp.firstName} 
               </option>
             ))}
           </Form.Control>

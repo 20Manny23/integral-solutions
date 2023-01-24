@@ -47,8 +47,9 @@ const AppNavbar = () => {
             Auth.isAdmin() === true &&
             Auth.isLocked() === false && (
               <>
-                <Nav.Link className="navLink" as={Link} to="/work-order">
+                <Nav.Link className="navLink" as={Link} to="/work-order" reloadDocument>
                   Admin
+
                 </Nav.Link>
               </>
             )}
