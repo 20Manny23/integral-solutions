@@ -422,58 +422,58 @@ export const UPDATE_SCHEDULE = gql`
 `;
 
 // SECTION Hours
-export const ADD_HOURS = gql`
-  mutation addHours(
-    $workDate: String!
-    $dayHours: String!
-    $startTime: String!
-    $endTime: String!
-    $employee: String!
-  ) {
-    addHours(
-      workDate: $workDate
-      dayHours: $dayHours
-      startTime: $startTime
-      endTime: $endTime
-      employee: $employee
-    ) {
-      workDate
-      dayHours
-      startTime
-      endTime
-      employee
-    }
-  }
-`;
+// export const ADD_HOURS = gql`
+//   mutation addHours(
+//     $workDate: String!
+//     $dayHours: String!
+//     $startTime: String!
+//     $endTime: String!
+//     $employee: String!
+//   ) {
+//     addHours(
+//       workDate: $workDate
+//       dayHours: $dayHours
+//       startTime: $startTime
+//       endTime: $endTime
+//       employee: $employee
+//     ) {
+//       workDate
+//       dayHours
+//       startTime
+//       endTime
+//       employee
+//     }
+//   }
+// `;
 
-export const UPDATE_HOURS = gql`
-  mutation updateHours(
-    $id: ID!
-    $dayHours: String
-    $workDate: String
-    $startTime: String
-    $endTime: String
-  ) {
-    updateHours(
-      _id: $id
-      dayHours: $dayHours
-      workDate: $workDate
-      startTime: $startTime
-      endTime: $endTime
-    ) {
-      _id
-      dayHours
-      workDate
-      startTime
-      endTime
-    }
-  }
-`;
+// export const UPDATE_HOURS = gql`
+//   mutation updateHours(
+//     $id: ID!
+//     $dayHours: String
+//     $workDate: String
+//     $startTime: String
+//     $endTime: String
+//   ) {
+//     updateHours(
+//       _id: $id
+//       dayHours: $dayHours
+//       workDate: $workDate
+//       startTime: $startTime
+//       endTime: $endTime
+//     ) {
+//       _id
+//       dayHours
+//       workDate
+//       startTime
+//       endTime
+//     }
+//   }
+// `;
 
-export const DELETE_HOURS = gql`
-  mutation deleteHours($id: ID!) {
-    deleteHours(_id: $id) {
-      _id
-    }
-  }
-`;
+// export const DELETE_HOURS = gql`
+//   mutation deleteHours($id: ID!) {
+//     deleteHours(_id: $id) {
+//       _id
+//     }
+//   }
+// `;

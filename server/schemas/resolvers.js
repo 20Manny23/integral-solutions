@@ -80,33 +80,59 @@ const resolvers = {
 
     employeeById: async (parent, { _id }, context) => {
       // if (context.user) {
-
       console.log("employee by id", _id);
-
       return Employee.findOne({ _id }).populate({
         path: "schedule",
-
         populate: { path: "client" },
       });
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
+    //section hour queries
     hours: async (parent, args, context) => {
       // if (context.user) {
       return Hour.find().populate("employee");
+      // throw new AuthenticationError("You need to be logged in!");
     },
 
-    hoursByEmployee: async (parent, { employeeId }, context) => {
-      console.log(employeeId);
-      return Hour.findOne({ _id: employeeId }).populate("employee");
+    hoursById: async (parent, { _id }, context) => {
+      // if (context.user) {
+      console.log("resolver employee by id = ", _id);
+      return Hour.findOne({ _id }).populate("employee");
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    hoursByEmployeeId: async (parent, { employee }, context) => {
+      // if (context.user) {
+      console.log("resolver employee by id = ", employee);
+      return Hour.find({ employee: employee }).populate("employee");
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    // hoursByJobDate: async (parent, { employee }, context) => {
+    //   // if (context.user) {
+    //   console.log("resolver employee by id = ", employee);
+    //   return Hour.find({ employee: employee }).populate("employee");
+    //   // throw new AuthenticationError("You need to be logged in!");
+    // },
+
+    hoursByEmployeeIdByJobDate: async (
+      parent,
+      { employee, jobDate },
+      context
+    ) => {
+      // if (context.user) {
+      console.log("resolver employee by id = ", employee);
+      return Hour.find({ employee: employee, jobDate: jobDate }).populate(
+        "employee"
+      );
+      // throw new AuthenticationError("You need to be logged in!");
     },
 
     schedules: async (parent, args, context) => {
       // if (context.user) {
       return Schedule.find().populate("employees").populate("client");
-      // return Schedule.find().populate("users").populate("location");
-      // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
@@ -125,8 +151,8 @@ const resolvers = {
 
       let message = `Your information was sent to Integral Solutions. A represenative will be in touch soon.`;
       // console.log('lazy query');
-      console.log('args from = ', args.fromEmail);
-      console.log('args to = ', args.toEmail);
+      console.log("args from = ", args.fromEmail);
+      console.log("args to = ", args.toEmail);
 
       const msg = {
         to: args.toEmail ? `${args.toEmail}` : "callasteven@gmail.com",
@@ -158,6 +184,7 @@ const resolvers = {
 
       expiration = "2h"; // 15 minutes
       const token = signToken(employee, expiration);
+
       return { token, employee };
     },
 
@@ -300,48 +327,63 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    // SECTION HOURS
-
-    addHours: async (
+    // SECTION HOUR
+    addHour: async (
       parent,
-      { dayHours, workDate, startTime, endTime, employee },
+      { jobDate, startTime, endTime, hoursWorked, employee },
       context
     ) => {
-      const hours = await Hour.create({
-        dayHours,
-        workDate,
+      const hour = await Hour.create({
+        jobDate,
         startTime,
         endTime,
+        hoursWorked,
         employee,
       });
-      return {
-        dayHours,
-        workDate,
-        startTime,
-        endTime,
-        employee,
-      };
-    },
-
-    deleteHours: async (parent, { _id }, context) => {
-      return Hour.findOneAndDelete({ _id });
-    },
-
-    updateHours: async (
-      parent,
-      { _id, dayHours, workDate, startTime, endTime },
-      context
-    ) => {
-      return Hour.findOneAndUpdate(
-        { _id },
+      return (
         {
-          dayHours,
-          workDate,
-          startTime,
-          endTime,
+          hour,
         },
         { new: true }
       );
+    },
+
+    //(a) return hours id after record created; attach to element; pass back on 2nd+ click
+    //(b) search for employee id and date... and update the record
+    updateHourByEmployeeIdByJobDate: async (
+      parent,
+      { jobDate, startTime, endTime, hoursWorked, employee },
+      context
+    ) => {
+      // if (context.user) {
+      console.log("resolver hours update = ");
+
+      // let hour = await Hour.find({
+      //   employee: employee,
+      //   jobDate: jobDate,
+      // }).populate("employee");
+      // let hourId = hour[0]._id;
+
+      // console.log("test = ", hour);
+      // console.log("test = ", hour[0]._id);
+
+      return Hour.findOneAndUpdate(
+        // { _id: hourId },
+        { employee, jobDate },
+        {
+          jobDate,
+          startTime,
+          endTime,
+          hoursWorked,
+          employee,
+        }
+      );
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    deleteHours: async (parent, { employee, jobDate }, context) => {
+    return Hour.findOneAndDelete({ employee, jobDate });
     },
 
     // SECTION EMPLOYEE
@@ -400,8 +442,7 @@ const resolvers = {
         phone,
         isAdmin,
         isLocked,
-        schedule,
-        hours
+        schedule
       );
       return Employee.findOneAndUpdate(
         { _id },
@@ -518,17 +559,6 @@ const resolvers = {
         }
       }
       return { message, employee };
-    },
-
-    updateEmployeeHours: async (parent, { _id, hours }, context) => {
-      console.log("RESOLVER FOR UPDATE EMPLOYEE HOURS", _id, hours);
-      return Employee.findOneAndUpdate(
-        { _id },
-        {
-          $addToSet: { hours },
-        },
-        { new: true }
-      );
     },
 
     // SECTION SCHEDULE

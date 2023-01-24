@@ -9,14 +9,6 @@
     "phone": "970-867-5309",
     "isAdmin": false,
     "isLocked": false,
-    "hour": [
-      {
-      "dayHours": "15",
-      "workDate": "2/22/2023",
-      "startTime": "8:00",
-      "endTime": "5:00"
-    }
-  ],
     "schedule": [
       "423233343536373839303132"
     ]
@@ -31,14 +23,6 @@
     "phone": "719-867-5309",
     "isAdmin": true,
     "isLocked": false,
-    "hour": [
-      {
-      "dayHours": "25",
-      "workDate": "2/22/2023",
-      "startTime": "8:00",
-      "endTime": "5:00"
-    }
-  ],
     "schedule": [
       "413233343536373839303132",
       "423233343536373839303132"
@@ -54,14 +38,6 @@
     "phone":  "719-867-5309",
     "isAdmin": true,
     "isLocked": false,
-    "hour": [
-      {
-      "dayHours": "20",
-      "workDate": "2/22/2023",
-      "startTime": "8:00",
-      "endTime": "5:00"
-    }
-  ],
     "schedule": [
       "423233343536373839303132"
     ]
@@ -76,14 +52,6 @@
     "phone": "217-725-2526",
     "isAdmin": true,
     "isLocked": false,
-    "hour": [
-      {
-        "dayHours": "7",
-        "workDate": "4/44/4444",
-        "startTime": "8:00",
-        "endTime": "5:00"
-      }
-    ],
     "schedule": ["443233343536373839303132"]
   },
   {
@@ -96,14 +64,6 @@
     "phone": "123-456-2526",
     "isAdmin": true,
     "isLocked": false,
-    "hour": [
-      {
-      "dayHours": "30",
-      "workDate": "2/22/2023",
-      "startTime": "8:00",
-      "endTime": "5:00"
-    }
-  ],
     "schedule": [
       "423233343536373839303132"
     ]

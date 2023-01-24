@@ -17,7 +17,7 @@
   },
   {
     "_id": "333233343536373839303133",
-    "jobDate": "January 29 2023 09:00:00 (MST)",
+    "jobDate": "January 28 2023 09:00:00 (MST)",
     "startTime": "09:00:00 (MST)",
     "endTime": "10:00:00 (MST)",
     "hoursWorked": "1.0",
@@ -30,5 +30,13 @@
     "endTime": "10:00:00 (MST)",
     "hoursWorked": "1.0",
     "employee": "6398fb54494aa98f85992da2"
+  },
+  {
+    "_id": "333233343536373839303135",
+    "jobDate": "January 28 2023 09:00:00 (MST)",
+    "startTime": "09:00:00 (MST)",
+    "endTime": "10:00:00 (MST)",
+    "hoursWorked": "1.0",
+    "employee": "6398fb54494aa98f85992da3"
   }
 ]

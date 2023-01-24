@@ -18,10 +18,6 @@ const hourSchema = new Schema(
       type: String,
       required: true,
     },
-    // employee: {
-    //   type: String,
-    //   required: true,
-    // },
     employee: {
       type: Schema.Types.String,
       ref: "Employee",

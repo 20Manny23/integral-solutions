@@ -81,12 +81,6 @@ export const QUERY_ALL_EMPLOYEES = gql`
       isAdmin
       isLocked
       password
-      hours {
-        dayHours
-        workDate
-        startTime
-        endTime
-      }
       schedule {
         startDate
         startTime
@@ -119,12 +113,6 @@ export const QUERY_SINGLE_EMPLOYEE = gql`
       isAdmin
       isLocked
       password
-      hours {
-        dayHours
-        workDate
-        startTime
-        endTime
-      }
     }
   }
 `;
