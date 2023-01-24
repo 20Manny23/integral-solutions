@@ -11,20 +11,20 @@ import wrongPageImg from "../assets/not-found.png";
 const WrongPage = ({ renderPanel }) => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!Auth.loggedIn()) {
-      setTimeout(() => navigate("/login"), 7000);
-    } else {
-      setTimeout(() => navigate("/"), 7000);
-    }
+  // useEffect(() => {
+  //   if (!Auth.loggedIn()) {
+  //     setTimeout(() => navigate("/login"), 7000);
+  //   } else {
+  //     setTimeout(() => navigate("/"), 7000);
+  //   }
     // eslint-disable-next-line
-  }, []);
+  // }, []);
 
   return (
     <Container>
       <Row
-        className=" justify-content-center align-items-center"
-        style={{ minHeight: "80vh" }}
+        className=" justify-content-center align-items-center "
+        // style={{ minHeight: "80vh" }}
       >
         <Button
           as={Link}
@@ -34,8 +34,9 @@ const WrongPage = ({ renderPanel }) => {
         >
           <img
             src={wrongPageImg}
+            className = 'not-found'
             alt="404 Wrong Page"
-            style={{ maxHeight: "60evh" }}
+           
           />
         </Button>
       </Row>
