@@ -193,6 +193,16 @@ function EmployeeUpdate() {
     // eslint-disable-next-line
   }, [email, phone, firstName, lastName]);
 
+  let arrayForSort = [];
+  if (emp) {
+    arrayForSort = [...emp.employees];
+    arrayForSort.sort(function (a, b) {
+      if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) return -1;
+      if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) return 1;
+      return 0;
+    });
+  }
+
   return (
     <Container>
       <Form
@@ -218,13 +228,13 @@ function EmployeeUpdate() {
                   : "Select"}
               </option> */}
               <option>Select</option>
-              {emp?.employees?.map((emp, index) => (
+              {arrayForSort.map((emp, index) => (
                 <option
                   key={index}
                   // value={[emp.email, emp.firstName, emp.lastName, emp.phone]}
                   data-id={emp._id}
                 >
-                  {`${emp.firstName} ${emp.lastName}`}
+                  {`${emp.lastName}, ${emp.firstName} `}
                 </option>
               ))}
             </Form.Control>

@@ -17,14 +17,14 @@ const WrongPage = ({ renderPanel }) => {
     } else {
       setTimeout(() => navigate("/"), 7000);
     }
-    // eslint-disable-next-line
+    //eslint-disable-next-line
   }, []);
 
   return (
     <Container>
       <Row
-        className=" justify-content-center align-items-center"
-        style={{ minHeight: "80vh" }}
+        className=" justify-content-center align-items-center "
+       
       >
         <Button
           as={Link}
@@ -34,8 +34,9 @@ const WrongPage = ({ renderPanel }) => {
         >
           <img
             src={wrongPageImg}
+            className = 'not-found'
             alt="404 Wrong Page"
-            style={{ maxHeight: "60evh" }}
+           
           />
         </Button>
       </Row>

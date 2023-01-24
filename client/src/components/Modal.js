@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { format_date_MMDDYYYY } from "../utils/dateFormat";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import googleMap from "../utils/googleMap";
 
 function GenericModal({
   currentSchedule: schedule,
@@ -20,7 +21,12 @@ function GenericModal({
       </Modal.Title>
       <Modal.Body className="py-2">
         <a
-          href={`https://www.google.com/maps/dir/?api=1&destination=${schedule.streetAddress},${schedule.city},${schedule.state},${schedule.zip}&travelmode=driving`}
+          href={googleMap(
+            schedule?.streetAddress,
+            schedule?.city,
+            schedule?.state,
+            schedule?.zip
+          )}
           target="_blank"
           rel="noreferrer"
         >

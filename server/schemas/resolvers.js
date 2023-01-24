@@ -126,9 +126,9 @@ const resolvers = {
       sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
       let message = `Your information was sent to Integral Solutions. A represenative will be in touch soon.`;
-
       // console.log('lazy query');
-      // console.log('args = ', args);
+      console.log('args from = ', args.fromEmail);
+      console.log('args to = ', args.toEmail);
 
       const msg = {
         to: args.toEmail ? `${args.toEmail}` : "callasteven@gmail.com",
