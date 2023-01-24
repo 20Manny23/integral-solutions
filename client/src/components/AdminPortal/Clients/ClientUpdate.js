@@ -308,14 +308,16 @@ function ClientUpdate() {
                   ? prevClientData?.businessName
                   : "Select"}
               </option> */}
+              <option>{prevClientData?.businessName ? prevClientData.businessName : "Select"} </option>
+              {clients?.clients?.map((client, index) => (
               <option>Select</option>
               {arrayForSort.map((client, index) => (
                 <option
                   key={index}
                   // value={client.businessName}
-                  data-id={client._id}
+                  data-id={client?._id}
                 >
-                  {client.businessName}
+                  {client?.businessName}:
                 </option>
               ))}
             </Form.Control>
