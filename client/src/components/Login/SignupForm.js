@@ -57,7 +57,6 @@ const SignupForm = ({ setShowModal }) => {
 
       // window.location.assign(`/dashboard`);
       window.location.assign(`/`);
-
     } catch (e) {
       console.error(e);
       setShowAlert(true);
@@ -145,12 +144,7 @@ const SignupForm = ({ setShowModal }) => {
             </InputGroup>
           </Form.Group>
           <Button
-            disabled={
-              !(
-                userFormData.email &&
-                userFormData.password
-              )
-            }
+            disabled={!(userFormData.email && userFormData.password)}
             className="mb-3 submit-button-style"
             type="submit"
             variant="success"

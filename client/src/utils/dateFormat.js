@@ -28,13 +28,13 @@ const format_date_MMDD = (date) => {
   // TO: "Wedneday Jan 11"
 
   const dateMMDD = moment(date).format("dddd, MMM DD");
- 
+
   return dateMMDD;
 };
 const format_date_no_hyphen = (date) => {
-  const newDate = moment(date).format("dddd, MMM DD YYYY")
-  return newDate
-}
+  const newDate = moment(date).format("dddd, MMM DD YYYY");
+  return newDate;
+};
 
 const format_date_YYYYDDMM = (date) => {
   // FROM: "November 29 2022 09:00:00 (MST)"
@@ -58,13 +58,26 @@ const format_time_HHmmss = (time) => {
   if (time) {
     time_HHmmss = time.substring(0, 8);
   }
-  
-  console.log(time_HHmmss);
+
+  // console.log(time_HHmmss);
 
   return time_HHmmss;
 };
 
-// The specified value "08:00:00 (MST)" does not conform to the required format.  The format is "HH:mm", "HH:mm:ss" or "HH:mm:ss.SSS" where HH is 00-23, mm is 00-59, ss is 00-59, and SSS is 000-999.
+const format_date_ISOString = (date) => {
+  // FROM: Mon Jan 23 2023 10:55:38 GMT-0700 (Mountain Standard Time)
+  // TO: 2023-01-23T17:55:38.020Z
+
+  let date_iso_string;
+
+  if (date) {
+    date_iso_string = new Date(date).toISOString();
+  }
+
+
+  return date_iso_string;
+};
+
 
 module.exports = {
   format_date_string,
@@ -73,28 +86,29 @@ module.exports = {
   format_date_MMDD,
   format_date_no_hyphen,
   format_time_HHmmss,
+  format_date_ISOString,
 };
 
-  // if (date) {
-  //   dateYYYYDDMM = new Date(date).toISOString().substring(0, 10)
-  // }
+// if (date) {
+//   dateYYYYDDMM = new Date(date).toISOString().substring(0, 10)
+// }
 
-  // console.log(new Date().toISOString().substring(0, 10))
-  // console.log(prevScheduleData?.startTime, prevScheduleData?.startTime.slice(0,9).toString())
-  // console.log((new Date(prevScheduleData?.startDate)).toISOString()); //2023-01-11T12:02:00.000Z
-  // console.log(new Date()); // Sun Jan 15 2023 20:52:58 GMT-0700 (Mountain Standard Time)
-  // // "2017-06-01"
-  // console.log((new Date(prevScheduleData?.startDate)).getFullYear());
-  // let month = (new Date(prevScheduleData?.startDate)).getFullYear();
-  // let year = (new Date(prevScheduleData?.startDate)).getMonth();
-  // let day = (new Date(prevScheduleData?.startDate)).getDate();
+// console.log(new Date().toISOString().substring(0, 10))
+// console.log(prevScheduleData?.startTime, prevScheduleData?.startTime.slice(0,9).toString())
+// console.log((new Date(prevScheduleData?.startDate)).toISOString()); //2023-01-11T12:02:00.000Z
+// console.log(new Date()); // Sun Jan 15 2023 20:52:58 GMT-0700 (Mountain Standard Time)
+// // "2017-06-01"
+// console.log((new Date(prevScheduleData?.startDate)).getFullYear());
+// let month = (new Date(prevScheduleData?.startDate)).getFullYear();
+// let year = (new Date(prevScheduleData?.startDate)).getMonth();
+// let day = (new Date(prevScheduleData?.startDate)).getDate();
 
-  // console.log('hello date = ', `${year}-${day}-${month}`);
+// console.log('hello date = ', `${year}-${day}-${month}`);
 
-  // let test = format_date_YYYYDDMM(prevScheduleData?.startDate);
+// let test = format_date_YYYYDDMM(prevScheduleData?.startDate);
 
-  // console.log('function = ', test);
+// console.log('function = ', test);
 
-  // https://stackoverflow.com/questions/23593052/format-javascript-date-as-yyyy-mm-dd
+// https://stackoverflow.com/questions/23593052/format-javascript-date-as-yyyy-mm-dd
 
-  // https://stackoverflow.com/questions/6982692/how-to-set-input-type-dates-default-value-to-today
+// https://stackoverflow.com/questions/6982692/how-to-set-input-type-dates-default-value-to-today

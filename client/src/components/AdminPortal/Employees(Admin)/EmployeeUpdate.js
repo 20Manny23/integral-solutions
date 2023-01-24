@@ -199,38 +199,25 @@ function EmployeeUpdate() {
         data-editemployeeid={prevEmployeeData?._id}
         className="py-3 overflow-auto custom-about"
         onSubmit={handleEmployeeUpdate}
-        // onSubmit={(event) => {
-        //   event.preventDefault();
-        //   // setCurrentInput({ //triggers useEffect which triggers the handleEmployeeUpdate function
-        //   //   firstName,
-        //   //   lastName,
-        //   //   phone,
-        //   //   email,
-        //   //   isAdmin,
-        //   //   isLocked,
-        //   // });
-        //   // resetForm();
-        // }}
       >
         <div id="example-collapse-text">
           <Form.Group className="form-length">
-            <Form.Label style={{ fontWeight: "bolder" }}>
-              Select Client
-            </Form.Label>
+            <Form.Label style={{ fontWeight: "bolder" }}>Select</Form.Label>
             <Form.Control
               as="select"
               className="custom-border"
               type="text"
               placeholder="Select Employee"
-              // value={"form-select" || ""}
+              value={"form-select" || ""}
               name={"form-select" || ""}
               onChange={handleSelectedEmployee}
             >
-              <option>
+              {/* <option>
                 {prevEmployeeData?.firstName
                   ? `${prevEmployeeData.firstName} ${prevEmployeeData.lastName}`
                   : "Select"}
-              </option>
+              </option> */}
+              <option>Select</option>
               {emp?.employees?.map((emp, index) => (
                 <option
                   key={index}

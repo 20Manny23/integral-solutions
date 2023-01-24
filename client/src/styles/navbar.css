@@ -59,7 +59,7 @@
 @media screen and (max-width: 1199px) {
   .navbar-nav {
     flex-direction: row !important;
-    justify-content: center;
+    justify-content: space-evenly;
     margin: 0px 20px 0px 20px;
     border: 1px solid #335270;
     border-radius: 50px;
@@ -73,7 +73,7 @@
 
   .brand-name {
     margin: 0px;
-    font-size: 20px;
+    font-size: 30px;
   }
 
   .slogan {
@@ -117,7 +117,6 @@
 
 @media screen and (max-width: 300px) {
   .navbar {
-    /* flex-wrap: nowrap !important; */
     padding-left: 0px !important;
   }
 }
@@ -125,6 +124,11 @@
 @media screen and (max-width: 280px) {
   .logo {
     display: none;
+  }
+
+  .brand-name {
+    margin: 5px;
+    font-size: 20px;
   }
 
   .navLink {

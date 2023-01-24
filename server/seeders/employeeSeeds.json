@@ -7,7 +7,6 @@
     "firstName": "Brendan",
     "lastName": "Bayliss",
     "phone": "970-867-5309",
-    "isManager": "true",
     "isAdmin": false,
     "isLocked": false,
     "hour": [
@@ -30,7 +29,6 @@
     "firstName": "Ryan",
     "lastName": "Stasick",
     "phone": "719-867-5309",
-    "isManager": "false",
     "isAdmin": true,
     "isLocked": false,
     "hour": [
@@ -54,7 +52,6 @@
     "firstName": "Rod",
     "lastName": "Bennett",
     "phone":  "719-867-5309",
-    "isManager": "true",
     "isAdmin": true,
     "isLocked": false,
     "hour": [
@@ -77,7 +74,6 @@
     "firstName": "Bryan",
     "lastName": "Wienhoff",
     "phone": "217-725-2526",
-    "isManager": "true",
     "isAdmin": true,
     "isLocked": false,
     "hour": [
@@ -88,7 +84,7 @@
         "endTime": "5:00"
       }
     ],
-    "schedule": []
+    "schedule": ["443233343536373839303132"]
   },
   {
     "_id": "6498fb54494aa98f85992da5",
@@ -98,7 +94,6 @@
     "firstName": "Steve",
     "lastName": "Calla",
     "phone": "123-456-2526",
-    "isManager": "true",
     "isAdmin": true,
     "isLocked": false,
     "hour": [

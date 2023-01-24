@@ -24,21 +24,14 @@ export const FORGOT_PASSWORD = gql`
 `;
 
 export const UPDATE_PASSWORD = gql`
-  mutation UpdatePassword(
-    $id: ID
-    $password: String
-  ) {
-    updatePassword(
-      _id: $id
-      password: $password
-    ) {
+  mutation UpdatePassword($id: ID, $password: String) {
+    updatePassword(_id: $id, password: $password) {
       _id
       email
       firstName
       lastName
       password
       phone
-      isManager
       isAdmin
       isLocked
     }
@@ -65,7 +58,6 @@ export const UPDATE_EMPLOYEE = gql`
     $firstName: String
     $lastName: String
     $phone: String
-    $isManager: Boolean
     $isAdmin: Boolean
     $isLocked: Boolean
   ) {
@@ -76,7 +68,6 @@ export const UPDATE_EMPLOYEE = gql`
       firstName: $firstName
       lastName: $lastName
       phone: $phone
-      isManager: $isManager
       isAdmin: $isAdmin
       isLocked: $isLocked
     ) {
@@ -86,36 +77,35 @@ export const UPDATE_EMPLOYEE = gql`
       lastName
       password
       phone
-      isManager
       isAdmin
       isLocked
     }
   }
 `;
 
-// export const UPDATE_EMPLOYEE_FORM = gql`
-//   mutation updateEmployeeForm(
-//     $id: ID
-//     $firstName: String
-//     $lastName: String
-//     $email: String
-//     $phone: String
-//   ) {
-//     updateEmployeeForm(
-//       _id: $id
-//       firstName: $firstName
-//       lastName: $lastName
-//       email: $email
-//       phone: $phone
-//     ) {
-//       _id
-//       firstName
-//       lastName
-//       email
-//       phone
-//     }
-//   }
-// `;
+export const UPDATE_EMPLOYEE_FORM = gql`
+  mutation updateEmployeeForm(
+    $id: ID
+    $firstName: String
+    $lastName: String
+    $email: String
+    $phone: String
+  ) {
+    updateEmployeeForm(
+      _id: $id
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      phone: $phone
+    ) {
+      _id
+      firstName
+      lastName
+      email
+      phone
+    }
+  }
+`;
 
 export const TOGGLE_ADMIN = gql`
   mutation ToggleAdmin($employeeId: ID!) {
@@ -129,14 +119,14 @@ export const TOGGLE_ADMIN = gql`
 `;
 
 export const TOGGLE_LOCKED = gql`
-mutation ToggleLocked($employeeId: ID!) {
-  toggleLocked(employeeId: $employeeId) {
-    employee {
-      _id
-      isLocked
+  mutation ToggleLocked($employeeId: ID!) {
+    toggleLocked(employeeId: $employeeId) {
+      employee {
+        _id
+        isLocked
+      }
     }
   }
-}
 `;
 
 export const ADD_EMPLOYEE = gql`
@@ -146,7 +136,6 @@ export const ADD_EMPLOYEE = gql`
     $firstName: String
     $lastName: String
     $phone: String
-    $isManager: Boolean
     $isAdmin: Boolean
     $isLocked: Boolean
   ) {
@@ -156,14 +145,12 @@ export const ADD_EMPLOYEE = gql`
       firstName: $firstName
       lastName: $lastName
       phone: $phone
-      isManager: $isManager
       isAdmin: $isAdmin
       isLocked: $isLocked
     ) {
       _id
       email
       firstName
-      isManager
       lastName
       password
       phone
@@ -192,17 +179,27 @@ export const UPDATE_EMPLOYEE_SCHEDULE = gql`
   }
 `;
 
-export const UPDATE_EMPLOYEE_HOURS = gql`
-    mutation updateEmployeeHours($id: ID, $hours: String) {
-      updateEmployeeHours(_id: $id, hours: $hours) {
+export const REMOVE_EMPLOYEE_SCHEDULE = gql`
+  mutation RemoveEmployeeSchedule($id: ID, $schedule: String) {
+    removeEmployeeSchedule(_id: $id, schedule: $schedule) {
+      _id
+      schedule {
         _id
-        hours {
-          _id
-        }
+      }
     }
   }
 `;
 
+export const UPDATE_EMPLOYEE_HOURS = gql`
+  mutation updateEmployeeHours($id: ID, $hours: String) {
+    updateEmployeeHours(_id: $id, hours: $hours) {
+      _id
+      hours {
+        _id
+      }
+    }
+  }
+`;
 
 // SECTION CLIENT
 export const ADD_CLIENT = gql`
@@ -424,96 +421,30 @@ export const UPDATE_SCHEDULE = gql`
   }
 `;
 
-// SECTION LEGACY CODE
-// export const LOGIN_USER = gql`
-//   mutation login($email: String!, $password: String!) {
-//     login(email: $email, password: $password) {
-//       token
-//       user {
-//         _id
-//       }
-//     }
-//   }
-// `;
-
-export const DELETE_USER = gql`
-  mutation deleteUser($id: ID!) {
-    deleteUser(_id: $id) {
-      _id
-    }
-  }
-`;
-
-// export const ADD_USER = gql`
-//   mutation addUser($username: String!, $email: String!, $password: String!) {
-//     addUser(username: $username, email: $email, password: $password) {
-//       token
-//       user {
-//         _id
-//         username
-//       }
-//     }
-//   }
-// `;
-
-export const DELETE_INCIDENT = gql`
-  mutation deleteIncident($id: ID!) {
-    deleteIncident(_id: $id) {
-      _id
-    }
-  }
-`;
-
-export const ADD_INCIDENT = gql`
-  mutation Mutation(
-    $employeeName: String!
-    $locationName: String!
-    $employeePhone: String!
-    $subject: String!
-    $urgent: String!
-    $incidentDetails: String!
-  ) {
-    addIncident(
-      employeeName: $employeeName
-      locationName: $locationName
-      employeePhone: $employeePhone
-      subject: $subject
-      urgent: $urgent
-      incidentDetails: $incidentDetails
-    ) {
-      employeeName
-      locationName
-      employeePhone
-      subject
-      urgent
-      incidentDetails
-    }
-  }
-`;
-// Start Hours Section
-
+// SECTION Hours
 export const ADD_HOURS = gql`
-mutation addHours(
-  $workDate: String!
-  $dayHours: String!
-  $startTime: String!
-  $endTime: String!
-  $employee: String!
-) {
-  addHours(
-    workDate: $workDate
-    dayHours: $dayHours
-    startTime: $startTime
-    endTime: $endTime
-    employee: $employee
-  ){
-    workDate
-    dayHours
-    startTime
-    endTime
-    employee
+  mutation addHours(
+    $workDate: String!
+    $dayHours: String!
+    $startTime: String!
+    $endTime: String!
+    $employee: String!
+  ) {
+    addHours(
+      workDate: $workDate
+      dayHours: $dayHours
+      startTime: $startTime
+      endTime: $endTime
+      employee: $employee
+    ) {
+      workDate
+      dayHours
+      startTime
+      endTime
+      employee
+    }
   }
-}`;
+`;
 
 export const UPDATE_HOURS = gql`
   mutation updateHours(
@@ -529,7 +460,6 @@ export const UPDATE_HOURS = gql`
       workDate: $workDate
       startTime: $startTime
       endTime: $endTime
-
     ) {
       _id
       dayHours
@@ -540,34 +470,10 @@ export const UPDATE_HOURS = gql`
   }
 `;
 
-
-export const UPDATE_EMPLOYEE_FORM = gql`
-  mutation updateEmployeeForm(
-    $id: ID
-    $firstName: String
-    $lastName: String
-    $email: String
-    $phone: String
-  ) {
-    updateEmployeeForm(
-      _id: $id
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-      phone: $phone
-    ) {
-      _id
-      firstName
-      lastName
-      email
-      phone
-    }
-  }
-`;
-
 export const DELETE_HOURS = gql`
   mutation deleteHours($id: ID!) {
     deleteHours(_id: $id) {
       _id
+    }
   }
-  }`;
+`;

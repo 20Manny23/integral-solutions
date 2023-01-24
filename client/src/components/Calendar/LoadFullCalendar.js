@@ -1,20 +1,28 @@
 import React from "react";
 
-// import { INITIAL_EVENTS } from "../utils/event-utils";
-
 import FullCalendar from "@fullcalendar/react";
+import moment from "moment";
+import momentPlugin from "@fullcalendar/moment";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
-import momentPlugin from "@fullcalendar/moment";
-import moment from "moment";
+
+import { mobile_check } from "../../utils/mobileCheck";
+
 import "../../styles/calendar.css";
 
-const LoadFullCalendar = ({ activeView, weekendsVisible, INITIAL_EVENTS, renderEventContent, handleEventClick}) => {
-
+const LoadFullCalendar = ({
+  activeView,
+  weekendsVisible,
+  INITIAL_EVENTS,
+  renderEventContent,
+  handleEventClick,
+}) => {
   // console.log(activeView, weekendsVisible, INITIAL_EVENTS, renderEventContent, handleEventClick);
   
+  window.mobilecheck = mobile_check();
+
   return (
     <div className="cal-app my-3 p-1 shadow border border-secondary rounded-lg">
       <div id="calendar" className="cal-app-main">
@@ -50,7 +58,7 @@ const LoadFullCalendar = ({ activeView, weekendsVisible, INITIAL_EVENTS, renderE
           }}
           navLinkDayClick={activeView}
           slotMinTime="06:00:00"
-          initialView={window.mobilecheck() ? "dayGridMonth" : "listWeek"}
+          initialView={window.mobilecheck ? "dayGridMonth" : "listWeek"}
           initialDate={moment().format()}
           editable={true}
           selectable={true}

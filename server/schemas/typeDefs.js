@@ -1,7 +1,6 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
-
   type User {
     _id: ID
     username: String
@@ -10,9 +9,6 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     cell: String
-    isManager: Boolean
-    availability: Availability
-    locations: [Location]
   }
 
   type Employee {
@@ -22,7 +18,6 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     phone: String
-    isManager: Boolean
     isAdmin: Boolean
     isLocked: Boolean
     schedule: [Schedule]
@@ -60,39 +55,10 @@ const typeDefs = gql`
     employees: [Employee]
   }
 
-  type Availability {
-    mondayAm: Boolean
-    mondayPm: Boolean
-    tuesdayAm: Boolean
-    tuesdayPm: Boolean
-    wednesdayAm: Boolean
-    wednesdayPm: Boolean
-    thursdayAm: Boolean
-    thursdayPm: Boolean
-    fridayAm: Boolean
-    fridayPm: Boolean
-    saturdayAm: Boolean
-    saturdayPm: Boolean
-    sundayAm: Boolean
-    sundayPm: Boolean
-  }
-
   type Auth {
     token: ID!
     user: User
     employee: Employee
-  }
-
-  type Location {
-    _id: ID
-    businessName: String
-    address: String
-    businessContact: String
-    shifts: String
-    daysOfWeek: String
-    startTime: String
-    laborHours: Float
-    instructions: Instructions
   }
 
   type Client {
@@ -109,56 +75,10 @@ const typeDefs = gql`
     schedule: [Schedule]
   }
 
-  type Instructions {
-    facilityType: String
-    cleaningType: String
-    bathrooms: String
-    lobby: String
-    sittingArea: String
-    breakRoom: String
-    frontdesk: String
-    appliances: String
-    dusting: String
-    windows: String
-    trash: String
-    vacuum: String
-    mop: String
-    additionalServices: String
-    exclusions: String
-  }
-
-  type Event {
-    _id: ID!
-    title: String
-    startTime: String
-    endTime: String
-    daysOfWeek: [Int]
-    startRecur: String
-    display: String
-    backgroundColor: String
-    textColor: String
-  }
-
-  type Incident {
-    _id: ID
-    employeeName: String
-    locationName: String
-    employeePhone: String
-    subject: String
-    urgent: String
-    incidentDetails: String
-  }
-
   type Query {
     users: [User]!
     user(email: String!): User
     me(_id: ID!): User
-    locations: [Location]!
-    location(locationId: ID!): Location
-    hours: [Hour]!
-    getHoursByEmployee(employeeId: ID!): [Hour]
-    incidents: [Incident]!
-    events: [Event]!
     clients: [Client]!
     client(_id: ID!): Client
     employees: [Employee]!
@@ -166,12 +86,16 @@ const typeDefs = gql`
     employeeById(_id: ID!): Employee
     schedules: [Schedule]
     schedule(scheduleId: ID!): Schedule
+    hours: [Hour]!
+    hoursByEmployee(employeeId: ID!): [Hour]
   }
 
+  # SECTION SEND EMAILS
   type Query {
+    # should be able to delete this query
     sendEmailContactUs(
       companyName: String
-      contactName: String    
+      contactName: String
       phoneNumber: String
       emailAddress: String
       address: String
@@ -183,59 +107,27 @@ const typeDefs = gql`
       startDate: String
       jobDetails: String
       services: [String]
-    ): String 
-  }
+    ): String
 
-  type Query {
-    sendEmail(    
+    # send email via SendGrid
+    sendEmail(
       toEmail: String
       fromEmail: String
       subject: String
       textContent: String
-      htmlContent: String  
-    ): String 
+      htmlContent: String
+    ): String
   }
 
   type Mutation {
+    # SECTION LOGIN & RESET PASSWORD
     login(email: String!, password: String!): Auth
+
     forgotPassword(email: String!, password: String!): Auth
 
-    updatePassword(
-      _id: ID
-      password: String
-    ): Employee
+    updatePassword(_id: ID, password: String): Employee
 
-    addUser(email: String!, password: String!): Auth
-    deleteUser(_id: ID!): User
-    updateAvailability(
-      _id: ID!
-      mondayAm: Boolean
-      mondayPm: Boolean
-      tuesdayAm: Boolean
-      tuesdayPm: Boolean
-      wednesdayAm: Boolean
-      wednesdayPm: Boolean
-      thursdayAm: Boolean
-      thursdayPm: Boolean
-      fridayAm: Boolean
-      fridayPm: Boolean
-      saturdayAm: Boolean
-      saturdayPm: Boolean
-      sundayAm: Boolean
-      sundayPm: Boolean
-    ): User
-
-    addIncident(
-      employeeName: String!
-      locationName: String!
-      employeePhone: String!
-      subject: String!
-      urgent: String!
-      incidentDetails: String!
-    ): Incident
-
-    deleteIncident(_id: ID!): Incident
-
+    # SECTION CLIENT
     addClient(
       businessName: String
       streetAddress: String
@@ -263,26 +155,20 @@ const typeDefs = gql`
       email: String
     ): Client
 
-    updateClientSchedule(
-      _id: ID
-      schedule: String
-    ): Client
+    updateClientSchedule(_id: ID, schedule: String): Client
 
+    # SECTION EMPLOYEE
     addEmployee(
       email: String
       password: String
       firstName: String
       lastName: String
       phone: String
-      isManager: Boolean
       isAdmin: Boolean
       isLocked: Boolean
     ): Employee
 
-    signupEmployee(
-      email: String
-      password: String
-    ): Auth
+    signupEmployee(email: String, password: String): Auth
 
     deleteEmployee(_id: ID!): Employee
 
@@ -293,7 +179,6 @@ const typeDefs = gql`
       firstName: String
       lastName: String
       phone: String
-      isManager: Boolean
       isAdmin: Boolean
       isLocked: Boolean
       schedule: String
@@ -308,15 +193,15 @@ const typeDefs = gql`
       phone: String
     ): Employee
 
-    updateEmployeeSchedule(
-      _id: ID
-      schedule: String
-    ): Employee
+    updateEmployeeSchedule(_id: ID, schedule: String): Employee
+
+    removeEmployeeSchedule(_id: ID, schedule: String): Employee
 
     toggleAdmin(employeeId: ID!): Message
 
     toggleLocked(employeeId: ID!): Message
 
+    # SECTION HOURS
     addHours(
       dayHours: String
       workDate: String
@@ -333,13 +218,11 @@ const typeDefs = gql`
       employee: String
     ): Hour
 
-    updateEmployeeHours(
-      _id: ID
-      hours: String
-    ) : Employee
+    updateEmployeeHours(_id: ID, hours: String): Employee
 
-    deleteHours (_id: ID!): Hour
+    deleteHours(_id: ID!): Hour
 
+    # SECTION SCHEDULE / JOB
     addSchedule(
       _id: ID
       streetAddress: String
@@ -359,7 +242,7 @@ const typeDefs = gql`
     ): Schedule
 
     deleteSchedule(_id: ID!): Schedule
-    
+
     updateSchedule(
       _id: ID
       streetAddress: String

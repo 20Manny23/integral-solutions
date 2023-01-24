@@ -119,7 +119,7 @@ function ClientUpdate() {
       setSelectZip(false);
     } else {
       console.log("Error in form input at ClientUpdate.js");
-    };
+    }
     return name;
   };
 
@@ -248,7 +248,7 @@ function ClientUpdate() {
 
   //enable submit button = if input is added to at least one input field
   useEffect(() => {
-    setOneFieldHasInput (
+    setOneFieldHasInput(
       businessName.trim() !== "" ||
         contact.trim() !== "" ||
         phone.trim() !== "" ||
@@ -278,22 +278,6 @@ function ClientUpdate() {
         data-editclientid={prevClientData?._id}
         className="py-3 overflow-auto custom-about"
         onSubmit={handleClientUpdate}
-        // onSubmit={(event) => {
-        //   event.preventDefault();
-        //   let clientId = event.currentTarget.getAttribute("data-editclientid");
-        //   setCurrentClientId(clientId);
-        //   setCurrentInput({
-        //     businessName,
-        //     contact,
-        //     phone,
-        //     email,
-        //     streetAddress,
-        //     suite,
-        //     state,
-        //     city,
-        //     zip,
-        //   });
-        // }}
       >
         <div id="example-collapse-text">
           <Form.Group className="form-length">
@@ -305,15 +289,16 @@ function ClientUpdate() {
               className="custom-border"
               type="text"
               placeholder="Select Client"
-              // value={"form-select"}
+              value={"form-select"}
               name={"form-select"}
               onChange={handleSelectedClient}
             >
-              <option>
+              {/* <option>
                 {prevClientData?.businessName
                   ? prevClientData?.businessName
                   : "Select"}
-              </option>
+              </option> */}
+              <option>Select</option>
               {clients?.clients?.map((client, index) => (
                 <option
                   key={index}

@@ -15,7 +15,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
-
 function Employees() {
   const [openDetails, setOpenDetails] = useState(false);
 
@@ -112,16 +111,14 @@ function Employees() {
     }
   };
 
-  // Sort Employees Alphabetically 
-  let arrayForSort =[]
-  if(emp){
-    
-    arrayForSort = [...emp.employees]
-  arrayForSort.sort(function(a, b){
-    if(a.lastName.toLowerCase() < b.lastName.toLowerCase()) return -1;
-    if(a.lastName.toLowerCase() > b.lastName.toLowerCase()) return 1;
-    return 0;
-  })
+  let arrayForSort = [];
+  if (emp) {
+    arrayForSort = [...emp.employees];
+    arrayForSort.sort(function (a, b) {
+      if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) return -1;
+      if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) return 1;
+      return 0;
+    });
   }
 
   return (
@@ -139,7 +136,7 @@ function Employees() {
                   justifyContent: "space-between",
                 }}
               >
-                  <h5 className="d-flex flex-column mb-0 text-left">
+                <h5 className="d-flex flex-column mb-0 text-left">
                   <button
                     onClick={(event) => getElement(event)}
                     aria-controls={`#collapse-client-${index}`}
@@ -147,10 +144,10 @@ function Employees() {
                     className="btn btn-link pl-1"
                     data-target={`#collapse-client-${index}`}
                   >
-                    <p className="mb-0 text-left">{emp?.lastName}, {emp?.firstName}</p>
-                      <p className="mb-0 text-left">
-                          {format_phone(emp?.phone)}
-                      </p>
+                    <p className="mb-0 text-left">
+                      {emp?.lastName}, {emp?.firstName}
+                    </p>
+                    <p className="mb-0 text-left">{format_phone(emp?.phone)}</p>
                   </button>
                 </h5>
                 <div className="d-flex mr-2">

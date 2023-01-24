@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
-require('dotenv').config();
-
+require("dotenv").config();
 
 const secret = process.env.JWT_SECRET_KEY;
 const expirationMax = "2h"; // 2 hours
@@ -28,8 +27,8 @@ module.exports = {
   },
 
   // added flexible variable for expiration
-  signToken: function ({ email, _id, isManager, isAdmin, isLocked }, expiration) {
-    const payload = { email, _id, isManager, isAdmin, isLocked };
+  signToken: function ({ email, _id, isAdmin, isLocked }, expiration) {
+    const payload = { email, _id, isAdmin, isLocked };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
 };

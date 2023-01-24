@@ -19,14 +19,13 @@ function EmployeeAdd() {
   const [isLocked, setIsLocked] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
-    // VALIDATION
-    const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
-    const [showLastNameValidation, setShowLastNameValidation] = useState(false);
-    const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-    const [showEmailEmployeeValidation, setShowEmailEmployeeValidation] =
-      useState(false);
-    const [showPasswordValidation, setShowPasswordValidation] =
-      useState(false);
+  // VALIDATION
+  const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
+  const [showLastNameValidation, setShowLastNameValidation] = useState(false);
+  const [showPhoneValidation, setShowPhoneValidation] = useState(false);
+  const [showEmailEmployeeValidation, setShowEmailEmployeeValidation] =
+    useState(false);
+  const [showPasswordValidation, setShowPasswordValidation] = useState(false);
 
   //SECTION HANDLE INPUT
   const handleInputChange = (event) => {
@@ -99,15 +98,11 @@ function EmployeeAdd() {
           isLocked: false,
         },
       });
-
     } catch (err) {
-
       console.error(err);
-
     }
 
     resetForm();
-
   };
 
   // Reset the add employee form after submission
@@ -125,8 +120,8 @@ function EmployeeAdd() {
   useEffect(() => {
     setAreAllFieldsFilled(
       email.trim() !== "" &&
-      firstName.trim() !== "" &&
-      lastName.trim() !== "" &&
+        firstName.trim() !== "" &&
+        lastName.trim() !== "" &&
         phone.trim() !== "" &&
         password.trim() !== ""
     );
@@ -136,7 +131,7 @@ function EmployeeAdd() {
 
   return (
     <Container>
-      <Form onSubmit={handleAddEmployeeSubmit} style={{alignContent:'left'}}>
+      <Form onSubmit={handleAddEmployeeSubmit} style={{ alignContent: "left" }}>
         <div id="example-collapse-text">
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
@@ -208,7 +203,6 @@ function EmployeeAdd() {
               onChange={handleInputChange}
               // onBlur={handleBlurChange}
               required
-              
             />
           </Form.Group>
 

@@ -3,6 +3,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   width: 100%;
+  min-width: 280px;
 }
 
 .overlay-box {
@@ -11,11 +12,11 @@
   padding-top: 8px;
   padding-bottom: 8px;
   color: white;
-  background-color: #0D2E4F;
+  background-color: #0d2e4f;
   border-radius: 5px;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
-    border:1px solid black;
+  border: 1px solid black;
 }
 
 .overlay-header {
@@ -35,16 +36,15 @@
   padding: 10px 0 10px 0;
   font-size: 35px;
   color: white;
-  background-color: #0D2E4F;
+  background-color: #0d2e4f;
   text-align: center;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
-  
 }
 
 .contact-btn {
   margin-left: 15px;
-  background-color: #0D2E4F;
+  background-color: #0d2e4f;
 }
 
 .card-body {
@@ -52,68 +52,23 @@
   text-align: center;
 }
 
-footer {
-  bottom: 0;
-  background-color: #0D2E4F;
-  color:white ;
-  border-top: 1px solid black;
-}
-
-
-.footer-title {
-  margin-bottom: 10px;
-  margin-top: 15px;
-  text-align: center;
-  font-style: italic;
-}
-
-.footer-phone {
-  font-size: 25px;
-  font-weight:600;
-  text-align: center;
-  font-style: italic;
-  margin-top: -20px;
-}
-
-.footer-nav {
+logo-container {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  color: white;
+  justify-content: flex-start;
 }
 
-.footer-copy {
-  display: flex;
-  justify-content: center;
-  height: 25px;
-  margin: 0px;
-}
-
-@media only screen and (max-width: 992px) and (min-width: 598px){
-  .overlay-box{
-    margin-top: 120px
+@media only screen and (max-width: 992px) and (min-width: 598px) {
+  .overlay-box {
+    margin-top: 120px;
   }
 }
 
-@media only screen and (max-width: 598px) and (min-width: 340px){
-  .overlay-box{
-    margin-top: 30px
+@media only screen and (max-width: 598px) and (min-width: 340px) {
+  .overlay-box {
+    margin-top: 30px;
   }
 }
-@media only screen and (max-width: 767px) {
-  .footer-nav {
-    flex-direction: row;
-    justify-content: center;
-    text-align: center;
-  }
-  /* .footer-phone {
-    
-    margin-left: 30px;
-  } */
-  .full-logo{
-    margin-top: -15px;
-  }
-}
+
 @media only screen and (max-width: 576px) {
   .overlay-box {
     max-width: 75%;
@@ -129,55 +84,5 @@ footer {
   .overlay-sub-header {
     font-size: 14px;
     text-align: center;
-  }
-
-  /* footer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-  } */
-
-  .footer-title {
-    font-size: 26px;
-  }
-
-  .footer-phone {
-    /* display: flex;
-    justify-content: center;
-    font-size: 16px;
-    text-align: center; */
-    margin-top: 20px;
-    margin-left: none;
-  }
-
-.full-logo{
-margin-top: 2px;
-}
-  .footer-nav {
-    flex-direction: row;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .footer-copy {
-    display: flex;
-    justify-content: center;
-    font-size: 12px;
-  }
-}
-@media only screen and (max-width:465px){
-  .espanol{
-    font-size: 20px;
-  }
-}
-@media only screen and (max-width:387px){
-  .espanol{
-    font-size: 20px;
-  }
-  .number{
-    font-size: 20px;
-    
   }
 }

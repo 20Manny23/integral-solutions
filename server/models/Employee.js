@@ -7,7 +7,7 @@ const employeeSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      // match: [/.+@.+\..+/, "Must use a valid email address"],
+      match: [/.+@.+\..+/, "Must use a valid email address"],
     },
     password: {
       type: String,
@@ -23,10 +23,6 @@ const employeeSchema = new Schema(
     },
     phone: {
       type: String,
-    },
-    isManager: {
-      type: Boolean,
-      default: false,
     },
     isAdmin: {
       type: Boolean,

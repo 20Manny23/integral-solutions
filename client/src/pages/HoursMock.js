@@ -1,23 +1,25 @@
 import React from "react";
 import Auth from "../utils/auth";
+
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
 
-import FullCalendarApp from "../components/Calendar/FullCalendarApp";
-import WorkOrder from "../components/AdminPortal/Schedule";
-import ClientList from "../components/AdminPortal/Clients";
-import Employees from "../components/AdminPortal/Employees(Admin)";
+import EmployeePast from "../components/Employee(Worker)/EmployeePast";
+import EmployeeHours from "../components/Employee(Worker)/EmployeeHours";
+import EmployeeAdminHours from "../components/AdminPortal/Employees(Admin)/EmployeeAdminHours";
 
 import { Button, Container, Col, Row } from "react-bootstrap/";
 import "../styles/spinner.css";
 
-const AdminPortal = ({
+const EmployeePortal = ({
   renderPanel,
-  workOrderButtonIsActive,
-  employeeListButtonIsActive,
-  clientListButtonIsActive,
+  pastOrFuture,
+  addemployeeButtonIsActive,
+  clientlistButtonIsActive,
+  hoursButtonIsActive,
+  hoursAdminButtonIsActive,
 }) => {
   // get user info to render to page
   const userId = getUserId();
@@ -43,8 +45,8 @@ const AdminPortal = ({
       <>
         <Container style={{ marginTop: "25px" }}>
           <Row className="justify-content-center">
-            <p style={{ fontSize: "30px", marginTop: "20px" }}>
-              <b>Administrator Panel</b>
+            <p style={{ fontSize: "30px" }}>
+              <b>Employee Panel</b>
             </p>
           </Row>
         </Container>
@@ -55,45 +57,36 @@ const AdminPortal = ({
               <div className="d-flex flex-row mb-1 p-0 border border-secondary rounded-lg">
                 <Button
                   variant="outline-primary"
-                  style={workOrderButtonIsActive ? isActive : notActive}
-                  active={workOrderButtonIsActive}
+                  style={hoursButtonIsActive ? isActive : notActive}
+                  active={hoursButtonIsActive}
                   onClick={() => {
-                    navigate("/work-order");
+                    navigate("/hours");
                   }}
                 >
-                  Jobs
-                </Button>
-
-                <Button
-                  variant="outline-primary"
-                  style={employeeListButtonIsActive ? isActive : notActive}
-                  active={employeeListButtonIsActive}
-                  onClick={() => {
-                    navigate("/employees");
-                  }}
-                >
-                  Employees
+                  Enter Hours
                 </Button>
                 <Button
                   variant="outline-primary"
-                  style={clientListButtonIsActive ? isActive : notActive}
-                  active={clientListButtonIsActive}
+                  style={hoursAdminButtonIsActive ? isActive : notActive}
+                  active={hoursAdminButtonIsActive}
                   onClick={() => {
-                    navigate("/clientlist");
+                    navigate("/hoursadmin");
                   }}
                 >
-                  Clients
+                  Hours Admin
                 </Button>
               </div>
 
-              {renderPanel === "calendar" ? (
-                <FullCalendarApp />
-              ) : renderPanel === "workorder" ? (
-                <WorkOrder />
-              ) : renderPanel === "employees" ? (
-                <Employees />
+              {renderPanel === "employee" ? (
+                <EmployeePast pastOrFuture="future" />
+              ) : renderPanel === "past" ? (
+                <EmployeePast pastOrFuture="past" />
+              ) : renderPanel === "hours" ? (
+                <EmployeeHours />
+              ) : renderPanel === "hoursadmin" ? (
+                <EmployeeAdminHours />
               ) : (
-                <ClientList />
+                <EmployeePortal />
               )}
             </Col>
           </Row>
@@ -103,12 +96,13 @@ const AdminPortal = ({
   }
 };
 
-export default AdminPortal;
+export default EmployeePortal;
 
 const isActive = {
   flex: "auto",
   border: "solid 3px black",
   borderRadius: "3px",
+  backgroundColor: "#007AFF",
 };
 
 const notActive = {
