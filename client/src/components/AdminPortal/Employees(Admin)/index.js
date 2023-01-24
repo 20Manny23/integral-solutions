@@ -13,6 +13,7 @@ function EmployeesList() {
       className="mb-3"
       fill //sizes tabs to fit available space
       unmountOnExit //removes content when entering a different tab
+      mountOnEnter
     >
       <Tab eventKey="employeeList" title="Employee List">
         <Employees />
