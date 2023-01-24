@@ -17,6 +17,7 @@ function Employees({ pastOrFuture }) {
   const [schedule, setSchedule] = useState([]);
   const [past, setPast] = useState([]);
   const [future, setFuture] = useState([]);
+  const [completed, setCompleted] = useState([])
 
   // get id for logged in employee
   const userId = getUserId();
@@ -38,11 +39,14 @@ function Employees({ pastOrFuture }) {
         const jobDate = date.getTime();
 
         if (jobDate < todayDate) {
-          setPast([...past, data?.employeeById?.schedule[i]]);
+         
+          past.push(data?.employeeById?.schedule[i])
         } else {
-          setFuture([...future, data?.employeeById?.schedule[i]]);
+         
+          future.push(data?.employeeById?.schedule[i])
         }
       }
+  
     },
   });
 
@@ -71,7 +75,7 @@ function Employees({ pastOrFuture }) {
       <>
         <Container>
           <Row style={{ display: "flex", justifyContent: "center" }}>
-            {schedule?.map((job, index) => (
+            {schedule.map((job, index) => (
               <div id="accordion" key={index} style={{ width: "100%" }}>
                 <div className="card p-2 mb-1">
                   <div

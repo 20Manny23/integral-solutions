@@ -186,12 +186,22 @@ function EmployeeUpdate() {
   useEffect(() => {
     setOneFieldHasInput(
       email.trim() !== "" ||
-        phone.trim() !== "" ||
-        firstName.trim() !== "" ||
-        lastName.trim() !== ""
+      phone.trim() !== "" ||
+      firstName.trim() !== "" ||
+      lastName.trim() !== ""
     );
     // eslint-disable-next-line
   }, [email, phone, firstName, lastName]);
+
+  let arrayForSort = [];
+  if (emp) {
+    arrayForSort = [...emp.employees];
+    arrayForSort.sort(function (a, b) {
+      if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) return -1;
+      if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) return 1;
+      return 0;
+    });
+  }
 
   return (
     <Container>
@@ -217,14 +227,17 @@ function EmployeeUpdate() {
                   ? `${prevEmployeeData.firstName} ${prevEmployeeData.lastName}`
                   : "Select"}
               </option> */}
-              <option>Select</option>
-              {emp?.employees?.map((emp, index) => (
+              <option>{prevEmployeeData?.firstName
+                ? `${prevEmployeeData.firstName} ${prevEmployeeData.lastName}`
+                : "Select"}
+              </option>
+              {arrayForSort.map((emp, index) => (
                 <option
                   key={index}
                   // value={[emp.email, emp.firstName, emp.lastName, emp.phone]}
                   data-id={emp._id}
                 >
-                  {`${emp.firstName} ${emp.lastName}`}
+                  {`${emp.lastName}, ${emp.firstName} `}
                 </option>
               ))}
             </Form.Control>
@@ -236,9 +249,8 @@ function EmployeeUpdate() {
                 First Name
               </Form.Label>
               <Form.Label
-                className={`validation-color ${
-                  showFirstNameValidation ? "show" : "hide"
-                }`}
+                className={`validation-color ${showFirstNameValidation ? "show" : "hide"
+                  }`}
               >
                 * field is required
               </Form.Label>
@@ -261,9 +273,8 @@ function EmployeeUpdate() {
                 Last Name
               </Form.Label>
               <Form.Label
-                className={`validation-color ${
-                  showLastNameValidation ? "show" : "hide"
-                }`}
+                className={`validation-color ${showLastNameValidation ? "show" : "hide"
+                  }`}
               >
                 * field is required
               </Form.Label>
@@ -287,9 +298,8 @@ function EmployeeUpdate() {
                 Phone Number
               </Form.Label>
               <Form.Label
-                className={`validation-color ${
-                  showPhoneValidation ? "show" : "hide"
-                }`}
+                className={`validation-color ${showPhoneValidation ? "show" : "hide"
+                  }`}
               >
                 * field is required
               </Form.Label>
@@ -315,9 +325,8 @@ function EmployeeUpdate() {
                 Email
               </Form.Label>
               <Form.Label
-                className={`validation-color ${
-                  showEmailEmployeeValidation ? "show" : "hide"
-                }`}
+                className={`validation-color ${showEmailEmployeeValidation ? "show" : "hide"
+                  }`}
               >
                 * field is required
               </Form.Label>
@@ -333,7 +342,7 @@ function EmployeeUpdate() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
-              // required
+            // required
             />
           </Form.Group>
           <div className="d-flex justify-content-center">

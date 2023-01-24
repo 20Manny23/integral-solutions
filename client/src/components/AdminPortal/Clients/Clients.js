@@ -62,7 +62,7 @@ function Clients() {
   };
   let arrayForSort = [];
   if (clients) {
-    // console.log(clients.clients)
+  
     arrayForSort = [...clients.clients];
     arrayForSort.sort(function (a, b) {
       if (a.businessName.toLowerCase() < b.businessName.toLowerCase())
@@ -71,7 +71,7 @@ function Clients() {
       return 0;
     });
   }
-  console.log(arrayForSort);
+
   return (
     <>
       <Container>
@@ -138,6 +138,7 @@ function Clients() {
 
                         <Col className="margin-break">
                           <a
+                            href= {googleMap(client?.streetAddress, client?.city, client?.state, client?.zip)}
                             href={googleMap(
                               client?.streetAddress,
                               client?.city,

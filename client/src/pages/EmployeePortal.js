@@ -6,7 +6,7 @@ import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
 
-import EmployeePast from "../components/Employee(Worker)/EmployeePast";
+import EmployeePast from "../components/Employee(Worker)/EmpJobList";
 import EmployeeHours from "../components/Employee(Worker)/EmployeeHours";
 import EmployeeAdminHours from "../components/AdminPortal/Employees(Admin)/EmployeeAdminHours";
 
