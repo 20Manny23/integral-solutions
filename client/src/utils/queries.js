@@ -257,3 +257,50 @@ export const SEND_EMAIL = gql`
     )
   }
 `;
+
+// SECTION HOUR
+//QUERY ALL HOURS
+export const QUERY_ALL_HOURS = gql`
+  query AllHours {
+    hours {
+      _id
+      jobDate
+      startTime
+      endTime
+      hoursWorked
+      employee {
+        _id
+      }
+    }
+  }
+`;
+
+//QUERY HOURS BY EMPLOYEE ID
+export const QUERY_HOURS_BYEMPLOYEEID = gql`
+  query HoursByEmployeeId($employee: ID!) {
+    hoursByEmployeeId(employee: $employee) {
+      _id
+      jobDate
+      employee {
+        _id
+        email
+      }
+    }
+  }
+`;
+
+//QUERY HOURS BY EMPLOYEE BY JOB DATE
+export const QUERY_HOURS_BYEMPLOYEEID_BYJOBDATE = gql`
+  query HoursByEmployeeIdByJobDate($employee: ID!, $jobDate: String) {
+    hoursByEmployeeIdByJobDate(employee: $employee, jobDate: $jobDate) {
+      _id
+      jobDate
+      startTime
+      endTime
+      hoursWorked
+      employee {
+        _id
+      }
+    }
+  }
+`;
