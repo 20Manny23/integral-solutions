@@ -370,6 +370,9 @@ const resolvers = {
           endTime,
           hoursWorked,
           employee,
+        },
+        {
+          upsert: true,
         }
       );
       // }

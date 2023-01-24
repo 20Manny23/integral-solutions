@@ -88,15 +88,15 @@ function EmployeeHours() {
       console.log("single employee by date = ", singleEmployeeHoursJobDate);
     }
 
-  //add hours
-  const [addHours] = useMutation(ADD_HOURS);
+  // //add hours
+  // const [addHours] = useMutation(ADD_HOURS);
 
   // useEffect(() => {
   //   handleSubmit();
   // }, [])
 
-  //pass in an "event" with data rather than as I do here
-  //replace the data with event variables wrapped in functions to convert dates and times to format shown
+  // //pass in an "event" with data rather than as I do here
+  // //replace the data with event variables wrapped in functions to convert dates and times to format shown
   // const handleSubmit = async () => {
   //   try {
   //     // eslint-disable-next-line
@@ -130,7 +130,7 @@ function EmployeeHours() {
         variables: {
           jobDate: "January 20 2023 09:00:00 (MST)",
           startTime: "12:00:00 (MST)",
-          endTime: "15:00:00 (MST)",
+          endTime: "13:00:00 (MST)",
           hoursWorked: "3.0",
           employee: "6398fb54494aa98f85992da3"
         },
@@ -139,7 +139,6 @@ function EmployeeHours() {
       console.error(err);
     }
   }
-
 
   const handleChange = (event) => {
     const { name, value } = event.target;
