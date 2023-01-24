@@ -422,58 +422,59 @@ export const UPDATE_SCHEDULE = gql`
 `;
 
 // SECTION Hours
+//ADD HOUR RECORD
 export const ADD_HOURS = gql`
-  mutation addHours(
-    $workDate: String!
-    $dayHours: String!
-    $startTime: String!
-    $endTime: String!
-    $employee: String!
-  ) {
-    addHours(
-      workDate: $workDate
-      dayHours: $dayHours
-      startTime: $startTime
-      endTime: $endTime
-      employee: $employee
-    ) {
-      workDate
-      dayHours
-      startTime
-      endTime
-      employee
-    }
-  }
-`;
-
-export const UPDATE_HOURS = gql`
-  mutation updateHours(
-    $id: ID!
-    $dayHours: String
-    $workDate: String
+  mutation AddHourRecord(
+    $jobDate: String
     $startTime: String
     $endTime: String
+    $hoursWorked: String
+    $employee: String
   ) {
-    updateHours(
-      _id: $id
-      dayHours: $dayHours
-      workDate: $workDate
+    addHour(
+      jobDate: $jobDate
       startTime: $startTime
       endTime: $endTime
+      hoursWorked: $hoursWorked
+      employee: $employee
     ) {
       _id
-      dayHours
-      workDate
-      startTime
-      endTime
+      employee {
+        _id
+      }
     }
   }
 `;
 
-export const DELETE_HOURS = gql`
-  mutation deleteHours($id: ID!) {
-    deleteHours(_id: $id) {
+//UPDATE HOUR RECORD
+export const UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE = gql`
+  mutation UpdateHourByEmployeeIdByJobDate(
+    $jobDate: String
+    $startTime: String
+    $endTime: String
+    $hoursWorked: String
+    $employee: String
+  ) {
+    updateHourByEmployeeIdByJobDate(
+      jobDate: $jobDate
+      startTime: $startTime
+      endTime: $endTime
+      hoursWorked: $hoursWorked
+      employee: $employee
+    ) {
       _id
+    }
+  }
+`;
+
+//DELETE HOUR RECORD
+export const DELETE_HOURS_BYEMPLOYEEID_BYJOBDATE = gql`
+  mutation DeleteHours($employee: String, $jobDate: String) {
+    deleteHours(employee: $employee, jobDate: $jobDate) {
+      _id
+      employee {
+        _id
+      }
     }
   }
 `;

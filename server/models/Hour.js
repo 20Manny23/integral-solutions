@@ -1,24 +1,22 @@
 const { Schema, model } = require("mongoose");
-// const dayjs = require("dayjs");
-
 
 const hourSchema = new Schema(
   {
-    dayHours: {
-        type: String,
-        required: true,
-      },
-    workDate: {
-        type: String,
-        required: true,
+    jobDate: {
+      type: String,
+      required: true,
     },
     startTime: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     endTime: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
+    },
+    hoursWorked: {
+      type: String,
+      required: true,
     },
     employee: {
       type: Schema.Types.String,
@@ -31,8 +29,6 @@ const hourSchema = new Schema(
     },
   }
 );
-
-
 
 const Hour = model("Hour", hourSchema);
 

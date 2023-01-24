@@ -21,15 +21,6 @@ const typeDefs = gql`
     isAdmin: Boolean
     isLocked: Boolean
     schedule: [Schedule]
-    hours: [Hour]
-  }
-  type Hour {
-    _id: ID
-    workDate: String
-    dayHours: String
-    startTime: String
-    endTime: String
-    employee: Employee
   }
 
   type Message {
@@ -75,6 +66,15 @@ const typeDefs = gql`
     schedule: [Schedule]
   }
 
+  type Hour {
+    _id: ID
+    jobDate: String
+    startTime: String
+    endTime: String
+    hoursWorked: String
+    employee: Employee
+  }
+
   type Query {
     users: [User]!
     user(email: String!): User
@@ -86,8 +86,11 @@ const typeDefs = gql`
     employeeById(_id: ID!): Employee
     schedules: [Schedule]
     schedule(scheduleId: ID!): Schedule
-    hours: [Hour]!
-    hoursByEmployee(employeeId: ID!): [Hour]
+
+    hours: [Hour]
+    hoursById(_id: ID!): Hour
+    hoursByEmployeeId(employee: ID!): [Hour]
+    hoursByEmployeeIdByJobDate(employee: ID!, jobDate: String): [Hour]
   }
 
   # SECTION SEND EMAILS
@@ -202,25 +205,23 @@ const typeDefs = gql`
     toggleLocked(employeeId: ID!): Message
 
     # SECTION HOURS
-    addHours(
-      dayHours: String
-      workDate: String
+    addHour(
+      jobDate: String
       startTime: String
       endTime: String
+      hoursWorked: String
       employee: String
     ): Hour
 
-    updateHours(
-      dayHours: String
-      workDate: String
+    updateHourByEmployeeIdByJobDate(
+      jobDate: String
       startTime: String
       endTime: String
+      hoursWorked: String
       employee: String
     ): Hour
 
-    updateEmployeeHours(_id: ID, hours: String): Employee
-
-    deleteHours(_id: ID!): Hour
+    deleteHours(employee: String, jobDate: String): Hour
 
     # SECTION SCHEDULE / JOB
     addSchedule(

@@ -89,8 +89,8 @@ const FullCalendarApp = () => {
         title: job.client.businessName,
         start: format_date_ISOString(job.startDate),
         end: format_date_ISOString(job.endDate),
-        display: "block",
-        backgroundColor: colorArray[getRandomInt(colorArray.length)],
+        display: "flex",
+        // backgroundColor: colorArray[getRandomInt(colorArray.length)],
         textColor: "black",
       };
     });
@@ -134,9 +134,11 @@ const FullCalendarApp = () => {
 
   function renderEventContent(eventInfo) {
     return (
-      <>
+      < >
+      <div>
         <b>{eventInfo.timeText} </b>
-        <i>{eventInfo.event.title}</i>
+        <i style={{backgroundColor:'#3788d8', padding:'2px 2px 2px 0', borderRadius:'2px'}} >{eventInfo.event.title}</i>
+        </div>
       </>
     );
   }
