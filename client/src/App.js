@@ -23,6 +23,7 @@ import ResetPassword from "./components/ResetPassword/ResetPassword";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
+  faArrowAltCircleRight,
   faLocationDot,
   faEnvelopeOpenText,
   faPhone,
@@ -44,6 +45,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
+  faArrowAltCircleRight,
   faLocationDot,
   faEnvelopeOpenText,
   faPhone,
@@ -152,7 +154,18 @@ function App() {
             <Routes>
               <Route exact path="/" element={<Home />} />
               <Route exact path="/home" element={<Home />} />
-       
+              {/* <Route
+                exact
+                path="/messages"
+                element={
+                  <Login
+                    renderPanel={"messages"}
+                    messageButtonIsActive={true}
+                    loginButtonIsActive={false}
+                    signupButtonIsActive={false}
+                  />
+                }
+              /> */}
               <Route
                 exact
                 path="/login"

@@ -18,13 +18,16 @@ function Schedule() {
       <Tab eventKey="calendar" title="Calendar">
         <FullCalendarApp />
       </Tab>
-      <Tab eventKey="scheduleList" title="Job List">
-        <ScheduleList />
+      <Tab eventKey="upcoming" title="Upcoming">
+        <ScheduleList pastOrFuture ="future"/>
       </Tab>
-      <Tab eventKey="scheduleAdd" title="Add Jobs">
+      <Tab eventKey="completed" title="Completed">
+        <ScheduleList pastOrFuture ="past" />
+      </Tab>
+      <Tab eventKey="scheduleAdd" title="Add New">
         <ScheduleAdd />
       </Tab>
-      <Tab eventKey="scheduleUpdate" title="Update Jobs">
+      <Tab eventKey="scheduleUpdate" title="Update ">
         <ScheduleUpdate />
       </Tab>
     </Tabs>
