@@ -40,7 +40,7 @@ function EmployeeAdd() {
     if (name === "phone") {
       let getMaskedPhone = maskedPhoneInput(event.target.value);
       setMaskedPhone(getMaskedPhone);
-    }
+    };
 
     name === "firstName"
       ? setFirstName(value)
@@ -226,8 +226,8 @@ function EmployeeAdd() {
               type="tel"
               placeholder="ex 555-555-5555"
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              maxLength="12"
-              value={maskedPhone}
+              maxLength="12" //fix
+              value={maskedPhone} //fix
               name="phone"
               onChange={handleInputChange}
               onBlur={handleBlurChange}

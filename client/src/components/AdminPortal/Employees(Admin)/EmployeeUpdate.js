@@ -77,7 +77,7 @@ function EmployeeUpdate() {
     if (name === "phone") {
       let getMaskedPhone = maskedPhoneInput(event.target.value);
       setMaskedPhone(getMaskedPhone);
-    }
+    };
 
     if (name === "firstName") {
       setFirstName(value); //capture input on the form
