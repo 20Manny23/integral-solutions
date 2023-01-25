@@ -305,7 +305,7 @@ function EmployeeUpdate() {
             <Form.Control
               className="custom-border"
               type="tel"
-              placeholder="example: 123-456-7899"
+              placeholder="ex 555-555-5555"
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               value={selectPhone ? prevEmployeeData.phone : maskedPhone}
               name="phone"

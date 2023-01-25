@@ -40,7 +40,7 @@ function EmployeeAdd() {
     if (name === "phone") {
       let getMaskedPhone = maskedPhoneInput(event.target.value);
       setMaskedPhone(getMaskedPhone);
-    }
+    };
 
     name === "firstName"
       ? setFirstName(value)

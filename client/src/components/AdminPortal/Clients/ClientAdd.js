@@ -266,7 +266,7 @@ function ClientAdd() {
             <Form.Control
               className="custom-border"
               type="tel"
-              placeholder="example: 123-456-7899"
+              placeholder="ex 555-555-5555"
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               maxLength="12"
               value={maskedPhone}
