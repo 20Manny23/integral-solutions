@@ -694,6 +694,7 @@ function ScheduleUpdate() {
               <Form.Control
                 className="custom-border"
                 type="date"
+                min={new Date().toISOString().split('T')[0]}
                 name="startDate"
                 // defaultValue={format_date_YYYYDDMM(prevScheduleData?.startDate)} //fix
                 value={
@@ -724,6 +725,7 @@ function ScheduleUpdate() {
               <Form.Control
                 className="custom-border"
                 type="date"
+                min={new Date().toISOString().split('T')[0]}
                 name="endDate"
                 // defaultValue={format_date_YYYYDDMM(prevScheduleData?.endDate)} //fix
                 value={

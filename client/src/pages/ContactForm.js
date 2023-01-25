@@ -517,6 +517,7 @@ function ContactForm() {
               <Form.Control
                 className="custom-border"
                 type="date"
+                min={new Date().toISOString().split('T')[0]}
                 name="startDate"
                 onChange={handleChange}
                 onBlur={handleBlurChange}
