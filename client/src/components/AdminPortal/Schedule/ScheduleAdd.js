@@ -101,7 +101,7 @@ function ScheduleAdd() {
   } = useQuery(QUERY_ALL_EMPLOYEES);
 
   // add schedule
-  const [addSchedule] = useMutation(ADD_SCHEDULE, { //fix
+  const [addSchedule] = useMutation(ADD_SCHEDULE, {
     refetchQueries: [
       {query: QUERY_SCHEDULE}, // DocumentNode object parsed with gql
       'getSchedule' // Query name
@@ -150,7 +150,7 @@ function ScheduleAdd() {
     // Ternary statement that will call either setFirstName or setLastName based on what field the user is typing in
     name === "startDate"
       ? setStartDate(value)
-      : name === "endDate" //fix
+      : name === "endDate"
       ? setEndDate(value)
       : name === "startTime"
       ? setStartTime(value)
@@ -563,7 +563,7 @@ function ScheduleAdd() {
                 type="date"
                 min={new Date().toISOString().split('T')[0]}
                 name="endDate"
-                value={endDate} //fix
+                value={endDate}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 //required

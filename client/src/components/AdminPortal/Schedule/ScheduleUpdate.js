@@ -182,7 +182,7 @@ function ScheduleUpdate() {
       setSelectStartDate(false);
     } else if (name === "endDate") {
       setEndDate(value);
-      setSelectEndDate(false);  //fix end date
+      setSelectEndDate(false);
     } else if (name === "startTime") {
       setStartTime(value);
       setSelectStartTime(false);
@@ -264,7 +264,7 @@ function ScheduleUpdate() {
           startDate: startDate
             ? format_date_string(startDate, endTime)
             : getSchedule.data.schedule.startDate,
-          endDate: endDate //fix
+          endDate: endDate
             ? format_date_string(endDate, endTime ? endTime : "09:00:00 (MST)")
             : getSchedule.data.schedule.endDate,
           startTime: startTime
@@ -700,7 +700,7 @@ function ScheduleUpdate() {
                 </Form.Label>
               </div>
               <Form.Control
-                className="custom-border" //fix end date?
+                className="custom-border"
                 type="date"
                 min={new Date().toISOString().split('T')[0]}
                 name="endDate"
