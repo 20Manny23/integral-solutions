@@ -81,9 +81,7 @@ function ClientAdd() {
       : name === "state"
       ? setState(value)
       : setZip(value);
-
-    console.log("email = ", emailClient);
-
+      
     return name;
   };
 
