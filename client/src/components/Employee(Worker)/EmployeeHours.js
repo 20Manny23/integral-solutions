@@ -11,7 +11,6 @@ import {
 import {
   ADD_HOURS,
   UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE,
-  
 } from "../../utils/mutations";
 
 import { thisWeek, lastWeek, hours } from "../../utils/hoursDates";
@@ -27,6 +26,8 @@ function EmployeeHours() {
   const [dayTotal, setDayTotal] = useState("");
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
+  const [thisWeekHours, setThisWeekHours] = useState();
+  const [lastWeekHours, setLastWeekHours] = useState();
 
   //SECTION QUERIES
   //get all hours
@@ -48,28 +49,68 @@ function EmployeeHours() {
 
   const userId = getUserId();
 
-  
-  const [
-    getAnEmployeeHours,
-    { loading: singleLazyLoad, data: singleEmployeeHours },
-  ] = useLazyQuery(QUERY_HOURS_BYEMPLOYEEID, {
-    variables: { employee: currentEmployeeId },
+  const {
+    loading: singleLazyLoad,
+    data: singleHours,
+    error: singleHourError,
+    refetch: singleHoursRefetch,
+  } = useQuery(QUERY_HOURS_BYEMPLOYEEID, {
+    variables: { employee: userId },
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     skip: !Auth.loggedIn(),
-    onCompleted: ({singleEmployeeHours}) => {
-      // setCurrentClient(singleClient);
-      
+    onCompleted: (singleHours) => {
+      weeklyTotal(singleHours);
     },
   });
 
-  useEffect(() => {
-    getAnEmployeeHours();
-  }, []);
-
-  if (!singleLazyLoad) {
-    // console.log("single employee = ", singleEmployeeHours);
+  //Pulls dates from Hours Util and makes array
+  const thisWeekDates = [];
+  for (let i = 0; i < thisWeek.length; i++) {
+    let eachDate = moment(thisWeek[i].date).format("MMMM DD YYYY");
+    thisWeekDates.push(eachDate);
+  }
+  const lastWeekDates = [];
+  for (let i = 0; i < thisWeek.length; i++) {
+    let eachDate = moment(lastWeek[i].date).format("MMMM DD YYYY");
+    lastWeekDates.push(eachDate);
   }
 
+  // Get Weekly Total of hours on load
+  const weeklyTotal = async (singleHours) => {
+    let totalWeeklyHours = 0;
+    let lastWeeklyHours = 0;
+    for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
+      let jobb = singleHours.hoursByEmployeeId[i].jobDate;
+
+      if (
+        jobb === thisWeekDates[0] ||
+        jobb === thisWeekDates[1] ||
+        jobb === thisWeekDates[2] ||
+        jobb === thisWeekDates[3] ||
+        jobb === thisWeekDates[4] ||
+        jobb === thisWeekDates[5] ||
+        jobb === thisWeekDates[6]
+      ) {
+        let hoursInt = Number(singleHours.hoursByEmployeeId[i].hoursWorked);
+        totalWeeklyHours = hoursInt + totalWeeklyHours;
+
+        setThisWeekHours(totalWeeklyHours.toFixed(2));
+      } else if (
+        jobb === lastWeekDates[0] ||
+        jobb === lastWeekDates[1] ||
+        jobb === lastWeekDates[2] ||
+        jobb === lastWeekDates[3] ||
+        jobb === lastWeekDates[4] ||
+        jobb === lastWeekDates[5] ||
+        jobb === lastWeekDates[6]
+      ) {
+        let hoursInt = Number(singleHours.hoursByEmployeeId[i].hoursWorked);
+        lastWeeklyHours = hoursInt + lastWeeklyHours;
+
+        setLastWeekHours(lastWeeklyHours.toFixed(2));
+      }
+    }
+  };
   //get hours by employee id and job date
   // eslint-disable-next-line
   const [
@@ -77,54 +118,24 @@ function EmployeeHours() {
     { loading: byJobDateLazyLoad, data: singleEmployeeHoursJobDate },
   ] = useLazyQuery(QUERY_HOURS_BYEMPLOYEEID_BYJOBDATE, {
     variables: { employee: userId, jobDate: currentJobDate },
-    
+
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
-    // let nextDay = moment(currentJobDate).add(1, 'days');
-    // console.log(moment({nextDay}.nextDay._d).format('MMM DD YYYY')) 
-     
-      setDayTotal(data.hoursByEmployeeIdByJobDate[0]?.hoursWorked)
-      
+      // let nextDay = moment(currentJobDate).add(1, 'days');
+      // console.log(moment({nextDay}.nextDay._d).format('MMM DD YYYY'))
+
+      setDayTotal(data.hoursByEmployeeIdByJobDate[0]?.hoursWorked);
     },
-   
   });
-// console.log(thisWeek)
+  // console.log(thisWeek)
   useEffect(() => {
-    
-      getAnEmployeeHoursByHour();
+    getAnEmployeeHoursByHour();
+  }, [currentJobDate, dayTotal, getAnEmployeeHoursByHour]);
 
-  }, [currentJobDate]);
-  
-  // if (!byJobDateLazyLoad) {
-  //   console.log("single employee by date = ", singleEmployeeHoursJobDate);
-  // }
-
-  // //add hours
-  // const [addHours] = useMutation(ADD_HOURS);
-
-  // useEffect(() => {
-  //   handleSubmit();
-  // }, [])
-
-  // //pass in an "event" with data rather than as I do here
-  // //replace the data with event variables wrapped in functions to convert dates and times to format shown
-  // const handleSubmit = async () => {
-  //   try {
-  //     // eslint-disable-next-line
-  //     const { data } = await addHours({
-  //       variables: {
-  //         jobDate: "January 20 2023",
-  //         startTime: "12:00:00 (MST)",
-  //         endTime: "22:00:00 (MST)",
-  //         hoursWorked: "10.0",
-  //         employee: "6398fb54494aa98f85992da3"
-  //       },
-  //     });
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // }
+  if (!byJobDateLazyLoad) {
+    // console.log("single employee by date = ", singleEmployeeHoursJobDate);
+  }
 
   //update hours by employee id and job date
   const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE);
@@ -133,7 +144,6 @@ function EmployeeHours() {
   //   handleUpdate();
   // }, []);
 
-  
   const handleUpdate = async (event) => {
     event.preventDefault();
 
@@ -145,15 +155,14 @@ function EmployeeHours() {
     const endTime = event.currentTarget.endTime.value + ":00 (MST)";
     const calcStart = moment(event.currentTarget.startTime.value, "HH:mm");
     const calcEnd = moment(event.currentTarget.endTime.value, "HH:mm");
-    console.log(startTime);
-    console.log(endTime);
-    console.log(dateInput);
+    // console.log(startTime);
+    // console.log(endTime);
+    // console.log(dateInput);
 
     const duration = moment.duration(calcEnd.diff(calcStart));
     const hours = parseInt(duration.asMinutes()) / 60;
-    const hoursWorked = hours.toFixed(2);
-    console.log("userID = " + userId)
-    console.log(hoursWorked);
+    const hoursWorked = hours.toFixed(3);
+
     try {
       // eslint-disable-next-line
       const { data } = await updateHours({
@@ -162,7 +171,7 @@ function EmployeeHours() {
           startTime: startTime,
           endTime: endTime,
           hoursWorked: hoursWorked,
-          employee: userId
+          employee: userId,
           // jobDate: "January 20 2023",
           // startTime: "12:00:00 (MST)",
           // endTime: "13:00:00 (MST)",
@@ -173,6 +182,7 @@ function EmployeeHours() {
     } catch (err) {
       console.error(err);
     }
+    setDayTotal(hoursWorked);
   };
 
   const handleChange = (event) => {
@@ -182,7 +192,7 @@ function EmployeeHours() {
 
     return name;
   };
-  
+
   // const [updateEmployeeHours] = useMutation(UPDATE_EMPLOYEE_HOURS);
 
   // const resetForm = () => {
@@ -194,8 +204,8 @@ function EmployeeHours() {
     let currentAvailTarget = event.currentTarget.getAttribute("data-target");
     let currentAvailTable = document.getElementById(currentAvailTarget);
     let dateClick = moment(event.currentTarget.value).format("MMMM DD YYYY");
-    
-    setCurrentJobDate(dateClick)
+
+    setCurrentJobDate(dateClick);
     if (currentAvailTable.classList.contains("show")) {
       currentAvailTable.classList.remove("show");
       setOpen(false);
@@ -228,7 +238,7 @@ function EmployeeHours() {
                     aria-expanded={open}
                     aria-controls="example-fade-text"
                     data-target={`#collapseTarget-${index}`}
-                    value ={format_date_no_hyphen(date.date)} 
+                    value={format_date_no_hyphen(date.date)}
                   >
                     {format_date_no_hyphen(date.date)}
                   </button>
@@ -313,9 +323,8 @@ function EmployeeHours() {
                           paddingLeft: "25px",
                           fontWeight: "bolder",
                         }}
-                        key={index}
                       >
-                        Day's Total Hours:  {dayTotal}
+                        Day's Total Hours: {dayTotal}
                       </p>
                     </Row>
                   </div>
@@ -330,7 +339,7 @@ function EmployeeHours() {
               marginBottom: "25px",
             }}
           >
-            Weekly Total Hours: {}
+            Weekly Total Hours: {thisWeekHours}
           </Row>
         </Row>
       </Container>
@@ -361,7 +370,7 @@ function EmployeeHours() {
                       </div>
                     ))}
                     <Row style={{ fontWeight: "bolder", fontSize: "20px" }}>
-                      Last Weeks Total: {}
+                      Last Weeks Total: {lastWeekHours}
                     </Row>
                   </Row>
                 </div>

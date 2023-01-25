@@ -281,6 +281,7 @@ export const QUERY_HOURS_BYEMPLOYEEID = gql`
     hoursByEmployeeId(employee: $employee) {
       _id
       jobDate
+      hoursWorked
       employee {
         _id
         email
