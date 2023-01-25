@@ -55,7 +55,7 @@ footer {
 .footer-copy {
   display: flex;
   justify-content: center;
-  /* margin: 0px; */
+  margin: 0px;
   height: 25px;
 }
 
