@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Auth from "../../utils/auth";
 import moment from "moment";
-
+import { getUserId } from "../../utils/getUserId";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import {
   QUERY_ALL_HOURS,
@@ -11,7 +11,7 @@ import {
 import {
   ADD_HOURS,
   UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE,
-  DELETE_HOURS_BYEMPLOYEEID_BYJOBDATE,
+  
 } from "../../utils/mutations";
 
 import { thisWeek, lastWeek, hours } from "../../utils/hoursDates";
@@ -43,14 +43,12 @@ function EmployeeHours() {
   // console.log("all hours = ", hour);
 
   //get hours by employee id
-  const [currentEmployeeId, setCurrentEmployeeId] = useState(
-    "6398fb54494aa98f85992da3"
-  );
-  const [currentJobDate, setCurrentJobDate] = useState(
-    "January 29 2023 09:00:00 (MST)"
-  );
+  const [currentEmployeeId, setCurrentEmployeeId] = useState("");
+  const [currentJobDate, setCurrentJobDate] = useState("");
 
-  // eslint-disable-next-line
+  const userId = getUserId();
+
+  
   const [
     getAnEmployeeHours,
     { loading: singleLazyLoad, data: singleEmployeeHours },
@@ -58,9 +56,10 @@ function EmployeeHours() {
     variables: { employee: currentEmployeeId },
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     skip: !Auth.loggedIn(),
-    // onCompleted: (singleEmployeeHours) => {
-    //   // setCurrentClient(singleClient);
-    // },
+    onCompleted: ({singleEmployeeHours}) => {
+      // setCurrentClient(singleClient);
+      
+    },
   });
 
   useEffect(() => {
@@ -77,18 +76,26 @@ function EmployeeHours() {
     getAnEmployeeHoursByHour,
     { loading: byJobDateLazyLoad, data: singleEmployeeHoursJobDate },
   ] = useLazyQuery(QUERY_HOURS_BYEMPLOYEEID_BYJOBDATE, {
-    variables: { employee: currentEmployeeId, jobDate: currentJobDate },
+    variables: { employee: userId, jobDate: currentJobDate },
+    
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     skip: !Auth.loggedIn(),
-    // onCompleted: (singleEmployeeHours) => {
-    //   console.log(singleEmployeeHours)
-    // },
+    onCompleted: (data) => {
+    // let nextDay = moment(currentJobDate).add(1, 'days');
+    // console.log(moment({nextDay}.nextDay._d).format('MMM DD YYYY')) 
+     
+      setDayTotal(data.hoursByEmployeeIdByJobDate[0]?.hoursWorked)
+      
+    },
+   
   });
-
+// console.log(thisWeek)
   useEffect(() => {
-    getAnEmployeeHoursByHour();
-  }, []);
+    
+      getAnEmployeeHoursByHour();
 
+  }, [currentJobDate]);
+  
   // if (!byJobDateLazyLoad) {
   //   console.log("single employee by date = ", singleEmployeeHoursJobDate);
   // }
@@ -107,7 +114,7 @@ function EmployeeHours() {
   //     // eslint-disable-next-line
   //     const { data } = await addHours({
   //       variables: {
-  //         jobDate: "January 20 2023 09:00:00 (MST)",
+  //         jobDate: "January 20 2023",
   //         startTime: "12:00:00 (MST)",
   //         endTime: "22:00:00 (MST)",
   //         hoursWorked: "10.0",
@@ -126,8 +133,7 @@ function EmployeeHours() {
   //   handleUpdate();
   // }, []);
 
-  //   pass in an "event" with data rather than as I do here
-  // replace the data with event variables wrapped in functions to convert dates and times to format shown
+  
   const handleUpdate = async (event) => {
     event.preventDefault();
 
@@ -146,7 +152,7 @@ function EmployeeHours() {
     const duration = moment.duration(calcEnd.diff(calcStart));
     const hours = parseInt(duration.asMinutes()) / 60;
     const hoursWorked = hours.toFixed(2);
-
+    console.log("userID = " + userId)
     console.log(hoursWorked);
     try {
       // eslint-disable-next-line
@@ -156,7 +162,8 @@ function EmployeeHours() {
           startTime: startTime,
           endTime: endTime,
           hoursWorked: hoursWorked,
-          // jobDate: "January 20 2023 09:00:00 (MST)",
+          employee: userId
+          // jobDate: "January 20 2023",
           // startTime: "12:00:00 (MST)",
           // endTime: "13:00:00 (MST)",
           // hoursWorked: "3.0",
@@ -175,7 +182,7 @@ function EmployeeHours() {
 
     return name;
   };
-
+  
   // const [updateEmployeeHours] = useMutation(UPDATE_EMPLOYEE_HOURS);
 
   // const resetForm = () => {
@@ -186,6 +193,9 @@ function EmployeeHours() {
   const getElement = (event) => {
     let currentAvailTarget = event.currentTarget.getAttribute("data-target");
     let currentAvailTable = document.getElementById(currentAvailTarget);
+    let dateClick = moment(event.currentTarget.value).format("MMMM DD YYYY");
+    
+    setCurrentJobDate(dateClick)
     if (currentAvailTable.classList.contains("show")) {
       currentAvailTable.classList.remove("show");
       setOpen(false);
@@ -218,6 +228,7 @@ function EmployeeHours() {
                     aria-expanded={open}
                     aria-controls="example-fade-text"
                     data-target={`#collapseTarget-${index}`}
+                    value ={format_date_no_hyphen(date.date)} 
                   >
                     {format_date_no_hyphen(date.date)}
                   </button>
@@ -302,8 +313,9 @@ function EmployeeHours() {
                           paddingLeft: "25px",
                           fontWeight: "bolder",
                         }}
+                        key={index}
                       >
-                        Day's Total Hours:{" "}
+                        Day's Total Hours:  {dayTotal}
                       </p>
                     </Row>
                   </div>
@@ -342,7 +354,7 @@ function EmployeeHours() {
                       <div
                         id="accordion"
                         key={index}
-                        style={{ width: "100%", marginTop: "9px" }}
+                        style={{ width: "99%", marginTop: "9px" }}
                       >
                         {format_date_no_hyphen(date.date)} Hours:
                         {/* <Row style={{marginLeft:'2px'}}>Hours worked: {}</Row> */}
