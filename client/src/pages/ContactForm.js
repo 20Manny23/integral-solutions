@@ -6,6 +6,7 @@ import useEmailSend from "../components/EmailSend";
 import Footer from "../components/Home/Footer";
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
 import { NUMBER_OF_EMPLOYEES } from "../utils/numberOfEmployees";
+import { maskedPhoneInput } from "../utils/phoneMask";
 
 import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
 import "../styles/Forms.css";
@@ -28,6 +29,7 @@ function ContactForm() {
   const [startDate, setStartDate] = useState("");
   const [services, setServices] = useState([]);
   const [jobDetails, setJobDetails] = useState("");
+  const [maskedPhone, setMaskedPhone] = useState("");
 
   //  validation
   const [showCompanyNameValidation, setShowCompanyNameValidation] =
@@ -50,7 +52,6 @@ function ContactForm() {
   const [showJobDetailsValidation, setShowJobDetailsValidation] = useState("");
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
-
   const handleChange = (event) => {
     const { target } = event;
     const name = target.name;
@@ -66,6 +67,12 @@ function ContactForm() {
         services.filter((service) => value.trim() !== service.trim())
       ); // if target is unchecked and it is a services input then don't include in services state
       return;
+    }
+
+    //mask (auto populate) phone format input as xxx-xxx-xxx
+    if (name === "phone") {
+      let getMaskedPhone = maskedPhoneInput(event.target.value);
+      setMaskedPhone(getMaskedPhone);
     }
 
     //set state for all other inputs
@@ -238,7 +245,7 @@ function ContactForm() {
     squareFeet,
     employeeNumber,
     startDate,
-    jobDetails
+    jobDetails,
   ]);
 
   return (
@@ -348,9 +355,11 @@ function ContactForm() {
               <Form.Control
                 className="custom-border"
                 type="tel"
-                placeholder="Enter phone 123-456-7890"
-                name="phone"
+                placeholder="ex 555-555-5555"
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                maxLength="12"
+                value={maskedPhone}
+                name="phone"
                 onChange={handleChange}
                 onBlur={handleBlurChange}
               />
@@ -517,7 +526,7 @@ function ContactForm() {
               <Form.Control
                 className="custom-border"
                 type="date"
-                min={new Date().toISOString().split('T')[0]}
+                min={new Date().toISOString().split("T")[0]}
                 name="startDate"
                 onChange={handleChange}
                 onBlur={handleBlurChange}

@@ -4,10 +4,10 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_CLIENTS } from "../../../utils/queries";
 import { ADD_CLIENT } from "../../../utils/mutations";
 
-import { Row, Col, Container, Form, Button } from "react-bootstrap";
-
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
+import { maskedPhoneInput } from "../../../utils/phoneMask";
 
+import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
@@ -23,6 +23,7 @@ function ClientAdd() {
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
+  const [maskedPhone, setMaskedPhone] = useState("");
 
   // VALIDATION
   const [showBusinessNameValidation, setShowBusinessNameValidation] =
@@ -53,15 +54,21 @@ function ClientAdd() {
 
   const [addClient] = useMutation(ADD_CLIENT, {
     refetchQueries: [
-      {query: QUERY_ALL_CLIENTS}, // DocumentNode object parsed with gql
-      'getAllClients' // Query name
+      { query: QUERY_ALL_CLIENTS }, // DocumentNode object parsed with gql
+      "getAllClients", // Query name
     ],
   });
 
   //section handle input
   // Getting the value or name of input triggering change
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
+    //mask (auto populate) phone format input as xxx-xxx-xxx
+    if (name === "phone") {
+      let getMaskedPhone = maskedPhoneInput(event.target.value);
+      setMaskedPhone(getMaskedPhone);
+    }
 
     // Ternary statement that will call either setFirstName or setLastName based on what field the user is typing in
     name === "businessName"
@@ -81,7 +88,7 @@ function ClientAdd() {
       : name === "state"
       ? setState(value)
       : setZip(value);
-      
+
     return name;
   };
 
@@ -259,10 +266,11 @@ function ClientAdd() {
             <Form.Control
               className="custom-border"
               type="tel"
-              placeholder="example: 123-456-7899"
-              name="phone"
-              value={phone}
+              placeholder="ex 555-555-5555"
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              maxLength="12"
+              value={maskedPhone}
+              name="phone"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -330,7 +338,6 @@ function ClientAdd() {
               placeholder="Enter Address"
               name="suite"
               value={suite}
-              // defaultValue="suite #"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -352,7 +359,6 @@ function ClientAdd() {
                 placeholder="City"
                 name="city"
                 value={city}
-                // defaultValue="test city"
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 required
@@ -374,10 +380,8 @@ function ClientAdd() {
                 placeholder="State"
                 name="state"
                 value={state}
-                // defaultValue="CO"
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                // required
               >
                 <option>Select</option>
                 {STATE_DROPDOWN.map((st, index) => (
@@ -399,7 +403,6 @@ function ClientAdd() {
                 placeholder="Zip"
                 name="zip"
                 value={zip}
-                // defaultValue="07801"
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 required
