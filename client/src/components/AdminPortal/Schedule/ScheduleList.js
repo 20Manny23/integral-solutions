@@ -34,18 +34,14 @@ function ScheduleList({pastOrFuture}) {
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE, {
     onCompleted: (data) => {
-
       const todayDate = Date.now();
-
+      
       for (let i = 0; i < data?.schedules?.length; i++) {
         const date = new Date(data?.schedules[i].startDate);
         const jobDate = date.getTime();
-
         if (jobDate < todayDate) {
-         
           past.push(data.schedules[i])
         } else {
-       
           future.push(data.schedules[i])
         }
       }

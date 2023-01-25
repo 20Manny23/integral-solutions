@@ -100,7 +100,12 @@ function ScheduleAdd() {
   } = useQuery(QUERY_ALL_EMPLOYEES);
 
   // add schedule
-  const [addSchedule] = useMutation(ADD_SCHEDULE);
+  const [addSchedule] = useMutation(ADD_SCHEDULE, { //fix
+    refetchQueries: [
+      {query: QUERY_SCHEDULE}, // DocumentNode object parsed with gql
+      'getSchedule' // Query name
+    ],
+  });
 
   // add new schedule / job to the appropriate client
   const [updateClientSchedule] = useMutation(UPDATE_CLIENT_SCHEDULE);
@@ -108,7 +113,7 @@ function ScheduleAdd() {
   // add new schedule / job to the appropriate employee(s)
   const [updateEmployeeSchedule] = useMutation(UPDATE_EMPLOYEE_SCHEDULE);
 
-  //SECTION ADD INTO OR REMOVE FROM SELECTED EMPLOYEE FROM PAGE
+  //SECTION ADD OR REMOVE FROM SELECTED EMPLOYEE FROM PAGE
   const createSelectedEmployees = (event) => {
     let firstName =
       event.target.options[event.target.selectedIndex].dataset.firstname;
@@ -167,46 +172,6 @@ function ScheduleAdd() {
       : setZip(value);
 
     return name;
-  };
-
-  //SECTION HANDLE INPUT
-  // If user clicks off an input field without entering text, then validation message "is required" displays
-  const handleBlurChange = (e) => {
-    const { name, value } = e.target;
-
-    name === "businessName" && value.trim() === ""
-      ? setShowBusinessNameValidation(true)
-      : setShowBusinessNameValidation(false);
-    name === "streetAddress" && value.trim() === ""
-      ? setShowStreetAddressValidation(true)
-      : setShowStreetAddressValidation(false);
-    name === "city" && value.trim() === ""
-      ? setShowCityValidation(true)
-      : setShowCityValidation(false);
-    name === "state" && value.trim() === ""
-      ? setShowStateValidation(true)
-      : setShowStateValidation(false);
-    name === "zip" && value.trim() === ""
-      ? setShowZipValidation(true)
-      : setShowZipValidation(false);
-    name === "startDate" && value.trim() === ""
-      ? setStartDateValidation(true)
-      : setStartDateValidation(false);
-    name === "endDate" && value.trim() === ""
-      ? setShowEndDateValidation(true)
-      : setShowEndDateValidation(false);
-    name === "startTime" && value.trim() === ""
-      ? setShowStartTimeValidation(true)
-      : setShowStartTimeValidation(false);
-    name === "squareFeet" && value.trim() === ""
-      ? setShowSquareFeetValidation(true)
-      : setShowSquareFeetValidation(false);
-    name === "jobDetails" && value.trim() === ""
-      ? setShowJobDetailsValidation(true)
-      : setShowJobDetailsValidation(false);
-    name === "numberOfClientEmployees" && value.trim() === ""
-      ? setShowNumberOfClientEmployeesValidation(true)
-      : setShowNumberOfClientEmployeesValidation(false);
   };
 
   //SECTION ADD NEW JOB
@@ -299,7 +264,46 @@ function ScheduleAdd() {
     }
   };
 
-  //SECTION RESET FORM
+  // SECTION UTILITY FUNCTIONS
+  // If user clicks off an input field without entering text, then validation message "is required" displays
+  const handleBlurChange = (e) => {
+    const { name, value } = e.target;
+
+    name === "businessName" && value.trim() === ""
+      ? setShowBusinessNameValidation(true)
+      : setShowBusinessNameValidation(false);
+    name === "streetAddress" && value.trim() === ""
+      ? setShowStreetAddressValidation(true)
+      : setShowStreetAddressValidation(false);
+    name === "city" && value.trim() === ""
+      ? setShowCityValidation(true)
+      : setShowCityValidation(false);
+    name === "state" && value.trim() === ""
+      ? setShowStateValidation(true)
+      : setShowStateValidation(false);
+    name === "zip" && value.trim() === ""
+      ? setShowZipValidation(true)
+      : setShowZipValidation(false);
+    name === "startDate" && value.trim() === ""
+      ? setStartDateValidation(true)
+      : setStartDateValidation(false);
+    name === "endDate" && value.trim() === ""
+      ? setShowEndDateValidation(true)
+      : setShowEndDateValidation(false);
+    name === "startTime" && value.trim() === ""
+      ? setShowStartTimeValidation(true)
+      : setShowStartTimeValidation(false);
+    name === "squareFeet" && value.trim() === ""
+      ? setShowSquareFeetValidation(true)
+      : setShowSquareFeetValidation(false);
+    name === "jobDetails" && value.trim() === ""
+      ? setShowJobDetailsValidation(true)
+      : setShowJobDetailsValidation(false);
+    name === "numberOfClientEmployees" && value.trim() === ""
+      ? setShowNumberOfClientEmployeesValidation(true)
+      : setShowNumberOfClientEmployeesValidation(false);
+  };
+
   // Reset the add schedule form after submission
   const resetForm = () => {
     setBusinessName("");
@@ -356,9 +360,10 @@ function ScheduleAdd() {
     // suite,
     // endTime,
   ]);
+
+  // sort conditional
   let arrayForSort = [];
   if (clients) {
-  
     arrayForSort = [...clients.clients];
     arrayForSort.sort(function (a, b) {
       if (a.businessName.toLowerCase() < b.businessName.toLowerCase())
@@ -366,7 +371,9 @@ function ScheduleAdd() {
       if (a.businessName.toLowerCase() > b.businessName.toLowerCase()) return 1;
       return 0;
     });
-  }
+  };
+
+  // sort conditional
   let arrayForSortEmp = [];
   if (emp) {
     arrayForSortEmp = [...emp.employees];
@@ -375,7 +382,8 @@ function ScheduleAdd() {
       if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) return 1;
       return 0;
     });
-  }
+  };
+
   return (
     <Container>
       <Form
@@ -405,11 +413,6 @@ function ScheduleAdd() {
           >
             <option>{businessName ? businessName : "Select"}</option>
             {arrayForSort.map((client, index) => (
-              // <option
-              //   key={index}
-              //   value={client.businessName}
-              //   data-id={client._id}
-              // >
               <option
                 key={index}
                 value={client.businessName}
@@ -676,8 +679,9 @@ function ScheduleAdd() {
         </Form.Group>
         <Form.Group className="form-length">
           {/* Creates button when adding employee to job  */}
-          {selectedEmployees.map((employee) => (
+          {selectedEmployees.map((employee, index) => (
             <Button
+              key={index}
               style={{
                 marginRight: "15px",
                 padding: "3px",
