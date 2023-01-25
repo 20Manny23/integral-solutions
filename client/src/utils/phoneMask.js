@@ -6,8 +6,8 @@ export const maskedPhoneInput = (rawPhone) => {
     format = rawPhone.replace(/-/g, ""); //remove "-" globally in rawPhone string input
     phoneFormat = format.split(""); //split to an array
 
-    console.log('format = ', format)
-    console.log('phone format = ', phoneFormat)
+    // console.log('format = ', format)
+    // console.log('phone format = ', phoneFormat)
 
     if (rawPhone.length >= 3 && rawPhone.length < 7) {
       phoneFormat.splice(3, 0, '-'); //add hypen at index 3
@@ -18,6 +18,6 @@ export const maskedPhoneInput = (rawPhone) => {
     }
 
   maskedPhone = phoneFormat.join(''); //convert phoneFormat array to string
-  console.log('masked = ', maskedPhone)
+  // console.log('masked = ', maskedPhone)
   return maskedPhone;
 };
