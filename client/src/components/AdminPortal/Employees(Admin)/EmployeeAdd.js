@@ -8,6 +8,7 @@ import { Container, Form, Button } from "react-bootstrap";
 
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
+import { maskedPhoneInput } from "../../../utils/phoneMask";
 
 function EmployeeAdd() {
   // GET FORM INPUT
@@ -36,11 +37,19 @@ function EmployeeAdd() {
     // console.log(event)
     // console.log(event.target.value)
 
+    //send phone input to a global function
+    //return maskPhone & set state for the return?
+
+    if (name === "phone") {
+      let hello = maskedPhoneInput(event.target.value);
+      console.log(hello);
+    }
+
     let format = "";
     let phoneFormat = [];
 
     if (name === "phone") {
-      let format = event.target.value.replace(/-/g, "");
+      format = event.target.value.replace(/-/g, "");
       // phoneFormat = event.target.value.split(""); //split to an array
       phoneFormat = format.split(""); //split to an array
 
@@ -249,7 +258,7 @@ function EmployeeAdd() {
               className="custom-border"
               type="tel"
               // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              maxLength="12"
+              maxLength="12" //fix
               placeholder="ex 555-555-5555"
               name="phone"
               onChange={handleInputChange}
