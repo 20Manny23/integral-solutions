@@ -31,7 +31,7 @@ function Footer() {
         </main>
 
         <p className="footer-copy">
-          &copy;{new Date().getFullYear()} Integral Solutions LLC All Rights Reserved.
+          &copy;{new Date().getFullYear()} Integral Solutions LLC.
         </p>
       </div>
     </footer>
