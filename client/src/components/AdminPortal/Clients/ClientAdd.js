@@ -68,7 +68,7 @@ function ClientAdd() {
     if (name === "phone") {
       let getMaskedPhone = maskedPhoneInput(event.target.value);
       setMaskedPhone(getMaskedPhone);
-    };
+    }
 
     // Ternary statement that will call either setFirstName or setLastName based on what field the user is typing in
     name === "businessName"
@@ -338,7 +338,6 @@ function ClientAdd() {
               placeholder="Enter Address"
               name="suite"
               value={suite}
-              // defaultValue="suite #"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -360,7 +359,6 @@ function ClientAdd() {
                 placeholder="City"
                 name="city"
                 value={city}
-                // defaultValue="test city"
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 required
@@ -382,10 +380,8 @@ function ClientAdd() {
                 placeholder="State"
                 name="state"
                 value={state}
-                // defaultValue="CO"
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                // required
               >
                 <option>Select</option>
                 {STATE_DROPDOWN.map((st, index) => (
@@ -407,7 +403,6 @@ function ClientAdd() {
                 placeholder="Zip"
                 name="zip"
                 value={zip}
-                // defaultValue="07801"
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 required

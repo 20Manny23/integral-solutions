@@ -20,7 +20,7 @@ function EmployeeUpdate() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
-  const [ maskedPhone, setMaskedPhone ] = useState('');
+  const [maskedPhone, setMaskedPhone] = useState("");
 
   //set selected employee
   // const [currentEmployee, setCurrentEmployee] = useState("");
@@ -77,7 +77,7 @@ function EmployeeUpdate() {
     if (name === "phone") {
       let getMaskedPhone = maskedPhoneInput(event.target.value);
       setMaskedPhone(getMaskedPhone);
-    };
+    }
 
     if (name === "firstName") {
       setFirstName(value); //capture input on the form
@@ -191,9 +191,9 @@ function EmployeeUpdate() {
   useEffect(() => {
     setOneFieldHasInput(
       email.trim() !== "" ||
-      phone.trim() !== "" ||
-      firstName.trim() !== "" ||
-      lastName.trim() !== ""
+        phone.trim() !== "" ||
+        firstName.trim() !== "" ||
+        lastName.trim() !== ""
     );
     // eslint-disable-next-line
   }, [email, phone, firstName, lastName]);
@@ -227,15 +227,13 @@ function EmployeeUpdate() {
               name={"form-select" || ""}
               onChange={handleSelectedEmployee}
             >
-              <option>{prevEmployeeData?.firstName
-                ? `${prevEmployeeData.firstName} ${prevEmployeeData.lastName}`
-                : "Select"}
+              <option>
+                {prevEmployeeData?.firstName
+                  ? `${prevEmployeeData.firstName} ${prevEmployeeData.lastName}`
+                  : "Select"}
               </option>
               {arrayForSort.map((emp, index) => (
-                <option
-                  key={index}
-                  data-id={emp._id}
-                >
+                <option key={index} data-id={emp._id}>
                   {`${emp.lastName}, ${emp.firstName} `}
                 </option>
               ))}
@@ -248,8 +246,9 @@ function EmployeeUpdate() {
                 First Name
               </Form.Label>
               <Form.Label
-                className={`validation-color ${showFirstNameValidation ? "show" : "hide"
-                  }`}
+                className={`validation-color ${
+                  showFirstNameValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
@@ -271,8 +270,9 @@ function EmployeeUpdate() {
                 Last Name
               </Form.Label>
               <Form.Label
-                className={`validation-color ${showLastNameValidation ? "show" : "hide"
-                  }`}
+                className={`validation-color ${
+                  showLastNameValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
@@ -295,8 +295,9 @@ function EmployeeUpdate() {
                 Phone Number
               </Form.Label>
               <Form.Label
-                className={`validation-color ${showPhoneValidation ? "show" : "hide"
-                  }`}
+                className={`validation-color ${
+                  showPhoneValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
@@ -320,8 +321,9 @@ function EmployeeUpdate() {
                 Email
               </Form.Label>
               <Form.Label
-                className={`validation-color ${showEmailEmployeeValidation ? "show" : "hide"
-                  }`}
+                className={`validation-color ${
+                  showEmailEmployeeValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
@@ -335,7 +337,7 @@ function EmployeeUpdate() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
-            // required
+              // required
             />
           </Form.Group>
           <div className="d-flex justify-content-center">

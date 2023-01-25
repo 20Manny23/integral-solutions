@@ -20,7 +20,7 @@ function EmployeeAdd() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLocked, setIsLocked] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
-  const [ maskedPhone, setMaskedPhone ] = useState(''); //fix
+  const [maskedPhone, setMaskedPhone] = useState(""); //fix
 
   // VALIDATION
   const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
@@ -40,7 +40,7 @@ function EmployeeAdd() {
     if (name === "phone") {
       let getMaskedPhone = maskedPhoneInput(event.target.value);
       setMaskedPhone(getMaskedPhone);
-    };
+    }
 
     name === "firstName"
       ? setFirstName(value)
@@ -71,8 +71,8 @@ function EmployeeAdd() {
   //SECTION ADD EMPLOYEE
   const [addEmployee] = useMutation(ADD_EMPLOYEE, {
     refetchQueries: [
-      {query: QUERY_ALL_EMPLOYEES}, // DocumentNode object parsed with gql
-      'getAllEmployees' // Query name
+      { query: QUERY_ALL_EMPLOYEES }, // DocumentNode object parsed with gql
+      "getAllEmployees", // Query name
     ],
   });
 
