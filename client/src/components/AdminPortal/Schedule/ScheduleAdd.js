@@ -150,7 +150,7 @@ function ScheduleAdd() {
     // Ternary statement that will call either setFirstName or setLastName based on what field the user is typing in
     name === "startDate"
       ? setStartDate(value)
-      : name === "endDate"
+      : name === "endDate" //fix
       ? setEndDate(value)
       : name === "startTime"
       ? setStartTime(value)
@@ -181,7 +181,7 @@ function ScheduleAdd() {
     event.preventDefault();
 
     let reformattedStartDate = format_date_string(startDate, startTime);
-    let reformattedEndDate = format_date_string(startDate, startTime);
+    let reformattedEndDate = format_date_string(endDate, startTime); //used start time since endTime is no on the form
 
     console.log(reformattedEndDate, reformattedStartDate);
 
@@ -520,7 +520,7 @@ function ScheduleAdd() {
             <Form.Group controlId="formBasicEmail">
               <div className="form-label">
                 <Form.Label style={{ fontWeight: "bolder" }}>
-                  Job Start Date
+                  Start Date
                 </Form.Label>
 
                 <Form.Label
@@ -548,7 +548,7 @@ function ScheduleAdd() {
             <Form.Group controlId="formBasicEmail">
               <div className="form-label">
                 <Form.Label style={{ fontWeight: "bolder" }}>
-                  Job End Date
+                  End Date
                 </Form.Label>
                 <Form.Label
                   className={`validation-color ${
@@ -563,8 +563,7 @@ function ScheduleAdd() {
                 type="date"
                 min={new Date().toISOString().split('T')[0]}
                 name="endDate"
-                value={endDate}
-                // defaultValue={client?.endDate}
+                value={endDate} //fix
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 //required

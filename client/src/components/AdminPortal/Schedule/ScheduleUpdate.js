@@ -10,7 +10,7 @@ import {
 } from "../../../utils/queries";
 import {
   // ADD_SCHEDULE,
-  UPDATE_CLIENT_SCHEDULE,
+  // UPDATE_CLIENT_SCHEDULE,
   UPDATE_EMPLOYEE_SCHEDULE,
   REMOVE_EMPLOYEE_SCHEDULE,
   UPDATE_SCHEDULE,
@@ -153,15 +153,17 @@ function ScheduleUpdate() {
   const [updateSchedule] = useMutation(UPDATE_SCHEDULE);
 
   //SECTION add new schedule / job to the appropriate client
-  const [updateClientSchedule] = useMutation(UPDATE_CLIENT_SCHEDULE);
+  // const [updateClientSchedule] = useMutation(UPDATE_CLIENT_SCHEDULE); //not necessary b/c client is selected from dropdown list
 
   //SECTION add new schedule / job to the appropriate employee(s)
   const [updateEmployeeSchedule] = useMutation(UPDATE_EMPLOYEE_SCHEDULE);
   const [removeEmployeeSchedule] = useMutation(REMOVE_EMPLOYEE_SCHEDULE);
 
-  //SECTION HANDLE INPUT //fix
+  //SECTION HANDLE INPUT 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+
+    console.log('input = ', event.target.value)
 
     if (name === "streetAddress") {
       setStreetAddress(value);
@@ -180,7 +182,7 @@ function ScheduleUpdate() {
       setSelectStartDate(false);
     } else if (name === "endDate") {
       setEndDate(value);
-      setSelectEndDate(false);
+      setSelectEndDate(false);  //fix end date
     } else if (name === "startTime") {
       setStartTime(value);
       setSelectStartTime(false);
@@ -215,7 +217,6 @@ function ScheduleUpdate() {
 
     setPrevScheduleData(currentScheduleData.data.schedule);
 
-    //fix start
     // allow form to populate with selected employee data
     setSelectStreetAddress(true);
     setSelectCity(true);
@@ -229,7 +230,6 @@ function ScheduleUpdate() {
     setSelectJobDetails(true);
 
     setFormIsDisabled(false); // enable form for input
-    //fix end
   }
 
   //SECTION SCHEDULE UPDATE
@@ -264,7 +264,7 @@ function ScheduleUpdate() {
           startDate: startDate
             ? format_date_string(startDate, endTime)
             : getSchedule.data.schedule.startDate,
-          endDate: endDate
+          endDate: endDate //fix
             ? format_date_string(endDate, endTime ? endTime : "09:00:00 (MST)")
             : getSchedule.data.schedule.endDate,
           startTime: startTime
@@ -334,7 +334,6 @@ function ScheduleUpdate() {
 
     scheduleRefetch();
 
-    //fix start
     // allow form to populate with selected employee data
     setSelectStreetAddress(false);
     setSelectCity(false);
@@ -350,12 +349,10 @@ function ScheduleUpdate() {
     resetForm();
 
     setFormIsDisabled(true); // enable form for input
-    //fix end
   };
 
-  //SECTION ADD OR REMOVE SELECTED EMPLOYEE FROM PAGE
-  // set state of selectedEmployees upon load useEffect
-  // populate employee list with employees in list at the time of "select job" dropdown
+  //SECTION ADD OR REMOVE SELECTED EMPLOYEE FROM PAGE Render
+  // render/populate employee list with employees in list at the time of "select job" dropdown
   useEffect(() => {
     if (currentScheduleId !== "") {
       createCurrentEmployees();
@@ -366,24 +363,23 @@ function ScheduleUpdate() {
 
   const createCurrentEmployees = async () => {
     // get employees currently assigned to a job
-    let test = await getASingleSchedule();
+    let employees = await getASingleSchedule();
 
     let currentEmployees = [];
-    currentEmployees = test.data.schedule.employees;
+    currentEmployees = employees.data.schedule.employees;
 
-    let temp = [];
+    let employeeBuild = [];
     for (let i = 0; i < currentEmployees.length; i++) {
       let firstName = currentEmployees[i].firstName;
       let lastName = currentEmployees[i].lastName;
       let employeeId = currentEmployees[i]._id;
 
-      temp.push({ firstName, lastName, employeeId });
+      employeeBuild.push({ firstName, lastName, employeeId });
     }
 
     // setSelectedEmployees([...currentEmployees]);
-    setSelectedEmployees([...temp]);
+    setSelectedEmployees([...employeeBuild]);
 
-    // console.log("1 = ", selectedEmployees);
   };
 
   const createSelectedEmployees = async (event) => {
@@ -421,19 +417,10 @@ function ScheduleUpdate() {
   }
 
   //SECTION UTILITY FUNCTIONS
-
-  //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
-  // function businessNameSelect(event) {
-  //   setBusinessName(event.target.value); //fix don't think this is necessary
-  // }
-
   //validation - if a user clicks off field w/out entering text, then validation is required displays
   const handleBlurChange = (e) => {
     const { name, value } = e.target;
 
-    // name === "businessName" && value.trim() === ""
-    //   ? setShowBusinessNameValidation(true)
-    //   : setShowBusinessNameValidation(false);
     name === "streetAddress" && value.trim() === ""
       ? setShowStreetAddressValidation(true)
       : setShowStreetAddressValidation(false);
@@ -562,7 +549,6 @@ function ScheduleUpdate() {
             {arrayForSortDate.map((job, index) => (
               <option
                 key={index}
-                // value={job?.client?.businessName}
                 data-id={job?._id}
               >
                 {index +1}: {format_date_MMDDYYYY(job?.startDate)} {"--"}  
@@ -588,16 +574,12 @@ function ScheduleUpdate() {
             className="custom-border"
             placeholder="Enter Address"
             name="streetAddress"
-            // defaultValue={prevScheduleData?.streetAddress} //fix
             value={
               selectStreetAddress
                 ? prevScheduleData.streetAddress
                 : streetAddress
-            } // fix
+            }
             onChange={handleInputChange}
-            // onChange={(event) => {
-            //   setStreetAddress(event.target.value);
-            // }}
             onBlur={handleBlurChange}
             disabled={formIsDisabled}
           />
@@ -616,9 +598,7 @@ function ScheduleUpdate() {
               className="custom-border"
               placeholder="City"
               name="city"
-              // value={city}
-              // defaultValue={prevScheduleData?.city} //fix
-              value={selectCity ? prevScheduleData.city : city} // fix
+              value={selectCity ? prevScheduleData.city : city}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
@@ -640,8 +620,7 @@ function ScheduleUpdate() {
               className="custom-border"
               placeholder="State"
               name="state"
-              // defaultValue={prevScheduleData?.state} //fix
-              value={selectState ? prevScheduleData.state : state} // fix
+              value={selectState ? prevScheduleData.state : state}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
@@ -667,8 +646,7 @@ function ScheduleUpdate() {
               className="custom-border"
               placeholder="Zip"
               name="zip"
-              // defaultValue={prevScheduleData?.zip} //fix
-              value={selectZip ? prevScheduleData.zip : zip} // fix
+              value={selectZip ? prevScheduleData.zip : zip}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
@@ -694,14 +672,13 @@ function ScheduleUpdate() {
               <Form.Control
                 className="custom-border"
                 type="date"
-                min={new Date().toISOString().split('T')[0]}
+                min={format_date_YYYYDDMM(prevScheduleData.startDate) < new Date().toISOString().split('T')[0] ? format_date_YYYYDDMM(prevScheduleData.startDate): new Date().toISOString().split('T')[0]} //default to earlier of the job start date or today
                 name="startDate"
-                // defaultValue={format_date_YYYYDDMM(prevScheduleData?.startDate)} //fix
                 value={
                   selectStartDate
                     ? format_date_YYYYDDMM(prevScheduleData.startDate)
                     : startDate
-                } // fix
+                }
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 disabled={formIsDisabled}
@@ -723,16 +700,15 @@ function ScheduleUpdate() {
                 </Form.Label>
               </div>
               <Form.Control
-                className="custom-border"
+                className="custom-border" //fix end date?
                 type="date"
                 min={new Date().toISOString().split('T')[0]}
                 name="endDate"
-                // defaultValue={format_date_YYYYDDMM(prevScheduleData?.endDate)} //fix
                 value={
                   selectEndDate
                     ? format_date_YYYYDDMM(prevScheduleData.endDate)
                     : endDate
-                } // fix
+                }
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 disabled={formIsDisabled}
@@ -757,16 +733,11 @@ function ScheduleUpdate() {
                 className="custom-border"
                 type="time"
                 name="startTime"
-                // defaultValue={
-                //   prevScheduleData &&
-                //   prevScheduleData?.startTime?.slice(0, 5).toString()
-                // } //fix
                 value={
                   selectStartTime
                     ? format_time_HHmmss(prevScheduleData.startTime)
                     : startTime
-                } // fix
-                // defaultValue="13:30"
+                }
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 disabled={formIsDisabled}
@@ -791,11 +762,9 @@ function ScheduleUpdate() {
               className="custom-border"
               placeholder="8000 Sqft"
               name="squareFeet"
-              // value={squareFeet}
-              // defaultValue={prevScheduleData?.squareFeet} //fix
               value={
                 selectSquareFeet ? prevScheduleData.squareFeet : squareFeet
-              } // fix
+              }
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
@@ -819,16 +788,14 @@ function ScheduleUpdate() {
                 className="custom-border"
                 type="text"
                 name="numberOfClientEmployees"
-                // defaultValue={prevScheduleData?.numberOfClientEmployees} //fix
                 value={
                   selectNumberOfClientEmployees
                     ? prevScheduleData?.numberOfClientEmployees
                     : numberOfClientEmployees
-                } // fix
+                }
                 onChange={handleInputChange}
-                disabled={formIsDisabled} //fix section
+                disabled={formIsDisabled}
               >
-                {/* fix */}
                 <option>
                   {prevScheduleData?.numberOfClientEmployees
                     ? prevScheduleData?.numberOfClientEmployees
@@ -864,7 +831,6 @@ function ScheduleUpdate() {
             }}
             disabled={formIsDisabled}
           >
-            {/* fix */}
             <option>Select</option>
             {arrayForSortEmp.map((emp, index) => (
               <option
@@ -921,9 +887,7 @@ function ScheduleUpdate() {
             type="textarea"
             placeholder="Enter additional information here."
             name="jobDetails"
-            // value={jobDetails}
-            // defaultValue={prevScheduleData?.jobDetails} //fix
-            value={selectJobDetails ? prevScheduleData.jobDetails : jobDetails} // fix
+            value={selectJobDetails ? prevScheduleData.jobDetails : jobDetails}
             onChange={handleInputChange}
             onBlur={handleBlurChange}
             disabled={formIsDisabled}
