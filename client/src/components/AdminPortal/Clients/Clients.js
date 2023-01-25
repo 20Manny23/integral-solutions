@@ -49,7 +49,6 @@ function Clients() {
   // SECTION HANDLE COLLAPSE
   const getElement = (event) => {
     let currentAvailTarget = event.currentTarget.getAttribute("data-target");
-    console.log(currentAvailTarget);
     let currentAvailTable = document.getElementById(currentAvailTarget);
 
     if (currentAvailTable.classList.contains("show")) {

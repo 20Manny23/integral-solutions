@@ -51,6 +51,9 @@ const scheduleSchema = new Schema(
       ref: "Employee",
     },
   },
+  {
+    timestamps: true
+  },
 );
 
 const Schedule = model("Schedule", scheduleSchema);
