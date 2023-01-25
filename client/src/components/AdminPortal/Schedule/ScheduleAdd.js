@@ -22,6 +22,7 @@ import "../../../styles/button-style.css";
 import "../../../styles/Forms.css";
 
 function ScheduleAdd() {
+  console.log(new Date().toISOString().split('T')[0]);
   // GET FORM INPUT
   const [businessName, setBusinessName] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
@@ -533,7 +534,8 @@ function ScheduleAdd() {
               <Form.Control
                 className="custom-border"
                 type="date"
-                minvalue="01/23/2023"
+                // min="2023-01-23"
+                min={new Date().toISOString().split('T')[0]}
                 name="startDate"
                 defaultValue={client?.startDate}
                 onChange={handleInputChange}
@@ -559,6 +561,7 @@ function ScheduleAdd() {
               <Form.Control
                 className="custom-border"
                 type="date"
+                min={new Date().toISOString().split('T')[0]}
                 name="endDate"
                 value={endDate}
                 // defaultValue={client?.endDate}

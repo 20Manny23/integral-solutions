@@ -14,6 +14,7 @@ function Schedule() {
       className="mb-3"
       fill //sizes tabs to fit available space
       unmountOnExit //removes content when entering a different tab
+      mountOnEnter
     >
       <Tab eventKey="calendar" title="Calendar">
         <FullCalendarApp />

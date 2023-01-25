@@ -73,7 +73,7 @@ function ContactForm() {
       setCompanyName(value);
     } else if (name === "name") {
       setContactName(value);
-    } else if (name === "telNo") {
+    } else if (name === "phone") {
       setPhoneNumber(value);
     } else if (name === "email") {
       setEmailAddress(value);
@@ -111,7 +111,7 @@ function ContactForm() {
     name === "email" && value.trim() === ""
       ? setShowEmailAddressValidation(true)
       : setShowEmailAddressValidation(false);
-    name === "telNo" && value.trim() === ""
+    name === "phone" && value.trim() === ""
       ? setShowPhoneNumberValidation(true)
       : setShowPhoneNumberValidation(false);
     name === "address" && value.trim() === ""
@@ -349,7 +349,7 @@ function ContactForm() {
                 className="custom-border"
                 type="tel"
                 placeholder="Enter phone 123-456-7890"
-                name="telNo"
+                name="phone"
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 onChange={handleChange}
                 onBlur={handleBlurChange}
@@ -517,6 +517,7 @@ function ContactForm() {
               <Form.Control
                 className="custom-border"
                 type="date"
+                min={new Date().toISOString().split('T')[0]}
                 name="startDate"
                 onChange={handleChange}
                 onBlur={handleBlurChange}
