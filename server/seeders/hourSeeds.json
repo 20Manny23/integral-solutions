@@ -32,11 +32,35 @@
     "employee": "6398fb54494aa98f85992da2"
   },
   {
-    "_id": "333233343536373839303135",
+    "_id": "333233343536373839313135",
     "jobDate": "January 25 2023",
     "startTime": "09:00:00 (MST)",
     "endTime": "10:00:00 (MST)",
     "hoursWorked": "5.2",
+    "employee": "6398fb54494aa98f85992da3"
+  },
+  {
+    "_id": "333233343536373837303133",
+    "jobDate": "January 19 2023",
+    "startTime": "09:00:00 (MST)",
+    "endTime": "10:00:00 (MST)",
+    "hoursWorked": "8.0",
+    "employee": "6398fb54494aa98f85992da3"
+  },
+  {
+    "_id": "333233343536373839302133",
+    "jobDate": "January 21 2023",
+    "startTime": "09:00:00 (MST)",
+    "endTime": "10:00:00 (MST)",
+    "hoursWorked": "6.0",
+    "employee": "6398fb54494aa98f85992da3"
+  },
+  {
+    "_id": "333233343536373839303139",
+    "jobDate": "January 16 2023",
+    "startTime": "09:00:00 (MST)",
+    "endTime": "10:00:00 (MST)",
+    "hoursWorked": "6.4",
     "employee": "6398fb54494aa98f85992da3"
   }
 ]
