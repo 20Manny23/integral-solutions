@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-import { useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
+import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
 import { ADD_EMPLOYEE } from "../../../utils/mutations";
 
 import { Container, Form, Button } from "react-bootstrap";
@@ -45,30 +46,25 @@ function EmployeeAdd() {
     return name;
   };
 
-  //SECTION VALIDATION BLUR
-  const handleBlurChange = (e) => {
-    const { name, value } = e.target;
-
-    name === "email" && value.trim() === ""
-      ? setShowEmailEmployeeValidation(true)
-      : setShowEmailEmployeeValidation(false);
-    name === "phone" && value.trim() === ""
-      ? setShowPhoneValidation(true)
-      : setShowPhoneValidation(false);
-    name === "password" && value.trim() === ""
-      ? setShowPasswordValidation(true)
-      : setShowPasswordValidation(false);
-    name === "firstName" && value.trim() === ""
-      ? setShowFirstNameValidation(true)
-      : setShowFirstNameValidation(false);
-    name === "lastName" && value.trim() === ""
-      ? setShowLastNameValidation(true)
-      : setShowLastNameValidation(false);
-  };
+  //SECTION GET ALL EMPLOYEES
+  // add this query as it seems to be necessary for the refetchQueries on the mutation (which is called after an employee is added)
+  const {
+    // eslint-disable-next-line
+    loading: empLoad,
+    // eslint-disable-next-line
+    data: emp,
+    // eslint-disable-next-line
+    error: empError,
+    // eslint-disable-next-line
+    refetch: empRefetch,
+  } = useQuery(QUERY_ALL_EMPLOYEES);
 
   //SECTION ADD EMPLOYEE
   const [addEmployee] = useMutation(ADD_EMPLOYEE, {
-    refetchQueries: ["getAllEmployees"],
+    refetchQueries: [
+      {query: QUERY_ALL_EMPLOYEES}, // DocumentNode object parsed with gql
+      'getAllEmployees' // Query name
+    ],
   });
 
   const handleAddEmployeeSubmit = async (event) => {
@@ -103,6 +99,28 @@ function EmployeeAdd() {
     }
 
     resetForm();
+  };
+
+  //section utility functions
+  //validation blur
+  const handleBlurChange = (e) => {
+    const { name, value } = e.target;
+
+    name === "email" && value.trim() === ""
+      ? setShowEmailEmployeeValidation(true)
+      : setShowEmailEmployeeValidation(false);
+    name === "phone" && value.trim() === ""
+      ? setShowPhoneValidation(true)
+      : setShowPhoneValidation(false);
+    name === "password" && value.trim() === ""
+      ? setShowPasswordValidation(true)
+      : setShowPasswordValidation(false);
+    name === "firstName" && value.trim() === ""
+      ? setShowFirstNameValidation(true)
+      : setShowFirstNameValidation(false);
+    name === "lastName" && value.trim() === ""
+      ? setShowLastNameValidation(true)
+      : setShowLastNameValidation(false);
   };
 
   // Reset the add employee form after submission

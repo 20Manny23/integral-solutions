@@ -38,6 +38,9 @@ const employeeSchema = new Schema(
     },
   },
   {
+    timestamps: true,
+  },
+  {
     toJSON: {
       virtuals: true,
     },
