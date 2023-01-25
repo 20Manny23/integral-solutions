@@ -8,7 +8,7 @@ import { Container, Form, Button } from "react-bootstrap";
 
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
-import { maskedPhoneInput } from "../../../utils/phoneMask";
+import { maskedPhoneInput } from "../../../utils/phoneMask"; //fix
 
 function EmployeeAdd() {
   // GET FORM INPUT
@@ -20,6 +20,7 @@ function EmployeeAdd() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLocked, setIsLocked] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
+  const [ maskedPhone, setMaskedPhone ] = useState(''); //fix
 
   // VALIDATION
   const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
@@ -30,49 +31,16 @@ function EmployeeAdd() {
   const [showPasswordValidation, setShowPasswordValidation] = useState(false);
 
   //SECTION HANDLE INPUT
-  const [ maskedPhone, setMaskedPhone ] = useState('');
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     // console.log(event)
     // console.log(event.target.value)
 
-    //send phone input to a global function
-    //return maskPhone & set state for the return?
-
+    //mask (auto populate) phone format input as xxx-xxx-xxx //fix
     if (name === "phone") {
-      let hello = maskedPhoneInput(event.target.value);
-      console.log(hello);
+      let getMaskedPhone = maskedPhoneInput(event.target.value);
+      setMaskedPhone(getMaskedPhone);
     }
-
-    let format = "";
-    let phoneFormat = [];
-
-    if (name === "phone") {
-      format = event.target.value.replace(/-/g, "");
-      // phoneFormat = event.target.value.split(""); //split to an array
-      phoneFormat = format.split(""); //split to an array
-
-      console.log(event.target.value)
-      console.log('format = ', format)
-      console.log('phone format = ', phoneFormat)
-
-// 
-      if (event.target.value.length >= 3 && event.target.value.length < 7) {
-        //add the hypen
-        phoneFormat.splice(3, 0, '-');
-        // console.log('')
-
-      } else if (event.target.value.length >= 7) {
-        //add hypen at position 4 and position 8
-        phoneFormat.splice(3, 0, '-');
-        phoneFormat.splice(7, 0, '-');
-      }
-    }
-
-    setMaskedPhone(phoneFormat.join(''));
-
-    console.log('masked = ', maskedPhone)
 
     name === "firstName"
       ? setFirstName(value)
@@ -254,15 +222,15 @@ function EmployeeAdd() {
               </Form.Label>
             </div>
             <Form.Control
-              value={maskedPhone} //fix
               className="custom-border"
               type="tel"
-              // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              maxLength="12" //fix
               placeholder="ex 555-555-5555"
+              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              maxLength="12"
+              value={maskedPhone}
               name="phone"
               onChange={handleInputChange}
-              // onBlur={handleBlurChange}
+              onBlur={handleBlurChange}
               required
             />
           </Form.Group>
