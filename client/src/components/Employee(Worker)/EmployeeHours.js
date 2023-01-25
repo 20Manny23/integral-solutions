@@ -9,11 +9,11 @@ import {
   QUERY_HOURS_BYEMPLOYEEID_BYJOBDATE,
 } from "../../utils/queries";
 import {
-  ADD_HOURS,
+ 
   UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE,
 } from "../../utils/mutations";
 
-import { thisWeek, lastWeek, hours } from "../../utils/hoursDates";
+import { thisWeek, lastWeek } from "../../utils/hoursDates";
 import { format_date_no_hyphen } from "../../utils/dateFormat";
 import { Form, Col, Row, Container, Collapse, Button } from "react-bootstrap";
 
@@ -97,6 +97,8 @@ function EmployeeHours() {
         totalWeeklyHours = hoursInt + totalWeeklyHours;
 
         setThisWeekHours(totalWeeklyHours.toFixed(2));
+
+        //Sets Weekly Total for previous Week 
       } else if (
         jobb === lastWeekDates[0] ||
         jobb === lastWeekDates[1] ||
@@ -113,6 +115,8 @@ function EmployeeHours() {
       }
     }
   };
+
+  //Puts dates together with hours into a string and renders as one string
   const oldHours = [];
   const lastHours = (singleHours) => {
     for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
