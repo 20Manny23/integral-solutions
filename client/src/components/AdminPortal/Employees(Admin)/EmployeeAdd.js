@@ -29,9 +29,41 @@ function EmployeeAdd() {
   const [showPasswordValidation, setShowPasswordValidation] = useState(false);
 
   //SECTION HANDLE INPUT
+  const [ maskedPhone, setMaskedPhone ] = useState('');
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    // console.log(e)
+    // console.log(event)
+    // console.log(event.target.value)
+
+    let format = "";
+    let phoneFormat = [];
+
+    if (name === "phone") {
+      let format = event.target.value.replace(/-/g, "");
+      // phoneFormat = event.target.value.split(""); //split to an array
+      phoneFormat = format.split(""); //split to an array
+
+      console.log(event.target.value)
+      console.log('format = ', format)
+      console.log('phone format = ', phoneFormat)
+
+// 
+      if (event.target.value.length >= 3 && event.target.value.length < 7) {
+        //add the hypen
+        phoneFormat.splice(3, 0, '-');
+        // console.log('')
+
+      } else if (event.target.value.length >= 7) {
+        //add hypen at position 4 and position 8
+        phoneFormat.splice(3, 0, '-');
+        phoneFormat.splice(7, 0, '-');
+      }
+    }
+
+    setMaskedPhone(phoneFormat.join(''));
+
+    console.log('masked = ', maskedPhone)
 
     name === "firstName"
       ? setFirstName(value)
@@ -213,9 +245,11 @@ function EmployeeAdd() {
               </Form.Label>
             </div>
             <Form.Control
+              value={maskedPhone} //fix
               className="custom-border"
               type="tel"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              maxLength="12"
               placeholder="ex 555-555-5555"
               name="phone"
               onChange={handleInputChange}
