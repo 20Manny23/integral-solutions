@@ -34,7 +34,7 @@ function useEmailSend(props) {
 
   // SECTION SET EMAIL CONTENT
   const toEmail =
-    props?.source === "resetPassword" ? props?.toEmail : "callasteven@gmail.com";
+    props?.source === "resetPassword" ? props?.toEmail : "rod.bennett75@gmail.com";
   const fromEmail = FROM_EMAIL;
   const subject =
     props?.source === "resetPassword"
