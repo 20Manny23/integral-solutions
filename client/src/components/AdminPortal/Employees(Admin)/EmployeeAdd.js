@@ -46,28 +46,8 @@ function EmployeeAdd() {
     return name;
   };
 
-  //SECTION VALIDATION BLUR
-  const handleBlurChange = (e) => {
-    const { name, value } = e.target;
-
-    name === "email" && value.trim() === ""
-      ? setShowEmailEmployeeValidation(true)
-      : setShowEmailEmployeeValidation(false);
-    name === "phone" && value.trim() === ""
-      ? setShowPhoneValidation(true)
-      : setShowPhoneValidation(false);
-    name === "password" && value.trim() === ""
-      ? setShowPasswordValidation(true)
-      : setShowPasswordValidation(false);
-    name === "firstName" && value.trim() === ""
-      ? setShowFirstNameValidation(true)
-      : setShowFirstNameValidation(false);
-    name === "lastName" && value.trim() === ""
-      ? setShowLastNameValidation(true)
-      : setShowLastNameValidation(false);
-  };
-
   //SECTION GET ALL EMPLOYEES
+  // add this query as it seems to be necessary for the refetchQueries on the mutation (which is called after an employee is added)
   const {
     // eslint-disable-next-line
     loading: empLoad,
@@ -81,7 +61,6 @@ function EmployeeAdd() {
 
   //SECTION ADD EMPLOYEE
   const [addEmployee] = useMutation(ADD_EMPLOYEE, {
-    // refetchQueries: ["getAllEmployees"],
     refetchQueries: [
       {query: QUERY_ALL_EMPLOYEES}, // DocumentNode object parsed with gql
       'getAllEmployees' // Query name
@@ -120,6 +99,28 @@ function EmployeeAdd() {
     }
 
     resetForm();
+  };
+
+  //section utility functions
+  //validation blur
+  const handleBlurChange = (e) => {
+    const { name, value } = e.target;
+
+    name === "email" && value.trim() === ""
+      ? setShowEmailEmployeeValidation(true)
+      : setShowEmailEmployeeValidation(false);
+    name === "phone" && value.trim() === ""
+      ? setShowPhoneValidation(true)
+      : setShowPhoneValidation(false);
+    name === "password" && value.trim() === ""
+      ? setShowPasswordValidation(true)
+      : setShowPasswordValidation(false);
+    name === "firstName" && value.trim() === ""
+      ? setShowFirstNameValidation(true)
+      : setShowFirstNameValidation(false);
+    name === "lastName" && value.trim() === ""
+      ? setShowLastNameValidation(true)
+      : setShowLastNameValidation(false);
   };
 
   // Reset the add employee form after submission

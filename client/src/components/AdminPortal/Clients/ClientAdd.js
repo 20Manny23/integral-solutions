@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-import { useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
+import { QUERY_ALL_CLIENTS } from "../../../utils/queries";
 import { ADD_CLIENT } from "../../../utils/mutations";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
@@ -37,6 +38,27 @@ function ClientAdd() {
   const [showStateValidation, setShowStateValidation] = useState(false);
   const [showZipValidation, setShowZipValidation] = useState(false);
 
+  // SECTION queries & mutations
+  // add this query as it seems to be necessary for the refetchQueries on the mutation (which is called after a client is added)
+  const {
+    // eslint-disable-next-line
+    loading: clientsLoad,
+    // eslint-disable-next-line
+    data: clients,
+    // eslint-disable-next-line
+    error: clientError,
+    // eslint-disable-next-line
+    refetch: clientsRefetch,
+  } = useQuery(QUERY_ALL_CLIENTS);
+
+  const [addClient] = useMutation(ADD_CLIENT, {
+    refetchQueries: [
+      {query: QUERY_ALL_CLIENTS}, // DocumentNode object parsed with gql
+      'getAllClients' // Query name
+    ],
+  });
+
+  //section handle input
   // Getting the value or name of input triggering change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -65,6 +87,35 @@ function ClientAdd() {
     return name;
   };
 
+  //section add client
+  // Add client to the Client model/table
+  const handleAddClientSubmit = async (event) => {
+    event.preventDefault();
+    console.log(event);
+
+    try {
+      // eslint-disable-next-line
+      const { data } = await addClient({
+        variables: {
+          businessName,
+          contact,
+          phone,
+          email: emailClient,
+          streetAddress,
+          suite,
+          city,
+          state,
+          zip,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+
+    resetForm();
+  };
+
+  //section utility functions
   // If user clicks off an input field without entering text, then validation message "is required" displays
   // businessName, contact, phone, email, streetAddress, suite, city, state, zip
   const handleBlurChange = (e) => {
@@ -97,38 +148,6 @@ function ClientAdd() {
     name === "zip" && value.trim() === ""
       ? setShowZipValidation(true)
       : setShowZipValidation(false);
-  };
-
-  // SECTION ADD
-  const [addClient] = useMutation(ADD_CLIENT, {
-    refetchQueries: ["getAllClients"],
-  });
-
-  // Add client to the Client model/table
-  const handleAddClientSubmit = async (event) => {
-    event.preventDefault();
-    console.log(event);
-
-    try {
-      // eslint-disable-next-line
-      const { data } = await addClient({
-        variables: {
-          businessName,
-          contact,
-          phone,
-          email: emailClient,
-          streetAddress,
-          suite,
-          city,
-          state,
-          zip,
-        },
-      });
-    } catch (err) {
-      console.error(err);
-    }
-
-    resetForm();
   };
 
   // Reset the add client form after submission
