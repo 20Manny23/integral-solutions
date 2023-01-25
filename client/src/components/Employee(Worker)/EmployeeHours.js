@@ -28,6 +28,7 @@ function EmployeeHours() {
   const [open2, setOpen2] = useState(false);
   const [thisWeekHours, setThisWeekHours] = useState();
   const [lastWeekHours, setLastWeekHours] = useState();
+  const [oldHoursArr, setOldHoursArr] = useState([]);
 
   //SECTION QUERIES
   //get all hours
@@ -60,6 +61,7 @@ function EmployeeHours() {
     skip: !Auth.loggedIn(),
     onCompleted: (singleHours) => {
       weeklyTotal(singleHours);
+      lastHours(singleHours);
     },
   });
 
@@ -111,6 +113,66 @@ function EmployeeHours() {
       }
     }
   };
+  const oldHours = [];
+  const lastHours = (singleHours) => {
+    for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
+      let jobb = singleHours.hoursByEmployeeId[i].jobDate;
+      console.log(jobb);
+      if (jobb === lastWeekDates[0]) {
+        oldHours.push(
+          lastWeekDates[0] +
+            " Hours: " +
+            singleHours.hoursByEmployeeId[i].hoursWorked
+        );
+      }
+      if (jobb === lastWeekDates[1]) {
+        oldHours.push(
+          lastWeekDates[1] +
+            " Hours: " +
+            singleHours.hoursByEmployeeId[i].hoursWorked
+        );
+      }
+      if (jobb === lastWeekDates[2]) {
+        oldHours.push(
+          lastWeekDates[2] +
+            " Hours: " +
+            singleHours.hoursByEmployeeId[i].hoursWorked
+        );
+      }
+      if (jobb === lastWeekDates[3]) {
+        oldHours.push(
+          lastWeekDates[3] +
+            " Hours: " +
+            singleHours.hoursByEmployeeId[i].hoursWorked
+        );
+      }
+      if (jobb === lastWeekDates[4]) {
+        oldHours.push(
+          lastWeekDates[4] +
+            " Hours: " +
+            singleHours.hoursByEmployeeId[i].hoursWorked
+        );
+      }
+      if (jobb === lastWeekDates[5]) {
+        oldHours.push(
+          lastWeekDates[5] +
+            " Hours: " +
+            singleHours.hoursByEmployeeId[i].hoursWorked
+        );
+      }
+      if (jobb === lastWeekDates[6]) {
+        oldHours.push(
+          lastWeekDates[6] +
+            " Hours: " +
+            singleHours.hoursByEmployeeId[i].hoursWorked
+        );
+      }
+    }
+    const oldHoursSort = oldHours.sort();
+
+    setOldHoursArr(oldHoursSort);
+  };
+
   //get hours by employee id and job date
   // eslint-disable-next-line
   const [
@@ -155,9 +217,9 @@ function EmployeeHours() {
     const endTime = event.currentTarget.endTime.value + ":00 (MST)";
     const calcStart = moment(event.currentTarget.startTime.value, "HH:mm");
     const calcEnd = moment(event.currentTarget.endTime.value, "HH:mm");
-    // console.log(startTime);
-    // console.log(endTime);
-    // console.log(dateInput);
+    console.log(startTime);
+    console.log(endTime);
+    console.log(dateInput);
 
     const duration = moment.duration(calcEnd.diff(calcStart));
     const hours = parseInt(duration.asMinutes()) / 60;
@@ -183,6 +245,7 @@ function EmployeeHours() {
       console.error(err);
     }
     setDayTotal(hoursWorked);
+    singleHoursRefetch();
   };
 
   const handleChange = (event) => {
@@ -359,14 +422,13 @@ function EmployeeHours() {
               <Collapse in={open2} aria-expanded={open2}>
                 <div id="example-collapse-text" style={{ width: "100%" }}>
                   <Row className=" mx-3 d-flex flex-column align-self-center align-items-center rounded-lg border-secondary ">
-                    {lastWeek.map((date, index) => (
+                    {oldHoursArr.map((hr, index) => (
                       <div
                         id="accordion"
                         key={index}
                         style={{ width: "99%", marginTop: "9px" }}
                       >
-                        {format_date_no_hyphen(date.date)} Hours:
-                        {/* <Row style={{marginLeft:'2px'}}>Hours worked: {}</Row> */}
+                        {hr}
                       </div>
                     ))}
                     <Row style={{ fontWeight: "bolder", fontSize: "20px" }}>
