@@ -169,6 +169,15 @@ export const DELETE_EMPLOYEE = gql`
   }
 `;
 
+export const SOFT_DELETE_EMPLOYEE = gql`
+  mutation softDeleteEmployee($id: ID!, $isDisplayable: Boolean) {
+    softDeleteEmployee(_id: $id, isDisplayable: $isDisplayable) {
+      _id
+      isDisplayable
+    }
+  }
+`;
+
 export const UPDATE_EMPLOYEE_SCHEDULE = gql`
   mutation UpdateEmployeeSchedule($id: ID, $schedule: String) {
     updateEmployeeSchedule(_id: $id, schedule: $schedule) {
@@ -244,6 +253,15 @@ export const DELETE_CLIENT = gql`
   mutation deleteClient($id: ID!) {
     deleteClient(_id: $id) {
       _id
+    }
+  }
+`;
+
+export const SOFT_DELETE_CLIENT = gql`
+  mutation softDeleteClient($id: ID!, $isDisplayable: Boolean) {
+    softDeleteClient(_id: $id, isDisplayable: $isDisplayable) {
+      _id
+      isDisplayable
     }
   }
 `;
@@ -360,6 +378,15 @@ export const DELETE_SCHEDULE = gql`
   mutation deleteSchedule($id: ID!) {
     deleteSchedule(_id: $id) {
       _id
+    }
+  }
+`;
+
+export const SOFT_DELETE_SCHEDULE = gql`
+  mutation softDeleteSchedule($id: ID!, $isDisplayable: Boolean) {
+    softDeleteSchedule(_id: $id, isDisplayable: $isDisplayable) {
+      _id
+      isDisplayable
     }
   }
 `;

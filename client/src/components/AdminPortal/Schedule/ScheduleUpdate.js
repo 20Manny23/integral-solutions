@@ -107,7 +107,12 @@ function ScheduleUpdate() {
     error: scheduleError,
     // eslint-disable-next-line
     refetch: scheduleRefetch,
-  } = useQuery(QUERY_SCHEDULE);
+    // } = useQuery(QUERY_SCHEDULE);
+  } = useQuery(QUERY_SCHEDULE, {
+    variables: {
+      isDisplayable: true, //only retrieve schedule with a displayable status
+    },
+  });
 
   // console.log("schedule = ", schedule);
 
@@ -159,11 +164,11 @@ function ScheduleUpdate() {
   const [updateEmployeeSchedule] = useMutation(UPDATE_EMPLOYEE_SCHEDULE);
   const [removeEmployeeSchedule] = useMutation(REMOVE_EMPLOYEE_SCHEDULE);
 
-  //SECTION HANDLE INPUT 
+  //SECTION HANDLE INPUT
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    console.log('input = ', event.target.value)
+    console.log("input = ", event.target.value);
 
     if (name === "streetAddress") {
       setStreetAddress(value);
@@ -379,7 +384,6 @@ function ScheduleUpdate() {
 
     // setSelectedEmployees([...currentEmployees]);
     setSelectedEmployees([...employeeBuild]);
-
   };
 
   const createSelectedEmployees = async (event) => {
@@ -511,7 +515,7 @@ function ScheduleUpdate() {
   }
 
   let arrayForSortDate = [];
-  if(schedule){
+  if (schedule) {
     arrayForSortDate = [...schedule.schedules];
     arrayForSortDate.sort(function (a, b) {
       if (a.startDate.toLowerCase() < b.startDate.toLowerCase()) return 1;
@@ -547,13 +551,9 @@ function ScheduleUpdate() {
                 : "Select"}
             </option>
             {arrayForSortDate.map((job, index) => (
-              <option
-                key={index}
-                data-id={job?._id}
-              >
-                {index +1}: {format_date_MMDDYYYY(job?.startDate)} {"--"}  
+              <option key={index} data-id={job?._id}>
+                {index + 1}: {format_date_MMDDYYYY(job?.startDate)} {"--"}
                 {job?.client?.businessName}
-                
               </option>
             ))}
           </Form.Control>
@@ -672,7 +672,12 @@ function ScheduleUpdate() {
               <Form.Control
                 className="custom-border"
                 type="date"
-                min={format_date_YYYYDDMM(prevScheduleData.startDate) < new Date().toISOString().split('T')[0] ? format_date_YYYYDDMM(prevScheduleData.startDate): new Date().toISOString().split('T')[0]} //default to earlier of the job start date or today
+                min={
+                  format_date_YYYYDDMM(prevScheduleData.startDate) <
+                  new Date().toISOString().split("T")[0]
+                    ? format_date_YYYYDDMM(prevScheduleData.startDate)
+                    : new Date().toISOString().split("T")[0]
+                } //default to earlier of the job start date or today
                 name="startDate"
                 value={
                   selectStartDate
@@ -702,7 +707,7 @@ function ScheduleUpdate() {
               <Form.Control
                 className="custom-border"
                 type="date"
-                min={new Date().toISOString().split('T')[0]}
+                min={new Date().toISOString().split("T")[0]}
                 name="endDate"
                 value={
                   selectEndDate
@@ -840,7 +845,7 @@ function ScheduleUpdate() {
                 data-lastname={emp.lastName}
                 data-id={emp._id}
               >
-                {emp.lastName}, {emp.firstName} 
+                {emp.lastName}, {emp.firstName}
               </option>
             ))}
           </Form.Control>

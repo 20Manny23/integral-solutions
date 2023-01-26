@@ -69,7 +69,12 @@ function ClientUpdate() {
     // eslint-disable-next-line
     error: clientError,
     refetch: clientsRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
+  // } = useQuery(QUERY_ALL_CLIENTS);
+  } = useQuery(QUERY_ALL_CLIENTS, {
+    variables: {
+      isDisplayable: true, //only retrieve clients with a displayable status
+    },
+  });
 
   //SECTION get a single employee
   // eslint-disable-next-line
@@ -90,7 +95,7 @@ function ClientUpdate() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    //mask (auto populate) phone format input as xxx-xxx-xxx //fix
+    //mask (auto populate) phone format input as xxx-xxx-xxx
     if (name === "phone") {
       let getMaskedPhone = maskedPhoneInput(event.target.value);
       setMaskedPhone(getMaskedPhone);

@@ -13,6 +13,7 @@
     "squareFeet": "8000",
     "jobDetails": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit doloribus eius quae deleniti, iste harum excepturi.",
     "numberOfClientEmployees": "String",
+    "isDisplayable": true,
     "client": "313233343536373839303132",
     "employees": [ "6398fb54494aa98f85992da3" ]
   }
@@ -32,6 +33,7 @@
     "jobDetails": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit doloribus eius quae deleniti, iste harum excepturi.",
     "numberOfClientEmployees": "String",
     "client": "323233343536373839303132",
+    "isDisplayable": true,
     "employees": [ "6398fb54494aa98f85992da2", "6398fb54494aa98f85992da3", "6498fb54494aa98f85992da5", "6398fb54494aa98f85992da4" ]
   },
   {
@@ -48,6 +50,7 @@
     "squareFeet": "5000",
     "jobDetails": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit doloribus eius quae deleniti, iste harum excepturi.",
     "numberOfClientEmployees": "String",
+    "isDisplayable": true,
     "client": "323233343536373839303132",
     "employees": [ "6398fb54494aa98f85992da2", "6398fb54494aa98f85992da3" ]
   },
@@ -65,6 +68,7 @@
     "squareFeet": "5000",
     "jobDetails": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit doloribus eius quae deleniti, iste harum excepturi.",
     "numberOfClientEmployees": "String",
+    "isDisplayable": true,
     "client": "323233343536373839303132",
     "employees": [ "6398fb54494aa98f85992da2", "6398fb54494aa98f85992da3", "6398fb54494aa98f85992da5" ]
   },
@@ -74,7 +78,7 @@
     "suite": "",
     "city": "Denver",
     "state": "CO",
-    "zip": "0/801",
+    "zip": "07801",
     "startDate": "January 25 2023 09:00:00 (MST)",
     "endDate": "January 25 2023 17:00:00 (MST)",
     "startTime": "08:00:00 (MST)",
@@ -82,6 +86,7 @@
     "squareFeet": "5000",
     "jobDetails": "A new job with different dates to check if if future past merge is working correctly",
     "numberOfClientEmployees": "String",
+    "isDisplayable": false,
     "client": "323233343536373839303132",
     "employees": [ "6398fb54494aa98f85992da2", "6398fb54494aa98f85992da3" ]
   }

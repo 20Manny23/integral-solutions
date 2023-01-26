@@ -44,6 +44,10 @@ const clientSchema = new Schema(
       type: Schema.Types.Array,
       ref: "Schedule",
     },
+    isDisplayable: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,

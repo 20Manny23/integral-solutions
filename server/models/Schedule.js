@@ -50,6 +50,10 @@ const scheduleSchema = new Schema(
       type: Schema.Types.Array,
       ref: "Employee",
     },
+    isDisplayable: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true
