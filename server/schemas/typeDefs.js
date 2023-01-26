@@ -90,6 +90,7 @@ const typeDefs = gql`
     employees(isDisplayable: Boolean): [Employee]!
     employeeByEmail(email: String!): Employee
     employeeById(_id: ID!): Employee
+    #employeeById(_id: ID!, isDisplayable: Boolean): Employee
     #schedules: [Schedule]
     schedules(isDisplayable: Boolean): [Schedule]!
     schedule(scheduleId: ID!): Schedule

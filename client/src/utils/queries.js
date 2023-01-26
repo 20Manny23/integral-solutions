@@ -44,6 +44,7 @@ export const QUERY_EMPLOYEE_BYID = gql`
       isLocked
       password
       schedule {
+        isDisplayable
         startDate
         startTime
         streetAddress
