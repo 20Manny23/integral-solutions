@@ -338,7 +338,7 @@ function EmployeeUpdate() {
               type="text"
               placeholder="Employee Email"
               name="email"
-              value={selectEmail ? prevEmployeeData.email : email}
+              value={selectEmail ? prevEmployeeData.email : email.toLowerCase()}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}

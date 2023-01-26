@@ -97,7 +97,7 @@ const SignupForm = ({ setShowModal }) => {
               placeholder="Your email address"
               name="email"
               onChange={handleInputChange}
-              value={userFormData.email}
+              value={userFormData.email.toLowerCase()}
               required
             />
             <Form.Control.Feedback type="invalid">
