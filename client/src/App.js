@@ -333,7 +333,7 @@ function App() {
                   }
                 />
               )}
-              {Auth.isLocked() === false && (
+              {/* {Auth.isLocked() === false && (
                 <Route
                   exact
                   path="/hours"
@@ -352,7 +352,7 @@ function App() {
                     />
                   }
                 />
-              )}
+              )} */}
 
               <Route exact path="/contact" element={<ContactUs />} />
               <Route exact path="/shoplinks" element={<ShopLinks />} />
