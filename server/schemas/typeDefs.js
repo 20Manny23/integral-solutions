@@ -18,6 +18,7 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     phone: String
+    isDisplayble: Boolean #fix
     isAdmin: Boolean
     isLocked: Boolean
     schedule: [Schedule]
