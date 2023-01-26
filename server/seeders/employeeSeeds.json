@@ -7,8 +7,8 @@
     "firstName": "Brendan",
     "lastName": "Bayliss",
     "phone": "970-867-5309",
-    "isManager": "true",
-    "isAdmin": true,
+    "isDisplayable": true,
+    "isAdmin": false,
     "isLocked": false,
     "schedule": [
       "423233343536373839303132"
@@ -16,13 +16,13 @@
   },
   {
     "_id": "6398fb54494aa98f85992da3",
-    "username": "Clearn",
+    "username": "Cleaner",
     "email": "a@a.com",
     "password": "12",
     "firstName": "Ryan",
     "lastName": "Stasick",
     "phone": "719-867-5309",
-    "isManager": "false",
+    "isDisplayable": true,
     "isAdmin": true,
     "isLocked": false,
     "schedule": [
@@ -37,13 +37,40 @@
     "password": "12",
     "firstName": "Rod",
     "lastName": "Bennett",
-    "phone": "9706554455",
-    "isManager": "true",
+    "phone":  "719-867-5309",
+    "isDisplayable": true,
+    "isAdmin": true,
+    "isLocked": false,
+    "schedule": [
+      "423233343536373839303132"
+    ]
+  },
+  {
+    "_id": "6398fb54494aa98f85992da5",
+    "username": "Hoff",
+    "email": "bhoff1980@gmail.com",
+    "password": "12",
+    "firstName": "Bryan",
+    "lastName": "Wienhoff",
+    "phone": "217-725-2526",
+    "isDisplayable": true,
+    "isAdmin": true,
+    "isLocked": false,
+    "schedule": ["443233343536373839303132"]
+  },
+  {
+    "_id": "6498fb54494aa98f85992da5",
+    "username": "Calla",
+    "email": "callasteven@gmail.com",
+    "password": "12",
+    "firstName": "Steve",
+    "lastName": "Calla",
+    "phone": "123-456-2526",
+    "isDisplayable": false,
     "isAdmin": true,
     "isLocked": false,
     "schedule": [
       "423233343536373839303132"
     ]
   }
-
 ]

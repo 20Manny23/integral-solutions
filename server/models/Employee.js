@@ -7,7 +7,7 @@ const employeeSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      // match: [/.+@.+\..+/, "Must use a valid email address"],
+      match: [/.+@.+\..+/, "Must use a valid email address"],
     },
     password: {
       type: String,
@@ -24,9 +24,9 @@ const employeeSchema = new Schema(
     phone: {
       type: String,
     },
-    isManager: {
+    isDisplayable: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     isAdmin: {
       type: Boolean,
@@ -40,6 +40,9 @@ const employeeSchema = new Schema(
       type: Schema.Types.Array,
       ref: "Schedule",
     },
+  },
+  {
+    timestamps: true,
   },
   {
     toJSON: {

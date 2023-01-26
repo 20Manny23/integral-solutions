@@ -2,7 +2,14 @@ import React, { useState } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_SCHEDULE } from "../../../utils/queries";
-import { DELETE_SCHEDULE } from "../../../utils/mutations";
+import {
+  DELETE_SCHEDULE,
+  SOFT_DELETE_SCHEDULE,
+} from "../../../utils/mutations";
+
+import { format_date_MMDDYYYY } from "../../../utils/dateFormat";
+import format_phone from "../../../utils/helpers";
+import googleMap from "../../../utils/googleMap";
 
 import { Row, Col, Container } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
@@ -10,8 +17,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
-function ScheduleList() {
+function ScheduleList({ pastOrFuture }) {
   const [openDetails, setOpenDetails] = useState(false);
+  const [past, setPast] = useState([]);
+  const [future, setFuture] = useState([]);
+  const [completed, setCompleted] = useState([]);
 
   //SECTION GET SCHEDULE
   // eslint-disable-next-line
@@ -24,13 +34,62 @@ function ScheduleList() {
     error: scheduleError,
     // eslint-disable-next-line
     refetch: scheduleRefetch,
-  } = useQuery(QUERY_SCHEDULE);
+  } = useQuery(QUERY_SCHEDULE, {
+    variables: {
+      isDisplayable: true //only retrieve schedules with a displayable status
+    }, 
+    onCompleted: (data) => {
+      
+      console.log(data);
+      const todayDate = Date.now();
+
+      setPast([]);
+      setFuture([]);
+
+      for (let i = 0; i < data?.schedules?.length; i++) {
+        const date = new Date(data?.schedules[i].startDate);
+        const jobDate = date.getTime();
+        if (jobDate < todayDate) {
+          past.push(data.schedules[i]);
+        } else {
+          future.push(data.schedules[i]);
+        }
+      }
+
+      if (pastOrFuture === "past") {
+        setCompleted(past);
+      } else {
+        setCompleted(future);
+      }
+    },
+  });
 
   // SECTION DELETE
+  const [softDeleteSchedule] = useMutation(SOFT_DELETE_SCHEDULE);
   const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
 
-  const handledeleteSchedule = async (event) => {
+  const handleSoftDelete = async (event) => {
+    //if delete trash is clicked change isDisplayble status to isDisplayabled = false
+    let scheduleId = event.currentTarget.getAttribute("data-scheduleid"); //identify selected employee
+    try {
+      await softDeleteSchedule({
+        variables: {
+          id: scheduleId,
+          isDisplayable: false,
+        }
+      });
+      // RELOAD employee
+      scheduleRefetch();
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+    //hard delete is not currently being used rather a soft delete is being used to ensure the schedule is retained in the DB but does not render in the app
+  const handleDeleteSchedule = async (event) => {
     let scheduleId = event.currentTarget.getAttribute("data-scheduleid");
+    console.log(scheduleId);
+
     try {
       // eslint-disable-next-line
       await deleteSchedule({
@@ -38,19 +97,18 @@ function ScheduleList() {
           id: scheduleId,
         },
       });
-
-      // RELOAD SCHEDULE
-      scheduleRefetch();
-
     } catch (err) {
       console.log(err);
     }
+
+    // RELOAD SCHEDULE
+    scheduleRefetch();
   };
 
   // SECTION HANDLE COLLAPSE
   const getElement = (event) => {
     let currentAvailTarget = event.currentTarget.getAttribute("data-target");
-    console.log(currentAvailTarget);
+
     let currentAvailTable = document.getElementById(currentAvailTarget);
 
     if (currentAvailTable.classList.contains("show")) {
@@ -62,10 +120,29 @@ function ScheduleList() {
     }
   };
 
+  //Sorts decending for upcoming ascending for completed
+  let arrayForSortDate = [];
+
+  if (pastOrFuture === "future") {
+    arrayForSortDate = [...completed];
+    arrayForSortDate.sort(function (a, b) {
+      if (a.startDate.toLowerCase() < b.startDate.toLowerCase()) return -1;
+      if (a.startDate.toLowerCase() > b.startDate.toLowerCase()) return 1;
+      return 0;
+    });
+  } else {
+    arrayForSortDate = [...completed];
+    arrayForSortDate.sort(function (a, b) {
+      if (a.startDate.toLowerCase() < b.startDate.toLowerCase()) return 1;
+      if (a.startDate.toLowerCase() > b.startDate.toLowerCase()) return -1;
+      return 0;
+    });
+  }
+
   return (
     <Container>
       <Row style={{ display: "flex", justifyContent: "center" }}>
-        {schedule?.schedules?.map((job, index) => (
+        {arrayForSortDate.map((job, index) => (
           <div id="accordion" key={index} style={{ width: "98%" }}>
             <div className="card p-2 mb-1">
               <div
@@ -86,12 +163,10 @@ function ScheduleList() {
                     data-target={`#collapse-client-${index}`}
                   >
                     <p className="mb-0 text-left">
-
-                    {job?.client?.businessName} 
+                      {job?.client?.businessName}
                     </p>
                     <p className="mb-0 text-left">
-
-                    {job?.startDate}
+                      {format_date_MMDDYYYY(job?.startDate)} at {job?.startTime}
                     </p>
                   </button>
                 </h5>
@@ -100,45 +175,109 @@ function ScheduleList() {
                     icon="fa-trash"
                     className="p-2 fa-lg"
                     data-scheduleid={job?._id}
-                    onClick={(event) => {
-                      handledeleteSchedule(event);
-                    }}
+                    // onClick={(event) => {
+                    //   handleDeleteSchedule(event);
+                    // }}
+                    onClick={handleSoftDelete}
                   />
                 </div>
               </div>
-              <Collapse>
+
+              <Collapse className="center-screen2">
                 <div id={`#collapse-client-${index}`}>
-                  <Container fluid="md">
+                  <Container fluid="auto">
                     <Row>
-                      <Col>Contact: {job?.client?.contact}</Col>
-                      <Col> <a href={`mailto:${job?.client?.email}`}> {job?.client?.email}</a> </Col>
+                      <Col
+                        xs={12}
+                        sm={6}
+                        style={{ marginBottom: "15px", marginTop: "10px" }}
+                      >
+                        <span style={{ fontWeight: "bold" }}>Contact:</span>{" "}
+                        {job?.client?.contact}
+                        <br></br>{" "}
+                        <a href={`tel:+${job?.client?.phone}`}>
+                          <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
+                          {format_phone(job?.client?.phone)}
+                        </a>{" "}
+                        <br></br>{" "}
+                        <a href={`mailto:${job?.client?.email}`}>
+                          <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
+                          {job?.client?.email}
+                        </a>{" "}
+                        <br></br>{" "}
+                        <span style={{ fontWeight: "bold" }}>Client Size:</span>{" "}
+                        {job?.numberOfClientEmployees}
+                      </Col>
+
+                      <Col style={{ marginBottom: "15px", marginTop: "10px" }}>
+                        <a
+                          href={googleMap(
+                            job?.streetAddress,
+                            job?.city,
+                            job?.state,
+                            job?.zip
+                          )}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-location-dot"
+                            style={{ marginTop: "4px", marginRight: "5px" }}
+                          />
+                          {job?.streetAddress}
+                          {job?.suite && `, ${job?.suite}`}
+                          <br></br>
+                          {job?.city}, {job?.state} {job?.zip}
+                          <br></br>
+                        </a>
+                        <span style={{ fontWeight: "bold" }}>Start: </span>
+                        {format_date_MMDDYYYY(job?.startDate)}
+                        <br></br>
+                        <span style={{ fontWeight: "bold" }}>End: </span>{" "}
+                        {format_date_MMDDYYYY(job?.endDate)}
+                      </Col>
                     </Row>
-                    <Row>
-                      <Col>{job?.client?.streetAddress}{job?.client?.suite && `, ${job?.client?.suite}`}</Col>
-                      <Col> <a href={`tel:+${job?.client?.phone}`}> {job?.client?.phone}</a> </Col>
-                    </Row>
-                    <Row>
-                      <Col>{job?.client?.city}, {job?.client?.state} {job?.client?.zip}</Col>
-                      <Col>Start: {job?.startDate}</Col>
-                    </Row>
+
                     <Row>
                       <Col>
-                        Client Size: {job?.numberOfClientEmployees}
+                        <span style={{ fontWeight: "bold" }}>Job Details:</span>{" "}
+                        {job?.jobDetails}
                       </Col>
-                      <Col>End: {job?.endDate}</Col>
-                    </Row>
-                    <Row>
-                      <Col>Job Details: {job?.jobDetails}</Col>
                     </Row>
                     <Row>
                       {/* <hr></hr> */}
-                      <h6 className="mx-3 mt-2" style={{ textDecoration: "underline" }}>EMPLOYEES</h6>
-                      <section key={index} className="d-flex flex-row" style={{ width: "100%" }}>
+                      <h6
+                        className="mx-3 mt-2"
+                        style={{ textDecoration: "underline" }}
+                      >
+                        EMPLOYEES
+                      </h6>
+                      <section
+                        className="d-flex flex-row"
+                        style={{ width: "100%" }}
+                      >
                         {job?.employees?.map((employee, index) => (
-                          <article className="">
-                            <p className="ml-3 mb-0"> {employee?.firstName} {employee?.lastName}</p>
-                            <p className="ml-3 mb-0"> <a href={`mailto:${employee?.email}`}> {employee?.email}</a></p>
-                            <p className="ml-3 mb-0"> <a href={`tel:+${employee?.phone}`}> {employee?.phone}</a></p>
+                          <article key={index} className="">
+                            <p className="ml-3 mb-0">
+                              {" "}
+                              {employee?.firstName} {employee?.lastName}
+                            </p>
+                            <p className="ml-3 mb-0">
+                              {" "}
+                              <a href={`mailto:${employee?.email}`}>
+                                {" "}
+                                <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
+                                {employee?.email}
+                              </a>
+                            </p>
+                            <p className="ml-3 mb-0">
+                              {" "}
+                              <a href={`tel:+${employee?.phone}`}>
+                                {" "}
+                                <FontAwesomeIcon icon="fa-solid fa-phone" />{" "}
+                                {format_phone(employee?.phone)}
+                              </a>
+                            </p>
                           </article>
                         ))}
                       </section>

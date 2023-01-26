@@ -6,28 +6,47 @@ import { QUERY_ALL_CLIENTS, QUERY_SINGLE_CLIENT } from "../../../utils/queries";
 import { UPDATE_CLIENT } from "../../../utils/mutations";
 
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
+import { maskedPhoneInput } from "../../../utils/phoneMask";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
 function ClientUpdate() {
-  const [prevClientData, setPrevClientData] = useState({});
-
-  // GET CLIENT FORM DATA
+  //form = input fields
   const [businessName, setBusinessName] = useState("");
   const [contact, setContact] = useState("");
   const [phone, setPhone] = useState("");
-  const [emailClient, setEmailClient] = useState("");
+  const [email, setEmail] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const [suite, setSuite] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
-  // const [isDisabled, setIsDisabled] = useState(true);
-  const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
+  const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
+  const [maskedPhone, setMaskedPhone] = useState("");
 
-  // VALIDATION
+  //set selected client
+  // const [currentInput, setCurrentInput] = useState({});
+  const [currentClientId, setCurrentClientId] = useState("");
+  // const [currentClient, setCurrentClient] = useState({});
+  const [prevClientData, setPrevClientData] = useState({});
+
+  //set the state of the value in the input fields (either the input by the user or populate based on selected client)
+  const [selectBusinessName, setSelectBusinessName] = useState(false);
+  const [selectContact, setSelectContact] = useState(false);
+  const [selectPhone, setSelectPhone] = useState(false);
+  const [selectEmail, setSelectEmail] = useState(false);
+  const [selectStreetAddress, setSelectStreetAddress] = useState(false);
+  const [selectSuite, setSelectSuite] = useState(false);
+  const [selectCity, setSelectCity] = useState(false);
+  const [selectState, setSelectState] = useState(false);
+  const [selectZip, setSelectZip] = useState(false);
+
+  //enable/disable form
+  const [formIsDisabled, setFormIsDisabled] = useState(true);
+
+  //validation
   const [showBusinessNameValidation, setShowBusinessNameValidation] =
     useState(false);
   const [showContactValidation, setShowContactValidation] = useState(false);
@@ -36,17 +55,12 @@ function ClientUpdate() {
     useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
-  // const [showSuiteValidation, setShowSuiteValidation] = useState(false);
+  // const [showSuiteValidation, setShowSuiteValidation] = useState(false); //not required
   const [showCityValidation, setShowCityValidation] = useState(false);
   const [showStateValidation, setShowStateValidation] = useState(false);
   const [showZipValidation, setShowZipValidation] = useState(false);
 
-  const [currentInput, setCurrentInput] = useState({});
-  const [currentClientId, setCurrentClientId] = useState("");
-  const [currentClient, setCurrentClient] = useState({});
-
-  // SECTION QUERIES & MUTATIONS
-  // get all clients
+  // SECTION GET ALL CLIENTS
   const {
     // eslint-disable-next-line
     loading: clientsLoad,
@@ -55,8 +69,14 @@ function ClientUpdate() {
     // eslint-disable-next-line
     error: clientError,
     refetch: clientsRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
+  // } = useQuery(QUERY_ALL_CLIENTS);
+  } = useQuery(QUERY_ALL_CLIENTS, {
+    variables: {
+      isDisplayable: true, //only retrieve clients with a displayable status
+    },
+  });
 
+  //SECTION get a single employee
   // eslint-disable-next-line
   const [getASingleClient, { loading: lazyLoading, data: singleClient }] =
     useLazyQuery(QUERY_SINGLE_CLIENT, {
@@ -64,38 +84,129 @@ function ClientUpdate() {
       // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
       skip: !Auth.loggedIn(),
       onCompleted: (singleClient) => {
-        setCurrentClient(singleClient);
+        // setCurrentClient(singleClient);
       },
     });
 
-  // SECTION HANDLE INPUT
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  //SECTION UPDATE CLIENT IN DATABASE
+  const [updateClient] = useMutation(UPDATE_CLIENT);
 
-    // Ternary statement that will call either setFirstName or setLastName based on what field the user is typing in
-    name === "businessName"
-      ? setBusinessName(value)
-      : name === "contact"
-      ? setContact(value)
-      : name === "phone"
-      ? setPhone(value)
-      : name === "emailClient"
-      ? setEmailClient(value)
-      : name === "streetAddress"
-      ? setStreetAddress(value)
-      : name === "suite"
-      ? setSuite(value)
-      : name === "city"
-      ? setCity(value)
-      : name === "state"
-      ? setState(value)
-      : setZip(value);
+  //SECTION HANDLE INPUT
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
 
-    console.log("email = ", emailClient);
+    //mask (auto populate) phone format input as xxx-xxx-xxx
+    if (name === "phone") {
+      let getMaskedPhone = maskedPhoneInput(event.target.value);
+      setMaskedPhone(getMaskedPhone);
+    }
 
+    if (name === "businessName") {
+      setBusinessName(value);
+      setSelectBusinessName(false);
+    } else if (name === "contact") {
+      setContact(value);
+      setSelectContact(false);
+    } else if (name === "phone") {
+      setPhone(value);
+      setSelectPhone(false);
+    } else if (name === "email") {
+      setEmail(value);
+      setSelectEmail(false);
+    } else if (name === "streetAddress") {
+      setStreetAddress(value);
+      setSelectStreetAddress(false);
+    } else if (name === "suite") {
+      setSuite(value);
+      setSelectSuite(false);
+    } else if (name === "city") {
+      setCity(value);
+      setSelectCity(false);
+    } else if (name === "state") {
+      setState(value);
+      setSelectState(false);
+    } else if (name === "zip") {
+      setZip(value);
+      setSelectZip(false);
+    } else {
+      console.log("Error in form input at ClientUpdate.js");
+    }
     return name;
   };
 
+  //SECTION HANDLE SELECTED CLIENT
+  async function handleSelectedClient(event) {
+    let clientId = event.target.options[event.target.selectedIndex].dataset.id; //get selected client id
+    setCurrentClientId(clientId); //set state of current id
+
+    //await query single client
+    let currentClientData = await getASingleClient(); //get selected client data
+
+    // console.log('currentClient = ', currentClientData.data.client);
+
+    setPrevClientData(currentClientData?.data?.client); //set data state and rerender in form
+
+    // allow form to populate with selected employee data
+    setSelectBusinessName(true);
+    setSelectContact(true);
+    setSelectPhone(true);
+    setSelectEmail(true);
+    setSelectStreetAddress(true);
+    setSelectSuite(true);
+    setSelectCity(true);
+    setSelectState(true);
+    setSelectZip(true);
+
+    setFormIsDisabled(false); // enable form for input
+  }
+
+  //SECTION CLIENT UPDATE
+  const handleClientUpdate = async (event) => {
+    event.preventDefault();
+
+    let getClient = await getASingleClient();
+
+    try {
+      await updateClient({
+        variables: {
+          id: currentClientId,
+          businessName: businessName
+            ? businessName
+            : getClient.data.client.businessName,
+          contact: contact ? contact : getClient.data.client.contact,
+          phone: phone ? phone : getClient.data.client.phone,
+          email: email ? email : getClient.data.client.email,
+          streetAddress: streetAddress
+            ? streetAddress
+            : getClient.data.client.streetAddress,
+          suite: suite ? suite : getClient.data.client.suite,
+          city: city ? city : getClient.data.client.city,
+          state: state ? state : getClient.data.client.state,
+          zip: zip ? zip : getClient.data.client.zip,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    clientsRefetch();
+    // allow form to populate with selected employee data
+    setSelectBusinessName(false);
+    setSelectContact(false);
+    setSelectPhone(false);
+    setSelectEmail(false);
+    setSelectStreetAddress(false);
+    setSelectSuite(false);
+    setSelectCity(false);
+    setSelectState(false);
+    setSelectZip(false);
+
+    resetForm();
+
+    setFormIsDisabled(true); // enable form for input
+  };
+
+  //SECTION UTILITY FUNCTIONS
   // If user clicks off an input field without entering text, then validation message "is required" displays
   const handleBlurChange = (e) => {
     const { name, value } = e.target;
@@ -109,13 +220,13 @@ function ClientUpdate() {
     name === "phone" && value.trim() === ""
       ? setShowPhoneValidation(true)
       : setShowPhoneValidation(false);
-    name === "emailClient" && value.trim() === ""
+    name === "email" && value.trim() === ""
       ? setShowEmailClientStateValidation(true)
       : setShowEmailClientStateValidation(false);
     name === "streetAddress" && value.trim() === ""
       ? setShowStreetAddressValidation(true)
       : setShowStreetAddressValidation(false);
-    // name === "suite" && value.trim() === ""
+    // name === "suite" && value.trim() === "" //not required
     //   ? setShowSuiteValidation(true)
     //   : setShowSuiteValidation(false);
     name === "city" && value.trim() === ""
@@ -129,186 +240,66 @@ function ClientUpdate() {
       : setShowZipValidation(false);
   };
 
-  // SECTION UPDATE CLIENT IN DATABASE
-  const [updateClient] = useMutation(UPDATE_CLIENT);
-
-  // Wait for currentClientId OR current input to be updated
-  useEffect(() => {
-    console.log(
-      "current id = ",
-      currentClientId,
-      "current input = ",
-      currentInput
-    );
-    console.log("prev data = ", prevClientData);
-
-    if (currentClientId && currentInput) {
-      handleEditClientSubmit();
-      // console.log("useEffect = ", currentClientId);
-    }
-
-    // eslint-disable-next-line
-  }, [currentClientId, currentInput]);
-
-  const handleEditClientSubmit = async () => {
-    let test = await getASingleClient();
-    console.log("test = ", test);
-
-    // Update current client data
-    try {
-      await updateClient({
-        variables: {
-          id: currentClientId,
-          businessName: currentInput.businessName
-            ? currentInput.businessName
-            : test.data.client.businessName,
-          contact: currentInput.contact
-            ? currentInput.contact
-            : test.data.client.contact,
-          phone: currentInput.phone
-            ? currentInput.phone
-            : test.data.client.phone,
-          email: currentInput.emailClient
-            ? currentInput.emailClient
-            : test.data.client.email,
-          streetAddress: currentInput.streetAddress
-            ? currentInput.streetAddress
-            : test.data.client.streetAddress,
-          suite: currentInput.suite
-            ? currentInput.suite
-            : test.data.client.suite,
-          city: currentInput.city ? currentInput.city : test.data.client.city,
-          state: currentInput.state
-            ? currentInput.state
-            : test.data.client.state,
-          zip: currentInput.zip ? currentInput.zip : test.data.client.zip,
-        },
-      });
-    } catch (err) {
-      console.log(err);
-    }
-
-    clientsRefetch();
-
-    // setIsDisabled(true);
-
-    resetForm();
-  };
-
-  //  Reset the form after onSubmit
+  //reset = resets form to placeholder values
   const resetForm = (event) => {
     setBusinessName("");
     setContact("");
     setPhone("");
-    setEmailClient("");
+    setEmail("");
     setStreetAddress("");
     setSuite("");
     setCity("");
     setState("");
     setZip("");
-
-    // setCurrentInput({
-    //   businessName: "",
-    //   contact: "",
-    //   phone: "",
-    //   emailClient: "",
-    //   streetAddress: "",
-    //   suite: "",
-    //   state: "",
-    //   city: "",
-    //   zip: "",
-    // });
   };
 
-  // If all fields are populated then enable the submit button
+  //enable submit button = if input is added to at least one input field
   useEffect(() => {
-    setAreAllFieldsFilled(
-      businessName.trim() !== "" &&
-        contact.trim() !== "" &&
-        phone.trim() !== "" &&
-        emailClient.trim() !== "" &&
-        streetAddress.trim() !== "" &&
-        // suite.trim() !== "" && //not required
-        city.trim() !== "" &&
-        state.trim() !== "" &&
+    setOneFieldHasInput(
+      businessName.trim() !== "" ||
+        contact.trim() !== "" ||
+        phone.trim() !== "" ||
+        email.trim() !== "" ||
+        streetAddress.trim() !== "" ||
+        suite.trim() !== "" || //not required
+        city.trim() !== "" ||
+        state.trim() !== "" ||
         zip.trim() !== ""
     );
-    // console.log(areAllFieldsFilled);
     // eslint-disable-next-line
   }, [
     businessName,
     contact,
     phone,
-    emailClient,
+    email,
     streetAddress,
     suite,
     city,
     state,
     zip,
   ]);
-
-  //SECTION SET STATE FOR THE SELECTED BUSINESS/CLIENT NAME DROPDOWN
-  async function businessNameSelect(event) {
-    let clientId = event.target.options[event.target.selectedIndex].dataset.id;
-    setCurrentClientId(clientId);
-    // setIsDisabled(false);
-
-    console.log(event.target.value, clientId);
-
-    // setBusinessName(event.target.value);
-
-    //await query single client
-    let currentClientData = await getASingleClient();
-
-    console.log('currentClient = ', currentClientData.data.client);
-    // setCurrentClient(currentClientData.data.client);
-    
-    // if (!lazyLoading) {
-      setPrevClientData(currentClientData.data.client);
-    //   console.log(prevClientData.businessName);
-    // }
-    // console.log(currentClient.businessName);
+  let arrayForSort = [];
+  if (clients) {
+    // console.log(clients.clients)
+    arrayForSort = [...clients.clients];
+    arrayForSort.sort(function (a, b) {
+      if (a.businessName.toLowerCase() < b.businessName.toLowerCase())
+        return -1;
+      if (a.businessName.toLowerCase() > b.businessName.toLowerCase()) return 1;
+      return 0;
+    });
   }
-
-  useEffect(() => {
-    console.log('useeffect')
-  }, [getASingleClient])
-  
-
   return (
     <Container>
       <Form
         data-editclientid={prevClientData?._id}
         className="py-3 overflow-auto custom-about"
-        // section submit
-        onSubmit={(event) => {
-          event.preventDefault();
-          let clientId = event.currentTarget.getAttribute("data-editclientid");
-          setCurrentClientId(clientId);
-          setCurrentInput({
-            businessName,
-            contact,
-            phone,
-            emailClient,
-            streetAddress,
-            suite,
-            state,
-            city,
-            zip,
-          });
-        }}
+        onSubmit={handleClientUpdate}
       >
         <div id="example-collapse-text">
           <Form.Group className="form-length">
             <Form.Label style={{ fontWeight: "bolder" }}>
-              Select Client (to populate below)
-            </Form.Label>
-            <Form.Label
-              className={`validation-color ${
-                showBusinessNameValidation ? "show" : "hide"
-              }`}
-            >
-              *required
+              Select Client
             </Form.Label>
             <Form.Control
               as="select"
@@ -317,16 +308,25 @@ function ClientUpdate() {
               placeholder="Select Client"
               value={"form-select"}
               name={"form-select"}
-              onChange={businessNameSelect}
+              onChange={handleSelectedClient}
             >
-              <option>{businessName ? businessName : "Select"}</option>
-              {clients?.clients?.map((client, index) => (
+              {/* <option>
+                {prevClientData?.businessName
+                  ? prevClientData?.businessName
+                  : "Select"}
+              </option> */}
+              <option>
+                {prevClientData?.businessName
+                  ? prevClientData?.businessName
+                  : "Select"}{" "}
+              </option>
+              {arrayForSort.map((client, index) => (
                 <option
                   key={index}
-                  value={client.businessName}
-                  data-id={client._id}
+                  // value={client.businessName}
+                  data-id={client?._id}
                 >
-                  {client.businessName}
+                  {client?.businessName}:
                 </option>
               ))}
             </Form.Control>
@@ -350,11 +350,12 @@ function ClientUpdate() {
               type="text"
               placeholder="Enter Company Name"
               name="businessName"
-              defaultValue={prevClientData?.businessName}
+              value={
+                selectBusinessName ? prevClientData?.businessName : businessName
+              }
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //disabled={isDisabled}
-              required
+              disabled={formIsDisabled}
             />
           </Form.Group>
 
@@ -379,18 +380,14 @@ function ClientUpdate() {
               type="text"
               placeholder="Enter Contact Person"
               name="contact"
-              defaultValue={prevClientData?.contact}
+              value={selectContact ? prevClientData?.contact : contact}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //disabled={isDisabled}
-              required
+              disabled={formIsDisabled}
             />
           </Form.Group>
 
-          <Form.Group
-            className="mb-3 form-length"
-            // controlId="formBasicEmail"
-          >
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
                 Phone Number
@@ -406,21 +403,18 @@ function ClientUpdate() {
             <Form.Control
               className="custom-border"
               type="tel"
-              placeholder="example: 123-456-7899"
-              name="phone"
-              defaultValue={prevClientData?.phone}
+              placeholder="ex 555-555-5555"
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              maxLength="12"
+              value={selectPhone ? prevClientData?.phone : maskedPhone}
+              name="phone"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //disabled={isDisabled}
-              required
+              disabled={formIsDisabled}
             />
           </Form.Group>
 
-          <Form.Group
-            className="mb-3 form-length"
-            // controlId="formBasicEmail"
-          >
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label>
               <Form.Label
@@ -435,19 +429,15 @@ function ClientUpdate() {
               className="custom-border"
               type="email"
               placeholder="Client Email"
-              name="emailClient"
-              defaultValue={prevClientData?.email}
+              name="email"
+              value={selectEmail ? prevClientData?.email : email.toLowerCase()}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //disabled={isDisabled}
-              // required
+              disabled={formIsDisabled}
             />
           </Form.Group>
 
-          <Form.Group
-            className="mb-3 form-length"
-            // controlId="formBasicEmail"
-          >
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>Address</Form.Label>
               <Form.Label
@@ -462,11 +452,14 @@ function ClientUpdate() {
               className="custom-border"
               placeholder="Enter Address"
               name="streetAddress"
-              defaultValue={prevClientData?.streetAddress}
+              value={
+                selectStreetAddress
+                  ? prevClientData?.streetAddress
+                  : streetAddress
+              }
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //disabled={isDisabled}
-              required
+              disabled={formIsDisabled}
             />
           </Form.Group>
 
@@ -476,23 +469,15 @@ function ClientUpdate() {
           >
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>Suite</Form.Label>
-              {/* <Form.Label
-                className={`validation-color ${
-                  showSuiteValidation ? "show" : "hide"
-                }`}
-              >
-                * field is required
-              </Form.Label> */}
             </div>
             <Form.Control
               className="custom-border"
               placeholder="Enter Suite"
               name="suite"
-              defaultValue={prevClientData?.suite}
+              value={selectSuite ? prevClientData?.suite : suite}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //disabled={isDisabled}
-              // required
+              disabled={formIsDisabled}
             />
           </Form.Group>
 
@@ -510,11 +495,10 @@ function ClientUpdate() {
                 className="custom-border"
                 placeholder="City"
                 name="city"
-                defaultValue={prevClientData?.city}
+                value={selectCity ? prevClientData?.city : city}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                //disabled={isDisabled}
-                required
+                disabled={formIsDisabled}
               />
             </Col>
             <Col>
@@ -531,15 +515,16 @@ function ClientUpdate() {
                 className="custom-border"
                 placeholder="State"
                 name="state"
-                defaultValue={prevClientData?.state}
+                value={selectState ? prevClientData?.state : state}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                //disabled={isDisabled}
-                required
+                disabled={formIsDisabled}
               >
-                <option>{prevClientData?.state ? prevClientData?.state : "Select"}</option>
-                {STATE_DROPDOWN.map((st) => (
-                  <option>{st}</option>
+                <option>
+                  {prevClientData?.state ? prevClientData?.state : "Select"}
+                </option>
+                {STATE_DROPDOWN.map((st, index) => (
+                  <option key={index}>{st}</option>
                 ))}
               </Form.Control>
             </Col>
@@ -556,11 +541,10 @@ function ClientUpdate() {
                 className="custom-border"
                 placeholder="Zip"
                 name="zip"
-                defaultValue={prevClientData?.zip}
+                value={selectZip ? prevClientData?.zip : zip}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                //disabled={isDisabled}
-                required
+                disabled={formIsDisabled}
               />
             </Col>
           </Row>
@@ -569,7 +553,7 @@ function ClientUpdate() {
               className="submit-button-style"
               variant="primary"
               type="submit"
-              // disabled={!areAllFieldsFilled}
+              disabled={!oneFieldHasInput}
               title="Enter all fields to add a new client"
             >
               Update Client

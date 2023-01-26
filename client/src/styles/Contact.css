@@ -21,14 +21,29 @@
 
 .button-custom {
   pointer-events: auto !important;
-
 }
 
 .error-text {
   margin-top: 10px;
 }
 
-.form-alert{
+.form-alert {
   margin: auto;
   width: 50%;
+}
+.margin-break {
+  margin-top: 15px;
+}
+@media screen and (max-width: 767px) {
+  .margin-break {
+    margin-top: 0px;
+  }
+  .center-screen {
+    text-align: center;
+  }
+}
+@media screen and (max-width: 575px) {
+  .center-screen2 {
+    text-align: center;
+  }
 }

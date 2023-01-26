@@ -51,7 +51,7 @@
   transform: translate(1px, 1px);
 }
 
-.directions-collapse:hover { 
+.directions-collapse:hover {
   box-shadow: 0px 0px 3px rgb(46, 46, 46);
   /* background-color: rgb(63, 63, 63); */
 }
@@ -87,4 +87,15 @@
   box-shadow: 0 1px rgb(99, 99, 99);
   transform: translate(2px, 2px);
   border: none;
+}
+.not-found{
+  max-height:60vh;
+
+}
+@media  screen and (max-width: 825px) {
+  .not-found{
+    max-width: 80%;
+    
+  }
+  
 }
