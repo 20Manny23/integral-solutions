@@ -245,7 +245,7 @@ function ContactForm() {
     squareFeet,
     employeeNumber,
     startDate,
-    jobDetails,
+    jobDetails
   ]);
 
   return (
