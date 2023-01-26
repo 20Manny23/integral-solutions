@@ -87,6 +87,7 @@ const EmployeePortal = ({
                   Enter Hours
                 </Button> */}
               </div>
+              
               {renderPanel === "employee" ? (
                 <EmployeePast pastOrFuture="future" />
               ) : renderPanel === "past" ? (

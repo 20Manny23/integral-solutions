@@ -143,10 +143,10 @@ function EmployeeAdminHours2() {
   };
   // SECTION HANDLE COLLAPSE
   const getElement = (event) => {
-    console.log(event)
+    console.log(event);
     let employeeId = event.currentTarget.getAttribute("data-clientid");
     setEmployeeId(employeeId);
-console.log(employeeId)
+    console.log(employeeId);
     // let currentAvailTarget = event.currentTarget.getAttribute("data-target");
     // console.log(currentAvailTarget);
     // let currentAvailTable = document.getElementById(currentAvailTarget);
@@ -178,7 +178,7 @@ console.log(employeeId)
   //   thisHours.push({hours: thisWeekHours, date: thisWeekDate})
 
   // }
-  console.log(emp)
+  console.log(emp);
   let arrayForSort = [];
   if (emp) {
     arrayForSort = [...emp.employees];
@@ -188,87 +188,86 @@ console.log(employeeId)
       return 0;
     });
   }
-   // const yearlyHours = (singleHours) => {
+  // const yearlyHours = (singleHours) => {
   // const todayYear = new Date().getFullYear().toString()
 
   //   for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
   //     let dateWorked = singleHours.hoursByEmployeeId[i].jobDate
   //     console.log(dateWorked)
-//       if(dateWorked.charAt(dateWorked.length-1) === todayYear.charAt(todayYear.length-1) && dateWorked.charAt(dateWorked.length-2) === todayYear.charAt(todayYear.length-2)){
-// console.log('this Worked')
-//       }
-//       else{
-//         console.log("this one didnt work")
-//       }
-      
+  //       if(dateWorked.charAt(dateWorked.length-1) === todayYear.charAt(todayYear.length-1) && dateWorked.charAt(dateWorked.length-2) === todayYear.charAt(todayYear.length-2)){
+  // console.log('this Worked')
+  //       }
+  //       else{
+  //         console.log("this one didnt work")
+  //       }
 
- 
   //   }
-    
+
   // }
   return (
     <>
-    
-     <Accordion>
-     {arrayForSort.map((emp, index) => (
-        <Card>
-   
-    <Accordion.Toggle as={Card.Header} onClick={(event) => getElement(event)} eventKey= {index + 1}  data-clientid={emp?._id}>
-    {emp?.lastName}, {emp?.firstName}
-    </Accordion.Toggle>
-    <Accordion.Collapse eventKey= {index +1}>
-      <Card.Body>
-      <Container fluid="true">
-                    <Row>
-                      <Col sm={12} md={6} lg={6}>
-                        {newHoursArr.map((date, index) => (
-                          <div
-                            id="accordion"
-                            key={index}
-                            style={{ marginLeft: "20px" }}
-                          >
-                            {date}
-                          </div>
-                        ))}
-                      </Col>
+      <Accordion>
+        {arrayForSort.map((emp, index) => (
+          <Card>
+            <Accordion.Toggle
+              as={Card.Header}
+              onClick={(event) => getElement(event)}
+              eventKey={index + 1}
+              data-clientid={emp?._id}
+            >
+              {emp?.lastName}, {emp?.firstName}
+            </Accordion.Toggle>
+            <Accordion.Collapse eventKey={index + 1}>
+              <Card.Body>
+                <Container fluid="true">
+                  <Row>
+                    <Col sm={12} md={6} lg={6}>
+                      {newHoursArr.map((date, index) => (
+                        <div
+                          id="accordion"
+                          key={index}
+                          style={{ marginLeft: "20px" }}
+                        >
+                          {date}
+                        </div>
+                      ))}
+                    </Col>
 
-                      <Col>
+                    <Col>
                       <p
-                          style={{
-                            fontWeight: "bold",
-                            marginLeft: "20px",
-                          }}
-                        >
-                          Hours This Week: {thisWeekHours}
-                        </p>
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            marginLeft: "20px",
-                            marginTop: "-20px"
-                          }}
-                        >
-                          Month to Date Hours:
-                        </p>
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            marginLeft: "20px",
-                            marginTop: "-20px"
-                          }}
-                        >
-                          Year to Date Hours:
-                        </p>
-                      </Col>
-                    </Row>
-                  </Container>
-      </Card.Body>
-    </Accordion.Collapse>
-  </Card>
-
-  ))} 
-</Accordion>
-   
+                        style={{
+                          fontWeight: "bold",
+                          marginLeft: "20px",
+                        }}
+                      >
+                        Hours This Week: {thisWeekHours}
+                      </p>
+                      <p
+                        style={{
+                          fontWeight: "bold",
+                          marginLeft: "20px",
+                          marginTop: "-20px",
+                        }}
+                      >
+                        Month to Date Hours:
+                      </p>
+                      <p
+                        style={{
+                          fontWeight: "bold",
+                          marginLeft: "20px",
+                          marginTop: "-20px",
+                        }}
+                      >
+                        Year to Date Hours:
+                      </p>
+                    </Col>
+                  </Row>
+                </Container>
+              </Card.Body>
+            </Accordion.Collapse>
+          </Card>
+        ))}
+      </Accordion>
     </>
   );
 }
