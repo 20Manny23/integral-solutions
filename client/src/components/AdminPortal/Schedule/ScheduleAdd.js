@@ -22,7 +22,7 @@ import "../../../styles/button-style.css";
 import "../../../styles/Forms.css";
 
 function ScheduleAdd() {
-  console.log(new Date().toISOString().split('T')[0]);
+  console.log(new Date().toISOString().split("T")[0]);
   // GET FORM INPUT
   const [businessName, setBusinessName] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
@@ -75,7 +75,11 @@ function ScheduleAdd() {
     // eslint-disable-next-line
     error: scheduleError,
     refetch: scheduleRefetch,
-  } = useQuery(QUERY_SCHEDULE);
+  } = useQuery(QUERY_SCHEDULE, {
+    variables: {
+      isDisplayable: true, //only retrieve schedules with a displayable status
+    },
+  });
   // console.log(schedule);
 
   // get clients
@@ -87,7 +91,11 @@ function ScheduleAdd() {
     error: clientError,
     // eslint-disable-next-line
     refetch: clientsRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
+  } = useQuery(QUERY_ALL_CLIENTS, {
+    variables: {
+      isDisplayable: true, //only retrieve clients with a displayable status = true
+    },
+  });
 
   // get employees
   const {
@@ -98,13 +106,17 @@ function ScheduleAdd() {
     error: empError,
     // eslint-disable-next-line
     refetch: empRefectch,
-  } = useQuery(QUERY_ALL_EMPLOYEES);
+  } = useQuery(QUERY_ALL_EMPLOYEES, {
+    variables: {
+      isDisplayable: true, //only retrieve employees with a displayable status = true
+    },
+  });
 
   // add schedule
   const [addSchedule] = useMutation(ADD_SCHEDULE, {
     refetchQueries: [
-      {query: QUERY_SCHEDULE}, // DocumentNode object parsed with gql
-      'getSchedule' // Query name
+      { query: QUERY_SCHEDULE }, // DocumentNode object parsed with gql
+      "getSchedule", // Query name
     ],
   });
 
@@ -372,7 +384,7 @@ function ScheduleAdd() {
       if (a.businessName.toLowerCase() > b.businessName.toLowerCase()) return 1;
       return 0;
     });
-  };
+  }
 
   // sort conditional
   let arrayForSortEmp = [];
@@ -383,7 +395,7 @@ function ScheduleAdd() {
       if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) return 1;
       return 0;
     });
-  };
+  }
 
   return (
     <Container>
@@ -535,7 +547,7 @@ function ScheduleAdd() {
                 className="custom-border"
                 type="date"
                 // min="2023-01-23"
-                min={new Date().toISOString().split('T')[0]}
+                min={new Date().toISOString().split("T")[0]}
                 name="startDate"
                 defaultValue={client?.startDate}
                 onChange={handleInputChange}
@@ -561,7 +573,7 @@ function ScheduleAdd() {
               <Form.Control
                 className="custom-border"
                 type="date"
-                min={new Date().toISOString().split('T')[0]}
+                min={new Date().toISOString().split("T")[0]}
                 name="endDate"
                 value={endDate}
                 onChange={handleInputChange}
@@ -589,7 +601,6 @@ function ScheduleAdd() {
                 type="time"
                 name="startTime"
                 value={startTime}
-                
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 //required
@@ -674,7 +685,7 @@ function ScheduleAdd() {
                 data-lastname={emp.lastName}
                 data-id={emp._id}
               >
-                {emp.lastName}, {emp.firstName} 
+                {emp.lastName}, {emp.firstName}
               </option>
             ))}
           </Form.Control>

@@ -40,7 +40,7 @@ function EmployeeAdd() {
     if (name === "phone") {
       let getMaskedPhone = maskedPhoneInput(event.target.value);
       setMaskedPhone(getMaskedPhone);
-    };
+    }
 
     name === "firstName"
       ? setFirstName(value)
@@ -66,7 +66,11 @@ function EmployeeAdd() {
     error: empError,
     // eslint-disable-next-line
     refetch: empRefetch,
-  } = useQuery(QUERY_ALL_EMPLOYEES);
+  } = useQuery(QUERY_ALL_EMPLOYEES, {
+    variables: {
+      isDisplayable: true, //only retrieve employees with a displayable status = true
+    },
+  });
 
   //SECTION ADD EMPLOYEE
   const [addEmployee] = useMutation(ADD_EMPLOYEE, {

@@ -50,7 +50,11 @@ function ClientAdd() {
     error: clientError,
     // eslint-disable-next-line
     refetch: clientsRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
+  } = useQuery(QUERY_ALL_CLIENTS, {
+    variables: {
+      isDisplayable: true, //only retrieve clients with a displayable status
+    },
+  });
 
   const [addClient] = useMutation(ADD_CLIENT, {
     refetchQueries: [

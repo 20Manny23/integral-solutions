@@ -30,7 +30,7 @@ function Employees() {
     refetch: empRefetch,
   } = useQuery(QUERY_ALL_EMPLOYEES, {
     variables: {
-      isDisplayable: true //only retrieve employees with a displayable status
+      isDisplayable: true //only retrieve employees with a displayable status = true
     } 
   });
 
