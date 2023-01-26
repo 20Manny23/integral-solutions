@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
+import { QUERY_ALL_EMPLOYEES } from "../../utils/queries";
 import {
   DELETE_EMPLOYEE,
   SOFT_DELETE_EMPLOYEE,
   TOGGLE_ADMIN,
   TOGGLE_LOCKED,
-} from "../../../utils/mutations";
-import format_phone from "../../../utils/helpers";
+} from "../../utils/mutations";
+import format_phone from "../../utils/helpers";
 
 import { Row, Col, Container, Form } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../../../styles/Contact.css";
-import "../../../styles/button-style.css";
+import "../../styles/Contact.css";
+import "../../styles/button-style.css";
 
 function Employees() {
   const [openDetails, setOpenDetails] = useState(false);

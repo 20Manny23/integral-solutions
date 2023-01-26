@@ -21,6 +21,8 @@ import EmployeeHours2 from "./components/Employee(Worker)/EmployeeHours2"
 import ForgotPassword from "./components/ResetPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import Tester from "./components/AdminPortal/Employees(Admin)/Tester";
+import HoursMock from "./pages/HoursMock";
+
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -248,7 +250,7 @@ function App() {
                   }
                 />
               )}
-              {Auth.isAdmin() && !Auth.isLocked() && (
+              {/* {Auth.isAdmin() && !Auth.isLocked() && (
                 <Route
                   exact
                   path="/admin-mock"
@@ -263,7 +265,7 @@ function App() {
                     />
                   }
                 />
-              )}
+              )} */}
               {Auth.isAdmin() && !Auth.isLocked() && (
                 <Route
                   exact
@@ -322,7 +324,7 @@ function App() {
                   exact
                   path="/hoursadmin"
                   element={
-                    <EmployeePortal
+                    <HoursMock
                       renderPanel={"hoursadmin"}
                       calendarButtonIsActive={false}
                       hoursAdminButtonIsActive={true}
@@ -336,13 +338,27 @@ function App() {
                   }
                 />
               )}
+              {Auth.isLocked() === false && (
+                <Route
+                  exact
+                  path="/hours-mock"
+                  element={
+                    <HoursMock
+                      renderPanel={"hoursmock"}
+                      hoursButtonIsActive={false}
+                      hoursAdminButtonIsActive={false}
+                      hoursMockButtonIsActive={true}
+                    />
+                  }
+                />
+              )}              
      
               {Auth.isLocked() === false && (
                 <Route
                   exact
                   path="/hours"
                   element={
-                    <EmployeePortal
+                    <HoursMock
                       renderPanel={"hours"}
                       hoursButtonIsActive={true}
                       calendarButtonIsActive={false}
