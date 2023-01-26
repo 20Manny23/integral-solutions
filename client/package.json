@@ -28,7 +28,6 @@
     "phone-number-formats": "^2.2.1",
     "react": "^18.2.0",
     "react-bootstrap": "^1.6.6",
-    "react-bootstrap-accordion": "^1.0.0",
     "react-bootstrap-icons": "^1.10.2",
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.2.0",

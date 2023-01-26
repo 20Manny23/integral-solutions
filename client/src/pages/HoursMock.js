@@ -75,6 +75,16 @@ const EmployeePortal = ({
                 >
                   Hours Admin
                 </Button>
+                   <Button
+                  variant="outline-primary"
+                  style={hoursAdminButtonIsActive ? isActive : notActive}
+                  active={hoursAdminButtonIsActive}
+                  onClick={() => {
+                    navigate("/hoursadmin");
+                  }}
+                >
+                  Hours Admin
+                </Button>
               </div>
 
               {renderPanel === "employee" ? (
