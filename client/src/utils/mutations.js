@@ -169,6 +169,15 @@ export const DELETE_EMPLOYEE = gql`
   }
 `;
 
+export const SOFT_DELETE_EMPLOYEE = gql`
+  mutation softDeleteEmployee($id: ID!, $isDisplayable: Boolean) {
+    softDeleteEmployee(_id: $id, isDisplayable: $isDisplayable) {
+      _id
+      isDisplayable
+    }
+  }
+`;
+
 export const UPDATE_EMPLOYEE_SCHEDULE = gql`
   mutation UpdateEmployeeSchedule($id: ID, $schedule: String) {
     updateEmployeeSchedule(_id: $id, schedule: $schedule) {

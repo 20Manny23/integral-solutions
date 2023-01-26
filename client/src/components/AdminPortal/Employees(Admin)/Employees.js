@@ -4,6 +4,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
 import {
   DELETE_EMPLOYEE,
+  SOFT_DELETE_EMPLOYEE,
   TOGGLE_ADMIN,
   TOGGLE_LOCKED,
 } from "../../../utils/mutations";
@@ -19,38 +20,64 @@ function Employees() {
   const [openDetails, setOpenDetails] = useState(false);
 
   //SECTION GET ALL EMPLOYEES
-  // eslint-disable-next-line
   const {
+    // eslint-disable-next-line
     loading: empLoad,
+    // eslint-disable-next-line
     data: emp,
+    // eslint-disable-next-line
     error: empError,
     refetch: empRefetch,
-  } = useQuery(QUERY_ALL_EMPLOYEES);
+  // } = useQuery(QUERY_ALL_EMPLOYEES);
+  } = useQuery(QUERY_ALL_EMPLOYEES, {
+    variables: {
+      isDisplayable: true //only retrieve employees with a displayable status
+    } 
+  });
 
   // toggle isAmin mutation
   const [toggleAdmin] = useMutation(TOGGLE_ADMIN);
   const [toggleLocked] = useMutation(TOGGLE_LOCKED);
 
   // SECTION DELETE
-  const [deleteEmployee] = useMutation(DELETE_EMPLOYEE);
+  const [softDeleteEmployee] = useMutation(SOFT_DELETE_EMPLOYEE);
+  // const [deleteEmployee] = useMutation(DELETE_EMPLOYEE);
 
-  const handleDeleteEmployee = async (event) => {
-    let employeeId = event.currentTarget.getAttribute("data-clientid");
-
+  const handleSoftDelete = async (event) => {
+    //if delete trash is clicked change isDisplayble status to isDisplayabled = false
+    let employeeId = event.currentTarget.getAttribute("data-clientid"); //identify selected employee
     try {
-      // eslint-disable-next-line
-      await deleteEmployee({
+      await softDeleteEmployee({
         variables: {
           id: employeeId,
-        },
+          isDisplayable: false,
+        }
       });
-
       // RELOAD employee
       empRefetch();
-    } catch (err) {
+    } catch(err) {
       console.log(err);
     }
-  };
+  }
+
+  //hard delete is not currently being used rather a soft delete is being used to ensure the employee is retained in the DB but does not render in the app
+  // const handleDeleteEmployee = async (event) => {
+  //   let employeeId = event.currentTarget.getAttribute("data-clientid");
+
+  //   try {
+  //     // eslint-disable-next-line
+  //     await deleteEmployee({
+  //       variables: {
+  //         id: employeeId,
+  //       },
+  //     });
+
+  //     // RELOAD employee
+  //     empRefetch();
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   // SECTION HANDLE COLLAPSE
   const getElement = (event) => {
@@ -157,9 +184,10 @@ function Employees() {
                     className="p-2 fa-lg"
                     data-clientid={emp?._id}
                     data-target={`#collapse-client-${index}`}
-                    onClick={(event) => {
-                      handleDeleteEmployee(event);
-                    }}
+                    // onClick={(event) => { //fix
+                    //   handleDeleteEmployee(event);
+                    // }}
+                    onClick={handleSoftDelete}
                   />
                 </div>
               </div>

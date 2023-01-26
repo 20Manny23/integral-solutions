@@ -56,9 +56,24 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    employees: async (parent, args, context) => {
+    // employees: async (parent, args, context) => {
+    //   // if (context.user) {
+    //   return Employee.find().populate({
+    //     path: "hour",
+    //     path: "schedule",
+    //     populate: { path: "client" },
+    //   });
+    //   // return Employee.find().populate("schedule");
+    //   // }
+    //   // throw new AuthenticationError("You need to be logged in!");
+    // },
+
+    employees: async (parent, { isDisplayable }, context) => {
       // if (context.user) {
-      return Employee.find().populate({
+
+      console.log("employee displayable resolver = ", isDisplayable);
+
+      return Employee.find({ isDisplayable }).populate({
         path: "hour",
         path: "schedule",
         populate: { path: "client" },
@@ -117,7 +132,11 @@ const resolvers = {
       context
     ) => {
       // if (context.user) {
-      console.log("resolver hours by employee id by job date = ", employee, jobDate);
+      console.log(
+        "resolver hours by employee id by job date = ",
+        employee,
+        jobDate
+      );
       return Hour.find({ employee: employee, jobDate: jobDate }).populate(
         "employee"
       );
@@ -380,7 +399,7 @@ const resolvers = {
     },
 
     deleteHours: async (parent, { employee, jobDate }, context) => {
-    return Hour.findOneAndDelete({ employee, jobDate });
+      return Hour.findOneAndDelete({ employee, jobDate });
     },
 
     // SECTION EMPLOYEE
@@ -408,6 +427,22 @@ const resolvers = {
     deleteEmployee: async (parent, { _id }, context) => {
       // if (context.user) {
       return Employee.findOneAndDelete({ _id });
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    // toggleAdmin mutation that returns a success/fail message
+    softDeleteEmployee: async (parent, { _id, isDisplayable }) => {
+      // if (context.user) {
+      console.log("resolve soft delete employee = ", _id, isDisplayable);
+
+      return Employee.findOneAndUpdate(
+        { _id },
+        {
+          isDisplayable,
+        }
+      );
+      
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },

@@ -71,9 +71,12 @@ export const QUERY_EMPLOYEE_BYID = gql`
 `;
 
 export const QUERY_ALL_EMPLOYEES = gql`
-  query getAllEmployees {
-    employees {
+  # query getAllEmployees {
+  query getAllEmployees($isDisplayable: Boolean) {
+    employees(isDisplayable: $isDisplayable) {
+    #employees {
       _id
+      isDisplayable
       firstName
       lastName
       email
