@@ -382,6 +382,15 @@ export const DELETE_SCHEDULE = gql`
   }
 `;
 
+export const SOFT_DELETE_SCHEDULE = gql`
+  mutation softDeleteSchedule($id: ID!, $isDisplayable: Boolean) {
+    softDeleteSchedule(_id: $id, isDisplayable: $isDisplayable) {
+      _id
+      isDisplayable
+    }
+  }
+`;
+
 export const UPDATE_SCHEDULE = gql`
   mutation UpdateSchedule(
     $id: ID

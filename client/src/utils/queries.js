@@ -169,9 +169,12 @@ export const QUERY_SINGLE_CLIENT = gql`
 
 // SECTION SCHEDULE
 export const QUERY_SCHEDULE = gql`
-  query getSchedule {
-    schedules {
+  #query getSchedule {
+  #  schedules {
+  query getSchedule($isDisplayable: Boolean) {
+    schedules(isDisplayable: $isDisplayable) {
       _id
+      isDisplayable
       startDate
       endDate
       startTime

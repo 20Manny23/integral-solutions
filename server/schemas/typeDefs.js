@@ -45,6 +45,7 @@ const typeDefs = gql`
     numberOfClientEmployees: String
     client: Client
     employees: [Employee]
+    isDisplayable: Boolean
   }
 
   type Auth {
@@ -89,7 +90,8 @@ const typeDefs = gql`
     employees(isDisplayable: Boolean): [Employee]!
     employeeByEmail(email: String!): Employee
     employeeById(_id: ID!): Employee
-    schedules: [Schedule]
+    #schedules: [Schedule]
+    schedules(isDisplayable: Boolean): [Schedule]!
     schedule(scheduleId: ID!): Schedule
 
     hours: [Hour]
@@ -252,6 +254,8 @@ const typeDefs = gql`
     ): Schedule
 
     deleteSchedule(_id: ID!): Schedule
+
+    softDeleteSchedule(_id: ID!, isDisplayable: Boolean): Schedule
 
     updateSchedule(
       _id: ID

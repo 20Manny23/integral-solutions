@@ -47,7 +47,12 @@ const FullCalendarApp = () => {
     error: scheduleError,
     // eslint-disable-next-line
     refetch: scheduleRefetch,
-  } = useQuery(QUERY_SCHEDULE);
+    // } = useQuery(QUERY_SCHEDULE);
+  } = useQuery(QUERY_SCHEDULE, {
+    variables: {
+      isDisplayable: true, //only retrieve employees with a displayable status
+    },
+  });
 
   // eslint-disable-next-line
   const [getASingleSchedule, { loading: lazyLoading, data: singleSchedule }] =

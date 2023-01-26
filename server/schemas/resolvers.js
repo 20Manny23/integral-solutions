@@ -15,20 +15,6 @@ let expiration = "2h"; // 2 hours
 
 const resolvers = {
   Query: {
-    // users: async (parent, args, context) => {
-    //   // if (context.user) {
-    //   return User.find().populate("locations");
-    //   // }
-    //   // throw new AuthenticationError("You need to be logged in!");
-    // },
-
-    // user: async (parent, { userId }, context) => {
-    //   if (context.user) {
-    //     return User.findOne({ _id: userId });
-    //   }
-    //   throw new AuthenticationError("You need to be logged in!");
-    // },
-
     me: async (parent, { _id }, context) => {
       // if (context.user) {
       return User.findById({ _id }).populate("locations");
@@ -147,9 +133,16 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    schedules: async (parent, args, context) => {
+    //section schedule/job
+    schedules: async (parent, { isDisplayable }, context) => {
       // if (context.user) {
-      return Schedule.find().populate("employees").populate("client");
+
+      console.log("schedule displayable resolver = ", isDisplayable);
+
+      return Schedule.find({ isDisplayable })
+        .populate("employees")
+        .populate("client");
+      // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
@@ -306,7 +299,7 @@ const resolvers = {
           isDisplayable,
         }
       );
-      
+
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -463,7 +456,7 @@ const resolvers = {
           isDisplayable,
         }
       );
-      
+
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -679,6 +672,22 @@ const resolvers = {
     deleteSchedule: async (parent, { _id }, context) => {
       // if (context.user) {
       return Schedule.findOneAndDelete({ _id });
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    // soft delete employee
+    softDeleteSchedule: async (parent, { _id, isDisplayable }, context) => {
+      // if (context.user) {
+      console.log("resolve soft delete schedule = ", _id, isDisplayable);
+
+      return Schedule.findOneAndUpdate(
+        { _id },
+        {
+          isDisplayable,
+        }
+      );
+
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
