@@ -19,9 +19,10 @@ import Login from "./pages/Login";
 import EmployeePortal from "./pages/EmployeePortal";
 import ForgotPassword from "./components/ResetPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
-
+import EmployeeAdminHours2 from "./components/AdminPortal/Employees(Admin)/EmployeeAdminHours2";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import {
 
   faLocationDot,
@@ -43,6 +44,7 @@ import {
   faMap,
   faEdit,
 } from "@fortawesome/free-solid-svg-icons";
+
 
 library.add(
  
@@ -333,6 +335,7 @@ function App() {
                   }
                 />
               )}
+     
               {Auth.isLocked() === false && (
                 <Route
                   exact
@@ -356,6 +359,7 @@ function App() {
 
               <Route exact path="/contact" element={<ContactUs />} />
               <Route exact path="/shoplinks" element={<ShopLinks />} />
+              <Route exact path="/hoursadmin2" element={<EmployeeAdminHours2 />} />
 
 
               <Route path="*" element={<WrongPage />} />

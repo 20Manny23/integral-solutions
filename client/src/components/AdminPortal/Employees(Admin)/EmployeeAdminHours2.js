@@ -19,7 +19,7 @@ import EmployeeHours from "../../Employee(Worker)/EmployeeHours";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
-function EmployeeAdminHours() {
+function EmployeeAdminHours2() {
   const [openDetails, setOpenDetails] = useState(false);
   const [employeeId, setEmployeeId] = useState("");
   const [newHoursArr, setNewHoursArr] = useState([]);
@@ -141,11 +141,27 @@ function EmployeeAdminHours() {
 
     setNewHoursArr(newHoursSort);
   };
-  // SECTION HANDLE SET ID
+  // SECTION HANDLE COLLAPSE
   const getElement = (event) => {
+    console.log(event)
     let employeeId = event.currentTarget.getAttribute("data-clientid");
     setEmployeeId(employeeId);
 console.log(employeeId)
+    // let currentAvailTarget = event.currentTarget.getAttribute("data-target");
+    // console.log(currentAvailTarget);
+    // let currentAvailTable = document.getElementById(currentAvailTarget);
+    // for (let i = 0; i < arrayForSort.length; i++) {
+    //   if (currentAvailTable.contains("show")) {
+    //     currentAvailTable.remove("show");
+    //     setOpenDetails(false);
+    //   } else {
+    //     currentAvailTable.add("show");
+    //     setOpenDetails(true);
+    //   }
+
+    //   setOpenDetails(false);
+    // }
+
     getAnEmployeeHoursById();
   };
 
@@ -162,6 +178,7 @@ console.log(employeeId)
   //   thisHours.push({hours: thisWeekHours, date: thisWeekDate})
 
   // }
+  console.log(emp)
   let arrayForSort = [];
   if (emp) {
     arrayForSort = [...emp.employees];
@@ -172,155 +189,69 @@ console.log(employeeId)
     });
   }
   return (
-    <Accordion style={{marginTop:'25px'}}>
-      {arrayForSort.map((emp, index) => (
+    <>
+    
+     <Accordion>
+     {arrayForSort.map((emp, index) => (
         <Card>
-          <Accordion.Toggle
-            as={Card.Header}
-            onClick={(event) => getElement(event)}
-            eventKey={index + 1}
-            data-clientid={emp?._id}
-            style={{backgroundColor:'white', color:'#527bff'}}
-          >
-            {emp?.lastName}, {emp?.firstName}
-          </Accordion.Toggle>
-          <Accordion.Collapse eventKey={index + 1}>
-            <Card.Body>
-              <Container fluid="true">
-                <Row>
-                  <Col sm={12} md={6} lg={6}>
-                    {newHoursArr.map((date, index) => (
-                      <div
-                        id="accordion"
-                        key={index}
-                        style={{ marginLeft: "20px" }}
-                      >
-                        {date}
-                      </div>
-                    ))}
-                  </Col>
+   
+    <Accordion.Toggle as={Card.Header} onClick={(event) => getElement(event)} eventKey= {index + 1}  data-clientid={emp?._id}>
+    {emp?.lastName}, {emp?.firstName}
+    </Accordion.Toggle>
+    <Accordion.Collapse eventKey= {index +1}>
+      <Card.Body>
+      <Container fluid="true">
+                    <Row>
+                      <Col sm={12} md={6} lg={6}>
+                        {newHoursArr.map((date, index) => (
+                          <div
+                            id="accordion"
+                            key={index}
+                            style={{ marginLeft: "20px" }}
+                          >
+                            {date}
+                          </div>
+                        ))}
+                      </Col>
 
-                  <Col>
-                    <p
-                      style={{
-                        fontWeight: "bold",
-                        marginLeft: "20px",
-                      }}
-                    >
-                      Hours This Week: {thisWeekHours}
-                    </p>
-                    <p
-                      style={{
-                        fontWeight: "bold",
-                        marginLeft: "20px",
-                        marginTop: "-20px",
-                      }}
-                    >
-                      Month to Date Hours:
-                    </p>
-                    <p
-                      style={{
-                        fontWeight: "bold",
-                        marginLeft: "20px",
-                        marginTop: "-20px",
-                      }}
-                    >
-                      Year to Date Hours:
-                    </p>
-                  </Col>
-                </Row>
-              </Container>
-            </Card.Body>
-          </Accordion.Collapse>
-        </Card>
-      ))}
-    </Accordion>
+                      <Col>
+                      <p
+                          style={{
+                            fontWeight: "bold",
+                            marginLeft: "20px",
+                          }}
+                        >
+                          Hours This Week: {thisWeekHours}
+                        </p>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            marginLeft: "20px",
+                            marginTop: "-20px"
+                          }}
+                        >
+                          Month to Date Hours:
+                        </p>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            marginLeft: "20px",
+                            marginTop: "-20px"
+                          }}
+                        >
+                          Year to Date Hours:
+                        </p>
+                      </Col>
+                    </Row>
+                  </Container>
+      </Card.Body>
+    </Accordion.Collapse>
+  </Card>
+
+  ))} 
+</Accordion>
+   
+    </>
   );
 }
-export default EmployeeAdminHours;
-// previous code that was replaced
-
-{/* <Container>
-<Row style={{ display: "flex", justifyContent: "center" }}>
-  {arrayForSort.map((emp, index) => (
-    <div id="accordion" key={index} style={{ width: "98%" }}>
-      <div className="card p-2 mb-1">
-        <div
-          className="rounded directions-collapse"
-          id="headingOne"
-          style={{
-            color: "black",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <h5 className="mb-0 text-left">
-            <button
-              onClick={(event) => getElement(event)}
-              aria-controls={`#collapse-client-${index}`}
-              aria-expanded={openDetails}
-              data-clientid={emp?._id}
-              className="btn btn-link pl-1"
-              data-target={`#collapse-client-${index}`}
-            >
-              {emp?.lastName}, {emp?.firstName}
-            </button>
-          </h5>
-          <div style={{ fontWeight: "bold" }} className="d-flex mr-2">
-            
-          </div>
-        </div>
-
-        <Collapse>
-          <div id={`#collapse-client-${index}`}>
-            <Container fluid="true">
-              <Row>
-                <Col sm={12} md={6} lg={6}>
-                  {newHoursArr.map((date, index) => (
-                    <div
-                      id="accordion"
-                      key={index}
-                      style={{ marginLeft: "20px" }}
-                    >
-                      {date}
-                    </div>
-                  ))}
-                </Col>
-
-                <Col>
-                <p
-                    style={{
-                      fontWeight: "bold",
-                      marginLeft: "20px",
-                    }}
-                  >
-                    Hours This Week: {thisWeekHours}
-                  </p>
-                  <p
-                    style={{
-                      fontWeight: "bold",
-                      marginLeft: "20px",
-                      marginTop: "-20px"
-                    }}
-                  >
-                    Month to Date Hours:
-                  </p>
-                  <p
-                    style={{
-                      fontWeight: "bold",
-                      marginLeft: "20px",
-                      marginTop: "-20px"
-                    }}
-                  >
-                    Year to Date Hours:
-                  </p>
-                </Col>
-              </Row>
-            </Container>
-          </div>
-        </Collapse>
-      </div>
-    </div>
-  ))}
-</Row>
-</Container> */}
+export default EmployeeAdminHours2;
