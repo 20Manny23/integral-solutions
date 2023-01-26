@@ -15,7 +15,7 @@ import {
 
 import { thisWeek, lastWeek } from "../../utils/hoursDates";
 import { format_date_no_hyphen } from "../../utils/dateFormat";
-import { Form, Col, Row, Container, Collapse, Button } from "react-bootstrap";
+import { Form, Col, Row, Container, Collapse, Button, Accordion, Card } from "react-bootstrap";
 
 import "../../styles/hours.css";
 
@@ -42,7 +42,7 @@ function EmployeeHours() {
     // eslint-disable-next-line
     refetch: clientsRefetch,
   } = useQuery(QUERY_ALL_HOURS);
-
+  // console.log("all hours = ", hour);
 
   //get hours by employee id
   const [currentEmployeeId, setCurrentEmployeeId] = useState("");
@@ -121,7 +121,7 @@ function EmployeeHours() {
   const lastHours = (singleHours) => {
     for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
       let jobb = singleHours.hoursByEmployeeId[i].jobDate;
-     
+      console.log(jobb);
       if (jobb === lastWeekDates[0]) {
         oldHours.push(
           lastWeekDates[0] +
@@ -188,17 +188,20 @@ function EmployeeHours() {
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
-      
+      // let nextDay = moment(currentJobDate).add(1, 'days');
+      // console.log(moment({nextDay}.nextDay._d).format('MMM DD YYYY'))
 
       setDayTotal(data.hoursByEmployeeIdByJobDate[0]?.hoursWorked);
     },
   });
-  
+  // console.log(thisWeek)
   useEffect(() => {
     getAnEmployeeHoursByHour();
   }, [currentJobDate, dayTotal, getAnEmployeeHoursByHour]);
 
-
+  if (!byJobDateLazyLoad) {
+    // console.log("single employee by date = ", singleEmployeeHoursJobDate);
+  }
 
   //update hours by employee id and job date
   const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE);
@@ -282,34 +285,31 @@ function EmployeeHours() {
   return (
     <>
       <Container>
-        <Row style={{ display: "flex", justifyContent: "center" }}>
-          <span style={{ fontWeight: "bold", fontSize: "20px" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <span style={{ fontWeight: "bold",
+           fontSize: "20px", 
+           backgroundColor:'#007bff',
+            width:'100%',
+             textAlign:'center',
+             color:'white',
+             borderRadius:'5px',
+             margin:' 15px 0px 15px 0px',
+             paddingTop:"7px",
+             paddingBottom:"7px"
+              }}>
             Current Week
           </span>
+          </div>
+          <Accordion>
           {thisWeek.map((date, index) => (
-            <div id="accordion" key={index} style={{ width: "98%" }}>
-              <div className="card mb-1">
-                <Row>
-                  <button
-                    className="btn btn-link pl-1"
-                    style={{
-                      color: "#007bff",
-                      margin: "8px 0px 8px 25px",
-                      minWidth: "150px",
-                      padding: "0px 0 0px 0",
-                    }}
-                    onClick={(event) => getElement(event)}
-                    aria-expanded={open}
-                    aria-controls="example-fade-text"
-                    data-target={`#collapseTarget-${index}`}
-                    value={format_date_no_hyphen(date.date)}
-                  >
-                    {format_date_no_hyphen(date.date)}
-                  </button>
-                </Row>
-                <Collapse>
-                  <div id={`#collapseTarget-${index}`}>
-                    <Form onSubmit={handleUpdate}>
+            <Card>
+   
+            <Accordion.Toggle style={{backgroundColor:'white', color:'#007bff'}}as={Card.Header} onClick={(event) => getElement(event)} eventKey= {index + 1}  >
+            {format_date_no_hyphen(date.date)}
+            </Accordion.Toggle>
+            <Accordion.Collapse eventKey= {index +1}>
+              <Card.Body>
+              <Form onSubmit={handleUpdate}>
                       <Row>
                         <Col sm={12} md={4}>
                           <Form.Group
@@ -378,7 +378,6 @@ function EmployeeHours() {
                         </Col>
                       </Row>
                     </Form>
-                    <br></br>
                     <Row className="mr-4 total">
                       <p
                         style={{
@@ -391,21 +390,30 @@ function EmployeeHours() {
                         Day's Total Hours: {dayTotal}
                       </p>
                     </Row>
-                  </div>
-                </Collapse>
-              </div>
-            </div>
+              </Card.Body>
+            </Accordion.Collapse>
+          </Card>
           ))}
+          </Accordion>
           <Row
             style={{
               fontWeight: "bold",
               fontSize: "20px",
               marginBottom: "25px",
+              display:'flex',
+              justifyContent:"center"
             }}
           >
+            <div   style={{
+              fontWeight: "bold",
+              fontSize: "20px",
+              marginBottom: "25px",
+              textAlign:'center'
+            }}>
             Weekly Total Hours: {thisWeekHours}
+            </div>
           </Row>
-        </Row>
+      
       </Container>
 
       <Container>
@@ -414,7 +422,7 @@ function EmployeeHours() {
             <div className="card mb-1">
               <Button
                 className="btn btn-link pl-1"
-                style={{ color: "white", fontSize: "20px" }}
+                style={{ color: "white", fontSize: "20px", fontWeight:'bold' }}
                 onClick={() => setOpen2(!open2)}
                 aria-expanded={open}
               >

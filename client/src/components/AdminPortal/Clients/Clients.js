@@ -2,7 +2,10 @@ import React, { useState } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_CLIENTS } from "../../../utils/queries";
-import { DELETE_CLIENT } from "../../../utils/mutations";
+import { 
+  // DELETE_CLIENT, 
+  SOFT_DELETE_CLIENT 
+} from "../../../utils/mutations";
 
 import format_phone from "../../../utils/helpers";
 import googleMap from "../../../utils/googleMap";
@@ -24,27 +27,52 @@ function Clients() {
     error: clientError,
     // eslint-disable-next-line
     refetch: clientsRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
+    // } = useQuery(QUERY_ALL_CLIENTS);
+  } = useQuery(QUERY_ALL_CLIENTS, {
+    variables: {
+      isDisplayable: true, //only retrieve clients with a displayable status
+    },
+  });
 
   // SECTION DELETE
-  const [deleteClient] = useMutation(DELETE_CLIENT);
+  const [softDeleteClient] = useMutation(SOFT_DELETE_CLIENT);
+  // const [deleteClient] = useMutation(DELETE_CLIENT);
 
-  const handleDeleteClient = async (event) => {
-    let clientId = event.currentTarget.getAttribute("data-clientid");
+  const handleSoftClient = async (event) => {
+    //if delete trash is clicked change isDisplayble status to isDisplayabled = false
+    let clientId = event.currentTarget.getAttribute("data-clientid"); //identify selected client
     try {
-      // eslint-disable-next-line
-      await deleteClient({
+      await softDeleteClient({
         variables: {
           id: clientId,
+          isDisplayable: false,
         },
       });
 
-      // RELOAD CLIENT
+      // RELOAD clients
       clientsRefetch();
+      
     } catch (err) {
       console.log(err);
     }
   };
+
+  // const handleDeleteClient = async (event) => {
+  //   let clientId = event.currentTarget.getAttribute("data-clientid");
+  //   try {
+  //     // eslint-disable-next-line
+  //     await deleteClient({
+  //       variables: {
+  //         id: clientId,
+  //       },
+  //     });
+
+  //     // RELOAD CLIENT
+  //     clientsRefetch();
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   // SECTION HANDLE COLLAPSE
   const getElement = (event) => {
@@ -61,7 +89,7 @@ function Clients() {
   };
 
   let arrayForSort = [];
-  
+
   if (clients) {
     arrayForSort = [...clients.clients];
     arrayForSort.sort(function (a, b) {
@@ -107,9 +135,10 @@ function Clients() {
                       icon="fa-trash"
                       className="p-2 fa-lg"
                       data-clientid={client?._id}
-                      onClick={(event) => {
-                        handleDeleteClient(event);
-                      }}
+                      // onClick={(event) => {
+                      //   handleDeleteClient(event);
+                      // }}
+                      onClick={handleSoftClient}
                     />
                   </div>
                 </div>
@@ -138,8 +167,12 @@ function Clients() {
 
                         <Col className="margin-break">
                           <a
-                            href= {googleMap(client?.streetAddress, client?.city, client?.state, client?.zip)}
-                         
+                            href={googleMap(
+                              client?.streetAddress,
+                              client?.city,
+                              client?.state,
+                              client?.zip
+                            )}
                             target="_blank"
                             rel="noreferrer"
                           >

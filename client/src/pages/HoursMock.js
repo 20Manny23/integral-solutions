@@ -46,7 +46,7 @@ const EmployeePortal = ({
         <Container style={{ marginTop: "25px" }}>
           <Row className="justify-content-center">
             <p style={{ fontSize: "30px" }}>
-              <b>Employee Panel</b>
+              <b>Hours Mock</b>
             </p>
           </Row>
         </Container>
@@ -66,6 +66,16 @@ const EmployeePortal = ({
                   Enter Hours
                 </Button>
                 <Button
+                  variant="outline-primary"
+                  style={hoursAdminButtonIsActive ? isActive : notActive}
+                  active={hoursAdminButtonIsActive}
+                  onClick={() => {
+                    navigate("/hoursadmin");
+                  }}
+                >
+                  Hours Admin
+                </Button>
+                   <Button
                   variant="outline-primary"
                   style={hoursAdminButtonIsActive ? isActive : notActive}
                   active={hoursAdminButtonIsActive}

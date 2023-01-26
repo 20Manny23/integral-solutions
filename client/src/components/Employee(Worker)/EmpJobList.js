@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Auth from "../../utils/auth";
-
 import { getUserId } from "../../utils/getUserId";
+
 import { useQuery } from "@apollo/client";
 import { QUERY_EMPLOYEE_BYID } from "../../utils/queries";
+
 import format_phone from "../../utils/helpers";
 import { format_date_MMDDYYYY } from "../../utils/dateFormat";
 
@@ -17,7 +18,7 @@ function Employees({ pastOrFuture }) {
   const [schedule, setSchedule] = useState([]);
   const [past, setPast] = useState([]);
   const [future, setFuture] = useState([]);
-  const [completed, setCompleted] = useState([])
+  const [completed, setCompleted] = useState([]);
 
   // get id for logged in employee
   const userId = getUserId();
@@ -32,21 +33,20 @@ function Employees({ pastOrFuture }) {
 
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
+      let allJobs = data?.employeeById?.schedule;
+      let onlyDisplayableJobs = allJobs?.filter(element => element.isDisplayable === true).map(element => element); //returns array of only jobs isDisplayable === true
+
       const todayDate = Date.now();
-
-      for (let i = 0; i < data?.employeeById?.schedule?.length; i++) {
-        const date = new Date(data?.employeeById?.schedule[i].startDate);
+      
+      for (let i = 0; i < onlyDisplayableJobs?.length; i++) {
+        const date = new Date(onlyDisplayableJobs[i].startDate);
         const jobDate = date.getTime();
-
         if (jobDate < todayDate) {
-         
-          past.push(data?.employeeById?.schedule[i])
+          past.push(onlyDisplayableJobs[i]);
         } else {
-         
-          future.push(data?.employeeById?.schedule[i])
+          future.push(onlyDisplayableJobs[i]);
         }
       }
-  
     },
   });
 

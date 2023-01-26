@@ -62,5 +62,45 @@
     "endTime": "10:00:00 (MST)",
     "hoursWorked": "6.4",
     "employee": "6398fb54494aa98f85992da3"
+  },
+  {
+    "_id": "333233343566373839303134",
+    "jobDate": "January 24 2023",
+    "startTime": "09:00:00 (MST)",
+    "endTime": "10:00:00 (MST)",
+    "hoursWorked": "6.4",
+    "employee": "6398fb54494aa98f85992da2"
+  },
+  {
+    "_id": "333233343536378839303134",
+    "jobDate": "January 27 2023",
+    "startTime": "09:00:00 (MST)",
+    "endTime": "10:00:00 (MST)",
+    "hoursWorked": "6.1",
+    "employee": "6398fb54494aa98f85992da2"
+  },
+  {
+    "_id": "333233343536373838803134",
+    "jobDate": "January 26 2023",
+    "startTime": "09:00:00 (MST)",
+    "endTime": "10:00:00 (MST)",
+    "hoursWorked": "6.4",
+    "employee": "6398fb54494aa98f85992da2"
+  },
+  {
+    "_id": "333233343536373839313144",
+    "jobDate": "January 25 2022",
+    "startTime": "09:00:00 (MST)",
+    "endTime": "10:00:00 (MST)",
+    "hoursWorked": "5.2",
+    "employee": "6398fb54494aa98f85992da3"
+  },
+  {
+    "_id": "333233343538883839303134",
+    "jobDate": "March 29 2023",
+    "startTime": "09:00:00 (MST)",
+    "endTime": "10:00:00 (MST)",
+    "hoursWorked": "7.2",
+    "employee": "6398fb54494aa98f85992da2"
   }
 ]

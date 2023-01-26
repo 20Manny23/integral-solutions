@@ -15,20 +15,6 @@ let expiration = "2h"; // 2 hours
 
 const resolvers = {
   Query: {
-    // users: async (parent, args, context) => {
-    //   // if (context.user) {
-    //   return User.find().populate("locations");
-    //   // }
-    //   // throw new AuthenticationError("You need to be logged in!");
-    // },
-
-    // user: async (parent, { userId }, context) => {
-    //   if (context.user) {
-    //     return User.findOne({ _id: userId });
-    //   }
-    //   throw new AuthenticationError("You need to be logged in!");
-    // },
-
     me: async (parent, { _id }, context) => {
       // if (context.user) {
       return User.findById({ _id }).populate("locations");
@@ -36,9 +22,12 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    clients: async (parent, args, context) => {
+    clients: async (parent, { isDisplayable }, context) => {
       // if (context.user) {
-      return Client.find()
+
+      // console.log("client soft displayable resolver = ", isDisplayable);
+
+      return Client.find({ isDisplayable })
         .sort({ createdAt: -1 })
         .populate({ path: "schedule", populate: { path: "client" } });
       // }
@@ -56,9 +45,25 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    employees: async (parent, args, context) => {
+    // commented out; use query below to only get isDisplayable = true
+    // employees: async (parent, args, context) => {
+    //   // if (context.user) {
+    //   return Employee.find().populate({
+    //     path: "hour",
+    //     path: "schedule",
+    //     populate: { path: "client" },
+    //   });
+    //   // return Employee.find().populate("schedule");
+    //   // }
+    //   // throw new AuthenticationError("You need to be logged in!");
+    // },
+
+    employees: async (parent, { isDisplayable }, context) => {
       // if (context.user) {
-      return Employee.find().populate({
+
+      // console.log("employee displayable resolver = ", isDisplayable);
+
+      return Employee.find({ isDisplayable }).populate({
         path: "hour",
         path: "schedule",
         populate: { path: "client" },
@@ -79,10 +84,13 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    employeeById: async (parent, { _id }, context) => {
-      // if (context.user) {
-      console.log("employee by id", _id);
-      return Employee.findOne({ _id }).populate({
+    // employeeById: async (parent, { _id, isDisplayable }, context) => {
+      // return Employee.findOne({ _id: _id, schedule: { isDisplayable: isDisplayable } }).populate({
+
+      employeeById: async (parent, { _id }, context) => { //fix
+        // if (context.user) {
+      console.log( "employee by id", _id);
+      return Employee.findOne({ _id }).populate({ //fix
         path: "schedule",
         populate: { path: "client" },
       });
@@ -117,16 +125,27 @@ const resolvers = {
       context
     ) => {
       // if (context.user) {
-      console.log("resolver hours by employee id by job date = ", employee, jobDate);
+      console.log(
+        "resolver hours by employee id by job date = ",
+        employee,
+        jobDate
+      );
       return Hour.find({ employee: employee, jobDate: jobDate }).populate(
         "employee"
       );
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    schedules: async (parent, args, context) => {
+    //section schedule/job
+    schedules: async (parent, { isDisplayable }, context) => {
       // if (context.user) {
-      return Schedule.find().populate("employees").populate("client");
+
+      console.log("schedule displayable resolver = ", isDisplayable);
+
+      return Schedule.find({ isDisplayable })
+        .populate("employees")
+        .populate("client");
+      // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
@@ -271,6 +290,23 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
+    // soft delete client
+    softDeleteClient: async (parent, { _id, isDisplayable }, client) => {
+      // if (context.user) {
+
+      console.log("resolve soft delete client = ", _id, isDisplayable);
+
+      return Client.findOneAndUpdate(
+        { _id },
+        {
+          isDisplayable,
+        }
+      );
+
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
     updateClient: async (
       parent,
       {
@@ -380,7 +416,7 @@ const resolvers = {
     },
 
     deleteHours: async (parent, { employee, jobDate }, context) => {
-    return Hour.findOneAndDelete({ employee, jobDate });
+      return Hour.findOneAndDelete({ employee, jobDate });
     },
 
     // SECTION EMPLOYEE
@@ -408,6 +444,22 @@ const resolvers = {
     deleteEmployee: async (parent, { _id }, context) => {
       // if (context.user) {
       return Employee.findOneAndDelete({ _id });
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    // soft delete employee
+    softDeleteEmployee: async (parent, { _id, isDisplayable }, context) => {
+      // if (context.user) {
+      console.log("resolve soft delete employee = ", _id, isDisplayable);
+
+      return Employee.findOneAndUpdate(
+        { _id },
+        {
+          isDisplayable,
+        }
+      );
+
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -623,6 +675,22 @@ const resolvers = {
     deleteSchedule: async (parent, { _id }, context) => {
       // if (context.user) {
       return Schedule.findOneAndDelete({ _id });
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
+    // soft delete employee
+    softDeleteSchedule: async (parent, { _id, isDisplayable }, context) => {
+      // if (context.user) {
+      console.log("resolve soft delete schedule = ", _id, isDisplayable);
+
+      return Schedule.findOneAndUpdate(
+        { _id },
+        {
+          isDisplayable,
+        }
+      );
+
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },

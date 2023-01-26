@@ -153,7 +153,7 @@ function Employees() {
                 placeholder="Your email"
                 name="email"
                 onChange={handleInputChange}
-                value={userFormData.email}
+                value={userFormData.email.toLowerCase()}
                 required
               />
               <Form.Control.Feedback type="invalid">

@@ -52,7 +52,12 @@ function EmployeeUpdate() {
     // eslint-disable-next-line
     error: empError,
     refetch: empRefetch,
-  } = useQuery(QUERY_ALL_EMPLOYEES);
+  // } = useQuery(QUERY_ALL_EMPLOYEES);
+  } = useQuery(QUERY_ALL_EMPLOYEES, {
+  variables: {
+    isDisplayable: true //only retrieve employees with a displayable status
+  } 
+});
 
   //SECTION get a single employee
   // eslint-disable-next-line
@@ -333,7 +338,7 @@ function EmployeeUpdate() {
               type="text"
               placeholder="Employee Email"
               name="email"
-              value={selectEmail ? prevEmployeeData.email : email}
+              value={selectEmail ? prevEmployeeData.email : email.toLowerCase()}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}

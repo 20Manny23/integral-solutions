@@ -24,6 +24,10 @@ const employeeSchema = new Schema(
     phone: {
       type: String,
     },
+    isDisplayable: {
+      type: Boolean,
+      default: true,
+    },
     isAdmin: {
       type: Boolean,
       default: false,
