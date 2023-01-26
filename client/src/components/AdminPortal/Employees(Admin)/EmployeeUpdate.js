@@ -52,7 +52,12 @@ function EmployeeUpdate() {
     // eslint-disable-next-line
     error: empError,
     refetch: empRefetch,
-  } = useQuery(QUERY_ALL_EMPLOYEES);
+  // } = useQuery(QUERY_ALL_EMPLOYEES);
+  } = useQuery(QUERY_ALL_EMPLOYEES, {
+  variables: {
+    isDisplayable: true //only retrieve employees with a displayable status
+  } 
+});
 
   //SECTION get a single employee
   // eslint-disable-next-line

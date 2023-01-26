@@ -19,7 +19,7 @@ import "../../../styles/button-style.css";
 function Employees() {
   const [openDetails, setOpenDetails] = useState(false);
 
-  //SECTION GET ALL EMPLOYEES
+  //SECTION GET ALL EMPLOYEES with isDisplayable === true
   const {
     // eslint-disable-next-line
     loading: empLoad,
@@ -28,7 +28,6 @@ function Employees() {
     // eslint-disable-next-line
     error: empError,
     refetch: empRefetch,
-  // } = useQuery(QUERY_ALL_EMPLOYEES);
   } = useQuery(QUERY_ALL_EMPLOYEES, {
     variables: {
       isDisplayable: true //only retrieve employees with a displayable status
@@ -184,7 +183,7 @@ function Employees() {
                     className="p-2 fa-lg"
                     data-clientid={emp?._id}
                     data-target={`#collapse-client-${index}`}
-                    // onClick={(event) => { //fix
+                    // onClick={(event) => { //swap out for soft delete below
                     //   handleDeleteEmployee(event);
                     // }}
                     onClick={handleSoftDelete}

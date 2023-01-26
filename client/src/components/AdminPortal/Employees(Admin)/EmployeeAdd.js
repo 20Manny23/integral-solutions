@@ -8,7 +8,7 @@ import { Container, Form, Button } from "react-bootstrap";
 
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
-import { maskedPhoneInput } from "../../../utils/phoneMask"; //fix
+import { maskedPhoneInput } from "../../../utils/phoneMask";
 
 function EmployeeAdd() {
   // GET FORM INPUT
@@ -20,7 +20,7 @@ function EmployeeAdd() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLocked, setIsLocked] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
-  const [maskedPhone, setMaskedPhone] = useState(""); //fix
+  const [maskedPhone, setMaskedPhone] = useState("");
 
   // VALIDATION
   const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
@@ -36,7 +36,7 @@ function EmployeeAdd() {
     // console.log(event)
     // console.log(event.target.value)
 
-    //mask (auto populate) phone format input as xxx-xxx-xxx //fix
+    //mask (auto populate) phone format input as xxx-xxx-xxx
     if (name === "phone") {
       let getMaskedPhone = maskedPhoneInput(event.target.value);
       setMaskedPhone(getMaskedPhone);
@@ -226,8 +226,8 @@ function EmployeeAdd() {
               type="tel"
               placeholder="ex 555-555-5555"
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              maxLength="12" //fix
-              value={maskedPhone} //fix
+              maxLength="12"
+              value={maskedPhone}
               name="phone"
               onChange={handleInputChange}
               onBlur={handleBlurChange}

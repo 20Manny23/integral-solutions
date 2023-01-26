@@ -90,7 +90,7 @@ function ClientUpdate() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    //mask (auto populate) phone format input as xxx-xxx-xxx //fix
+    //mask (auto populate) phone format input as xxx-xxx-xxx
     if (name === "phone") {
       let getMaskedPhone = maskedPhoneInput(event.target.value);
       setMaskedPhone(getMaskedPhone);

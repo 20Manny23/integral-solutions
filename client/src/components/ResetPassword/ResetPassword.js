@@ -65,7 +65,6 @@ const ResetPassword = () => {
     }
     // console.log(data);
   };
-  //fix update
 
   // set temp password when employee state is updated (query retrieves employee info)
   useEffect(() => {
