@@ -33,15 +33,11 @@ function Employees({ pastOrFuture }) {
 
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
-      // console.log(data);
-      // console.log('filtered = ', data.employeeById.schedule.filter(element => element.isDisplayable === false).map(element => element))
       let allJobs = data?.employeeById?.schedule;
-      let onlyDisplayableJobs = data?.employeeById?.schedule?.filter(element => element.isDisplayable === true).map(element => element);
+      let onlyDisplayableJobs = allJobs?.filter(element => element.isDisplayable === true).map(element => element); //returns array of only jobs isDisplayable === true
 
       const todayDate = Date.now();
-
-      console.log(data)
-
+      
       for (let i = 0; i < onlyDisplayableJobs?.length; i++) {
         const date = new Date(onlyDisplayableJobs[i].startDate);
         const jobDate = date.getTime();
