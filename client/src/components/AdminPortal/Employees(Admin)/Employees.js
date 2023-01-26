@@ -70,6 +70,7 @@ function Employees() {
   // SECTION HANDLE TOGGLE UPDATE
   const handleToggle = async (event) => {
     let employeeId = event.currentTarget.getAttribute("data-employeeid");
+    
     let toggleTarget = event.currentTarget.name;
 
     let toggle;

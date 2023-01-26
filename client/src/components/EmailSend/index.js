@@ -19,9 +19,6 @@ import {
 import "../../styles/Contact.css";
 
 function useEmailSend(props) {
-  console.log('forgot password props = ', props, props.email)
-
-  // SECTION get tiny url
   const [tinyURI, setTinyURI] = useState("");
 
   const tiny_url = async () => {

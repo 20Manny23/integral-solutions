@@ -10,7 +10,6 @@ import { format_date_ISOString } from "../../utils/dateFormat";
 
 import "../../styles/calendar.css";
 
-
 const FullCalendarApp = () => {
   const [show, setShow] = useState(false);
 
@@ -73,24 +72,22 @@ const FullCalendarApp = () => {
 
     if (!scheduleLoad) {
       setCurrentSchedule(clickedSchedule.data.schedule);
-
       // console.log("current schedule = ", currentSchedule);
-
       handleShow();
     }
   };
 
+  //section
   let results = [];
   if (!scheduleLoad) {
-    
     results = schedule?.schedules?.map((job) => {
       return {
         id: job._id,
         title: job.client.businessName,
         start: format_date_ISOString(job.startDate),
         end: format_date_ISOString(job.endDate),
-        display: "flex",
-        // backgroundColor: colorArray[getRandomInt(colorArray.length)],
+        display: "block",
+        backgroundColor: colorArray[getRandomInt(colorArray.length)],
         textColor: "black",
       };
     });
@@ -134,12 +131,10 @@ const FullCalendarApp = () => {
 
   function renderEventContent(eventInfo) {
     return (
-      < >
       <div>
         <b>{eventInfo.timeText} </b>
-        <i style={{backgroundColor:'#3788d8', padding:'2px 2px 2px 0', borderRadius:'2px'}} >{eventInfo.event.title}</i>
-        </div>
-      </>
+        <i className="event-title">{eventInfo.event.title}</i>
+      </div>
     );
   }
 

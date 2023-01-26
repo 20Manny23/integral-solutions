@@ -14,6 +14,7 @@ function Schedule() {
       className="mb-3"
       fill //sizes tabs to fit available space
       unmountOnExit //removes content when entering a different tab
+      mountOnEnter
     >
       <Tab eventKey="calendar" title="Calendar">
         <FullCalendarApp />
@@ -24,10 +25,10 @@ function Schedule() {
       <Tab eventKey="completed" title="Completed">
         <ScheduleList pastOrFuture ="past" />
       </Tab>
-      <Tab eventKey="scheduleAdd" title="Add New">
+      <Tab eventKey="scheduleAdd" title="Add Job">
         <ScheduleAdd />
       </Tab>
-      <Tab eventKey="scheduleUpdate" title="Update ">
+      <Tab eventKey="scheduleUpdate" title="Update Job">
         <ScheduleUpdate />
       </Tab>
     </Tabs>

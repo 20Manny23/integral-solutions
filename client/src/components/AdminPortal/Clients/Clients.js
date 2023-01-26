@@ -49,7 +49,6 @@ function Clients() {
   // SECTION HANDLE COLLAPSE
   const getElement = (event) => {
     let currentAvailTarget = event.currentTarget.getAttribute("data-target");
-    console.log(currentAvailTarget);
     let currentAvailTable = document.getElementById(currentAvailTarget);
 
     if (currentAvailTable.classList.contains("show")) {
@@ -60,9 +59,10 @@ function Clients() {
       setOpenDetails(true);
     }
   };
+
   let arrayForSort = [];
-  if (clients) {
   
+  if (clients) {
     arrayForSort = [...clients.clients];
     arrayForSort.sort(function (a, b) {
       if (a.businessName.toLowerCase() < b.businessName.toLowerCase())

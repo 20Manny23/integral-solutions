@@ -34,18 +34,17 @@ function ScheduleList({pastOrFuture}) {
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE, {
     onCompleted: (data) => {
-
       const todayDate = Date.now();
 
+      setPast([]);
+      setFuture([]);
+      
       for (let i = 0; i < data?.schedules?.length; i++) {
         const date = new Date(data?.schedules[i].startDate);
         const jobDate = date.getTime();
-
         if (jobDate < todayDate) {
-         
           past.push(data.schedules[i])
         } else {
-       
           future.push(data.schedules[i])
         }
       }
@@ -57,7 +56,6 @@ function ScheduleList({pastOrFuture}) {
         setCompleted(future)
       }
     }
-    
   });
 
 
@@ -67,6 +65,7 @@ function ScheduleList({pastOrFuture}) {
   const handleDeleteSchedule = async (event) => {
     let scheduleId = event.currentTarget.getAttribute("data-scheduleid");
     console.log(scheduleId);
+
     try {
       // eslint-disable-next-line
       await deleteSchedule({
@@ -74,12 +73,12 @@ function ScheduleList({pastOrFuture}) {
           id: scheduleId,
         },
       });
-
-      // RELOAD SCHEDULE
-      scheduleRefetch();
     } catch (err) {
       console.log(err);
     }
+
+    // RELOAD SCHEDULE
+    scheduleRefetch();
   };
 
   // SECTION HANDLE COLLAPSE
@@ -96,9 +95,10 @@ function ScheduleList({pastOrFuture}) {
       setOpenDetails(true);
     }
   };
+
   //Sorts decending for upcoming ascending for completed
-  
   let arrayForSortDate = [];
+  
   if(pastOrFuture === "future"){
     arrayForSortDate = [...completed];
     arrayForSortDate.sort(function (a, b) {
@@ -114,7 +114,8 @@ function ScheduleList({pastOrFuture}) {
       if (a.startDate.toLowerCase() > b.startDate.toLowerCase()) return -1;
       return 0;
     })
-  }
+  };
+
   return (
     <Container>
       <Row style={{ display: "flex", justifyContent: "center" }}>
