@@ -87,7 +87,11 @@ function ScheduleAdd() {
     error: clientError,
     // eslint-disable-next-line
     refetch: clientsRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
+  } = useQuery(QUERY_ALL_CLIENTS, {
+    variables: {
+      isDisplayable: true //only retrieve clients with a displayable status = true
+    } 
+  });
 
   // get employees
   const {
@@ -98,7 +102,12 @@ function ScheduleAdd() {
     error: empError,
     // eslint-disable-next-line
     refetch: empRefectch,
-  } = useQuery(QUERY_ALL_EMPLOYEES);
+  // } = useQuery(QUERY_ALL_EMPLOYEES);
+  } = useQuery(QUERY_ALL_EMPLOYEES, {
+    variables: {
+      isDisplayable: true //only retrieve employees with a displayable status = true
+    } 
+  });
 
   // add schedule
   const [addSchedule] = useMutation(ADD_SCHEDULE, {
