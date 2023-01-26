@@ -69,7 +69,12 @@ function ClientUpdate() {
     // eslint-disable-next-line
     error: clientError,
     refetch: clientsRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
+  // } = useQuery(QUERY_ALL_CLIENTS);
+  } = useQuery(QUERY_ALL_CLIENTS, {
+    variables: {
+      isDisplayable: true, //only retrieve clients with a displayable status
+    },
+  });
 
   //SECTION get a single employee
   // eslint-disable-next-line

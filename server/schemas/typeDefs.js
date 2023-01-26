@@ -18,10 +18,10 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     phone: String
-    isDisplayable: Boolean
     isAdmin: Boolean
     isLocked: Boolean
     schedule: [Schedule]
+    isDisplayable: Boolean
   }
 
   type Message {
@@ -65,6 +65,8 @@ const typeDefs = gql`
     phone: String
     email: String
     schedule: [Schedule]
+    isDisplayable: Boolean
+
   }
 
   type Hour {
@@ -80,7 +82,8 @@ const typeDefs = gql`
     users: [User]!
     user(email: String!): User
     me(_id: ID!): User
-    clients: [Client]!
+    #clients: [Client]!
+    clients(isDisplayable: Boolean): [Client]!
     client(_id: ID!): Client
     #employees: [Employee]!
     employees(isDisplayable: Boolean): [Employee]!
@@ -146,6 +149,8 @@ const typeDefs = gql`
     ): Client
 
     deleteClient(_id: ID!): Client
+
+    softDeleteClient(_id: ID!, isDisplayable: Boolean): Client
 
     updateClient(
       _id: ID!

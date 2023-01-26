@@ -72,9 +72,9 @@ export const QUERY_EMPLOYEE_BYID = gql`
 
 export const QUERY_ALL_EMPLOYEES = gql`
   # query getAllEmployees {
+    #employees {
   query getAllEmployees($isDisplayable: Boolean) {
     employees(isDisplayable: $isDisplayable) {
-    #employees {
       _id
       isDisplayable
       firstName
@@ -122,9 +122,12 @@ export const QUERY_SINGLE_EMPLOYEE = gql`
 
 // SECTION CLIENTS
 export const QUERY_ALL_CLIENTS = gql`
-  query getAllClients {
-    clients {
+  #query getAllClients {
+  #   clients {
+  query getAllClients($isDisplayable: Boolean) {
+    clients(isDisplayable: $isDisplayable) {
       _id
+      isDisplayable
       businessName
       city
       contact

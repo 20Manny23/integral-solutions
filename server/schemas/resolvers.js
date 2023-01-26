@@ -36,9 +36,12 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    clients: async (parent, args, context) => {
+    clients: async (parent, { isDisplayable }, context) => {
       // if (context.user) {
-      return Client.find()
+
+      // console.log("client soft displayable resolver = ", isDisplayable);
+
+      return Client.find({ isDisplayable })
         .sort({ createdAt: -1 })
         .populate({ path: "schedule", populate: { path: "client" } });
       // }
@@ -56,6 +59,7 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
+    // commented out; use query below to only get isDisplayable = true
     // employees: async (parent, args, context) => {
     //   // if (context.user) {
     //   return Employee.find().populate({
@@ -71,7 +75,7 @@ const resolvers = {
     employees: async (parent, { isDisplayable }, context) => {
       // if (context.user) {
 
-      console.log("employee displayable resolver = ", isDisplayable);
+      // console.log("employee displayable resolver = ", isDisplayable);
 
       return Employee.find({ isDisplayable }).populate({
         path: "hour",
@@ -290,6 +294,23 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
+    // soft delete client
+    softDeleteClient: async (parent, { _id, isDisplayable }, client) => {
+      // if (context.user) {
+
+      console.log("resolve soft delete client = ", _id, isDisplayable);
+
+      return Client.findOneAndUpdate(
+        { _id },
+        {
+          isDisplayable,
+        }
+      );
+      
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
     updateClient: async (
       parent,
       {
@@ -431,8 +452,8 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    // toggleAdmin mutation that returns a success/fail message
-    softDeleteEmployee: async (parent, { _id, isDisplayable }) => {
+    // soft delete employee
+    softDeleteEmployee: async (parent, { _id, isDisplayable }, context) => {
       // if (context.user) {
       console.log("resolve soft delete employee = ", _id, isDisplayable);
 

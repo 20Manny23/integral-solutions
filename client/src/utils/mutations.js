@@ -257,6 +257,15 @@ export const DELETE_CLIENT = gql`
   }
 `;
 
+export const SOFT_DELETE_CLIENT = gql`
+  mutation softDeleteClient($id: ID!, $isDisplayable: Boolean) {
+    softDeleteClient(_id: $id, isDisplayable: $isDisplayable) {
+      _id
+      isDisplayable
+    }
+  }
+`;
+
 export const UPDATE_CLIENT = gql`
   mutation UpdateClient(
     $id: ID!
