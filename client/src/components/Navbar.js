@@ -83,7 +83,7 @@ const AppNavbar = () => {
             </>
           )}
 
-          {Auth.loggedIn() && (
+          {(Auth.loggedIn() && Auth.isLocked() === false) && (
             <>
               <Nav.Link className="navLink" onClick={Auth.logout}>
                 Logout

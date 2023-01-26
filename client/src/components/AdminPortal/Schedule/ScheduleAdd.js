@@ -101,7 +101,7 @@ function ScheduleAdd() {
   } = useQuery(QUERY_ALL_EMPLOYEES);
 
   // add schedule
-  const [addSchedule] = useMutation(ADD_SCHEDULE, { //fix
+  const [addSchedule] = useMutation(ADD_SCHEDULE, {
     refetchQueries: [
       {query: QUERY_SCHEDULE}, // DocumentNode object parsed with gql
       'getSchedule' // Query name
@@ -181,7 +181,7 @@ function ScheduleAdd() {
     event.preventDefault();
 
     let reformattedStartDate = format_date_string(startDate, startTime);
-    let reformattedEndDate = format_date_string(startDate, startTime);
+    let reformattedEndDate = format_date_string(endDate, startTime); //used start time since endTime is no on the form
 
     console.log(reformattedEndDate, reformattedStartDate);
 
@@ -520,7 +520,7 @@ function ScheduleAdd() {
             <Form.Group controlId="formBasicEmail">
               <div className="form-label">
                 <Form.Label style={{ fontWeight: "bolder" }}>
-                  Job Start Date
+                  Start Date
                 </Form.Label>
 
                 <Form.Label
@@ -548,7 +548,7 @@ function ScheduleAdd() {
             <Form.Group controlId="formBasicEmail">
               <div className="form-label">
                 <Form.Label style={{ fontWeight: "bolder" }}>
-                  Job End Date
+                  End Date
                 </Form.Label>
                 <Form.Label
                   className={`validation-color ${
@@ -564,7 +564,6 @@ function ScheduleAdd() {
                 min={new Date().toISOString().split('T')[0]}
                 name="endDate"
                 value={endDate}
-                // defaultValue={client?.endDate}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 //required

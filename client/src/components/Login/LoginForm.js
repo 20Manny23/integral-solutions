@@ -20,8 +20,6 @@ const LoginForm = () => {
     setUserFormData({ ...userFormData, [name]: value });
   };
 
-  // let navigate = useNavigate();
-
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -33,21 +31,29 @@ const LoginForm = () => {
     }
 
     try {
-      const { data } = await login({
-        variables: { ...userFormData },
-      });
+        //get user information based on email address
+        const { data } = await login({
+          variables: { ...userFormData },
+        });
 
-      // for reference ...
-      // console.log(data)
-      // console.log(data.login)
-      // console.log(data.login.token)
-      // const decoded = decode(data.login.token);
-      // console.log(decoded);
-      // console.log(Auth.decode(data.login.token));
+        // if user is not locked then give access via Auth.login function
+        if (data.login.employee.isLocked === false) {
 
-      Auth.login(data.login);
+        Auth.login(data.login);
 
-      window.location.assign(`/`);
+        window.location.assign(`/`); //sends user back to home; on the home page the nav will display the nav links based on auth rights (isAdmin true or isAdmin false)
+      // }
+
+        } else {
+
+          //if user is locked remove token from local storage & send to home page
+          console.log("user is locked === true");
+          localStorage.removeItem("id_token");
+          window.location.assign(`/`);
+          alert("You do not have employee access. Please contact Integral Solutions.")
+
+        }
+
     } catch (e) {
       console.error(e);
       setShowAlert(true);
@@ -88,7 +94,7 @@ const LoginForm = () => {
               placeholder="Your email address"
               name="email"
               onChange={handleInputChange}
-              value={userFormData.email}
+              value={userFormData.email.toLowerCase()}
               required
             />
             <Form.Control.Feedback type="invalid">
@@ -177,5 +183,13 @@ const isDisplayed = {
 };
 
 const isNotDisplayed = {
-  displa: "none",
+  display: "none",
 };
+ 
+// for reference ...
+// console.log(data)
+// console.log(data.login)
+// console.log(data.login.token)
+// const decoded = decode(data.login.token);
+// console.log(decoded);
+// console.log(Auth.decode(data.login.token));

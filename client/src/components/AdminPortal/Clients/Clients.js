@@ -59,9 +59,10 @@ function Clients() {
       setOpenDetails(true);
     }
   };
+
   let arrayForSort = [];
-  if (clients) {
   
+  if (clients) {
     arrayForSort = [...clients.clients];
     arrayForSort.sort(function (a, b) {
       if (a.businessName.toLowerCase() < b.businessName.toLowerCase())

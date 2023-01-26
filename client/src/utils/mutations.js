@@ -7,6 +7,7 @@ export const LOGIN_USER = gql`
       token
       employee {
         _id
+        isLocked
       }
     }
   }
