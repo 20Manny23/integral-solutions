@@ -46,7 +46,7 @@ const EmployeePortal = ({
         <Container style={{ marginTop: "25px" }}>
           <Row className="justify-content-center">
             <p style={{ fontSize: "30px" }}>
-              <b>Employee Panel</b>
+              <b>Hours Mock</b>
             </p>
           </Row>
         </Container>

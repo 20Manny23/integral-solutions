@@ -257,6 +257,7 @@ function EmployeeAdd() {
               type="email"
               placeholder="Enter Email Address"
               name="email"
+              value={email.toLowerCase()}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required

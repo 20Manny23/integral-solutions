@@ -430,7 +430,7 @@ function ClientUpdate() {
               type="email"
               placeholder="Client Email"
               name="email"
-              value={selectEmail ? prevClientData?.email : email}
+              value={selectEmail ? prevClientData?.email : email.toLowerCase()}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}

@@ -333,6 +333,7 @@ function ContactForm() {
                 type="email"
                 placeholder="Enter Email"
                 name="email"
+                value={emailAddress.toLowerCase()}
                 onChange={handleChange}
                 onBlur={handleBlurChange}
                 required
