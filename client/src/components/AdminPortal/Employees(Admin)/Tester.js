@@ -188,6 +188,24 @@ console.log(employeeId)
       return 0;
     });
   }
+   // const yearlyHours = (singleHours) => {
+  // const todayYear = new Date().getFullYear().toString()
+
+  //   for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
+  //     let dateWorked = singleHours.hoursByEmployeeId[i].jobDate
+  //     console.log(dateWorked)
+//       if(dateWorked.charAt(dateWorked.length-1) === todayYear.charAt(todayYear.length-1) && dateWorked.charAt(dateWorked.length-2) === todayYear.charAt(todayYear.length-2)){
+// console.log('this Worked')
+//       }
+//       else{
+//         console.log("this one didnt work")
+//       }
+      
+
+ 
+  //   }
+    
+  // }
   return (
     <>
     
