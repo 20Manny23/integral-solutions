@@ -75,7 +75,11 @@ function ScheduleAdd() {
     // eslint-disable-next-line
     error: scheduleError,
     refetch: scheduleRefetch,
-  } = useQuery(QUERY_SCHEDULE);
+  } = useQuery(QUERY_SCHEDULE, {
+    variables: {
+      isDisplayable: true, //only retrieve schedules with a displayable status
+    },
+  });
   // console.log(schedule);
 
   // get clients
