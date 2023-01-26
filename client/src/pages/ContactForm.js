@@ -6,6 +6,7 @@ import useEmailSend from "../components/EmailSend";
 import Footer from "../components/Home/Footer";
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
 import { NUMBER_OF_EMPLOYEES } from "../utils/numberOfEmployees";
+import { maskedPhoneInput } from "../utils/phoneMask";
 
 import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
 import "../styles/Forms.css";
@@ -28,6 +29,7 @@ function ContactForm() {
   const [startDate, setStartDate] = useState("");
   const [services, setServices] = useState([]);
   const [jobDetails, setJobDetails] = useState("");
+  const [maskedPhone, setMaskedPhone] = useState("");
 
   //  validation
   const [showCompanyNameValidation, setShowCompanyNameValidation] =
@@ -50,7 +52,6 @@ function ContactForm() {
   const [showJobDetailsValidation, setShowJobDetailsValidation] = useState("");
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
-
   const handleChange = (event) => {
     const { target } = event;
     const name = target.name;
@@ -68,12 +69,18 @@ function ContactForm() {
       return;
     }
 
+    //mask (auto populate) phone format input as xxx-xxx-xxx
+    if (name === "phone") {
+      let getMaskedPhone = maskedPhoneInput(event.target.value);
+      setMaskedPhone(getMaskedPhone);
+    }
+
     //set state for all other inputs
     if (name === "company") {
       setCompanyName(value);
     } else if (name === "name") {
       setContactName(value);
-    } else if (name === "telNo") {
+    } else if (name === "phone") {
       setPhoneNumber(value);
     } else if (name === "email") {
       setEmailAddress(value);
@@ -111,7 +118,7 @@ function ContactForm() {
     name === "email" && value.trim() === ""
       ? setShowEmailAddressValidation(true)
       : setShowEmailAddressValidation(false);
-    name === "telNo" && value.trim() === ""
+    name === "phone" && value.trim() === ""
       ? setShowPhoneNumberValidation(true)
       : setShowPhoneNumberValidation(false);
     name === "address" && value.trim() === ""
@@ -348,9 +355,11 @@ function ContactForm() {
               <Form.Control
                 className="custom-border"
                 type="tel"
-                placeholder="Enter phone 123-456-7890"
-                name="telNo"
+                placeholder="ex 555-555-5555"
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                maxLength="12"
+                value={maskedPhone}
+                name="phone"
                 onChange={handleChange}
                 onBlur={handleBlurChange}
               />
@@ -517,6 +526,7 @@ function ContactForm() {
               <Form.Control
                 className="custom-border"
                 type="date"
+                min={new Date().toISOString().split("T")[0]}
                 name="startDate"
                 onChange={handleChange}
                 onBlur={handleBlurChange}

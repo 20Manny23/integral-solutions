@@ -24,6 +24,10 @@ const employeeSchema = new Schema(
     phone: {
       type: String,
     },
+    isDisplayable: {
+      type: Boolean,
+      default: true,
+    },
     isAdmin: {
       type: Boolean,
       default: false,
@@ -36,6 +40,9 @@ const employeeSchema = new Schema(
       type: Schema.Types.Array,
       ref: "Schedule",
     },
+  },
+  {
+    timestamps: true,
   },
   {
     toJSON: {

@@ -2,7 +2,10 @@ import React, { useState } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_SCHEDULE } from "../../../utils/queries";
-import { DELETE_SCHEDULE } from "../../../utils/mutations";
+import {
+  DELETE_SCHEDULE,
+  SOFT_DELETE_SCHEDULE,
+} from "../../../utils/mutations";
 
 import { format_date_MMDDYYYY } from "../../../utils/dateFormat";
 import format_phone from "../../../utils/helpers";
@@ -14,12 +17,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
-
-function ScheduleList({pastOrFuture}) {
+function ScheduleList({ pastOrFuture }) {
   const [openDetails, setOpenDetails] = useState(false);
   const [past, setPast] = useState([]);
   const [future, setFuture] = useState([]);
-  const [completed, setCompleted] = useState([])
+  const [completed, setCompleted] = useState([]);
 
   //SECTION GET SCHEDULE
   // eslint-disable-next-line
@@ -33,40 +35,61 @@ function ScheduleList({pastOrFuture}) {
     // eslint-disable-next-line
     refetch: scheduleRefetch,
   } = useQuery(QUERY_SCHEDULE, {
+    variables: {
+      isDisplayable: true //only retrieve schedules with a displayable status
+    }, 
     onCompleted: (data) => {
-
+      
+      console.log(data);
       const todayDate = Date.now();
+
+      setPast([]);
+      setFuture([]);
 
       for (let i = 0; i < data?.schedules?.length; i++) {
         const date = new Date(data?.schedules[i].startDate);
         const jobDate = date.getTime();
-
         if (jobDate < todayDate) {
-         
-          past.push(data.schedules[i])
+          past.push(data.schedules[i]);
         } else {
-       
-          future.push(data.schedules[i])
+          future.push(data.schedules[i]);
         }
       }
-   
-      if(pastOrFuture === "past"){
-        setCompleted(past)
+
+      if (pastOrFuture === "past") {
+        setCompleted(past);
+      } else {
+        setCompleted(future);
       }
-      else{
-        setCompleted(future)
-      }
-    }
-    
+    },
   });
 
-
   // SECTION DELETE
+  const [softDeleteSchedule] = useMutation(SOFT_DELETE_SCHEDULE);
   const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
 
+  const handleSoftDelete = async (event) => {
+    //if delete trash is clicked change isDisplayble status to isDisplayabled = false
+    let scheduleId = event.currentTarget.getAttribute("data-scheduleid"); //identify selected employee
+    try {
+      await softDeleteSchedule({
+        variables: {
+          id: scheduleId,
+          isDisplayable: false,
+        }
+      });
+      // RELOAD employee
+      scheduleRefetch();
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+    //hard delete is not currently being used rather a soft delete is being used to ensure the schedule is retained in the DB but does not render in the app
   const handleDeleteSchedule = async (event) => {
     let scheduleId = event.currentTarget.getAttribute("data-scheduleid");
     console.log(scheduleId);
+
     try {
       // eslint-disable-next-line
       await deleteSchedule({
@@ -74,18 +97,18 @@ function ScheduleList({pastOrFuture}) {
           id: scheduleId,
         },
       });
-
-      // RELOAD SCHEDULE
-      scheduleRefetch();
     } catch (err) {
       console.log(err);
     }
+
+    // RELOAD SCHEDULE
+    scheduleRefetch();
   };
 
   // SECTION HANDLE COLLAPSE
   const getElement = (event) => {
     let currentAvailTarget = event.currentTarget.getAttribute("data-target");
-    
+
     let currentAvailTable = document.getElementById(currentAvailTarget);
 
     if (currentAvailTable.classList.contains("show")) {
@@ -96,25 +119,26 @@ function ScheduleList({pastOrFuture}) {
       setOpenDetails(true);
     }
   };
+
   //Sorts decending for upcoming ascending for completed
-  
   let arrayForSortDate = [];
-  if(pastOrFuture === "future"){
+
+  if (pastOrFuture === "future") {
     arrayForSortDate = [...completed];
     arrayForSortDate.sort(function (a, b) {
       if (a.startDate.toLowerCase() < b.startDate.toLowerCase()) return -1;
       if (a.startDate.toLowerCase() > b.startDate.toLowerCase()) return 1;
       return 0;
     });
-  }
-  else {
+  } else {
     arrayForSortDate = [...completed];
     arrayForSortDate.sort(function (a, b) {
       if (a.startDate.toLowerCase() < b.startDate.toLowerCase()) return 1;
       if (a.startDate.toLowerCase() > b.startDate.toLowerCase()) return -1;
       return 0;
-    })
+    });
   }
+
   return (
     <Container>
       <Row style={{ display: "flex", justifyContent: "center" }}>
@@ -151,9 +175,10 @@ function ScheduleList({pastOrFuture}) {
                     icon="fa-trash"
                     className="p-2 fa-lg"
                     data-scheduleid={job?._id}
-                    onClick={(event) => {
-                      handleDeleteSchedule(event);
-                    }}
+                    // onClick={(event) => {
+                    //   handleDeleteSchedule(event);
+                    // }}
+                    onClick={handleSoftDelete}
                   />
                 </div>
               </div>
@@ -186,7 +211,12 @@ function ScheduleList({pastOrFuture}) {
 
                       <Col style={{ marginBottom: "15px", marginTop: "10px" }}>
                         <a
-                          href= {googleMap(job?.streetAddress, job?.city, job?.state, job?.zip)}
+                          href={googleMap(
+                            job?.streetAddress,
+                            job?.city,
+                            job?.state,
+                            job?.zip
+                          )}
                           target="_blank"
                           rel="noreferrer"
                         >

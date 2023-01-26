@@ -1,6 +1,7 @@
 [
   {
     "_id": "313233343536373839303132",
+    "isDisplayable": true,
     "businessName": "ABC Office Company",
     "streetAddress": "2300 Steele St",
     "suite": "",
@@ -16,6 +17,7 @@
   },
   {
     "_id": "323233343536373839303132",
+    "isDisplayable": true,
     "businessName": "Superb Office Company",
     "streetAddress": "1610 16th street mall",
     "suite": "",
@@ -31,6 +33,7 @@
   },
   {
     "_id": "333233343536373839303132",
+    "isDisplayable": false,
     "businessName": "Paper Supplies and Co",
     "streetAddress": "2221 Ford St",
     "suite": "",

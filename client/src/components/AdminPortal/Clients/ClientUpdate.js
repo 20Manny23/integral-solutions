@@ -6,6 +6,7 @@ import { QUERY_ALL_CLIENTS, QUERY_SINGLE_CLIENT } from "../../../utils/queries";
 import { UPDATE_CLIENT } from "../../../utils/mutations";
 
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
+import { maskedPhoneInput } from "../../../utils/phoneMask";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
@@ -23,6 +24,7 @@ function ClientUpdate() {
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
+  const [maskedPhone, setMaskedPhone] = useState("");
 
   //set selected client
   // const [currentInput, setCurrentInput] = useState({});
@@ -67,7 +69,12 @@ function ClientUpdate() {
     // eslint-disable-next-line
     error: clientError,
     refetch: clientsRefetch,
-  } = useQuery(QUERY_ALL_CLIENTS);
+  // } = useQuery(QUERY_ALL_CLIENTS);
+  } = useQuery(QUERY_ALL_CLIENTS, {
+    variables: {
+      isDisplayable: true, //only retrieve clients with a displayable status
+    },
+  });
 
   //SECTION get a single employee
   // eslint-disable-next-line
@@ -88,7 +95,11 @@ function ClientUpdate() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    //fix
+    //mask (auto populate) phone format input as xxx-xxx-xxx
+    if (name === "phone") {
+      let getMaskedPhone = maskedPhoneInput(event.target.value);
+      setMaskedPhone(getMaskedPhone);
+    }
 
     if (name === "businessName") {
       setBusinessName(value);
@@ -123,7 +134,7 @@ function ClientUpdate() {
     return name;
   };
 
-  //SECTION HANDLE SELECTED CLIENT //FIX
+  //SECTION HANDLE SELECTED CLIENT
   async function handleSelectedClient(event) {
     let clientId = event.target.options[event.target.selectedIndex].dataset.id; //get selected client id
     setCurrentClientId(clientId); //set state of current id
@@ -135,7 +146,6 @@ function ClientUpdate() {
 
     setPrevClientData(currentClientData?.data?.client); //set data state and rerender in form
 
-    //fix start
     // allow form to populate with selected employee data
     setSelectBusinessName(true);
     setSelectContact(true);
@@ -148,7 +158,6 @@ function ClientUpdate() {
     setSelectZip(true);
 
     setFormIsDisabled(false); // enable form for input
-    //fix end
   }
 
   //SECTION CLIENT UPDATE
@@ -181,7 +190,6 @@ function ClientUpdate() {
     }
 
     clientsRefetch();
-    //fix start
     // allow form to populate with selected employee data
     setSelectBusinessName(false);
     setSelectContact(false);
@@ -196,7 +204,6 @@ function ClientUpdate() {
     resetForm();
 
     setFormIsDisabled(true); // enable form for input
-    //fix end
   };
 
   //SECTION UTILITY FUNCTIONS
@@ -308,10 +315,11 @@ function ClientUpdate() {
                   ? prevClientData?.businessName
                   : "Select"}
               </option> */}
-              <option> 
-              {prevClientData?.businessName
+              <option>
+                {prevClientData?.businessName
                   ? prevClientData?.businessName
-                  : "Select"} </option>
+                  : "Select"}{" "}
+              </option>
               {arrayForSort.map((client, index) => (
                 <option
                   key={index}
@@ -342,10 +350,9 @@ function ClientUpdate() {
               type="text"
               placeholder="Enter Company Name"
               name="businessName"
-              // defaultValue={prevClientData?.businessName} //fix
               value={
                 selectBusinessName ? prevClientData?.businessName : businessName
-              } // fix
+              }
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
@@ -373,8 +380,7 @@ function ClientUpdate() {
               type="text"
               placeholder="Enter Contact Person"
               name="contact"
-              // defaultValue={prevClientData?.contact}//fix
-              value={selectContact ? prevClientData?.contact : contact} // fix
+              value={selectContact ? prevClientData?.contact : contact}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
@@ -397,21 +403,18 @@ function ClientUpdate() {
             <Form.Control
               className="custom-border"
               type="tel"
-              placeholder="example: 123-456-7899"
-              name="phone"
+              placeholder="ex 555-555-5555"
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              // defaultValue={prevClientData?.phone} //fix
-              value={selectPhone ? prevClientData?.phone : phone} // fix
+              maxLength="12"
+              value={selectPhone ? prevClientData?.phone : maskedPhone}
+              name="phone"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
             />
           </Form.Group>
 
-          <Form.Group
-            className="mb-3 form-length"
-            // controlId="formBasicEmail"
-          >
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label>
               <Form.Label
@@ -427,8 +430,7 @@ function ClientUpdate() {
               type="email"
               placeholder="Client Email"
               name="email"
-              // defaultValue={prevClientData?.email} //fix
-              value={selectEmail ? prevClientData?.email : email} // fix
+              value={selectEmail ? prevClientData?.email : email}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
@@ -450,12 +452,11 @@ function ClientUpdate() {
               className="custom-border"
               placeholder="Enter Address"
               name="streetAddress"
-              // defaultValue={prevClientData?.streetAddress} //fix
               value={
                 selectStreetAddress
                   ? prevClientData?.streetAddress
                   : streetAddress
-              } // fix
+              }
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
@@ -473,8 +474,7 @@ function ClientUpdate() {
               className="custom-border"
               placeholder="Enter Suite"
               name="suite"
-              // defaultValue={prevClientData?.suite}//fix
-              value={selectSuite ? prevClientData?.suite : suite} // fix
+              value={selectSuite ? prevClientData?.suite : suite}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
@@ -495,8 +495,7 @@ function ClientUpdate() {
                 className="custom-border"
                 placeholder="City"
                 name="city"
-                // defaultValue={prevClientData?.city}//fix
-                value={selectCity ? prevClientData?.city : city} // fix
+                value={selectCity ? prevClientData?.city : city}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 disabled={formIsDisabled}
@@ -516,8 +515,7 @@ function ClientUpdate() {
                 className="custom-border"
                 placeholder="State"
                 name="state"
-                // defaultValue={prevClientData?.state}//fix
-                value={selectState ? prevClientData?.state : state} // fix
+                value={selectState ? prevClientData?.state : state}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 disabled={formIsDisabled}
@@ -543,8 +541,7 @@ function ClientUpdate() {
                 className="custom-border"
                 placeholder="Zip"
                 name="zip"
-                // defaultValue={prevClientData?.zip}//fix
-                value={selectZip ? prevClientData?.zip : zip} // fix
+                value={selectZip ? prevClientData?.zip : zip}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 disabled={formIsDisabled}

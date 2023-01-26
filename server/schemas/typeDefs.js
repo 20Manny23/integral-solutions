@@ -21,6 +21,7 @@ const typeDefs = gql`
     isAdmin: Boolean
     isLocked: Boolean
     schedule: [Schedule]
+    isDisplayable: Boolean
   }
 
   type Message {
@@ -44,6 +45,7 @@ const typeDefs = gql`
     numberOfClientEmployees: String
     client: Client
     employees: [Employee]
+    isDisplayable: Boolean
   }
 
   type Auth {
@@ -64,6 +66,8 @@ const typeDefs = gql`
     phone: String
     email: String
     schedule: [Schedule]
+    isDisplayable: Boolean
+
   }
 
   type Hour {
@@ -79,12 +83,15 @@ const typeDefs = gql`
     users: [User]!
     user(email: String!): User
     me(_id: ID!): User
-    clients: [Client]!
+    #clients: [Client]!
+    clients(isDisplayable: Boolean): [Client]!
     client(_id: ID!): Client
-    employees: [Employee]!
+    #employees: [Employee]!
+    employees(isDisplayable: Boolean): [Employee]!
     employeeByEmail(email: String!): Employee
     employeeById(_id: ID!): Employee
-    schedules: [Schedule]
+    #schedules: [Schedule]
+    schedules(isDisplayable: Boolean): [Schedule]!
     schedule(scheduleId: ID!): Schedule
 
     hours: [Hour]
@@ -96,21 +103,21 @@ const typeDefs = gql`
   # SECTION SEND EMAILS
   type Query {
     # should be able to delete this query
-    sendEmailContactUs(
-      companyName: String
-      contactName: String
-      phoneNumber: String
-      emailAddress: String
-      address: String
-      city: String
-      state: String
-      zip: String
-      squareFeet: String
-      employeeNumber: String
-      startDate: String
-      jobDetails: String
-      services: [String]
-    ): String
+    #sendEmailContactUs(
+     # companyName: String
+      #contactName: String
+      #phoneNumber: String
+      #emailAddress: String
+      #address: String
+     # city: String
+      #state: String
+      #zip: String
+     #squareFeet: String
+      #employeeNumber: String
+      #startDate: String
+      #jobDetails: String
+      #services: [String]
+    #): String
 
     # send email via SendGrid
     sendEmail(
@@ -145,6 +152,8 @@ const typeDefs = gql`
 
     deleteClient(_id: ID!): Client
 
+    softDeleteClient(_id: ID!, isDisplayable: Boolean): Client
+
     updateClient(
       _id: ID!
       businessName: String
@@ -174,6 +183,8 @@ const typeDefs = gql`
     signupEmployee(email: String, password: String): Auth
 
     deleteEmployee(_id: ID!): Employee
+
+    softDeleteEmployee(_id: ID!, isDisplayable: Boolean): Employee
 
     updateEmployee(
       _id: ID
@@ -243,6 +254,8 @@ const typeDefs = gql`
     ): Schedule
 
     deleteSchedule(_id: ID!): Schedule
+
+    softDeleteSchedule(_id: ID!, isDisplayable: Boolean): Schedule
 
     updateSchedule(
       _id: ID

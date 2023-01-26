@@ -109,9 +109,11 @@
     justify-content: flex-start;
     border: none;
   }
-
+  
   .navLink {
-    font-size: 15px !important;
+    font-size: 20px !important;
+    border: 1px solid #335270;
+    border-radius: 50px;
   }
 }
 
@@ -132,6 +134,7 @@
   }
 
   .navLink {
-    font-size: 10px !important;
+    width: 85%;
+    font-size: 18px !important;
   }
 }

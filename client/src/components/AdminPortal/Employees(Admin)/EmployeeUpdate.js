@@ -7,6 +7,7 @@ import {
   QUERY_SINGLE_EMPLOYEE,
 } from "../../../utils/queries";
 import { UPDATE_EMPLOYEE_FORM } from "../../../utils/mutations";
+import { maskedPhoneInput } from "../../../utils/phoneMask";
 
 import { Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
@@ -19,6 +20,7 @@ function EmployeeUpdate() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
+  const [maskedPhone, setMaskedPhone] = useState("");
 
   //set selected employee
   // const [currentEmployee, setCurrentEmployee] = useState("");
@@ -50,7 +52,12 @@ function EmployeeUpdate() {
     // eslint-disable-next-line
     error: empError,
     refetch: empRefetch,
-  } = useQuery(QUERY_ALL_EMPLOYEES);
+  // } = useQuery(QUERY_ALL_EMPLOYEES);
+  } = useQuery(QUERY_ALL_EMPLOYEES, {
+  variables: {
+    isDisplayable: true //only retrieve employees with a displayable status
+  } 
+});
 
   //SECTION get a single employee
   // eslint-disable-next-line
@@ -71,9 +78,15 @@ function EmployeeUpdate() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
+    //mask (auto populate) phone format input as xxx-xxx-xxx
+    if (name === "phone") {
+      let getMaskedPhone = maskedPhoneInput(event.target.value);
+      setMaskedPhone(getMaskedPhone);
+    }
+
     if (name === "firstName") {
       setFirstName(value); //capture input on the form
-      setSelectFirstName(false); //allows value property to accept input //fix
+      setSelectFirstName(false); //allows value property to accept input
     } else if (name === "lastName") {
       setLastName(value);
       setSelectLastName(false);
@@ -103,7 +116,6 @@ function EmployeeUpdate() {
 
     setPrevEmployeeData(currentEmployeeData?.data?.employeeById); //set data state and rerender in form
 
-    //fix start
     // allow form to populate with selected employee data
     setSelectFirstName(true);
     setSelectLastName(true);
@@ -111,7 +123,6 @@ function EmployeeUpdate() {
     setSelectEmail(true);
 
     setFormIsDisabled(false); // enable form for input
-    //fix end
   }
 
   //SECTION EMPLOYEE UPDATE
@@ -139,7 +150,7 @@ function EmployeeUpdate() {
     }
 
     empRefetch();
-    //fix
+
     // allow form to populate with selected client data
     setSelectFirstName(false);
     setSelectLastName(false);
@@ -149,7 +160,6 @@ function EmployeeUpdate() {
     resetForm();
 
     setFormIsDisabled(true); //set form disabled = true
-    //fix
   };
 
   //SECTION UTILITY FUNCTIONS
@@ -186,9 +196,9 @@ function EmployeeUpdate() {
   useEffect(() => {
     setOneFieldHasInput(
       email.trim() !== "" ||
-      phone.trim() !== "" ||
-      firstName.trim() !== "" ||
-      lastName.trim() !== ""
+        phone.trim() !== "" ||
+        firstName.trim() !== "" ||
+        lastName.trim() !== ""
     );
     // eslint-disable-next-line
   }, [email, phone, firstName, lastName]);
@@ -222,21 +232,13 @@ function EmployeeUpdate() {
               name={"form-select" || ""}
               onChange={handleSelectedEmployee}
             >
-              {/* <option>
+              <option>
                 {prevEmployeeData?.firstName
                   ? `${prevEmployeeData.firstName} ${prevEmployeeData.lastName}`
                   : "Select"}
-              </option> */}
-              <option>{prevEmployeeData?.firstName
-                ? `${prevEmployeeData.firstName} ${prevEmployeeData.lastName}`
-                : "Select"}
               </option>
               {arrayForSort.map((emp, index) => (
-                <option
-                  key={index}
-                  // value={[emp.email, emp.firstName, emp.lastName, emp.phone]}
-                  data-id={emp._id}
-                >
+                <option key={index} data-id={emp._id}>
                   {`${emp.lastName}, ${emp.firstName} `}
                 </option>
               ))}
@@ -249,8 +251,9 @@ function EmployeeUpdate() {
                 First Name
               </Form.Label>
               <Form.Label
-                className={`validation-color ${showFirstNameValidation ? "show" : "hide"
-                  }`}
+                className={`validation-color ${
+                  showFirstNameValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
@@ -260,8 +263,7 @@ function EmployeeUpdate() {
               type="text"
               placeholder="Enter First Name"
               name="firstName"
-              // defaultValue={prevEmployeeData?.firstName} //fix
-              value={selectFirstName ? prevEmployeeData.firstName : firstName} // fix
+              value={selectFirstName ? prevEmployeeData.firstName : firstName}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
@@ -273,8 +275,9 @@ function EmployeeUpdate() {
                 Last Name
               </Form.Label>
               <Form.Label
-                className={`validation-color ${showLastNameValidation ? "show" : "hide"
-                  }`}
+                className={`validation-color ${
+                  showLastNameValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
@@ -284,8 +287,7 @@ function EmployeeUpdate() {
               type="text"
               placeholder="Enter Last Name"
               name="lastName"
-              // defaultValue={prevEmployeeData?.lastName} //fix
-              value={selectLastName ? prevEmployeeData.lastName : lastName} // fix
+              value={selectLastName ? prevEmployeeData.lastName : lastName}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
@@ -298,8 +300,9 @@ function EmployeeUpdate() {
                 Phone Number
               </Form.Label>
               <Form.Label
-                className={`validation-color ${showPhoneValidation ? "show" : "hide"
-                  }`}
+                className={`validation-color ${
+                  showPhoneValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
@@ -307,12 +310,10 @@ function EmployeeUpdate() {
             <Form.Control
               className="custom-border"
               type="tel"
-              placeholder="example: 123-456-7899"
-              name="phone"
-              // defaultValue={prevEmployeeData?.phone} //fix
-              value={selectPhone ? prevEmployeeData.phone : phone} // fix
-              // value={phone} // fix
+              placeholder="ex 555-555-5555"
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              value={selectPhone ? prevEmployeeData.phone : maskedPhone}
+              name="phone"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
@@ -325,8 +326,9 @@ function EmployeeUpdate() {
                 Email
               </Form.Label>
               <Form.Label
-                className={`validation-color ${showEmailEmployeeValidation ? "show" : "hide"
-                  }`}
+                className={`validation-color ${
+                  showEmailEmployeeValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
@@ -336,13 +338,11 @@ function EmployeeUpdate() {
               type="text"
               placeholder="Employee Email"
               name="email"
-              // defaultValue={prevEmployeeData?.email} // fix
-              value={selectEmail ? prevEmployeeData.email : email} // fix
-              // value={email} // fix
+              value={selectEmail ? prevEmployeeData.email : email}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
-            // required
+              // required
             />
           </Form.Group>
           <div className="d-flex justify-content-center">
