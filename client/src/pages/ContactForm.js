@@ -11,6 +11,8 @@ import { maskedPhoneInput } from "../utils/phoneMask";
 import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
 import "../styles/Forms.css";
 
+import GenericAlert from "../components/Alert";
+
 function ContactForm() {
   // set error state
   const [errorMessage, setErrorMessage] = useState("");
@@ -629,7 +631,7 @@ function ContactForm() {
                 required
               />
             </Form.Group>
-
+<GenericAlert></GenericAlert>
             <Button
               className="button-custom submit-button-style"
               variant="primary"

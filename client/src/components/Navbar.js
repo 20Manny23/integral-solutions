@@ -67,13 +67,13 @@ const AppNavbar = () => {
             </>
           )}
 
-          {Auth.loggedIn() && Auth.isLocked() === false && (
+          {/* {Auth.loggedIn() && Auth.isLocked() === false && (
             <>
               <Nav.Link className="navLink" as={Link} to="/hours">
                 Hours
               </Nav.Link>
             </>
-          )}
+          )} */}
 
           {!Auth.loggedIn() && (
             <>
