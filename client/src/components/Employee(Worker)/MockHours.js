@@ -1,243 +1,76 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_ALL_EMPLOYEES } from "../../utils/queries";
-import {
-  DELETE_EMPLOYEE,
-  SOFT_DELETE_EMPLOYEE,
-  TOGGLE_ADMIN,
-  TOGGLE_LOCKED,
-} from "../../utils/mutations";
-import format_phone from "../../utils/helpers";
+import { thisWeek } from "../../utils/hoursDates";
 
-import { Row, Col, Container, Form } from "react-bootstrap";
-import Collapse from "react-bootstrap/Collapse";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../../styles/Contact.css";
-import "../../styles/button-style.css";
+import { Row, Container, Form, Button } from "react-bootstrap";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function Employees() {
-  const [openDetails, setOpenDetails] = useState(false);
+function MockHours() {
 
-  //SECTION GET ALL EMPLOYEES with isDisplayable === true
-  const {
-    // eslint-disable-next-line
-    loading: empLoad,
-    // eslint-disable-next-line
-    data: emp,
-    // eslint-disable-next-line
-    error: empError,
-    refetch: empRefetch,
-  } = useQuery(QUERY_ALL_EMPLOYEES, {
-    variables: {
-      isDisplayable: true //only retrieve employees with a displayable status = true
-    } 
-  });
-
-  // toggle isAmin mutation
-  const [toggleAdmin] = useMutation(TOGGLE_ADMIN);
-  const [toggleLocked] = useMutation(TOGGLE_LOCKED);
-
-  // SECTION DELETE
-  const [softDeleteEmployee] = useMutation(SOFT_DELETE_EMPLOYEE);
-  // const [deleteEmployee] = useMutation(DELETE_EMPLOYEE);
-
-  const handleSoftDelete = async (event) => {
-    //if delete trash is clicked change isDisplayble status to isDisplayabled = false
-    let employeeId = event.currentTarget.getAttribute("data-clientid"); //identify selected employee
-    try {
-      await softDeleteEmployee({
-        variables: {
-          id: employeeId,
-          isDisplayable: false,
-        }
-      });
-      // RELOAD employee
-      empRefetch();
-    } catch(err) {
-      console.log(err);
-    }
+  const handleInput = async (event) => {
+    event.preventDefault();
+    console.log("input = ", event.target.value)
   }
 
-  //hard delete is not currently being used rather a soft delete is being used to ensure the employee is retained in the DB but does not render in the app
-  // const handleDeleteEmployee = async (event) => {
-  //   let employeeId = event.currentTarget.getAttribute("data-clientid");
-
-  //   try {
-  //     // eslint-disable-next-line
-  //     await deleteEmployee({
-  //       variables: {
-  //         id: employeeId,
-  //       },
-  //     });
-
-  //     // RELOAD employee
-  //     empRefetch();
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // SECTION HANDLE COLLAPSE
-  const getElement = (event) => {
-    let currentAvailTarget = event.currentTarget.getAttribute("data-target");
-    console.log(currentAvailTarget);
-    let currentAvailTable = document.getElementById(currentAvailTarget);
-
-    if (currentAvailTable.classList.contains("show")) {
-      currentAvailTable.classList.remove("show");
-      setOpenDetails(false);
-    } else {
-      currentAvailTable.classList.add("show");
-      setOpenDetails(true);
-    }
-  };
-
-  // SECTION HANDLE TOGGLE UPDATE
-  const handleToggle = async (event) => {
-    let employeeId = event.currentTarget.getAttribute("data-employeeid");
-    
-    let toggleTarget = event.currentTarget.name;
-
-    let toggle;
-    event.currentTarget.defaultValue === "true"
-      ? (toggle = false)
-      : (toggle = true);
-
-    if (toggleTarget === "admin") {
-      try {
-        // eslint-disable-next-line
-        await toggleAdmin({
-          variables: {
-            employeeId: employeeId,
-            isAdmin: toggle, // NOT A NECESSARY VARIABLE SINCE THE SERVER CHANGES THE STATE
-          },
-        });
-
-        // RELOAD EMPLOYEE
-        empRefetch();
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      console.log("not admin");
-      try {
-        // eslint-disable-next-line
-        await toggleLocked({
-          variables: {
-            employeeId: employeeId,
-            isLocked: toggle, // NOT A NECESSARY VARIABLE SINCE THE SERVER CHANGES THE STATE
-          },
-        });
-
-        // RELOAD EMPLOYEE
-        empRefetch();
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  };
-
-  let arrayForSort = [];
-  if (emp) {
-    arrayForSort = [...emp.employees];
-    arrayForSort.sort(function (a, b) {
-      if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) return -1;
-      if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) return 1;
-      return 0;
-    });
+  const handleHoursSubmit = async (event) => {
+    event.preventDefault();
+    console.log("submit = ", event);
   }
 
   return (
     <Container>
-      <Row style={{ display: "flex", justifyContent: "center" }}>
-        {arrayForSort?.map((emp, index) => (
-          <div id="accordion" key={index} style={{ width: "98%" }}>
+      <Row className="d-flex flex-colunm">
+        {thisWeek?.map((thisWeek, index) => (
+          <div id="accordion" key={index} style={{ width: "100%" }}>
             <div className="card p-2 mb-1">
-              <div
-                className="rounded directions-collapse"
-                id="headingOne"
-                style={{
-                  color: "black",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <h5 className="d-flex flex-column mb-0 text-left">
-                  <button
-                    onClick={(event) => getElement(event)}
-                    aria-controls={`#collapse-client-${index}`}
-                    aria-expanded={openDetails}
-                    className="btn btn-link pl-1"
-                    data-target={`#collapse-client-${index}`}
+                <Form
+                  className="d-flex justify-content-between align-content-center align-items-center"
+                  onChange={handleInput}
+                  onSubmit={handleHoursSubmit}
+                >
+                  <p>{thisWeek.date}</p>
+                  <Form.Group controlId="formBasicEmail">
+                    <div className="form-label">
+                      <Form.Label style={{ fontWeight: "bolder" }}>
+                        Start Time
+                      </Form.Label>
+                    </div>
+                    <Form.Control
+                      // className="custom-border"
+                      type="time"
+                      name="startTime"
+                      // value={startTime}
+                      // onChange={handleInputChange}
+                      // onBlur={handleBlurChange}
+                      //required
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="formBasicEmail">
+                    <div className="form-label">
+                      <Form.Label style={{ fontWeight: "bolder" }}>
+                        End Time
+                      </Form.Label>
+                    </div>
+                    <Form.Control
+                      className="custom-border"
+                      type="time"
+                      name="endTime"
+                      // value={startTime}
+                      // onChange={handleInputChange}
+                      // onBlur={handleBlurChange}
+                      //required
+                    />
+                  </Form.Group>
+                  <Button
+                    className="primary"
+                    variant="primary"
+                    type="submit"
+                    title="Submit to schedule job."
+                    // disabled={areAllFieldsFilled}
                   >
-                    <p className="mb-0 text-left">
-                      {emp?.lastName}, {emp?.firstName}
-                    </p>
-                    <p className="mb-0 text-left">{format_phone(emp?.phone)}</p>
-                  </button>
-                </h5>
-                <div className="d-flex mr-2">
-                  <FontAwesomeIcon
-                    icon="fa-trash"
-                    className="p-2 fa-lg"
-                    data-clientid={emp?._id}
-                    data-target={`#collapse-client-${index}`}
-                    // onClick={(event) => { //swap out for soft delete below
-                    //   handleDeleteEmployee(event);
-                    // }}
-                    onClick={handleSoftDelete}
-                  />
-                </div>
-              </div>
-              <Collapse>
-                <div id={`#collapse-client-${index}`}>
-                  <Container fluid="true" className="center-screen">
-                    <Row>
-                      <Col md={6} lg={6}>
-                        <a href={`tel:+${emp?.phone}`}>
-                          <FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon>{" "}
-                          {format_phone(emp?.phone)}
-                        </a>
-                        <br></br>
-                        <a href={`mailto:${emp?.email}`}>
-                          {" "}
-                          <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
-                          {emp?.email}
-                        </a>
-                      </Col>
-
-                      <Col>
-                        <Form.Check
-                          type="switch"
-                          name="admin"
-                          label="Admin"
-                          id={`custom-admin-${index}`}
-                          data-employeeid={emp?._id}
-                          defaultChecked={emp.isAdmin}
-                          defaultValue={emp.isAdmin}
-                          onClick={(event) => handleToggle(event)}
-                          className="ml-4"
-                          style={{ transform: "scale(1.1)" }}
-                        ></Form.Check>
-
-                        <Form.Check
-                          type="switch"
-                          name="locked"
-                          label="Locked"
-                          id={`custom-locked-${index}`}
-                          data-employeeid={emp?._id}
-                          defaultChecked={emp.isLocked}
-                          defaultValue={emp.isLocked}
-                          onClick={(event) => handleToggle(event)}
-                          className="ml-4"
-                          style={{ transform: "scale(1.1)" }}
-                        ></Form.Check>
-                      </Col>
-                    </Row>
-                  </Container>
-                </div>
-              </Collapse>
+                    Submit
+                  </Button>
+                </Form>
             </div>
           </div>
         ))}
@@ -245,4 +78,4 @@ function Employees() {
     </Container>
   );
 }
-export default Employees;
+export default MockHours;

@@ -27,7 +27,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
-
+  faSave,
   faLocationDot,
   faEnvelopeOpenText,
   faPhone,
@@ -50,7 +50,7 @@ import {
 
 
 library.add(
- 
+  faSave,
   faLocationDot,
   faEnvelopeOpenText,
   faPhone,
