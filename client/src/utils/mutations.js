@@ -35,6 +35,7 @@ export const UPDATE_PASSWORD = gql`
       phone
       isAdmin
       isLocked
+      hasDriversLicense
     }
   }
 `;

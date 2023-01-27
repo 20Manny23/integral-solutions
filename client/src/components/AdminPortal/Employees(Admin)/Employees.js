@@ -10,7 +10,7 @@ import {
 } from "../../../utils/mutations";
 import format_phone from "../../../utils/helpers";
 
-import { Row, Col, Container, Form } from "react-bootstrap";
+import { Row, Col, Container, Form, Modal, Button } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/Contact.css";
@@ -18,6 +18,12 @@ import "../../../styles/button-style.css";
 
 function Employees() {
   const [openDetails, setOpenDetails] = useState(false);
+  const [show, setShow] = useState(false);
+  const [deleteThis, setDeleteThis] = useState("")
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  
 
   //SECTION GET ALL EMPLOYEES with isDisplayable === true
   const {
@@ -44,14 +50,22 @@ function Employees() {
   // SECTION DELETE
   const [softDeleteEmployee] = useMutation(SOFT_DELETE_EMPLOYEE);
   // const [deleteEmployee] = useMutation(DELETE_EMPLOYEE);
-
+const saveIdFunction = (event) => {
+  let employeeId = event.currentTarget.getAttribute("data-clientid")
+console.log(typeof(employeeId))
+  setDeleteThis(employeeId)
+  handleShow()
+}
   const handleSoftDelete = async (event) => {
     //if delete trash is clicked change isDisplayble status to isDisplayabled = false
-    let employeeId = event.currentTarget.getAttribute("data-clientid"); //identify selected employee
+    // let employeeId = event.currentTarget.getAttribute("data-clientid"); //identify selected employee
+
+    
+   
     try {
       await softDeleteEmployee({
         variables: {
-          id: employeeId,
+          id: deleteThis,
           isDisplayable: false,
         }
       });
@@ -60,6 +74,7 @@ function Employees() {
     } catch(err) {
       console.log(err);
     }
+    handleClose()
   }
 
   //hard delete is not currently being used rather a soft delete is being used to ensure the employee is retained in the DB but does not render in the app
@@ -152,6 +167,7 @@ function Employees() {
   }
 
   return (
+    <>
     <Container>
       <Row style={{ display: "flex", justifyContent: "center" }}>
         {arrayForSort?.map((emp, index) => (
@@ -177,7 +193,7 @@ function Employees() {
                     <p className="mb-0 text-left">
                       {emp?.lastName}, {emp?.firstName}
                     </p>
-                    <p className="mb-0 text-left">{format_phone(emp?.phone)}</p>
+                    {/* <p className="mb-0 text-left">{format_phone(emp?.phone)}</p> */}
                   </button>
                 </h5>
                 <div className="d-flex mr-2">
@@ -189,9 +205,12 @@ function Employees() {
                     // onClick={(event) => { //swap out for soft delete below
                     //   handleDeleteEmployee(event);
                     // }}
-                    onClick={handleSoftDelete}
+                    onClick={saveIdFunction}
                   />
                 </div>
+             
+        
+                
               </div>
               <Collapse>
                 <div id={`#collapse-client-${index}`}>
@@ -208,6 +227,9 @@ function Employees() {
                           <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
                           {emp?.email}
                         </a>
+                        <div>
+                         {emp?.hasDriversLicense === true ? "License: Yes" : "License: No"} 
+                         </div>
                       </Col>
 
                       <Col>
@@ -236,6 +258,7 @@ function Employees() {
                           className="ml-4"
                           style={{ transform: "scale(1.1)" }}
                         ></Form.Check>
+                        
                       </Col>
                     </Row>
                   </Container>
@@ -246,6 +269,28 @@ function Employees() {
         ))}
       </Row>
     </Container>
+      
+
+     <Modal
+       show={show}
+       onHide={handleClose}
+       backdrop="static"
+       keyboard={false}
+     >
+       <Modal.Header closeButton>
+         <Modal.Title>Delete Confirmation</Modal.Title>
+       </Modal.Header>
+       <Modal.Body>
+         Are you sure that you want to delete this employee?
+       </Modal.Body>
+       <Modal.Footer>
+         <Button variant="secondary" style={{backgroundColor:'red'}}onClick={handleSoftDelete}>
+           Yes, Delete
+         </Button>
+         <Button variant="primary" onClick={handleClose}>No,Cancel</Button>
+       </Modal.Footer>
+     </Modal>
+    </> 
   );
 }
 export default Employees;

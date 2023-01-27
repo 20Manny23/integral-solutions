@@ -178,7 +178,7 @@ function EmployeeHours() {
       hours = saturday.hours;
     }
     else{
-      alert("You entered Negative Hours... Try Again")
+      alert("Please Enter a Positive Value.")
       return
     }
 

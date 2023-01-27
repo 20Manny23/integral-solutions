@@ -180,6 +180,7 @@ const typeDefs = gql`
       phone: String
       isAdmin: Boolean
       isLocked: Boolean
+      hasDriversLicense:Boolean
     ): Employee
 
     signupEmployee(email: String, password: String): Auth
@@ -198,6 +199,7 @@ const typeDefs = gql`
       isAdmin: Boolean
       isLocked: Boolean
       schedule: String
+      hasDriversLicense: Boolean
       hours: String
     ): Employee
 
