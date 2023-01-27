@@ -11,7 +11,7 @@ import { format_date_MMDDYYYY } from "../../../utils/dateFormat";
 import format_phone from "../../../utils/helpers";
 import googleMap from "../../../utils/googleMap";
 
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container, Modal, Button } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/Contact.css";
@@ -22,6 +22,11 @@ function ScheduleList({ pastOrFuture }) {
   const [past, setPast] = useState([]);
   const [future, setFuture] = useState([]);
   const [completed, setCompleted] = useState([]);
+  const [show, setShow] = useState(false);
+  const [deleteThis, setDeleteThis] = useState("")
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   //SECTION GET SCHEDULE
   // eslint-disable-next-line
@@ -68,13 +73,20 @@ function ScheduleList({ pastOrFuture }) {
   const [softDeleteSchedule] = useMutation(SOFT_DELETE_SCHEDULE);
   const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
 
+  const saveIdFunction = (event) => {
+    let scheduleId = event.currentTarget.getAttribute("data-scheduleid");//identify selected employee
+  
+    setDeleteThis(scheduleId)
+    handleShow()
+  }
+
   const handleSoftDelete = async (event) => {
     //if delete trash is clicked change isDisplayble status to isDisplayabled = false
-    let scheduleId = event.currentTarget.getAttribute("data-scheduleid"); //identify selected employee
+    
     try {
       await softDeleteSchedule({
         variables: {
-          id: scheduleId,
+          id: deleteThis,
           isDisplayable: false,
         }
       });
@@ -83,6 +95,7 @@ function ScheduleList({ pastOrFuture }) {
     } catch(err) {
       console.log(err);
     }
+    handleClose()
   }
 
     //hard delete is not currently being used rather a soft delete is being used to ensure the schedule is retained in the DB but does not render in the app
@@ -140,6 +153,7 @@ function ScheduleList({ pastOrFuture }) {
   }
 
   return (
+    <>
     <Container>
       <Row style={{ display: "flex", justifyContent: "center" }}>
         {arrayForSortDate.map((job, index) => (
@@ -178,7 +192,7 @@ function ScheduleList({ pastOrFuture }) {
                     // onClick={(event) => {
                     //   handleDeleteSchedule(event);
                     // }}
-                    onClick={handleSoftDelete}
+                    onClick={saveIdFunction}
                   />
                 </div>
               </div>
@@ -290,6 +304,26 @@ function ScheduleList({ pastOrFuture }) {
         ))}
       </Row>
     </Container>
+    <Modal
+       show={show}
+       onHide={handleClose}
+       backdrop="static"
+       keyboard={false}
+     >
+       <Modal.Header closeButton>
+         <Modal.Title>Delete Confirmation</Modal.Title>
+       </Modal.Header>
+       <Modal.Body>
+         Are you sure that you want to delete this Job from the Schedule?
+       </Modal.Body>
+       <Modal.Footer>
+         <Button variant="secondary" style={{backgroundColor:'red'}}onClick={handleSoftDelete}>
+           Yes, Delete
+         </Button>
+         <Button variant="primary" onClick={handleClose}>No,Cancel</Button>
+       </Modal.Footer>
+     </Modal>
+    </>
   );
 }
 export default ScheduleList;

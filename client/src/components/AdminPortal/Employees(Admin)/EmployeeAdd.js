@@ -19,8 +19,9 @@ function EmployeeAdd() {
   const [password, setPassword] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLocked, setIsLocked] = useState(true);
-  const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
+  const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(false);
   const [maskedPhone, setMaskedPhone] = useState("");
+  const [hasDriversLicense, setHasDriversLicense] = useState(false)
 
   // VALIDATION
   const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
@@ -29,13 +30,20 @@ function EmployeeAdd() {
   const [showEmailEmployeeValidation, setShowEmailEmployeeValidation] =
     useState(false);
   const [showPasswordValidation, setShowPasswordValidation] = useState(false);
+  // const [showLicenseValidation, setShowLicenseValidation] = useState(false);
+
 
   //SECTION HANDLE INPUT
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    // console.log(event)
-    // console.log(event.target.value)
-
+    
+    if (name === 'DL' && value === "Yes") {
+      setHasDriversLicense(true)
+    }
+    else if(name === 'DL' && value === "No"){
+      setHasDriversLicense(false)
+    }
+    console.log(hasDriversLicense)
     //mask (auto populate) phone format input as xxx-xxx-xxx
     if (name === "phone") {
       let getMaskedPhone = maskedPhoneInput(event.target.value);
@@ -43,14 +51,14 @@ function EmployeeAdd() {
     }
 
     name === "firstName"
-      ? setFirstName(value)
-      : name === "lastName"
-      ? setLastName(value)
-      : name === "phone"
-      ? setPhone(value)
-      : name === "email"
-      ? setEmail(value)
-      : setPassword(value);
+    ? setFirstName(value)
+    : name === "lastName"
+    ? setLastName(value)
+    : name === "phone"
+    ? setPhone(value)
+    : name === "email"
+    ? setEmail(value)
+    : setPassword(value);
 
     return name;
   };
@@ -81,7 +89,9 @@ function EmployeeAdd() {
   });
 
   const handleAddEmployeeSubmit = async (event) => {
+
     event.preventDefault();
+  
 
     console.log(
       event,
@@ -91,7 +101,8 @@ function EmployeeAdd() {
       password,
       phone,
       isAdmin,
-      isLocked
+      isLocked,
+      hasDriversLicense
     );
 
     try {
@@ -105,6 +116,7 @@ function EmployeeAdd() {
           password,
           isAdmin: false,
           isLocked: false,
+          hasDriversLicense,
         },
       });
     } catch (err) {
@@ -145,6 +157,7 @@ function EmployeeAdd() {
     setPassword("");
     setIsAdmin("");
     setIsLocked("");
+    setHasDriversLicense("");
   };
 
   // Validate all fields are populated to enable submit button
@@ -154,11 +167,13 @@ function EmployeeAdd() {
         firstName.trim() !== "" &&
         lastName.trim() !== "" &&
         phone.trim() !== "" &&
-        password.trim() !== ""
-    );
-
+        password.trim() !== "" 
+        
+    )
+    
+  
     // eslint-disable-next-line
-  }, [email, phone, firstName, lastName]);
+  }, [email, phone, firstName, lastName, password]);
 
   return (
     <Container>
@@ -286,12 +301,34 @@ function EmployeeAdd() {
             />
           </Form.Group>
 
+          <Form.Group className="mb-3 form-length">
+            <div className="form-label">
+              <Form.Label style={{ fontWeight: "bolder" }}>Drivers License</Form.Label>
+              
+            </div>
+            <Form.Control
+              as="select"
+              className="custom-border"
+              type="DL"
+              
+              name="DL"
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              
+            >
+              <option>Select</option>
+            <option>Yes</option>
+            <option>No</option>
+            </Form.Control>
+          </Form.Group>
+          
+
           <div className="d-flex justify-content-center">
             <Button
               className="submit-button-style"
               variant="primary"
               type="submit"
-              disabled={!areAllFieldsFilled}
+              // disabled={areAllFieldsFilled === false}
               title="Enter all fields to add a new client"
             >
               Add Employee

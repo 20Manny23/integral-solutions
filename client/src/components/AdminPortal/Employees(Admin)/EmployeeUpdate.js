@@ -21,6 +21,7 @@ function EmployeeUpdate() {
   const [lastName, setLastName] = useState("");
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
   const [maskedPhone, setMaskedPhone] = useState("");
+  const [hasDriversLicense, setHasDriversLicense] = useState(true);
 
   //set selected employee
   // const [currentEmployee, setCurrentEmployee] = useState("");
@@ -33,6 +34,7 @@ function EmployeeUpdate() {
   const [selectLastName, setSelectLastName] = useState(false);
   const [selectPhone, setSelectPhone] = useState(false);
   const [selectEmail, setSelectEmail] = useState(false);
+  const [selectDL, setSelectDL] = useState(false);
 
   //enable/disable form
   const [formIsDisabled, setFormIsDisabled] = useState(true);
@@ -43,7 +45,7 @@ function EmployeeUpdate() {
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
   const [showEmailEmployeeValidation, setShowEmailEmployeeStateValidation] =
     useState(false);
-
+  const [showLicenseValidation, setShowLicenseValidation] = useState(false);
   //SECTION GET ALL EMPLOYEES
   const {
     // eslint-disable-next-line
@@ -52,15 +54,15 @@ function EmployeeUpdate() {
     // eslint-disable-next-line
     error: empError,
     refetch: empRefetch,
-  // } = useQuery(QUERY_ALL_EMPLOYEES);
+    // } = useQuery(QUERY_ALL_EMPLOYEES);
   } = useQuery(QUERY_ALL_EMPLOYEES, {
-  variables: {
-    isDisplayable: true //only retrieve employees with a displayable status
-  },
-  onCompleted: (data) => {
-    // console.log(data)
-  },
-});
+    variables: {
+      isDisplayable: true, //only retrieve employees with a displayable status
+    },
+    onCompleted: (data) => {
+      // console.log(data)
+    },
+  });
 
   //SECTION get a single employee
   // eslint-disable-next-line
@@ -100,6 +102,9 @@ function EmployeeUpdate() {
     } else if (name === "email") {
       setEmail(value);
       setSelectEmail(false);
+    } else if (name === "DL") {
+      setHasDriversLicense(false);
+      setSelectDL(value);
     } else {
       console.log("Error in form input at EmployeeUpdate.js");
     }
@@ -132,9 +137,9 @@ function EmployeeUpdate() {
   //SECTION EMPLOYEE UPDATE
   const handleEmployeeUpdate = async (event) => {
     event.preventDefault();
-
+console.log(hasDriversLicense)
     let getEmployee = await getASingleEmployee();
-
+    console.log(getEmployee.data.employeeById.hasDriversLicense)
     try {
       await updateEmployee({
         variables: {
@@ -142,11 +147,12 @@ function EmployeeUpdate() {
           firstName: firstName
             ? firstName
             : getEmployee.data.employeeById.firstName,
-          lastName: lastName
+              lastName: lastName
             ? lastName
             : getEmployee.data.employeeById.lastName,
           email: email ? email : getEmployee.data.employeeById.email,
           phone: phone ? phone : getEmployee.data.employeeById.phone,
+          hasDriversLicense: hasDriversLicense ? hasDriversLicense : getEmployee.data.employeeById.hasDriversLicense,
         },
       });
     } catch (err) {
@@ -186,6 +192,9 @@ function EmployeeUpdate() {
     name === "last-name" && value.trim() === ""
       ? setShowLastNameValidation(true)
       : setShowLastNameValidation(false);
+    name === "hasDriversLicense" && value.trim() === ""
+      ? setShowLicenseValidation(true)
+      : setShowLicenseValidation(false);
   };
 
   //reset = resets form to placeholder values
@@ -194,6 +203,7 @@ function EmployeeUpdate() {
     setLastName("");
     setPhone("");
     setEmail("");
+    setHasDriversLicense("");
   };
 
   //enable submit button = if input is added to at least one input field
@@ -202,10 +212,11 @@ function EmployeeUpdate() {
       email.trim() !== "" ||
         phone.trim() !== "" ||
         firstName.trim() !== "" ||
-        lastName.trim() !== ""
+        lastName.trim() !== "" ||
+        hasDriversLicense !== ""
     );
     // eslint-disable-next-line
-  }, [email, phone, firstName, lastName]);
+  }, [email, phone, firstName, lastName, hasDriversLicense]);
 
   let arrayForSort = [];
   if (emp) {
@@ -348,6 +359,40 @@ function EmployeeUpdate() {
               disabled={formIsDisabled}
               // required
             />
+          </Form.Group>
+          <Form.Group className="mb-3 form-length">
+            <div className="form-label">
+              <Form.Label htmlFor="email" style={{ fontWeight: "bolder" }}>
+                Drivers License
+              </Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showEmailEmployeeValidation ? "show" : "hide"
+                }`}
+              >
+                * field is required
+              </Form.Label>
+            </div>
+            <Form.Control
+              as="select"
+              className="custom-border"
+              type="text"
+              placeholder="Employee Email"
+              name="DL"
+              // value={
+              //   selectDL
+              //     ? prevEmployeeData.hasDriversLicense
+              //     : hasDriversLicense
+              // }
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              disabled={formIsDisabled}
+              // required
+            >
+              <option>Select</option>
+              <option>Yes</option>
+              <option>No</option>
+            </Form.Control>
           </Form.Group>
           <div className="d-flex justify-content-center">
             <Button
