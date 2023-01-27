@@ -9,8 +9,6 @@ import { format_date_no_hyphen } from "../../utils/dateFormat";
 import moment from "moment";
 import { thisWeek, lastWeek } from "../../utils/hoursDates";
 import {
-  // format_date_string,
-  // format_date_MMDDYYYY,
   format_time_HHmmss,
   format_date_YYYYDDMM,
 } from "../../utils/dateFormat";
@@ -178,7 +176,7 @@ function EmployeeHours() {
       hours = saturday.hours;
     }
     else{
-      alert("Please Enter a Positive Value.")
+      alert("Please Ensure End Time is Greater Than Start Time.")
       return
     }
 
@@ -215,17 +213,6 @@ function EmployeeHours() {
 
   //section update database - this mutation is an upsert...it either updates or creates a record
   const handleUpdateDatabase = async (data) => {
-   
-    // let date = data.date;
-
-    // console.log(
-    //   'jobDate: ', moment(data.date).format("MMMM DD YYYY"),
-    //   'startTime: ', `${data.startTime}:00 (MST)`,
-    //   'endTime: ', `${data.endTime}:00 (MST)`,
-    //   'hoursWorked: ', data.hours,
-    //   'employee: ', userId,
-    // )
-
     try {
       // eslint-disable-next-line
       await updateHours({
@@ -242,17 +229,13 @@ function EmployeeHours() {
     }
 
     singleHoursRefetch();
-    // getWeeklyHours();
   };
 
   //section utility functions
   //calc hours for each day during the input process
   const calcHours = (value, name) => {
-    
-
     let startTime = "";
     const endTime = moment(value, "HH:mm");
-    // console.log(endTime);
 
     //get start time
     if (name === "endTimeSunday") {
@@ -275,11 +258,10 @@ function EmployeeHours() {
     const calcEnd = moment(endTime, "HH:mm");
 
     const duration = moment.duration(calcEnd.diff(calcStart));
-   
     const hours = parseInt(duration.asMinutes()) / 60;
     
+    //ensure 
     if (hours < 0){
-     
       return 0
     }
     const hoursWorked = hours.toFixed(2);
@@ -289,26 +271,21 @@ function EmployeeHours() {
 
   //calc current weekly total hours upon state update for singleHours array
   useEffect(() => {
-    let currentWeekNumber = moment(new Date()).year();
-    // let currentWeekNumber = moment(new Date()).month();
-    // let currentWeekNumber = moment(new Date()).year();
+    let currentWeekNumber = moment(new Date()).week();
     let currentEmployee = singleHours?.hoursByEmployeeId;
 
     let hoursForWeek = currentEmployee
       ?.filter(
-        (element) => moment(element.jobDate).year() === currentWeekNumber
+        (element) => moment(element.jobDate).week() === currentWeekNumber
       )
       .map((element) => parseFloat(element.hoursWorked));
-
- 
 
     let calcWeeklyHours = hoursForWeek?.reduce(
       (accumulator, currentValue) => accumulator + currentValue,
       0
     );
 
-
-    setWeeklyHours(calcWeeklyHours);
+    setWeeklyHours(parseFloat(calcWeeklyHours).toFixed(2));
   }, [singleHours]);
 
   //get and format data for current week to render on page
@@ -511,6 +488,7 @@ function EmployeeHours() {
       }
     }
   };
+  
   //Puts dates together with hours into a string and renders as one string
   const oldHours = [];
   const lastHours = (singleHours) => {
@@ -602,7 +580,7 @@ function EmployeeHours() {
           }}
         >
           {" "}
-          Total Hours: {weeklyHours}
+          Hours This Week: {weeklyHours}
         </p>
 
         <Accordion style={{marginBottom:'15px'}}>
@@ -696,7 +674,7 @@ function EmployeeHours() {
                 onClick={() => setOpen2(!open2)}
                 aria-expanded={open2}
               >
-                Last Weeks Hours
+                Last Weeks
               </Button>
               <Collapse in={open2} aria-expanded={open2}>
                 
@@ -709,7 +687,7 @@ function EmployeeHours() {
                     textAlign: "center",
                   }}
                 >
-                  Last Weeks Total: {lastWeekHours}
+                  Hours Last Week: {lastWeekHours}
                 </div>
                     {oldHoursArr.map((hr, index) => (
                       <div
