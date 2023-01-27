@@ -18,7 +18,7 @@ function Footer () {
               <img style={{maxWidth:'200px', height: "25vh"}}src={logo} className='full-logo' alt="logo"></img>
             </Col>
             <Col sm={6} md={4} xs={6} className="footer-phone">
-              <p className="number" style= {{marginTop:'30px'}}>(555)-555-5555</p>
+              <p className="number" style= {{marginTop:'30px'}}>(720)-232-2510</p>
               <p className="espanol">Se Habla Español!</p>
 
             </Col>
