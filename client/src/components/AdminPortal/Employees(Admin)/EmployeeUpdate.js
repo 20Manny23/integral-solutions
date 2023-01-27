@@ -60,7 +60,6 @@ function EmployeeUpdate() {
       isDisplayable: true, //only retrieve employees with a displayable status
     },
     onCompleted: (data) => {
-      // console.log(data)
     },
   });
 
@@ -72,8 +71,6 @@ function EmployeeUpdate() {
       // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
       skip: !Auth.loggedIn(),
       onCompleted: (singleEmployee) => {
-        // setCurrentEmployee(singleEmployee);
-        console.log(singleEmployee);
       },
     });
 
@@ -83,8 +80,6 @@ function EmployeeUpdate() {
   //SECTION HANDLE INPUT
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-
-    console.log(name, value)
 
     //mask (auto populate) phone format input as xxx-xxx-xxx
     if (name === "phone") {
@@ -122,8 +117,6 @@ function EmployeeUpdate() {
     //await query single client
     let currentEmployeeData = await getASingleEmployee(); //get selected employee data
 
-    // console.log(currentEmployeeData.data.employeeById);
-
     setPrevEmployeeData(currentEmployeeData?.data?.employeeById); //set data state and rerender in form
 
     // allow form to populate with selected employee data
@@ -140,9 +133,6 @@ function EmployeeUpdate() {
   const handleEmployeeUpdate = async (event) => {
     event.preventDefault();
     let getEmployee = await getASingleEmployee();
-
-    console.log('update = ', hasDriversLicense);
-    console.log(getEmployee.data.employeeById?.hasDriversLicense);
 
     try {
       await updateEmployee({
