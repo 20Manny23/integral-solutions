@@ -40,6 +40,10 @@ const employeeSchema = new Schema(
       type: Schema.Types.Array,
       ref: "Schedule",
     },
+    hasDriversLicense: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,

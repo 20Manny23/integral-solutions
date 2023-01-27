@@ -422,7 +422,7 @@ const resolvers = {
     // SECTION EMPLOYEE
     addEmployee: async (
       parent,
-      { email, password, firstName, lastName, phone, isAdmin, isLocked },
+      { email, password, firstName, lastName, phone, isAdmin, isLocked, hasDriversLicense },
       context
     ) => {
       // if (context.user) {
@@ -434,6 +434,7 @@ const resolvers = {
         phone,
         isAdmin,
         isLocked,
+        hasDriversLicense,
       });
       const token = signToken(employee, expiration);
       return { token, employee, email }, { new: true };
@@ -476,7 +477,7 @@ const resolvers = {
         isAdmin,
         isLocked,
         schedule,
-        hours,
+        hasDriversLicense,
       },
       context
     ) => {
@@ -491,7 +492,8 @@ const resolvers = {
         phone,
         isAdmin,
         isLocked,
-        schedule
+        schedule,
+        hasDriversLicense,
       );
       return Employee.findOneAndUpdate(
         { _id },
@@ -513,7 +515,7 @@ const resolvers = {
 
     updateEmployeeForm: async (
       parent,
-      { _id, firstName, lastName, email, phone },
+      { _id, firstName, lastName, email, phone, hasDriversLicense },
       context
     ) => {
       // if (context.user) {
@@ -523,7 +525,8 @@ const resolvers = {
         firstName,
         lastName,
         email,
-        phone
+        phone,
+        hasDriversLicense
       );
       return Employee.findOneAndUpdate(
         { _id },

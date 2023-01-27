@@ -56,7 +56,10 @@ function EmployeeUpdate() {
   } = useQuery(QUERY_ALL_EMPLOYEES, {
   variables: {
     isDisplayable: true //only retrieve employees with a displayable status
-  } 
+  },
+  onCompleted: (data) => {
+    // console.log(data)
+  },
 });
 
   //SECTION get a single employee
@@ -68,6 +71,7 @@ function EmployeeUpdate() {
       skip: !Auth.loggedIn(),
       onCompleted: (singleEmployee) => {
         // setCurrentEmployee(singleEmployee);
+        console.log(singleEmployee);
       },
     });
 
