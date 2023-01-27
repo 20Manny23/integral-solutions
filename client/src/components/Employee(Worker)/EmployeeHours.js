@@ -112,7 +112,7 @@ function EmployeeHours() {
     let hoursWorked = "";
     if (event.target.name.substring(0, 3) === "end") {
       hoursWorked = calcHours(value, name);
-      console.log("2 = ", hoursWorked);
+     
     }
 
     //set state for start time
@@ -153,32 +153,38 @@ function EmployeeHours() {
   //section handle submit
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    
     // let daySubmitted = event.currentTarget.id.substring()
     let hoursInput = document.querySelectorAll(".hourInput"); //get array of hoursInput elements
+   
     let daySubmitted = event.currentTarget.id.substring(5, 15).trim(); //get the day of the week for submit button
     let hours = "";
 
     //set hours to the state of the button clicked
-    if (daySubmitted === "Sunday") {
+    if (daySubmitted === "Sunday" && sunday.hours > 0) {
       hours = sunday.hours;
-    } else if (daySubmitted === "Monday") {
+      
+    } else if (daySubmitted === "Monday" && monday.hours > 0) {
       hours = monday.hours;
-    } else if (daySubmitted === "Tuesday") {
+    } else if (daySubmitted === "Tuesday"  && tuesday.hours > 0) {
       hours = tuesday.hours;
-    } else if (daySubmitted === "Wednesday") {
+    } else if (daySubmitted === "Wednesday"  && wednesday.hours > 0) {
       hours = wednesday.hours;
-    } else if (daySubmitted === "Thursday") {
+    } else if (daySubmitted === "Thursday"  && thursday.hours > 0) {
       hours = thursday.hours;
-    } else if (daySubmitted === "Friday") {
+    } else if (daySubmitted === "Friday"  && friday.hours > 0) {
       hours = friday.hours;
-    } else if (daySubmitted === "Saturday") {
+    } else if (daySubmitted === "Saturday"  && saturday.hours > 0) {
       hours = saturday.hours;
+    }
+    else{
+      alert("You entered Negative Hours... Try Again")
+      return
     }
 
     //assign hours to innertext for element submitted/selected
     for (let i = 0; i < hoursInput.length; i++) {
-      if (hoursInput[i].id === event.currentTarget.id) {
+      if (hoursInput[i].id === event.currentTarget.id  && hoursInput[i] > 0) {
         hoursInput[i].innerText = `Hours: ${hours}`;
       }
     }
@@ -209,7 +215,7 @@ function EmployeeHours() {
 
   //section update database - this mutation is an upsert...it either updates or creates a record
   const handleUpdateDatabase = async (data) => {
-    console.log("database update = ", data.date);
+   
     // let date = data.date;
 
     // console.log(
@@ -242,7 +248,7 @@ function EmployeeHours() {
   //section utility functions
   //calc hours for each day during the input process
   const calcHours = (value, name) => {
-    console.log("hours worked", value, name);
+    
 
     let startTime = "";
     const endTime = moment(value, "HH:mm");
@@ -269,7 +275,13 @@ function EmployeeHours() {
     const calcEnd = moment(endTime, "HH:mm");
 
     const duration = moment.duration(calcEnd.diff(calcStart));
+   
     const hours = parseInt(duration.asMinutes()) / 60;
+    
+    if (hours < 0){
+     
+      return 0
+    }
     const hoursWorked = hours.toFixed(2);
 
     return hoursWorked;
@@ -288,13 +300,13 @@ function EmployeeHours() {
       )
       .map((element) => parseFloat(element.hoursWorked));
 
-    console.log(hoursForWeek);
+ 
 
     let calcWeeklyHours = hoursForWeek?.reduce(
       (accumulator, currentValue) => accumulator + currentValue,
       0
     );
-    console.log(calcWeeklyHours);
+
 
     setWeeklyHours(calcWeeklyHours);
   }, [singleHours]);
@@ -305,7 +317,7 @@ function EmployeeHours() {
   //convert data from DB into renderable object
   useEffect(() => {
     //get singleHours, filter for this week, sort by date
-    console.log(singleHours);
+
     let currentWeekNumber = moment(new Date()).week();
     let currentEmployee = singleHours?.hoursByEmployeeId;
 
@@ -324,13 +336,13 @@ function EmployeeHours() {
       };
     });
 
-    console.log(hoursByDayOfWeek, "reformatted data = ", reformattedHours);
+
 
     if (reformattedHours?.length > 0) {
       setRenderData(reformattedHours);
     }
 
-    console.log(renderData);
+
 
     // eslint-disable-next-line
   }, [singleHours]);
@@ -482,7 +494,7 @@ function EmployeeHours() {
     let lastWeeklyHours = 0;
     for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
       let jobb = singleHours.hoursByEmployeeId[i].jobDate;
-      console.log(jobb);
+ 
       if (
         jobb === lastWeekDates[0] ||
         jobb === lastWeekDates[1] ||
@@ -504,7 +516,7 @@ function EmployeeHours() {
   const lastHours = (singleHours) => {
     for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
       let jobb = singleHours.hoursByEmployeeId[i].jobDate;
-      console.log(jobb);
+      
       if (jobb === lastWeekDates[0]) {
         oldHours.push(
           lastWeekDates[0] +
@@ -676,7 +688,7 @@ function EmployeeHours() {
       </Container>
       <Container>
         <Row style={{ display: "flex", justifyContent: "center" }}>
-          <div id="accordion" style={{ width: "98%" }}>
+          <div id="accordion" style={{ width: "97%" }}>
             <div className="card mb-1">
               <Button
                 className="btn btn-link pl-1"
