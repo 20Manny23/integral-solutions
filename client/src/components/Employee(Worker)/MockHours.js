@@ -17,6 +17,7 @@ import {
 } from "../../utils/dateFormat";
 
 import { Row, Container, Form, Button } from "react-bootstrap";
+import "../../styles/hours.css"
 
 function MockHours() {
   const userId = getUserId();
@@ -234,14 +235,17 @@ const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE);
 
   //calc current weekly total hours upon state update for singleHours array
   useEffect(() => {
-    let currentWeekNumber = moment(new Date()).week();
+    let currentWeekNumber = moment(new Date()).year();
+    // let currentWeekNumber = moment(new Date()).month();
+    // let currentWeekNumber = moment(new Date()).year();
     let currentEmployee = singleHours?.hoursByEmployeeId;
 
-    let hoursForWeek = currentEmployee?.filter(element => moment(element.jobDate).week() === currentWeekNumber).map(element => parseFloat(element.hoursWorked));
+    let hoursForWeek = currentEmployee?.filter(element => moment(element.jobDate).year() === currentWeekNumber).map(element => parseFloat(element.hoursWorked));
 
-    // console.log(hoursForWeek);
+    console.log(hoursForWeek);
 
     let calcWeeklyHours = hoursForWeek?.reduce((accumulator, currentValue) => accumulator + currentValue, 0 );
+    console.log(calcWeeklyHours);
 
     setWeeklyHours(calcWeeklyHours);
   }, [singleHours])
@@ -390,12 +394,12 @@ const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE);
           <div id="accordion" key={index} style={{ width: "100%" }}>
             <div className="card p-2 mb-1">
               <Form
-                className="d-flex justify-content-around align-content-center align-items-center"
+                className="hours-container" //fix
                 onSubmit={handleSubmit}
                 onChange={handleInput}
                 id={`hours${thisWeek.day}`}
               >
-                <div className="d-flex flex-column mb-0">
+                <div className="date-hours-container">
                   <p className="m-0">{thisWeek.day}</p>
                   <p className="m-0">{thisWeek.date}</p>
                   <p className="m-0 hourInput" id={`hours${thisWeek.day}`}>
@@ -409,10 +413,9 @@ const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE);
                     </Form.Label>
                   </div>
                   <Form.Control
-                    className="startTime"
+                    className="startTime time-container"
                     type="time"
                     name={`startTime${thisWeek.day}`}
-                    // onChange={handleInput}
                     required
                   />
                 </Form.Group>
@@ -423,10 +426,9 @@ const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE);
                     </Form.Label>
                   </div>
                   <Form.Control
-                    className="endTime"
+                    className="endTime time-container"
                     type="time"
                     name={`endTime${thisWeek.day}`}
-                    // onChange={handleInput}
                     required
                   />
                 </Form.Group>

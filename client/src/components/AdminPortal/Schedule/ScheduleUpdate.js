@@ -29,7 +29,7 @@ import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 import "../../../styles/Forms.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function ScheduleUpdate() {
   //form = input fields
