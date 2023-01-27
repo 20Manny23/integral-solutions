@@ -9,8 +9,6 @@ import { format_date_no_hyphen } from "../../utils/dateFormat";
 import moment from "moment";
 import { thisWeek, lastWeek } from "../../utils/hoursDates";
 import {
-  // format_date_string,
-  // format_date_MMDDYYYY,
   format_time_HHmmss,
   format_date_YYYYDDMM,
 } from "../../utils/dateFormat";
@@ -25,15 +23,14 @@ import {
   Card,
   Collapse,
 } from "react-bootstrap";
-import "../../styles/hours.css";
 
 function EmployeeHours() {
   const userId = getUserId();
   const [weekInfo] = useState(thisWeek);
   const [weeklyHours, setWeeklyHours] = useState(0);
   const [open2, setOpen2] = useState(false);
-  const [oldHoursArr, setOldHoursArr] = useState([]);
   const [lastWeekHours, setLastWeekHours] = useState();
+  const [lastWeekDays, setLastWeekDays] = useState([]);
 
   const [sunday, setSunday] = useState({
     date: weekInfo[0].date,
@@ -93,7 +90,6 @@ function EmployeeHours() {
     skip: !Auth.loggedIn(),
     onCompleted: (singleHours) => {
       weeklyTotal(singleHours);
-      lastHours(singleHours);
     },
   });
 
@@ -112,7 +108,6 @@ function EmployeeHours() {
     let hoursWorked = "";
     if (event.target.name.substring(0, 3) === "end") {
       hoursWorked = calcHours(value, name);
-     
     }
 
     //set state for start time
@@ -153,38 +148,36 @@ function EmployeeHours() {
   //section handle submit
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
     // let daySubmitted = event.currentTarget.id.substring()
     let hoursInput = document.querySelectorAll(".hourInput"); //get array of hoursInput elements
-   
+
     let daySubmitted = event.currentTarget.id.substring(5, 15).trim(); //get the day of the week for submit button
     let hours = "";
 
     //set hours to the state of the button clicked
     if (daySubmitted === "Sunday" && sunday.hours > 0) {
       hours = sunday.hours;
-      
     } else if (daySubmitted === "Monday" && monday.hours > 0) {
       hours = monday.hours;
-    } else if (daySubmitted === "Tuesday"  && tuesday.hours > 0) {
+    } else if (daySubmitted === "Tuesday" && tuesday.hours > 0) {
       hours = tuesday.hours;
-    } else if (daySubmitted === "Wednesday"  && wednesday.hours > 0) {
+    } else if (daySubmitted === "Wednesday" && wednesday.hours > 0) {
       hours = wednesday.hours;
-    } else if (daySubmitted === "Thursday"  && thursday.hours > 0) {
+    } else if (daySubmitted === "Thursday" && thursday.hours > 0) {
       hours = thursday.hours;
-    } else if (daySubmitted === "Friday"  && friday.hours > 0) {
+    } else if (daySubmitted === "Friday" && friday.hours > 0) {
       hours = friday.hours;
-    } else if (daySubmitted === "Saturday"  && saturday.hours > 0) {
+    } else if (daySubmitted === "Saturday" && saturday.hours > 0) {
       hours = saturday.hours;
-    }
-    else{
-      alert("Please Enter a Positive Value.")
-      return
+    } else {
+      alert("Please Ensure End Time is Greater Than Start Time.");
+      return;
     }
 
     //assign hours to innertext for element submitted/selected
     for (let i = 0; i < hoursInput.length; i++) {
-      if (hoursInput[i].id === event.currentTarget.id  && hoursInput[i] > 0) {
+      if (hoursInput[i].id === event.currentTarget.id && hoursInput[i] > 0) {
         hoursInput[i].innerText = `Hours: ${hours}`;
       }
     }
@@ -215,17 +208,6 @@ function EmployeeHours() {
 
   //section update database - this mutation is an upsert...it either updates or creates a record
   const handleUpdateDatabase = async (data) => {
-   
-    // let date = data.date;
-
-    // console.log(
-    //   'jobDate: ', moment(data.date).format("MMMM DD YYYY"),
-    //   'startTime: ', `${data.startTime}:00 (MST)`,
-    //   'endTime: ', `${data.endTime}:00 (MST)`,
-    //   'hoursWorked: ', data.hours,
-    //   'employee: ', userId,
-    // )
-
     try {
       // eslint-disable-next-line
       await updateHours({
@@ -242,17 +224,13 @@ function EmployeeHours() {
     }
 
     singleHoursRefetch();
-    // getWeeklyHours();
   };
 
   //section utility functions
   //calc hours for each day during the input process
   const calcHours = (value, name) => {
-    
-
     let startTime = "";
     const endTime = moment(value, "HH:mm");
-    // console.log(endTime);
 
     //get start time
     if (name === "endTimeSunday") {
@@ -275,12 +253,11 @@ function EmployeeHours() {
     const calcEnd = moment(endTime, "HH:mm");
 
     const duration = moment.duration(calcEnd.diff(calcStart));
-   
     const hours = parseInt(duration.asMinutes()) / 60;
-    
-    if (hours < 0){
-     
-      return 0
+
+    //ensure
+    if (hours < 0) {
+      return 0;
     }
     const hoursWorked = hours.toFixed(2);
 
@@ -289,26 +266,21 @@ function EmployeeHours() {
 
   //calc current weekly total hours upon state update for singleHours array
   useEffect(() => {
-    let currentWeekNumber = moment(new Date()).year();
-    // let currentWeekNumber = moment(new Date()).month();
-    // let currentWeekNumber = moment(new Date()).year();
+    let currentWeekNumber = moment(new Date()).week();
     let currentEmployee = singleHours?.hoursByEmployeeId;
 
     let hoursForWeek = currentEmployee
       ?.filter(
-        (element) => moment(element.jobDate).year() === currentWeekNumber
+        (element) => moment(element.jobDate).week() === currentWeekNumber
       )
       .map((element) => parseFloat(element.hoursWorked));
-
- 
 
     let calcWeeklyHours = hoursForWeek?.reduce(
       (accumulator, currentValue) => accumulator + currentValue,
       0
     );
 
-
-    setWeeklyHours(calcWeeklyHours);
+    setWeeklyHours(parseFloat(calcWeeklyHours).toFixed(2));
   }, [singleHours]);
 
   //get and format data for current week to render on page
@@ -336,13 +308,9 @@ function EmployeeHours() {
       };
     });
 
-
-
     if (reformattedHours?.length > 0) {
       setRenderData(reformattedHours);
     }
-
-
 
     // eslint-disable-next-line
   }, [singleHours]);
@@ -494,7 +462,7 @@ function EmployeeHours() {
     let lastWeeklyHours = 0;
     for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
       let jobb = singleHours.hoursByEmployeeId[i].jobDate;
- 
+
       if (
         jobb === lastWeekDates[0] ||
         jobb === lastWeekDates[1] ||
@@ -511,66 +479,34 @@ function EmployeeHours() {
       }
     }
   };
-  //Puts dates together with hours into a string and renders as one string
-  const oldHours = [];
-  const lastHours = (singleHours) => {
-    for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
-      let jobb = singleHours.hoursByEmployeeId[i].jobDate;
-      
-      if (jobb === lastWeekDates[0]) {
-        oldHours.push(
-          lastWeekDates[0] +
-            " Hours: " +
-            singleHours.hoursByEmployeeId[i].hoursWorked
-        );
-      }
-      if (jobb === lastWeekDates[1]) {
-        oldHours.push(
-          lastWeekDates[1] +
-            " Hours: " +
-            singleHours.hoursByEmployeeId[i].hoursWorked
-        );
-      }
-      if (jobb === lastWeekDates[2]) {
-        oldHours.push(
-          lastWeekDates[2] +
-            " Hours: " +
-            singleHours.hoursByEmployeeId[i].hoursWorked
-        );
-      }
-      if (jobb === lastWeekDates[3]) {
-        oldHours.push(
-          lastWeekDates[3] +
-            " Hours: " +
-            singleHours.hoursByEmployeeId[i].hoursWorked
-        );
-      }
-      if (jobb === lastWeekDates[4]) {
-        oldHours.push(
-          lastWeekDates[4] +
-            " Hours: " +
-            singleHours.hoursByEmployeeId[i].hoursWorked
-        );
-      }
-      if (jobb === lastWeekDates[5]) {
-        oldHours.push(
-          lastWeekDates[5] +
-            " Hours: " +
-            singleHours.hoursByEmployeeId[i].hoursWorked
-        );
-      }
-      if (jobb === lastWeekDates[6]) {
-        oldHours.push(
-          lastWeekDates[6] +
-            " Hours: " +
-            singleHours.hoursByEmployeeId[i].hoursWorked
-        );
-      }
-    }
-    const oldHoursSort = oldHours.sort();
 
-    setOldHoursArr(oldHoursSort);
-  };
+  //Get dates and hours for last week to render in last week section
+  useEffect(() => {
+    console.log("last week = ", singleHours);
+    let filterToLastWeek = singleHours?.hoursByEmployeeId
+      ?.filter(
+        (element) =>
+          moment(element.jobDate).week() === moment(new Date()).week() - 1
+      )
+      .map((element) => element);
+
+    //create sortable object
+    let sortLastWeekDays = filterToLastWeek?.map((element) => {
+      return {
+        jobDay: moment(element.jobDate).day(),
+        jobDate: format_date_no_hyphen(element.jobDate),
+        hours: element.hoursWorked,
+      };
+    });
+
+    //sort the lastWeekHours object by day of week number
+    sortLastWeekDays?.sort((a, b) => a.jobDay - b.jobDay);
+
+    //set state
+    setLastWeekDays(sortLastWeekDays);
+
+    // eslint-disable-next-line
+  }, [singleHours]);
 
   return (
     <>
@@ -602,31 +538,28 @@ function EmployeeHours() {
           }}
         >
           {" "}
-          Total Hours: {weeklyHours}
+          Hours This Week: {weeklyHours}
         </p>
 
-        <Accordion style={{marginBottom:'15px'}}>
+        <Accordion style={{ marginBottom: "15px" }}>
           {weekInfo?.map((thisWeek, index) => (
-            <Card>
-              <div key={index}>
+            <Card key={index}>
+              <div>
                 <div>
                   <Accordion.Toggle
                     style={{ backgroundColor: "white", color: "#007bff" }}
                     as={Card.Header}
                     eventKey={index + 1}
-                    className = "acc"
+                    className="acc"
                   >
                     {format_date_no_hyphen(thisWeek.date)}
                     <span
-                            className="m-0 hourInput"
-                            id={`hours${thisWeek.day}`}
-                            // style={{marginRight:'-15px'}}
-                          >
-                            
-                          </span>
+                      className="m-0 hourInput"
+                      id={`hours${thisWeek.day}`}
+                      // style={{marginRight:'-15px'}}
+                    ></span>
                   </Accordion.Toggle>
                   <Form
-                    // className="hours-container" //fix
                     onSubmit={handleSubmit}
                     onChange={handleInput}
                     id={`hours${thisWeek.day}`}
@@ -634,48 +567,48 @@ function EmployeeHours() {
                     <Accordion.Collapse eventKey={index + 1}>
                       <Card.Body>
                         <Row>
-                      <Col sm={12} md={4}>
-                        <Form.Group controlId="formBasicEmail">
-                          <div className="form-label">
-                            <Form.Label style={{ fontWeight: "bolder" }}>
-                              Start Time
-                            </Form.Label>
-                          </div>
-                          <Form.Control
-                            className="startTime"
-                            type="time"
-                            name={`startTime${thisWeek.day}`}
-                            required
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col sm={12} md={4}>
-                        <Form.Group controlId="formBasicEmail">
-                          <div className="form-label">
-                            <Form.Label style={{ fontWeight: "bolder" }}>
-                              End Time
-                            </Form.Label>
-                          </div>
-                          <Form.Control
-                            className="endTime"
-                            type="time"
-                            name={`endTime${thisWeek.day}`}
-                            required
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col>
-                        <Button
-                          className="primary"
-                          variant="primary"
-                          type="submit"
-                          style={{marginTop:'25px'}}
-                          title="Submit to schedule job."
-                          // disabled={areAllFieldsFilled}
-                        >
-                          Submit
-                        </Button>
-                        </Col>
+                          <Col sm={12} md={4}>
+                            <Form.Group controlId="formBasicEmail">
+                              <div className="form-label">
+                                <Form.Label style={{ fontWeight: "bolder" }}>
+                                  Start Time
+                                </Form.Label>
+                              </div>
+                              <Form.Control
+                                className="startTime"
+                                type="time"
+                                name={`startTime${thisWeek.day}`}
+                                required
+                              />
+                            </Form.Group>
+                          </Col>
+                          <Col sm={12} md={4}>
+                            <Form.Group controlId="formBasicEmail">
+                              <div className="form-label">
+                                <Form.Label style={{ fontWeight: "bolder" }}>
+                                  End Time
+                                </Form.Label>
+                              </div>
+                              <Form.Control
+                                className="endTime"
+                                type="time"
+                                name={`endTime${thisWeek.day}`}
+                                required
+                              />
+                            </Form.Group>
+                          </Col>
+                          <Col>
+                            <Button
+                              className="primary"
+                              variant="primary"
+                              type="submit"
+                              style={{ marginTop: "25px" }}
+                              title="Submit to schedule job."
+                              // disabled={areAllFieldsFilled}
+                            >
+                              Submit
+                            </Button>
+                          </Col>
                         </Row>
                       </Card.Body>
                     </Accordion.Collapse>
@@ -696,28 +629,30 @@ function EmployeeHours() {
                 onClick={() => setOpen2(!open2)}
                 aria-expanded={open2}
               >
-                Last Weeks Hours
+                Last Week
               </Button>
               <Collapse in={open2} aria-expanded={open2}>
-                
                 <div id="example-collapse-text" style={{ width: "100%" }}>
                   <Row className=" mx-3 d-flex flex-column align-self-center align-items-center rounded-lg border-secondary ">
-                  <div
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: "22px",
-                    textAlign: "center",
-                  }}
-                >
-                  Last Weeks Total: {lastWeekHours}
-                </div>
-                    {oldHoursArr.map((hr, index) => (
+                    <div
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: "22px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Hours Last Week: {lastWeekHours}
+                    </div>
+                    {lastWeekDays?.map((days, index) => (
                       <div
                         id="accordion"
                         key={index}
                         style={{ width: "99%", marginTop: "9px" }}
                       >
-                        {hr}
+                        <div className="d-flex justify-content-around">
+                          <p>{days.jobDate}</p>
+                          <p>Hours: {days.hours}</p>
+                        </div>
                       </div>
                     ))}
                   </Row>
