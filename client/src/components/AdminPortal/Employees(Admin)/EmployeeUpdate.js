@@ -21,7 +21,7 @@ function EmployeeUpdate() {
   const [lastName, setLastName] = useState("");
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
   const [maskedPhone, setMaskedPhone] = useState("");
-  const [hasDriversLicense, setHasDriversLicense] = useState(true);
+  const [hasDriversLicense, setHasDriversLicense] = useState("");
 
   //set selected employee
   // const [currentEmployee, setCurrentEmployee] = useState("");
@@ -34,7 +34,7 @@ function EmployeeUpdate() {
   const [selectLastName, setSelectLastName] = useState(false);
   const [selectPhone, setSelectPhone] = useState(false);
   const [selectEmail, setSelectEmail] = useState(false);
-  const [selectDL, setSelectDL] = useState(false);
+  const [selectHasDriversLicense, setSelectHasDriversLicense] = useState(false);
 
   //enable/disable form
   const [formIsDisabled, setFormIsDisabled] = useState(true);
@@ -84,6 +84,8 @@ function EmployeeUpdate() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
+    console.log(name, value)
+
     //mask (auto populate) phone format input as xxx-xxx-xxx
     if (name === "phone") {
       let getMaskedPhone = maskedPhoneInput(event.target.value);
@@ -102,12 +104,11 @@ function EmployeeUpdate() {
     } else if (name === "email") {
       setEmail(value);
       setSelectEmail(false);
-    } else if (name === "DL") {
-      setHasDriversLicense(false);
-      setSelectDL(value);
-    } else {
-      console.log("Error in form input at EmployeeUpdate.js");
-    }
+    } else if (name === "driversLicense") {
+      setHasDriversLicense(value);
+      setSelectHasDriversLicense(false);
+    };
+
     return name;
   };
 
@@ -130,6 +131,7 @@ function EmployeeUpdate() {
     setSelectLastName(true);
     setSelectPhone(true);
     setSelectEmail(true);
+    setSelectHasDriversLicense(true);
 
     setFormIsDisabled(false); // enable form for input
   }
@@ -137,9 +139,11 @@ function EmployeeUpdate() {
   //SECTION EMPLOYEE UPDATE
   const handleEmployeeUpdate = async (event) => {
     event.preventDefault();
-console.log(hasDriversLicense)
     let getEmployee = await getASingleEmployee();
-    console.log(getEmployee.data.employeeById.hasDriversLicense)
+
+    console.log('update = ', hasDriversLicense);
+    console.log(getEmployee.data.employeeById?.hasDriversLicense);
+
     try {
       await updateEmployee({
         variables: {
@@ -147,12 +151,15 @@ console.log(hasDriversLicense)
           firstName: firstName
             ? firstName
             : getEmployee.data.employeeById.firstName,
-              lastName: lastName
+          lastName: lastName
             ? lastName
             : getEmployee.data.employeeById.lastName,
           email: email ? email : getEmployee.data.employeeById.email,
           phone: phone ? phone : getEmployee.data.employeeById.phone,
-          hasDriversLicense: hasDriversLicense ? hasDriversLicense : getEmployee.data.employeeById.hasDriversLicense,
+          // hasDriversLicense: "Weird"
+          hasDriversLicense: hasDriversLicense
+            ? hasDriversLicense
+            : getEmployee.data.employeeById.hasDriversLicense,
         },
       });
     } catch (err) {
@@ -166,6 +173,7 @@ console.log(hasDriversLicense)
     setSelectLastName(false);
     setSelectPhone(false);
     setSelectEmail(false);
+    setSelectHasDriversLicense(false);
 
     resetForm();
 
@@ -378,12 +386,8 @@ console.log(hasDriversLicense)
               className="custom-border"
               type="text"
               placeholder="Employee Email"
-              name="DL"
-              // value={
-              //   selectDL
-              //     ? prevEmployeeData.hasDriversLicense
-              //     : hasDriversLicense
-              // }
+              name="driversLicense"
+              value={selectHasDriversLicense ? prevEmployeeData.hasDriversLicense : hasDriversLicense}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}

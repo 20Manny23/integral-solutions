@@ -13,7 +13,7 @@
     "schedule": [
       "423233343536373839303132"
     ],
-    "hasDriversLicense": true
+    "hasDriversLicense": "Yes"
   },
   {
     "_id": "6398fb54494aa98f85992da3",
@@ -30,12 +30,12 @@
       "413233343536373839303132",
       "423233343536373839303132"
     ],
-    "hasDriversLicense": true
+    "hasDriversLicense": "Yes"
   },
   {
     "_id": "6398fb54494aa98f85992da4",
     "username": "Rod",
-    "email": "callasteven@gmail.com",
+    "email": "rod.bennett75@gmail.com",
     "password": "12",
     "firstName": "Rod",
     "lastName": "Bennett",
@@ -46,7 +46,7 @@
     "schedule": [
       "423233343536373839303132"
     ],
-    "hasDriversLicense": false
+    "hasDriversLicense": "Yes"
   },
   {
     "_id": "6398fb54494aa98f85992da5",
@@ -60,7 +60,7 @@
     "isAdmin": true,
     "isLocked": false,
     "schedule": ["443233343536373839303132"],
-    "hasDriversLicense": true
+    "hasDriversLicense": "Yes"
   },
   {
     "_id": "6498fb54494aa98f85992da5",
@@ -76,6 +76,6 @@
     "schedule": [
       "423233343536373839303132"
     ],
-    "hasDriversLicense": false
+    "hasDriversLicense": "Yes"
   }
 ]

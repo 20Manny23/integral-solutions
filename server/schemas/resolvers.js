@@ -535,6 +535,7 @@ const resolvers = {
           lastName,
           email,
           phone,
+          hasDriversLicense
         },
         { new: true }
       );
