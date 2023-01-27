@@ -9,6 +9,8 @@ import { format_date_no_hyphen } from "../../utils/dateFormat";
 import { Container, Accordion, Card } from "react-bootstrap";
 import { thisWeek } from "../../utils/hoursDates";
 
+import "../../styles/hours.css";
+
 function EmployeeHours() {
   const [thisWeekDays, setThisWeekDays] = useState([]); //used to render by employee with respective hours for the week
   const [weeklyTotalHours, setWeeklyTotalHours] = useState(0); //used to render total hours for the week
@@ -26,8 +28,7 @@ function EmployeeHours() {
     variables: {
       isDisplayable: true, //only retrieve employees with a displayable status = true
     },
-    onCompleted: (data) => {
-    },
+    onCompleted: (data) => {},
   });
 
   //SECTION CREATE EMPLOYEE DATA TO RENDER ON PAGE - SORT, FILTER, CALCULATE
@@ -118,7 +119,7 @@ function EmployeeHours() {
             paddingBottom: "7px",
           }}
         >
-          Current Week - Hours by Employee
+          Current Week
         </span>
       </div>
       <p
@@ -130,11 +131,10 @@ function EmployeeHours() {
           marginBottom: "5px",
         }}
       >
-        This Week: {weeklyTotalHours}
+        Hours Total: {weeklyTotalHours}
       </p>
 
       <Accordion style={{ marginBottom: "15px" }}>
-        {/* {emp?.employees?.map( */}
         {thisWeekDays?.map((employee, index) => (
           <Card key={index}>
             <div>
@@ -143,38 +143,49 @@ function EmployeeHours() {
                   style={{ backgroundColor: "white", color: "#007bff" }}
                   as={Card.Header}
                   eventKey={index + 1}
-                  className="acc"
+                  className=""
                 >
-                  {`${employee.lastName}, ${employee.firstName}`}
-                  <p>Hours This Week: {employee.hoursThisWeek}</p>
+                  <div className="name-wrapper">
+                    <p>{`${employee.lastName}, ${employee.firstName}`}</p>
+                    <p>Hours: {employee.hoursThisWeek}</p>
+                  </div>
                   <span
                     className="m-0 hourInput"
                     id={`hours${thisWeek.day}`}
                   ></span>
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey={index + 1}>
-                  <Card.Body>
-                    <div className="d-flex justify-content-around">
-                      <div>
+                  <Card.Body className="d-flex justify-content-center">
+                    <section className="hours-wrapper">
+                      <article>
                         {employee.hour.map((element, index) => (
                           <div
                             key={index}
                             className="d-flex justify-content-around"
                           >
-                            <p>{format_date_no_hyphen(element.jobDate)}</p>
-                            <p>
-                              Hours:{" "}
-                              {parseFloat(element.hoursWorked).toFixed(2)}
+                            <p className="m-0" style={{ width: "200px" }}>
+                              {format_date_no_hyphen(element.jobDate)}
+                            </p>
+                            <p className="m-0" style={{ width: "150px" }}>
+                              {`Hours: ${parseFloat(
+                                element.hoursWorked
+                              ).toFixed(2)}`}
                             </p>
                           </div>
                         ))}
-                      </div>
-                      <div>
-                        <p>This Week: {employee.hoursThisWeek}</p>
-                        <p>This Month: {employee.hoursThisMonth}</p>
-                        <p>This Year: {employee.hoursThisYear}</p>
-                      </div>
-                    </div>
+                      </article>
+                      <article className="mt-3 d-flex justify-content-center">
+                        <p className="m-0 total-container">
+                          This Week: {employee.hoursThisWeek}
+                        </p>
+                        <p className="m-0 total-container">
+                          This Month: {employee.hoursThisMonth}
+                        </p>
+                        <p className="m-0 total-container">
+                          This Year: {employee.hoursThisYear}
+                        </p>
+                      </article>
+                    </section>
                   </Card.Body>
                 </Accordion.Collapse>
               </div>

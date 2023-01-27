@@ -12,6 +12,7 @@ import {
   format_time_HHmmss,
   format_date_YYYYDDMM,
 } from "../../utils/dateFormat";
+import "../../styles/hours.css";
 
 import {
   Row,
@@ -537,7 +538,7 @@ function EmployeeHours() {
           }}
         >
           {" "}
-          Hours This Week: {weeklyHours}
+          Hours Total: {weeklyHours}
         </p>
 
         <Accordion style={{ marginBottom: "15px" }}>
