@@ -20,7 +20,6 @@ import EmployeePortal from "./pages/EmployeePortal";
 import EmployeeHours2 from "./components/Employee(Worker)/EmployeeHours2"
 import ForgotPassword from "./components/ResetPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
-import Tester from "./components/AdminPortal/Employees(Admin)/Tester";
 import HoursMock from "./pages/HoursMock";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -109,6 +108,7 @@ function App() {
               <Route exact path="/home" element={<Home />} />
               <Route exact path="/shoplinks" element={<ShopLinks />} />
               <Route exact path="/contact" element={<ContactUs />} />
+              {/* <Route exact path="/resetpassword" element={<ResetPassword />} /> */}
      
               <Route
                 exact
@@ -376,10 +376,6 @@ function App() {
 
               <Route exact path="/contact" element={<ContactUs />} />
               <Route exact path="/shoplinks" element={<ShopLinks />} />
-              <Route exact path="/tester" element={<Tester />} />
-              <Route exact path="/hours2" element={<EmployeeHours2 />} />
-
-
               <Route path="*" element={<WrongPage />} />
             </Routes>
           </>

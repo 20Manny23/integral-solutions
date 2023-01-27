@@ -4,7 +4,7 @@ export const RESET_SUBJECT = (props) => {
   return template;
 };
 
-export const FROM_EMAIL = "rod.bennett75@gmail.com";
+export const FROM_EMAIL = "callasteven@gmail.com";
 
 // SENDGRID RECOMMENDS INCLUDING A TEXT VERSION AS A BACKUP IF HTML ISN'T ACCEPTED
 // export const reset_text_template = (tokenURL, firstName) => {

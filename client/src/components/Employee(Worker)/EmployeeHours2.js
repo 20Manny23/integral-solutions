@@ -9,7 +9,6 @@ import {
   QUERY_HOURS_BYEMPLOYEEID_BYJOBDATE,
 } from "../../utils/queries";
 import {
- 
   UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE,
 } from "../../utils/mutations";
 
@@ -378,18 +377,6 @@ function EmployeeHours() {
                         </Col>
                       </Row>
                     </Form>
-                    <Row className="mr-4 total">
-                      <p
-                        style={{
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                          paddingLeft: "25px",
-                          fontWeight: "bolder",
-                        }}
-                      >
-                        Day's Total Hours: {dayTotal}
-                      </p>
-                    </Row>
               </Card.Body>
             </Accordion.Collapse>
           </Card>

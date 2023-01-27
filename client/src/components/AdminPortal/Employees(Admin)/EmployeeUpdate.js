@@ -21,6 +21,7 @@ function EmployeeUpdate() {
   const [lastName, setLastName] = useState("");
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
   const [maskedPhone, setMaskedPhone] = useState("");
+  const [hasDriversLicense, setHasDriversLicense] = useState("");
 
   //set selected employee
   // const [currentEmployee, setCurrentEmployee] = useState("");
@@ -33,6 +34,7 @@ function EmployeeUpdate() {
   const [selectLastName, setSelectLastName] = useState(false);
   const [selectPhone, setSelectPhone] = useState(false);
   const [selectEmail, setSelectEmail] = useState(false);
+  const [selectHasDriversLicense, setSelectHasDriversLicense] = useState(false);
 
   //enable/disable form
   const [formIsDisabled, setFormIsDisabled] = useState(true);
@@ -43,7 +45,7 @@ function EmployeeUpdate() {
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
   const [showEmailEmployeeValidation, setShowEmailEmployeeStateValidation] =
     useState(false);
-
+  const [showHasDriversLicenseValidation, setShowHasDriversLicenseValidation] = useState(false);
   //SECTION GET ALL EMPLOYEES
   const {
     // eslint-disable-next-line
@@ -52,12 +54,14 @@ function EmployeeUpdate() {
     // eslint-disable-next-line
     error: empError,
     refetch: empRefetch,
-  // } = useQuery(QUERY_ALL_EMPLOYEES);
+    // } = useQuery(QUERY_ALL_EMPLOYEES);
   } = useQuery(QUERY_ALL_EMPLOYEES, {
-  variables: {
-    isDisplayable: true //only retrieve employees with a displayable status
-  } 
-});
+    variables: {
+      isDisplayable: true, //only retrieve employees with a displayable status
+    },
+    onCompleted: (data) => {
+    },
+  });
 
   //SECTION get a single employee
   // eslint-disable-next-line
@@ -67,7 +71,6 @@ function EmployeeUpdate() {
       // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
       skip: !Auth.loggedIn(),
       onCompleted: (singleEmployee) => {
-        // setCurrentEmployee(singleEmployee);
       },
     });
 
@@ -96,9 +99,11 @@ function EmployeeUpdate() {
     } else if (name === "email") {
       setEmail(value);
       setSelectEmail(false);
-    } else {
-      console.log("Error in form input at EmployeeUpdate.js");
-    }
+    } else if (name === "driversLicense") {
+      setHasDriversLicense(value);
+      setSelectHasDriversLicense(false);
+    };
+
     return name;
   };
 
@@ -112,8 +117,6 @@ function EmployeeUpdate() {
     //await query single client
     let currentEmployeeData = await getASingleEmployee(); //get selected employee data
 
-    // console.log(currentEmployeeData.data.employeeById);
-
     setPrevEmployeeData(currentEmployeeData?.data?.employeeById); //set data state and rerender in form
 
     // allow form to populate with selected employee data
@@ -121,6 +124,7 @@ function EmployeeUpdate() {
     setSelectLastName(true);
     setSelectPhone(true);
     setSelectEmail(true);
+    setSelectHasDriversLicense(true);
 
     setFormIsDisabled(false); // enable form for input
   }
@@ -128,7 +132,6 @@ function EmployeeUpdate() {
   //SECTION EMPLOYEE UPDATE
   const handleEmployeeUpdate = async (event) => {
     event.preventDefault();
-
     let getEmployee = await getASingleEmployee();
 
     try {
@@ -143,6 +146,10 @@ function EmployeeUpdate() {
             : getEmployee.data.employeeById.lastName,
           email: email ? email : getEmployee.data.employeeById.email,
           phone: phone ? phone : getEmployee.data.employeeById.phone,
+          // hasDriversLicense: "Weird"
+          hasDriversLicense: hasDriversLicense
+            ? hasDriversLicense
+            : getEmployee.data.employeeById.hasDriversLicense,
         },
       });
     } catch (err) {
@@ -156,6 +163,7 @@ function EmployeeUpdate() {
     setSelectLastName(false);
     setSelectPhone(false);
     setSelectEmail(false);
+    setSelectHasDriversLicense(false);
 
     resetForm();
 
@@ -182,6 +190,9 @@ function EmployeeUpdate() {
     name === "last-name" && value.trim() === ""
       ? setShowLastNameValidation(true)
       : setShowLastNameValidation(false);
+    name === "hasDriversLicense" && value.trim() === ""
+      ? setShowHasDriversLicenseValidation(true)
+      : setShowHasDriversLicenseValidation(false);
   };
 
   //reset = resets form to placeholder values
@@ -190,6 +201,7 @@ function EmployeeUpdate() {
     setLastName("");
     setPhone("");
     setEmail("");
+    setHasDriversLicense("");
   };
 
   //enable submit button = if input is added to at least one input field
@@ -198,10 +210,11 @@ function EmployeeUpdate() {
       email.trim() !== "" ||
         phone.trim() !== "" ||
         firstName.trim() !== "" ||
-        lastName.trim() !== ""
+        lastName.trim() !== "" ||
+        hasDriversLicense !== ""
     );
     // eslint-disable-next-line
-  }, [email, phone, firstName, lastName]);
+  }, [email, phone, firstName, lastName, hasDriversLicense]);
 
   let arrayForSort = [];
   if (emp) {
@@ -344,6 +357,37 @@ function EmployeeUpdate() {
               disabled={formIsDisabled}
               // required
             />
+          </Form.Group>
+          
+          <Form.Group className="mb-3 form-length">
+            <div className="form-label">
+              <Form.Label htmlFor="driversLicense" style={{ fontWeight: "bolder" }}>
+                Drivers License
+              </Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showHasDriversLicenseValidation ? "show" : "hide"
+                }`}
+              >
+                * field is required
+              </Form.Label>
+            </div>
+            <Form.Control
+              as="select"
+              className="custom-border"
+              type="text"
+              placeholder="Employee Email"
+              name="driversLicense"
+              value={selectHasDriversLicense ? prevEmployeeData.hasDriversLicense : hasDriversLicense}
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              disabled={formIsDisabled}
+              // required
+            >
+              <option>Select</option>
+              <option>Yes</option>
+              <option>No</option>
+            </Form.Control>
           </Form.Group>
           <div className="d-flex justify-content-center">
             <Button

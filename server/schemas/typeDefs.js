@@ -22,6 +22,7 @@ const typeDefs = gql`
     isLocked: Boolean
     schedule: [Schedule]
     isDisplayable: Boolean
+    hasDriversLicense: String
   }
 
   type Message {
@@ -179,6 +180,7 @@ const typeDefs = gql`
       phone: String
       isAdmin: Boolean
       isLocked: Boolean
+      hasDriversLicense: String
     ): Employee
 
     signupEmployee(email: String, password: String): Auth
@@ -197,6 +199,7 @@ const typeDefs = gql`
       isAdmin: Boolean
       isLocked: Boolean
       schedule: String
+      hasDriversLicense: String
       hours: String
     ): Employee
 
@@ -206,6 +209,7 @@ const typeDefs = gql`
       lastName: String
       email: String
       phone: String
+      hasDriversLicense: String
     ): Employee
 
     updateEmployeeSchedule(_id: ID, schedule: String): Employee

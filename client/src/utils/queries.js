@@ -28,6 +28,7 @@ export const QUERY_EMPLOYEE_BYEMAIL = gql`
       schedule {
         _id
       }
+      hasDriversLicense
     }
   }
 `;
@@ -43,6 +44,7 @@ export const QUERY_EMPLOYEE_BYID = gql`
       isAdmin
       isLocked
       password
+      hasDriversLicense
       schedule {
         isDisplayable
         startDate
@@ -85,6 +87,7 @@ export const QUERY_ALL_EMPLOYEES = gql`
       isAdmin
       isLocked
       password
+      hasDriversLicense
       schedule {
         startDate
         startTime
@@ -117,6 +120,7 @@ export const QUERY_SINGLE_EMPLOYEE = gql`
       isAdmin
       isLocked
       password
+      hasDriversLicense
     }
   }
 `;

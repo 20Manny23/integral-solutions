@@ -2,15 +2,15 @@ import React, { useState } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_CLIENTS } from "../../../utils/queries";
-import { 
-  // DELETE_CLIENT, 
-  SOFT_DELETE_CLIENT 
+import {
+  // DELETE_CLIENT,
+  SOFT_DELETE_CLIENT,
 } from "../../../utils/mutations";
 
 import format_phone from "../../../utils/helpers";
 import googleMap from "../../../utils/googleMap";
 
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container, Modal, Button } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/Contact.css";
@@ -18,6 +18,11 @@ import "../../../styles/button-style.css";
 
 function Clients() {
   const [openDetails, setOpenDetails] = useState(false);
+  const [show, setShow] = useState(false);
+  const [deleteThis, setDeleteThis] = useState("");
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const {
     // eslint-disable-next-line
@@ -37,24 +42,29 @@ function Clients() {
   // SECTION DELETE
   const [softDeleteClient] = useMutation(SOFT_DELETE_CLIENT);
   // const [deleteClient] = useMutation(DELETE_CLIENT);
+  const saveIdFunction = (event) => {
+    let clientId = event.currentTarget.getAttribute("data-clientid"); //identify selected client
 
+    setDeleteThis(clientId);
+    handleShow();
+  };
   const handleSoftClient = async (event) => {
     //if delete trash is clicked change isDisplayble status to isDisplayabled = false
-    let clientId = event.currentTarget.getAttribute("data-clientid"); //identify selected client
+
     try {
       await softDeleteClient({
         variables: {
-          id: clientId,
+          id: deleteThis,
           isDisplayable: false,
         },
       });
 
       // RELOAD clients
       clientsRefetch();
-      
     } catch (err) {
       console.log(err);
     }
+    handleClose();
   };
 
   // const handleDeleteClient = async (event) => {
@@ -138,7 +148,7 @@ function Clients() {
                       // onClick={(event) => {
                       //   handleDeleteClient(event);
                       // }}
-                      onClick={handleSoftClient}
+                      onClick={saveIdFunction}
                     />
                   </div>
                 </div>
@@ -193,6 +203,31 @@ function Clients() {
           ))}
         </Row>
       </Container>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Confirmation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure that you want to delete this client record?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            style={{ backgroundColor: "red" }}
+            onClick={handleSoftClient}
+          >
+            Yes, Delete
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            No,Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
