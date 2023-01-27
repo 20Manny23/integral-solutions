@@ -1,14 +1,30 @@
+.hours-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+}
 
+.date-hours-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0px;
+}
 
-
-@media screen and (max-width:767px) {
-    .hours-btn{
-        color: red;
-       
-      display: flex;
-      justify-content: center;
-        margin-top: 10px;
-        
-    }
-    
+@media screen and (max-width: 767px) {
+  .hours-container {
+    flex-direction: column;
+  }
+  
+  .date-hours-container {
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  .time-container {
+    width: 65vw !important;
+    height: 200px;
+  }
 }
