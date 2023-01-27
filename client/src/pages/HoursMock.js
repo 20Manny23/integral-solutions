@@ -6,23 +6,22 @@ import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
 
-import EmployeePast from "../components/Employee(Worker)/EmployeePast";
 import EmployeeHours from "../components/Employee(Worker)/EmployeeHours";
 import EmployeeAdminHours from "../components/AdminPortal/Employees(Admin)/EmployeeAdminHours";
+import MockHours from "../components/Employee(Worker)/MockHours";
 
 import { Button, Container, Col, Row } from "react-bootstrap/";
 import "../styles/spinner.css";
 
-const EmployeePortal = ({
+const HoursMock = ({
   renderPanel,
-  pastOrFuture,
-  addemployeeButtonIsActive,
-  clientlistButtonIsActive,
   hoursButtonIsActive,
   hoursAdminButtonIsActive,
+  hoursMockButtonIsActive,
 }) => {
   // get user info to render to page
   const userId = getUserId();
+
   const { loading, data } = useQuery(QUERY_ME, {
     variables: { id: userId },
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
@@ -75,28 +74,25 @@ const EmployeePortal = ({
                 >
                   Hours Admin
                 </Button>
-                   <Button
+                <Button
                   variant="outline-primary"
-                  style={hoursAdminButtonIsActive ? isActive : notActive}
-                  active={hoursAdminButtonIsActive}
+                  style={hoursMockButtonIsActive ? isActive : notActive}
+                  active={hoursMockButtonIsActive}
                   onClick={() => {
-                    navigate("/hoursadmin");
+                    navigate("/hours-mock");
                   }}
                 >
                   Hours Admin
                 </Button>
               </div>
 
-              {renderPanel === "employee" ? (
-                <EmployeePast pastOrFuture="future" />
-              ) : renderPanel === "past" ? (
-                <EmployeePast pastOrFuture="past" />
-              ) : renderPanel === "hours" ? (
+              {
+                renderPanel === "hours" ? (
                 <EmployeeHours />
               ) : renderPanel === "hoursadmin" ? (
                 <EmployeeAdminHours />
               ) : (
-                <EmployeePortal />
+                <MockHours />
               )}
             </Col>
           </Row>
@@ -106,7 +102,7 @@ const EmployeePortal = ({
   }
 };
 
-export default EmployeePortal;
+export default HoursMock;
 
 const isActive = {
   flex: "auto",
