@@ -90,10 +90,10 @@ const ResetPassword = () => {
 
     try {
       await refetch();
-      window.location.assign(`/login`);
+      // window.location.assign(`/login`);
     } catch (e) {
       console.error(e);
-      setShowAlert(true);
+      // setShowAlert(true);
     }
 
     // setPasswordFormData({
