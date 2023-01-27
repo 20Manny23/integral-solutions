@@ -168,8 +168,8 @@ const resolvers = {
       console.log("args to = ", args.toEmail);
 
       const msg = {
-        to: args.toEmail ? `${args.toEmail}` : "rod.bennett75@gmail.com",
-        from: args.fromEmail ? `${args.fromEmail}` : "rod.bennett75@gmail.com",
+        to: args.toEmail ? `${args.toEmail}` : "callasteven@gmail.com",
+        from: args.fromEmail ? `${args.fromEmail}` : "callasteven@gmail.com",
         subject: args.subject,
         text: args.textContent,
         html: args.htmlContent,
