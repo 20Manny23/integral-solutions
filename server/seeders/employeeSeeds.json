@@ -12,7 +12,8 @@
     "isLocked": false,
     "schedule": [
       "423233343536373839303132"
-    ]
+    ],
+    "hasDriversLicense": true
   },
   {
     "_id": "6398fb54494aa98f85992da3",
@@ -28,7 +29,8 @@
     "schedule": [
       "413233343536373839303132",
       "423233343536373839303132"
-    ]
+    ],
+    "hasDriversLicense": true
   },
   {
     "_id": "6398fb54494aa98f85992da4",
@@ -43,7 +45,8 @@
     "isLocked": false,
     "schedule": [
       "423233343536373839303132"
-    ]
+    ],
+    "hasDriversLicense": false
   },
   {
     "_id": "6398fb54494aa98f85992da5",
@@ -56,7 +59,8 @@
     "isDisplayable": true,
     "isAdmin": true,
     "isLocked": false,
-    "schedule": ["443233343536373839303132"]
+    "schedule": ["443233343536373839303132"],
+    "hasDriversLicense": true
   },
   {
     "_id": "6498fb54494aa98f85992da5",
@@ -71,6 +75,7 @@
     "isLocked": false,
     "schedule": [
       "423233343536373839303132"
-    ]
+    ],
+    "hasDriversLicense": false
   }
 ]

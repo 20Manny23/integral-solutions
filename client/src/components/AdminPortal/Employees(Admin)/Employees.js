@@ -31,7 +31,10 @@ function Employees() {
   } = useQuery(QUERY_ALL_EMPLOYEES, {
     variables: {
       isDisplayable: true //only retrieve employees with a displayable status = true
-    } 
+    },
+    onCompleted: (data) => {
+      console.log(data)
+    },
   });
 
   // toggle isAmin mutation

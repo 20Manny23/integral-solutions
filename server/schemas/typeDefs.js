@@ -22,6 +22,7 @@ const typeDefs = gql`
     isLocked: Boolean
     schedule: [Schedule]
     isDisplayable: Boolean
+    hasDriversLicense: Boolean
   }
 
   type Message {
