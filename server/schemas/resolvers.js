@@ -1,7 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
 const {
-  User,
-  Location,
   Schedule,
   Client,
   Employee,
@@ -63,11 +61,14 @@ const resolvers = {
 
       // console.log("employee displayable resolver = ", isDisplayable);
 
-      return Employee.find({ isDisplayable }).populate({
-        path: "hour",
+      return Employee.find().populate("hour").populate({
         path: "schedule",
         populate: { path: "client" },
-      });
+      })
+      // return Employee.find({ isDisplayable }).populate({
+      //   path: "schedule",
+      //   populate: { path: "client" },
+      // });
       // return Employee.find().populate("schedule");
       // }
       // throw new AuthenticationError("You need to be logged in!");

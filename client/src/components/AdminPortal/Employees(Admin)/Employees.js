@@ -231,6 +231,7 @@ console.log(typeof(employeeId))
                          {emp?.hasDriversLicense === true ? "License: Yes" : "License: No"} 
                          </div>
                       </Col>
+                      
 
                       <Col>
                         <Form.Check
