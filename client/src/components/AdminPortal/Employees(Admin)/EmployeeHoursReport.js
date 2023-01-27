@@ -1,34 +1,21 @@
-import React, { useState } from "react";
-import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
-import Auth from "../../../utils/auth";
-import {
-  QUERY_ALL_EMPLOYEES,
-  QUERY_HOURS_BYEMPLOYEEID,
-} from "../../../utils/queries";
-import { thisWeek, lastWeek, hours } from "../../../utils/hoursDates";
-import {
-  format_date_MMDDYYYY,
-  format_date_MMDD,
-} from "../../../utils/dateFormat";
+import React, { useState, useEffect } from "react";
+
+import { useQuery } from "@apollo/client";
+import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
+
 import moment from "moment";
-import { Row, Col, Container, Form, Accordion, Card } from "react-bootstrap";
-import Collapse from "react-bootstrap/Collapse";
+import { format_date_no_hyphen } from "../../../utils/dateFormat";
 
-import EmployeeHours from "../../Employee(Worker)/EmployeeHours";
+import { Container, Accordion, Card } from "react-bootstrap";
+import { thisWeek } from "../../../utils/hoursDates";
 
-import "../../../styles/Contact.css";
-import "../../../styles/button-style.css";
+import "../../../styles/hours.css";
 
-function EmployeeAdminHours() {
-  const [openDetails, setOpenDetails] = useState(false);
-  const [employeeId, setEmployeeId] = useState("");
-  const [newHoursArr, setNewHoursArr] = useState([]);
-  const [thisWeekHours, setThisWeekHours] = useState();
-  const [thisYearHours, setThisYearHours] = useState();
-  const [thisMonthHours, setThisMonthHours] = useState();
+function EmployeeHours() {
+  const [thisWeekDays, setThisWeekDays] = useState([]); //used to render by employee with respective hours for the week
+  const [weeklyTotalHours, setWeeklyTotalHours] = useState(0); //used to render total hours for the week
 
-  //SECTION GET ALL EMPLOYEES
-  // eslint-disable-next-line
+  //SECTION GET ALL EMPLOYEES with isDisplayable === true
   const {
     // eslint-disable-next-line
     loading: empLoad,
@@ -39,363 +26,174 @@ function EmployeeAdminHours() {
     refetch: empRefetch,
   } = useQuery(QUERY_ALL_EMPLOYEES, {
     variables: {
-      isDisplayable: true, //only retrieve employees with a displayable status
+      isDisplayable: true, //only retrieve employees with a displayable status = true
     },
+    onCompleted: (data) => {},
   });
 
-  const [
-    getAnEmployeeHoursById,
-    {
-      loading: singleLazyLoad,
-      data: singleHours,
-      error: singleHourError,
-      refetch: singleHoursRefetch,
-    },
-  ] = useLazyQuery(QUERY_HOURS_BYEMPLOYEEID, {
-    variables: { employee: employeeId },
-    // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
-    skip: !Auth.loggedIn(),
-    onCompleted: (singleHours) => {
-      lastHours(singleHours);
-      weeklyTotal(singleHours);
-      yearlyHours(singleHours);
-      monthlyHours(singleHours);
-    },
-  });
-  //turn this week dates into an array
-  const thisWeekDates = [];
+  //SECTION CREATE EMPLOYEE DATA TO RENDER ON PAGE - SORT, FILTER, CALCULATE
+  useEffect(() => {
+    let getThisWeekDays = [];
 
-  for (let i = 0; i < thisWeek.length; i++) {
-    let eachDate = moment(thisWeek[i].date).format("MMMM DD YYYY");
-    thisWeekDates.push(eachDate);
-  }
+    getThisWeekDays = emp?.employees
+      ?.map((element) => {
+        return {
+          firstName: element.firstName,
+          lastName: element.lastName,
+          hoursThisWeek: calcTimePeriodHours(element, "week").toFixed(2),
+          hoursThisMonth: calcTimePeriodHours(element, "month").toFixed(2),
+          hoursThisYear: calcTimePeriodHours(element, "year").toFixed(2),
+          hour: element.hour
+            .map((hour) => {
+              return {
+                jobDate: format_date_no_hyphen(hour.jobDate),
+                weekNumber: moment(hour.jobDate).week(),
+                jobDay: moment(hour.jobDate).day(),
+                hoursWorked: hour.hoursWorked,
+              };
+            })
+            .sort((a, b) => a.jobDay - b.jobDay)
+            .filter(
+              (element) =>
+                moment(element.jobDate).week() === moment(new Date()).week()
+            )
+            .map((element) => element),
+        };
+      })
+      .sort((a, b) => {
+        const nameA = a.lastName.toUpperCase(); // ignore upper and lowercase
+        const nameB = b.lastName.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        // names must be equal
+        return 0;
+      });
 
-  //SECTION sets Weekly Hour Total
+    setThisWeekDays(getThisWeekDays);
+  }, [emp]);
 
-  const weeklyTotal = async (singleHours) => {
-    let totalWeeklyHours = 0;
+  //SECTION TO CALC TOTAL OVERALL HOURS FOR THE WEEK
+  useEffect(() => {
+    let currentWeekNumber = moment(new Date()).week();
 
-    setThisWeekHours("0.00");
-    for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
-      let jobb = singleHours.hoursByEmployeeId[i].jobDate;
+    let calcTotalWeeklyHours = emp?.employees //get employee data
+      .map((element) => element.hour) //map hours to an array
+      .flatMap((num) => num) //combine/flatten arrays into a single array
+      .filter((day) => moment(day.jobDate).week() === currentWeekNumber) //filter for dates this week
+      .map((element) => parseFloat(element.hoursWorked, 2)) //map the hours worked this week to an array
+      .reduce((accumulator, currentValue) => accumulator + currentValue, 0); //total the hours for this week
 
-      if (
-        jobb === thisWeekDates[0] ||
-        jobb === thisWeekDates[1] ||
-        jobb === thisWeekDates[2] ||
-        jobb === thisWeekDates[3] ||
-        jobb === thisWeekDates[4] ||
-        jobb === thisWeekDates[5] ||
-        jobb === thisWeekDates[6]
-      ) {
-        let hoursInt = Number(singleHours.hoursByEmployeeId[i].hoursWorked);
-        totalWeeklyHours = hoursInt + totalWeeklyHours;
+    setWeeklyTotalHours(parseFloat(calcTotalWeeklyHours).toFixed(2));
+  }, [emp]);
 
-        setThisWeekHours(totalWeeklyHours.toFixed(2));
-      }
-    }
+  //SECTION UTIILITY FUNCTION TO DETERMINE HOURS FOR WEEK, MONTH, YEAR
+  const calcTimePeriodHours = (data, period) => {
+    let totalHours = data.hour
+      .filter(
+        (thisWeek) =>
+          moment(thisWeek.jobDate)[period]() === moment(new Date())[period]()
+      )
+      .map((hours) => parseFloat(hours.hoursWorked))
+      .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+
+    return totalHours;
   };
-
-  //SECTION Grabs Hours each day for rendering
-  const newHours = [];
-  const lastHours = (singleHours) => {
-    for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
-      let jobb = singleHours.hoursByEmployeeId[i].jobDate;
-
-      if (jobb === thisWeekDates[0]) {
-        newHours.push(
-          thisWeekDates[0] +
-            " Hours: " +
-            singleHours.hoursByEmployeeId[i].hoursWorked
-        );
-      }
-      if (jobb === thisWeekDates[1]) {
-        newHours.push(
-          thisWeekDates[1] +
-            " Hours: " +
-            singleHours.hoursByEmployeeId[i].hoursWorked
-        );
-      }
-      if (jobb === thisWeekDates[2]) {
-        newHours.push(
-          thisWeekDates[2] +
-            " Hours: " +
-            singleHours.hoursByEmployeeId[i].hoursWorked
-        );
-      }
-
-      if (jobb === thisWeekDates[3]) {
-        newHours.push(
-          thisWeekDates[3] +
-            " Hours: " +
-            singleHours.hoursByEmployeeId[i].hoursWorked
-        );
-      }
-      if (jobb === thisWeekDates[4]) {
-        newHours.push(
-          thisWeekDates[4] +
-            " Hours: " +
-            singleHours.hoursByEmployeeId[i].hoursWorked
-        );
-      }
-      if (jobb === thisWeekDates[5]) {
-        newHours.push(
-          thisWeekDates[5] +
-            " Hours: " +
-            singleHours.hoursByEmployeeId[i].hoursWorked
-        );
-      }
-      if (jobb === thisWeekDates[6]) {
-        newHours.push(
-          thisWeekDates[6] +
-            " Hours: " +
-            singleHours.hoursByEmployeeId[i].hoursWorked
-        );
-      }
-    }
-    const newHoursSort = newHours.sort();
-
-    setNewHoursArr(newHoursSort);
-  };
-
-  // SECTION HANDLE SET ID
-  const getElement = (event) => {
-    let employeeId = event.currentTarget.getAttribute("data-clientid");
-    setEmployeeId(employeeId);
-
-    getAnEmployeeHoursById();
-  };
-
-  //SETCTION Finds year to Date Hours
-  const yearlyHours = (singleHours) => {
-    setThisYearHours("0.00");
-    const todayYear = new Date().getFullYear().toString();
-    let totalYearlyHours = 0;
-    for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
-      let dateWorked = singleHours.hoursByEmployeeId[i].jobDate;
-
-      if (
-        dateWorked.charAt(dateWorked.length - 1) ===
-          todayYear.charAt(todayYear.length - 1) &&
-        dateWorked.charAt(dateWorked.length - 2) ===
-          todayYear.charAt(todayYear.length - 2)
-      ) {
-        let ytdHours = Number(singleHours.hoursByEmployeeId[i].hoursWorked);
-
-        totalYearlyHours = ytdHours + totalYearlyHours;
-      }
-    }
-    setThisYearHours(totalYearlyHours.toFixed(2));
-  };
-
-  //SECTION finds Month to Date Hours
-
-  const monthlyHours = (singleHours) => {
-    const month = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    const todayYear = new Date().getFullYear().toString();
-    const d = new Date();
-    let todayMonth = month[d.getMonth()];
-    let totalMonthlyHours = 0;
-
-    function firstWord(text) {
-      let firstBlank = text.indexOf(" ");
-
-      return text.slice(0, firstBlank);
-    }
-    for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
-      let dateWorked = singleHours.hoursByEmployeeId[i].jobDate;
-      if (
-        firstWord(singleHours.hoursByEmployeeId[i].jobDate) === todayMonth &&
-        dateWorked.charAt(dateWorked.length - 1) ===
-          todayYear.charAt(todayYear.length - 1) &&
-        dateWorked.charAt(dateWorked.length - 2) ===
-          todayYear.charAt(todayYear.length - 2)
-      ) {
-        let monthHours = Number(singleHours.hoursByEmployeeId[i].hoursWorked);
-
-        totalMonthlyHours = monthHours + totalMonthlyHours;
-      }
-    }
-    setThisMonthHours(totalMonthlyHours.toFixed(2));
-  };
-console.log(emp)
-  //Sorts Array By Last Name
-  let arrayForSort = [];
-  if (emp) {
-    arrayForSort = [...emp.employees];
-    arrayForSort.sort(function (a, b) {
-      if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) return -1;
-      if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) return 1;
-      return 0;
-    });
-  }
 
   return (
-    <>
-      <Accordion style={{ marginTop: "25px" }}>
-        {arrayForSort.map((emp, index) => (
+    <Container>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <span
+          style={{
+            fontSize: "22px",
+            backgroundColor: "#007bff",
+            width: "100%",
+            textAlign: "center",
+            color: "white",
+            borderRadius: "5px",
+            margin: " 15px 0px 15px 0px",
+            paddingTop: "7px",
+            paddingBottom: "7px",
+          }}
+        >
+          Current Week
+        </span>
+      </div>
+      <p
+        style={{
+          fontWeight: "bold",
+          textAlign: "center",
+          fontSize: "22px",
+          marginTop: "-10px",
+          marginBottom: "5px",
+        }}
+      >
+        Hours Total: {weeklyTotalHours}
+      </p>
+
+      <Accordion style={{ marginBottom: "15px" }}>
+        {thisWeekDays?.map((employee, index) => (
           <Card key={index}>
-            <Accordion.Toggle
-              as={Card.Header}
-              onClick={(event) => getElement(event)}
-              eventKey={index + 1}
-              data-clientid={emp?._id}
-              style={{ backgroundColor: "white", color: "#527bff" }}
-            >
-              {emp?.lastName}, {emp?.firstName}
-            </Accordion.Toggle>
-
-            <Accordion.Collapse eventKey={index + 1}>
-              <Card.Body>
-                <Container fluid="true">
-                  <Row>
-                    <Col sm={12} md={6} lg={6}>
-                      {newHoursArr.map((date, index) => (
-                        <div
-                          id="accordion"
-                          key={index}
-                          style={{ marginLeft: "20px" }}
-                        >
-                          {date}
-                        </div>
-                      ))}
-                    </Col>
-
-                    <Col>
-                      <p
-                        style={{
-                          fontWeight: "bold",
-                          marginLeft: "20px",
-                        }}
-                      >
-                        Hours This Week: {thisWeekHours}
-                      </p>
-                      <p
-                        style={{
-                          fontWeight: "bold",
-                          marginLeft: "20px",
-                          marginTop: "-20px",
-                        }}
-                      >
-                        Month to Date Hours: {thisMonthHours}
-                      </p>
-                      <p
-                        style={{
-                          fontWeight: "bold",
-                          marginLeft: "20px",
-                          marginTop: "-20px",
-                        }}
-                      >
-                        Year to Date Hours: {thisYearHours}
-                      </p>
-                    </Col>
-                  </Row>
-                </Container>
-              </Card.Body>
-            </Accordion.Collapse>
+            <div>
+              <div>
+                <Accordion.Toggle
+                  style={{ backgroundColor: "white", color: "#007bff" }}
+                  as={Card.Header}
+                  eventKey={index + 1}
+                  className=""
+                >
+                  <div className="name-wrapper">
+                    <p>{`${employee.lastName}, ${employee.firstName}`}</p>
+                    <p>Hours: {employee.hoursThisWeek}</p>
+                  </div>
+                  <span
+                    className="m-0 hourInput"
+                    id={`hours${thisWeek.day}`}
+                  ></span>
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey={index + 1}>
+                  <Card.Body className="d-flex justify-content-center">
+                    <section className="hours-wrapper">
+                      <article>
+                        {employee.hour.map((element, index) => (
+                          <div
+                            key={index}
+                            className="d-flex justify-content-around"
+                          >
+                            <p className="m-0" style={{ width: "200px" }}>
+                              {format_date_no_hyphen(element.jobDate)}
+                            </p>
+                            <p className="m-0" style={{ width: "150px" }}>
+                              {`Hours: ${parseFloat(
+                                element.hoursWorked
+                              ).toFixed(2)}`}
+                            </p>
+                          </div>
+                        ))}
+                      </article>
+                      <article className="mt-3 d-flex justify-content-center">
+                        <p className="m-0 total-container">
+                          This Week: {employee.hoursThisWeek}
+                        </p>
+                        <p className="m-0 total-container">
+                          This Month: {employee.hoursThisMonth}
+                        </p>
+                        <p className="m-0 total-container">
+                          This Year: {employee.hoursThisYear}
+                        </p>
+                      </article>
+                    </section>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </div>
+            </div>
           </Card>
         ))}
       </Accordion>
-    </>
+    </Container>
   );
 }
-export default EmployeeAdminHours;
-// previous code that was replaced
-
-{
-  /* <Container>
-<Row style={{ display: "flex", justifyContent: "center" }}>
-  {arrayForSort.map((emp, index) => (
-    <div id="accordion" key={index} style={{ width: "98%" }}>
-      <div className="card p-2 mb-1">
-        <div
-          className="rounded directions-collapse"
-          id="headingOne"
-          style={{
-            color: "black",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <h5 className="mb-0 text-left">
-            <button
-              onClick={(event) => getElement(event)}
-              aria-controls={`#collapse-client-${index}`}
-              aria-expanded={openDetails}
-              data-clientid={emp?._id}
-              className="btn btn-link pl-1"
-              data-target={`#collapse-client-${index}`}
-            >
-              {emp?.lastName}, {emp?.firstName}
-            </button>
-          </h5>
-          <div style={{ fontWeight: "bold" }} className="d-flex mr-2">
-            
-          </div>
-        </div>
-        <Collapse>
-          <div id={`#collapse-client-${index}`}>
-            <Container fluid="true">
-              <Row>
-                <Col sm={12} md={6} lg={6}>
-                  {newHoursArr.map((date, index) => (
-                    <div
-                      id="accordion"
-                      key={index}
-                      style={{ marginLeft: "20px" }}
-                    >
-                      {date}
-                    </div>
-                  ))}
-                </Col>
-                <Col>
-                <p
-                    style={{
-                      fontWeight: "bold",
-                      marginLeft: "20px",
-                    }}
-                  >
-                    Hours This Week: {thisWeekHours}
-                  </p>
-                  <p
-                    style={{
-                      fontWeight: "bold",
-                      marginLeft: "20px",
-                      marginTop: "-20px"
-                    }}
-                  >
-                    Month to Date Hours:
-                  </p>
-                  <p
-                    style={{
-                      fontWeight: "bold",
-                      marginLeft: "20px",
-                      marginTop: "-20px"
-                    }}
-                  >
-                    Year to Date Hours:
-                  </p>
-                </Col>
-              </Row>
-            </Container>
-          </div>
-        </Collapse>
-      </div>
-    </div>
-  ))}
-</Row>
-</Container> */
-}
+export default EmployeeHours;
