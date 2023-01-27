@@ -45,7 +45,7 @@ function EmployeeUpdate() {
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
   const [showEmailEmployeeValidation, setShowEmailEmployeeStateValidation] =
     useState(false);
-  const [showLicenseValidation, setShowLicenseValidation] = useState(false);
+  const [showHasDriversLicenseValidation, setShowHasDriversLicenseValidation] = useState(false);
   //SECTION GET ALL EMPLOYEES
   const {
     // eslint-disable-next-line
@@ -191,8 +191,8 @@ function EmployeeUpdate() {
       ? setShowLastNameValidation(true)
       : setShowLastNameValidation(false);
     name === "hasDriversLicense" && value.trim() === ""
-      ? setShowLicenseValidation(true)
-      : setShowLicenseValidation(false);
+      ? setShowHasDriversLicenseValidation(true)
+      : setShowHasDriversLicenseValidation(false);
   };
 
   //reset = resets form to placeholder values
@@ -358,14 +358,15 @@ function EmployeeUpdate() {
               // required
             />
           </Form.Group>
+          
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
-              <Form.Label htmlFor="email" style={{ fontWeight: "bolder" }}>
+              <Form.Label htmlFor="driversLicense" style={{ fontWeight: "bolder" }}>
                 Drivers License
               </Form.Label>
               <Form.Label
                 className={`validation-color ${
-                  showEmailEmployeeValidation ? "show" : "hide"
+                  showHasDriversLicenseValidation ? "show" : "hide"
                 }`}
               >
                 * field is required
