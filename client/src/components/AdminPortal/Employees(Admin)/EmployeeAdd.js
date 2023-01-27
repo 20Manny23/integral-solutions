@@ -21,7 +21,7 @@ function EmployeeAdd() {
   const [isLocked, setIsLocked] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(false);
   const [maskedPhone, setMaskedPhone] = useState("");
-  const [hasDriversLicense, setHasDriversLicense] = useState(false)
+  const [hasDriversLicense, setHasDriversLicense] = useState(false);
 
   // VALIDATION
   const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
@@ -30,20 +30,11 @@ function EmployeeAdd() {
   const [showEmailEmployeeValidation, setShowEmailEmployeeValidation] =
     useState(false);
   const [showPasswordValidation, setShowPasswordValidation] = useState(false);
-  // const [showLicenseValidation, setShowLicenseValidation] = useState(false);
-
 
   //SECTION HANDLE INPUT
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    
-    if (name === 'DL' && value === "Yes") {
-      setHasDriversLicense(true)
-    }
-    else if(name === 'DL' && value === "No"){
-      setHasDriversLicense(false)
-    }
-    console.log(hasDriversLicense)
+
     //mask (auto populate) phone format input as xxx-xxx-xxx
     if (name === "phone") {
       let getMaskedPhone = maskedPhoneInput(event.target.value);
@@ -51,14 +42,16 @@ function EmployeeAdd() {
     }
 
     name === "firstName"
-    ? setFirstName(value)
-    : name === "lastName"
-    ? setLastName(value)
-    : name === "phone"
-    ? setPhone(value)
-    : name === "email"
-    ? setEmail(value)
-    : setPassword(value);
+      ? setFirstName(value)
+      : name === "lastName"
+      ? setLastName(value)
+      : name === "phone"
+      ? setPhone(value)
+      : name === "email"
+      ? setEmail(value)
+      : name === "driversLicense"
+      ? setHasDriversLicense(value)
+      : setPassword(value);
 
     return name;
   };
@@ -89,9 +82,7 @@ function EmployeeAdd() {
   });
 
   const handleAddEmployeeSubmit = async (event) => {
-
     event.preventDefault();
-  
 
     console.log(
       event,
@@ -150,10 +141,10 @@ function EmployeeAdd() {
 
   // Reset the add employee form after submission
   const resetForm = () => {
-    setEmail("");
     setFirstName("");
     setLastName("");
     setPhone("");
+    setEmail("");
     setPassword("");
     setIsAdmin("");
     setIsLocked("");
@@ -167,11 +158,9 @@ function EmployeeAdd() {
         firstName.trim() !== "" &&
         lastName.trim() !== "" &&
         phone.trim() !== "" &&
-        password.trim() !== "" 
-        
-    )
-    
-  
+        password.trim() !== ""
+    );
+
     // eslint-disable-next-line
   }, [email, phone, firstName, lastName, password]);
 
@@ -197,6 +186,7 @@ function EmployeeAdd() {
               type="text"
               placeholder="Enter Employee Name"
               name="firstName"
+              value={firstName}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -221,6 +211,7 @@ function EmployeeAdd() {
               type="text"
               placeholder="Enter Last Name"
               name="lastName"
+              value={lastName}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -281,6 +272,27 @@ function EmployeeAdd() {
 
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
+              <Form.Label style={{ fontWeight: "bolder" }}>
+                Drivers License
+              </Form.Label>
+            </div>
+            <Form.Control
+              as="select"
+              className="custom-border"
+              type="text"
+              name="driversLicense"
+              value={hasDriversLicense}
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+            >
+              <option>Select</option>
+              <option>Yes</option>
+              <option>No</option>
+            </Form.Control>
+          </Form.Group>
+
+          <Form.Group className="mb-3 form-length">
+            <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>Password</Form.Label>
               <Form.Label
                 className={`validation-color ${
@@ -295,33 +307,12 @@ function EmployeeAdd() {
               type="password"
               placeholder="Setup Employee Password"
               name="password"
+              value={password}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
             />
           </Form.Group>
-
-          <Form.Group className="mb-3 form-length">
-            <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>Drivers License</Form.Label>
-              
-            </div>
-            <Form.Control
-              as="select"
-              className="custom-border"
-              type="DL"
-              
-              name="DL"
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              
-            >
-              <option>Select</option>
-            <option>Yes</option>
-            <option>No</option>
-            </Form.Control>
-          </Form.Group>
-          
 
           <div className="d-flex justify-content-center">
             <Button

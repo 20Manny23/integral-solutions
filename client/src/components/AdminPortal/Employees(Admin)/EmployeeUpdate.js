@@ -21,7 +21,7 @@ function EmployeeUpdate() {
   const [lastName, setLastName] = useState("");
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
   const [maskedPhone, setMaskedPhone] = useState("");
-  const [hasDriversLicense, setHasDriversLicense] = useState(true);
+  const [hasDriversLicense, setHasDriversLicense] = useState("");
 
   //set selected employee
   // const [currentEmployee, setCurrentEmployee] = useState("");
@@ -34,7 +34,7 @@ function EmployeeUpdate() {
   const [selectLastName, setSelectLastName] = useState(false);
   const [selectPhone, setSelectPhone] = useState(false);
   const [selectEmail, setSelectEmail] = useState(false);
-  const [selectDL, setSelectDL] = useState(false);
+  const [selectHasDriversLicense, setSelectHasDriversLicense] = useState(false);
 
   //enable/disable form
   const [formIsDisabled, setFormIsDisabled] = useState(true);
@@ -45,7 +45,7 @@ function EmployeeUpdate() {
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
   const [showEmailEmployeeValidation, setShowEmailEmployeeStateValidation] =
     useState(false);
-  const [showLicenseValidation, setShowLicenseValidation] = useState(false);
+  const [showHasDriversLicenseValidation, setShowHasDriversLicenseValidation] = useState(false);
   //SECTION GET ALL EMPLOYEES
   const {
     // eslint-disable-next-line
@@ -60,7 +60,6 @@ function EmployeeUpdate() {
       isDisplayable: true, //only retrieve employees with a displayable status
     },
     onCompleted: (data) => {
-      // console.log(data)
     },
   });
 
@@ -72,8 +71,6 @@ function EmployeeUpdate() {
       // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
       skip: !Auth.loggedIn(),
       onCompleted: (singleEmployee) => {
-        // setCurrentEmployee(singleEmployee);
-        console.log(singleEmployee);
       },
     });
 
@@ -102,12 +99,11 @@ function EmployeeUpdate() {
     } else if (name === "email") {
       setEmail(value);
       setSelectEmail(false);
-    } else if (name === "DL") {
-      setHasDriversLicense(false);
-      setSelectDL(value);
-    } else {
-      console.log("Error in form input at EmployeeUpdate.js");
-    }
+    } else if (name === "driversLicense") {
+      setHasDriversLicense(value);
+      setSelectHasDriversLicense(false);
+    };
+
     return name;
   };
 
@@ -121,8 +117,6 @@ function EmployeeUpdate() {
     //await query single client
     let currentEmployeeData = await getASingleEmployee(); //get selected employee data
 
-    // console.log(currentEmployeeData.data.employeeById);
-
     setPrevEmployeeData(currentEmployeeData?.data?.employeeById); //set data state and rerender in form
 
     // allow form to populate with selected employee data
@@ -130,6 +124,7 @@ function EmployeeUpdate() {
     setSelectLastName(true);
     setSelectPhone(true);
     setSelectEmail(true);
+    setSelectHasDriversLicense(true);
 
     setFormIsDisabled(false); // enable form for input
   }
@@ -137,9 +132,8 @@ function EmployeeUpdate() {
   //SECTION EMPLOYEE UPDATE
   const handleEmployeeUpdate = async (event) => {
     event.preventDefault();
-console.log(hasDriversLicense)
     let getEmployee = await getASingleEmployee();
-    console.log(getEmployee.data.employeeById.hasDriversLicense)
+
     try {
       await updateEmployee({
         variables: {
@@ -147,12 +141,15 @@ console.log(hasDriversLicense)
           firstName: firstName
             ? firstName
             : getEmployee.data.employeeById.firstName,
-              lastName: lastName
+          lastName: lastName
             ? lastName
             : getEmployee.data.employeeById.lastName,
           email: email ? email : getEmployee.data.employeeById.email,
           phone: phone ? phone : getEmployee.data.employeeById.phone,
-          hasDriversLicense: hasDriversLicense ? hasDriversLicense : getEmployee.data.employeeById.hasDriversLicense,
+          // hasDriversLicense: "Weird"
+          hasDriversLicense: hasDriversLicense
+            ? hasDriversLicense
+            : getEmployee.data.employeeById.hasDriversLicense,
         },
       });
     } catch (err) {
@@ -166,6 +163,7 @@ console.log(hasDriversLicense)
     setSelectLastName(false);
     setSelectPhone(false);
     setSelectEmail(false);
+    setSelectHasDriversLicense(false);
 
     resetForm();
 
@@ -193,8 +191,8 @@ console.log(hasDriversLicense)
       ? setShowLastNameValidation(true)
       : setShowLastNameValidation(false);
     name === "hasDriversLicense" && value.trim() === ""
-      ? setShowLicenseValidation(true)
-      : setShowLicenseValidation(false);
+      ? setShowHasDriversLicenseValidation(true)
+      : setShowHasDriversLicenseValidation(false);
   };
 
   //reset = resets form to placeholder values
@@ -360,14 +358,15 @@ console.log(hasDriversLicense)
               // required
             />
           </Form.Group>
+          
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
-              <Form.Label htmlFor="email" style={{ fontWeight: "bolder" }}>
+              <Form.Label htmlFor="driversLicense" style={{ fontWeight: "bolder" }}>
                 Drivers License
               </Form.Label>
               <Form.Label
                 className={`validation-color ${
-                  showEmailEmployeeValidation ? "show" : "hide"
+                  showHasDriversLicenseValidation ? "show" : "hide"
                 }`}
               >
                 * field is required
@@ -378,12 +377,8 @@ console.log(hasDriversLicense)
               className="custom-border"
               type="text"
               placeholder="Employee Email"
-              name="DL"
-              // value={
-              //   selectDL
-              //     ? prevEmployeeData.hasDriversLicense
-              //     : hasDriversLicense
-              // }
+              name="driversLicense"
+              value={selectHasDriversLicense ? prevEmployeeData.hasDriversLicense : hasDriversLicense}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}

@@ -62,7 +62,7 @@ export const UPDATE_EMPLOYEE = gql`
     $phone: String
     $isAdmin: Boolean
     $isLocked: Boolean
-    $hasDriversLicense: Boolean
+    $hasDriversLicense: String
   ) {
     updateEmployee(
       _id: $id
@@ -146,7 +146,7 @@ export const ADD_EMPLOYEE = gql`
     $phone: String
     $isAdmin: Boolean
     $isLocked: Boolean
-    $hasDriversLicense: Boolean
+    $hasDriversLicense: String
   ) {
     addEmployee(
       email: $email

@@ -41,8 +41,7 @@ const employeeSchema = new Schema(
       ref: "Schedule",
     },
     hasDriversLicense: {
-      type: Boolean,
-      default: true,
+      type: String,
     },
   },
   {
