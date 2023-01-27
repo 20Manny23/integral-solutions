@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Auth from "../../utils/auth";
 import { getUserId } from "../../utils/getUserId";
 
-import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_HOURS_BYEMPLOYEEID } from "../../utils/queries";
 import { UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE } from "../../utils/mutations";
 import { format_date_no_hyphen } from "../../utils/dateFormat";
@@ -32,6 +32,7 @@ function EmployeeHours() {
   const [lastWeekHours, setLastWeekHours] = useState();
   const [lastWeekDays, setLastWeekDays] = useState([]);
 
+  const [renderData, setRenderData] = useState([]);
   const [sunday, setSunday] = useState({
     date: weekInfo[0].date,
     startTime: "",
@@ -284,8 +285,6 @@ function EmployeeHours() {
   }, [singleHours]);
 
   //get and format data for current week to render on page
-  const [renderData, setRenderData] = useState([]);
-
   //convert data from DB into renderable object
   useEffect(() => {
     //get singleHours, filter for this week, sort by date
@@ -556,7 +555,6 @@ function EmployeeHours() {
                     <span
                       className="m-0 hourInput"
                       id={`hours${thisWeek.day}`}
-                      // style={{marginRight:'-15px'}}
                     ></span>
                   </Accordion.Toggle>
                   <Form

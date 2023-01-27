@@ -88,6 +88,10 @@ export const QUERY_ALL_EMPLOYEES = gql`
       isLocked
       password
       hasDriversLicense
+      hour {
+        jobDate,
+        hoursWorked
+      }
       schedule {
         startDate
         startTime
@@ -284,6 +288,8 @@ export const QUERY_ALL_HOURS = gql`
       hoursWorked
       employee {
         _id
+        firstName
+        lastName
       }
     }
   }
