@@ -1,9 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+
 import Footer from "../components/Home/Footer";
+
 import { Container, Button, Row, Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import "../styles/home.css";
+
 import delivery from "../assets/images/delivery.jpg";
 import install from "../assets/images/install.jpg";
 import cleaning from "../assets/images/cleaning.jpg";
@@ -15,7 +18,7 @@ const Home = () => {
   let navigate = useNavigate();
   return (
     <>
-      <section className="bk-img">
+      <main className="bk-img">
         <br></br>
         <div className="overlay-box">
           <p className="overlay-header" style={{ fontStyle: "italic" }}>
@@ -35,7 +38,11 @@ const Home = () => {
             their entrepreneurial goals.
           </p>
           <Button
-            style={{backgroundColor:'white', color:'#0D2E4F', fontStyle:'italic'}}
+            style={{
+              backgroundColor: "white",
+              color: "#0D2E4F",
+              fontStyle: "italic",
+            }}
             className="contact-btn"
             onClick={() => {
               navigate("/contact");
@@ -45,16 +52,13 @@ const Home = () => {
           </Button>
         </div>
         <br></br>
-      </section>
+      </main>
 
       <section>
         <p className="service-title">Services We Offer</p>
       </section>
 
-      <Container
-        className=""
-        style={{ marginTop: "50px", marginBottom: "35px" }}
-      >
+      <Container>
         <Row>
           <Col className="d-flex justify-content-center mb-2">
             <Card style={{ width: "15rem", border: "none" }}>
@@ -107,17 +111,8 @@ const Home = () => {
               </Card.Body>
             </Card>
           </Col>
-          {/* <Col
-            className="d-flex justify-content-center mb-2 md-6"
-            style={{
-              display: "flex",
-              justifyContent: "end",
-              marginRight: "15px",
-            }}
-          >
-            <Card style={{ width: "15rem", border: "none", marginTop: "15px", display: "flex",
-              justifyContent: "end",
-              marginRight: "15px", }}>
+          <Col className="d-flex justify-content-center mb-2">
+            <Card style={{ width: "15rem", border: "none" }}>
               <Card.Img variant="top" src={optimize} />
               <Card.Body>
                 <Card.Title style={{ marginTop: "-15px" }}>
@@ -130,8 +125,8 @@ const Home = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col className="d-flex  mb-2 md-6">
-            <Card style={{ width: "15rem", border: "none", marginTop: "15px" }}>
+          <Col className="d-flex justify-content-center mb-2">
+            <Card style={{ width: "15rem", border: "none" }}>
               <Card.Img variant="top" src={reconfig} />
               <Card.Body>
                 <Card.Title style={{ marginTop: "-15px" }}>
@@ -143,37 +138,9 @@ const Home = () => {
                 </Card.Text>
               </Card.Body>
             </Card>
-          </Col> */}
-            <Col className="d-flex justify-content-center mb-2">
-            <Card style={{ width: "15rem", border: "none" }}>
-              <Card.Img variant="top" src={optimize} />
-              <Card.Body>
-                <Card.Title style={{ marginTop: "-15px" }}>
-                  Space Analytics
-                </Card.Title>
-                <Card.Text style={{ fontSize: "13px" }}>
-                Our team has set up thousands of office spaces, let us help
-                  guide your installation process.
-                </Card.Text>
-              </Card.Body>
-            </Card>
           </Col>
-          <Col className="d-flex justify-content-center mb-2">
-            <Card style={{ width: "15rem", border: "none" }}>
-              <Card.Img variant="top" src={reconfig} />
-              <Card.Body>
-                <Card.Title style={{ marginTop: "-15px" }}>Reconfiguration</Card.Title>
-                <Card.Text style={{ fontSize: "13px" }}>
-                Let our Experts advise on the perfect office arrangement to
-                  optimize team perfomance.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          
         </Row>
       </Container>
-
       <Footer />
     </>
   );

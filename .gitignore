@@ -3,6 +3,9 @@
 /.pnp
 .pnp.js
 
+# send grid
+sendgrid.env
+
 # testing
 /coverage
 

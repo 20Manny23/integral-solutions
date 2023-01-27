@@ -1,19 +1,17 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
+import useEmailSend from "../components/EmailSend";
+
+import Footer from "../components/Home/Footer";
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
+import { NUMBER_OF_EMPLOYEES } from "../utils/numberOfEmployees";
+import { maskedPhoneInput } from "../utils/phoneMask";
 
 import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
 import "../styles/Forms.css";
-import Footer from "../components/Home/Footer";
 
 function ContactForm() {
-  const numberOfEmployees = [
-    "Home Office",
-    "Less Than 50",
-    "50-99",
-    "More Than 100",
-  ];
   // set error state
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -31,28 +29,58 @@ function ContactForm() {
   const [startDate, setStartDate] = useState("");
   const [services, setServices] = useState([]);
   const [jobDetails, setJobDetails] = useState("");
+  const [maskedPhone, setMaskedPhone] = useState("");
+
+  //  validation
+  const [showCompanyNameValidation, setShowCompanyNameValidation] =
+    useState("");
+  const [showContactNameValidation, setShowContactNameValidation] =
+    useState("");
+  const [showPhoneNumberValidation, setShowPhoneNumberValidation] =
+    useState("");
+  const [showEmailAddressValidation, setShowEmailAddressValidation] =
+    useState("");
+  const [showAddressValidation, setShowAddressValidation] = useState("");
+  const [showCityValidation, setShowCityValidation] = useState("");
+  const [showStateValidation, setShowStateValidation] = useState("");
+  const [showZipValidation, setShowZipValidation] = useState("");
+  const [showSquareFeetValidation, setShowSquareFeetValidation] = useState("");
+  const [showEmployeeNumberValidation, setShowEmployeeNumberValidation] =
+    useState("");
+  const [showStartDateValidation, setShowStartDateValidation] = useState("");
+  const [showServicesValidation, setShowServicesValidation] = useState("");
+  const [showJobDetailsValidation, setShowJobDetailsValidation] = useState("");
+  const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
   const handleChange = (event) => {
     const { target } = event;
     const name = target.name;
     const value = target.value;
 
-    // console.log(event.target.checked)
-    // console.log(event.target.value)
-
+    // set state for check box input
+    // if checkbox is checked and services state does not include value then add to services
     if (event.target.checked && !services.includes(value.trim())) {
-      setServices([...services, ` ${value} `]);
+      setServices([...services, ` ${value}`]); // add spaces to the value for email formatting
       return;
     } else if (!event.target.checked && name === "services") {
-      setServices(services.filter(service => value.trim() !== service.trim()))
+      setServices(
+        services.filter((service) => value.trim() !== service.trim())
+      ); // if target is unchecked and it is a services input then don't include in services state
       return;
     }
 
+    //mask (auto populate) phone format input as xxx-xxx-xxx
+    if (name === "phone") {
+      let getMaskedPhone = maskedPhoneInput(event.target.value);
+      setMaskedPhone(getMaskedPhone);
+    }
+
+    //set state for all other inputs
     if (name === "company") {
       setCompanyName(value);
     } else if (name === "name") {
       setContactName(value);
-    } else if (name === "telNo") {
+    } else if (name === "phone") {
       setPhoneNumber(value);
     } else if (name === "email") {
       setEmailAddress(value);
@@ -73,14 +101,62 @@ function ContactForm() {
     } else if (name === "body") {
       setJobDetails(value);
     } else {
-      console.log('error in handle change contact form input')
+      console.log("error in handle change contact form input");
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  // VALIDATION BLUR
+  const handleBlurChange = (event) => {
+    const { name, value } = event.target;
 
-    // console.log(services)
+    name === "company" && value.trim() === ""
+      ? setShowCompanyNameValidation(true)
+      : setShowCompanyNameValidation(false);
+    name === "name" && value.trim() === ""
+      ? setShowContactNameValidation(true)
+      : setShowContactNameValidation(false);
+    name === "email" && value.trim() === ""
+      ? setShowEmailAddressValidation(true)
+      : setShowEmailAddressValidation(false);
+    name === "phone" && value.trim() === ""
+      ? setShowPhoneNumberValidation(true)
+      : setShowPhoneNumberValidation(false);
+    name === "address" && value.trim() === ""
+      ? setShowAddressValidation(true)
+      : setShowAddressValidation(false);
+    name === "city" && value.trim() === ""
+      ? setShowCityValidation(true)
+      : setShowCityValidation(false);
+    name === "state" && value.trim() === ""
+      ? setShowStateValidation(true)
+      : setShowStateValidation(false);
+    name === "zip" && value.trim() === ""
+      ? setShowZipValidation(true)
+      : setShowZipValidation(false);
+    name === "squareFeet" && value.trim() === ""
+      ? setShowSquareFeetValidation(true)
+      : setShowSquareFeetValidation(false);
+    name === "employeeNumber" && value.trim() === ""
+      ? setShowEmployeeNumberValidation(true)
+      : setShowEmployeeNumberValidation(false);
+    name === "startDate" && value.trim() === ""
+      ? setShowStartDateValidation(true)
+      : setShowStartDateValidation(false);
+    name === "services" && value.trim() === ""
+      ? setShowServicesValidation(true)
+      : setShowServicesValidation(false);
+    name === "body" && value.trim() === ""
+      ? setShowJobDetailsValidation(true)
+      : setShowJobDetailsValidation(false);
+  };
+
+  const [emailContent, setEmailContent] = useState({});
+  // eslint-disable-next-line
+  const submitEmailContent = useEmailSend(emailContent);
+
+  const handleSubmit = (event) => {
+    setErrorMessage("");
+    event.preventDefault();
 
     if (
       !companyName ||
@@ -93,9 +169,38 @@ function ContactForm() {
       return;
     }
 
-    if (contactName && emailAddress) {
-      launchEmail();
+    if (!state) {
+      setErrorMessage("Please choose a state");
+      return;
     }
+
+    if (!employeeNumber) {
+      setErrorMessage("Please choose a number of employees");
+      return;
+    }
+
+    if (!services.length) {
+      setErrorMessage("Please choose at least one service");
+      return;
+    }
+
+    setEmailContent({
+      source: "contactUs",
+      companyName: companyName ? companyName : "null",
+      contactName: contactName ? contactName : "null",
+      phoneNumber: phoneNumber ? phoneNumber : "null",
+      emailAddress: emailAddress ? emailAddress : "null",
+      address: address ? address : "null",
+      city: city ? city : "null",
+      state: state ? state : "null",
+      zip: zip ? zip : "null",
+      squareFeet: squareFeet ? squareFeet : "null",
+      employeeNumber: employeeNumber ? employeeNumber : "null",
+      startDate: startDate ? startDate : "null",
+      jobDetails: jobDetails ? jobDetails : "null",
+      services: services ? services : "null",
+    });
+
     // set state back to empty form
     setCompanyName("");
     setContactName("");
@@ -112,13 +217,36 @@ function ContactForm() {
     setServices([]);
   };
 
-  const launchEmail = () => {
-    console.log(contactName, emailAddress, jobDetails);
-    window.open(
-      `mailto:rod.bennett75@gmail.com?subject=Work Order&&body=Company Name=${companyName} %0D%0A%0D%0A Email Address=${emailAddress} %0D%0A%0D%0A City=${city} %0D%0A%0D%0A Contact Name=${contactName} %0D%0A%0D%0A Phone Number=${phoneNumber} %0D%0A%0D%0A Address=${address} %0D%0A%0D%0A State=${state} ${zip} %0D%0A%0D%0A Square Feet=${squareFeet} %0D%0A%0D%0A Employee Number=${employeeNumber} %0D%0A%0D%0A Start Date=${startDate} %0D%0A%0D%0A Services Needed=${services} %0D%0A%0D%0A Job Details=${jobDetails}`
+  useEffect(() => {
+    setAreAllFieldsFilled(
+      companyName.trim() !== "" &&
+        contactName.trim() !== "" &&
+        phoneNumber.trim() !== "" &&
+        emailAddress.trim() !== "" &&
+        address.trim() !== "" &&
+        // suite.trim() !== "" &&
+        city.trim() !== "" &&
+        state.trim() !== "" &&
+        zip.trim() !== "" &&
+        squareFeet.trim() !== "" &&
+        employeeNumber.trim() !== "" &&
+        startDate.trim() !== "" &&
+        jobDetails.trim() !== ""
     );
-    return false;
-  };
+  }, [
+    companyName,
+    contactName,
+    phoneNumber,
+    emailAddress,
+    address,
+    city,
+    state,
+    zip,
+    squareFeet,
+    employeeNumber,
+    startDate,
+    jobDetails
+  ]);
 
   return (
     <>
@@ -127,332 +255,394 @@ function ContactForm() {
         style={{ margin: "30px 30px 30px 50%", textAlign: "center" }}
       >
         {/* media queries for contact form are in navbar.css */}
-        <Container className="contact-form">
-          <Row>
-            <Col>
-              <Form
-                className="py-3 overflow-auto custom-about"
-                style={{ width: "80vw" }}
-                action="mailto:bhoff1980@gmail.com"
-              >
-                <Form.Group
-                  className="mb-3 form-length"
-                  controlId="formBasicEmail"
+        <Container className="">
+          {errorMessage && (
+            <Alert className="form-alert" variant="danger">
+              <p className="error-text">{errorMessage}</p>
+            </Alert>
+          )}
+          <Form
+            className="py-3 overflow-auto custom-about"
+            onSubmit={handleSubmit}
+          >
+            <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
+              <div className="form-label">
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Company Name
+                </Form.Label>
+                <Form.Label
+                  className={`text-danger ${
+                    showCompanyNameValidation ? "show" : "hide"
+                  }`}
                 >
-                  <div className="form-label">
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      Company Name &nbsp;<span className="text-danger">*</span>
-                    </Form.Label>
-                  </div>
-                  <Form.Control
-                    className="custom-border"
-                    type="text"
-                    placeholder="Enter Company Name"
-                    name="company"
-                    onChange={handleChange}
-                    required
-                  />
-                </Form.Group>
+                  * field is required
+                </Form.Label>
+              </div>
+              <Form.Control
+                className="custom-border"
+                type="text"
+                placeholder="Enter Company Name"
+                name="company"
+                onChange={handleChange}
+                onBlur={handleBlurChange}
+                required
+              />
+            </Form.Group>
 
-                <Form.Group
-                  className="mb-3 form-length"
-                  controlId="formBasicEmail"
+            <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
+              <div className="form-label">
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Contact Name
+                </Form.Label>
+                <Form.Label
+                  className={`text-danger ${
+                    showContactNameValidation ? "show" : "hide"
+                  }`}
                 >
-                  <div className="form-label">
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      Contact Name &nbsp;<span className="text-danger">*</span>
-                    </Form.Label>
-                  </div>
-                  <Form.Control
-                    className="custom-border"
-                    type="text"
-                    placeholder="Enter Contact Name"
-                    name="name"
-                    onChange={handleChange}
-                    required
-                  />
-                </Form.Group>
+                  * field is required
+                </Form.Label>
+              </div>
 
-                <Form.Group
-                  className="mb-3 form-length"
-                  controlId="formBasicEmail"
+              <Form.Control
+                className="custom-border"
+                type="text"
+                placeholder="Enter Contact Name"
+                name="name"
+                onChange={handleChange}
+                onBlur={handleBlurChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
+              <div className="form-label">
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Email Address
+                </Form.Label>
+                <Form.Label
+                  className={`text-danger ${
+                    showEmailAddressValidation ? "show" : "hide"
+                  }`}
                 >
-                  <div className="form-label">
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      Email Address &nbsp;<span className="text-danger">*</span>
-                    </Form.Label>
-                  </div>
+                  * field is required
+                </Form.Label>
+              </div>
 
-                  <Form.Control
-                    className="custom-border"
-                    type="email"
-                    placeholder="Enter Email"
-                    name="email"
-                    onChange={handleChange}
-                    required
-                  />
-                </Form.Group>
+              <Form.Control
+                className="custom-border"
+                type="email"
+                placeholder="Enter Email"
+                name="email"
+                value={emailAddress.toLowerCase()}
+                onChange={handleChange}
+                onBlur={handleBlurChange}
+                required
+              />
+            </Form.Group>
 
-                <Form.Group
-                  className="mb-3 form-length"
-                  controlId="formBasicEmail"
+            <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
+              <div className="form-label">
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Phone Number
+                </Form.Label>
+                <Form.Label
+                  className={`text-danger ${
+                    showPhoneNumberValidation ? "show" : "hide"
+                  }`}
                 >
-                  <div className="form-label">
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      Phone Number
-                    </Form.Label>
-                  </div>
-                  <Form.Control
-                    className="custom-border"
-                    type="tel"
-                    placeholder="Enter phone 123-456-7890"
-                    name="telNo"
-                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                    onChange={handleChange}
-                  />
-                </Form.Group>
+                  * field is required
+                </Form.Label>
+              </div>
+              <Form.Control
+                className="custom-border"
+                type="tel"
+                placeholder="ex 555-555-5555"
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                maxLength="12"
+                value={maskedPhone}
+                name="phone"
+                onChange={handleChange}
+                onBlur={handleBlurChange}
+              />
+            </Form.Group>
 
-                <Form.Group
-                  className="mb-3 form-length"
-                  controlId="formBasicEmail"
+            <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
+              <div className="form-label">
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Address
+                </Form.Label>
+                <Form.Label
+                  className={`text-danger ${
+                    showAddressValidation ? "show" : "hide"
+                  }`}
                 >
-                  <div className="form-label">
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      Address
-                    </Form.Label>
-                    <Form.Label></Form.Label>
-                  </div>
-                  <Form.Control
-                    className="custom-border"
-                    placeholder="Enter Address"
-                    name="address"
-                    onChange={handleChange}
-                  />
-                </Form.Group>
+                  * field is required
+                </Form.Label>
+              </div>
+              <Form.Control
+                className="custom-border"
+                placeholder="Enter Address"
+                name="address"
+                onChange={handleChange}
+                onBlur={handleBlurChange}
+              />
+            </Form.Group>
 
-                <Row className="addy">
-                  <Col sm={12} md={5} style={{ paddingBottom: "15px" }}>
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      City
-                    </Form.Label>
-                    <Form.Control
-                      className="custom-border"
-                      placeholder="City"
-                      name="city"
-                      onChange={handleChange}
-                    />
-                  </Col>
+            <Row
+              className="addy"
+              style={{ paddingLeft: "0px", paddingRight: "0px" }}
+            >
+              <Col sm={12} md={5}>
+                <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
+                <Form.Label
+                  className={`text-danger ${
+                    showCityValidation ? "show" : "hide"
+                  }`}
+                >
+                  * field is required
+                </Form.Label>
+                <Form.Control
+                  className="custom-border"
+                  placeholder="City"
+                  name="city"
+                  onChange={handleChange}
+                  onBlur={handleBlurChange}
+                />
+              </Col>
 
-                  <Col style={{ marginRight: "auto", marginLeft: "auto" }}>
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      State
-                    </Form.Label>
-                    <Form.Control
-                      as={"select"}
-                      name="state"
-                      className="custom-border"
-                      placeholder="State"
-                      style={{ maxWidth: "150px" }}
-                      onChange={handleChange}
-                    >
-                      <option>Select</option>
-                      {STATE_DROPDOWN.map((st, index) => (
-                        <option key={index}>{st}</option>
-                      ))}
-                    </Form.Control>
-                  </Col>
-                  <Col style={{ marginRight: "auto", marginLeft: "auto" }}>
-                    <Form.Label
-                      style={{ fontWeight: "bolder", align: "right" }}
-                    >
-                      Zipcode
-                    </Form.Label>
-                    <Form.Control
-                      className="custom-border"
-                      style={{ maxWidth: "150px" }}
-                      placeholder="Zip"
-                      name="zip"
-                      onChange={handleChange}
-                    />
-                  </Col>
-                </Row>
-
-                <Row className="addy">
-                  <Col
-                    xs={6}
-                    style={{ marginRight: "auto", marginLeft: "auto" }}
-                  >
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      Office Sqft
-                    </Form.Label>
-                    <Form.Control
-                      className="custom-border"
-                      placeholder="8000 Sqft"
-                      name="squareFeet"
-                      onChange={handleChange}
-                    />
-                  </Col>
-                  {/* <Form.Group> */}
-                  {/* <Col xs={12} md={6}> */}
-                  <Col>
-                    <Form.Label
-                      style={{
-                        fontWeight: "bolder",
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      # of Employees
-                    </Form.Label>
-                    {/* <Col xs={12}> */}
-                    <Col>
-                      {/* <Form.Label
-                      className={`validation-color ${
-                        showNumberOfClientEmployeesValidation ? "show" : "hide"
-                      }`}
-                    >
-                      *required
-                    </Form.Label> */}
-                      <Form.Control
-                        as="select"
-                        className="custom-border"
-                        type="text"
-                        name="employeeNumber"
-                        onChange={handleChange}
-                        // value={numberOfClientEmployees}
-                        // name="numberOfClientEmployees"
-                        // onChange={handleInputChange}
-                      >
-                        <option>Select</option>
-                        {numberOfEmployees.map((emp, index) => (
-                          <option key={index}>{emp}</option>
-                        ))}
-                      </Form.Control>
-                    </Col>
-                  </Col>
-                </Row>
-
-                <div className="d-flex justify-content-between">
-                  <Form.Group
-                    className="form-length"
-                    controlId="formBasicEmail"
-                  >
-                    <div className="form-label">
-                      <Form.Label style={{ fontWeight: "bolder" }}>
-                        Estimated Date for Work to be Scheduled &nbsp;
-                        <span className="text-danger">*</span>
-                      </Form.Label>
-                    </div>
-                    <Form.Control
-                      className="custom-border"
-                      type="date"
-                      name="startDate"
-                      onChange={handleChange}
-                      required
-                    />
-                  </Form.Group>
-                </div>
-
-                <Form.Group className="mb-3" controlId="formBasicName">
-                  <Form.Label
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      fontWeight: "bolder",
-                    }}
-                  >
-                    Services Needed
-                  </Form.Label>
-                  {["checkbox"].map((type) => (
-                    <div key={`inline-${type}`} className="mb-3">
-                      <Form.Check
-                        inline
-                        label="Delivery"
-                        name="services"
-                        value="Delivery"
-                        type={type}
-                        id={`inline-${type}-1`}
-                        onChange={handleChange}
-                      />
-                      <Form.Check
-                        inline
-                        label="Furniture Installation"
-                        name="services"
-                        value="Furniture Installation"
-                        type={type}
-                        id={`inline-${type}-1`}
-                        onChange={handleChange}
-                      />
-                      <Form.Check
-                        inline
-                        label="Moving an Office"
-                        name="services"
-                        value="Moving an Office"
-                        type={type}
-                        id={`inline-${type}-2`}
-                        onChange={handleChange}
-                      />
-                      <Form.Check
-                        inline
-                        label="Office Reconfiguration"
-                        name="services"
-                        value="Office Reconfiguration"
-                        type={type}
-                        id={`inline-${type}-3`}
-                        onChange={handleChange}
-                      />
-                      <Form.Check
-                        inline
-                        name="services"
-                        label="Cleaning after Installation"
-                        value="Cleaning after Installation"
-                        type={type}
-                        id={`inline-${type}-4`}
-                        onChange={handleChange}
-                      />
-                    </div>
+              <Col style={{ marginRight: "auto", marginLeft: "auto" }}>
+                <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
+                <Form.Label
+                  className={`text-danger ${
+                    showStateValidation ? "show" : "hide"
+                  }`}
+                >
+                  * field is required
+                </Form.Label>
+                <Form.Control
+                  as={"select"}
+                  name="state"
+                  className="custom-border"
+                  placeholder="State"
+                  onChange={handleChange}
+                  onBlur={handleBlurChange}
+                  required
+                >
+                  <option>Select</option>
+                  {STATE_DROPDOWN.map((st, index) => (
+                    <option key={index}>{st}</option>
                   ))}
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formBasicMessage">
-                  <div className="form-label">
-                    <Form.Label style={{ fontWeight: "bolder" }}>
-                      Job Details &nbsp;<span className="text-danger">*</span>
-                    </Form.Label>
-                  </div>
-                  <Form.Control
-                    className="custom-border"
-                    as="textarea"
-                    rows={4}
-                    type="textarea"
-                    placeholder="Enter additional information here."
-                    name="body"
-                    onChange={handleChange}
-                    required
-                  />
-                </Form.Group>
-
-                <Button
-                  className="button-custom submit-button-style"
-                  variant="primary"
-                  type="submit"
-                  title="Enter all fields to send email"
-                  onClick={handleSubmit}
+                </Form.Control>
+              </Col>
+              <Col>
+                <Form.Label style={{ fontWeight: "bolder", align: "right" }}>
+                  Zipcode
+                </Form.Label>
+                <Form.Label
+                  className={`text-danger ${
+                    showZipValidation ? "show" : "hide"
+                  }`}
                 >
-                  Send Email
-                </Button>
-              </Form>
+                  * field is required
+                </Form.Label>
+                <Form.Control
+                  className="custom-border"
+                  placeholder="Zip"
+                  name="zip"
+                  onChange={handleChange}
+                  onBlur={handleBlurChange}
+                />
+              </Col>
+            </Row>
 
-              {errorMessage && (
-                <Alert className="form-alert" variant="danger">
-                  <p className="error-text">{errorMessage}</p>
-                </Alert>
-              )}
-            </Col>
-          </Row>
+            <Row className="addy">
+              <Col xs={6} style={{ marginRight: "auto", marginLeft: "auto" }}>
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Office Sqft
+                </Form.Label>
+                <Form.Label
+                  className={`text-danger ${
+                    showSquareFeetValidation ? "show" : "hide"
+                  }`}
+                >
+                  * field is required
+                </Form.Label>
+                <Form.Control
+                  className="custom-border"
+                  placeholder="8000 Sqft"
+                  name="squareFeet"
+                  onChange={handleChange}
+                  onBlur={handleBlurChange}
+                />
+              </Col>
+              <Col className="margin-expand" style={{ paddingLeft: "0px" }}>
+                <Form.Label
+                  style={{
+                    fontWeight: "bolder",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  # of Employees
+                </Form.Label>
+                <Form.Label
+                  className={`text-danger ${
+                    showEmployeeNumberValidation ? "show" : "hide"
+                  }`}
+                >
+                  * field is required
+                </Form.Label>
+                <Col>
+                  <Form.Control
+                    as="select"
+                    className="custom-border"
+                    type="text"
+                    name="employeeNumber"
+                    onChange={handleChange}
+                    onBlur={handleBlurChange}
+                    required
+                  >
+                    <option>Select</option>
+                    {NUMBER_OF_EMPLOYEES.map((emp, index) => (
+                      <option key={index}>{emp}</option>
+                    ))}
+                  </Form.Control>
+                </Col>
+              </Col>
+            </Row>
+
+            <Form.Group className="form-length" controlId="formBasicEmail">
+              <div className="form-label">
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Requested Completion Date
+                </Form.Label>
+                <Form.Label
+                  className={`text-danger ${
+                    showStartDateValidation ? "show" : "hide"
+                  }`}
+                >
+                  * field is required
+                </Form.Label>
+              </div>
+              <Form.Control
+                className="custom-border"
+                type="date"
+                min={new Date().toISOString().split("T")[0]}
+                name="startDate"
+                onChange={handleChange}
+                onBlur={handleBlurChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group
+              className="mb-3 form-length"
+              controlId="formBasicCompletionDate"
+            >
+              <div className="form-label">
+                <Form.Label
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    fontWeight: "bolder",
+                  }}
+                >
+                  Services Needed
+                </Form.Label>
+              </div>
+              {["checkbox"].map((type) => (
+                <div
+                  key={`inline-${type}`}
+                  className="mb-3 d-flex justify-content-around flex-wrap"
+                  style={{ textAlign: "left" }}
+                >
+                  <Form.Check
+                    style={{ width: "250px" }}
+                    label="Delivery"
+                    name="services"
+                    value="Delivery"
+                    type={type}
+                    id={`inline-${type}-1`}
+                    onChange={handleChange}
+                    onBlur={handleBlurChange}
+                  />
+                  <Form.Check
+                    style={{ width: "250px" }}
+                    label="Furniture Installation"
+                    name="services"
+                    value="Furniture Installation"
+                    type={type}
+                    id={`inline-${type}-1`}
+                    onChange={handleChange}
+                  />
+                  <Form.Check
+                    style={{ width: "250px" }}
+                    name="services"
+                    label="Cleaning after Installation"
+                    value="Cleaning after Installation"
+                    type={type}
+                    id={`inline-${type}-4`}
+                    onChange={handleChange}
+                  />
+                  <Form.Check
+                    style={{ width: "250px" }}
+                    label="Moving an Office"
+                    name="services"
+                    value="Moving an Office"
+                    type={type}
+                    id={`inline-${type}-2`}
+                    onChange={handleChange}
+                  />
+                  <Form.Check
+                    style={{ width: "250px" }}
+                    label="Office Reconfiguration"
+                    name="services"
+                    value="Office Reconfiguration"
+                    type={type}
+                    id={`inline-${type}-3`}
+                    onChange={handleChange}
+                  />
+                </div>
+              ))}
+            </Form.Group>
+            <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
+              <div className="form-label">
+                <Form.Label style={{ fontWeight: "bolder" }}>
+                  Job Details
+                </Form.Label>
+                <Form.Label
+                  className={`text-danger ${
+                    showJobDetailsValidation ? "show" : "hide"
+                  }`}
+                >
+                  * field is required
+                </Form.Label>
+              </div>
+              <Form.Control
+                className="custom-border"
+                as="textarea"
+                rows={4}
+                type="textarea"
+                placeholder="Enter additional information here."
+                name="body"
+                onChange={handleChange}
+                onBlur={handleBlurChange}
+                required
+              />
+            </Form.Group>
+
+            <Button
+              className="button-custom submit-button-style"
+              variant="primary"
+              type="submit"
+              title="Enter all fields to send email"
+              disabled={!areAllFieldsFilled}
+            >
+              Send Email
+            </Button>
+          </Form>
         </Container>
       </div>
-
       <Footer />
     </>
   );

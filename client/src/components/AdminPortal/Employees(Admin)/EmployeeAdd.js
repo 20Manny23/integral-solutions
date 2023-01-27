@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 
-import { useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
+import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
 import { ADD_EMPLOYEE } from "../../../utils/mutations";
 
 import { Container, Form, Button } from "react-bootstrap";
 
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
+import { maskedPhoneInput } from "../../../utils/phoneMask";
 
 function EmployeeAdd() {
   // GET FORM INPUT
@@ -18,20 +20,27 @@ function EmployeeAdd() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLocked, setIsLocked] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
+  const [maskedPhone, setMaskedPhone] = useState("");
 
-    // VALIDATION
-    const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
-    const [showLastNameValidation, setShowLastNameValidation] = useState(false);
-    const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-    const [showEmailEmployeeValidation, setShowEmailEmployeeValidation] =
-      useState(false);
-    const [showPasswordValidation, setShowPasswordValidation] =
-      useState(false);
+  // VALIDATION
+  const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
+  const [showLastNameValidation, setShowLastNameValidation] = useState(false);
+  const [showPhoneValidation, setShowPhoneValidation] = useState(false);
+  const [showEmailEmployeeValidation, setShowEmailEmployeeValidation] =
+    useState(false);
+  const [showPasswordValidation, setShowPasswordValidation] = useState(false);
 
   //SECTION HANDLE INPUT
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    // console.log(e)
+    // console.log(event)
+    // console.log(event.target.value)
+
+    //mask (auto populate) phone format input as xxx-xxx-xxx
+    if (name === "phone") {
+      let getMaskedPhone = maskedPhoneInput(event.target.value);
+      setMaskedPhone(getMaskedPhone);
+    }
 
     name === "firstName"
       ? setFirstName(value)
@@ -46,30 +55,29 @@ function EmployeeAdd() {
     return name;
   };
 
-  //SECTION VALIDATION BLUR
-  const handleBlurChange = (e) => {
-    const { name, value } = e.target;
-
-    name === "email" && value.trim() === ""
-      ? setShowEmailEmployeeValidation(true)
-      : setShowEmailEmployeeValidation(false);
-    name === "phone" && value.trim() === ""
-      ? setShowPhoneValidation(true)
-      : setShowPhoneValidation(false);
-    name === "password" && value.trim() === ""
-      ? setShowPasswordValidation(true)
-      : setShowPasswordValidation(false);
-    name === "firstName" && value.trim() === ""
-      ? setShowFirstNameValidation(true)
-      : setShowFirstNameValidation(false);
-    name === "lastName" && value.trim() === ""
-      ? setShowLastNameValidation(true)
-      : setShowLastNameValidation(false);
-  };
+  //SECTION GET ALL EMPLOYEES
+  // add this query as it seems to be necessary for the refetchQueries on the mutation (which is called after an employee is added)
+  const {
+    // eslint-disable-next-line
+    loading: empLoad,
+    // eslint-disable-next-line
+    data: emp,
+    // eslint-disable-next-line
+    error: empError,
+    // eslint-disable-next-line
+    refetch: empRefetch,
+  } = useQuery(QUERY_ALL_EMPLOYEES, {
+    variables: {
+      isDisplayable: true, //only retrieve employees with a displayable status = true
+    },
+  });
 
   //SECTION ADD EMPLOYEE
   const [addEmployee] = useMutation(ADD_EMPLOYEE, {
-    refetchQueries: ["getAllEmployees"],
+    refetchQueries: [
+      { query: QUERY_ALL_EMPLOYEES }, // DocumentNode object parsed with gql
+      "getAllEmployees", // Query name
+    ],
   });
 
   const handleAddEmployeeSubmit = async (event) => {
@@ -99,15 +107,33 @@ function EmployeeAdd() {
           isLocked: false,
         },
       });
-
     } catch (err) {
-
       console.error(err);
-
     }
 
     resetForm();
+  };
 
+  //section utility functions
+  //validation blur
+  const handleBlurChange = (e) => {
+    const { name, value } = e.target;
+
+    name === "email" && value.trim() === ""
+      ? setShowEmailEmployeeValidation(true)
+      : setShowEmailEmployeeValidation(false);
+    name === "phone" && value.trim() === ""
+      ? setShowPhoneValidation(true)
+      : setShowPhoneValidation(false);
+    name === "password" && value.trim() === ""
+      ? setShowPasswordValidation(true)
+      : setShowPasswordValidation(false);
+    name === "firstName" && value.trim() === ""
+      ? setShowFirstNameValidation(true)
+      : setShowFirstNameValidation(false);
+    name === "lastName" && value.trim() === ""
+      ? setShowLastNameValidation(true)
+      : setShowLastNameValidation(false);
   };
 
   // Reset the add employee form after submission
@@ -125,8 +151,8 @@ function EmployeeAdd() {
   useEffect(() => {
     setAreAllFieldsFilled(
       email.trim() !== "" &&
-      firstName.trim() !== "" &&
-      lastName.trim() !== "" &&
+        firstName.trim() !== "" &&
+        lastName.trim() !== "" &&
         phone.trim() !== "" &&
         password.trim() !== ""
     );
@@ -136,7 +162,7 @@ function EmployeeAdd() {
 
   return (
     <Container>
-      <Form onSubmit={handleAddEmployeeSubmit} style={{alignContent:'left'}}>
+      <Form onSubmit={handleAddEmployeeSubmit} style={{ alignContent: "left" }}>
         <div id="example-collapse-text">
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
@@ -202,11 +228,13 @@ function EmployeeAdd() {
             <Form.Control
               className="custom-border"
               type="tel"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               placeholder="ex 555-555-5555"
+              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              maxLength="12"
+              value={maskedPhone}
               name="phone"
               onChange={handleInputChange}
-              // onBlur={handleBlurChange}
+              onBlur={handleBlurChange}
               required
             />
           </Form.Group>
@@ -229,6 +257,7 @@ function EmployeeAdd() {
               type="email"
               placeholder="Enter Email Address"
               name="email"
+              value={email.toLowerCase()}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required

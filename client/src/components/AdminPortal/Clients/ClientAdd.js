@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import { useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
+import { QUERY_ALL_CLIENTS } from "../../../utils/queries";
 import { ADD_CLIENT } from "../../../utils/mutations";
 
-import { Row, Col, Container, Form, Button } from "react-bootstrap";
-
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
+import { maskedPhoneInput } from "../../../utils/phoneMask";
 
+import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
@@ -22,6 +23,7 @@ function ClientAdd() {
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
+  const [maskedPhone, setMaskedPhone] = useState("");
 
   // VALIDATION
   const [showBusinessNameValidation, setShowBusinessNameValidation] =
@@ -37,9 +39,40 @@ function ClientAdd() {
   const [showStateValidation, setShowStateValidation] = useState(false);
   const [showZipValidation, setShowZipValidation] = useState(false);
 
+  // SECTION queries & mutations
+  // add this query as it seems to be necessary for the refetchQueries on the mutation (which is called after a client is added)
+  const {
+    // eslint-disable-next-line
+    loading: clientsLoad,
+    // eslint-disable-next-line
+    data: clients,
+    // eslint-disable-next-line
+    error: clientError,
+    // eslint-disable-next-line
+    refetch: clientsRefetch,
+  } = useQuery(QUERY_ALL_CLIENTS, {
+    variables: {
+      isDisplayable: true, //only retrieve clients with a displayable status
+    },
+  });
+
+  const [addClient] = useMutation(ADD_CLIENT, {
+    refetchQueries: [
+      { query: QUERY_ALL_CLIENTS }, // DocumentNode object parsed with gql
+      "getAllClients", // Query name
+    ],
+  });
+
+  //section handle input
   // Getting the value or name of input triggering change
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
+    //mask (auto populate) phone format input as xxx-xxx-xxx
+    if (name === "phone") {
+      let getMaskedPhone = maskedPhoneInput(event.target.value);
+      setMaskedPhone(getMaskedPhone);
+    }
 
     // Ternary statement that will call either setFirstName or setLastName based on what field the user is typing in
     name === "businessName"
@@ -60,11 +93,38 @@ function ClientAdd() {
       ? setState(value)
       : setZip(value);
 
-    console.log("email = ", emailClient);
-
     return name;
   };
 
+  //section add client
+  // Add client to the Client model/table
+  const handleAddClientSubmit = async (event) => {
+    event.preventDefault();
+    console.log(event);
+
+    try {
+      // eslint-disable-next-line
+      const { data } = await addClient({
+        variables: {
+          businessName,
+          contact,
+          phone,
+          email: emailClient,
+          streetAddress,
+          suite,
+          city,
+          state,
+          zip,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+
+    resetForm();
+  };
+
+  //section utility functions
   // If user clicks off an input field without entering text, then validation message "is required" displays
   // businessName, contact, phone, email, streetAddress, suite, city, state, zip
   const handleBlurChange = (e) => {
@@ -97,38 +157,6 @@ function ClientAdd() {
     name === "zip" && value.trim() === ""
       ? setShowZipValidation(true)
       : setShowZipValidation(false);
-  };
-
-  // SECTION ADD
-  const [addClient] = useMutation(ADD_CLIENT, {
-    refetchQueries: ["getAllClients"],
-  });
-
-  // Add client to the Client model/table
-  const handleAddClientSubmit = async (event) => {
-    event.preventDefault();
-    console.log(event);
-
-    try {
-      // eslint-disable-next-line
-      const { data } = await addClient({
-        variables: {
-          businessName,
-          contact,
-          phone,
-          email: emailClient,
-          streetAddress,
-          suite,
-          city,
-          state,
-          zip,
-        },
-      });
-    } catch (err) {
-      console.error(err);
-    }
-
-    resetForm();
   };
 
   // Reset the add client form after submission
@@ -242,10 +270,11 @@ function ClientAdd() {
             <Form.Control
               className="custom-border"
               type="tel"
-              placeholder="example: 123-456-7899"
-              name="phone"
-              value={phone}
+              placeholder="ex 555-555-5555"
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              maxLength="12"
+              value={maskedPhone}
+              name="phone"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -313,7 +342,6 @@ function ClientAdd() {
               placeholder="Enter Address"
               name="suite"
               value={suite}
-              // defaultValue="suite #"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -335,7 +363,6 @@ function ClientAdd() {
                 placeholder="City"
                 name="city"
                 value={city}
-                // defaultValue="test city"
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 required
@@ -357,14 +384,12 @@ function ClientAdd() {
                 placeholder="State"
                 name="state"
                 value={state}
-                // defaultValue="CO"
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                // required
               >
                 <option>Select</option>
-                {STATE_DROPDOWN.map((st) => (
-                  <option>{st}</option>
+                {STATE_DROPDOWN.map((st, index) => (
+                  <option key={index}>{st}</option>
                 ))}
               </Form.Control>
             </Col>
@@ -382,7 +407,6 @@ function ClientAdd() {
                 placeholder="Zip"
                 name="zip"
                 value={zip}
-                // defaultValue="07801"
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 required

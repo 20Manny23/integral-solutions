@@ -7,5 +7,6 @@ const format_phone = (phone) => {
   return phoneFormatted.toString();
 };
 
-module.exports = format_phone;
+// console.log(phoneFormatted);
 
+module.exports = format_phone;

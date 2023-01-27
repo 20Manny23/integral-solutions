@@ -1,0 +1,14 @@
+
+
+
+@media screen and (max-width:767px) {
+    .hours-btn{
+        color: red;
+       
+      display: flex;
+      justify-content: center;
+        margin-top: 10px;
+        
+    }
+    
+}

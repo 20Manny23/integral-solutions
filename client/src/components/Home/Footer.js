@@ -1,17 +1,21 @@
 import { Link } from "react-router-dom";
-import { Row, Col, Container, Nav,} from "react-bootstrap";
-import "../../styles/home.css";
+import { Nav } from "react-bootstrap";
+import "../../styles/footer.css";
 import logo from "../../assets/images/logo.bkg.png";
 
-function Footer () {
-    return (       
-    <footer >
-        <Container>
-        {/* <h3 className="footer-title">
-        Office Furniture Installation At The Snap Of Your Fingers!
-        </h3> */}
+function Footer() {
+  return (
+    <footer>
+      <div className="">
         <h3 className="footer-title">
           Serving Greater Denver for Over 15 Years
+        </h3>
+        <main className="footer-container">
+          <img className="full-logo" src={logo} alt="logo"></img>
+          <section className="phone-container">
+            <p className="">(555)-555-5555</p>
+            <p className="espanol">Se Habla Español!</p>
+          </section>
         </h3> 
           <Row>
             <Col sm={5} md={4} xs={6}>

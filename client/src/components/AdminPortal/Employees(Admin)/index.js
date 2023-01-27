@@ -1,9 +1,9 @@
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 
 import Employees from "./Employees";
-import EmployeeAdd from "./EmployeeAdd"
-import EmployeeUpdate from "./EmployeeUpdate"
+import EmployeeAdd from "./EmployeeAdd";
+import EmployeeUpdate from "./EmployeeUpdate";
 
 function EmployeesList() {
   return (
@@ -11,7 +11,9 @@ function EmployeesList() {
       defaultActiveKey="employeeList"
       id="fill-tab-example"
       className="mb-3"
-      fill
+      fill //sizes tabs to fit available space
+      unmountOnExit //removes content when entering a different tab
+      mountOnEnter
     >
       <Tab eventKey="employeeList" title="Employee List">
         <Employees />
@@ -20,7 +22,7 @@ function EmployeesList() {
         <EmployeeAdd />
       </Tab>
       <Tab eventKey="employeeUpdate" title="Update Employee">
-       <EmployeeUpdate />
+        <EmployeeUpdate />
       </Tab>
     </Tabs>
   );
