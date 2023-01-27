@@ -215,7 +215,7 @@ function Clients() {
          <Modal.Title>Delete Confirmation</Modal.Title>
        </Modal.Header>
        <Modal.Body>
-         Are you sure that you want to delete this employee?
+         Are you sure that you want to delete this client record?
        </Modal.Body>
        <Modal.Footer>
          <Button variant="secondary" style={{backgroundColor:'red'}}onClick={handleSoftClient}>
