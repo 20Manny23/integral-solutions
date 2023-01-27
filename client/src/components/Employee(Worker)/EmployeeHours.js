@@ -607,8 +607,8 @@ function EmployeeHours() {
 
         <Accordion style={{marginBottom:'15px'}}>
           {weekInfo?.map((thisWeek, index) => (
-            <Card>
-              <div key={index}>
+            <Card key={index}>
+              <div>
                 <div>
                   <Accordion.Toggle
                     style={{ backgroundColor: "white", color: "#007bff" }}
