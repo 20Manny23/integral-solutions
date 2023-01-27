@@ -231,7 +231,7 @@ function EmployeeAdminHours() {
     }
     setThisMonthHours(totalMonthlyHours.toFixed(2));
   };
-
+console.log(emp)
   //Sorts Array By Last Name
   let arrayForSort = [];
   if (emp) {
