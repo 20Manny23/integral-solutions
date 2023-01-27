@@ -141,10 +141,10 @@ function EmployeeAdd() {
 
   // Reset the add employee form after submission
   const resetForm = () => {
-    setEmail("");
     setFirstName("");
     setLastName("");
     setPhone("");
+    setEmail("");
     setPassword("");
     setIsAdmin("");
     setIsLocked("");
@@ -186,6 +186,7 @@ function EmployeeAdd() {
               type="text"
               placeholder="Enter Employee Name"
               name="firstName"
+              value={firstName}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -210,6 +211,7 @@ function EmployeeAdd() {
               type="text"
               placeholder="Enter Last Name"
               name="lastName"
+              value={lastName}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -279,6 +281,7 @@ function EmployeeAdd() {
               className="custom-border"
               type="text"
               name="driversLicense"
+              value={hasDriversLicense}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
             >
@@ -304,6 +307,7 @@ function EmployeeAdd() {
               type="password"
               placeholder="Setup Employee Password"
               name="password"
+              value={password}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
