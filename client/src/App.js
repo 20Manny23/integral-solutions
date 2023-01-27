@@ -109,6 +109,7 @@ function App() {
               <Route exact path="/home" element={<Home />} />
               <Route exact path="/shoplinks" element={<ShopLinks />} />
               <Route exact path="/contact" element={<ContactUs />} />
+              {/* <Route exact path="/resetpassword" element={<ResetPassword />} /> */}
      
               <Route
                 exact
