@@ -13,7 +13,7 @@ function Footer() {
         <main className="footer-container">
           <img className="full-logo" src={logo} alt="logo"></img>
           <section className="phone-container">
-            <p className="">(555)-555-5555</p>
+            <p className="">(720)-232-2510</p>
             <p className="espanol">Se Habla Español!</p>
           </section>
 
