@@ -1,3 +1,19 @@
+/* for hours mock - to be deleted */
+.hours-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+}
+
+.date-hours-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0px;
+}
+/* for hours mock - to be deleted */
+
 .acc {
   display: flex;
   justify-content: space-between;
@@ -24,6 +40,18 @@
   .hours-wrapper {
     width: 350px;
   }
+
+  /* for hours mock to be deleted */
+  .hours-container {
+    flex-direction: column;
+  }
+  
+  .date-hours-container {
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  /* for hours mock to be deleted */
 }
 
 @media screen and (max-width: 400px) {

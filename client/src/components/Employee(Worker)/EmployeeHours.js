@@ -538,7 +538,7 @@ function EmployeeHours() {
           }}
         >
           {" "}
-          Hours Total: {weeklyHours}
+          Hours Total: {parseFloat(weeklyHours).toFixed(2)}
         </p>
 
         <Accordion style={{ marginBottom: "15px" }}>
@@ -640,7 +640,7 @@ function EmployeeHours() {
                         textAlign: "center",
                       }}
                     >
-                      Hours Last Week: {lastWeekHours}
+                      Hours Last Week: {parseFloat(lastWeekHours).toFixed(2)}
                     </div>
                     {lastWeekDays?.map((days, index) => (
                       <div
@@ -650,7 +650,7 @@ function EmployeeHours() {
                       >
                         <div className="d-flex justify-content-around">
                           <p>{days.jobDate}</p>
-                          <p>Hours: {days.hours}</p>
+                          <p>Hours: {parseFloat(days.hours).toFixed(2)}</p>
                         </div>
                       </div>
                     ))}
