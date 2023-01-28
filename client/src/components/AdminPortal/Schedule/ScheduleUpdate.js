@@ -29,9 +29,12 @@ import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 import "../../../styles/Forms.css";
+import SuccessAlert from "../../Alert";
+
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function ScheduleUpdate() {
+  const [showSuccess, setShowSuccess] = useState(false);
   //form = input fields
   const [businessName, setBusinessName] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
@@ -359,6 +362,8 @@ function ScheduleUpdate() {
     setSelectNumberOfClientEmployees(false);
     setSelectJobDetails(false);
 
+    oneFieldHasInput ? setShowSuccess(true) : setShowSuccess(false)
+
     resetForm();
 
     setFormIsDisabled(true); // enable form for input
@@ -560,8 +565,7 @@ function ScheduleUpdate() {
             </option>
             {arrayForSortDate.map((job, index) => (
               <option key={index} data-id={job?._id}>
-                {index + 1}: {format_date_MMDDYYYY(job?.startDate)} {"--"}
-                {job?.client?.businessName}
+                <p>{index + 1}: {format_date_MMDDYYYY(job?.startDate)} -- {job?.client?.businessName}</p>
               </option>
             ))}
           </Form.Control>
@@ -906,6 +910,13 @@ function ScheduleUpdate() {
             disabled={formIsDisabled}
           />
         </Form.Group>
+
+        <SuccessAlert
+              message="Job details has been updated"
+              show={showSuccess}
+            >
+            </SuccessAlert>
+
 
         <Button
           className="button-custom submit-button-style"

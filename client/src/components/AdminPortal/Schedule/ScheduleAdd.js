@@ -21,7 +21,11 @@ import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 import "../../../styles/Forms.css";
 
+import SuccessAlert from "../../Alert";
+
 function ScheduleAdd() {
+  const [showSuccess, setShowSuccess] = useState(false);
+
   console.log(new Date().toISOString().split("T")[0]);
   // GET FORM INPUT
   const [businessName, setBusinessName] = useState("");
@@ -236,6 +240,7 @@ function ScheduleAdd() {
     updateClientJobs(mostRecentScheduleId);
     updateEmployeeJobs(mostRecentScheduleId);
 
+    !areAllFieldsFilled ? setShowSuccess(true) : setShowSuccess(false);
     resetForm();
   };
 
@@ -741,6 +746,12 @@ function ScheduleAdd() {
             //required
           />
         </Form.Group>
+        <SuccessAlert
+              message="New job has been created!"
+              show={showSuccess}
+            >
+            </SuccessAlert>
+
 
         <Button
           className="button-custom submit-button-style"
