@@ -13,7 +13,11 @@ import { Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
+import SuccessAlert from "../../Alert";
+
 function EmployeeUpdate() {
+  const [showSuccess, setShowSuccess] = useState(false);
+
   //form = input fields
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -156,6 +160,8 @@ function EmployeeUpdate() {
       console.log(err);
     }
 
+    oneFieldHasInput ? setShowSuccess(true) : setShowSuccess(false);
+
     empRefetch();
 
     // allow form to populate with selected client data
@@ -208,10 +214,10 @@ function EmployeeUpdate() {
   useEffect(() => {
     setOneFieldHasInput(
       email.trim() !== "" ||
-        phone.trim() !== "" ||
-        firstName.trim() !== "" ||
-        lastName.trim() !== "" ||
-        hasDriversLicense !== ""
+      phone.trim() !== "" ||
+      firstName.trim() !== "" ||
+      lastName.trim() !== "" ||
+      hasDriversLicense !== ""
     );
     // eslint-disable-next-line
   }, [email, phone, firstName, lastName, hasDriversLicense]);
@@ -264,9 +270,8 @@ function EmployeeUpdate() {
                 First Name
               </Form.Label>
               <Form.Label
-                className={`validation-color ${
-                  showFirstNameValidation ? "show" : "hide"
-                }`}
+                className={`validation-color ${showFirstNameValidation ? "show" : "hide"
+                  }`}
               >
                 * field is required
               </Form.Label>
@@ -288,9 +293,8 @@ function EmployeeUpdate() {
                 Last Name
               </Form.Label>
               <Form.Label
-                className={`validation-color ${
-                  showLastNameValidation ? "show" : "hide"
-                }`}
+                className={`validation-color ${showLastNameValidation ? "show" : "hide"
+                  }`}
               >
                 * field is required
               </Form.Label>
@@ -313,9 +317,8 @@ function EmployeeUpdate() {
                 Phone Number
               </Form.Label>
               <Form.Label
-                className={`validation-color ${
-                  showPhoneValidation ? "show" : "hide"
-                }`}
+                className={`validation-color ${showPhoneValidation ? "show" : "hide"
+                  }`}
               >
                 * field is required
               </Form.Label>
@@ -339,9 +342,8 @@ function EmployeeUpdate() {
                 Email
               </Form.Label>
               <Form.Label
-                className={`validation-color ${
-                  showEmailEmployeeValidation ? "show" : "hide"
-                }`}
+                className={`validation-color ${showEmailEmployeeValidation ? "show" : "hide"
+                  }`}
               >
                 * field is required
               </Form.Label>
@@ -355,19 +357,18 @@ function EmployeeUpdate() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
-              // required
+            // required
             />
           </Form.Group>
-          
+
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label htmlFor="driversLicense" style={{ fontWeight: "bolder" }}>
                 Drivers License
               </Form.Label>
               <Form.Label
-                className={`validation-color ${
-                  showHasDriversLicenseValidation ? "show" : "hide"
-                }`}
+                className={`validation-color ${showHasDriversLicenseValidation ? "show" : "hide"
+                  }`}
               >
                 * field is required
               </Form.Label>
@@ -382,13 +383,20 @@ function EmployeeUpdate() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
-              // required
+            // required
             >
               <option>Select</option>
               <option>Yes</option>
               <option>No</option>
             </Form.Control>
           </Form.Group>
+
+          <SuccessAlert
+              message="Employee has been updated"
+              show={showSuccess}
+            >
+            </SuccessAlert>
+
           <div className="d-flex justify-content-center">
             <Button
               className="submit-button-style"

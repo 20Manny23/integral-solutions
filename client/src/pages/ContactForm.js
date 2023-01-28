@@ -643,7 +643,7 @@ function ContactForm() {
             </Form.Group>
 
             <SuccessAlert
-              variant="success"
+              // variant="success"
               message="Email sent! We'll be in touch shortly."
               show={showSuccess}
             >
