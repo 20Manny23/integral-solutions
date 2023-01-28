@@ -1,18 +1,3 @@
 [
-  {
-    "_id": "313233343536373839303132",
-    "isDisplayable": true,
-    "businessName": "ABC Office Company",
-    "streetAddress": "2300 Steele St",
-    "suite": "",
-    "city": "Denver",
-    "state": "CO",
-    "zip": "80205",
-    "contact": "Larry Finkle",
-    "phone": "303-555-5555",
-    "email": "client_1@help.com",
-    "schedule": [
-      "413233343536373839303132"
-    ]
-  }
+  
 ]

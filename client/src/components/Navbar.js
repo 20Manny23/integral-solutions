@@ -75,13 +75,13 @@ const AppNavbar = () => {
             </>
           )} */}
 
-          {!Auth.loggedIn() && (
+          {/* {!Auth.loggedIn() && (
             <>
               <Nav.Link className="navLink" as={Link} to="/contact">
                 Contact Us
               </Nav.Link>
             </>
-          )}
+          )} */}
 
           {(Auth.loggedIn() && Auth.isLocked() === false) && (
             <>

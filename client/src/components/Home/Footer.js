@@ -21,9 +21,9 @@ function Footer() {
             <Nav.Link className="menu-text" as={Link} to="/shoplinks">
               Shop Furniture
             </Nav.Link>
-            <Nav.Link className="menu-text" as={Link} to="/contact">
+            {/* <Nav.Link className="menu-text" as={Link} to="/contact">
               Contact Us{" "}
-            </Nav.Link>
+            </Nav.Link> */}
             <Nav.Link className="menu-text" as={Link} to="/login">
               Employee Login
             </Nav.Link>
