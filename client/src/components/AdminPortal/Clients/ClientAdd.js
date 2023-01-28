@@ -6,12 +6,15 @@ import { ADD_CLIENT } from "../../../utils/mutations";
 
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
 import { maskedPhoneInput } from "../../../utils/phoneMask";
+import SuccessAlert from "../../Alert";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
 function ClientAdd() {
+  const [showSuccess, setShowSuccess] = useState(false);
+
   // GET CLIENT FORM DATA
   const [businessName, setBusinessName] = useState("");
   const [contact, setContact] = useState("");
@@ -120,6 +123,8 @@ function ClientAdd() {
     } catch (err) {
       console.error(err);
     }
+
+    areAllFieldsFilled ? setShowSuccess(true) : setShowSuccess(false);
 
     resetForm();
   };
@@ -413,6 +418,12 @@ function ClientAdd() {
               />
             </Col>
           </Row>
+          <SuccessAlert
+              message="Client has been added"
+              show={showSuccess}
+            >
+            </SuccessAlert>
+
           <div className="d-flex justify-content-center">
             <Button
               className="submit-button-style"

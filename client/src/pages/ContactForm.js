@@ -8,6 +8,8 @@ import { STATE_DROPDOWN } from "../utils/stateDropdown";
 import { NUMBER_OF_EMPLOYEES } from "../utils/numberOfEmployees";
 import { maskedPhoneInput } from "../utils/phoneMask";
 
+import SuccessAlert from "../components/Alert";
+
 import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
 import "../styles/Forms.css";
 
@@ -16,6 +18,7 @@ import "../styles/Forms.css";
 function ContactForm() {
   // set error state
   const [errorMessage, setErrorMessage] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
 
   // set state for form inputs
   const [companyName, setCompanyName] = useState("");
@@ -32,6 +35,7 @@ function ContactForm() {
   const [services, setServices] = useState([]);
   const [jobDetails, setJobDetails] = useState("");
   const [maskedPhone, setMaskedPhone] = useState("");
+
 
   //  validation
   const [showCompanyNameValidation, setShowCompanyNameValidation] =
@@ -78,7 +82,7 @@ function ContactForm() {
     }
 
     //set state for all other inputs
-    if (name === "company") {
+    if (name === "companyName") {
       setCompanyName(value);
     } else if (name === "name") {
       setContactName(value);
@@ -111,7 +115,7 @@ function ContactForm() {
   const handleBlurChange = (event) => {
     const { name, value } = event.target;
 
-    name === "company" && value.trim() === ""
+    name === "companyName" && value.trim() === ""
       ? setShowCompanyNameValidation(true)
       : setShowCompanyNameValidation(false);
     name === "name" && value.trim() === ""
@@ -156,8 +160,9 @@ function ContactForm() {
   // eslint-disable-next-line
   const submitEmailContent = useEmailSend(emailContent);
 
+
   const handleSubmit = (event) => {
-    setErrorMessage("");
+    // setErrorMessage("");
     event.preventDefault();
 
     if (
@@ -186,6 +191,10 @@ function ContactForm() {
       return;
     }
 
+    if (areAllFieldsFilled) {
+      setShowSuccess(true);
+    }
+
     setEmailContent({
       source: "contactUs",
       companyName: companyName ? companyName : "null",
@@ -203,7 +212,10 @@ function ContactForm() {
       services: services ? services : "null",
     });
 
-    // set state back to empty form
+    resetForm();
+  };
+  // set state back to empty form
+  const resetForm = () => {
     setCompanyName("");
     setContactName("");
     setPhoneNumber("");
@@ -222,18 +234,18 @@ function ContactForm() {
   useEffect(() => {
     setAreAllFieldsFilled(
       companyName.trim() !== "" &&
-        contactName.trim() !== "" &&
-        phoneNumber.trim() !== "" &&
-        emailAddress.trim() !== "" &&
-        address.trim() !== "" &&
-        // suite.trim() !== "" &&
-        city.trim() !== "" &&
-        state.trim() !== "" &&
-        zip.trim() !== "" &&
-        squareFeet.trim() !== "" &&
-        employeeNumber.trim() !== "" &&
-        startDate.trim() !== "" &&
-        jobDetails.trim() !== ""
+      contactName.trim() !== "" &&
+      phoneNumber.trim() !== "" &&
+      emailAddress.trim() !== "" &&
+      address.trim() !== "" &&
+      city.trim() !== "" &&
+      state.trim() !== "" &&
+      zip.trim() !== "" &&
+      squareFeet.trim() !== "" &&
+      employeeNumber.trim() !== "" &&
+      startDate.trim() !== "" &&
+      jobDetails.trim() !== "" &&
+      services.length > 0
     );
   }, [
     companyName,
@@ -247,7 +259,8 @@ function ContactForm() {
     squareFeet,
     employeeNumber,
     startDate,
-    jobDetails
+    jobDetails,
+    services
   ]);
 
   return (
@@ -258,7 +271,7 @@ function ContactForm() {
       >
         {/* media queries for contact form are in navbar.css */}
         <Container className="">
-          {errorMessage && (
+        {errorMessage && (
             <Alert className="form-alert" variant="danger">
               <p className="error-text">{errorMessage}</p>
             </Alert>
@@ -273,9 +286,8 @@ function ContactForm() {
                   Company Name
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${
-                    showCompanyNameValidation ? "show" : "hide"
-                  }`}
+                  className={`text-danger ${showCompanyNameValidation ? "show" : "hide"
+                    }`}
                 >
                   * field is required
                 </Form.Label>
@@ -284,7 +296,8 @@ function ContactForm() {
                 className="custom-border"
                 type="text"
                 placeholder="Enter Company Name"
-                name="company"
+                name="companyName"
+                value={companyName}
                 onChange={handleChange}
                 onBlur={handleBlurChange}
                 required
@@ -297,9 +310,8 @@ function ContactForm() {
                   Contact Name
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${
-                    showContactNameValidation ? "show" : "hide"
-                  }`}
+                  className={`text-danger ${showContactNameValidation ? "show" : "hide"
+                    }`}
                 >
                   * field is required
                 </Form.Label>
@@ -310,6 +322,7 @@ function ContactForm() {
                 type="text"
                 placeholder="Enter Contact Name"
                 name="name"
+                value={contactName}
                 onChange={handleChange}
                 onBlur={handleBlurChange}
                 required
@@ -322,9 +335,8 @@ function ContactForm() {
                   Email Address
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${
-                    showEmailAddressValidation ? "show" : "hide"
-                  }`}
+                  className={`text-danger ${showEmailAddressValidation ? "show" : "hide"
+                    }`}
                 >
                   * field is required
                 </Form.Label>
@@ -348,9 +360,8 @@ function ContactForm() {
                   Phone Number
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${
-                    showPhoneNumberValidation ? "show" : "hide"
-                  }`}
+                  className={`text-danger ${showPhoneNumberValidation ? "show" : "hide"
+                    }`}
                 >
                   * field is required
                 </Form.Label>
@@ -374,9 +385,8 @@ function ContactForm() {
                   Address
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${
-                    showAddressValidation ? "show" : "hide"
-                  }`}
+                  className={`text-danger ${showAddressValidation ? "show" : "hide"
+                    }`}
                 >
                   * field is required
                 </Form.Label>
@@ -385,6 +395,7 @@ function ContactForm() {
                 className="custom-border"
                 placeholder="Enter Address"
                 name="address"
+                value={address}
                 onChange={handleChange}
                 onBlur={handleBlurChange}
               />
@@ -397,9 +408,8 @@ function ContactForm() {
               <Col sm={12} md={5}>
                 <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
                 <Form.Label
-                  className={`text-danger ${
-                    showCityValidation ? "show" : "hide"
-                  }`}
+                  className={`text-danger ${showCityValidation ? "show" : "hide"
+                    }`}
                 >
                   * field is required
                 </Form.Label>
@@ -407,6 +417,7 @@ function ContactForm() {
                   className="custom-border"
                   placeholder="City"
                   name="city"
+                  value={city}
                   onChange={handleChange}
                   onBlur={handleBlurChange}
                 />
@@ -415,15 +426,15 @@ function ContactForm() {
               <Col style={{ marginRight: "auto", marginLeft: "auto" }}>
                 <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
                 <Form.Label
-                  className={`text-danger ${
-                    showStateValidation ? "show" : "hide"
-                  }`}
+                  className={`text-danger ${showStateValidation ? "show" : "hide"
+                    }`}
                 >
                   * field is required
                 </Form.Label>
                 <Form.Control
                   as={"select"}
                   name="state"
+                  value={state}
                   className="custom-border"
                   placeholder="State"
                   onChange={handleChange}
@@ -441,9 +452,8 @@ function ContactForm() {
                   Zipcode
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${
-                    showZipValidation ? "show" : "hide"
-                  }`}
+                  className={`text-danger ${showZipValidation ? "show" : "hide"
+                    }`}
                 >
                   * field is required
                 </Form.Label>
@@ -451,6 +461,7 @@ function ContactForm() {
                   className="custom-border"
                   placeholder="Zip"
                   name="zip"
+                  value={zip}
                   onChange={handleChange}
                   onBlur={handleBlurChange}
                 />
@@ -463,9 +474,8 @@ function ContactForm() {
                   Office Sqft
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${
-                    showSquareFeetValidation ? "show" : "hide"
-                  }`}
+                  className={`text-danger ${showSquareFeetValidation ? "show" : "hide"
+                    }`}
                 >
                   * field is required
                 </Form.Label>
@@ -473,6 +483,7 @@ function ContactForm() {
                   className="custom-border"
                   placeholder="8000 Sqft"
                   name="squareFeet"
+                  value={squareFeet}
                   onChange={handleChange}
                   onBlur={handleBlurChange}
                 />
@@ -488,9 +499,8 @@ function ContactForm() {
                   # of Employees
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${
-                    showEmployeeNumberValidation ? "show" : "hide"
-                  }`}
+                  className={`text-danger ${showEmployeeNumberValidation ? "show" : "hide"
+                    }`}
                 >
                   * field is required
                 </Form.Label>
@@ -500,6 +510,7 @@ function ContactForm() {
                     className="custom-border"
                     type="text"
                     name="employeeNumber"
+                    value={employeeNumber}
                     onChange={handleChange}
                     onBlur={handleBlurChange}
                     required
@@ -519,9 +530,8 @@ function ContactForm() {
                   Requested Completion Date
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${
-                    showStartDateValidation ? "show" : "hide"
-                  }`}
+                  className={`text-danger ${showStartDateValidation ? "show" : "hide"
+                    }`}
                 >
                   * field is required
                 </Form.Label>
@@ -531,6 +541,7 @@ function ContactForm() {
                 type="date"
                 min={new Date().toISOString().split("T")[0]}
                 name="startDate"
+                value={startDate}
                 onChange={handleChange}
                 onBlur={handleBlurChange}
                 required
@@ -613,9 +624,8 @@ function ContactForm() {
                   Job Details
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${
-                    showJobDetailsValidation ? "show" : "hide"
-                  }`}
+                  className={`text-danger ${showJobDetailsValidation ? "show" : "hide"
+                    }`}
                 >
                   * field is required
                 </Form.Label>
@@ -627,12 +637,20 @@ function ContactForm() {
                 type="textarea"
                 placeholder="Enter additional information here."
                 name="body"
+                value={jobDetails}
                 onChange={handleChange}
                 onBlur={handleBlurChange}
                 required
               />
             </Form.Group>
-{/* <GenericAlert></GenericAlert> */}
+
+            <SuccessAlert
+              // variant="success"
+              message="Email sent! We'll be in touch shortly."
+              show={showSuccess}
+            >
+            </SuccessAlert>
+
             <Button
               className="button-custom submit-button-style"
               variant="primary"

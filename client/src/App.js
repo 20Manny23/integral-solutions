@@ -26,6 +26,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
+  faDriversLicense,
   faSave,
   faLocationDot,
   faEnvelopeOpenText,
@@ -49,6 +50,7 @@ import {
 
 
 library.add(
+  faDriversLicense,
   faSave,
   faLocationDot,
   faEnvelopeOpenText,
@@ -107,7 +109,7 @@ function App() {
               <Route exact path="/" element={<Home />} />
               <Route exact path="/home" element={<Home />} />
               <Route exact path="/shoplinks" element={<ShopLinks />} />
-              <Route exact path="/contact" element={<ContactUs />} />
+              {/* <Route exact path="/contact" element={<ContactUs />} /> */}
               {/* <Route exact path="/resetpassword" element={<ResetPassword />} /> */}
      
               <Route
@@ -134,7 +136,7 @@ function App() {
                   />
                 }
               /> */}
-              <Route
+              {/* <Route
                 exact
                 path="/forgotpassword"
                 element={<ForgotPassword renderPanel={"forgotpassword"} />}
@@ -143,7 +145,7 @@ function App() {
                 exact
                 path="/resetpassword/:token"
                 element={<ResetPassword renderPanel={"resetpassword"} />}
-              />
+              /> */}
               <Route path="*" element={<WrongPage />} />
             </Routes>
           </>

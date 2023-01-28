@@ -29,9 +29,12 @@ import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 import "../../../styles/Forms.css";
+import SuccessAlert from "../../Alert";
+
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function ScheduleUpdate() {
+  const [showSuccess, setShowSuccess] = useState(false);
   //form = input fields
   const [businessName, setBusinessName] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
@@ -358,6 +361,8 @@ function ScheduleUpdate() {
     setSelectSquareFeet(false);
     setSelectNumberOfClientEmployees(false);
     setSelectJobDetails(false);
+
+    oneFieldHasInput ? setShowSuccess(true) : setShowSuccess(false)
 
     resetForm();
 
@@ -906,6 +911,13 @@ function ScheduleUpdate() {
             disabled={formIsDisabled}
           />
         </Form.Group>
+
+        <SuccessAlert
+              message="Job details has been updated"
+              show={showSuccess}
+            >
+            </SuccessAlert>
+
 
         <Button
           className="button-custom submit-button-style"

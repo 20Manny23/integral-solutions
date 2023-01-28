@@ -7,12 +7,16 @@ import { UPDATE_CLIENT } from "../../../utils/mutations";
 
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
 import { maskedPhoneInput } from "../../../utils/phoneMask";
+import SuccessAlert from "../../Alert";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
 function ClientUpdate() {
+  const [showSuccess, setShowSuccess] = useState(false);
+
+
   //form = input fields
   const [businessName, setBusinessName] = useState("");
   const [contact, setContact] = useState("");
@@ -201,6 +205,8 @@ function ClientUpdate() {
     setSelectState(false);
     setSelectZip(false);
 
+    oneFieldHasInput ? setShowSuccess(true): setShowSuccess(false);
+
     resetForm();
 
     setFormIsDisabled(true); // enable form for input
@@ -310,11 +316,6 @@ function ClientUpdate() {
               name={"form-select"}
               onChange={handleSelectedClient}
             >
-              {/* <option>
-                {prevClientData?.businessName
-                  ? prevClientData?.businessName
-                  : "Select"}
-              </option> */}
               <option>
                 {prevClientData?.businessName
                   ? prevClientData?.businessName
@@ -548,6 +549,12 @@ function ClientUpdate() {
               />
             </Col>
           </Row>
+          <SuccessAlert
+              message="Client information has been updated!"
+              show={showSuccess}
+            >
+            </SuccessAlert>
+
           <div className="d-flex justify-content-center">
             <Button
               className="submit-button-style"

@@ -135,7 +135,9 @@ const ResetPassword = () => {
               <InputGroup className="mb-3">
                 <Form.Control
                   type={showHidePassword}
-                  placeholder="password"
+                  placeholder="Password (5 character minimum)"
+                  // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                  minLength="5"
                   name="password"
                   onChange={handleInputChange}
                   value={passwordFormData.password}
