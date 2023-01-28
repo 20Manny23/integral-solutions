@@ -299,7 +299,7 @@ function EmployeeAdd() {
 
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>Password</Form.Label>
+              <Form.Label style={{ fontWeight: "bolder" }}>Password (5 character minimum)</Form.Label>
               <Form.Label
                 className={`validation-color ${
                   showPasswordValidation ? "show" : "hide"
@@ -312,6 +312,8 @@ function EmployeeAdd() {
               className="custom-border"
               type="password"
               placeholder="Setup Employee Password"
+              // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              minLength="5"
               name="password"
               value={password}
               onChange={handleInputChange}
