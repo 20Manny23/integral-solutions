@@ -61,10 +61,11 @@ const resolvers = {
 
       // console.log("employee displayable resolver = ", isDisplayable);
 
-      return Employee.find().populate("hour").populate({
+      return Employee.find({ isDisplayable }).populate("hour").populate({
         path: "schedule",
         populate: { path: "client" },
       })
+      
       // return Employee.find({ isDisplayable }).populate({
       //   path: "schedule",
       //   populate: { path: "client" },
