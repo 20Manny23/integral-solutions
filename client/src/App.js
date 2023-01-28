@@ -376,7 +376,7 @@ function App() {
                 />
               )}
 
-              <Route exact path="/contact" element={<ContactUs />} />
+              {/* <Route exact path="/contact" element={<ContactUs />} /> */}
               <Route exact path="/shoplinks" element={<ShopLinks />} />
               <Route path="*" element={<WrongPage />} />
             </Routes>
