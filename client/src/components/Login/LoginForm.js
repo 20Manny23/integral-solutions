@@ -107,7 +107,9 @@ const LoginForm = () => {
             <InputGroup className="mb-3">
               <Form.Control
                 type={showHidePassword}
-                placeholder="Your password"
+                placeholder="Your password (5 character minimum)"
+                // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                minLength="5"
                 name="password"
                 onChange={handleInputChange}
                 value={userFormData.password}
