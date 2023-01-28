@@ -218,17 +218,18 @@ console.log(typeof(employeeId))
                     <Row>
                       <Col md={6} lg={6}>
                         <a href={`tel:+${emp?.phone}`}>
-                          <FontAwesomeIcon icon="fa-solid fa-phone"></FontAwesomeIcon>{" "}
+                          <FontAwesomeIcon className="px-2" icon="fa-solid fa-phone"></FontAwesomeIcon>{" "}
                           {format_phone(emp?.phone)}
                         </a>
                         <br></br>
                         <a href={`mailto:${emp?.email}`}>
                           {" "}
-                          <FontAwesomeIcon icon="fa-solid fa-envelope-open-text" />{" "}
+                          <FontAwesomeIcon className="px-2" icon="fa-solid fa-envelope-open-text" />{" "}
                           {emp?.email}
                         </a>
                         <div>
-                         {emp?.hasDriversLicense === true ? "License: Yes" : "License: No"} 
+                         <FontAwesomeIcon className="px-2" style={{ color: "#007BFE" }}icon="fa-solid fa-drivers-license" />
+                         {`Driver's License: ${emp?.hasDriversLicense}`} 
                          </div>
                       </Col>
                       
