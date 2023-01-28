@@ -310,23 +310,17 @@ function ClientUpdate() {
               name={"form-select"}
               onChange={handleSelectedClient}
             >
-              {/* <option>
-                {prevClientData?.businessName
-                  ? prevClientData?.businessName
-                  : "Select"}
-              </option> */}
               <option>
                 {prevClientData?.businessName
                   ? prevClientData?.businessName
-                  : "Select"}{" "}
+                  : "Select"}
               </option>
               {arrayForSort.map((client, index) => (
                 <option
                   key={index}
-                  // value={client.businessName}
                   data-id={client?._id}
                 >
-                  {client?.businessName}:
+                  {client?.businessName}
                 </option>
               ))}
             </Form.Control>
@@ -361,7 +355,6 @@ function ClientUpdate() {
 
           <Form.Group
             className="mb-3 form-length"
-            // controlId="formBasicEmail"
           >
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>

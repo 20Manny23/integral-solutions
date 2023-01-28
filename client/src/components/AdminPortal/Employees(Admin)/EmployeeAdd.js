@@ -35,11 +35,26 @@ function EmployeeAdd() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
+    let keyPressed;
+    window.addEventListener("keydown", function ({ key, keyCode }) {
+      console.log(key, keyCode);
+      console.log(keyCode >= 48 && keyCode <= 57);
+      keyPressed = keyCode;
+      console.log(keyPressed, keyCode)
+      console.log(name, keyPressed)
+    });
+
     //mask (auto populate) phone format input as xxx-xxx-xxx
-    if (name === "phone") {
+    if (name === "phone" && (keyPressed >= 48 && keyPressed <= 57)) {
       let getMaskedPhone = maskedPhoneInput(event.target.value);
       setMaskedPhone(getMaskedPhone);
     }
+
+    // if (name === "phone") {
+    //   window.addEventListener("keydown", function ({ key, keyCode }) {
+    //     console.log(key, keyCode);
+    //   });
+    // }
 
     name === "firstName"
       ? setFirstName(value)
@@ -293,7 +308,9 @@ function EmployeeAdd() {
 
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>Password (5 character minimum)</Form.Label>
+              <Form.Label style={{ fontWeight: "bolder" }}>
+                Password (5 character minimum)
+              </Form.Label>
               <Form.Label
                 className={`validation-color ${
                   showPasswordValidation ? "show" : "hide"
@@ -332,4 +349,5 @@ function EmployeeAdd() {
     </Container>
   );
 }
+
 export default EmployeeAdd;
