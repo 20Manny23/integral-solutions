@@ -7,7 +7,7 @@ import { QUERY_ME } from "../utils/queries";
 import { getUserId } from "../utils/getUserId";
 
 import EmployeeHours from "../components/Employee(Worker)/EmployeeHours";
-import EmployeeAdminHours from "../components/AdminPortal/Employees(Admin)/EmployeeAdminHours";
+import EmployeeHoursReport from "../components/AdminPortal/Employees(Admin)/EmployeeHoursReport";
 import MockHours from "../components/Employee(Worker)/MockHours";
 
 import { Button, Container, Col, Row } from "react-bootstrap/";
@@ -90,7 +90,7 @@ const HoursMock = ({
                 renderPanel === "hours" ? (
                 <EmployeeHours />
               ) : renderPanel === "hoursadmin" ? (
-                <EmployeeAdminHours />
+                <EmployeeHoursReport />
               ) : (
                 <MockHours />
               )}

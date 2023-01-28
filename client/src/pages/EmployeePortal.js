@@ -8,7 +8,7 @@ import { getUserId } from "../utils/getUserId";
 
 import EmployeePast from "../components/Employee(Worker)/EmpJobList";
 import EmployeeHours from "../components/Employee(Worker)/EmployeeHours";
-import EmployeeAdminHours from "../components/AdminPortal/Employees(Admin)/EmployeeAdminHours";
+import EmployeeHoursReport from "../components/AdminPortal/Employees(Admin)/EmployeeHoursReport";
 
 import { Button, Container, Col, Row } from "react-bootstrap/";
 import "../styles/spinner.css";
@@ -95,7 +95,7 @@ const EmployeePortal = ({
               ) : renderPanel === "hours" ? (
                 <EmployeeHours />
               ) : renderPanel === "hoursadmin" ? (
-                <EmployeeAdminHours />
+                <EmployeeHoursReport />
               ) : (
                 <EmployeePortal />
               )}

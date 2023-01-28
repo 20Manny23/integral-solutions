@@ -35,6 +35,7 @@ export const UPDATE_PASSWORD = gql`
       phone
       isAdmin
       isLocked
+      hasDriversLicense
     }
   }
 `;
@@ -61,6 +62,7 @@ export const UPDATE_EMPLOYEE = gql`
     $phone: String
     $isAdmin: Boolean
     $isLocked: Boolean
+    $hasDriversLicense: String
   ) {
     updateEmployee(
       _id: $id
@@ -71,6 +73,7 @@ export const UPDATE_EMPLOYEE = gql`
       phone: $phone
       isAdmin: $isAdmin
       isLocked: $isLocked
+      hasDriversLicense: $hasDriversLicense
     ) {
       _id
       email
@@ -80,6 +83,7 @@ export const UPDATE_EMPLOYEE = gql`
       phone
       isAdmin
       isLocked
+      hasDriversLicense
     }
   }
 `;
@@ -91,6 +95,7 @@ export const UPDATE_EMPLOYEE_FORM = gql`
     $lastName: String
     $email: String
     $phone: String
+    $hasDriversLicense: String
   ) {
     updateEmployeeForm(
       _id: $id
@@ -98,12 +103,14 @@ export const UPDATE_EMPLOYEE_FORM = gql`
       lastName: $lastName
       email: $email
       phone: $phone
+      hasDriversLicense: $hasDriversLicense
     ) {
       _id
       firstName
       lastName
       email
       phone
+      hasDriversLicense
     }
   }
 `;
@@ -139,6 +146,7 @@ export const ADD_EMPLOYEE = gql`
     $phone: String
     $isAdmin: Boolean
     $isLocked: Boolean
+    $hasDriversLicense: String
   ) {
     addEmployee(
       email: $email
@@ -148,6 +156,7 @@ export const ADD_EMPLOYEE = gql`
       phone: $phone
       isAdmin: $isAdmin
       isLocked: $isLocked
+      hasDriversLicense: $hasDriversLicense
     ) {
       _id
       email
@@ -157,6 +166,7 @@ export const ADD_EMPLOYEE = gql`
       phone
       isAdmin
       isLocked
+      hasDriversLicense
     }
   }
 `;

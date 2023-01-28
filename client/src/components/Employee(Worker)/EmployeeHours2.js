@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Auth from "../../utils/auth";
 import moment from "moment";
+
 import { getUserId } from "../../utils/getUserId";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import {
@@ -9,7 +10,6 @@ import {
   QUERY_HOURS_BYEMPLOYEEID_BYJOBDATE,
 } from "../../utils/queries";
 import {
- 
   UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE,
 } from "../../utils/mutations";
 
@@ -194,6 +194,7 @@ function EmployeeHours() {
       setDayTotal(data.hoursByEmployeeIdByJobDate[0]?.hoursWorked);
     },
   });
+  
   // console.log(thisWeek)
   useEffect(() => {
     getAnEmployeeHoursByHour();
@@ -302,7 +303,7 @@ function EmployeeHours() {
           </div>
           <Accordion>
           {thisWeek.map((date, index) => (
-            <Card>
+            <Card key={index}>
    
             <Accordion.Toggle style={{backgroundColor:'white', color:'#007bff'}}as={Card.Header} onClick={(event) => getElement(event)} eventKey= {index + 1}  >
             {format_date_no_hyphen(date.date)}
@@ -378,18 +379,6 @@ function EmployeeHours() {
                         </Col>
                       </Row>
                     </Form>
-                    <Row className="mr-4 total">
-                      <p
-                        style={{
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                          paddingLeft: "25px",
-                          fontWeight: "bolder",
-                        }}
-                      >
-                        Day's Total Hours: {dayTotal}
-                      </p>
-                    </Row>
               </Card.Body>
             </Accordion.Collapse>
           </Card>

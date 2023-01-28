@@ -19,8 +19,9 @@ function EmployeeAdd() {
   const [password, setPassword] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLocked, setIsLocked] = useState(true);
-  const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
+  const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(false);
   const [maskedPhone, setMaskedPhone] = useState("");
+  const [hasDriversLicense, setHasDriversLicense] = useState(false);
 
   // VALIDATION
   const [showFirstNameValidation, setShowFirstNameValidation] = useState(false);
@@ -33,8 +34,6 @@ function EmployeeAdd() {
   //SECTION HANDLE INPUT
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    // console.log(event)
-    // console.log(event.target.value)
 
     //mask (auto populate) phone format input as xxx-xxx-xxx
     if (name === "phone") {
@@ -50,6 +49,8 @@ function EmployeeAdd() {
       ? setPhone(value)
       : name === "email"
       ? setEmail(value)
+      : name === "driversLicense"
+      ? setHasDriversLicense(value)
       : setPassword(value);
 
     return name;
@@ -91,7 +92,8 @@ function EmployeeAdd() {
       password,
       phone,
       isAdmin,
-      isLocked
+      isLocked,
+      hasDriversLicense
     );
 
     try {
@@ -105,6 +107,7 @@ function EmployeeAdd() {
           password,
           isAdmin: false,
           isLocked: false,
+          hasDriversLicense,
         },
       });
     } catch (err) {
@@ -138,13 +141,14 @@ function EmployeeAdd() {
 
   // Reset the add employee form after submission
   const resetForm = () => {
-    setEmail("");
     setFirstName("");
     setLastName("");
     setPhone("");
+    setEmail("");
     setPassword("");
     setIsAdmin("");
     setIsLocked("");
+    setHasDriversLicense("");
   };
 
   // Validate all fields are populated to enable submit button
@@ -158,7 +162,7 @@ function EmployeeAdd() {
     );
 
     // eslint-disable-next-line
-  }, [email, phone, firstName, lastName]);
+  }, [email, phone, firstName, lastName, password]);
 
   return (
     <Container>
@@ -182,6 +186,7 @@ function EmployeeAdd() {
               type="text"
               placeholder="Enter Employee Name"
               name="firstName"
+              value={firstName}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -206,6 +211,7 @@ function EmployeeAdd() {
               type="text"
               placeholder="Enter Last Name"
               name="lastName"
+              value={lastName}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -266,6 +272,27 @@ function EmployeeAdd() {
 
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
+              <Form.Label style={{ fontWeight: "bolder" }}>
+                Drivers License
+              </Form.Label>
+            </div>
+            <Form.Control
+              as="select"
+              className="custom-border"
+              type="text"
+              name="driversLicense"
+              value={hasDriversLicense}
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+            >
+              <option>Select</option>
+              <option>Yes</option>
+              <option>No</option>
+            </Form.Control>
+          </Form.Group>
+
+          <Form.Group className="mb-3 form-length">
+            <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>Password</Form.Label>
               <Form.Label
                 className={`validation-color ${
@@ -280,6 +307,7 @@ function EmployeeAdd() {
               type="password"
               placeholder="Setup Employee Password"
               name="password"
+              value={password}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
@@ -291,7 +319,7 @@ function EmployeeAdd() {
               className="submit-button-style"
               variant="primary"
               type="submit"
-              disabled={!areAllFieldsFilled}
+              // disabled={areAllFieldsFilled === false}
               title="Enter all fields to add a new client"
             >
               Add Employee

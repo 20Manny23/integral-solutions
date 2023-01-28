@@ -1,3 +1,4 @@
+/* for hours mock - to be deleted */
 .hours-container {
   display: flex;
   flex-direction: row;
@@ -11,8 +12,36 @@
   flex-direction: column;
   margin-bottom: 0px;
 }
+/* for hours mock - to be deleted */
+
+.acc {
+  display: flex;
+  justify-content: space-between;
+}
+
+.name-wrapper {
+  display: flex;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  width: 100%;
+}
+
+.hours-wrapper {
+  width: 550px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+}
+
+.total-container {
+  width: 100px;
+}
 
 @media screen and (max-width: 767px) {
+  .hours-wrapper {
+    width: 350px;
+  }
+
+  /* for hours mock to be deleted */
   .hours-container {
     flex-direction: column;
   }
@@ -22,9 +51,24 @@
     align-items: center;
     margin-bottom: 5px;
   }
-  
-  .time-container {
-    width: 65vw !important;
-    height: 200px;
+  /* for hours mock to be deleted */
+}
+
+@media screen and (max-width: 400px) {
+  .acc {
+    font-size: 13px;
+  }
+
+  .name-wrapper {
+    text-align: center;
+  }
+
+  .hours-wrapper {
+    width: 300px !important;
+    font-size: 12px;
+  }
+
+  .total-container {
+    width: 75px;
   }
 }
