@@ -565,8 +565,7 @@ function ScheduleUpdate() {
             </option>
             {arrayForSortDate.map((job, index) => (
               <option key={index} data-id={job?._id}>
-                {index + 1}: {format_date_MMDDYYYY(job?.startDate)} {"--"}
-                {job?.client?.businessName}
+                <p>{index + 1}: {format_date_MMDDYYYY(job?.startDate)} -- {job?.client?.businessName}</p>
               </option>
             ))}
           </Form.Control>

@@ -16,7 +16,6 @@ import "../../../styles/button-style.css";
 function ClientUpdate() {
   const [showSuccess, setShowSuccess] = useState(false);
 
-
   //form = input fields
   const [businessName, setBusinessName] = useState("");
   const [contact, setContact] = useState("");
@@ -73,7 +72,7 @@ function ClientUpdate() {
     // eslint-disable-next-line
     error: clientError,
     refetch: clientsRefetch,
-  // } = useQuery(QUERY_ALL_CLIENTS);
+    // } = useQuery(QUERY_ALL_CLIENTS);
   } = useQuery(QUERY_ALL_CLIENTS, {
     variables: {
       isDisplayable: true, //only retrieve clients with a displayable status
@@ -205,7 +204,7 @@ function ClientUpdate() {
     setSelectState(false);
     setSelectZip(false);
 
-    oneFieldHasInput ? setShowSuccess(true): setShowSuccess(false);
+    oneFieldHasInput ? setShowSuccess(true) : setShowSuccess(false);
 
     resetForm();
 
@@ -319,7 +318,7 @@ function ClientUpdate() {
               <option>
                 {prevClientData?.businessName
                   ? prevClientData?.businessName
-                  : "Select"}{" "}
+                  : "Select"}
               </option>
               {arrayForSort.map((client, index) => (
                 <option
@@ -327,7 +326,7 @@ function ClientUpdate() {
                   // value={client.businessName}
                   data-id={client?._id}
                 >
-                  {client?.businessName}:
+                  {client?.businessName}
                 </option>
               ))}
             </Form.Control>
@@ -550,10 +549,9 @@ function ClientUpdate() {
             </Col>
           </Row>
           <SuccessAlert
-              message="Client information has been updated!"
-              show={showSuccess}
-            >
-            </SuccessAlert>
+            message="Client information has been updated!"
+            show={showSuccess}
+          ></SuccessAlert>
 
           <div className="d-flex justify-content-center">
             <Button
