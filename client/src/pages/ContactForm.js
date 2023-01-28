@@ -8,12 +8,15 @@ import { STATE_DROPDOWN } from "../utils/stateDropdown";
 import { NUMBER_OF_EMPLOYEES } from "../utils/numberOfEmployees";
 import { maskedPhoneInput } from "../utils/phoneMask";
 
+import SuccessAlert from "../components/Alert";
+
 import { Row, Col, Button, Form, Container, Alert } from "react-bootstrap";
 import "../styles/Forms.css";
 
 function ContactForm() {
   // set error state
   const [errorMessage, setErrorMessage] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
 
   // set state for form inputs
   const [companyName, setCompanyName] = useState("");
@@ -30,6 +33,7 @@ function ContactForm() {
   const [services, setServices] = useState([]);
   const [jobDetails, setJobDetails] = useState("");
   const [maskedPhone, setMaskedPhone] = useState("");
+
 
   //  validation
   const [showCompanyNameValidation, setShowCompanyNameValidation] =
@@ -185,6 +189,10 @@ function ContactForm() {
       return;
     }
 
+    if (areAllFieldsFilled) {
+      setShowSuccess(true);
+    }
+
     setEmailContent({
       source: "contactUs",
       companyName: companyName ? companyName : "null",
@@ -201,7 +209,7 @@ function ContactForm() {
       jobDetails: jobDetails ? jobDetails : "null",
       services: services ? services : "null",
     });
-   
+
     resetForm();
   };
   // set state back to empty form
@@ -228,14 +236,14 @@ function ContactForm() {
       phoneNumber.trim() !== "" &&
       emailAddress.trim() !== "" &&
       address.trim() !== "" &&
-      // suite.trim() !== "" &&
       city.trim() !== "" &&
       state.trim() !== "" &&
       zip.trim() !== "" &&
       squareFeet.trim() !== "" &&
       employeeNumber.trim() !== "" &&
       startDate.trim() !== "" &&
-      jobDetails.trim() !== ""
+      jobDetails.trim() !== "" &&
+      services.length > 0
     );
   }, [
     companyName,
@@ -249,7 +257,8 @@ function ContactForm() {
     squareFeet,
     employeeNumber,
     startDate,
-    jobDetails
+    jobDetails,
+    services
   ]);
 
   return (
@@ -260,7 +269,7 @@ function ContactForm() {
       >
         {/* media queries for contact form are in navbar.css */}
         <Container className="">
-          {errorMessage && (
+        {errorMessage && (
             <Alert className="form-alert" variant="danger">
               <p className="error-text">{errorMessage}</p>
             </Alert>
@@ -632,6 +641,13 @@ function ContactForm() {
                 required
               />
             </Form.Group>
+
+            <SuccessAlert
+              variant="success"
+              message="Email sent! We'll be in touch shortly."
+              show={showSuccess}
+            >
+            </SuccessAlert>
 
             <Button
               className="button-custom submit-button-style"
