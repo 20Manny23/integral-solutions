@@ -76,7 +76,7 @@ function ContactForm() {
     }
 
     //set state for all other inputs
-    if (name === "company") {
+    if (name === "companyName") {
       setCompanyName(value);
     } else if (name === "name") {
       setContactName(value);
@@ -109,7 +109,7 @@ function ContactForm() {
   const handleBlurChange = (event) => {
     const { name, value } = event.target;
 
-    name === "company" && value.trim() === ""
+    name === "companyName" && value.trim() === ""
       ? setShowCompanyNameValidation(true)
       : setShowCompanyNameValidation(false);
     name === "name" && value.trim() === ""
@@ -154,8 +154,9 @@ function ContactForm() {
   // eslint-disable-next-line
   const submitEmailContent = useEmailSend(emailContent);
 
+
   const handleSubmit = (event) => {
-    setErrorMessage("");
+    // setErrorMessage("");
     event.preventDefault();
 
     if (
@@ -200,8 +201,8 @@ function ContactForm() {
       jobDetails: jobDetails ? jobDetails : "null",
       services: services ? services : "null",
     });
+   
     resetForm();
-
   };
   // set state back to empty form
   const resetForm = () => {
@@ -284,7 +285,8 @@ function ContactForm() {
                 className="custom-border"
                 type="text"
                 placeholder="Enter Company Name"
-                name="company"
+                name="companyName"
+                value={companyName}
                 onChange={handleChange}
                 onBlur={handleBlurChange}
                 required
@@ -309,6 +311,7 @@ function ContactForm() {
                 type="text"
                 placeholder="Enter Contact Name"
                 name="name"
+                value={contactName}
                 onChange={handleChange}
                 onBlur={handleBlurChange}
                 required
@@ -381,6 +384,7 @@ function ContactForm() {
                 className="custom-border"
                 placeholder="Enter Address"
                 name="address"
+                value={address}
                 onChange={handleChange}
                 onBlur={handleBlurChange}
               />
@@ -402,6 +406,7 @@ function ContactForm() {
                   className="custom-border"
                   placeholder="City"
                   name="city"
+                  value={city}
                   onChange={handleChange}
                   onBlur={handleBlurChange}
                 />
@@ -418,6 +423,7 @@ function ContactForm() {
                 <Form.Control
                   as={"select"}
                   name="state"
+                  value={state}
                   className="custom-border"
                   placeholder="State"
                   onChange={handleChange}
@@ -444,6 +450,7 @@ function ContactForm() {
                   className="custom-border"
                   placeholder="Zip"
                   name="zip"
+                  value={zip}
                   onChange={handleChange}
                   onBlur={handleBlurChange}
                 />
@@ -465,6 +472,7 @@ function ContactForm() {
                   className="custom-border"
                   placeholder="8000 Sqft"
                   name="squareFeet"
+                  value={squareFeet}
                   onChange={handleChange}
                   onBlur={handleBlurChange}
                 />
@@ -491,6 +499,7 @@ function ContactForm() {
                     className="custom-border"
                     type="text"
                     name="employeeNumber"
+                    value={employeeNumber}
                     onChange={handleChange}
                     onBlur={handleBlurChange}
                     required
@@ -521,6 +530,7 @@ function ContactForm() {
                 type="date"
                 min={new Date().toISOString().split("T")[0]}
                 name="startDate"
+                value={startDate}
                 onChange={handleChange}
                 onBlur={handleBlurChange}
                 required
@@ -616,6 +626,7 @@ function ContactForm() {
                 type="textarea"
                 placeholder="Enter additional information here."
                 name="body"
+                value={jobDetails}
                 onChange={handleChange}
                 onBlur={handleBlurChange}
                 required
