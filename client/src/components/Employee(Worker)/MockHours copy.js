@@ -69,7 +69,7 @@ const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE);
     let hoursWorked = "";
     if (event.target.name.substring(0, 3) === "end") {
       hoursWorked = calcHours(value, name);
-      // console.log("2 = ", hoursWorked);
+      console.log("2 = ", hoursWorked);
     };
 
     //set state for start time
@@ -235,17 +235,17 @@ const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE);
 
   //calc current weekly total hours upon state update for singleHours array
   useEffect(() => {
-    let currentWeekNumber = moment(new Date()).week();
+    let currentWeekNumber = moment(new Date()).year();
     // let currentWeekNumber = moment(new Date()).month();
     // let currentWeekNumber = moment(new Date()).year();
     let currentEmployee = singleHours?.hoursByEmployeeId;
 
-    let hoursForWeek = currentEmployee?.filter(element => moment(element.jobDate).week() === currentWeekNumber).map(element => parseFloat(element.hoursWorked));
+    let hoursForWeek = currentEmployee?.filter(element => moment(element.jobDate).year() === currentWeekNumber).map(element => parseFloat(element.hoursWorked));
 
-    // console.log(hoursForWeek);
+    console.log(hoursForWeek);
 
     let calcWeeklyHours = hoursForWeek?.reduce((accumulator, currentValue) => accumulator + currentValue, 0 );
-    // console.log(calcWeeklyHours);
+    console.log(calcWeeklyHours);
 
     setWeeklyHours(calcWeeklyHours);
   }, [singleHours])
@@ -277,7 +277,7 @@ const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE);
       setRenderData(reformattedHours)
     }
 
-    // console.log(renderData);
+    console.log(renderData);
 
   // eslint-disable-next-line
   }, [singleHours])

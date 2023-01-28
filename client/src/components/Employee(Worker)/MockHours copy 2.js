@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 
 import { useQuery } from "@apollo/client";
-import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
+import { QUERY_ALL_EMPLOYEES } from "../../utils/queries";
 
 import moment from "moment";
-import { format_date_no_hyphen } from "../../../utils/dateFormat";
+import { format_date_no_hyphen } from "../../utils/dateFormat";
 
 import { Container, Accordion, Card } from "react-bootstrap";
-import { thisWeek } from "../../../utils/hoursDates";
+import { thisWeek } from "../../utils/hoursDates";
 
-import "../../../styles/hours.css";
+import "../../styles/hours.css";
 
 function EmployeeHours() {
   const [thisWeekDays, setThisWeekDays] = useState([]); //used to render by employee with respective hours for the week

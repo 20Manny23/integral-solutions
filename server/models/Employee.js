@@ -43,6 +43,10 @@ const employeeSchema = new Schema(
     hasDriversLicense: {
       type: String,
     },
+    hour: {
+      type: Schema.Types.Array,
+      ref: "Hour",
+    },
   },
   {
     timestamps: true,
