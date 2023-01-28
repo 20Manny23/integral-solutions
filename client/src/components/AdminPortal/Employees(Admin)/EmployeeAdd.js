@@ -4,6 +4,8 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
 import { ADD_EMPLOYEE } from "../../../utils/mutations";
 
+import SuccessAlert from "../../Alert";
+
 import { Container, Form, Button } from "react-bootstrap";
 
 import "../../../styles/Contact.css";
@@ -11,6 +13,8 @@ import "../../../styles/button-style.css";
 import { maskedPhoneInput } from "../../../utils/phoneMask";
 
 function EmployeeAdd() {
+  const [showSuccess, setShowSuccess] = useState(false);
+
   // GET FORM INPUT
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -113,6 +117,8 @@ function EmployeeAdd() {
     } catch (err) {
       console.error(err);
     }
+    
+    areAllFieldsFilled ? setShowSuccess(true) : setShowSuccess(false);
 
     resetForm();
   };
@@ -315,13 +321,17 @@ function EmployeeAdd() {
               required
             />
           </Form.Group>
+          <SuccessAlert
+              message="Employee added successfully!"
+              show={showSuccess}            >
+            </SuccessAlert>
 
           <div className="d-flex justify-content-center">
             <Button
               className="submit-button-style"
               variant="primary"
               type="submit"
-              // disabled={areAllFieldsFilled === false}
+              disabled={areAllFieldsFilled === false}
               title="Enter all fields to add a new client"
             >
               Add Employee
