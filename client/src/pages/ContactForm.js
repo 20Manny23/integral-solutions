@@ -6,7 +6,9 @@ import useEmailSend from "../components/EmailSend";
 import Footer from "../components/Home/Footer";
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
 import { NUMBER_OF_EMPLOYEES } from "../utils/numberOfEmployees";
-import { maskedPhoneInput } from "../utils/phoneMask";
+
+// import { maskedPhoneInput } from "../utils/phoneMask";
+import MaskedInput from 'react-text-mask';
 
 import SuccessAlert from "../components/Alert";
 
@@ -21,7 +23,7 @@ function ContactForm() {
   // set state for form inputs
   const [companyName, setCompanyName] = useState("");
   const [contactName, setContactName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phone, setPhone] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -32,7 +34,7 @@ function ContactForm() {
   const [startDate, setStartDate] = useState("");
   const [services, setServices] = useState([]);
   const [jobDetails, setJobDetails] = useState("");
-  const [maskedPhone, setMaskedPhone] = useState("");
+  // const [maskedPhone, setMaskedPhone] = useState("");
 
 
   //  validation
@@ -40,7 +42,7 @@ function ContactForm() {
     useState("");
   const [showContactNameValidation, setShowContactNameValidation] =
     useState("");
-  const [showPhoneNumberValidation, setShowPhoneNumberValidation] =
+  const [showphoneValidation, setShowphoneValidation] =
     useState("");
   const [showEmailAddressValidation, setShowEmailAddressValidation] =
     useState("");
@@ -56,7 +58,7 @@ function ContactForm() {
   const [showJobDetailsValidation, setShowJobDetailsValidation] = useState("");
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
-  const handleChange = (event) => {
+  const handleInputChange = (event) => {
     const { target } = event;
     const name = target.name;
     const value = target.value;
@@ -74,10 +76,10 @@ function ContactForm() {
     }
 
     //mask (auto populate) phone format input as xxx-xxx-xxx
-    if (name === "phone") {
-      let getMaskedPhone = maskedPhoneInput(event.target.value);
-      setMaskedPhone(getMaskedPhone);
-    }
+    // if (name === "phone") {
+    //   let getMaskedPhone = maskedPhoneInput(event.target.value);
+    //   setMaskedPhone(getMaskedPhone);
+    // }
 
     //set state for all other inputs
     if (name === "companyName") {
@@ -85,7 +87,7 @@ function ContactForm() {
     } else if (name === "name") {
       setContactName(value);
     } else if (name === "phone") {
-      setPhoneNumber(value);
+      setPhone(value);
     } else if (name === "email") {
       setEmailAddress(value);
     } else if (name === "address") {
@@ -123,8 +125,8 @@ function ContactForm() {
       ? setShowEmailAddressValidation(true)
       : setShowEmailAddressValidation(false);
     name === "phone" && value.trim() === ""
-      ? setShowPhoneNumberValidation(true)
-      : setShowPhoneNumberValidation(false);
+      ? setShowphoneValidation(true)
+      : setShowphoneValidation(false);
     name === "address" && value.trim() === ""
       ? setShowAddressValidation(true)
       : setShowAddressValidation(false);
@@ -197,7 +199,7 @@ function ContactForm() {
       source: "contactUs",
       companyName: companyName ? companyName : "null",
       contactName: contactName ? contactName : "null",
-      phoneNumber: phoneNumber ? phoneNumber : "null",
+      phone: phone ? phone : "null",
       emailAddress: emailAddress ? emailAddress : "null",
       address: address ? address : "null",
       city: city ? city : "null",
@@ -216,7 +218,7 @@ function ContactForm() {
   const resetForm = () => {
     setCompanyName("");
     setContactName("");
-    setPhoneNumber("");
+    setPhone("");
     setEmailAddress("");
     setAddress("");
     setCity("");
@@ -233,7 +235,7 @@ function ContactForm() {
     setAreAllFieldsFilled(
       companyName.trim() !== "" &&
       contactName.trim() !== "" &&
-      phoneNumber.trim() !== "" &&
+      phone.trim() !== "" &&
       emailAddress.trim() !== "" &&
       address.trim() !== "" &&
       city.trim() !== "" &&
@@ -248,7 +250,7 @@ function ContactForm() {
   }, [
     companyName,
     contactName,
-    phoneNumber,
+    phone,
     emailAddress,
     address,
     city,
@@ -296,7 +298,7 @@ function ContactForm() {
                 placeholder="Enter Company Name"
                 name="companyName"
                 value={companyName}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 required
               />
@@ -321,7 +323,7 @@ function ContactForm() {
                 placeholder="Enter Contact Name"
                 name="name"
                 value={contactName}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 required
               />
@@ -346,7 +348,7 @@ function ContactForm() {
                 placeholder="Enter Email"
                 name="email"
                 value={emailAddress.toLowerCase()}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 required
               />
@@ -358,13 +360,14 @@ function ContactForm() {
                   Phone Number
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${showPhoneNumberValidation ? "show" : "hide"
+                  className={`text-danger ${showphoneValidation ? "show" : "hide"
                     }`}
                 >
                   * field is required
                 </Form.Label>
               </div>
-              <Form.Control
+
+              {/* <Form.Control
                 className="custom-border"
                 type="tel"
                 placeholder="ex 555-555-5555"
@@ -372,9 +375,22 @@ function ContactForm() {
                 maxLength="12"
                 value={maskedPhone}
                 name="phone"
-                onChange={handleChange}
+                onChange={handleInputChange}
                 onBlur={handleBlurChange}
-              />
+              /> */}
+
+            <MaskedInput
+              mask={[/[1-9]/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+              className="form-control custom-border"
+              placeholder="Enter a phone number"
+              guide={true}
+              value={phone}
+              name="phone"
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              required
+            />
+
             </Form.Group>
 
             <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
@@ -394,7 +410,7 @@ function ContactForm() {
                 placeholder="Enter Address"
                 name="address"
                 value={address}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 onBlur={handleBlurChange}
               />
             </Form.Group>
@@ -416,7 +432,7 @@ function ContactForm() {
                   placeholder="City"
                   name="city"
                   value={city}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   onBlur={handleBlurChange}
                 />
               </Col>
@@ -435,7 +451,7 @@ function ContactForm() {
                   value={state}
                   className="custom-border"
                   placeholder="State"
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   onBlur={handleBlurChange}
                   required
                 >
@@ -460,7 +476,7 @@ function ContactForm() {
                   placeholder="Zip"
                   name="zip"
                   value={zip}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   onBlur={handleBlurChange}
                 />
               </Col>
@@ -482,7 +498,7 @@ function ContactForm() {
                   placeholder="8000 Sqft"
                   name="squareFeet"
                   value={squareFeet}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   onBlur={handleBlurChange}
                 />
               </Col>
@@ -509,7 +525,7 @@ function ContactForm() {
                     type="text"
                     name="employeeNumber"
                     value={employeeNumber}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     onBlur={handleBlurChange}
                     required
                   >
@@ -540,7 +556,7 @@ function ContactForm() {
                 min={new Date().toISOString().split("T")[0]}
                 name="startDate"
                 value={startDate}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 required
               />
@@ -574,7 +590,7 @@ function ContactForm() {
                     value="Delivery"
                     type={type}
                     id={`inline-${type}-1`}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     onBlur={handleBlurChange}
                   />
                   <Form.Check
@@ -584,7 +600,7 @@ function ContactForm() {
                     value="Furniture Installation"
                     type={type}
                     id={`inline-${type}-1`}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                   />
                   <Form.Check
                     style={{ width: "250px" }}
@@ -593,7 +609,7 @@ function ContactForm() {
                     value="Cleaning after Installation"
                     type={type}
                     id={`inline-${type}-4`}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                   />
                   <Form.Check
                     style={{ width: "250px" }}
@@ -602,7 +618,7 @@ function ContactForm() {
                     value="Moving an Office"
                     type={type}
                     id={`inline-${type}-2`}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                   />
                   <Form.Check
                     style={{ width: "250px" }}
@@ -611,7 +627,7 @@ function ContactForm() {
                     value="Office Reconfiguration"
                     type={type}
                     id={`inline-${type}-3`}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                   />
                 </div>
               ))}
@@ -636,7 +652,7 @@ function ContactForm() {
                 placeholder="Enter additional information here."
                 name="body"
                 value={jobDetails}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 required
               />

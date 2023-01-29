@@ -10,7 +10,10 @@ import { Container, Form, Button } from "react-bootstrap";
 
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
-import { maskedPhoneInput } from "../../../utils/phoneMask";
+
+// import { maskedPhoneInput } from "../../../utils/phoneMask";
+import MaskedInput from 'react-text-mask';
+// import PhoneMask from "../../PhoneMask"; //fix
 
 function EmployeeAdd() {
   const [showSuccess, setShowSuccess] = useState(false);
@@ -24,7 +27,7 @@ function EmployeeAdd() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLocked, setIsLocked] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(false);
-  const [maskedPhone, setMaskedPhone] = useState("");
+  // const [maskedPhone, setMaskedPhone] = useState("");
   const [hasDriversLicense, setHasDriversLicense] = useState(false);
 
   // VALIDATION
@@ -39,11 +42,8 @@ function EmployeeAdd() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    //mask (auto populate) phone format input as xxx-xxx-xxx
-    if (name === "phone") {
-      let getMaskedPhone = maskedPhoneInput(event.target.value);
-      setMaskedPhone(getMaskedPhone);
-    }
+    console.log(name, value)
+    console.log(phone);
 
     name === "firstName"
       ? setFirstName(value)
@@ -53,6 +53,8 @@ function EmployeeAdd() {
       ? setPhone(value)
       : name === "email"
       ? setEmail(value)
+      : name === "phone"
+      ? setPhone(value)
       : name === "driversLicense"
       ? setHasDriversLicense(value)
       : setPassword(value);
@@ -111,6 +113,7 @@ function EmployeeAdd() {
           password,
           isAdmin: false,
           isLocked: false,
+          isDisplayable: true,
           hasDriversLicense,
         },
       });
@@ -224,7 +227,7 @@ function EmployeeAdd() {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3 form-length">
+          {/* <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
                 Phone Number
@@ -249,6 +252,40 @@ function EmployeeAdd() {
               onBlur={handleBlurChange}
               required
             />
+          </Form.Group> */}
+
+          <Form.Group className="mb-3 form-length">
+            <div className="form-label">
+              <Form.Label style={{ fontWeight: "bolder" }}>
+                Phone Number
+              </Form.Label>
+              <Form.Label
+                className={`validation-color ${
+                  showPhoneValidation ? "show" : "hide"
+                }`}
+              >
+                * field is required
+              </Form.Label>
+            </div>
+
+            {/* <PhoneMask
+                phone={phone}
+                handleInputChange={handleInputChange}
+                handleBlurChange={handleBlurChange}           
+            /> */}
+
+            <MaskedInput
+              mask={[/[1-9]/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+              className="form-control custom-border"
+              placeholder="Enter a phone number"
+              guide={true}
+              value={phone}
+              name="phone"
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              required
+            />
+
           </Form.Group>
 
           <Form.Group className="mb-3 form-length">
@@ -299,7 +336,9 @@ function EmployeeAdd() {
 
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>Password (5 character minimum)</Form.Label>
+              <Form.Label style={{ fontWeight: "bolder" }}>
+                Password (5 character minimum)
+              </Form.Label>
               <Form.Label
                 className={`validation-color ${
                   showPasswordValidation ? "show" : "hide"
@@ -318,13 +357,16 @@ function EmployeeAdd() {
               value={password}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
+              autoComplete="true"
               required
             />
           </Form.Group>
+
           <SuccessAlert
               message="Employee added successfully!"
-              show={showSuccess}            >
-            </SuccessAlert>
+              show={showSuccess}            
+            >
+          </SuccessAlert>
 
           <div className="d-flex justify-content-center">
             <Button
@@ -342,4 +384,5 @@ function EmployeeAdd() {
     </Container>
   );
 }
+
 export default EmployeeAdd;

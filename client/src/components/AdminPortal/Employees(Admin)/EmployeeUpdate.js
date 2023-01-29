@@ -7,7 +7,9 @@ import {
   QUERY_SINGLE_EMPLOYEE,
 } from "../../../utils/queries";
 import { UPDATE_EMPLOYEE_FORM } from "../../../utils/mutations";
-import { maskedPhoneInput } from "../../../utils/phoneMask";
+
+// import { maskedPhoneInput } from "../../../utils/phoneMask";
+import MaskedInput from 'react-text-mask';
 
 import { Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
@@ -24,7 +26,7 @@ function EmployeeUpdate() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
-  const [maskedPhone, setMaskedPhone] = useState("");
+  // const [maskedPhone, setMaskedPhone] = useState("");
   const [hasDriversLicense, setHasDriversLicense] = useState("");
 
   //set selected employee
@@ -86,10 +88,10 @@ function EmployeeUpdate() {
     const { name, value } = event.target;
 
     //mask (auto populate) phone format input as xxx-xxx-xxx
-    if (name === "phone") {
-      let getMaskedPhone = maskedPhoneInput(event.target.value);
-      setMaskedPhone(getMaskedPhone);
-    }
+    // if (name === "phone") {
+    //   let getMaskedPhone = maskedPhoneInput(event.target.value);
+    //   setMaskedPhone(getMaskedPhone);
+    // }
 
     if (name === "firstName") {
       setFirstName(value); //capture input on the form
@@ -323,7 +325,8 @@ function EmployeeUpdate() {
                 * field is required
               </Form.Label>
             </div>
-            <Form.Control
+
+            {/* <Form.Control
               className="custom-border"
               type="tel"
               placeholder="ex 555-555-5555"
@@ -333,7 +336,22 @@ function EmployeeUpdate() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
+            /> */}
+
+            <MaskedInput
+              mask={[/[1-9]/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+              className="form-control custom-border"
+              placeholder="Enter a phone number"
+              guide={true}
+              // value={phone}
+              value={selectPhone ? prevEmployeeData.phone : phone}
+              name="phone"
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              disabled={formIsDisabled}
+              required
             />
+            
           </Form.Group>
 
           <Form.Group className="mb-3 form-length">
