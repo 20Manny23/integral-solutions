@@ -12,7 +12,7 @@ import { Form, Button, Alert } from "react-bootstrap";
 import "../../styles/button-home.css";
 
 function Employees() {
-  const [tempPassword] = useState("200");
+  const [tempPassword] = useState("20000");
   const [userFormData, setUserFormData] = useState({ email: "", password: "" });
   const [employee, setEmployee] = useState({});
   const [forgotPassword, { error }] = useMutation(FORGOT_PASSWORD);
