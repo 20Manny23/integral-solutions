@@ -12,6 +12,8 @@ const employeeSchema = new Schema(
     password: {
       type: String,
       required: true,
+      minlength: 5,
+      maxlength: 50,
     },
     firstName: {
       type: String,

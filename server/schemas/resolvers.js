@@ -1,10 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const {
-  Schedule,
-  Client,
-  Employee,
-  Hour,
-} = require("../models");
+const { Schedule, Client, Employee, Hour } = require("../models");
 const { signToken } = require("../utils/auth");
 const bcrypt = require("bcrypt");
 const { deflateRaw } = require("zlib");
@@ -61,11 +56,13 @@ const resolvers = {
 
       // console.log("employee displayable resolver = ", isDisplayable);
 
-      return Employee.find({ isDisplayable }).populate("hour").populate({
-        path: "schedule",
-        populate: { path: "client" },
-      })
-      
+      return Employee.find({ isDisplayable })
+        .populate("hour")
+        .populate({
+          path: "schedule",
+          populate: { path: "client" },
+        });
+
       // return Employee.find({ isDisplayable }).populate({
       //   path: "schedule",
       //   populate: { path: "client" },
@@ -87,12 +84,14 @@ const resolvers = {
     },
 
     // employeeById: async (parent, { _id, isDisplayable }, context) => {
-      // return Employee.findOne({ _id: _id, schedule: { isDisplayable: isDisplayable } }).populate({
+    // return Employee.findOne({ _id: _id, schedule: { isDisplayable: isDisplayable } }).populate({
 
-      employeeById: async (parent, { _id }, context) => { //fix
-        // if (context.user) {
-      console.log( "employee by id", _id);
-      return Employee.findOne({ _id }).populate({ //fix
+    employeeById: async (parent, { _id }, context) => {
+      //fix
+      // if (context.user) {
+      console.log("employee by id", _id);
+      return Employee.findOne({ _id }).populate({
+        //fix
         path: "schedule",
         populate: { path: "client" },
       });
@@ -265,6 +264,7 @@ const resolvers = {
         contact,
         phone,
         email,
+        isDisplayable,
       },
       context
     ) => {
@@ -279,6 +279,7 @@ const resolvers = {
         contact,
         phone,
         email,
+        isDisplayable,
       });
       return { businessName };
       // }
@@ -380,7 +381,6 @@ const resolvers = {
       );
     },
 
-    //(a) return hours id after record created; attach to element; pass back on 2nd+ click
     //(b) search for employee id and date... and update the record
     updateHourByEmployeeIdByJobDate: async (
       parent,
@@ -389,16 +389,6 @@ const resolvers = {
     ) => {
       // if (context.user) {
       console.log("resolver hours update = ");
-
-      // let hour = await Hour.find({
-      //   employee: employee,
-      //   jobDate: jobDate,
-      // }).populate("employee");
-      // let hourId = hour[0]._id;
-
-      // console.log("test = ", hour);
-      // console.log("test = ", hour[0]._id);
-
       return Hour.findOneAndUpdate(
         // { _id: hourId },
         { employee, jobDate },
@@ -421,13 +411,49 @@ const resolvers = {
       return Hour.findOneAndDelete({ employee, jobDate });
     },
 
+    //fix
+    updateEmployeeHour: async (parent, { _id, hour }, context) => {
+      // if (context.user) {
+      console.log("resolver update employee hour = ", _id, hour);
+      return Employee.findOneAndUpdate(
+        { _id },
+        {
+          $addToSet: { hour },
+        },
+        { new: true }
+      );
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
+    },
+
     // SECTION EMPLOYEE
     addEmployee: async (
       parent,
-      { email, password, firstName, lastName, phone, isAdmin, isLocked, hasDriversLicense },
+      {
+        email,
+        password,
+        firstName,
+        lastName,
+        phone,
+        isAdmin,
+        isLocked,
+        isDisplayable,
+        hasDriversLicense,
+      },
       context
     ) => {
       // if (context.user) {
+      console.log("resolve add employee = ", 
+        email,
+        password,
+        firstName,
+        lastName,
+        phone,
+        isAdmin,
+        isLocked,
+        isDisplayable,
+        hasDriversLicense
+      )
       const employee = await Employee.create({
         email,
         password,
@@ -436,6 +462,7 @@ const resolvers = {
         phone,
         isAdmin,
         isLocked,
+        isDisplayable,
         hasDriversLicense,
       });
       const token = signToken(employee, expiration);
@@ -495,7 +522,7 @@ const resolvers = {
         isAdmin,
         isLocked,
         schedule,
-        hasDriversLicense,
+        hasDriversLicense
       );
       return Employee.findOneAndUpdate(
         { _id },
@@ -537,7 +564,7 @@ const resolvers = {
           lastName,
           email,
           phone,
-          hasDriversLicense
+          hasDriversLicense,
         },
         { new: true }
       );
@@ -635,6 +662,7 @@ const resolvers = {
         numberOfClientEmployees,
         client,
         employees,
+        isDisplayable,
       },
       context
     ) => {
@@ -656,6 +684,7 @@ const resolvers = {
         numberOfClientEmployees,
         client,
         employees,
+        isDisplayable,
       });
       return {
         _id,
@@ -673,6 +702,7 @@ const resolvers = {
         numberOfClientEmployees,
         client,
         employees,
+        isDisplayable,
       };
       // }
       // throw new AuthenticationError("You need to be logged in!");

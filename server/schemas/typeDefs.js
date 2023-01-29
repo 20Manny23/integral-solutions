@@ -151,6 +151,7 @@ const typeDefs = gql`
       contact: String
       phone: String
       email: String
+      isDisplayable: Boolean
     ): Client
 
     deleteClient(_id: ID!): Client
@@ -181,6 +182,7 @@ const typeDefs = gql`
       phone: String
       isAdmin: Boolean
       isLocked: Boolean
+      isDisplayable: Boolean
       hasDriversLicense: String
     ): Employee
 
@@ -214,6 +216,9 @@ const typeDefs = gql`
     ): Employee
 
     updateEmployeeSchedule(_id: ID, schedule: String): Employee
+
+    #fix
+    updateEmployeeHour(_id: ID, hour: String): Employee
 
     removeEmployeeSchedule(_id: ID, schedule: String): Employee
 
@@ -257,6 +262,7 @@ const typeDefs = gql`
       numberOfClientEmployees: String
       client: String
       employees: [String]
+      isDisplayable: Boolean
     ): Schedule
 
     deleteSchedule(_id: ID!): Schedule
