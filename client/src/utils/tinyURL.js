@@ -11,7 +11,7 @@ export const createURL = (token) => {
       ? `${process.env.REACT_APP_DEVELOPMENT_URL}/resetpassword/${token?.token}`
       : `${process.env.REACT_APP_PRODUCTION_URL}/resetpassword/${token?.token}`;
 
-  console.log('uri = ', uri);
+  // console.log('uri = ', uri);
 
   let encodedURI = encodeURI(uri);
 

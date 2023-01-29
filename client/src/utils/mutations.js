@@ -146,6 +146,7 @@ export const ADD_EMPLOYEE = gql`
     $phone: String
     $isAdmin: Boolean
     $isLocked: Boolean
+    $isDisplayable: Boolean
     $hasDriversLicense: String
   ) {
     addEmployee(
@@ -156,6 +157,7 @@ export const ADD_EMPLOYEE = gql`
       phone: $phone
       isAdmin: $isAdmin
       isLocked: $isLocked
+      isDisplayable: $isDisplayable
       hasDriversLicense: $hasDriversLicense
     ) {
       _id
@@ -166,6 +168,7 @@ export const ADD_EMPLOYEE = gql`
       phone
       isAdmin
       isLocked
+      isDisplayable
       hasDriversLicense
     }
   }

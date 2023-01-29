@@ -181,6 +181,7 @@ const typeDefs = gql`
       phone: String
       isAdmin: Boolean
       isLocked: Boolean
+      isDisplayable: Boolean
       hasDriversLicense: String
     ): Employee
 

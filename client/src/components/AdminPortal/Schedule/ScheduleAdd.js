@@ -26,7 +26,7 @@ import SuccessAlert from "../../Alert";
 function ScheduleAdd() {
   const [showSuccess, setShowSuccess] = useState(false);
 
-  console.log(new Date().toISOString().split("T")[0]);
+  // console.log(new Date().toISOString().split("T")[0]);
   // GET FORM INPUT
   const [businessName, setBusinessName] = useState("");
   const [streetAddress, setStreetAddress] = useState("");

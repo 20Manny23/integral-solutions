@@ -45,7 +45,7 @@ function ScheduleList({ pastOrFuture }) {
     }, 
     onCompleted: (data) => {
       
-      console.log(data);
+      // console.log(data);
       const todayDate = Date.now();
 
       setPast([]);
@@ -99,24 +99,24 @@ function ScheduleList({ pastOrFuture }) {
   }
 
     //hard delete is not currently being used rather a soft delete is being used to ensure the schedule is retained in the DB but does not render in the app
-  const handleDeleteSchedule = async (event) => {
-    let scheduleId = event.currentTarget.getAttribute("data-scheduleid");
-    console.log(scheduleId);
+  // const handleDeleteSchedule = async (event) => {
+  //   let scheduleId = event.currentTarget.getAttribute("data-scheduleid");
+  //   // console.log(scheduleId);
 
-    try {
-      // eslint-disable-next-line
-      await deleteSchedule({
-        variables: {
-          id: scheduleId,
-        },
-      });
-    } catch (err) {
-      console.log(err);
-    }
+  //   try {
+  //     // eslint-disable-next-line
+  //     await deleteSchedule({
+  //       variables: {
+  //         id: scheduleId,
+  //       },
+  //     });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
 
-    // RELOAD SCHEDULE
-    scheduleRefetch();
-  };
+  //   // RELOAD SCHEDULE
+  //   scheduleRefetch();
+  // };
 
   // SECTION HANDLE COLLAPSE
   const getElement = (event) => {

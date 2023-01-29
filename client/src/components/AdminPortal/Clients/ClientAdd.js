@@ -5,7 +5,10 @@ import { QUERY_ALL_CLIENTS } from "../../../utils/queries";
 import { ADD_CLIENT } from "../../../utils/mutations";
 
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
-import { maskedPhoneInput } from "../../../utils/phoneMask";
+
+// import { maskedPhoneInput } from "../../../utils/phoneMask";
+import MaskedInput from 'react-text-mask';
+
 import SuccessAlert from "../../Alert";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
@@ -72,10 +75,10 @@ function ClientAdd() {
     const { name, value } = event.target;
 
     //mask (auto populate) phone format input as xxx-xxx-xxx
-    if (name === "phone") {
-      let getMaskedPhone = maskedPhoneInput(event.target.value);
-      setMaskedPhone(getMaskedPhone);
-    }
+    // if (name === "phone") {
+    //   let getMaskedPhone = maskedPhoneInput(event.target.value);
+    //   setMaskedPhone(getMaskedPhone);
+    // }
 
     // Ternary statement that will call either setFirstName or setLastName based on what field the user is typing in
     name === "businessName"
@@ -86,6 +89,8 @@ function ClientAdd() {
       ? setPhone(value)
       : name === "emailClient"
       ? setEmailClient(value)
+      : name === "phone"
+      ? setPhone(value)
       : name === "streetAddress"
       ? setStreetAddress(value)
       : name === "suite"
@@ -272,7 +277,8 @@ function ClientAdd() {
                 * field is required
               </Form.Label>
             </div>
-            <Form.Control
+
+            {/* <Form.Control
               className="custom-border"
               type="tel"
               placeholder="ex 555-555-5555"
@@ -283,7 +289,20 @@ function ClientAdd() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
+            /> */}
+
+            <MaskedInput
+              mask={[/[1-9]/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+              className="form-control custom-border"
+              placeholder="Enter a phone number"
+              guide={true}
+              value={phone}
+              name="phone"
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              required
             />
+
           </Form.Group>
 
           <Form.Group className="mb-3 form-length" controlId="formBasicEmail">

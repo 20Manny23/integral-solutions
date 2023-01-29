@@ -362,7 +362,7 @@ function ScheduleUpdate() {
     setSelectNumberOfClientEmployees(false);
     setSelectJobDetails(false);
 
-    oneFieldHasInput ? setShowSuccess(true) : setShowSuccess(false)
+    oneFieldHasInput ? setShowSuccess(true) : setShowSuccess(false);
 
     resetForm();
 
@@ -565,7 +565,8 @@ function ScheduleUpdate() {
             </option>
             {arrayForSortDate.map((job, index) => (
               <option key={index} data-id={job?._id}>
-                <p>{index + 1}: {format_date_MMDDYYYY(job?.startDate)} -- {job?.client?.businessName}</p>
+                {index + 1}: {format_date_MMDDYYYY(job?.startDate)} --{" "}
+                {job?.client?.businessName}
               </option>
             ))}
           </Form.Control>
@@ -912,11 +913,9 @@ function ScheduleUpdate() {
         </Form.Group>
 
         <SuccessAlert
-              message="Job details has been updated"
-              show={showSuccess}
-            >
-            </SuccessAlert>
-
+          message="Job details has been updated"
+          show={showSuccess}
+        ></SuccessAlert>
 
         <Button
           className="button-custom submit-button-style"

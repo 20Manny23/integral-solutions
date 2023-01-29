@@ -6,7 +6,10 @@ import { QUERY_ALL_CLIENTS, QUERY_SINGLE_CLIENT } from "../../../utils/queries";
 import { UPDATE_CLIENT } from "../../../utils/mutations";
 
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
-import { maskedPhoneInput } from "../../../utils/phoneMask";
+
+// import { maskedPhoneInput } from "../../../utils/phoneMask";
+import MaskedInput from 'react-text-mask';
+
 import SuccessAlert from "../../Alert";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
@@ -99,10 +102,10 @@ function ClientUpdate() {
     const { name, value } = event.target;
 
     //mask (auto populate) phone format input as xxx-xxx-xxx
-    if (name === "phone") {
-      let getMaskedPhone = maskedPhoneInput(event.target.value);
-      setMaskedPhone(getMaskedPhone);
-    }
+    // if (name === "phone") {
+    //   let getMaskedPhone = maskedPhoneInput(event.target.value);
+    //   setMaskedPhone(getMaskedPhone);
+    // }
 
     if (name === "businessName") {
       setBusinessName(value);
@@ -398,7 +401,8 @@ function ClientUpdate() {
                 * field is required
               </Form.Label>
             </div>
-            <Form.Control
+
+            {/* <Form.Control
               className="custom-border"
               type="tel"
               placeholder="ex 555-555-5555"
@@ -409,6 +413,20 @@ function ClientUpdate() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
+            /> */}
+
+            <MaskedInput
+              mask={[/[1-9]/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+              className="form-control custom-border"
+              placeholder="Enter a phone number"
+              guide={true}
+              // value={phone}
+              value={selectPhone ? prevClientData?.phone : phone}
+              name="phone"
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              disabled={formIsDisabled}
+              required
             />
           </Form.Group>
 
