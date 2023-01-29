@@ -15,7 +15,7 @@ export const createURL = (token) => {
 
   let encodedURI = encodeURI(uri);
 
-  return encodedURI, uri;
+  return {encodedURI, uri}; //fix was mising parathesis
 };
 
 // TINY URL API CALL
@@ -23,6 +23,8 @@ export const getTinyURL = async (token, data = {}) => {
   // console.log(token, TINY_URL_PATH, data);
 
   const encodedURI = createURL(token);
+
+  console.log('encoded uri = ', encodedURI);
 
   const response = await fetch(TINY_URL_PATH, {
     method: "POST",
@@ -35,7 +37,7 @@ export const getTinyURL = async (token, data = {}) => {
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body: JSON.stringify({
-      url: encodedURI,
+      url: encodedURI.encodedURI,
       domain: "tiny.one",
     }),
   });
