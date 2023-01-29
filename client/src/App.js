@@ -137,14 +137,13 @@ function App() {
               <Route
                 exact
                 path="/forgotpassword"
-                // element={<ForgotPassword renderPanel={"forgotpassword"} />}
                 element={<ForgotPassword />}
               />
               <Route
                 exact
                 path="/resetpassword/:token"
-                // element={<ResetPassword renderPanel={"resetpassword"} />}
-                element={<ResetPassword />}
+                // element={<ResetPassword />}
+                element={<ForgotPassword />}
               />
               <Route path="*" element={<WrongPage />} />
             </Routes>
@@ -196,7 +195,7 @@ function App() {
                   />
                 }
               /> */}
-              {Auth.isAdmin() && !Auth.isLocked() && (
+              {/* {Auth.isAdmin() && !Auth.isLocked() && (
                 <Route
                   exact
                   path="/forgotpassword"
@@ -208,7 +207,7 @@ function App() {
                 exact
                 path="/resetpassword/:token"
                 element={<ResetPassword />}
-              />
+              /> */}
 
               {Auth.isAdmin() && !Auth.isLocked() && (
                 <Route
