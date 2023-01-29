@@ -17,7 +17,7 @@ import ShopLinks from "./pages/ShopLinks";
 import WrongPage from "./pages/WrongPage";
 import Login from "./pages/Login";
 import EmployeePortal from "./pages/EmployeePortal";
-import EmployeeHours2 from "./components/Employee(Worker)/EmployeeHours2"
+// import EmployeeHours2 from "./components/Employee(Worker)/EmployeeHours2"
 import ForgotPassword from "./components/ResetPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import HoursMock from "./pages/HoursMock";
@@ -47,7 +47,6 @@ import {
   faMap,
   faEdit,
 } from "@fortawesome/free-solid-svg-icons";
-
 
 library.add(
   faDriversLicense,
@@ -111,7 +110,7 @@ function App() {
               <Route exact path="/shoplinks" element={<ShopLinks />} />
               <Route exact path="/contact" element={<ContactUs />} />
               {/* <Route exact path="/resetpassword" element={<ResetPassword />} /> */}
-     
+
               <Route
                 exact
                 path="/login"
@@ -120,7 +119,6 @@ function App() {
                     renderPanel={"login"}
                     // messageButtonIsActive={false}
                     loginButtonIsActive={true}
-                   
                   />
                 }
               />
@@ -181,7 +179,6 @@ function App() {
                     renderPanel={"login"}
                     // messageButtonIsActive={false}
                     loginButtonIsActive={true}
-                   
                   />
                 }
               />
@@ -204,6 +201,13 @@ function App() {
                   element={<ForgotPassword renderPanel={"forgotpassword"} />}
                 />
               )}
+
+              <Route
+                exact
+                path="/resetpassword/:token"
+                element={<ResetPassword renderPanel={"resetpassword"} />}
+              />
+
               {Auth.isAdmin() && !Auth.isLocked() && (
                 <Route
                   exact
@@ -353,8 +357,8 @@ function App() {
                     />
                   }
                 />
-              )}              
-     
+              )}
+
               {Auth.isLocked() === false && (
                 <Route
                   exact
