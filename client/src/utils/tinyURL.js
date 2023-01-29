@@ -10,8 +10,8 @@ export const createURL = (token) => {
     process.env.NODE_ENV === "development"
     // ? `${process.env.REACT_APP_DEVELOPMENT_URL}/resetpassword/${token?.token}`
     // : `${process.env.REACT_APP_PRODUCTION_URL}/resetpassword/${token?.token}`; //fix
-    ? `${process.env.REACT_APP_DEVELOPMENT_URL}/resetpassword`
-    : `${process.env.REACT_APP_PRODUCTION_URL}/resetpassword`;
+    ? `${process.env.REACT_APP_DEVELOPMENT_URL}/reset-password`
+    : `${process.env.REACT_APP_PRODUCTION_URL}/reset-password`;
 
   // console.log('uri = ', uri);
 

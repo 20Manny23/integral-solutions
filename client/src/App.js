@@ -141,7 +141,7 @@ function App() {
               <Route
                 exact
                 // path="/resetpassword/:token"
-                path="/resetpassword"
+                path="/reset-password"
                 element={<ResetPassword />}
                 // element={<ForgotPassword />}
               />
