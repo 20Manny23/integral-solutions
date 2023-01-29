@@ -30,11 +30,14 @@ const ResetPassword = () => {
 
   // section use email address to get user information
   const [employee, setEmployee] = useState({});
-  // eslint-disable-next-line
   const { //fix
+    // eslint-disable-next-line
     loading,
+    // eslint-disable-next-line
     data,
+    // eslint-disable-next-line
     error: getEmployeeError,
+    // eslint-disable-next-line
     refetch,
   } = useQuery(QUERY_EMPLOYEE_BYEMAIL, {
     variables: { email: decoded.data.email },
@@ -73,12 +76,14 @@ const ResetPassword = () => {
   // eslint-disable-next-line
   }, [employee]);
 
+  //section handle input
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     // console.log("inputChange = ", name, value, event.target);
     setPasswordFormData({ ...passwordFormData, [name]: value });
   };
 
+  //section handle submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -90,8 +95,8 @@ const ResetPassword = () => {
     }
 
     try {
-      // await refetch(); //fix
-      // window.location.assign(`/login`);
+      await refetch(); //fix
+      window.location.assign(`/login`);
     } catch (e) {
       console.error(e);
       // setShowAlert(true);
