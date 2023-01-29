@@ -236,6 +236,7 @@ export const ADD_CLIENT = gql`
     $city: String
     $state: String
     $zip: String
+    $isDisplayable: Boolean
   ) {
     addClient(
       businessName: $businessName
@@ -247,6 +248,7 @@ export const ADD_CLIENT = gql`
       city: $city
       state: $state
       zip: $zip
+      isDisplayable: $isDisplayable
     ) {
       _id
       businessName
@@ -258,6 +260,7 @@ export const ADD_CLIENT = gql`
       state
       city
       zip
+      isDisplayable
     }
   }
 `;
@@ -347,6 +350,7 @@ export const ADD_SCHEDULE = gql`
     $numberOfClientEmployees: String
     $client: String
     $employees: [String]
+    $isDisplayable: Boolean
   ) {
     addSchedule(
       streetAddress: $streetAddress
@@ -363,6 +367,7 @@ export const ADD_SCHEDULE = gql`
       numberOfClientEmployees: $numberOfClientEmployees
       employees: $employees
       client: $client
+      isDisplayable: $isDisplayable
     ) {
       _id
       streetAddress
@@ -377,6 +382,7 @@ export const ADD_SCHEDULE = gql`
       jobDetails
       numberOfClientEmployees
       squareFeet
+      isDisplayable
       client {
         _id
       }

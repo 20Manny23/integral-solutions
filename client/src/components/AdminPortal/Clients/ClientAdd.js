@@ -29,7 +29,7 @@ function ClientAdd() {
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
-  const [maskedPhone, setMaskedPhone] = useState("");
+  // const [maskedPhone, setMaskedPhone] = useState("");
 
   // VALIDATION
   const [showBusinessNameValidation, setShowBusinessNameValidation] =
@@ -89,8 +89,6 @@ function ClientAdd() {
       ? setPhone(value)
       : name === "emailClient"
       ? setEmailClient(value)
-      : name === "phone"
-      ? setPhone(value)
       : name === "streetAddress"
       ? setStreetAddress(value)
       : name === "suite"

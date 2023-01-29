@@ -26,7 +26,7 @@ function EmployeeUpdate() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
-  const [maskedPhone, setMaskedPhone] = useState("");
+  // const [maskedPhone, setMaskedPhone] = useState("");
   const [hasDriversLicense, setHasDriversLicense] = useState("");
 
   //set selected employee

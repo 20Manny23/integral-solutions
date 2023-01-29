@@ -578,7 +578,8 @@ function ScheduleAdd() {
               <Form.Control
                 className="custom-border"
                 type="date"
-                min={new Date().toISOString().split("T")[0]}
+                // min={new Date().toISOString().split("T")[0]}
+                min={startDate}
                 name="endDate"
                 value={endDate}
                 onChange={handleInputChange}

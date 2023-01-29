@@ -264,6 +264,7 @@ const resolvers = {
         contact,
         phone,
         email,
+        isDisplayable,
       },
       context
     ) => {
@@ -278,6 +279,7 @@ const resolvers = {
         contact,
         phone,
         email,
+        isDisplayable,
       });
       return { businessName };
       // }
@@ -656,6 +658,7 @@ const resolvers = {
         numberOfClientEmployees,
         client,
         employees,
+        isDisplayable,
       },
       context
     ) => {
@@ -677,6 +680,7 @@ const resolvers = {
         numberOfClientEmployees,
         client,
         employees,
+        isDisplayable,
       });
       return {
         _id,
@@ -694,6 +698,7 @@ const resolvers = {
         numberOfClientEmployees,
         client,
         employees,
+        isDisplayable,
       };
       // }
       // throw new AuthenticationError("You need to be logged in!");

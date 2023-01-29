@@ -30,7 +30,7 @@ function ClientUpdate() {
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
-  const [maskedPhone, setMaskedPhone] = useState("");
+  // const [maskedPhone, setMaskedPhone] = useState("");
 
   //set selected client
   // const [currentInput, setCurrentInput] = useState({});
