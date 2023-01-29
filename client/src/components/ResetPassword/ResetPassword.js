@@ -21,7 +21,7 @@ const ResetPassword = () => {
 
   // section get token from URL
   let params = useParams();
-  // console.log(params);
+  console.log(params);
 
   // section decode token to check contents
   const decoded = decode(params.token);
@@ -136,12 +136,12 @@ const ResetPassword = () => {
                 <Form.Control
                   type={showHidePassword}
                   placeholder="Password (5 character minimum)"
-                  // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                   minLength="5"
                   name="password"
                   onChange={handleInputChange}
                   value={passwordFormData.password}
                   required
+                  autoComplete="true"
                   style={{ borderRight: "none" }}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -179,6 +179,7 @@ const ResetPassword = () => {
                   onChange={handleInputChange}
                   value={passwordFormData.passwordCheck}
                   required
+                  autoComplete="true"
                   style={{ borderRight: "none" }}
                 />
                 <Form.Control.Feedback type="invalid">
