@@ -109,7 +109,6 @@ function App() {
               <Route exact path="/home" element={<Home />} />
               <Route exact path="/shoplinks" element={<ShopLinks />} />
               <Route exact path="/contact" element={<ContactUs />} />
-              {/* <Route exact path="/resetpassword" element={<ResetPassword />} /> */}
 
               <Route
                 exact
@@ -141,9 +140,10 @@ function App() {
               />
               <Route
                 exact
-                path="/resetpassword/:token"
-                // element={<ResetPassword />}
-                element={<ForgotPassword />}
+                // path="/resetpassword/:token"
+                path="/resetpassword"
+                element={<ResetPassword />}
+                // element={<ForgotPassword />}
               />
               <Route path="*" element={<WrongPage />} />
             </Routes>
