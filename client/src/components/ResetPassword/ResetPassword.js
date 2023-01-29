@@ -21,30 +21,30 @@ const ResetPassword = () => {
   // console.log(passwordFormData);
 
   // section get token from URL
-  // let params = useParams(); //fix
+  let params = useParams(); //fix
   // console.log(params);
 
   // section decode token to get current user email address
-  // const decoded = decode(params.token); //fix
+  const decoded = decode(params.token); //fix
   // console.log(decoded);
 
   // section use email address to get user information
   const [employee, setEmployee] = useState({});
   // eslint-disable-next-line
-  // const { //fix
-  //   loading,
-  //   data,
-  //   error: getEmployeeError,
-  //   refetch,
-  // } = useQuery(QUERY_EMPLOYEE_BYEMAIL, {
-  //   variables: { email: decoded.data.email },
-  //   // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
-  //   skip: !Auth.loggedIn(),
-  //   onCompleted: (data) => {
-  //     setEmployee(data?.employeeByEmail);
-  //     // console.log("hello = ", data?.employeeByEmail);
-  //   },
-  // });
+  const { //fix
+    loading,
+    data,
+    error: getEmployeeError,
+    refetch,
+  } = useQuery(QUERY_EMPLOYEE_BYEMAIL, {
+    variables: { email: decoded.data.email },
+    // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+    skip: !Auth.loggedIn(),
+    onCompleted: (data) => {
+      setEmployee(data?.employeeByEmail);
+      // console.log("hello = ", data?.employeeByEmail);
+    },
+  });
 
   // section reset password based on input provided by user
   // eslint-disable-next-line
