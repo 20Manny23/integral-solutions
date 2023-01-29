@@ -566,6 +566,7 @@ function ContactForm() {
                   key={`inline-${type}`}
                   className="mb-3 d-flex justify-content-around flex-wrap"
                   style={{ textAlign: "left" }}
+                  
                 >
                   <Form.Check
                     style={{ width: "250px" }}
@@ -576,6 +577,7 @@ function ContactForm() {
                     id={`inline-${type}-1`}
                     onChange={handleChange}
                     onBlur={handleBlurChange}
+                    
                   />
                   <Form.Check
                     style={{ width: "250px" }}
