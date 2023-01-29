@@ -720,7 +720,13 @@ function ScheduleUpdate() {
               <Form.Control
                 className="custom-border"
                 type="date"
-                min={new Date().toISOString().split("T")[0]}
+                // min={new Date().toISOString().split("T")[0]} 
+                min={
+                  format_date_YYYYDDMM(prevScheduleData.startDate) <
+                  new Date().toISOString().split("T")[0]
+                    ? format_date_YYYYDDMM(prevScheduleData.startDate)
+                    : new Date().toISOString().split("T")[0]
+                } //default to earlier of the job start date or today
                 name="endDate"
                 value={
                   selectEndDate
