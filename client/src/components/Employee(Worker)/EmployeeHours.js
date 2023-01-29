@@ -98,16 +98,24 @@ function EmployeeHours() {
   //update hours by employee id and job date
   // const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE);
 
+  //fix
   const [ mostRecentHourUpdateId, setMostRecentHoursUpdateId ] = useState();
-  const [updateHours, { data: hoursUpdateData }] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE, {
+
+  const [updateHours, { data: hoursUpdateData, loading: addLoading }] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE, {
     // variables: { employee: userId },
     // // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     // skip: !Auth.loggedIn(),
     onCompleted: (hoursUpdateData) => {
+      console.log('mutation result #1 = ', hoursUpdateData)
       setMostRecentHoursUpdateId(hoursUpdateData?.updateHourByEmployeeIdByJobDate?._id);
-      console.log('most recent hours update id', mostRecentHourUpdateId)
+      console.log('mutation result #2 = ', mostRecentHourUpdateId)
     },
   });
+  //fix
+
+  if (!addLoading) {
+    console.log(hoursUpdateData)
+  }
 
   //section handle input
   const handleInput = async (event) => {
@@ -242,29 +250,34 @@ function EmployeeHours() {
   };
 
   //fix
-  // add new schedule / job to the appropriate client
-  const [updateEmployeeHour] = useMutation(UPDATE_EMPLOYEE_HOUR);
+  // // add new schedule / job to the appropriate client
+  // const [updateEmployeeHour] = useMutation(UPDATE_EMPLOYEE_HOUR);
 
-  // update the employee array with the id for hour added
-  useEffect(() => {
-    console.log('test = ', mostRecentHourUpdateId)
+  // // update the employee array with the id for hour added
+  // useEffect(() => {
+  //   console.log('useeffect = ', mostRecentHourUpdateId)
 
-    //use the mostRecentHourUpdateId & add it to the employee array
-    try {
-      // eslint-disable-next-line
-      const { data } = updateEmployeeHour({
-        variables: {
-          id: userId, //curent user id
-          hour: mostRecentHourUpdateId, //id of the most recently updated hour
-        },
-      });
-      console.log("what data = ", data);
-    } catch (err) {
-      console.error(err);
-    }
+  //   //use the mostRecentHourUpdateId & add it to the employee array
+  //   try {
+
+  //     if (mostRecentHourUpdateId) {
+  //       // eslint-disable-next-line
+  //       const { data } = updateEmployeeHour({
+  //         variables: {
+  //           id: userId, //curent user id
+  //           hour: mostRecentHourUpdateId, //id of the most recently updated hour
+  //         },
+  //       });
+  //       console.log("what data = ", data);
+  //     }
+
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
   
-  }, [hoursUpdateData, mostRecentHourUpdateId])
-  //FIX
+  // // eslint-disable-next-line
+  // }, [singleHours, hoursUpdateData, mostRecentHourUpdateId])
+  // //FIX
   
 
   //section utility functions
@@ -524,7 +537,7 @@ function EmployeeHours() {
 
   //Get dates and hours for last week to render in last week section
   useEffect(() => {
-    console.log("last week = ", singleHours);
+    // console.log("last week = ", singleHours);
     let filterToLastWeek = singleHours?.hoursByEmployeeId
       ?.filter(
         (element) =>

@@ -36,50 +36,43 @@ function ContactForm() {
   const [jobDetails, setJobDetails] = useState("");
   // const [maskedPhone, setMaskedPhone] = useState("");
 
-
   //  validation
-  const [showCompanyNameValidation, setShowCompanyNameValidation] =
-    useState("");
-  const [showContactNameValidation, setShowContactNameValidation] =
-    useState("");
-  const [showphoneValidation, setShowphoneValidation] =
-    useState("");
-  const [showEmailAddressValidation, setShowEmailAddressValidation] =
-    useState("");
+  const [showCompanyNameValidation, setShowCompanyNameValidation] = useState("");
+  const [showContactNameValidation, setShowContactNameValidation] = useState("");
+  const [showphoneValidation, setShowphoneValidation] = useState("");
+  const [showEmailAddressValidation, setShowEmailAddressValidation] = useState("");
   const [showAddressValidation, setShowAddressValidation] = useState("");
   const [showCityValidation, setShowCityValidation] = useState("");
   const [showStateValidation, setShowStateValidation] = useState("");
   const [showZipValidation, setShowZipValidation] = useState("");
   const [showSquareFeetValidation, setShowSquareFeetValidation] = useState("");
-  const [showEmployeeNumberValidation, setShowEmployeeNumberValidation] =
-    useState("");
+  const [showEmployeeNumberValidation, setShowEmployeeNumberValidation] = useState("");
   const [showStartDateValidation, setShowStartDateValidation] = useState("");
   const [showServicesValidation, setShowServicesValidation] = useState("");
   const [showJobDetailsValidation, setShowJobDetailsValidation] = useState("");
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
 
+  //section handle input
   const handleInputChange = (event) => {
-    const { target } = event;
-    const name = target.name;
-    const value = target.value;
+    // const { target } = event;
+    // const name = target.name;
+    // const value = target.value;
+    const { name, value } = event.target;
+
+    console.log(phone)
 
     // set state for check box input
     // if checkbox is checked and services state does not include value then add to services
     if (event.target.checked && !services.includes(value.trim())) {
-      setServices([...services, ` ${value}`]); // add spaces to the value for email formatting
+      setServices([...services, ` ${value}`]); // add space to the value for email formatting
       return;
+    // if target is unchecked and it is a services input then don't include in services state
     } else if (!event.target.checked && name === "services") {
       setServices(
         services.filter((service) => value.trim() !== service.trim())
-      ); // if target is unchecked and it is a services input then don't include in services state
+      ); 
       return;
     }
-
-    //mask (auto populate) phone format input as xxx-xxx-xxx
-    // if (name === "phone") {
-    //   let getMaskedPhone = maskedPhoneInput(event.target.value);
-    //   setMaskedPhone(getMaskedPhone);
-    // }
 
     //set state for all other inputs
     if (name === "companyName") {
@@ -109,6 +102,101 @@ function ContactForm() {
     } else {
       console.log("error in handle change contact form input");
     }
+  };
+
+  //section send email = sets email content then sends email
+  // eslint-disable-next-line
+  const [emailContent, setEmailContent] = useState({}); //sets state for email content
+  // eslint-disable-next-line
+  const submitEmailContent = useEmailSend(emailContent); //calls function to send the email
+
+  //section handle submit
+  const handleSubmit = (event) => {
+    // setErrorMessage("");
+    event.preventDefault();
+
+    console.log(
+      companyName,
+      contactName,
+      phone,
+      emailAddress,
+      address,
+      city,
+      state,
+      zip,
+      squareFeet,
+      employeeNumber,
+      startDate,
+      jobDetails,
+      services
+    )
+
+    if (
+      !companyName ||
+      !contactName ||
+      !emailAddress ||
+      !startDate ||
+      !jobDetails
+    ) {
+      setErrorMessage("Please fill in all required fields *");
+      return;
+    }
+
+    if (!state) {
+      setErrorMessage("Please choose a state");
+      return;
+    }
+
+    if (!employeeNumber) {
+      setErrorMessage("Please choose a number of employees");
+      return;
+    }
+
+    if (!services.length) {
+      setErrorMessage("Please choose at least one service");
+      return;
+    }
+
+    if (areAllFieldsFilled) {
+      setShowSuccess(true);
+    }
+
+    setEmailContent({
+      source: "contactUs", //informs emailSend which type of email to send
+      companyName: companyName ? companyName : "null",
+      contactName: contactName ? contactName : "null",
+      phone: phone ? phone : "null",
+      emailAddress: emailAddress ? emailAddress : "null",
+      address: address ? address : "null",
+      city: city ? city : "null",
+      state: state ? state : "null",
+      zip: zip ? zip : "null",
+      squareFeet: squareFeet ? squareFeet : "null",
+      employeeNumber: employeeNumber ? employeeNumber : "null",
+      startDate: startDate ? startDate : "null",
+      jobDetails: jobDetails ? jobDetails : "null",
+      services: services ? services : "null",
+    });
+
+    resetForm();
+  };
+
+  //section utility functions
+  // reset form = set state back to empty form
+  const resetForm = () => {
+    setCompanyName("");
+    setContactName("");
+    setPhone("");
+    setEmailAddress("");
+    setAddress("");
+    setCity("");
+    setState("");
+    setZip("");
+    setSquareFeet("");
+    setEmployeeNumber("");
+    setStartDate("");
+    setJobDetails("");
+    setServices([]);
   };
 
   // VALIDATION BLUR
@@ -156,81 +244,7 @@ function ContactForm() {
       : setShowJobDetailsValidation(false);
   };
 
-  const [emailContent, setEmailContent] = useState({});
-  // eslint-disable-next-line
-  const submitEmailContent = useEmailSend(emailContent);
-
-
-  const handleSubmit = (event) => {
-    // setErrorMessage("");
-    event.preventDefault();
-
-    if (
-      !companyName ||
-      !contactName ||
-      !emailAddress ||
-      !startDate ||
-      !jobDetails
-    ) {
-      setErrorMessage("Please fill in all required fields *");
-      return;
-    }
-
-    if (!state) {
-      setErrorMessage("Please choose a state");
-      return;
-    }
-
-    if (!employeeNumber) {
-      setErrorMessage("Please choose a number of employees");
-      return;
-    }
-
-    if (!services.length) {
-      setErrorMessage("Please choose at least one service");
-      return;
-    }
-
-    if (areAllFieldsFilled) {
-      setShowSuccess(true);
-    }
-
-    setEmailContent({
-      source: "contactUs",
-      companyName: companyName ? companyName : "null",
-      contactName: contactName ? contactName : "null",
-      phone: phone ? phone : "null",
-      emailAddress: emailAddress ? emailAddress : "null",
-      address: address ? address : "null",
-      city: city ? city : "null",
-      state: state ? state : "null",
-      zip: zip ? zip : "null",
-      squareFeet: squareFeet ? squareFeet : "null",
-      employeeNumber: employeeNumber ? employeeNumber : "null",
-      startDate: startDate ? startDate : "null",
-      jobDetails: jobDetails ? jobDetails : "null",
-      services: services ? services : "null",
-    });
-
-    resetForm();
-  };
-  // set state back to empty form
-  const resetForm = () => {
-    setCompanyName("");
-    setContactName("");
-    setPhone("");
-    setEmailAddress("");
-    setAddress("");
-    setCity("");
-    setState("");
-    setZip("");
-    setSquareFeet("");
-    setEmployeeNumber("");
-    setStartDate("");
-    setJobDetails("");
-    setServices([]);
-  };
-
+  //verify if all fields have input
   useEffect(() => {
     setAreAllFieldsFilled(
       companyName.trim() !== "" &&
