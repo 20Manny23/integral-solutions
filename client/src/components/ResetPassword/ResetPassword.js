@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Auth from "../../utils/auth";
-import { useParams } from "react-router-dom";
 import decode from "jwt-decode";
-import { useMutation } from "@apollo/client";
+
+import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { UPDATE_PASSWORD } from "../../utils/mutations";
+import { useMutation } from "@apollo/client";
 import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
+import { UPDATE_PASSWORD } from "../../utils/mutations";
+
+import { Form, Button, InputGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form, Button, Alert, InputGroup, ButtonGroup } from "react-bootstrap";
 import "../../styles/button-home.css";
 
 const ResetPassword = () => {
   const [validated] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
   const [passwordFormData, setPasswordFormData] = useState({
     password: "",
     passwordCheck: "",
@@ -21,9 +22,9 @@ const ResetPassword = () => {
 
   // section get token from URL
   let params = useParams();
-  // console.log(params);
+  console.log(params);
 
-  // section decode token to check contents
+  // section decode token to get current user email address
   const decoded = decode(params.token);
   // console.log(decoded);
 
@@ -44,7 +45,6 @@ const ResetPassword = () => {
       // console.log("hello = ", data?.employeeByEmail);
     },
   });
-  // section end
 
   // section reset password based on input provided by user
   const [updatePassword, { error: passwordError }] =
@@ -70,7 +70,6 @@ const ResetPassword = () => {
   useEffect(() => {
     setPassword();
   }, [employee]);
-  // section end
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -136,12 +135,12 @@ const ResetPassword = () => {
                 <Form.Control
                   type={showHidePassword}
                   placeholder="Password (5 character minimum)"
-                  // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                   minLength="5"
                   name="password"
                   onChange={handleInputChange}
                   value={passwordFormData.password}
                   required
+                  autoComplete="true"
                   style={{ borderRight: "none" }}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -179,6 +178,7 @@ const ResetPassword = () => {
                   onChange={handleInputChange}
                   value={passwordFormData.passwordCheck}
                   required
+                  autoComplete="true"
                   style={{ borderRight: "none" }}
                 />
                 <Form.Control.Feedback type="invalid">

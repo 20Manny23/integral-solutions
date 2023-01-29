@@ -114,6 +114,7 @@ const LoginForm = () => {
                 onChange={handleInputChange}
                 value={userFormData.password}
                 required
+                autoComplete="true"
                 style={{ borderRight: "none" }}
               />
               <Form.Control.Feedback type="invalid">
