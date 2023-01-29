@@ -4,7 +4,7 @@ import { getUserId } from "../../utils/getUserId";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_HOURS_BYEMPLOYEEID } from "../../utils/queries";
-import { UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE } from "../../utils/mutations";
+import { UPDATE_EMPLOYEE_HOUR, UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE } from "../../utils/mutations";
 import { format_date_no_hyphen } from "../../utils/dateFormat";
 import moment from "moment";
 import { thisWeek, lastWeek } from "../../utils/hoursDates";
@@ -96,7 +96,18 @@ function EmployeeHours() {
   });
 
   //update hours by employee id and job date
-  const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE);
+  // const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE);
+
+  const [ mostRecentHourUpdateId, setMostRecentHoursUpdateId ] = useState();
+  const [updateHours, { data: hoursUpdateData }] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE, {
+    // variables: { employee: userId },
+    // // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+    // skip: !Auth.loggedIn(),
+    onCompleted: (hoursUpdateData) => {
+      setMostRecentHoursUpdateId(hoursUpdateData?.updateHourByEmployeeIdByJobDate?._id);
+      console.log('most recent hours update id', mostRecentHourUpdateId)
+    },
+  });
 
   //section handle input
   const handleInput = async (event) => {
@@ -151,6 +162,9 @@ function EmployeeHours() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    console.log(event.currentTarget)
+    console.log('sunday = ', sunday)
+
     // let daySubmitted = event.currentTarget.id.substring()
     let hoursInput = document.querySelectorAll(".hourInput"); //get array of hoursInput elements
 
@@ -185,31 +199,28 @@ function EmployeeHours() {
     }
 
     //push data to db
+    //call function to update the database
     if (daySubmitted === "Sunday") {
-      handleUpdateDatabase(sunday);
+      handleUpdateDatabase(sunday); //state object for sunday
     } else if (daySubmitted === "Monday") {
-      //call function to update the database
       handleUpdateDatabase(monday);
     } else if (daySubmitted === "Tuesday") {
-      //call function to update the database
       handleUpdateDatabase(tuesday);
     } else if (daySubmitted === "Wednesday") {
-      //call function to update the database
       handleUpdateDatabase(wednesday);
     } else if (daySubmitted === "Thursday") {
-      //call function to update the database
       handleUpdateDatabase(thursday);
     } else if (daySubmitted === "Friday") {
-      //call function to update the database
       handleUpdateDatabase(friday);
     } else if (daySubmitted === "Saturday") {
-      //call function to update the database
       handleUpdateDatabase(saturday);
     }
+
   };
 
   //section update database - this mutation is an upsert...it either updates or creates a record
   const handleUpdateDatabase = async (data) => {
+    console.log(data);
     try {
       // eslint-disable-next-line
       await updateHours({
@@ -226,7 +237,35 @@ function EmployeeHours() {
     }
 
     singleHoursRefetch();
+    console.log(hoursUpdateData)
+    //useEffect below will update the employee model with the most recent hours id
   };
+
+  //fix
+  // add new schedule / job to the appropriate client
+  const [updateEmployeeHour] = useMutation(UPDATE_EMPLOYEE_HOUR);
+
+  // update the employee array with the id for hour added
+  useEffect(() => {
+    console.log('test = ', mostRecentHourUpdateId)
+
+    //use the mostRecentHourUpdateId & add it to the employee array
+    try {
+      // eslint-disable-next-line
+      const { data } = updateEmployeeHour({
+        variables: {
+          id: userId, //curent user id
+          hour: mostRecentHourUpdateId, //id of the most recently updated hour
+        },
+      });
+      console.log("what data = ", data);
+    } catch (err) {
+      console.error(err);
+    }
+  
+  }, [hoursUpdateData, mostRecentHourUpdateId])
+  //FIX
+  
 
   //section utility functions
   //calc hours for each day during the input process
@@ -452,12 +491,15 @@ function EmployeeHours() {
 
     // eslint-disable-next-line
   }, [sunday, monday, tuesday, wednesday, thursday, friday, saturday]);
+  
+  //determine last week dates & total weekly hours
   const lastWeekDates = [];
   for (let i = 0; i < thisWeek.length; i++) {
     let eachDate = moment(lastWeek[i].date).format("MMMM DD YYYY");
     lastWeekDates.push(eachDate);
-  }
+  };
 
+  //determine total weekly hours for last week
   const weeklyTotal = async (singleHours) => {
     let lastWeeklyHours = 0;
     for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
@@ -559,8 +601,8 @@ function EmployeeHours() {
                     ></span>
                   </Accordion.Toggle>
                   <Form
-                    onSubmit={handleSubmit}
-                    onChange={handleInput}
+                    onChange={handleInput} //creates the date input object for each day of week
+                    onSubmit={handleSubmit} //uses date input object from handleInput to submit data
                     id={`hours${thisWeek.day}`}
                   >
                     <Accordion.Collapse eventKey={index + 1}>
@@ -603,7 +645,6 @@ function EmployeeHours() {
                               type="submit"
                               style={{ marginTop: "25px" }}
                               title="Submit to schedule job."
-                              // disabled={areAllFieldsFilled}
                             >
                               Submit
                             </Button>

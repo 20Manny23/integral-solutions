@@ -333,7 +333,6 @@ export const UPDATE_CLIENT_SCHEDULE = gql`
 `;
 
 // SECTION SCHEDULE
-
 export const ADD_SCHEDULE = gql`
   mutation AddSchedule(
     $streetAddress: String
@@ -520,6 +519,18 @@ export const DELETE_HOURS_BYEMPLOYEEID_BYJOBDATE = gql`
     deleteHours(employee: $employee, jobDate: $jobDate) {
       _id
       employee {
+        _id
+      }
+    }
+  }
+`;
+
+// fix
+export const UPDATE_EMPLOYEE_HOUR = gql`
+  mutation updateEmployeeHour($id: ID, $hour: String) {
+    updateEmployeeHour(_id: $id, hour: $hour) {
+      _id
+      hour {
         _id
       }
     }

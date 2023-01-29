@@ -381,7 +381,6 @@ const resolvers = {
       );
     },
 
-    //(a) return hours id after record created; attach to element; pass back on 2nd+ click
     //(b) search for employee id and date... and update the record
     updateHourByEmployeeIdByJobDate: async (
       parent,
@@ -390,16 +389,6 @@ const resolvers = {
     ) => {
       // if (context.user) {
       console.log("resolver hours update = ");
-
-      // let hour = await Hour.find({
-      //   employee: employee,
-      //   jobDate: jobDate,
-      // }).populate("employee");
-      // let hourId = hour[0]._id;
-
-      // console.log("test = ", hour);
-      // console.log("test = ", hour[0]._id);
-
       return Hour.findOneAndUpdate(
         // { _id: hourId },
         { employee, jobDate },
@@ -420,6 +409,21 @@ const resolvers = {
 
     deleteHours: async (parent, { employee, jobDate }, context) => {
       return Hour.findOneAndDelete({ employee, jobDate });
+    },
+
+    //fix
+    updateEmployeeHour: async (parent, { _id, hour }, context) => {
+      // if (context.user) {
+      console.log("resolver update employee hour = ", _id, hour);
+      return Employee.findOneAndUpdate(
+        { _id },
+        {
+          $addToSet: { hour },
+        },
+        { new: true }
+      );
+      // }
+      // throw new AuthenticationError("You need to be logged in!");
     },
 
     // SECTION EMPLOYEE
