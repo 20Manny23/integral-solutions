@@ -269,7 +269,7 @@ function EmployeeAdd() {
               placeholder="Client email"
               guide={true}
               name="email"
-              value={email}
+              value={email.toLowerCase()}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
