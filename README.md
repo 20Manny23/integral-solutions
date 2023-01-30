@@ -1,7 +1,8 @@
 <p align="center">
 <img src=./client/src/assets/images/logo.png width=250>
 <p>
-[![License:  MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 
 ## Index
 
