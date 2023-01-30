@@ -135,8 +135,6 @@ function EmployeeAdd() {
     setPhone("");
     setEmail("");
     setPassword("");
-    setIsAdmin("");
-    setIsLocked("");
     setHasDriversLicense("");
   };
 
