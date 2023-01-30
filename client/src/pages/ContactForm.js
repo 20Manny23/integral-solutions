@@ -6,6 +6,7 @@ import useEmailSend from "../components/EmailSend";
 import Footer from "../components/Home/Footer";
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
 import MaskedInput from "react-text-mask";
+import emailMask from "text-mask-addons/dist/emailMask";
 import { NUMBER_OF_EMPLOYEES } from "../utils/numberOfEmployees";
 
 import SuccessAlert from "../components/Alert";
@@ -353,11 +354,11 @@ function ContactForm() {
                   * field is required
                 </Form.Label>
               </div>
-
-              <Form.Control
-                className="custom-border"
-                type="email"
-                placeholder="Enter Email"
+              <MaskedInput
+                className="form-control custom-border"
+                mask={emailMask}
+                placeholder="Enter email"
+                guide={true}
                 name="email"
                 value={email.toLowerCase()}
                 onChange={handleInputChange}
@@ -365,7 +366,6 @@ function ContactForm() {
                 required
               />
             </Form.Group>
-
             <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
               <div className="form-label">
                 <Form.Label style={{ fontWeight: "bolder" }}>

@@ -7,6 +7,7 @@ import { UPDATE_CLIENT } from "../../../utils/mutations";
 
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
 import MaskedInput from "react-text-mask";
+import emailMask from "text-mask-addons/dist/emailMask";
 
 import SuccessAlert from "../../Alert";
 
@@ -440,15 +441,17 @@ function ClientUpdate() {
                 * field is required
               </Form.Label>
             </div>
-            <Form.Control
-              className="custom-border"
-              type="email"
-              placeholder="Client Email"
+            <MaskedInput
+              className="form-control custom-border"
+              mask={emailMask}
+              placeholder="Client email"
+              guide={true}
               name="email"
               value={selectEmail ? prevClientData?.email : email.toLowerCase()}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
+              required
             />
           </Form.Group>
 

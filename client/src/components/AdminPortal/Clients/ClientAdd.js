@@ -5,7 +5,8 @@ import { QUERY_ALL_CLIENTS } from "../../../utils/queries";
 import { ADD_CLIENT } from "../../../utils/mutations";
 
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
-import MaskedInput from 'react-text-mask';
+import MaskedInput from "react-text-mask";
+import emailMask from "text-mask-addons/dist/emailMask";
 
 import SuccessAlert from "../../Alert";
 
@@ -34,8 +35,7 @@ function ClientAdd() {
     useState(false);
   const [showContactValidation, setShowContactValidation] = useState(false);
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-  const [showEmailValidation, setShowEmailStateValidation] =
-    useState(false);
+  const [showEmailValidation, setShowEmailStateValidation] = useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
   const [showSuiteValidation, setShowSuiteValidation] = useState(false);
@@ -274,7 +274,20 @@ function ClientAdd() {
               </Form.Label>
             </div>
             <MaskedInput
-              mask={[/[1-9]/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+              mask={[
+                /[1-9]/,
+                /\d/,
+                /\d/,
+                "-",
+                /\d/,
+                /\d/,
+                /\d/,
+                "-",
+                /\d/,
+                /\d/,
+                /\d/,
+                /\d/,
+              ]}
               className="form-control custom-border"
               placeholder="Enter a phone number"
               guide={true}
@@ -297,10 +310,11 @@ function ClientAdd() {
                 * field is required
               </Form.Label>
             </div>
-            <Form.Control
-              className="custom-border"
-              type="email"
-              placeholder="Client Email"
+            <MaskedInput
+              className="form-control custom-border"
+              mask={emailMask}
+              placeholder="Client email"
+              guide={true}
               name="email"
               value={email}
               onChange={handleInputChange}
@@ -308,7 +322,6 @@ function ClientAdd() {
               required
             />
           </Form.Group>
-
           <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>Address</Form.Label>
@@ -407,24 +420,23 @@ function ClientAdd() {
               >
                 * required
               </Form.Label>
-            <MaskedInput
-              className="form-control custom-border"
-              mask={[/\d/, /\d/, /\d/, /\d/, /\d/]}
-              placeholder="Zip"
-              guide={true}
-              name="zip"
-              value={zip}
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              required
-            />
+              <MaskedInput
+                className="form-control custom-border"
+                mask={[/\d/, /\d/, /\d/, /\d/, /\d/]}
+                placeholder="Zip"
+                guide={true}
+                name="zip"
+                value={zip}
+                onChange={handleInputChange}
+                onBlur={handleBlurChange}
+                required
+              />
             </Col>
           </Row>
           <SuccessAlert
-              message="Client has been added"
-              show={showSuccess}
-            >
-            </SuccessAlert>
+            message="Client has been added"
+            show={showSuccess}
+          ></SuccessAlert>
 
           <div className="d-flex justify-content-center">
             <Button

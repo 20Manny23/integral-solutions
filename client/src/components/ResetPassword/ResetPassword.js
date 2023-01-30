@@ -95,7 +95,7 @@ const ResetPassword = () => {
     }
 
     try {
-      await refetch(); //fix
+      await refetch();
       window.location.assign(`/login`);
     } catch (e) {
       console.error(e);

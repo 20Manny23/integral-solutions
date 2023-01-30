@@ -5,13 +5,13 @@ import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
 import { ADD_EMPLOYEE } from "../../../utils/mutations";
 
 import SuccessAlert from "../../Alert";
+import MaskedInput from 'react-text-mask';
+import emailMask from "text-mask-addons/dist/emailMask";
 
 import { Container, Form, Button } from "react-bootstrap";
-
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
-import MaskedInput from 'react-text-mask';
 
 function EmployeeAdd() {
   const [showSuccess, setShowSuccess] = useState(false);
@@ -263,12 +263,13 @@ function EmployeeAdd() {
                 * field is required
               </Form.Label>
             </div>
-            <Form.Control
-              className="custom-border"
-              type="email"
-              placeholder="Enter Email Address"
+            <MaskedInput
+              className="form-control custom-border"
+              mask={emailMask}
+              placeholder="Client email"
+              guide={true}
               name="email"
-              value={email.toLowerCase()}
+              value={email}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
