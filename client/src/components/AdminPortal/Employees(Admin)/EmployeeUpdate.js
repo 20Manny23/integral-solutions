@@ -8,8 +8,8 @@ import {
 } from "../../../utils/queries";
 import { UPDATE_EMPLOYEE_FORM } from "../../../utils/mutations";
 
-// import { maskedPhoneInput } from "../../../utils/phoneMask";
 import MaskedInput from 'react-text-mask';
+import emailMask from "text-mask-addons/dist/emailMask";
 
 import { Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
@@ -366,16 +366,17 @@ function EmployeeUpdate() {
                 * field is required
               </Form.Label>
             </div>
-            <Form.Control
-              className="custom-border"
-              type="text"
-              placeholder="Employee Email"
+            <MaskedInput
+              className="form-control custom-border"
+              mask={emailMask}
+              placeholder="Enter email address"
+              guide={true}
               name="email"
               value={selectEmail ? prevEmployeeData.email : email.toLowerCase()}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
-            // required
+              required
             />
           </Form.Group>
 

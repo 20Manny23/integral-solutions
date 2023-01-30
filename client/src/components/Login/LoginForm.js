@@ -4,6 +4,9 @@ import Auth from "../../utils/auth";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
 
+import MaskedInput from "react-text-mask";
+import emailMask from "text-mask-addons/dist/emailMask";
+
 import { Form, Button, Alert, InputGroup, Nav } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/button-home.css";
@@ -89,12 +92,14 @@ const LoginForm = () => {
         >
           <Form.Group>
             <Form.Label htmlFor="email">Email</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Your email address"
+            <MaskedInput
+              className="form-control"
+              mask={emailMask}
+              placeholder="Enter email address"
+              guide={true}
               name="email"
-              onChange={handleInputChange}
               value={userFormData.email.toLowerCase()}
+              onChange={handleInputChange}
               required
             />
             <Form.Control.Feedback type="invalid">
@@ -107,7 +112,7 @@ const LoginForm = () => {
             <InputGroup className="mb-3">
               <Form.Control
                 type={showHidePassword}
-                placeholder="Your password (5 character minimum)"
+                placeholder="Password (5 character min)"
                 // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 minLength="5"
                 name="password"
