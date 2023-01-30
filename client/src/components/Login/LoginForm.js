@@ -4,6 +4,9 @@ import Auth from "../../utils/auth";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
 
+import MaskedInput from "react-text-mask";
+import emailMask from "text-mask-addons/dist/emailMask";
+
 import { Form, Button, Alert, InputGroup, Nav } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/button-home.css";
@@ -31,29 +34,25 @@ const LoginForm = () => {
     }
 
     try {
-        //get user information based on email address
-        const { data } = await login({
-          variables: { ...userFormData },
-        });
+      //get user information based on email address
+      const { data } = await login({
+        variables: { ...userFormData },
+      });
 
-        // if user is not locked then give access via Auth.login function
-        if (data.login.employee.isLocked === false) {
-
+      // if user is not locked then give access via Auth.login function
+      if (data.login.employee.isLocked === false) {
         Auth.login(data.login);
 
         window.location.assign(`/`); //sends user back to home; on the home page the nav will display the nav links based on auth rights (isAdmin true or isAdmin false)
-      // }
+      } else {
+        //if user is locked remove token from local storage & send to home page
 
-        } else {
-
-          //if user is locked remove token from local storage & send to home page
-          console.log("user is locked === true");
-          localStorage.removeItem("id_token");
-          window.location.assign(`/`);
-          alert("You do not have employee access. Please contact Integral Solutions.")
-
-        }
-
+        localStorage.removeItem("id_token");
+        window.location.assign(`/`);
+        alert(
+          "You do not have employee access. Please contact Integral Solutions."
+        );
+      }
     } catch (e) {
       console.error(e);
       setShowAlert(true);
@@ -89,12 +88,14 @@ const LoginForm = () => {
         >
           <Form.Group>
             <Form.Label htmlFor="email">Email</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Your email address"
+            <MaskedInput
+              className="form-control"
+              mask={emailMask}
+              placeholder="Enter email address"
+              guide={true}
               name="email"
-              onChange={handleInputChange}
               value={userFormData.email.toLowerCase()}
+              onChange={handleInputChange}
               required
             />
             <Form.Control.Feedback type="invalid">
@@ -107,13 +108,13 @@ const LoginForm = () => {
             <InputGroup className="mb-3">
               <Form.Control
                 type={showHidePassword}
-                placeholder="Your password (5 character minimum)"
-                // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                placeholder="Password (5 character min)"
                 minLength="5"
                 name="password"
                 onChange={handleInputChange}
                 value={userFormData.password}
                 required
+                autoComplete="true"
                 style={{ borderRight: "none" }}
               />
               <Form.Control.Feedback type="invalid">
@@ -187,11 +188,5 @@ const isDisplayed = {
 const isNotDisplayed = {
   display: "none",
 };
- 
-// for reference ...
-// console.log(data)
-// console.log(data.login)
-// console.log(data.login.token)
-// const decoded = decode(data.login.token);
-// console.log(decoded);
-// console.log(Auth.decode(data.login.token));
+
+

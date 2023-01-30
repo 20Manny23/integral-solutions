@@ -6,13 +6,15 @@ import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
 import { UPDATE_PASSWORD } from "../../utils/mutations";
 import { FORGOT_PASSWORD } from "../../utils/mutations";
 
+import MaskedInput from "react-text-mask";
+import emailMask from "text-mask-addons/dist/emailMask";
 import useEmailSend from "../../components/EmailSend";
 
 import { Form, Button, Alert } from "react-bootstrap";
 import "../../styles/button-home.css";
 
 function Employees() {
-  const [tempPassword] = useState("200");
+  const [tempPassword] = useState("20000");
   const [userFormData, setUserFormData] = useState({ email: "", password: "" });
   const [employee, setEmployee] = useState({});
   const [forgotPassword, { error }] = useMutation(FORGOT_PASSWORD);
@@ -36,7 +38,7 @@ function Employees() {
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
-      console.log("hello = ", data?.employeeByEmail);
+      // console.log("hello = ", data?.employeeByEmail);
       setEmployee(data?.employeeByEmail);
       console.log("hello employee = ", employee);
     },
@@ -46,7 +48,7 @@ function Employees() {
     useMutation(UPDATE_PASSWORD);
 
   const setPassword = async () => {
-    console.log("reset password = ", employee);
+    // console.log("reset password = ", employee);
     try {
       const { data } = await updatePassword({
         variables: {
@@ -73,7 +75,7 @@ function Employees() {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-    
+
     // check if form has everything (as per react-bootstrap docs)
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -97,7 +99,7 @@ function Employees() {
       });
 
       setPayLoadToken({ token: data.forgotPassword.token });
-      console.log(data.forgotPassword.token);
+      // console.log(data.forgotPassword.token);
 
       if (!employee.email) {
         setShowError(true);
@@ -110,7 +112,6 @@ function Employees() {
     }
   };
 
-  
   // After payLoadToken state is updated, launch email to user
   useEffect(() => {
     sendEmail(payLoadToken);
@@ -148,14 +149,18 @@ function Employees() {
           >
             <Form.Group style={{ marginTop: "25px" }}>
               <Form.Label htmlFor="email">Enter your email</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Your email"
+
+              <MaskedInput
+                className="form-control"
+                mask={emailMask}
+                placeholder="Client email"
+                guide={true}
                 name="email"
-                onChange={handleInputChange}
                 value={userFormData.email.toLowerCase()}
+                onChange={handleInputChange}
                 required
               />
+
               <Form.Control.Feedback type="invalid">
                 Email is required!
               </Form.Control.Feedback>

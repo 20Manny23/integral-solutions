@@ -19,7 +19,6 @@ const LoadFullCalendar = ({
   renderEventContent,
   handleEventClick,
 }) => {
-  // console.log(activeView, weekendsVisible, INITIAL_EVENTS, renderEventContent, handleEventClick);
   
   window.mobilecheck = mobile_check();
 

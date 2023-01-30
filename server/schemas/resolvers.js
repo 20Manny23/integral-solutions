@@ -381,7 +381,7 @@ const resolvers = {
       );
     },
 
-    //(b) search for employee id and date... and update the record
+    //(b) search for employee id and date; this is an upsert; if not in db, create else update the record
     updateHourByEmployeeIdByJobDate: async (
       parent,
       { jobDate, startTime, endTime, hoursWorked, employee },
@@ -390,7 +390,6 @@ const resolvers = {
       // if (context.user) {
       console.log("resolver hours update = ");
       return Hour.findOneAndUpdate(
-        // { _id: hourId },
         { employee, jobDate },
         {
           jobDate,
@@ -401,6 +400,7 @@ const resolvers = {
         },
         {
           upsert: true,
+          new: true,
         }
       );
       // }
@@ -411,7 +411,6 @@ const resolvers = {
       return Hour.findOneAndDelete({ employee, jobDate });
     },
 
-    //fix
     updateEmployeeHour: async (parent, { _id, hour }, context) => {
       // if (context.user) {
       console.log("resolver update employee hour = ", _id, hour);

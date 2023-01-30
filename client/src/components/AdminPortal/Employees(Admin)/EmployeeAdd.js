@@ -5,15 +5,13 @@ import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
 import { ADD_EMPLOYEE } from "../../../utils/mutations";
 
 import SuccessAlert from "../../Alert";
+import MaskedInput from 'react-text-mask';
+import emailMask from "text-mask-addons/dist/emailMask";
 
 import { Container, Form, Button } from "react-bootstrap";
-
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
 
-// import { maskedPhoneInput } from "../../../utils/phoneMask";
-import MaskedInput from 'react-text-mask';
-// import PhoneMask from "../../PhoneMask"; //fix
 
 function EmployeeAdd() {
   const [showSuccess, setShowSuccess] = useState(false);
@@ -24,10 +22,7 @@ function EmployeeAdd() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isLocked, setIsLocked] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(false);
-  // const [maskedPhone, setMaskedPhone] = useState("");
   const [hasDriversLicense, setHasDriversLicense] = useState(false);
 
   // VALIDATION
@@ -41,9 +36,6 @@ function EmployeeAdd() {
   //SECTION HANDLE INPUT
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-
-    console.log(name, value)
-    console.log(phone);
 
     name === "firstName"
       ? setFirstName(value)
@@ -89,18 +81,6 @@ function EmployeeAdd() {
 
   const handleAddEmployeeSubmit = async (event) => {
     event.preventDefault();
-
-    console.log(
-      event,
-      email,
-      firstName,
-      lastName,
-      password,
-      phone,
-      isAdmin,
-      isLocked,
-      hasDriversLicense
-    );
 
     try {
       // eslint-disable-next-line
@@ -155,8 +135,6 @@ function EmployeeAdd() {
     setPhone("");
     setEmail("");
     setPassword("");
-    setIsAdmin("");
-    setIsLocked("");
     setHasDriversLicense("");
   };
 
@@ -226,34 +204,6 @@ function EmployeeAdd() {
               required
             />
           </Form.Group>
-
-          {/* <Form.Group className="mb-3 form-length">
-            <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>
-                Phone Number
-              </Form.Label>
-              <Form.Label
-                className={`validation-color ${
-                  showPhoneValidation ? "show" : "hide"
-                }`}
-              >
-                * field is required
-              </Form.Label>
-            </div>
-            <Form.Control
-              className="custom-border"
-              type="tel"
-              placeholder="ex 555-555-5555"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              maxLength="12"
-              value={maskedPhone}
-              name="phone"
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              required
-            />
-          </Form.Group> */}
-
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
@@ -267,13 +217,6 @@ function EmployeeAdd() {
                 * field is required
               </Form.Label>
             </div>
-
-            {/* <PhoneMask
-                phone={phone}
-                handleInputChange={handleInputChange}
-                handleBlurChange={handleBlurChange}           
-            /> */}
-
             <MaskedInput
               mask={[/[1-9]/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
               className="form-control custom-border"
@@ -285,7 +228,6 @@ function EmployeeAdd() {
               onBlur={handleBlurChange}
               required
             />
-
           </Form.Group>
 
           <Form.Group className="mb-3 form-length">
@@ -301,10 +243,11 @@ function EmployeeAdd() {
                 * field is required
               </Form.Label>
             </div>
-            <Form.Control
-              className="custom-border"
-              type="email"
-              placeholder="Enter Email Address"
+            <MaskedInput
+              className="form-control custom-border"
+              mask={emailMask}
+              placeholder="Client email"
+              guide={true}
               name="email"
               value={email.toLowerCase()}
               onChange={handleInputChange}

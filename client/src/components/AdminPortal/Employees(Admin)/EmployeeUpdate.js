@@ -8,8 +8,8 @@ import {
 } from "../../../utils/queries";
 import { UPDATE_EMPLOYEE_FORM } from "../../../utils/mutations";
 
-// import { maskedPhoneInput } from "../../../utils/phoneMask";
-import MaskedInput from 'react-text-mask';
+import MaskedInput from "react-text-mask";
+import emailMask from "text-mask-addons/dist/emailMask";
 
 import { Container, Form, Button } from "react-bootstrap";
 import "../../../styles/Contact.css";
@@ -26,13 +26,13 @@ function EmployeeUpdate() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
-  // const [maskedPhone, setMaskedPhone] = useState("");
+
   const [hasDriversLicense, setHasDriversLicense] = useState("");
 
   //set selected employee
-  // const [currentEmployee, setCurrentEmployee] = useState("");
+
   const [currentEmployeeId, setCurrentEmployeeId] = useState("");
-  // const [currentInput, setCurrentInput] = useState({});
+
   const [prevEmployeeData, setPrevEmployeeData] = useState({});
 
   //set the state of the value in the input fields (either the input by the user or populate based on selected employee)
@@ -51,7 +51,8 @@ function EmployeeUpdate() {
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
   const [showEmailEmployeeValidation, setShowEmailEmployeeStateValidation] =
     useState(false);
-  const [showHasDriversLicenseValidation, setShowHasDriversLicenseValidation] = useState(false);
+  const [showHasDriversLicenseValidation, setShowHasDriversLicenseValidation] =
+    useState(false);
   //SECTION GET ALL EMPLOYEES
   const {
     // eslint-disable-next-line
@@ -65,8 +66,7 @@ function EmployeeUpdate() {
     variables: {
       isDisplayable: true, //only retrieve employees with a displayable status
     },
-    onCompleted: (data) => {
-    },
+    onCompleted: (data) => {},
   });
 
   //SECTION get a single employee
@@ -76,8 +76,7 @@ function EmployeeUpdate() {
       variables: { id: currentEmployeeId },
       // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
       skip: !Auth.loggedIn(),
-      onCompleted: (singleEmployee) => {
-      },
+      onCompleted: (singleEmployee) => {},
     });
 
   // SECTION UPDATE EMPLOYEE IN DATABASE
@@ -86,12 +85,6 @@ function EmployeeUpdate() {
   //SECTION HANDLE INPUT
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-
-    //mask (auto populate) phone format input as xxx-xxx-xxx
-    // if (name === "phone") {
-    //   let getMaskedPhone = maskedPhoneInput(event.target.value);
-    //   setMaskedPhone(getMaskedPhone);
-    // }
 
     if (name === "firstName") {
       setFirstName(value); //capture input on the form
@@ -108,7 +101,7 @@ function EmployeeUpdate() {
     } else if (name === "driversLicense") {
       setHasDriversLicense(value);
       setSelectHasDriversLicense(false);
-    };
+    }
 
     return name;
   };
@@ -152,7 +145,7 @@ function EmployeeUpdate() {
             : getEmployee.data.employeeById.lastName,
           email: email ? email : getEmployee.data.employeeById.email,
           phone: phone ? phone : getEmployee.data.employeeById.phone,
-          // hasDriversLicense: "Weird"
+
           hasDriversLicense: hasDriversLicense
             ? hasDriversLicense
             : getEmployee.data.employeeById.hasDriversLicense,
@@ -216,10 +209,10 @@ function EmployeeUpdate() {
   useEffect(() => {
     setOneFieldHasInput(
       email.trim() !== "" ||
-      phone.trim() !== "" ||
-      firstName.trim() !== "" ||
-      lastName.trim() !== "" ||
-      hasDriversLicense !== ""
+        phone.trim() !== "" ||
+        firstName.trim() !== "" ||
+        lastName.trim() !== "" ||
+        hasDriversLicense !== ""
     );
     // eslint-disable-next-line
   }, [email, phone, firstName, lastName, hasDriversLicense]);
@@ -272,8 +265,9 @@ function EmployeeUpdate() {
                 First Name
               </Form.Label>
               <Form.Label
-                className={`validation-color ${showFirstNameValidation ? "show" : "hide"
-                  }`}
+                className={`validation-color ${
+                  showFirstNameValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
@@ -295,8 +289,9 @@ function EmployeeUpdate() {
                 Last Name
               </Form.Label>
               <Form.Label
-                className={`validation-color ${showLastNameValidation ? "show" : "hide"
-                  }`}
+                className={`validation-color ${
+                  showLastNameValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
@@ -319,27 +314,29 @@ function EmployeeUpdate() {
                 Phone Number
               </Form.Label>
               <Form.Label
-                className={`validation-color ${showPhoneValidation ? "show" : "hide"
-                  }`}
+                className={`validation-color ${
+                  showPhoneValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
             </div>
 
-            {/* <Form.Control
-              className="custom-border"
-              type="tel"
-              placeholder="ex 555-555-5555"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              value={selectPhone ? prevEmployeeData.phone : maskedPhone}
-              name="phone"
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              disabled={formIsDisabled}
-            /> */}
-
             <MaskedInput
-              mask={[/[1-9]/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+              mask={[
+                /[1-9]/,
+                /\d/,
+                /\d/,
+                "-",
+                /\d/,
+                /\d/,
+                /\d/,
+                "-",
+                /\d/,
+                /\d/,
+                /\d/,
+                /\d/,
+              ]}
               className="form-control custom-border"
               placeholder="Enter a phone number"
               guide={true}
@@ -351,7 +348,6 @@ function EmployeeUpdate() {
               disabled={formIsDisabled}
               required
             />
-            
           </Form.Group>
 
           <Form.Group className="mb-3 form-length">
@@ -360,33 +356,39 @@ function EmployeeUpdate() {
                 Email
               </Form.Label>
               <Form.Label
-                className={`validation-color ${showEmailEmployeeValidation ? "show" : "hide"
-                  }`}
+                className={`validation-color ${
+                  showEmailEmployeeValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
             </div>
-            <Form.Control
-              className="custom-border"
-              type="text"
-              placeholder="Employee Email"
+            <MaskedInput
+              className="form-control custom-border"
+              mask={emailMask}
+              placeholder="Enter email address"
+              guide={true}
               name="email"
               value={selectEmail ? prevEmployeeData.email : email.toLowerCase()}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
-            // required
+              required
             />
           </Form.Group>
 
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
-              <Form.Label htmlFor="driversLicense" style={{ fontWeight: "bolder" }}>
+              <Form.Label
+                htmlFor="driversLicense"
+                style={{ fontWeight: "bolder" }}
+              >
                 Drivers License
               </Form.Label>
               <Form.Label
-                className={`validation-color ${showHasDriversLicenseValidation ? "show" : "hide"
-                  }`}
+                className={`validation-color ${
+                  showHasDriversLicenseValidation ? "show" : "hide"
+                }`}
               >
                 * field is required
               </Form.Label>
@@ -397,11 +399,14 @@ function EmployeeUpdate() {
               type="text"
               placeholder="Employee Email"
               name="driversLicense"
-              value={selectHasDriversLicense ? prevEmployeeData.hasDriversLicense : hasDriversLicense}
+              value={
+                selectHasDriversLicense
+                  ? prevEmployeeData.hasDriversLicense
+                  : hasDriversLicense
+              }
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
-            // required
             >
               <option>Select</option>
               <option>Yes</option>
@@ -410,10 +415,9 @@ function EmployeeUpdate() {
           </Form.Group>
 
           <SuccessAlert
-              message="Employee has been updated"
-              show={showSuccess}
-            >
-            </SuccessAlert>
+            message="Employee has been updated"
+            show={showSuccess}
+          ></SuccessAlert>
 
           <div className="d-flex justify-content-center">
             <Button

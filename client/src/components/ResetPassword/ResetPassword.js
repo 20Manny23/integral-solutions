@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Auth from "../../utils/auth";
-import { useParams } from "react-router-dom";
 import decode from "jwt-decode";
-import { useMutation } from "@apollo/client";
+
+import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { UPDATE_PASSWORD } from "../../utils/mutations";
+import { useMutation } from "@apollo/client";
 import { QUERY_EMPLOYEE_BYEMAIL } from "../../utils/queries";
+import { UPDATE_PASSWORD } from "../../utils/mutations";
+
+import { Form, Button, InputGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form, Button, Alert, InputGroup, ButtonGroup } from "react-bootstrap";
 import "../../styles/button-home.css";
 
 const ResetPassword = () => {
   const [validated] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
   const [passwordFormData, setPasswordFormData] = useState({
     password: "",
     passwordCheck: "",
@@ -20,20 +21,23 @@ const ResetPassword = () => {
   // console.log(passwordFormData);
 
   // section get token from URL
-  let params = useParams();
+  let params = useParams(); //fix
   // console.log(params);
 
-  // section decode token to check contents
-  const decoded = decode(params.token);
+  // section decode token to get current user email address
+  const decoded = decode(params.token); //fix
   // console.log(decoded);
 
   // section use email address to get user information
   const [employee, setEmployee] = useState({});
-  // eslint-disable-next-line
-  const {
+  const { //fix
+    // eslint-disable-next-line
     loading,
+    // eslint-disable-next-line
     data,
+    // eslint-disable-next-line
     error: getEmployeeError,
+    // eslint-disable-next-line
     refetch,
   } = useQuery(QUERY_EMPLOYEE_BYEMAIL, {
     variables: { email: decoded.data.email },
@@ -44,9 +48,9 @@ const ResetPassword = () => {
       // console.log("hello = ", data?.employeeByEmail);
     },
   });
-  // section end
 
   // section reset password based on input provided by user
+  // eslint-disable-next-line
   const [updatePassword, { error: passwordError }] =
     useMutation(UPDATE_PASSWORD);
 
@@ -69,15 +73,17 @@ const ResetPassword = () => {
   // set temp password when employee state is updated (query retrieves employee info)
   useEffect(() => {
     setPassword();
+  // eslint-disable-next-line
   }, [employee]);
-  // section end
 
+  //section handle input
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     // console.log("inputChange = ", name, value, event.target);
     setPasswordFormData({ ...passwordFormData, [name]: value });
   };
 
+  //section handle submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -90,7 +96,7 @@ const ResetPassword = () => {
 
     try {
       await refetch();
-      // window.location.assign(`/login`);
+      window.location.assign(`/login`);
     } catch (e) {
       console.error(e);
       // setShowAlert(true);
@@ -136,12 +142,12 @@ const ResetPassword = () => {
                 <Form.Control
                   type={showHidePassword}
                   placeholder="Password (5 character minimum)"
-                  // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                   minLength="5"
                   name="password"
                   onChange={handleInputChange}
                   value={passwordFormData.password}
                   required
+                  autoComplete="true"
                   style={{ borderRight: "none" }}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -179,6 +185,7 @@ const ResetPassword = () => {
                   onChange={handleInputChange}
                   value={passwordFormData.passwordCheck}
                   required
+                  autoComplete="true"
                   style={{ borderRight: "none" }}
                 />
                 <Form.Control.Feedback type="invalid">
