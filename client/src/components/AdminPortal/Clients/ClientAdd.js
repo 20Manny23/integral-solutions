@@ -5,8 +5,6 @@ import { QUERY_ALL_CLIENTS } from "../../../utils/queries";
 import { ADD_CLIENT } from "../../../utils/mutations";
 
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
-
-// import { maskedPhoneInput } from "../../../utils/phoneMask";
 import MaskedInput from 'react-text-mask';
 
 import SuccessAlert from "../../Alert";
@@ -275,20 +273,6 @@ function ClientAdd() {
                 * field is required
               </Form.Label>
             </div>
-
-            {/* <Form.Control
-              className="custom-border"
-              type="tel"
-              placeholder="ex 555-555-5555"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              maxLength="12"
-              value={maskedPhone}
-              name="phone"
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              required
-            /> */}
-
             <MaskedInput
               mask={[/[1-9]/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
               className="form-control custom-border"
@@ -300,7 +284,6 @@ function ClientAdd() {
               onBlur={handleBlurChange}
               required
             />
-
           </Form.Group>
 
           <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
@@ -424,15 +407,17 @@ function ClientAdd() {
               >
                 * required
               </Form.Label>
-              <Form.Control
-                className="custom-border"
-                placeholder="Zip"
-                name="zip"
-                value={zip}
-                onChange={handleInputChange}
-                onBlur={handleBlurChange}
-                required
-              />
+            <MaskedInput
+              className="form-control custom-border"
+              mask={[/\d/, /\d/, /\d/, /\d/, /\d/]}
+              placeholder="Zip"
+              guide={true}
+              name="zip"
+              value={zip}
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              required
+            />
             </Col>
           </Row>
           <SuccessAlert

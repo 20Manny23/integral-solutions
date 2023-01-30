@@ -6,9 +6,7 @@ import { QUERY_ALL_CLIENTS, QUERY_SINGLE_CLIENT } from "../../../utils/queries";
 import { UPDATE_CLIENT } from "../../../utils/mutations";
 
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
-
-// import { maskedPhoneInput } from "../../../utils/phoneMask";
-import MaskedInput from 'react-text-mask';
+import MaskedInput from "react-text-mask";
 
 import SuccessAlert from "../../Alert";
 
@@ -57,8 +55,7 @@ function ClientUpdate() {
     useState(false);
   const [showContactValidation, setShowContactValidation] = useState(false);
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-  const [showEmailValidation, setShowEmailStateValidation] =
-    useState(false);
+  const [showEmailValidation, setShowEmailStateValidation] = useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
   // const [showSuiteValidation, setShowSuiteValidation] = useState(false); //not required
@@ -100,12 +97,6 @@ function ClientUpdate() {
   //SECTION HANDLE INPUT
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-
-    //mask (auto populate) phone format input as xxx-xxx-xxx
-    // if (name === "phone") {
-    //   let getMaskedPhone = maskedPhoneInput(event.target.value);
-    //   setMaskedPhone(getMaskedPhone);
-    // }
 
     if (name === "businessName") {
       setBusinessName(value);
@@ -324,10 +315,7 @@ function ClientUpdate() {
                   : "Select"}
               </option>
               {arrayForSort.map((client, index) => (
-                <option
-                  key={index}
-                  data-id={client?._id}
-                >
+                <option key={index} data-id={client?._id}>
                   {client?.businessName}
                 </option>
               ))}
@@ -361,9 +349,7 @@ function ClientUpdate() {
             />
           </Form.Group>
 
-          <Form.Group
-            className="mb-3 form-length"
-          >
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
                 Contact Name
@@ -416,7 +402,20 @@ function ClientUpdate() {
             /> */}
 
             <MaskedInput
-              mask={[/[1-9]/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+              mask={[
+                /[1-9]/,
+                /\d/,
+                /\d/,
+                "-",
+                /\d/,
+                /\d/,
+                /\d/,
+                "-",
+                /\d/,
+                /\d/,
+                /\d/,
+                /\d/,
+              ]}
               className="form-control custom-border"
               placeholder="Enter a phone number"
               guide={true}
@@ -553,14 +552,17 @@ function ClientUpdate() {
               >
                 * required
               </Form.Label>
-              <Form.Control
-                className="custom-border"
+              <MaskedInput
+                className="form-control custom-border"
+                mask={[/\d/, /\d/, /\d/, /\d/, /\d/]}
                 placeholder="Zip"
+                guide={true}
                 name="zip"
                 value={selectZip ? prevClientData?.zip : zip}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 disabled={formIsDisabled}
+                required
               />
             </Col>
           </Row>

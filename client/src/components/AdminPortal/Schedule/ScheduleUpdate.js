@@ -23,6 +23,7 @@ import {
   format_date_YYYYDDMM,
 } from "../../../utils/dateFormat";
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
+import MaskedInput from 'react-text-mask';
 import { NUMBER_OF_EMPLOYEES } from "../../../utils/numberOfEmployees";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
@@ -655,7 +656,7 @@ function ScheduleUpdate() {
             >
               *required
             </Form.Label>
-            <Form.Control
+            {/* <Form.Control
               className="custom-border"
               placeholder="Zip"
               name="zip"
@@ -663,6 +664,18 @@ function ScheduleUpdate() {
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
+            /> */}
+            <MaskedInput
+              className="form-control custom-border"
+              mask={[/\d/, /\d/, /\d/, /\d/, /\d/]}
+              placeholder="Zip"
+              guide={true}
+              name="zip"
+              value={selectZip ? prevScheduleData.zip : zip}
+              onChange={handleInputChange}
+              onBlur={handleBlurChange}
+              disabled={formIsDisabled}
+              required
             />
           </Col>
         </Row>

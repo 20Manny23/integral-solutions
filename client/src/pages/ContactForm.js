@@ -5,10 +5,8 @@ import useEmailSend from "../components/EmailSend";
 
 import Footer from "../components/Home/Footer";
 import { STATE_DROPDOWN } from "../utils/stateDropdown";
+import MaskedInput from "react-text-mask";
 import { NUMBER_OF_EMPLOYEES } from "../utils/numberOfEmployees";
-
-// import { maskedPhoneInput } from "../utils/phoneMask";
-import MaskedInput from 'react-text-mask';
 
 import SuccessAlert from "../components/Alert";
 
@@ -37,8 +35,10 @@ function ContactForm() {
   // const [maskedPhone, setMaskedPhone] = useState("");
 
   //  validation
-  const [showCompanyNameValidation, setShowCompanyNameValidation] = useState("");
-  const [showContactNameValidation, setShowContactNameValidation] = useState("");
+  const [showCompanyNameValidation, setShowCompanyNameValidation] =
+    useState("");
+  const [showContactNameValidation, setShowContactNameValidation] =
+    useState("");
   const [showphoneValidation, setShowphoneValidation] = useState("");
   const [showEmailValidation, setShowEmailValidation] = useState("");
   const [showAddressValidation, setShowAddressValidation] = useState("");
@@ -46,7 +46,8 @@ function ContactForm() {
   const [showStateValidation, setShowStateValidation] = useState("");
   const [showZipValidation, setShowZipValidation] = useState("");
   const [showSquareFeetValidation, setShowSquareFeetValidation] = useState("");
-  const [showEmployeeNumberValidation, setShowEmployeeNumberValidation] = useState("");
+  const [showEmployeeNumberValidation, setShowEmployeeNumberValidation] =
+    useState("");
   const [showStartDateValidation, setShowStartDateValidation] = useState("");
   const [showServicesValidation, setShowServicesValidation] = useState("");
   const [showJobDetailsValidation, setShowJobDetailsValidation] = useState("");
@@ -59,18 +60,18 @@ function ContactForm() {
     // const value = target.value;
     const { name, value } = event.target;
 
-    console.log(phone)
+    console.log(phone);
 
     // set state for check box input
     // if checkbox is checked and services state does not include value then add to services
     if (event.target.checked && !services.includes(value.trim())) {
       setServices([...services, ` ${value}`]); // add space to the value for email formatting
       return;
-    // if target is unchecked and it is a services input then don't include in services state
+      // if target is unchecked and it is a services input then don't include in services state
     } else if (!event.target.checked && name === "services") {
       setServices(
         services.filter((service) => value.trim() !== service.trim())
-      ); 
+      );
       return;
     }
 
@@ -129,15 +130,9 @@ function ContactForm() {
       startDate,
       jobDetails,
       services
-    )
+    );
 
-    if (
-      !companyName ||
-      !contactName ||
-      !email ||
-      !startDate ||
-      !jobDetails
-    ) {
+    if (!companyName || !contactName || !email || !startDate || !jobDetails) {
       setErrorMessage("Please fill in all required fields *");
       return;
     }
@@ -248,18 +243,18 @@ function ContactForm() {
   useEffect(() => {
     setAreAllFieldsFilled(
       companyName.trim() !== "" &&
-      contactName.trim() !== "" &&
-      phone.trim() !== "" &&
-      email.trim() !== "" &&
-      address.trim() !== "" &&
-      city.trim() !== "" &&
-      state.trim() !== "" &&
-      zip.trim() !== "" &&
-      squareFeet.trim() !== "" &&
-      employeeNumber.trim() !== "" &&
-      startDate.trim() !== "" &&
-      jobDetails.trim() !== "" &&
-      services.length > 0
+        contactName.trim() !== "" &&
+        phone.trim() !== "" &&
+        email.trim() !== "" &&
+        address.trim() !== "" &&
+        city.trim() !== "" &&
+        state.trim() !== "" &&
+        zip.trim() !== "" &&
+        squareFeet.trim() !== "" &&
+        employeeNumber.trim() !== "" &&
+        startDate.trim() !== "" &&
+        jobDetails.trim() !== "" &&
+        services.length > 0
     );
   }, [
     companyName,
@@ -274,7 +269,7 @@ function ContactForm() {
     employeeNumber,
     startDate,
     jobDetails,
-    services
+    services,
   ]);
 
   return (
@@ -285,7 +280,7 @@ function ContactForm() {
       >
         {/* media queries for contact form are in navbar.css */}
         <Container className="">
-        {errorMessage && (
+          {errorMessage && (
             <Alert className="form-alert" variant="danger">
               <p className="error-text">{errorMessage}</p>
             </Alert>
@@ -300,8 +295,9 @@ function ContactForm() {
                   Company Name
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${showCompanyNameValidation ? "show" : "hide"
-                    }`}
+                  className={`text-danger ${
+                    showCompanyNameValidation ? "show" : "hide"
+                  }`}
                 >
                   * field is required
                 </Form.Label>
@@ -324,8 +320,9 @@ function ContactForm() {
                   Contact Name
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${showContactNameValidation ? "show" : "hide"
-                    }`}
+                  className={`text-danger ${
+                    showContactNameValidation ? "show" : "hide"
+                  }`}
                 >
                   * field is required
                 </Form.Label>
@@ -349,8 +346,9 @@ function ContactForm() {
                   Email Address
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${showEmailValidation ? "show" : "hide"
-                    }`}
+                  className={`text-danger ${
+                    showEmailValidation ? "show" : "hide"
+                  }`}
                 >
                   * field is required
                 </Form.Label>
@@ -374,37 +372,38 @@ function ContactForm() {
                   Phone Number
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${showphoneValidation ? "show" : "hide"
-                    }`}
+                  className={`text-danger ${
+                    showphoneValidation ? "show" : "hide"
+                  }`}
                 >
                   * field is required
                 </Form.Label>
               </div>
 
-              {/* <Form.Control
-                className="custom-border"
-                type="tel"
-                placeholder="ex 555-555-5555"
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                maxLength="12"
-                value={maskedPhone}
+              <MaskedInput
+                mask={[
+                  /[1-9]/,
+                  /\d/,
+                  /\d/,
+                  "-",
+                  /\d/,
+                  /\d/,
+                  /\d/,
+                  "-",
+                  /\d/,
+                  /\d/,
+                  /\d/,
+                  /\d/,
+                ]}
+                className="form-control custom-border"
+                placeholder="Enter a phone number"
+                guide={true}
+                value={phone}
                 name="phone"
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-              /> */}
-
-            <MaskedInput
-              mask={[/[1-9]/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-              className="form-control custom-border"
-              placeholder="Enter a phone number"
-              guide={true}
-              value={phone}
-              name="phone"
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              required
-            />
-
+                required
+              />
             </Form.Group>
 
             <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
@@ -413,8 +412,9 @@ function ContactForm() {
                   Address
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${showAddressValidation ? "show" : "hide"
-                    }`}
+                  className={`text-danger ${
+                    showAddressValidation ? "show" : "hide"
+                  }`}
                 >
                   * field is required
                 </Form.Label>
@@ -436,8 +436,9 @@ function ContactForm() {
               <Col sm={12} md={5}>
                 <Form.Label style={{ fontWeight: "bolder" }}>City</Form.Label>
                 <Form.Label
-                  className={`text-danger ${showCityValidation ? "show" : "hide"
-                    }`}
+                  className={`text-danger ${
+                    showCityValidation ? "show" : "hide"
+                  }`}
                 >
                   * field is required
                 </Form.Label>
@@ -454,8 +455,9 @@ function ContactForm() {
               <Col style={{ marginRight: "auto", marginLeft: "auto" }}>
                 <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
                 <Form.Label
-                  className={`text-danger ${showStateValidation ? "show" : "hide"
-                    }`}
+                  className={`text-danger ${
+                    showStateValidation ? "show" : "hide"
+                  }`}
                 >
                   * field is required
                 </Form.Label>
@@ -480,18 +482,22 @@ function ContactForm() {
                   Zipcode
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${showZipValidation ? "show" : "hide"
-                    }`}
+                  className={`text-danger ${
+                    showZipValidation ? "show" : "hide"
+                  }`}
                 >
                   * field is required
                 </Form.Label>
-                <Form.Control
-                  className="custom-border"
+                <MaskedInput
+                  className="form-control custom-border"
+                  mask={[/\d/, /\d/, /\d/, /\d/, /\d/]}
                   placeholder="Zip"
+                  guide={true}
                   name="zip"
                   value={zip}
                   onChange={handleInputChange}
                   onBlur={handleBlurChange}
+                  required
                 />
               </Col>
             </Row>
@@ -502,8 +508,9 @@ function ContactForm() {
                   Office Sqft
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${showSquareFeetValidation ? "show" : "hide"
-                    }`}
+                  className={`text-danger ${
+                    showSquareFeetValidation ? "show" : "hide"
+                  }`}
                 >
                   * field is required
                 </Form.Label>
@@ -527,8 +534,9 @@ function ContactForm() {
                   # of Employees
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${showEmployeeNumberValidation ? "show" : "hide"
-                    }`}
+                  className={`text-danger ${
+                    showEmployeeNumberValidation ? "show" : "hide"
+                  }`}
                 >
                   * field is required
                 </Form.Label>
@@ -558,8 +566,9 @@ function ContactForm() {
                   Requested Completion Date
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${showStartDateValidation ? "show" : "hide"
-                    }`}
+                  className={`text-danger ${
+                    showStartDateValidation ? "show" : "hide"
+                  }`}
                 >
                   * field is required
                 </Form.Label>
@@ -652,8 +661,9 @@ function ContactForm() {
                   Job Details
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${showJobDetailsValidation ? "show" : "hide"
-                    }`}
+                  className={`text-danger ${
+                    showJobDetailsValidation ? "show" : "hide"
+                  }`}
                 >
                   * field is required
                 </Form.Label>
@@ -676,8 +686,7 @@ function ContactForm() {
               // variant="success"
               message="Email sent! We'll be in touch shortly."
               show={showSuccess}
-            >
-            </SuccessAlert>
+            ></SuccessAlert>
 
             <Button
               className="button-custom submit-button-style"
