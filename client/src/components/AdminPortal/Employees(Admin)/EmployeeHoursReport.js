@@ -23,6 +23,7 @@ function EmployeeHours() {
     data: emp,
     // eslint-disable-next-line
     error: empError,
+    // eslint-disable-next-line
     refetch: empRefetch,
   } = useQuery(QUERY_ALL_EMPLOYEES, {
     variables: {
@@ -43,21 +44,22 @@ function EmployeeHours() {
           hoursThisWeek: calcTimePeriodHours(element, "week").toFixed(2),
           hoursThisMonth: calcTimePeriodHours(element, "month").toFixed(2),
           hoursThisYear: calcTimePeriodHours(element, "year").toFixed(2),
-          hour: element.hour
-            .map((hour) => {
-              return {
-                jobDate: format_date_no_hyphen(hour.jobDate),
-                weekNumber: moment(hour.jobDate).week(),
-                jobDay: moment(hour.jobDate).day(),
-                hoursWorked: hour.hoursWorked,
-              };
-            })
-            .sort((a, b) => a.jobDay - b.jobDay)
-            .filter(
-              (element) =>
-                moment(element.jobDate).week() === moment(new Date()).week()
-            )
-            .map((element) => element),
+          hour: getEmployeeHours(element),
+          // hour: element.hour //fix will delete once i see this works as a function in line 47
+          //   .map((hour) => {
+          //     return {
+          //       jobDate: format_date_no_hyphen(hour.jobDate),
+          //       weekNumber: moment(hour.jobDate).week(),
+          //       jobDay: moment(hour.jobDate).day(),
+          //       hoursWorked: hour.hoursWorked,
+          //     };
+          //   })
+          //   .sort((a, b) => a.jobDay - b.jobDay)
+          //   .filter(
+          //     (element) =>
+          //       moment(element.jobDate).week() === moment(new Date()).week()
+          //   )
+          //   .map((element) => element),
         };
       })
       .sort((a, b) => {
@@ -75,6 +77,27 @@ function EmployeeHours() {
 
     setThisWeekDays(getThisWeekDays);
   }, [emp]);
+
+  //SECTION TO GET HOUR ARRAY FOR EACH EMPLOYEE TO RENDER AFTER SORT BY DATE (DAY OF WEEK), FILTER FOR THIS WEEK, MAP RESULTS OF FILTER
+  const getEmployeeHours = (element) => {
+    let hours = element.hour
+      .map((hour) => {
+        return {
+          jobDate: format_date_no_hyphen(hour.jobDate), //get job date in render format
+          weekNumber: moment(hour.jobDate).week(), //add week number to use in filter below
+          jobDay: moment(hour.jobDate).day(), //get day of week for use to sort 
+          hoursWorked: hour.hoursWorked, //get hours worked
+        };
+      })
+      .sort((a, b) => a.jobDay - b.jobDay)
+      .filter(
+        (element) =>
+          moment(element.jobDate).week() === moment(new Date()).week()
+      )
+      .map((element) => element);
+
+    return hours;
+  }
 
   //SECTION TO CALC TOTAL OVERALL HOURS FOR THE WEEK
   useEffect(() => {
