@@ -22,7 +22,7 @@ function ClientAdd() {
   const [businessName, setBusinessName] = useState("");
   const [contact, setContact] = useState("");
   const [phone, setPhone] = useState("");
-  const [emailClient, setEmailClient] = useState("");
+  const [email, setEmail] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const [suite, setSuite] = useState("");
   const [city, setCity] = useState("");
@@ -36,7 +36,7 @@ function ClientAdd() {
     useState(false);
   const [showContactValidation, setShowContactValidation] = useState(false);
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-  const [showEmailClientValidation, setShowEmailClientStateValidation] =
+  const [showEmailValidation, setShowEmailStateValidation] =
     useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
@@ -87,8 +87,8 @@ function ClientAdd() {
       ? setContact(value)
       : name === "phone"
       ? setPhone(value)
-      : name === "emailClient"
-      ? setEmailClient(value)
+      : name === "email"
+      ? setEmail(value)
       : name === "streetAddress"
       ? setStreetAddress(value)
       : name === "suite"
@@ -115,7 +115,7 @@ function ClientAdd() {
           businessName,
           contact,
           phone,
-          email: emailClient,
+          email: email,
           streetAddress,
           suite,
           city,
@@ -147,9 +147,9 @@ function ClientAdd() {
     name === "phone" && value.trim() === ""
       ? setShowPhoneValidation(true)
       : setShowPhoneValidation(false);
-    name === "emailClient" && value.trim() === ""
-      ? setShowEmailClientStateValidation(true)
-      : setShowEmailClientStateValidation(false);
+    name === "email" && value.trim() === ""
+      ? setShowEmailStateValidation(true)
+      : setShowEmailStateValidation(false);
     name === "streetAddress" && value.trim() === ""
       ? setShowStreetAddressValidation(true)
       : setShowStreetAddressValidation(false);
@@ -172,7 +172,7 @@ function ClientAdd() {
     setBusinessName("");
     setContact("");
     setPhone("");
-    setEmailClient("");
+    setEmail("");
     setStreetAddress("");
     setSuite("");
     setCity("");
@@ -186,7 +186,7 @@ function ClientAdd() {
       businessName.trim() !== "" &&
         contact.trim() !== "" &&
         phone.trim() !== "" &&
-        emailClient.trim() !== "" &&
+        email.trim() !== "" &&
         streetAddress.trim() !== "" &&
         suite.trim() !== "" &&
         city.trim() !== "" &&
@@ -200,7 +200,7 @@ function ClientAdd() {
     businessName,
     contact,
     phone,
-    emailClient,
+    email,
     streetAddress,
     suite,
     city,
@@ -308,7 +308,7 @@ function ClientAdd() {
               <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label>
               <Form.Label
                 className={`validation-color ${
-                  showEmailClientValidation ? "show" : "hide"
+                  showEmailValidation ? "show" : "hide"
                 }`}
               >
                 * field is required
@@ -318,8 +318,8 @@ function ClientAdd() {
               className="custom-border"
               type="email"
               placeholder="Client Email"
-              name="emailClient"
-              value={emailClient}
+              name="email"
+              value={email}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required

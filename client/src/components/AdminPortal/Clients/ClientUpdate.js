@@ -57,7 +57,7 @@ function ClientUpdate() {
     useState(false);
   const [showContactValidation, setShowContactValidation] = useState(false);
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-  const [showEmailClientValidation, setShowEmailClientStateValidation] =
+  const [showEmailValidation, setShowEmailStateValidation] =
     useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
@@ -229,8 +229,8 @@ function ClientUpdate() {
       ? setShowPhoneValidation(true)
       : setShowPhoneValidation(false);
     name === "email" && value.trim() === ""
-      ? setShowEmailClientStateValidation(true)
-      : setShowEmailClientStateValidation(false);
+      ? setShowEmailStateValidation(true)
+      : setShowEmailStateValidation(false);
     name === "streetAddress" && value.trim() === ""
       ? setShowStreetAddressValidation(true)
       : setShowStreetAddressValidation(false);
@@ -435,7 +435,7 @@ function ClientUpdate() {
               <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label>
               <Form.Label
                 className={`validation-color ${
-                  showEmailClientValidation ? "show" : "hide"
+                  showEmailValidation ? "show" : "hide"
                 }`}
               >
                 * field is required
