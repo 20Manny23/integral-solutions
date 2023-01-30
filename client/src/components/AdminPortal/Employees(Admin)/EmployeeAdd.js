@@ -40,9 +40,6 @@ function EmployeeAdd() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    console.log(name, value)
-    console.log(phone);
-
     name === "firstName"
       ? setFirstName(value)
       : name === "lastName"
@@ -87,18 +84,6 @@ function EmployeeAdd() {
 
   const handleAddEmployeeSubmit = async (event) => {
     event.preventDefault();
-
-    console.log(
-      event,
-      email,
-      firstName,
-      lastName,
-      password,
-      phone,
-      isAdmin,
-      isLocked,
-      hasDriversLicense
-    );
 
     try {
       // eslint-disable-next-line

@@ -59,7 +59,7 @@ const format_time_HHmmss = (time) => {
     time_HHmmss = time.substring(0, 8);
   }
 
-  // console.log(time_HHmmss);
+
 
   return time_HHmmss;
 };
@@ -89,25 +89,7 @@ module.exports = {
   format_date_ISOString,
 };
 
-// if (date) {
-//   dateYYYYDDMM = new Date(date).toISOString().substring(0, 10)
-// }
 
-// console.log(new Date().toISOString().substring(0, 10))
-// console.log(prevScheduleData?.startTime, prevScheduleData?.startTime.slice(0,9).toString())
-// console.log((new Date(prevScheduleData?.startDate)).toISOString()); //2023-01-11T12:02:00.000Z
-// console.log(new Date()); // Sun Jan 15 2023 20:52:58 GMT-0700 (Mountain Standard Time)
-// // "2017-06-01"
-// console.log((new Date(prevScheduleData?.startDate)).getFullYear());
-// let month = (new Date(prevScheduleData?.startDate)).getFullYear();
-// let year = (new Date(prevScheduleData?.startDate)).getMonth();
-// let day = (new Date(prevScheduleData?.startDate)).getDate();
-
-// console.log('hello date = ', `${year}-${day}-${month}`);
-
-// let test = format_date_YYYYDDMM(prevScheduleData?.startDate);
-
-// console.log('function = ', test);
 
 // https://stackoverflow.com/questions/23593052/format-javascript-date-as-yyyy-mm-dd
 

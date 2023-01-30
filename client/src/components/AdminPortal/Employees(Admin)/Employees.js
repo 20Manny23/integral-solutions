@@ -37,9 +37,7 @@ function Employees() {
     variables: {
       isDisplayable: true, //only retrieve employees with a displayable status = true
     },
-    onCompleted: (data) => {
-      console.log(data);
-    },
+    onCompleted: (data) => {},
   });
 
   // toggle isAmin mutation
@@ -52,14 +50,13 @@ function Employees() {
 
   const saveIdFunction = (event) => {
     let employeeId = event.currentTarget.getAttribute("data-clientid");
-    console.log(typeof employeeId);
+
     setDeleteThis(employeeId);
     handleShow();
   };
 
   const handleSoftDelete = async (event) => {
     //if delete trash is clicked change isDisplayble status to isDisplayabled = false
-    //let employeeId = event.currentTarget.getAttribute("data-clientid"); //identify selected employee
 
     try {
       await softDeleteEmployee({
@@ -99,7 +96,7 @@ function Employees() {
   // SECTION HANDLE COLLAPSE
   const getElement = (event) => {
     let currentAvailTarget = event.currentTarget.getAttribute("data-target");
-    console.log(currentAvailTarget);
+
     let currentAvailTable = document.getElementById(currentAvailTarget);
 
     if (currentAvailTable.classList.contains("show")) {
@@ -193,7 +190,6 @@ function Employees() {
                       <p className="mb-0 text-left">
                         {emp?.lastName}, {emp?.firstName}
                       </p>
-                      {/* <p className="mb-0 text-left">{format_phone(emp?.phone)}</p> */}
                     </button>
                   </h5>
                   <div className="d-flex mr-2">

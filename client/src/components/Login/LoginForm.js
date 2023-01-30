@@ -34,29 +34,25 @@ const LoginForm = () => {
     }
 
     try {
-        //get user information based on email address
-        const { data } = await login({
-          variables: { ...userFormData },
-        });
+      //get user information based on email address
+      const { data } = await login({
+        variables: { ...userFormData },
+      });
 
-        // if user is not locked then give access via Auth.login function
-        if (data.login.employee.isLocked === false) {
-
+      // if user is not locked then give access via Auth.login function
+      if (data.login.employee.isLocked === false) {
         Auth.login(data.login);
 
         window.location.assign(`/`); //sends user back to home; on the home page the nav will display the nav links based on auth rights (isAdmin true or isAdmin false)
-      // }
+      } else {
+        //if user is locked remove token from local storage & send to home page
 
-        } else {
-
-          //if user is locked remove token from local storage & send to home page
-          console.log("user is locked === true");
-          localStorage.removeItem("id_token");
-          window.location.assign(`/`);
-          alert("You do not have employee access. Please contact Integral Solutions.")
-
-        }
-
+        localStorage.removeItem("id_token");
+        window.location.assign(`/`);
+        alert(
+          "You do not have employee access. Please contact Integral Solutions."
+        );
+      }
     } catch (e) {
       console.error(e);
       setShowAlert(true);
@@ -113,7 +109,6 @@ const LoginForm = () => {
               <Form.Control
                 type={showHidePassword}
                 placeholder="Password (5 character min)"
-                // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 minLength="5"
                 name="password"
                 onChange={handleInputChange}
@@ -193,11 +188,5 @@ const isDisplayed = {
 const isNotDisplayed = {
   display: "none",
 };
- 
-// for reference ...
-// console.log(data)
-// console.log(data.login)
-// console.log(data.login.token)
-// const decoded = decode(data.login.token);
-// console.log(decoded);
-// console.log(Auth.decode(data.login.token));
+
+

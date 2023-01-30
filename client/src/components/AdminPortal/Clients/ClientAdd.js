@@ -104,7 +104,6 @@ function ClientAdd() {
   // Add client to the Client model/table
   const handleAddClientSubmit = async (event) => {
     event.preventDefault();
-    console.log(event);
 
     try {
       // eslint-disable-next-line
@@ -191,7 +190,6 @@ function ClientAdd() {
         state.trim() !== "" &&
         zip.trim() !== ""
     );
-    // console.log(areAllFieldsFilled);
 
     // eslint-disable-next-line
   }, [

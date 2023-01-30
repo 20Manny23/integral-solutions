@@ -76,16 +76,7 @@ const EmployeePortal = ({
                 >
                   Past Jobs
                 </Button>
-                {/* <Button
-                  variant="outline-primary"
-                  style={hoursButtonIsActive ? isActive : notActive}
-                  active={hoursButtonIsActive}
-                  onClick={() => {
-                    navigate("/hours");
-                  }}
-                >
-                  Enter Hours
-                </Button> */}
+                
               </div>
               
               {renderPanel === "employee" ? (

@@ -140,8 +140,6 @@ function ClientUpdate() {
     //await query single client
     let currentClientData = await getASingleClient(); //get selected client data
 
-    // console.log('currentClient = ', currentClientData.data.client);
-
     setPrevClientData(currentClientData?.data?.client); //set data state and rerender in form
 
     // allow form to populate with selected employee data
@@ -226,9 +224,6 @@ function ClientUpdate() {
     name === "streetAddress" && value.trim() === ""
       ? setShowStreetAddressValidation(true)
       : setShowStreetAddressValidation(false);
-    // name === "suite" && value.trim() === "" //not required
-    //   ? setShowSuiteValidation(true)
-    //   : setShowSuiteValidation(false);
     name === "city" && value.trim() === ""
       ? setShowCityValidation(true)
       : setShowCityValidation(false);
@@ -280,7 +275,6 @@ function ClientUpdate() {
   ]);
   let arrayForSort = [];
   if (clients) {
-    // console.log(clients.clients)
     arrayForSort = [...clients.clients];
     arrayForSort.sort(function (a, b) {
       if (a.businessName.toLowerCase() < b.businessName.toLowerCase())
@@ -389,19 +383,6 @@ function ClientUpdate() {
               </Form.Label>
             </div>
 
-            {/* <Form.Control
-              className="custom-border"
-              type="tel"
-              placeholder="ex 555-555-5555"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              maxLength="12"
-              value={selectPhone ? prevClientData?.phone : maskedPhone}
-              name="phone"
-              onChange={handleInputChange}
-              onBlur={handleBlurChange}
-              disabled={formIsDisabled}
-            /> */}
-
             <MaskedInput
               mask={[
                 /[1-9]/,
@@ -420,7 +401,6 @@ function ClientUpdate() {
               className="form-control custom-border"
               placeholder="Enter a phone number"
               guide={true}
-              // value={phone}
               value={selectPhone ? prevClientData?.phone : phone}
               name="phone"
               onChange={handleInputChange}
@@ -481,10 +461,7 @@ function ClientUpdate() {
             />
           </Form.Group>
 
-          <Form.Group
-            className="mb-3 form-length"
-            // controlId="formBasicEmail"
-          >
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>Suite</Form.Label>
             </div>

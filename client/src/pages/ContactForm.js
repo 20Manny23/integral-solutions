@@ -56,12 +56,10 @@ function ContactForm() {
 
   //section handle input
   const handleInputChange = (event) => {
-    // const { target } = event;
-    // const name = target.name;
-    // const value = target.value;
+
     const { name, value } = event.target;
 
-    console.log(phone);
+  
 
     // set state for check box input
     // if checkbox is checked and services state does not include value then add to services
@@ -114,24 +112,9 @@ function ContactForm() {
 
   //section handle submit
   const handleSubmit = (event) => {
-    // setErrorMessage("");
+    
     event.preventDefault();
 
-    console.log(
-      companyName,
-      contactName,
-      phone,
-      email,
-      address,
-      city,
-      state,
-      zip,
-      squareFeet,
-      employeeNumber,
-      startDate,
-      jobDetails,
-      services
-    );
 
     if (!companyName || !contactName || !email || !startDate || !jobDetails) {
       setErrorMessage("Please fill in all required fields *");

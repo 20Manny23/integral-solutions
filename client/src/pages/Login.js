@@ -52,18 +52,9 @@ const Login = ({ renderPanel, loginButtonIsActive }) => {
             >
               Login 
             </button>
-            {/* <button
-              disabled={Auth.loggedIn()}
-              style={{ borderTop: "1pc solidblack" }}
-              className={`baseline ${signupButtonIsActive ? "isActive" : ""}`}
-              onClick={() => {
-                navigate("/signup");
-              }}
-            >
-              Sign Up
-            </button> */}
+           
           </div>
-          {/* {renderPanel === "login" ? <LoginForm /> : <SignupForm />} */}
+        
           <LoginForm/>
         </div>
       </div>
