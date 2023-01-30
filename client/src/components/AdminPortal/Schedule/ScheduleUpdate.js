@@ -784,7 +784,7 @@ function ScheduleUpdate() {
           <Col xs={6}>
             <Form.Group>
               <Form.Label style={{ fontWeight: "bolder" }}>
-                Number of Employees
+                Staff Size
               </Form.Label>
               <Form.Label
                 className={`validation-color ${
