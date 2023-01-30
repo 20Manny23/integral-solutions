@@ -36,7 +36,7 @@ import SuccessAlert from "../../Alert";
 function ScheduleUpdate() {
   const [showSuccess, setShowSuccess] = useState(false);
   //form = input fields
-  const [businessName, setBusinessName] = useState("");
+  // const [businessName, setBusinessName] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -48,15 +48,13 @@ function ScheduleUpdate() {
   const [squareFeet, setSquareFeet] = useState("");
   const [jobDetails, setJobDetails] = useState("");
   const [numberOfClientEmployees, setNumberOfClientEmployees] = useState("");
-  const [client, setClient] = useState("");
-  const [employees, setEmployees] = useState("");
+  const [setClient] = useState("");
+  const [setEmployees] = useState("");
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
 
   //set selected schedule/jobs
-  
   const [currentScheduleId, setCurrentScheduleId] = useState("");
-
   const [prevScheduleData, setPrevScheduleData] = useState({});
 
   //set the state of the value in the input fields (either the input by the user or populate based on selected client)
@@ -96,7 +94,7 @@ function ScheduleUpdate() {
     setShowNumberOfClientEmployeesValidation,
   ] = useState(false);
   
-  const [showSelectedEmployeesValidation, setShowSelectedEmployeesValidation] =
+  // const [showSelectedEmployeesValidation, setShowSelectedEmployeesValidation] =
     useState(false);
 
   //SECTION GET ALL JOBS
@@ -134,6 +132,7 @@ function ScheduleUpdate() {
   const {
     // eslint-disable-next-line
     loading: clientsLoad,
+    // eslint-disable-next-line
     data: clients,
     // eslint-disable-next-line
     error: clientError,
@@ -308,7 +307,7 @@ function ScheduleUpdate() {
 
     for (let i = 0; i < selectedJobEmployeeIds.length; i++) {
       if (!currentJobEmployeeIds.includes(selectedJobEmployeeIds[i])) {
-        const { data } = await updateEmployeeSchedule({
+        await updateEmployeeSchedule({
           variables: {
             id: selectedJobEmployeeIds[i],
             schedule: currentScheduleId,
@@ -321,7 +320,7 @@ function ScheduleUpdate() {
     //if selected employee ids does not include an id in the original array/database, remove it from the database
     for (let i = 0; i < currentJobEmployeeIds.length; i++) {
       if (!selectedJobEmployeeIds.includes(currentJobEmployeeIds[i])) {
-        const { data } = await removeEmployeeSchedule({
+        await removeEmployeeSchedule({
           variables: {
             id: currentJobEmployeeIds[i],
             schedule: currentScheduleId,
@@ -455,7 +454,7 @@ function ScheduleUpdate() {
 
   //reset = resets form to placeholder values
   const resetForm = () => {
-    setBusinessName("");
+    // setBusinessName("");
     setStreetAddress("");
     setCity("");
     setState("");
@@ -822,13 +821,6 @@ function ScheduleUpdate() {
         <Form.Group className="form-length">
           <Form.Label style={{ fontWeight: "bolder" }}>
             Select Employee(s)
-          </Form.Label>
-          <Form.Label
-            className={`validation-color ${
-              showSelectedEmployeesValidation ? "show" : "hide"
-            }`}
-          >
-            *required
           </Form.Label>
           <Form.Control
             as="select"

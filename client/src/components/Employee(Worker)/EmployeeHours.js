@@ -96,12 +96,12 @@ function EmployeeHours() {
   });
 
   //update hours by employee id and job date
-  // const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE);
+  // const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE); //fix original
 
-  //fix
+  //fix revised attempting to get the most recently added id
   const [ mostRecentHourUpdateId, setMostRecentHoursUpdateId ] = useState();
 
-  const [updateHours, { data: hoursUpdateData, loading: addLoading }] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE, {
+  const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE, {
     // variables: { employee: userId },
     // // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     // skip: !Auth.loggedIn(),
@@ -113,9 +113,16 @@ function EmployeeHours() {
   });
   //fix
 
-  if (!addLoading) {
-    console.log(hoursUpdateData)
-  }
+  // if (!addLoading) { //fix
+  //   console.log('hours update data is is not loading =', hoursUpdateData)
+  // }
+
+  useEffect(() => { //fix
+    console.log('most recent update data use effect = ', mostRecentHourUpdateId);
+
+  // eslint-disable-next-line
+  }, [mostRecentHourUpdateId])
+  
 
   //section handle input
   const handleInput = async (event) => {
@@ -231,7 +238,7 @@ function EmployeeHours() {
     console.log(data);
     try {
       // eslint-disable-next-line
-      await updateHours({
+      const { data2 } = await updateHours({
         variables: {
           jobDate: moment(data.date).format("MMMM DD YYYY"), //"January 20 2023"
           startTime: `${data.startTime}:00 (MST)`, //"12:00:00 (MST)"
@@ -240,12 +247,16 @@ function EmployeeHours() {
           employee: userId, //"6398fb54494aa98f85992da3"
         },
       });
+
+      console.log('handle update database function = data = ', data2); //fix
+
     } catch (err) {
       console.error(err);
     }
 
     singleHoursRefetch();
-    console.log(hoursUpdateData)
+
+    // console.log(hoursUpdateData)
     //useEffect below will update the employee model with the most recent hours id
   };
 
