@@ -45,21 +45,6 @@ function EmployeeHours() {
           hoursThisMonth: calcTimePeriodHours(element, "month").toFixed(2),
           hoursThisYear: calcTimePeriodHours(element, "year").toFixed(2),
           hour: getEmployeeHours(element),
-          // hour: element.hour //fix will delete once i see this works as a function in line 47
-          //   .map((hour) => {
-          //     return {
-          //       jobDate: format_date_no_hyphen(hour.jobDate),
-          //       weekNumber: moment(hour.jobDate).week(),
-          //       jobDay: moment(hour.jobDate).day(),
-          //       hoursWorked: hour.hoursWorked,
-          //     };
-          //   })
-          //   .sort((a, b) => a.jobDay - b.jobDay)
-          //   .filter(
-          //     (element) =>
-          //       moment(element.jobDate).week() === moment(new Date()).week()
-          //   )
-          //   .map((element) => element),
         };
       })
       .sort((a, b) => {
@@ -90,6 +75,7 @@ function EmployeeHours() {
         };
       })
       .sort((a, b) => a.jobDay - b.jobDay)
+      .filter((year) => moment(year.jobDate).year() === moment(new Date()).year()) //filter for dates this year
       .filter(
         (thisWeek) =>
           moment(thisWeek.jobDate).week() === moment(new Date()).week()
@@ -101,11 +87,13 @@ function EmployeeHours() {
 
   //SECTION TO CALC TOTAL OVERALL HOURS FOR THE WEEK
   useEffect(() => {
-    let currentWeekNumber = moment(new Date()).week();
+    const currentWeekNumber = moment(new Date()).week();
+    const currentYear = moment(new Date()).year();
 
     let calcTotalWeeklyHours = emp?.employees //get employee data
       .map((element) => element.hour) //map hours to an array
       .flatMap((num) => num) //combine/flatten arrays into a single array
+      .filter((year) => moment(year.jobDate).year() === currentYear) //filter for dates this year
       .filter((day) => moment(day.jobDate).week() === currentWeekNumber) //filter for dates this week
       .map((element) => parseFloat(element.hoursWorked, 2)) //map the hours worked this week to an array
       .reduce((accumulator, currentValue) => accumulator + currentValue, 0); //total the hours for this week
@@ -115,7 +103,9 @@ function EmployeeHours() {
 
   //SECTION UTIILITY FUNCTION TO DETERMINE HOURS FOR WEEK, MONTH, YEAR
   const calcTimePeriodHours = (data, period) => {
+
     let totalHours = data.hour
+      .filter((year) => moment(year.jobDate).year() === moment(new Date()).year()) //always filter for dates this year
       .filter(
         (thisWeek) =>
           moment(thisWeek.jobDate)[period]() === moment(new Date())[period]()

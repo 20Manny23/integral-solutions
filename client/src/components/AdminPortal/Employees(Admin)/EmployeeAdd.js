@@ -22,10 +22,7 @@ function EmployeeAdd() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isLocked, setIsLocked] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(false);
-  // const [maskedPhone, setMaskedPhone] = useState("");
   const [hasDriversLicense, setHasDriversLicense] = useState(false);
 
   // VALIDATION
@@ -138,8 +135,6 @@ function EmployeeAdd() {
     setPhone("");
     setEmail("");
     setPassword("");
-    setIsAdmin("");
-    setIsLocked("");
     setHasDriversLicense("");
   };
 
