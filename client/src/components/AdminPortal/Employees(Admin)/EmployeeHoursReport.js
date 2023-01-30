@@ -91,10 +91,10 @@ function EmployeeHours() {
       })
       .sort((a, b) => a.jobDay - b.jobDay)
       .filter(
-        (element) =>
-          moment(element.jobDate).week() === moment(new Date()).week()
+        (thisWeek) =>
+          moment(thisWeek.jobDate).week() === moment(new Date()).week()
       )
-      .map((element) => element);
+      .map((daysThisWeek) => daysThisWeek);
 
     return hours;
   }
