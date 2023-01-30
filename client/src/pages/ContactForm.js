@@ -19,6 +19,7 @@ function ContactForm() {
   // set error state
   const [errorMessage, setErrorMessage] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   // set state for form inputs
   const [companyName, setCompanyName] = useState("");
@@ -165,6 +166,7 @@ function ContactForm() {
     // setErrorMessage("");
     event.preventDefault();
 
+
     if (
       !companyName ||
       !contactName ||
@@ -193,6 +195,10 @@ function ContactForm() {
 
     if (areAllFieldsFilled) {
       setShowSuccess(true);
+    }
+
+    if (checked === !checked) {
+      setChecked(false)
     }
 
     setEmailContent({
@@ -229,6 +235,7 @@ function ContactForm() {
     setStartDate("");
     setJobDetails("");
     setServices([]);
+    setChecked(false);
   };
 
   useEffect(() => {
@@ -593,6 +600,7 @@ function ContactForm() {
                     id={`inline-${type}-1`}
                     onChange={handleInputChange}
                     onBlur={handleBlurChange}
+                    
                     
                   />
                   <Form.Check
