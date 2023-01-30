@@ -411,7 +411,6 @@ const resolvers = {
       return Hour.findOneAndDelete({ employee, jobDate });
     },
 
-    //fix
     updateEmployeeHour: async (parent, { _id, hour }, context) => {
       // if (context.user) {
       console.log("resolver update employee hour = ", _id, hour);
