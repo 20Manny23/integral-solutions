@@ -16,6 +16,3 @@ export const mobile_check = function () {
   return !check;
 };
 
-// module.exports = {
-//   mobile_check,
-// };

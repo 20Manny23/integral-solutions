@@ -61,7 +61,7 @@ const FullCalendarApp = () => {
       // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
       skip: !Auth.loggedIn(),
       onCompleted: (singleSchedule) => {
-        // console.log(singleSchedule);
+        
         setCurrentSchedule(singleSchedule);
       },
     });
@@ -73,11 +73,11 @@ const FullCalendarApp = () => {
     setCurrentScheduleId(scheduleId);
 
     let clickedSchedule = await getASingleSchedule();
-    // console.log(clickedSchedule);
+    
 
     if (!scheduleLoad) {
       setCurrentSchedule(clickedSchedule.data.schedule);
-      // console.log("current schedule = ", currentSchedule);
+   
       handleShow();
     }
   };

@@ -9,8 +9,7 @@ import {
   QUERY_ALL_EMPLOYEES,
 } from "../../../utils/queries";
 import {
-  // ADD_SCHEDULE,
-  // UPDATE_CLIENT_SCHEDULE,
+
   UPDATE_EMPLOYEE_SCHEDULE,
   REMOVE_EMPLOYEE_SCHEDULE,
   UPDATE_SCHEDULE,
@@ -32,7 +31,7 @@ import "../../../styles/button-style.css";
 import "../../../styles/Forms.css";
 import SuccessAlert from "../../Alert";
 
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 function ScheduleUpdate() {
   const [showSuccess, setShowSuccess] = useState(false);
@@ -55,9 +54,9 @@ function ScheduleUpdate() {
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
 
   //set selected schedule/jobs
-  const [currentInput, setCurrentInput] = useState({});
+  
   const [currentScheduleId, setCurrentScheduleId] = useState("");
-  const [currentSchedule, setCurrentSchedule] = useState("");
+
   const [prevScheduleData, setPrevScheduleData] = useState({});
 
   //set the state of the value in the input fields (either the input by the user or populate based on selected client)
@@ -79,8 +78,7 @@ function ScheduleUpdate() {
   const [formIsDisabled, setFormIsDisabled] = useState(true);
 
   //validation
-  // const [showBusinessNameValidation, setShowBusinessNameValidation] =
-  //   useState(false);
+ 
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
   const [showCityValidation, setShowCityValidation] = useState(false);
@@ -97,7 +95,7 @@ function ScheduleUpdate() {
     showNumberOfClientEmployeesValidation,
     setShowNumberOfClientEmployeesValidation,
   ] = useState(false);
-  // const [showClientValidation, setShowClientValidation] = useState(false);
+  
   const [showSelectedEmployeesValidation, setShowSelectedEmployeesValidation] =
     useState(false);
 
@@ -118,7 +116,7 @@ function ScheduleUpdate() {
     },
   });
 
-  // console.log("schedule = ", schedule);
+ 
 
   //SECTION get a single job
   // eslint-disable-next-line
@@ -128,7 +126,7 @@ function ScheduleUpdate() {
       // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
       skip: !Auth.loggedIn(),
       onCompleted: (singleSchedule) => {
-        // setCurrentSchedule(singleSchedule);
+        
       },
     });
 
@@ -163,14 +161,11 @@ function ScheduleUpdate() {
     },
   });
 
-  //SECTION create a schedule/job
-  // const [addSchedule] = useMutation(ADD_SCHEDULE);
+  
 
   // SECTION UPDATE SCHEDULE IN DATABASE
   const [updateSchedule] = useMutation(UPDATE_SCHEDULE);
 
-  //SECTION add new schedule / job to the appropriate client
-  // const [updateClientSchedule] = useMutation(UPDATE_CLIENT_SCHEDULE); //not necessary b/c client is selected from dropdown list
 
   //SECTION add new schedule / job to the appropriate employee(s)
   const [updateEmployeeSchedule] = useMutation(UPDATE_EMPLOYEE_SCHEDULE);
@@ -180,7 +175,7 @@ function ScheduleUpdate() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    console.log("input = ", event.target.value);
+  
 
     if (name === "streetAddress") {
       setStreetAddress(value);
@@ -249,17 +244,7 @@ function ScheduleUpdate() {
     setFormIsDisabled(false); // enable form for input
   }
 
-  //SECTION SCHEDULE UPDATE
-  // console.log("current selected = ", prevScheduleData);
-  // console.log(
-  // "current emp ids = ",
-  //   prevScheduleData?.employees?.map((emp) => emp._id)
-  // );
-  // console.log('selected emp ids = ', selectedEmployees)
-  // console.log(
-  //   "selected emp ids = ",
-  //   selectedEmployees.map((emp) => emp.employeeId)
-  // );
+
 
   //section
   const handleScheduleUpdate = async (event) => {
@@ -274,7 +259,7 @@ function ScheduleUpdate() {
           streetAddress: streetAddress
             ? streetAddress
             : getSchedule.data.schedule.streetAddress,
-          // suite,
+      
           city: city ? city : getSchedule.data.schedule.city,
           state: state ? state : getSchedule.data.schedule.state,
           zip: zip ? zip : getSchedule.data.schedule.zip,
@@ -304,10 +289,7 @@ function ScheduleUpdate() {
             ? numberOfClientEmployees
             : getSchedule.data.schedule.numberOfClientEmployees,
           client: getSchedule.data.schedule.client._id,
-          // employees:
-          //   selectedEmployees.length > 0
-          //     ? selectedEmployees.map(({ employeeId }) => employeeId)
-          //     : getSchedule.data.schedule.employees.map((employee) => employee._id),
+         
           employees: selectedEmployees.map(({ employeeId }) => employeeId),
         },
       });
@@ -332,7 +314,7 @@ function ScheduleUpdate() {
             schedule: currentScheduleId,
           },
         });
-        // console.log(data);
+    
       }
     }
 
@@ -345,7 +327,7 @@ function ScheduleUpdate() {
             schedule: currentScheduleId,
           },
         });
-        // console.log(data);
+     
       }
     }
 
@@ -724,7 +706,7 @@ function ScheduleUpdate() {
               <Form.Control
                 className="custom-border"
                 type="date"
-                // min={new Date().toISOString().split("T")[0]} 
+                
                 min={
                   format_date_YYYYDDMM(prevScheduleData.startDate) <
                   new Date().toISOString().split("T")[0]

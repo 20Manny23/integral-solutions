@@ -20,10 +20,10 @@ function Schedule() {
         <FullCalendarApp />
       </Tab>
       <Tab eventKey="upcoming" title="Upcoming">
-        <ScheduleList pastOrFuture ="future"/>
+        <ScheduleList pastOrFuture="future" />
       </Tab>
       <Tab eventKey="completed" title="Completed">
-        <ScheduleList pastOrFuture ="past" />
+        <ScheduleList pastOrFuture="past" />
       </Tab>
       <Tab eventKey="scheduleAdd" title="Add Job">
         <ScheduleAdd />
