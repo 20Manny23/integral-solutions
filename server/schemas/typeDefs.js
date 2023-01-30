@@ -105,22 +105,7 @@ const typeDefs = gql`
 
   # SECTION SEND EMAILS
   type Query {
-    # should be able to delete this query
-    #sendEmailContactUs(
-     # companyName: String
-      #contactName: String
-      #phoneNumber: String
-      #emailAddress: String
-      #address: String
-     # city: String
-      #state: String
-      #zip: String
-     #squareFeet: String
-      #employeeNumber: String
-      #startDate: String
-      #jobDetails: String
-      #services: [String]
-    #): String
+
 
     # send email via SendGrid
     sendEmail(

@@ -24,7 +24,7 @@ function ContactForm() {
   const [companyName, setCompanyName] = useState("");
   const [contactName, setContactName] = useState("");
   const [phone, setPhone] = useState("");
-  const [emailAddress, setEmailAddress] = useState("");
+  const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -40,7 +40,7 @@ function ContactForm() {
   const [showCompanyNameValidation, setShowCompanyNameValidation] = useState("");
   const [showContactNameValidation, setShowContactNameValidation] = useState("");
   const [showphoneValidation, setShowphoneValidation] = useState("");
-  const [showEmailAddressValidation, setShowEmailAddressValidation] = useState("");
+  const [showEmailValidation, setShowEmailValidation] = useState("");
   const [showAddressValidation, setShowAddressValidation] = useState("");
   const [showCityValidation, setShowCityValidation] = useState("");
   const [showStateValidation, setShowStateValidation] = useState("");
@@ -82,7 +82,7 @@ function ContactForm() {
     } else if (name === "phone") {
       setPhone(value);
     } else if (name === "email") {
-      setEmailAddress(value);
+      setEmail(value);
     } else if (name === "address") {
       setAddress(value);
     } else if (name === "city") {
@@ -119,7 +119,7 @@ function ContactForm() {
       companyName,
       contactName,
       phone,
-      emailAddress,
+      email,
       address,
       city,
       state,
@@ -134,7 +134,7 @@ function ContactForm() {
     if (
       !companyName ||
       !contactName ||
-      !emailAddress ||
+      !email ||
       !startDate ||
       !jobDetails
     ) {
@@ -166,7 +166,7 @@ function ContactForm() {
       companyName: companyName ? companyName : "null",
       contactName: contactName ? contactName : "null",
       phone: phone ? phone : "null",
-      emailAddress: emailAddress ? emailAddress : "null",
+      email: email ? email : "null",
       address: address ? address : "null",
       city: city ? city : "null",
       state: state ? state : "null",
@@ -187,7 +187,7 @@ function ContactForm() {
     setCompanyName("");
     setContactName("");
     setPhone("");
-    setEmailAddress("");
+    setEmail("");
     setAddress("");
     setCity("");
     setState("");
@@ -210,8 +210,8 @@ function ContactForm() {
       ? setShowContactNameValidation(true)
       : setShowContactNameValidation(false);
     name === "email" && value.trim() === ""
-      ? setShowEmailAddressValidation(true)
-      : setShowEmailAddressValidation(false);
+      ? setShowEmailValidation(true)
+      : setShowEmailValidation(false);
     name === "phone" && value.trim() === ""
       ? setShowphoneValidation(true)
       : setShowphoneValidation(false);
@@ -250,7 +250,7 @@ function ContactForm() {
       companyName.trim() !== "" &&
       contactName.trim() !== "" &&
       phone.trim() !== "" &&
-      emailAddress.trim() !== "" &&
+      email.trim() !== "" &&
       address.trim() !== "" &&
       city.trim() !== "" &&
       state.trim() !== "" &&
@@ -265,7 +265,7 @@ function ContactForm() {
     companyName,
     contactName,
     phone,
-    emailAddress,
+    email,
     address,
     city,
     state,
@@ -349,7 +349,7 @@ function ContactForm() {
                   Email Address
                 </Form.Label>
                 <Form.Label
-                  className={`text-danger ${showEmailAddressValidation ? "show" : "hide"
+                  className={`text-danger ${showEmailValidation ? "show" : "hide"
                     }`}
                 >
                   * field is required
@@ -361,7 +361,7 @@ function ContactForm() {
                 type="email"
                 placeholder="Enter Email"
                 name="email"
-                value={emailAddress.toLowerCase()}
+                value={email.toLowerCase()}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 required
