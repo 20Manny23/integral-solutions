@@ -45,21 +45,6 @@ function EmployeeHours() {
           hoursThisMonth: calcTimePeriodHours(element, "month").toFixed(2),
           hoursThisYear: calcTimePeriodHours(element, "year").toFixed(2),
           hour: getEmployeeHours(element),
-          // hour: element.hour //fix will delete once i see this works as a function in line 47
-          //   .map((hour) => {
-          //     return {
-          //       jobDate: format_date_no_hyphen(hour.jobDate),
-          //       weekNumber: moment(hour.jobDate).week(),
-          //       jobDay: moment(hour.jobDate).day(),
-          //       hoursWorked: hour.hoursWorked,
-          //     };
-          //   })
-          //   .sort((a, b) => a.jobDay - b.jobDay)
-          //   .filter(
-          //     (element) =>
-          //       moment(element.jobDate).week() === moment(new Date()).week()
-          //   )
-          //   .map((element) => element),
         };
       })
       .sort((a, b) => {
