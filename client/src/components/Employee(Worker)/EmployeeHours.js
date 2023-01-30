@@ -32,6 +32,7 @@ function EmployeeHours() {
   const [open2, setOpen2] = useState(false);
   const [lastWeekHours, setLastWeekHours] = useState();
   const [lastWeekDays, setLastWeekDays] = useState([]);
+  const [ mostRecentHourUpdateId, setMostRecentHoursUpdateId ] = useState();
 
   const [renderData, setRenderData] = useState([]);
   const [sunday, setSunday] = useState({
@@ -95,34 +96,17 @@ function EmployeeHours() {
     },
   });
 
-  //update hours by employee id and job date
-  // const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE); //fix original
-
-  //fix revised attempting to get the most recently added id
-  const [ mostRecentHourUpdateId, setMostRecentHoursUpdateId ] = useState();
-
+  //mutation to update the hours collection with newly created hour records
   const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE, {
-    // variables: { employee: userId },
-    // // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
-    // skip: !Auth.loggedIn(),
-    onCompleted: (hoursUpdateData) => {
-      console.log('mutation result #1 = ', hoursUpdateData)
-      setMostRecentHoursUpdateId(hoursUpdateData?.updateHourByEmployeeIdByJobDate?._id);
-      console.log('mutation result #2 = ', mostRecentHourUpdateId)
+    // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+    skip: !Auth.loggedIn(),
+    onCompleted: (data) => {
+      setMostRecentHoursUpdateId(data?.updateHourByEmployeeIdByJobDate?._id);
     },
   });
-  //fix
 
-  // if (!addLoading) { //fix
-  //   console.log('hours update data is is not loading =', hoursUpdateData)
-  // }
-
-  useEffect(() => { //fix
-    console.log('most recent update data use effect = ', mostRecentHourUpdateId);
-
-  // eslint-disable-next-line
-  }, [mostRecentHourUpdateId])
-  
+  //mutation to update the employee hour array with any added hour records/documents
+  const [updateEmployeeHour] = useMutation(UPDATE_EMPLOYEE_HOUR);
 
   //section handle input
   const handleInput = async (event) => {
@@ -236,6 +220,7 @@ function EmployeeHours() {
   //section update database - this mutation is an upsert...it either updates or creates a record
   const handleUpdateDatabase = async (data) => {
     console.log(data);
+
     try {
       // eslint-disable-next-line
       const { data2 } = await updateHours({
@@ -248,48 +233,39 @@ function EmployeeHours() {
         },
       });
 
-      console.log('handle update database function = data = ', data2); //fix
-
     } catch (err) {
       console.error(err);
     }
 
     singleHoursRefetch();
 
-    // console.log(hoursUpdateData)
     //useEffect below will update the employee model with the most recent hours id
   };
 
-  //fix
-  // // add new schedule / job to the appropriate client
-  // const [updateEmployeeHour] = useMutation(UPDATE_EMPLOYEE_HOUR);
+  //SECTION update the employee array with the id for hour added
+  useEffect(() => {
+    console.log('useeffect = ', mostRecentHourUpdateId)
 
-  // // update the employee array with the id for hour added
-  // useEffect(() => {
-  //   console.log('useeffect = ', mostRecentHourUpdateId)
+    //use the mostRecentHourUpdateId & add it to the employee array
+    try {
 
-  //   //use the mostRecentHourUpdateId & add it to the employee array
-  //   try {
+      if (mostRecentHourUpdateId) {
+        // eslint-disable-next-line
+        const { data } = updateEmployeeHour({
+          variables: {
+            id: userId, //curent user id
+            hour: mostRecentHourUpdateId, //id of the most recently updated hour
+          },
+        });
+        console.log("what data = ", data);
+      }
 
-  //     if (mostRecentHourUpdateId) {
-  //       // eslint-disable-next-line
-  //       const { data } = updateEmployeeHour({
-  //         variables: {
-  //           id: userId, //curent user id
-  //           hour: mostRecentHourUpdateId, //id of the most recently updated hour
-  //         },
-  //       });
-  //       console.log("what data = ", data);
-  //     }
-
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
+    } catch (err) {
+      console.error(err);
+    }
   
-  // // eslint-disable-next-line
-  // }, [singleHours, hoursUpdateData, mostRecentHourUpdateId])
-  // //FIX
-  
+  // eslint-disable-next-line
+  }, [mostRecentHourUpdateId]);
 
   //section utility functions
   //calc hours for each day during the input process
