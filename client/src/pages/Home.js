@@ -29,7 +29,7 @@ const Home = () => {
             Integral Solutions offers the delivery and setting up of office
             furniture and floor space design for your business. Whether you’re
             setting up your own office for the first time or changing locations,
-            Integrated Solutions can help you implement and maintain an ideal
+            Integral Solutions can help you implement and maintain an ideal
             environment for the growth of your companies. <br />
             <br /> Our family-owned business has more than 15 years of
             experience setting up all kinds of commercial floor plans ranging
