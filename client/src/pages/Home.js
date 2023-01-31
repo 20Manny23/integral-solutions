@@ -44,9 +44,9 @@ const Home = () => {
               fontStyle: "italic",
             }}
             className="contact-btn"
-            // onClick={() => {
-            //   navigate("/contact");
-            // }}
+            onClick={() => {
+              navigate("/contact");
+            }}
           >
             Contact Us
           </Button>
