@@ -18,7 +18,6 @@ function ContactForm() {
   // set error state
   const [errorMessage, setErrorMessage] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
-  const [checked, setChecked] = useState(false);
 
   // set state for form inputs
   const [companyName, setCompanyName] = useState("");
@@ -116,13 +115,8 @@ function ContactForm() {
     
     event.preventDefault();
 
-    if (
-      !companyName ||
-      !contactName ||
-      !emailAddress ||
-      !startDate ||
-      !jobDetails
-    ) {
+
+    if (!companyName || !contactName || !email || !startDate || !jobDetails) {
       setErrorMessage("Please fill in all required fields *");
       return;
     }
@@ -144,10 +138,6 @@ function ContactForm() {
 
     if (areAllFieldsFilled) {
       setShowSuccess(true);
-    }
-
-    if (checked === !checked) {
-      setChecked(false)
     }
 
     setEmailContent({
@@ -188,6 +178,52 @@ function ContactForm() {
     setServices([]);
   };
 
+  // VALIDATION BLUR
+  const handleBlurChange = (event) => {
+    const { name, value } = event.target;
+
+    name === "companyName" && value.trim() === ""
+      ? setShowCompanyNameValidation(true)
+      : setShowCompanyNameValidation(false);
+    name === "name" && value.trim() === ""
+      ? setShowContactNameValidation(true)
+      : setShowContactNameValidation(false);
+    name === "email" && value.trim() === ""
+      ? setShowEmailValidation(true)
+      : setShowEmailValidation(false);
+    name === "phone" && value.trim() === ""
+      ? setShowphoneValidation(true)
+      : setShowphoneValidation(false);
+    name === "address" && value.trim() === ""
+      ? setShowAddressValidation(true)
+      : setShowAddressValidation(false);
+    name === "city" && value.trim() === ""
+      ? setShowCityValidation(true)
+      : setShowCityValidation(false);
+    name === "state" && value.trim() === ""
+      ? setShowStateValidation(true)
+      : setShowStateValidation(false);
+    name === "zip" && value.trim() === ""
+      ? setShowZipValidation(true)
+      : setShowZipValidation(false);
+    name === "squareFeet" && value.trim() === ""
+      ? setShowSquareFeetValidation(true)
+      : setShowSquareFeetValidation(false);
+    name === "employeeNumber" && value.trim() === ""
+      ? setShowEmployeeNumberValidation(true)
+      : setShowEmployeeNumberValidation(false);
+    name === "startDate" && value.trim() === ""
+      ? setShowStartDateValidation(true)
+      : setShowStartDateValidation(false);
+    name === "services" && value.trim() === ""
+      ? setShowServicesValidation(true)
+      : setShowServicesValidation(false);
+    name === "body" && value.trim() === ""
+      ? setShowJobDetailsValidation(true)
+      : setShowJobDetailsValidation(false);
+  };
+
+  //verify if all fields have input
   useEffect(() => {
     setAreAllFieldsFilled(
       companyName.trim() !== "" &&
@@ -552,7 +588,6 @@ function ContactForm() {
                   key={`inline-${type}`}
                   className="mb-3 d-flex justify-content-around flex-wrap"
                   style={{ textAlign: "left" }}
-                  
                 >
                   <Form.Check
                     style={{ width: "250px" }}
@@ -563,8 +598,6 @@ function ContactForm() {
                     id={`inline-${type}-1`}
                     onChange={handleInputChange}
                     onBlur={handleBlurChange}
-                    
-                    
                   />
                   <Form.Check
                     style={{ width: "250px" }}
