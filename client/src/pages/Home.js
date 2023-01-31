@@ -33,7 +33,7 @@ const Home = () => {
             environment for the growth of your companies. <br />
             <br /> Our family-owned business has more than 15 years of
             experience setting up all kinds of commercial floor plans ranging
-            from offices to schools. At Integrated Solutions, our goal is to
+            from offices to schools. At Integral Solutions, our goal is to
             provide the office furniture solutions our clients need to achieve
             their entrepreneurial goals.
           </p>
