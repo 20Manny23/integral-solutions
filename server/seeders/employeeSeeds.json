@@ -1,12 +1,28 @@
 [
- 
+  {
+    "_id": "6398fb54494aa98f85992da2",
+    "username": "Manager",
+    "email": "b@b.com",
+    "password": "12345",
+    "firstName": "Brendan",
+    "lastName": "Bayliss",
+    "phone": "970-867-5309",
+    "isDisplayable": true,
+    "isAdmin": false,
+    "isLocked": false,
+    "schedule": [
+      "423233343536373839303132"
+    ],
+    "hasDriversLicense": "Yes",
+    "hour": ["333233343538883839303134", "333233343536373838803134","333233343536378839303134", "333233343566373839303134", "333233343536373839303134"]
+  },
   {
     "_id": "6398fb54494aa98f85992da3",
     "username": "Admin",
     "email": "a@a.com",
     "password": "12345",
-    "firstName": "Emmanuel",
-    "lastName": "Garcia",
+    "firstName": "Ryan",
+    "lastName": "Stasick",
     "phone": "719-867-5309",
     "isDisplayable": true,
     "isAdmin": true,
@@ -37,13 +53,28 @@
   },
   {
     "_id": "6398fb54494aa98f85992da5",
-    "username": "Juan",
+    "username": "Hoff",
+    "email": "bhoff1980@gmail.com",
+    "password": "12345",
+    "firstName": "Bryan",
+    "lastName": "Wienhoff",
+    "phone": "217-725-2526",
+    "isDisplayable": true,
+    "isAdmin": true,
+    "isLocked": false,
+    "schedule": ["443233343536373839303132"],
+    "hasDriversLicense": "Yes",
+    "hour": []
+  },
+  {
+    "_id": "6498fb54494aa98f85992da5",
+    "username": "Calla",
     "email": "callasteven@gmail.com",
     "password": "12345",
-    "firstName": "Juan",
-    "lastName": "Garcia",
-    "phone":  "719-867-5309",
-    "isDisplayable": true,
+    "firstName": "Steve",
+    "lastName": "Calla",
+    "phone": "123-456-2526",
+    "isDisplayable": false,
     "isAdmin": true,
     "isLocked": false,
     "schedule": [

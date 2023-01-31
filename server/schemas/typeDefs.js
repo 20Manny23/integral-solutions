@@ -105,22 +105,7 @@ const typeDefs = gql`
 
   # SECTION SEND EMAILS
   type Query {
-    # should be able to delete this query
-    #sendEmailContactUs(
-     # companyName: String
-      #contactName: String
-      #phoneNumber: String
-      #emailAddress: String
-      #address: String
-     # city: String
-      #state: String
-      #zip: String
-     #squareFeet: String
-      #employeeNumber: String
-      #startDate: String
-      #jobDetails: String
-      #services: [String]
-    #): String
+
 
     # send email via SendGrid
     sendEmail(
@@ -151,6 +136,7 @@ const typeDefs = gql`
       contact: String
       phone: String
       email: String
+      isDisplayable: Boolean
     ): Client
 
     deleteClient(_id: ID!): Client
@@ -181,6 +167,7 @@ const typeDefs = gql`
       phone: String
       isAdmin: Boolean
       isLocked: Boolean
+      isDisplayable: Boolean
       hasDriversLicense: String
     ): Employee
 
@@ -214,6 +201,9 @@ const typeDefs = gql`
     ): Employee
 
     updateEmployeeSchedule(_id: ID, schedule: String): Employee
+
+    #fix
+    updateEmployeeHour(_id: ID, hour: String): Employee
 
     removeEmployeeSchedule(_id: ID, schedule: String): Employee
 
@@ -257,6 +247,7 @@ const typeDefs = gql`
       numberOfClientEmployees: String
       client: String
       employees: [String]
+      isDisplayable: Boolean
     ): Schedule
 
     deleteSchedule(_id: ID!): Schedule

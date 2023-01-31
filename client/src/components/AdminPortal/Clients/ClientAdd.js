@@ -5,7 +5,9 @@ import { QUERY_ALL_CLIENTS } from "../../../utils/queries";
 import { ADD_CLIENT } from "../../../utils/mutations";
 
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
-import { maskedPhoneInput } from "../../../utils/phoneMask";
+import MaskedInput from "react-text-mask";
+import emailMask from "text-mask-addons/dist/emailMask";
+
 import SuccessAlert from "../../Alert";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
@@ -19,22 +21,21 @@ function ClientAdd() {
   const [businessName, setBusinessName] = useState("");
   const [contact, setContact] = useState("");
   const [phone, setPhone] = useState("");
-  const [emailClient, setEmailClient] = useState("");
+  const [email, setEmail] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const [suite, setSuite] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(true);
-  const [maskedPhone, setMaskedPhone] = useState("");
+  // const [maskedPhone, setMaskedPhone] = useState("");
 
   // VALIDATION
   const [showBusinessNameValidation, setShowBusinessNameValidation] =
     useState(false);
   const [showContactValidation, setShowContactValidation] = useState(false);
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-  const [showEmailClientValidation, setShowEmailClientStateValidation] =
-    useState(false);
+  const [showEmailValidation, setShowEmailStateValidation] = useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
   const [showSuiteValidation, setShowSuiteValidation] = useState(false);
@@ -72,10 +73,10 @@ function ClientAdd() {
     const { name, value } = event.target;
 
     //mask (auto populate) phone format input as xxx-xxx-xxx
-    if (name === "phone") {
-      let getMaskedPhone = maskedPhoneInput(event.target.value);
-      setMaskedPhone(getMaskedPhone);
-    }
+    // if (name === "phone") {
+    //   let getMaskedPhone = maskedPhoneInput(event.target.value);
+    //   setMaskedPhone(getMaskedPhone);
+    // }
 
     // Ternary statement that will call either setFirstName or setLastName based on what field the user is typing in
     name === "businessName"
@@ -84,8 +85,8 @@ function ClientAdd() {
       ? setContact(value)
       : name === "phone"
       ? setPhone(value)
-      : name === "emailClient"
-      ? setEmailClient(value)
+      : name === "email"
+      ? setEmail(value)
       : name === "streetAddress"
       ? setStreetAddress(value)
       : name === "suite"
@@ -103,7 +104,6 @@ function ClientAdd() {
   // Add client to the Client model/table
   const handleAddClientSubmit = async (event) => {
     event.preventDefault();
-    console.log(event);
 
     try {
       // eslint-disable-next-line
@@ -112,7 +112,7 @@ function ClientAdd() {
           businessName,
           contact,
           phone,
-          email: emailClient,
+          email: email,
           streetAddress,
           suite,
           city,
@@ -144,9 +144,9 @@ function ClientAdd() {
     name === "phone" && value.trim() === ""
       ? setShowPhoneValidation(true)
       : setShowPhoneValidation(false);
-    name === "emailClient" && value.trim() === ""
-      ? setShowEmailClientStateValidation(true)
-      : setShowEmailClientStateValidation(false);
+    name === "email" && value.trim() === ""
+      ? setShowEmailStateValidation(true)
+      : setShowEmailStateValidation(false);
     name === "streetAddress" && value.trim() === ""
       ? setShowStreetAddressValidation(true)
       : setShowStreetAddressValidation(false);
@@ -169,7 +169,7 @@ function ClientAdd() {
     setBusinessName("");
     setContact("");
     setPhone("");
-    setEmailClient("");
+    setEmail("");
     setStreetAddress("");
     setSuite("");
     setCity("");
@@ -183,21 +183,20 @@ function ClientAdd() {
       businessName.trim() !== "" &&
         contact.trim() !== "" &&
         phone.trim() !== "" &&
-        emailClient.trim() !== "" &&
+        email.trim() !== "" &&
         streetAddress.trim() !== "" &&
         suite.trim() !== "" &&
         city.trim() !== "" &&
         state.trim() !== "" &&
         zip.trim() !== ""
     );
-    // console.log(areAllFieldsFilled);
 
     // eslint-disable-next-line
   }, [
     businessName,
     contact,
     phone,
-    emailClient,
+    email,
     streetAddress,
     suite,
     city,
@@ -272,13 +271,25 @@ function ClientAdd() {
                 * field is required
               </Form.Label>
             </div>
-            <Form.Control
-              className="custom-border"
-              type="tel"
-              placeholder="ex 555-555-5555"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              maxLength="12"
-              value={maskedPhone}
+            <MaskedInput
+              mask={[
+                /[1-9]/,
+                /\d/,
+                /\d/,
+                "-",
+                /\d/,
+                /\d/,
+                /\d/,
+                "-",
+                /\d/,
+                /\d/,
+                /\d/,
+                /\d/,
+              ]}
+              className="form-control custom-border"
+              placeholder="Enter a phone number"
+              guide={true}
+              value={phone}
               name="phone"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
@@ -291,24 +302,24 @@ function ClientAdd() {
               <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label>
               <Form.Label
                 className={`validation-color ${
-                  showEmailClientValidation ? "show" : "hide"
+                  showEmailValidation ? "show" : "hide"
                 }`}
               >
                 * field is required
               </Form.Label>
             </div>
-            <Form.Control
-              className="custom-border"
-              type="email"
-              placeholder="Client Email"
-              name="emailClient"
-              value={emailClient}
+            <MaskedInput
+              className="form-control custom-border"
+              mask={emailMask}
+              placeholder="Client email"
+              guide={true}
+              name="email"
+              value={email}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required
             />
           </Form.Group>
-
           <Form.Group className="mb-3 form-length" controlId="formBasicEmail">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>Address</Form.Label>
@@ -407,9 +418,11 @@ function ClientAdd() {
               >
                 * required
               </Form.Label>
-              <Form.Control
-                className="custom-border"
+              <MaskedInput
+                className="form-control custom-border"
+                mask={[/\d/, /\d/, /\d/, /\d/, /\d/]}
                 placeholder="Zip"
+                guide={true}
                 name="zip"
                 value={zip}
                 onChange={handleInputChange}
@@ -419,10 +432,9 @@ function ClientAdd() {
             </Col>
           </Row>
           <SuccessAlert
-              message="Client has been added"
-              show={showSuccess}
-            >
-            </SuccessAlert>
+            message="Client has been added"
+            show={showSuccess}
+          ></SuccessAlert>
 
           <div className="d-flex justify-content-center">
             <Button

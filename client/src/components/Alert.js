@@ -21,17 +21,4 @@ const SuccessAlert = (props) => {
     );
 };
 
-
-// const EmployeeAddedAlert = (props) => {
-//     return (
-//         <Alert
-//             className="mb-3 form-length"
-//             variant={props.variant}
-//             show={props.show}
-//         >
-//             <p className="alert-message">{props.message}</p>
-//         </Alert>
-//     );
-// };
-
 export default SuccessAlert;

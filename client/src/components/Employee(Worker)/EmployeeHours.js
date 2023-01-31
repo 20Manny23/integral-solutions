@@ -4,7 +4,10 @@ import { getUserId } from "../../utils/getUserId";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_HOURS_BYEMPLOYEEID } from "../../utils/queries";
-import { UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE } from "../../utils/mutations";
+import {
+  UPDATE_EMPLOYEE_HOUR,
+  UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE,
+} from "../../utils/mutations";
 import { format_date_no_hyphen } from "../../utils/dateFormat";
 import moment from "moment";
 import { thisWeek, lastWeek } from "../../utils/hoursDates";
@@ -32,6 +35,7 @@ function EmployeeHours() {
   const [open2, setOpen2] = useState(false);
   const [lastWeekHours, setLastWeekHours] = useState();
   const [lastWeekDays, setLastWeekDays] = useState([]);
+  const [mostRecentHourUpdateId, setMostRecentHoursUpdateId] = useState();
 
   const [renderData, setRenderData] = useState([]);
   const [sunday, setSunday] = useState({
@@ -95,8 +99,17 @@ function EmployeeHours() {
     },
   });
 
-  //update hours by employee id and job date
-  const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE);
+  //mutation to update the hours collection with newly created hour records
+  const [updateHours] = useMutation(UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE, {
+    // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
+    skip: !Auth.loggedIn(),
+    onCompleted: (data) => {
+      setMostRecentHoursUpdateId(data?.updateHourByEmployeeIdByJobDate?._id);
+    },
+  });
+
+  //mutation to update the employee hour array with any added hour records/documents
+  const [updateEmployeeHour] = useMutation(UPDATE_EMPLOYEE_HOUR);
 
   //section handle input
   const handleInput = async (event) => {
@@ -151,6 +164,9 @@ function EmployeeHours() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    console.log(event.currentTarget);
+    console.log("sunday = ", sunday);
+
     // let daySubmitted = event.currentTarget.id.substring()
     let hoursInput = document.querySelectorAll(".hourInput"); //get array of hoursInput elements
 
@@ -158,22 +174,22 @@ function EmployeeHours() {
     let hours = "";
 
     //set hours to the state of the button clicked
-    if (daySubmitted === "Sunday" && sunday.hours > 0) {
+    if (daySubmitted === "Sunday" && sunday.hours >= 0) {
       hours = sunday.hours;
-    } else if (daySubmitted === "Monday" && monday.hours > 0) {
+    } else if (daySubmitted === "Monday" && monday.hours >= 0) {
       hours = monday.hours;
-    } else if (daySubmitted === "Tuesday" && tuesday.hours > 0) {
+    } else if (daySubmitted === "Tuesday" && tuesday.hours >= 0) {
       hours = tuesday.hours;
-    } else if (daySubmitted === "Wednesday" && wednesday.hours > 0) {
+    } else if (daySubmitted === "Wednesday" && wednesday.hours >= 0) {
       hours = wednesday.hours;
-    } else if (daySubmitted === "Thursday" && thursday.hours > 0) {
+    } else if (daySubmitted === "Thursday" && thursday.hours >= 0) {
       hours = thursday.hours;
-    } else if (daySubmitted === "Friday" && friday.hours > 0) {
+    } else if (daySubmitted === "Friday" && friday.hours >= 0) {
       hours = friday.hours;
-    } else if (daySubmitted === "Saturday" && saturday.hours > 0) {
+    } else if (daySubmitted === "Saturday" && saturday.hours >= 0) {
       hours = saturday.hours;
     } else {
-      alert("Please Ensure End Time is Greater Than Start Time.");
+      alert("Please Ensure End Time is Greater Than or the Same as the Start Time.");
       return;
     }
 
@@ -185,34 +201,31 @@ function EmployeeHours() {
     }
 
     //push data to db
+    //call function to update the database
     if (daySubmitted === "Sunday") {
-      handleUpdateDatabase(sunday);
+      handleUpdateDatabase(sunday); //state object for sunday
     } else if (daySubmitted === "Monday") {
-      //call function to update the database
       handleUpdateDatabase(monday);
     } else if (daySubmitted === "Tuesday") {
-      //call function to update the database
       handleUpdateDatabase(tuesday);
     } else if (daySubmitted === "Wednesday") {
-      //call function to update the database
       handleUpdateDatabase(wednesday);
     } else if (daySubmitted === "Thursday") {
-      //call function to update the database
       handleUpdateDatabase(thursday);
     } else if (daySubmitted === "Friday") {
-      //call function to update the database
       handleUpdateDatabase(friday);
     } else if (daySubmitted === "Saturday") {
-      //call function to update the database
       handleUpdateDatabase(saturday);
     }
   };
 
   //section update database - this mutation is an upsert...it either updates or creates a record
   const handleUpdateDatabase = async (data) => {
+    console.log(data);
+
     try {
       // eslint-disable-next-line
-      await updateHours({
+      const { data2 } = await updateHours({
         variables: {
           jobDate: moment(data.date).format("MMMM DD YYYY"), //"January 20 2023"
           startTime: `${data.startTime}:00 (MST)`, //"12:00:00 (MST)"
@@ -226,7 +239,32 @@ function EmployeeHours() {
     }
 
     singleHoursRefetch();
+
+    //useEffect below will update the employee model with the most recent hours id
   };
+
+  //SECTION update the employee array with the id for hour added
+  useEffect(() => {
+    console.log("useeffect = ", mostRecentHourUpdateId);
+
+    //use the mostRecentHourUpdateId & add it to the employee array
+    try {
+      if (mostRecentHourUpdateId) {
+        // eslint-disable-next-line
+        const { data } = updateEmployeeHour({
+          variables: {
+            id: userId, //curent user id
+            hour: mostRecentHourUpdateId, //id of the most recently updated hour
+          },
+        });
+        console.log("what data = ", data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
+    // eslint-disable-next-line
+  }, [mostRecentHourUpdateId]);
 
   //section utility functions
   //calc hours for each day during the input process
@@ -269,12 +307,12 @@ function EmployeeHours() {
   //calc current weekly total hours upon state update for singleHours array
   useEffect(() => {
     let currentWeekNumber = moment(new Date()).week();
+    let currentYear = moment(new Date()).year();
     let currentEmployee = singleHours?.hoursByEmployeeId;
 
     let hoursForWeek = currentEmployee
-      ?.filter(
-        (element) => moment(element.jobDate).week() === currentWeekNumber
-      )
+      ?.filter((year) => moment(year.jobDate).year() === currentYear) //filter for dates this year
+      ?.filter((week) => moment(week.jobDate).week() === currentWeekNumber)
       .map((element) => parseFloat(element.hoursWorked));
 
     let calcWeeklyHours = hoursForWeek?.reduce(
@@ -291,13 +329,14 @@ function EmployeeHours() {
     //get singleHours, filter for this week, sort by date
 
     let currentWeekNumber = moment(new Date()).week();
+    let currentYear = moment(new Date()).year();
     let currentEmployee = singleHours?.hoursByEmployeeId;
 
     let hoursByDayOfWeek = currentEmployee
-      ?.filter(
-        (element) => moment(element.jobDate).week() === currentWeekNumber
-      )
+      ?.filter((year) => moment(year.jobDate).year() === currentYear) //filter for dates this year
+      ?.filter((week) => moment(week.jobDate).week() === currentWeekNumber)
       .map((element) => element);
+
     let reformattedHours = hoursByDayOfWeek?.map((element) => {
       return {
         weekDay: moment(element.jobDate).day(),
@@ -452,12 +491,15 @@ function EmployeeHours() {
 
     // eslint-disable-next-line
   }, [sunday, monday, tuesday, wednesday, thursday, friday, saturday]);
+
+  //determine last week dates & total weekly hours
   const lastWeekDates = [];
   for (let i = 0; i < thisWeek.length; i++) {
     let eachDate = moment(lastWeek[i].date).format("MMMM DD YYYY");
     lastWeekDates.push(eachDate);
   }
 
+  //determine total weekly hours for last week
   const weeklyTotal = async (singleHours) => {
     let lastWeeklyHours = 0;
     for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
@@ -482,12 +524,13 @@ function EmployeeHours() {
 
   //Get dates and hours for last week to render in last week section
   useEffect(() => {
-    console.log("last week = ", singleHours);
     let filterToLastWeek = singleHours?.hoursByEmployeeId
       ?.filter(
-        (element) =>
-          moment(element.jobDate).week() === moment(new Date()).week() - 1
-      )
+        (year) => moment(year.jobDate).year() === moment(new Date()).year()
+      ) //filter for dates this year
+      ?.filter(
+        (week) => moment(week.jobDate).week() === moment(new Date()).week() - 1
+      ) //filter for last week
       .map((element) => element);
 
     //create sortable object
@@ -559,8 +602,8 @@ function EmployeeHours() {
                     ></span>
                   </Accordion.Toggle>
                   <Form
-                    onSubmit={handleSubmit}
-                    onChange={handleInput}
+                    onChange={handleInput} //creates the date input object for each day of week
+                    onSubmit={handleSubmit} //uses date input object from handleInput to submit data
                     id={`hours${thisWeek.day}`}
                   >
                     <Accordion.Collapse eventKey={index + 1}>
@@ -603,7 +646,6 @@ function EmployeeHours() {
                               type="submit"
                               style={{ marginTop: "25px" }}
                               title="Submit to schedule job."
-                              // disabled={areAllFieldsFilled}
                             >
                               Submit
                             </Button>

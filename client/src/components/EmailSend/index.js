@@ -22,16 +22,22 @@ function useEmailSend(props) {
   const [tinyURI, setTinyURI] = useState("");
 
   const tiny_url = async () => {
-    getTinyURL(props.token).then((data) => {
-      setTinyURI(data.data.tiny_url);
-    });
+    getTinyURL(props.token)
+      // .then((data) => console.log(data.data.tiny_url))
+      .then((data) => {setTinyURI(data.data.tiny_url)})
 
-    console.log('tinyuri = ', tinyURI);
+    console.log("tinyuri = ", tinyURI);
   };
 
+  useEffect(() => {
+    console.log('useeffect ', tinyURI)
+  }, [tinyURI])
+  
   // SECTION SET EMAIL CONTENT
-  const toEmail = 
-    props?.source === "resetPassword" ? props?.toEmail : "callasteven@gmail.com";
+  const toEmail =
+    props?.source === "resetPassword"
+      ? props?.toEmail
+      : "callasteven@gmail.com";
   const fromEmail = FROM_EMAIL;
   const subject =
     props?.source === "resetPassword"
@@ -47,9 +53,9 @@ function useEmailSend(props) {
       : contactus_html_template(props, tinyURI, createURL(props.token));
 
   // SECTION SEND EMAIL VIA LAZY QUERY
-  // eslint-disable-next-line
   const [
     sendEmail,
+    // eslint-disable-next-line
     { loading: emailLoad, error: emailError, data: emailData },
   ] = useLazyQuery(SEND_EMAIL, {
     variables: {

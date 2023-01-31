@@ -17,7 +17,7 @@ import ShopLinks from "./pages/ShopLinks";
 import WrongPage from "./pages/WrongPage";
 import Login from "./pages/Login";
 import EmployeePortal from "./pages/EmployeePortal";
-import EmployeeHours2 from "./components/Employee(Worker)/EmployeeHours2"
+
 import ForgotPassword from "./components/ResetPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import HoursMock from "./pages/HoursMock";
@@ -47,7 +47,6 @@ import {
   faMap,
   faEdit,
 } from "@fortawesome/free-solid-svg-icons";
-
 
 library.add(
   faDriversLicense,
@@ -109,9 +108,8 @@ function App() {
               <Route exact path="/" element={<Home />} />
               <Route exact path="/home" element={<Home />} />
               <Route exact path="/shoplinks" element={<ShopLinks />} />
-              {/* <Route exact path="/contact" element={<ContactUs />} /> */}
-              {/* <Route exact path="/resetpassword" element={<ResetPassword />} /> */}
-     
+              <Route exact path="/contact" element={<ContactUs />} />
+
               <Route
                 exact
                 path="/login"
@@ -120,32 +118,22 @@ function App() {
                     renderPanel={"login"}
                     // messageButtonIsActive={false}
                     loginButtonIsActive={true}
-                   
                   />
                 }
               />
-              {/* <Route
-                exact
-                path="/signup"
-                element={
-                  <Login
-                    renderPanel={"signup"}
-                    messageButtonIsActive={false}
-                    loginButtonIsActive={false}
-                    
-                  />
-                }
-              /> */}
-              {/* <Route
+          
+              <Route
                 exact
                 path="/forgotpassword"
-                element={<ForgotPassword renderPanel={"forgotpassword"} />}
+                element={<ForgotPassword />}
               />
               <Route
                 exact
                 path="/resetpassword/:token"
-                element={<ResetPassword renderPanel={"resetpassword"} />}
-              /> */}
+                
+                element={<ResetPassword />}
+              
+              />
               <Route path="*" element={<WrongPage />} />
             </Routes>
           </>
@@ -161,49 +149,20 @@ function App() {
             <Routes>
               <Route exact path="/" element={<Home />} />
               <Route exact path="/home" element={<Home />} />
-              {/* <Route
-                exact
-                path="/messages"
-                element={
-                  <Login
-                    renderPanel={"messages"}
-                    messageButtonIsActive={true}
-                    loginButtonIsActive={false}
-                    signupButtonIsActive={false}
-                  />
-                }
-              /> */}
+         
               <Route
                 exact
                 path="/login"
                 element={
                   <Login
                     renderPanel={"login"}
-                    // messageButtonIsActive={false}
+                    
                     loginButtonIsActive={true}
-                   
                   />
                 }
               />
-              {/* <Route
-                exact
-                path="/signup"
-                element={
-                  <Login
-                    renderPanel={"signup"}
-                    messageButtonIsActive={false}
-                    loginButtonIsActive={false}
-                    signupButtonIsActive={true}
-                  />
-                }
-              /> */}
-              {Auth.isAdmin() && !Auth.isLocked() && (
-                <Route
-                  exact
-                  path="/forgotpassword"
-                  element={<ForgotPassword renderPanel={"forgotpassword"} />}
-                />
-              )}
+           
+
               {Auth.isAdmin() && !Auth.isLocked() && (
                 <Route
                   exact
@@ -252,22 +211,7 @@ function App() {
                   }
                 />
               )}
-              {/* {Auth.isAdmin() && !Auth.isLocked() && (
-                <Route
-                  exact
-                  path="/admin-mock"
-                  element={
-                    <AdminPortal
-                      renderPanel={"admin"}
-                      calendarButtonIsActive={false}
-                      workOrderButtonIsActive={false}
-                      employeeListButtonIsActive={false}
-                      clientListButtonIsActive={false}
-                      adminMockButtonIsActive={true}
-                    />
-                  }
-                />
-              )} */}
+            
               {Auth.isAdmin() && !Auth.isLocked() && (
                 <Route
                   exact
@@ -353,8 +297,8 @@ function App() {
                     />
                   }
                 />
-              )}              
-     
+              )}
+
               {Auth.isLocked() === false && (
                 <Route
                   exact

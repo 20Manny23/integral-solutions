@@ -14,6 +14,7 @@ import {
 
 import { format_date_string } from "../../../utils/dateFormat";
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
+import MaskedInput from "react-text-mask";
 import { NUMBER_OF_EMPLOYEES } from "../../../utils/numberOfEmployees";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
@@ -26,7 +27,6 @@ import SuccessAlert from "../../Alert";
 function ScheduleAdd() {
   const [showSuccess, setShowSuccess] = useState(false);
 
-  console.log(new Date().toISOString().split("T")[0]);
   // GET FORM INPUT
   const [businessName, setBusinessName] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
@@ -84,7 +84,6 @@ function ScheduleAdd() {
       isDisplayable: true, //only retrieve schedules with a displayable status
     },
   });
-  // console.log(schedule);
 
   // get clients
   const {
@@ -199,8 +198,6 @@ function ScheduleAdd() {
     let reformattedStartDate = format_date_string(startDate, startTime);
     let reformattedEndDate = format_date_string(endDate, startTime); //used start time since endTime is no on the form
 
-    console.log(reformattedEndDate, reformattedStartDate);
-
     try {
       // eslint-disable-next-line
       const { data } = await addSchedule({
@@ -225,8 +222,6 @@ function ScheduleAdd() {
           employees: selectedEmployees.map(({ employeeId }) => employeeId),
         },
       });
-
-      // console.log('hello', data)
     } catch (err) {
       console.error(err);
     }
@@ -257,7 +252,6 @@ function ScheduleAdd() {
           schedule: mostRecentScheduleId,
         },
       });
-      console.log("what data = ", data);
     } catch (err) {
       console.error(err);
     }
@@ -265,7 +259,6 @@ function ScheduleAdd() {
 
   // update employee schedule array
   const updateEmployeeJobs = async (mostRecentScheduleId) => {
-    console.log("employees array = ", selectedEmployees);
     try {
       for (let i = 0; i < selectedEmployees.length; i++) {
         // eslint-disable-next-line
@@ -275,7 +268,6 @@ function ScheduleAdd() {
             schedule: mostRecentScheduleId,
           },
         });
-        console.log(data);
       }
     } catch (err) {
       console.error(err);
@@ -354,12 +346,8 @@ function ScheduleAdd() {
         startTime.trim() === "" ||
         squareFeet.trim() === "" ||
         jobDetails.trim() === ""
-      // || employees.trim() === "Select"
-      // || selectedEmployees.length === 0
-      // || suite.trim() !== ""
-      // || endTime.trim() === ""
     );
-    // console.log(areAllFieldsFilled);
+
     // eslint-disable-next-line
   }, [
     businessName,
@@ -373,10 +361,6 @@ function ScheduleAdd() {
     startTime,
     squareFeet,
     jobDetails,
-    // employees,
-    // selectedEmployees,
-    // suite,
-    // endTime,
   ]);
 
   // sort conditional
@@ -458,7 +442,6 @@ function ScheduleAdd() {
             placeholder="Enter Address"
             name="streetAddress"
             value={streetAddress}
-            // defaultValue={client?.streetAddress}
             onChange={handleInputChange}
             onBlur={handleBlurChange}
             //required
@@ -479,7 +462,6 @@ function ScheduleAdd() {
               placeholder="City"
               name="city"
               value={city}
-              // defaultValue={client?.city}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               //required
@@ -500,10 +482,8 @@ function ScheduleAdd() {
               placeholder="State"
               name="state"
               value={state}
-              // defaultValue={client?.state}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //required
             >
               <option>Select</option>
               {STATE_DROPDOWN.map((st, index) => (
@@ -520,15 +500,17 @@ function ScheduleAdd() {
             >
               *required
             </Form.Label>
-            <Form.Control
-              className="custom-border"
+
+            <MaskedInput
+              className="form-control custom-border"
+              mask={[/\d/, /\d/, /\d/, /\d/, /\d/]}
               placeholder="Zip"
+              guide={true}
               name="zip"
               value={zip}
-              // defaultValue={client?.zip}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //required
+              required
             />
           </Col>
         </Row>
@@ -551,13 +533,11 @@ function ScheduleAdd() {
               <Form.Control
                 className="custom-border"
                 type="date"
-                // min="2023-01-23"
                 min={new Date().toISOString().split("T")[0]}
                 name="startDate"
                 defaultValue={client?.startDate}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                //required
               />
             </Form.Group>
           </Col>
@@ -578,7 +558,7 @@ function ScheduleAdd() {
               <Form.Control
                 className="custom-border"
                 type="date"
-                min={new Date().toISOString().split("T")[0]}
+                min={startDate}
                 name="endDate"
                 value={endDate}
                 onChange={handleInputChange}
@@ -608,7 +588,6 @@ function ScheduleAdd() {
                 value={startTime}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
-                //required
               />
             </Form.Group>
           </Col>
@@ -631,17 +610,15 @@ function ScheduleAdd() {
               placeholder="8000 Sqft"
               name="squareFeet"
               value={squareFeet}
-              // defaultValue={client?.squareFeet}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
-              //required
             />
           </Col>
 
           <Col xs={6}>
             <Form.Group>
               <Form.Label style={{ fontWeight: "bolder" }}>
-                Number of Employees
+                Staff Size
               </Form.Label>
               <Form.Label
                 className={`validation-color ${
@@ -743,15 +720,12 @@ function ScheduleAdd() {
             name="jobDetails"
             onChange={handleInputChange}
             onBlur={handleBlurChange}
-            //required
           />
         </Form.Group>
         <SuccessAlert
-              message="New job has been created!"
-              show={showSuccess}
-            >
-            </SuccessAlert>
-
+          message="New job has been created!"
+          show={showSuccess}
+        ></SuccessAlert>
 
         <Button
           className="button-custom submit-button-style"

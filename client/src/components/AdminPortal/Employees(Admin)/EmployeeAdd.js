@@ -5,12 +5,13 @@ import { QUERY_ALL_EMPLOYEES } from "../../../utils/queries";
 import { ADD_EMPLOYEE } from "../../../utils/mutations";
 
 import SuccessAlert from "../../Alert";
+import MaskedInput from 'react-text-mask';
+import emailMask from "text-mask-addons/dist/emailMask";
 
 import { Container, Form, Button } from "react-bootstrap";
-
 import "../../../styles/Contact.css";
 import "../../../styles/button-style.css";
-import { maskedPhoneInput } from "../../../utils/phoneMask";
+
 
 function EmployeeAdd() {
   const [showSuccess, setShowSuccess] = useState(false);
@@ -21,10 +22,7 @@ function EmployeeAdd() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isLocked, setIsLocked] = useState(true);
   const [areAllFieldsFilled, setAreAllFieldsFilled] = useState(false);
-  const [maskedPhone, setMaskedPhone] = useState("");
   const [hasDriversLicense, setHasDriversLicense] = useState(false);
 
   // VALIDATION
@@ -39,12 +37,6 @@ function EmployeeAdd() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    //mask (auto populate) phone format input as xxx-xxx-xxx
-    if (name === "phone") {
-      let getMaskedPhone = maskedPhoneInput(event.target.value);
-      setMaskedPhone(getMaskedPhone);
-    }
-
     name === "firstName"
       ? setFirstName(value)
       : name === "lastName"
@@ -53,6 +45,8 @@ function EmployeeAdd() {
       ? setPhone(value)
       : name === "email"
       ? setEmail(value)
+      : name === "phone"
+      ? setPhone(value)
       : name === "driversLicense"
       ? setHasDriversLicense(value)
       : setPassword(value);
@@ -88,18 +82,6 @@ function EmployeeAdd() {
   const handleAddEmployeeSubmit = async (event) => {
     event.preventDefault();
 
-    console.log(
-      event,
-      email,
-      firstName,
-      lastName,
-      password,
-      phone,
-      isAdmin,
-      isLocked,
-      hasDriversLicense
-    );
-
     try {
       // eslint-disable-next-line
       const { data } = await addEmployee({
@@ -111,6 +93,7 @@ function EmployeeAdd() {
           password,
           isAdmin: false,
           isLocked: false,
+          isDisplayable: true,
           hasDriversLicense,
         },
       });
@@ -152,8 +135,6 @@ function EmployeeAdd() {
     setPhone("");
     setEmail("");
     setPassword("");
-    setIsAdmin("");
-    setIsLocked("");
     setHasDriversLicense("");
   };
 
@@ -223,7 +204,6 @@ function EmployeeAdd() {
               required
             />
           </Form.Group>
-
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
@@ -237,13 +217,12 @@ function EmployeeAdd() {
                 * field is required
               </Form.Label>
             </div>
-            <Form.Control
-              className="custom-border"
-              type="tel"
-              placeholder="ex 555-555-5555"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              maxLength="12"
-              value={maskedPhone}
+            <MaskedInput
+              mask={[/[1-9]/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+              className="form-control custom-border"
+              placeholder="Enter a phone number"
+              guide={true}
+              value={phone}
               name="phone"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
@@ -264,10 +243,11 @@ function EmployeeAdd() {
                 * field is required
               </Form.Label>
             </div>
-            <Form.Control
-              className="custom-border"
-              type="email"
-              placeholder="Enter Email Address"
+            <MaskedInput
+              className="form-control custom-border"
+              mask={emailMask}
+              placeholder="Client email"
+              guide={true}
               name="email"
               value={email.toLowerCase()}
               onChange={handleInputChange}
@@ -299,7 +279,9 @@ function EmployeeAdd() {
 
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder" }}>Password (5 character minimum)</Form.Label>
+              <Form.Label style={{ fontWeight: "bolder" }}>
+                Password (5 character minimum)
+              </Form.Label>
               <Form.Label
                 className={`validation-color ${
                   showPasswordValidation ? "show" : "hide"
@@ -312,19 +294,21 @@ function EmployeeAdd() {
               className="custom-border"
               type="password"
               placeholder="Setup Employee Password"
-              // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               minLength="5"
               name="password"
               value={password}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
+              autoComplete="true"
               required
             />
           </Form.Group>
+
           <SuccessAlert
               message="Employee added successfully!"
-              show={showSuccess}            >
-            </SuccessAlert>
+              show={showSuccess}            
+            >
+          </SuccessAlert>
 
           <div className="d-flex justify-content-center">
             <Button
@@ -342,4 +326,5 @@ function EmployeeAdd() {
     </Container>
   );
 }
+
 export default EmployeeAdd;

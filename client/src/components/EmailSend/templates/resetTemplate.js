@@ -8,14 +8,14 @@ export const FROM_EMAIL = "callasteven@gmail.com";
 
 // SENDGRID RECOMMENDS INCLUDING A TEXT VERSION AS A BACKUP IF HTML ISN'T ACCEPTED
 // export const reset_text_template = (tokenURL, firstName) => {
-export const reset_text_template = (props, tinyURI = "blank", normalURL) => {
+export const reset_text_template = (props, tinyURI = "blank", { uri }) => {
   // console.log(props, 'tinyURI = ', tinyURI, normalURL);
 
   const template = `Hello ${props.firstName},
   
   Click on the link below to create a new password:
   
-  ${tinyURI ? tinyURI : normalURL}
+  ${tinyURI ? tinyURI : uri}
   
   This link will expire 15 minutes from the receipt of this email.
   
@@ -27,8 +27,8 @@ export const reset_text_template = (props, tinyURI = "blank", normalURL) => {
 
 // DEFAULT HTML TEMPLATE WILL BE USED BY MOST BUT NOT ALL PLATFORMS
 // export const reset_html_template = (tokenURL, firstName) => {
-export const reset_html_template = (props, tinyURI, normalURL) => {
-  // console.log(props, 'tinyURI = ', tinyURI, normalURL);
+export const reset_html_template = (props, tinyURI, { uri }) => {
+  console.log(props, 'tinyURI = ', tinyURI, uri );
 
   const template = `<p>Hello ${props.firstName},</p>
   
@@ -36,7 +36,7 @@ export const reset_html_template = (props, tinyURI, normalURL) => {
 
   <p>
     <a style="background-color: #1a73e8; padding: 10px 20px; color: white; text-decoration:none;font-size:14px; font-family:Roboto,sans-serif;border-radius:5px" href= ${
-      tinyURI ? tinyURI : normalURL
+      tinyURI ? tinyURI : uri
     }
     >
       Click Here

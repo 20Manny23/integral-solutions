@@ -22,8 +22,7 @@ class AuthService {
 
     const decoded = decode(token);
 
-    // console.log("isAdmin = ", decoded.data.isAdmin);
-    // console.log("isLocked = ", decoded.data.isLocked);
+
 
     return decoded.data.isAdmin;
   }
@@ -34,7 +33,7 @@ class AuthService {
 
     const decoded = decode(token);
 
-    // console.log("isLocked = ", decoded.data.isLocked)
+
 
     return decoded.data.isLocked;
   }
@@ -44,7 +43,7 @@ class AuthService {
     try {
       const decoded = decode(token);
 
-      // console.log(decoded);
+      
 
       if (decoded.exp < Date.now() / 1000) {
         return true;
@@ -61,7 +60,7 @@ class AuthService {
 
   login({ token, user }) {
     console.log(token);
-    // console.log(user);
+    
     // Saves user token to localStorage
     localStorage.setItem("id_token", token);
   }

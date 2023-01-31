@@ -6,7 +6,9 @@ import { QUERY_ALL_CLIENTS, QUERY_SINGLE_CLIENT } from "../../../utils/queries";
 import { UPDATE_CLIENT } from "../../../utils/mutations";
 
 import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
-import { maskedPhoneInput } from "../../../utils/phoneMask";
+import MaskedInput from "react-text-mask";
+import emailMask from "text-mask-addons/dist/emailMask";
+
 import SuccessAlert from "../../Alert";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
@@ -15,7 +17,6 @@ import "../../../styles/button-style.css";
 
 function ClientUpdate() {
   const [showSuccess, setShowSuccess] = useState(false);
-
 
   //form = input fields
   const [businessName, setBusinessName] = useState("");
@@ -28,7 +29,7 @@ function ClientUpdate() {
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
-  const [maskedPhone, setMaskedPhone] = useState("");
+  // const [maskedPhone, setMaskedPhone] = useState("");
 
   //set selected client
   // const [currentInput, setCurrentInput] = useState({});
@@ -55,8 +56,7 @@ function ClientUpdate() {
     useState(false);
   const [showContactValidation, setShowContactValidation] = useState(false);
   const [showPhoneValidation, setShowPhoneValidation] = useState(false);
-  const [showEmailClientValidation, setShowEmailClientStateValidation] =
-    useState(false);
+  const [showEmailValidation, setShowEmailStateValidation] = useState(false);
   const [showStreetAddressValidation, setShowStreetAddressValidation] =
     useState(false);
   // const [showSuiteValidation, setShowSuiteValidation] = useState(false); //not required
@@ -73,7 +73,7 @@ function ClientUpdate() {
     // eslint-disable-next-line
     error: clientError,
     refetch: clientsRefetch,
-  // } = useQuery(QUERY_ALL_CLIENTS);
+    // } = useQuery(QUERY_ALL_CLIENTS);
   } = useQuery(QUERY_ALL_CLIENTS, {
     variables: {
       isDisplayable: true, //only retrieve clients with a displayable status
@@ -98,12 +98,6 @@ function ClientUpdate() {
   //SECTION HANDLE INPUT
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-
-    //mask (auto populate) phone format input as xxx-xxx-xxx
-    if (name === "phone") {
-      let getMaskedPhone = maskedPhoneInput(event.target.value);
-      setMaskedPhone(getMaskedPhone);
-    }
 
     if (name === "businessName") {
       setBusinessName(value);
@@ -145,8 +139,6 @@ function ClientUpdate() {
 
     //await query single client
     let currentClientData = await getASingleClient(); //get selected client data
-
-    // console.log('currentClient = ', currentClientData.data.client);
 
     setPrevClientData(currentClientData?.data?.client); //set data state and rerender in form
 
@@ -205,7 +197,7 @@ function ClientUpdate() {
     setSelectState(false);
     setSelectZip(false);
 
-    oneFieldHasInput ? setShowSuccess(true): setShowSuccess(false);
+    oneFieldHasInput ? setShowSuccess(true) : setShowSuccess(false);
 
     resetForm();
 
@@ -227,14 +219,11 @@ function ClientUpdate() {
       ? setShowPhoneValidation(true)
       : setShowPhoneValidation(false);
     name === "email" && value.trim() === ""
-      ? setShowEmailClientStateValidation(true)
-      : setShowEmailClientStateValidation(false);
+      ? setShowEmailStateValidation(true)
+      : setShowEmailStateValidation(false);
     name === "streetAddress" && value.trim() === ""
       ? setShowStreetAddressValidation(true)
       : setShowStreetAddressValidation(false);
-    // name === "suite" && value.trim() === "" //not required
-    //   ? setShowSuiteValidation(true)
-    //   : setShowSuiteValidation(false);
     name === "city" && value.trim() === ""
       ? setShowCityValidation(true)
       : setShowCityValidation(false);
@@ -286,7 +275,6 @@ function ClientUpdate() {
   ]);
   let arrayForSort = [];
   if (clients) {
-    // console.log(clients.clients)
     arrayForSort = [...clients.clients];
     arrayForSort.sort(function (a, b) {
       if (a.businessName.toLowerCase() < b.businessName.toLowerCase())
@@ -319,15 +307,11 @@ function ClientUpdate() {
               <option>
                 {prevClientData?.businessName
                   ? prevClientData?.businessName
-                  : "Select"}{" "}
+                  : "Select"}
               </option>
               {arrayForSort.map((client, index) => (
-                <option
-                  key={index}
-                  // value={client.businessName}
-                  data-id={client?._id}
-                >
-                  {client?.businessName}:
+                <option key={index} data-id={client?._id}>
+                  {client?.businessName}
                 </option>
               ))}
             </Form.Control>
@@ -360,10 +344,7 @@ function ClientUpdate() {
             />
           </Form.Group>
 
-          <Form.Group
-            className="mb-3 form-length"
-            // controlId="formBasicEmail"
-          >
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>
                 Contact Name
@@ -401,17 +382,31 @@ function ClientUpdate() {
                 * field is required
               </Form.Label>
             </div>
-            <Form.Control
-              className="custom-border"
-              type="tel"
-              placeholder="ex 555-555-5555"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              maxLength="12"
-              value={selectPhone ? prevClientData?.phone : maskedPhone}
+
+            <MaskedInput
+              mask={[
+                /[1-9]/,
+                /\d/,
+                /\d/,
+                "-",
+                /\d/,
+                /\d/,
+                /\d/,
+                "-",
+                /\d/,
+                /\d/,
+                /\d/,
+                /\d/,
+              ]}
+              className="form-control custom-border"
+              placeholder="Enter a phone number"
+              guide={true}
+              value={selectPhone ? prevClientData?.phone : phone}
               name="phone"
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
+              required
             />
           </Form.Group>
 
@@ -420,21 +415,23 @@ function ClientUpdate() {
               <Form.Label style={{ fontWeight: "bolder" }}>Email</Form.Label>
               <Form.Label
                 className={`validation-color ${
-                  showEmailClientValidation ? "show" : "hide"
+                  showEmailValidation ? "show" : "hide"
                 }`}
               >
                 * field is required
               </Form.Label>
             </div>
-            <Form.Control
-              className="custom-border"
-              type="email"
-              placeholder="Client Email"
+            <MaskedInput
+              className="form-control custom-border"
+              mask={emailMask}
+              placeholder="Client email"
+              guide={true}
               name="email"
               value={selectEmail ? prevClientData?.email : email.toLowerCase()}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               disabled={formIsDisabled}
+              required
             />
           </Form.Group>
 
@@ -464,10 +461,7 @@ function ClientUpdate() {
             />
           </Form.Group>
 
-          <Form.Group
-            className="mb-3 form-length"
-            // controlId="formBasicEmail"
-          >
+          <Form.Group className="mb-3 form-length">
             <div className="form-label">
               <Form.Label style={{ fontWeight: "bolder" }}>Suite</Form.Label>
             </div>
@@ -538,22 +532,24 @@ function ClientUpdate() {
               >
                 * required
               </Form.Label>
-              <Form.Control
-                className="custom-border"
+              <MaskedInput
+                className="form-control custom-border"
+                mask={[/\d/, /\d/, /\d/, /\d/, /\d/]}
                 placeholder="Zip"
+                guide={true}
                 name="zip"
                 value={selectZip ? prevClientData?.zip : zip}
                 onChange={handleInputChange}
                 onBlur={handleBlurChange}
                 disabled={formIsDisabled}
+                required
               />
             </Col>
           </Row>
           <SuccessAlert
-              message="Client information has been updated!"
-              show={showSuccess}
-            >
-            </SuccessAlert>
+            message="Client information has been updated!"
+            show={showSuccess}
+          ></SuccessAlert>
 
           <div className="d-flex justify-content-center">
             <Button

@@ -146,6 +146,7 @@ export const ADD_EMPLOYEE = gql`
     $phone: String
     $isAdmin: Boolean
     $isLocked: Boolean
+    $isDisplayable: Boolean
     $hasDriversLicense: String
   ) {
     addEmployee(
@@ -156,6 +157,7 @@ export const ADD_EMPLOYEE = gql`
       phone: $phone
       isAdmin: $isAdmin
       isLocked: $isLocked
+      isDisplayable: $isDisplayable
       hasDriversLicense: $hasDriversLicense
     ) {
       _id
@@ -166,6 +168,7 @@ export const ADD_EMPLOYEE = gql`
       phone
       isAdmin
       isLocked
+      isDisplayable
       hasDriversLicense
     }
   }
@@ -233,6 +236,7 @@ export const ADD_CLIENT = gql`
     $city: String
     $state: String
     $zip: String
+    $isDisplayable: Boolean
   ) {
     addClient(
       businessName: $businessName
@@ -244,6 +248,7 @@ export const ADD_CLIENT = gql`
       city: $city
       state: $state
       zip: $zip
+      isDisplayable: $isDisplayable
     ) {
       _id
       businessName
@@ -255,6 +260,7 @@ export const ADD_CLIENT = gql`
       state
       city
       zip
+      isDisplayable
     }
   }
 `;
@@ -327,7 +333,6 @@ export const UPDATE_CLIENT_SCHEDULE = gql`
 `;
 
 // SECTION SCHEDULE
-
 export const ADD_SCHEDULE = gql`
   mutation AddSchedule(
     $streetAddress: String
@@ -344,6 +349,7 @@ export const ADD_SCHEDULE = gql`
     $numberOfClientEmployees: String
     $client: String
     $employees: [String]
+    $isDisplayable: Boolean
   ) {
     addSchedule(
       streetAddress: $streetAddress
@@ -360,6 +366,7 @@ export const ADD_SCHEDULE = gql`
       numberOfClientEmployees: $numberOfClientEmployees
       employees: $employees
       client: $client
+      isDisplayable: $isDisplayable
     ) {
       _id
       streetAddress
@@ -374,6 +381,7 @@ export const ADD_SCHEDULE = gql`
       jobDetails
       numberOfClientEmployees
       squareFeet
+      isDisplayable
       client {
         _id
       }
@@ -484,7 +492,7 @@ export const ADD_HOURS = gql`
   }
 `;
 
-//UPDATE HOUR RECORD
+//UPDATE HOUR RECORD - CREATES DOCUMENT IF IT DOESN'T EXIST OR UPDATES IF IT DOES EXIST VIA THE UPSERT OPTION ON THE RESOLVER
 export const UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE = gql`
   mutation UpdateHourByEmployeeIdByJobDate(
     $jobDate: String
@@ -511,6 +519,18 @@ export const DELETE_HOURS_BYEMPLOYEEID_BYJOBDATE = gql`
     deleteHours(employee: $employee, jobDate: $jobDate) {
       _id
       employee {
+        _id
+      }
+    }
+  }
+`;
+
+// fix
+export const UPDATE_EMPLOYEE_HOUR = gql`
+  mutation updateEmployeeHour($id: ID, $hour: String) {
+    updateEmployeeHour(_id: $id, hour: $hour) {
+      _id
+      hour {
         _id
       }
     }

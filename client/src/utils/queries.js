@@ -74,8 +74,7 @@ export const QUERY_EMPLOYEE_BYID = gql`
 `;
 
 export const QUERY_ALL_EMPLOYEES = gql`
-  # query getAllEmployees {
-    #employees {
+ 
   query getAllEmployees($isDisplayable: Boolean) {
     employees(isDisplayable: $isDisplayable) {
       _id
@@ -131,8 +130,7 @@ export const QUERY_SINGLE_EMPLOYEE = gql`
 
 // SECTION CLIENTS
 export const QUERY_ALL_CLIENTS = gql`
-  #query getAllClients {
-  #   clients {
+ 
   query getAllClients($isDisplayable: Boolean) {
     clients(isDisplayable: $isDisplayable) {
       _id
@@ -178,8 +176,7 @@ export const QUERY_SINGLE_CLIENT = gql`
 
 // SECTION SCHEDULE
 export const QUERY_SCHEDULE = gql`
-  #query getSchedule {
-  #  schedules {
+
   query getSchedule($isDisplayable: Boolean) {
     schedules(isDisplayable: $isDisplayable) {
       _id

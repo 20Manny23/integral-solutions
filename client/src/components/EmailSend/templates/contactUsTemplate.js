@@ -11,9 +11,9 @@ export const contactus_text_template = (props) => {
   //NEEDS TO BE SPACED AS BELOW TO DISPLAY PROPERLY IN THE EMAIL
   const template = `
 Company Name: ${props.companyName}
-Email Address: ${props.emailAddress} 
+Email Address: ${props.email} 
 Contact Name: ${props.contactName}
-Phone Number: ${props.phoneNumber}
+Phone Number: ${props.phone}
 Address: ${props.address}, ${props.city}, ${props.state} ${props.zip}
 Square Feet: ${props.squareFeet} 
 Employee Number: ${props.employeeNumber} 
@@ -30,9 +30,9 @@ export const contactus_html_template = (props) => {
   //NEEDS TO BE SPACED AS BELOW TO DISPLAY PROPERLY IN THE EMAIL
   const template = `
       <p>Company Name: ${props.companyName}</p>
-      <p>Email Address: ${props.emailAddress}</p>
+      <p>Email Address: ${props.email}</p>
       <p>Contact Name: ${props.contactName}</p>
-      <p>Phone Number: ${props.phoneNumber}</p>
+      <p>Phone Number: ${props.phone}</p>
       <p>Address: ${props.address}, ${props.city}, ${props.state} ${props.zip}</p>
       <p>Square Feet: ${props.squareFeet} </p>
       <p>Employee Number: ${props.employeeNumber} </p>
