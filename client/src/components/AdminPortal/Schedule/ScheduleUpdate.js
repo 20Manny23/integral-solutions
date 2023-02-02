@@ -688,8 +688,9 @@ function ScheduleUpdate() {
               />
             </Form.Group>
           </Col>
+
           <Col>
-            <Form.Group controlId="formBasicEmail">
+            <Form.Group>
               <div className="form-label">
                 <Form.Label style={{ fontWeight: "bolder" }}>
                   End Date
@@ -705,7 +706,6 @@ function ScheduleUpdate() {
               <Form.Control
                 className="custom-border"
                 type="date"
-                
                 min={
                   format_date_YYYYDDMM(prevScheduleData.startDate) <
                   new Date().toISOString().split("T")[0]
@@ -725,7 +725,7 @@ function ScheduleUpdate() {
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group controlId="formBasicEmail">
+            <Form.Group>
               <div className="form-label">
                 <Form.Label style={{ fontWeight: "bolder" }}>
                   Start Time
@@ -864,8 +864,8 @@ function ScheduleUpdate() {
           ))}
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicMessage">
-          <div className="form-label form-length">
+        <Form.Group className="form-length mb-3" controlId="formBasicMessage">
+          <div className="form-label">
             <Form.Label style={{ fontWeight: "bolder" }}>
               Job Details
             </Form.Label>
@@ -878,11 +878,6 @@ function ScheduleUpdate() {
             </Form.Label>
           </div>
           <Form.Control
-            style={{
-              width: "60%",
-              marginRight: "auto",
-              marginLeft: "auto",
-            }}
             className="custom-border"
             as="textarea"
             rows={4}

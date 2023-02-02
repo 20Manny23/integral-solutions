@@ -246,7 +246,7 @@ function EmployeeAdd() {
             <MaskedInput
               className="form-control custom-border"
               mask={emailMask}
-              placeholder="Client email"
+              placeholder="Enter email address"
               guide={true}
               name="email"
               value={email.toLowerCase()}

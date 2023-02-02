@@ -18,15 +18,12 @@ const ResetPassword = () => {
     password: "",
     passwordCheck: "",
   });
-  // console.log(passwordFormData);
 
   // section get token from URL
-  let params = useParams(); //fix
-  // console.log(params);
+  let params = useParams();
 
   // section decode token to get current user email address
-  const decoded = decode(params.token); //fix
-  // console.log(decoded);
+  const decoded = decode(params.token); 
 
   // section use email address to get user information
   const [employee, setEmployee] = useState({});
@@ -45,7 +42,6 @@ const ResetPassword = () => {
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
       setEmployee(data?.employeeByEmail);
-      // console.log("hello = ", data?.employeeByEmail);
     },
   });
 
@@ -55,7 +51,6 @@ const ResetPassword = () => {
     useMutation(UPDATE_PASSWORD);
 
   const setPassword = async () => {
-    // console.log("reset password = ", employee);
 
     try {
       const { data } = await updatePassword({
@@ -67,7 +62,6 @@ const ResetPassword = () => {
     } catch (e) {
       console.error(e);
     }
-    // console.log(data);
   };
 
   // set temp password when employee state is updated (query retrieves employee info)
@@ -79,7 +73,6 @@ const ResetPassword = () => {
   //section handle input
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    // console.log("inputChange = ", name, value, event.target);
     setPasswordFormData({ ...passwordFormData, [name]: value });
   };
 

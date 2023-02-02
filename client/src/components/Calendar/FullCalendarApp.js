@@ -67,7 +67,6 @@ const FullCalendarApp = () => {
     });
 
   const handleEventClick = async (event) => {
-    console.log("click");
 
     let scheduleId = event.event._def.publicId;
     setCurrentScheduleId(scheduleId);

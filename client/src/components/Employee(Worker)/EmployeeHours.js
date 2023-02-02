@@ -114,8 +114,6 @@ function EmployeeHours() {
   //section handle input
   const handleInput = async (event) => {
     event.preventDefault();
-    // console.log("input = ", event.target.value);
-    // console.log("string = ", event.target.name.substring(0, 3));
 
     const { name, value } = event.target;
 
@@ -164,9 +162,6 @@ function EmployeeHours() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    console.log(event.currentTarget);
-    console.log("sunday = ", sunday);
-
     // let daySubmitted = event.currentTarget.id.substring()
     let hoursInput = document.querySelectorAll(".hourInput"); //get array of hoursInput elements
 
@@ -188,7 +183,7 @@ function EmployeeHours() {
       hours = friday.hours;
     } else if (daySubmitted === "Saturday" && saturday.hours >= 0) {
       hours = saturday.hours;
-    } else {
+    } else { // this alert doesn't function because of the >= above; alert is in the calcHours function serving as an warning and setting hours a 0 if negative.
       alert("Please Ensure End Time is Greater Than or the Same as the Start Time.");
       return;
     }
@@ -221,8 +216,6 @@ function EmployeeHours() {
 
   //section update database - this mutation is an upsert...it either updates or creates a record
   const handleUpdateDatabase = async (data) => {
-    console.log(data);
-
     try {
       // eslint-disable-next-line
       const { data2 } = await updateHours({
@@ -245,25 +238,23 @@ function EmployeeHours() {
 
   //SECTION update the employee array with the id for hour added
   useEffect(() => {
-    console.log("useeffect = ", mostRecentHourUpdateId);
 
     //use the mostRecentHourUpdateId & add it to the employee array
     try {
       if (mostRecentHourUpdateId) {
         // eslint-disable-next-line
-        const { data } = updateEmployeeHour({
+        updateEmployeeHour({
           variables: {
             id: userId, //curent user id
             hour: mostRecentHourUpdateId, //id of the most recently updated hour
           },
         });
-        console.log("what data = ", data);
       }
     } catch (err) {
       console.error(err);
     }
 
-    // eslint-disable-next-line
+  // eslint-disable-next-line
   }, [mostRecentHourUpdateId]);
 
   //section utility functions
@@ -295,10 +286,13 @@ function EmployeeHours() {
     const duration = moment.duration(calcEnd.diff(calcStart));
     const hours = parseInt(duration.asMinutes()) / 60;
 
-    //ensure
+    //ensure hours greater than or equal to 0
     if (hours < 0) {
+      alert("Please Ensure End Time is Greater Than or the Same as the Start Time.");
       return 0;
-    }
+      //fix add alert here...
+    };
+
     const hoursWorked = hours.toFixed(2);
 
     return hoursWorked;
@@ -359,7 +353,6 @@ function EmployeeHours() {
     if (renderData?.length > 0) {
       for (let i = 0; i < renderData.length; i++) {
         if (renderData[i].weekDay === 0) {
-          // console.log(renderData[i])
           setSunday({
             ...sunday,
             startTime: renderData[i].startTime,
@@ -367,7 +360,6 @@ function EmployeeHours() {
             hours: renderData[i].hours,
           });
         } else if (renderData[i].weekDay === 1) {
-          // console.log(renderData[i])
           setMonday({
             ...monday,
             startTime: renderData[i].startTime,
@@ -375,7 +367,6 @@ function EmployeeHours() {
             hours: renderData[i].hours,
           });
         } else if (renderData[i].weekDay === 2) {
-          // console.log(renderData[i])
           setTuesday({
             ...tuesday,
             startTime: renderData[i].startTime,
@@ -383,7 +374,6 @@ function EmployeeHours() {
             hours: renderData[i].hours,
           });
         } else if (renderData[i].weekDay === 3) {
-          // console.log(renderData[i])
           setWednesday({
             ...wednesday,
             startTime: renderData[i].startTime,
@@ -391,7 +381,6 @@ function EmployeeHours() {
             hours: renderData[i].hours,
           });
         } else if (renderData[i].weekDay === 4) {
-          // console.log(renderData[i])
           setThursday({
             ...thursday,
             startTime: renderData[i].startTime,
@@ -399,7 +388,6 @@ function EmployeeHours() {
             hours: renderData[i].hours,
           });
         } else if (renderData[i].weekDay === 5) {
-          // console.log(renderData[i])
           setFriday({
             ...friday,
             startTime: renderData[i].startTime,
@@ -407,7 +395,6 @@ function EmployeeHours() {
             hours: renderData[i].hours,
           });
         } else if (renderData[i].weekDay === 6) {
-          // console.log(renderData[i])
           setSaturday({
             ...saturday,
             startTime: renderData[i].startTime,
@@ -427,25 +414,18 @@ function EmployeeHours() {
     for (let i = 0; i < startTimeElements.length; i++) {
       if (startTimeElements[i].name === "startTimeSunday") {
         startTimeElements[i].value = sunday.startTime;
-        // console.log('sunday = ', sunday, sunday.startTime)
       } else if (startTimeElements[i].name === "startTimeMonday") {
         startTimeElements[i].value = monday.startTime;
-        // console.log('sunday = ', sunday, sunday.startTime)
       } else if (startTimeElements[i].name === "startTimeTuesday") {
         startTimeElements[i].value = tuesday.startTime;
-        // console.log('sunday = ', sunday, sunday.startTime)
       } else if (startTimeElements[i].name === "startTimeWednesday") {
         startTimeElements[i].value = wednesday.startTime;
-        // console.log('sunday = ', sunday, sunday.startTime)
       } else if (startTimeElements[i].name === "startTimeThursday") {
         startTimeElements[i].value = thursday.startTime;
-        // console.log('sunday = ', sunday, sunday.startTime)
       } else if (startTimeElements[i].name === "startTimeFriday") {
         startTimeElements[i].value = friday.startTime;
-        // console.log('sunday = ', sunday, sunday.startTime)
       } else if (startTimeElements[i].name === "startTimeSaturday") {
         startTimeElements[i].value = saturday.startTime;
-        // console.log('sunday = ', sunday, sunday.startTime)
       }
     }
 
@@ -473,19 +453,19 @@ function EmployeeHours() {
     let hoursInput = document.querySelectorAll(".hourInput"); //get array of hoursInput elements
     for (let i = 0; i < hoursInput.length; i++) {
       if (endTimeElements[i].name === "endTimeSunday") {
-        hoursInput[i].innerText = `Hours: ${sunday.hours}`;
+        hoursInput[i].innerText = `Hours: ${parseFloat(sunday.hours).toFixed(2)}`;
       } else if (endTimeElements[i].name === "endTimeMonday") {
-        hoursInput[i].innerText = `Hours: ${monday.hours}`;
+        hoursInput[i].innerText = `Hours: ${parseFloat(monday.hours).toFixed(2)}`;
       } else if (endTimeElements[i].name === "endTimeTuesday") {
-        hoursInput[i].innerText = `Hours: ${tuesday.hours}`;
+        hoursInput[i].innerText = `Hours: ${parseFloat(tuesday.hours).toFixed(2)}`;
       } else if (endTimeElements[i].name === "endTimeWednesday") {
-        hoursInput[i].innerText = `Hours: ${wednesday.hours}`;
+        hoursInput[i].innerText = `Hours: ${parseFloat(wednesday.hours).toFixed(2)}`;
       } else if (endTimeElements[i].name === "endTimeThursday") {
-        hoursInput[i].innerText = `Hours: ${thursday.hours}`;
+        hoursInput[i].innerText = `Hours: ${parseFloat(thursday.hours).toFixed(2)}`;
       } else if (endTimeElements[i].name === "endTimeFriday") {
-        hoursInput[i].innerText = `Hours: ${friday.hours}`;
+        hoursInput[i].innerText = `Hours: ${parseFloat(friday.hours).toFixed(2)}`;
       } else if (endTimeElements[i].name === "endTimeSaturday") {
-        hoursInput[i].innerText = `Hours: ${saturday.hours}`;
+        hoursInput[i].innerText = `Hours: ${parseFloat(saturday.hours).toFixed(2)}`;
       }
     }
 

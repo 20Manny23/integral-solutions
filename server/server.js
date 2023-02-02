@@ -2,6 +2,7 @@ const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const path = require("path");
 const { authMiddleware } = require("./utils/auth");
+const compression = require('compression'); //added to address lighthouse text compression performance issue
 
 // //section cors start
 // const cors = require('cors');
@@ -29,13 +30,13 @@ const server = new ApolloServer({
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(compression()); //added to address lighthouse text compression performance issue
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
 }
 
-// app.get("/", (req, res) => {
-app.get('/*', function (req, res) { //fix
+app.get('/*', function (req, res) { //adjusted from "/" to "/*" to allow server to handle routes outside of client routing
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 

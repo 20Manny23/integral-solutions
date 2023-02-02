@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Container, Row, Button } from "react-bootstrap/";
 import "../styles/button-style.css";
 
-import wrongPageImg from "../assets/not-found.png";
+import wrongPageImg from "../assets/images-avif/404-not-found.avif";
 
 const WrongPage = ({ renderPanel }) => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const WrongPage = ({ renderPanel }) => {
       >
         <Button
           as={Link}
-          to="/work-order"
+          to="/jobs-panel"
           className="rounded-pill wrong-page-button"
           style={{ backgroundColor: "white", border: "none" }}
         >

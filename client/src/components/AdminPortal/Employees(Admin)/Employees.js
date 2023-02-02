@@ -40,7 +40,7 @@ function Employees() {
     onCompleted: (data) => {},
   });
 
-  // toggle isAmin mutation
+  // toggle isAdmin mutation
   const [toggleAdmin] = useMutation(TOGGLE_ADMIN);
   const [toggleLocked] = useMutation(TOGGLE_LOCKED);
 
@@ -135,7 +135,6 @@ function Employees() {
         console.log(err);
       }
     } else {
-      console.log("not admin");
       try {
         // eslint-disable-next-line
         await toggleLocked({

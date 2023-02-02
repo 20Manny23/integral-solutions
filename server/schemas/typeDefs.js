@@ -202,7 +202,6 @@ const typeDefs = gql`
 
     updateEmployeeSchedule(_id: ID, schedule: String): Employee
 
-    #fix
     updateEmployeeHour(_id: ID, hour: String): Employee
 
     removeEmployeeSchedule(_id: ID, schedule: String): Employee

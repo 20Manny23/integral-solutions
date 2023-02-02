@@ -38,9 +38,7 @@ function Employees() {
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     skip: !Auth.loggedIn(),
     onCompleted: (data) => {
-      // console.log("hello = ", data?.employeeByEmail);
       setEmployee(data?.employeeByEmail);
-      console.log("hello employee = ", employee);
     },
   });
 
@@ -48,7 +46,6 @@ function Employees() {
     useMutation(UPDATE_PASSWORD);
 
   const setPassword = async () => {
-    // console.log("reset password = ", employee);
     try {
       const { data } = await updatePassword({
         variables: {
@@ -90,7 +87,6 @@ function Employees() {
 
     //create token payload
     let payload = { email: userFormData.email, password: tempPassword };
-    console.log("payload ", payload);
 
     // create new token using the forgotPassword mutation
     try {
@@ -99,7 +95,6 @@ function Employees() {
       });
 
       setPayLoadToken({ token: data.forgotPassword.token });
-      // console.log(data.forgotPassword.token);
 
       if (!employee.email) {
         setShowError(true);
@@ -153,7 +148,7 @@ function Employees() {
               <MaskedInput
                 className="form-control"
                 mask={emailMask}
-                placeholder="Client email"
+                placeholder="Employee email"
                 guide={true}
                 name="email"
                 value={userFormData.email.toLowerCase()}

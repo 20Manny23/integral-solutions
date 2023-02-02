@@ -18,8 +18,6 @@ const resolvers = {
     clients: async (parent, { isDisplayable }, context) => {
       // if (context.user) {
 
-      // console.log("client soft displayable resolver = ", isDisplayable);
-
       return Client.find({ isDisplayable })
         .sort({ createdAt: -1 })
         .populate({ path: "schedule", populate: { path: "client" } });
@@ -29,7 +27,6 @@ const resolvers = {
 
     client: async (parent, { _id }, context) => {
       // if (context.user) {
-      console.log("resolver = ", _id);
       return Client.findOne({ _id }).populate({
         path: "schedule",
         populate: { path: "client" },
@@ -38,23 +35,8 @@ const resolvers = {
       // throw new AuthenticationError("You need to be logged in!");
     },
 
-    // commented out; use query below to only get isDisplayable = true
-    // employees: async (parent, args, context) => {
-    //   // if (context.user) {
-    //   return Employee.find().populate({
-    //     path: "hour",
-    //     path: "schedule",
-    //     populate: { path: "client" },
-    //   });
-    //   // return Employee.find().populate("schedule");
-    //   // }
-    //   // throw new AuthenticationError("You need to be logged in!");
-    // },
-
     employees: async (parent, { isDisplayable }, context) => {
       // if (context.user) {
-
-      // console.log("employee displayable resolver = ", isDisplayable);
 
       return Employee.find({ isDisplayable })
         .populate("hour")
@@ -62,18 +44,11 @@ const resolvers = {
           path: "schedule",
           populate: { path: "client" },
         });
-
-      // return Employee.find({ isDisplayable }).populate({
-      //   path: "schedule",
-      //   populate: { path: "client" },
-      // });
-      // return Employee.find().populate("schedule");
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
 
     employeeByEmail: async (parent, { email }, context) => {
-      console.log(email);
       // if (context.user) {
       return Employee.findOne({ email: email }).populate({
         path: "schedule",
@@ -89,7 +64,6 @@ const resolvers = {
     employeeById: async (parent, { _id }, context) => {
       //fix
       // if (context.user) {
-      console.log("employee by id", _id);
       return Employee.findOne({ _id }).populate({
         //fix
         path: "schedule",
@@ -108,14 +82,12 @@ const resolvers = {
 
     hoursById: async (parent, { _id }, context) => {
       // if (context.user) {
-      console.log("resolver hours by id = ", _id);
       return Hour.findOne({ _id }).populate("employee");
       // throw new AuthenticationError("You need to be logged in!");
     },
 
     hoursByEmployeeId: async (parent, { employee }, context) => {
       // if (context.user) {
-      console.log("resolver hours by employee id = ", employee);
       return Hour.find({ employee: employee }).populate("employee");
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -140,9 +112,6 @@ const resolvers = {
     //section schedule/job
     schedules: async (parent, { isDisplayable }, context) => {
       // if (context.user) {
-
-      console.log("schedule displayable resolver = ", isDisplayable);
-
       return Schedule.find({ isDisplayable })
         .populate("employees")
         .populate("client");
@@ -164,13 +133,10 @@ const resolvers = {
       sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
       let message = `Your information was sent to Integral Solutions. A represenative will be in touch soon.`;
-      // console.log('lazy query');
-      console.log("args from = ", args.fromEmail);
-      console.log("args to = ", args.toEmail);
 
       const msg = {
-        to: args.toEmail ? `${args.toEmail}` : "rod.bennett75@gmail.com",
-        from: args.fromEmail ? `${args.fromEmail}` : "rod.bennett75@gmail.com",
+        to: args.toEmail ? `${args.toEmail}` : "callasteven@gmail.com",
+        from: args.fromEmail ? `${args.fromEmail}` : "callasteven@gmail.com",
         subject: args.subject,
         text: args.textContent,
         html: args.htmlContent,
@@ -187,7 +153,6 @@ const resolvers = {
           message = "Something went wrong. Give us a call at 555-555-1212.";
         });
 
-      // console.log(message)
       return message;
     },
   },
@@ -203,7 +168,6 @@ const resolvers = {
     },
 
     login: async (parent, { email, password }) => {
-      console.log("login ", email);
 
       const employee = await Employee.findOne({ email });
 
@@ -240,7 +204,6 @@ const resolvers = {
 
     updatePassword: async (parent, { _id, password }, context) => {
       // if (context.user) {
-      console.log("resolver update password = ", _id, password);
       return Employee.findOneAndUpdate(
         { _id },
         {
@@ -297,8 +260,6 @@ const resolvers = {
     softDeleteClient: async (parent, { _id, isDisplayable }, client) => {
       // if (context.user) {
 
-      console.log("resolve soft delete client = ", _id, isDisplayable);
-
       return Client.findOneAndUpdate(
         { _id },
         {
@@ -348,7 +309,6 @@ const resolvers = {
 
     updateClientSchedule: async (parent, { _id, schedule }, context) => {
       // if (context.user) {
-      console.log("resolver update client schedule = ", _id, schedule);
       return Client.findOneAndUpdate(
         { _id },
         {
@@ -388,7 +348,6 @@ const resolvers = {
       context
     ) => {
       // if (context.user) {
-      console.log("resolver hours update = ");
       return Hour.findOneAndUpdate(
         { employee, jobDate },
         {
@@ -413,7 +372,6 @@ const resolvers = {
 
     updateEmployeeHour: async (parent, { _id, hour }, context) => {
       // if (context.user) {
-      console.log("resolver update employee hour = ", _id, hour);
       return Employee.findOneAndUpdate(
         { _id },
         {
@@ -442,17 +400,6 @@ const resolvers = {
       context
     ) => {
       // if (context.user) {
-      console.log("resolve add employee = ", 
-        email,
-        password,
-        firstName,
-        lastName,
-        phone,
-        isAdmin,
-        isLocked,
-        isDisplayable,
-        hasDriversLicense
-      )
       const employee = await Employee.create({
         email,
         password,
@@ -480,7 +427,6 @@ const resolvers = {
     // soft delete employee
     softDeleteEmployee: async (parent, { _id, isDisplayable }, context) => {
       // if (context.user) {
-      console.log("resolve soft delete employee = ", _id, isDisplayable);
 
       return Employee.findOneAndUpdate(
         { _id },
@@ -510,19 +456,6 @@ const resolvers = {
       context
     ) => {
       // if (context.user) {
-      console.log(
-        "resolver update employee = ",
-        _id,
-        email,
-        password,
-        firstName,
-        lastName,
-        phone,
-        isAdmin,
-        isLocked,
-        schedule,
-        hasDriversLicense
-      );
       return Employee.findOneAndUpdate(
         { _id },
         {
@@ -547,15 +480,6 @@ const resolvers = {
       context
     ) => {
       // if (context.user) {
-      console.log(
-        "resolver update employee form = ",
-        _id,
-        firstName,
-        lastName,
-        email,
-        phone,
-        hasDriversLicense
-      );
       return Employee.findOneAndUpdate(
         { _id },
         {
@@ -573,7 +497,6 @@ const resolvers = {
 
     updateEmployeeSchedule: async (parent, { _id, schedule }, context) => {
       // if (context.user) {
-      console.log("resolver update employee schedule = ", _id, schedule);
       return Employee.findOneAndUpdate(
         { _id },
         {
@@ -588,7 +511,6 @@ const resolvers = {
     // removes job/schedule from the employee schedule array
     removeEmployeeSchedule: async (parent, { _id, schedule }, context) => {
       // if (context.user) {
-      console.log("resolver update employee schedule = ", _id, schedule);
       return Employee.findOneAndUpdate(
         { _id },
         {
@@ -604,11 +526,7 @@ const resolvers = {
     toggleAdmin: async (parent, { employeeId }) => {
       let message = "No such user exists";
 
-      console.log("employee id = ", employeeId);
-
       const employee = await Employee.findById(employeeId);
-
-      console.log("employee = ", employee);
 
       if (employee) {
         try {
@@ -665,9 +583,8 @@ const resolvers = {
       },
       context
     ) => {
-      // _id, streetAddress, suite, city, state, zip, startDate, endDate, startTime, endTime, squareFeet, jobDetails, numberOfClientEmployees, client, employees
-      // if (context.user) {
-      const user = await Schedule.create({
+      // if (context.user) {)
+      const schedule = await Schedule.create({
         _id,
         streetAddress,
         suite,
@@ -685,24 +602,7 @@ const resolvers = {
         employees,
         isDisplayable,
       });
-      return {
-        _id,
-        streetAddress,
-        suite,
-        city,
-        state,
-        zip,
-        startDate,
-        endDate,
-        startTime,
-        endTime,
-        squareFeet,
-        jobDetails,
-        numberOfClientEmployees,
-        client,
-        employees,
-        isDisplayable,
-      };
+      return schedule
       // }
       // throw new AuthenticationError("You need to be logged in!");
     },
@@ -717,7 +617,6 @@ const resolvers = {
     // soft delete employee
     softDeleteSchedule: async (parent, { _id, isDisplayable }, context) => {
       // if (context.user) {
-      console.log("resolve soft delete schedule = ", _id, isDisplayable);
 
       return Schedule.findOneAndUpdate(
         { _id },

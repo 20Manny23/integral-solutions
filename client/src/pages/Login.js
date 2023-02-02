@@ -2,12 +2,11 @@ import React from "react";
 import Auth from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 import LoginForm from "../components/Login/LoginForm";
-// import SignupForm from "../components/Login/SignupForm";
 
 import Container from "react-bootstrap/Container";
 import "../styles/button-home.css";
 
-import littleFella from "../assets/images/logo-no-slogan.png";
+import littleFella from "../assets/images-avif/logo-no-slogan.avif";
 
 const Login = ({ renderPanel, loginButtonIsActive }) => {
   let navigate = useNavigate();
@@ -29,7 +28,7 @@ const Login = ({ renderPanel, loginButtonIsActive }) => {
               <div>
                 <img
                   src={littleFella}
-                  alt="little logo"
+                  alt="Integral Solutions logo"
                   style={{
                     marginTop: "15px",
                     maxHeight: "120px",

@@ -7,17 +7,20 @@ import { Container, Button, Row, Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import "../styles/home.css";
 
-import delivery from "../assets/images/delivery.jpg";
-import install from "../assets/images/install.jpg";
-import cleaning from "../assets/images/cleaning.jpg";
-import moving from "../assets/images/moving.jpg";
-import optimize from "../assets/images/optimize.png";
-import reconfig from "../assets/images/reconfig.jpg";
+import delivery from "../assets/images-avif/delivery.avif";
+import install from "../assets/images-avif/install.avif";
+import cleaning from "../assets/images-avif/cleaning.avif";
+import moving from "../assets/images-avif/moving.avif";
+import optimize from "../assets/images-avif/optimize.avif";
+import reconfig from "../assets/images-avif/reconfig.avif";
+import office from "../assets/images-avif/office.avif";
 
 const Home = () => {
   let navigate = useNavigate();
   return (
     <>
+      {/* preload image to improve largest contentful paint in lighthouse */}
+      <link rel="preload" href={office}></link> 
       <main className="bk-img">
         <br></br>
         <div className="overlay-box">
@@ -45,7 +48,7 @@ const Home = () => {
             }}
             className="contact-btn"
             onClick={() => {
-              navigate("/contact");
+              navigate("/contact-us");
             }}
           >
             Contact Us
@@ -62,7 +65,7 @@ const Home = () => {
         <Row>
           <Col className="d-flex justify-content-center mb-2">
             <Card style={{ width: "15rem", border: "none" }}>
-              <Card.Img variant="top" src={delivery} />
+              <Card.Img variant="top" src={delivery} alt="Delivery truck and workers unloading content"/>
               <Card.Body>
                 <Card.Title style={{ marginTop: "-15px" }}>Delivery</Card.Title>
                 <Card.Text style={{ fontSize: "13px" }}>
@@ -75,7 +78,7 @@ const Home = () => {
           </Col>
           <Col className="d-flex justify-content-center mb-2">
             <Card style={{ width: "15rem", border: "none" }}>
-              <Card.Img variant="top" src={moving} />
+              <Card.Img variant="top" src={moving} alt="Unpacked boxes in an office space"/>
               <Card.Body>
                 <Card.Title style={{ marginTop: "-15px" }}>Moving</Card.Title>
                 <Card.Text style={{ fontSize: "13px" }}>
@@ -87,7 +90,7 @@ const Home = () => {
           </Col>
           <Col className="d-flex justify-content-center mb-2">
             <Card style={{ width: "15rem", border: "none" }}>
-              <Card.Img variant="top" src={install} />
+              <Card.Img variant="top" src={install} alt="Cabinet installation in progress"/>
               <Card.Body>
                 <Card.Title style={{ marginTop: "-15px" }}>
                   Installation
@@ -101,7 +104,7 @@ const Home = () => {
           </Col>
           <Col className="d-flex justify-content-center mb-2">
             <Card style={{ width: "15rem", border: "none" }}>
-              <Card.Img className="pics" variant="top" src={cleaning} />
+              <Card.Img className="pics" variant="top" src={cleaning} alt="Workers cleaning an office space"/>
               <Card.Body>
                 <Card.Title style={{ marginTop: "-15px" }}>Cleaning</Card.Title>
                 <Card.Text style={{ fontSize: "13px" }}>
@@ -113,7 +116,7 @@ const Home = () => {
           </Col>
           <Col className="d-flex justify-content-center mb-2">
             <Card style={{ width: "15rem", border: "none" }}>
-              <Card.Img variant="top" src={optimize} />
+              <Card.Img variant="top" src={optimize} alt="Optimized office layout"/>
               <Card.Body>
                 <Card.Title style={{ marginTop: "-15px" }}>
                   Space Analytics
@@ -127,7 +130,7 @@ const Home = () => {
           </Col>
           <Col className="d-flex justify-content-center mb-2">
             <Card style={{ width: "15rem", border: "none" }}>
-              <Card.Img variant="top" src={reconfig} />
+               <Card.Img variant="top" src={reconfig} alt="Optimized office reconfigured"/>
               <Card.Body>
                 <Card.Title style={{ marginTop: "-15px" }}>
                   Reconfiguration

@@ -4,12 +4,11 @@ export const RESET_SUBJECT = (props) => {
   return template;
 };
 
-export const FROM_EMAIL = "rod.bennett75@gmail.com";
+export const FROM_EMAIL = "callasteven@gmail.com";
 
 // SENDGRID RECOMMENDS INCLUDING A TEXT VERSION AS A BACKUP IF HTML ISN'T ACCEPTED
 // export const reset_text_template = (tokenURL, firstName) => {
 export const reset_text_template = (props, tinyURI = "blank", { uri }) => {
-  // console.log(props, 'tinyURI = ', tinyURI, normalURL);
 
   const template = `Hello ${props.firstName},
   
@@ -28,7 +27,6 @@ export const reset_text_template = (props, tinyURI = "blank", { uri }) => {
 // DEFAULT HTML TEMPLATE WILL BE USED BY MOST BUT NOT ALL PLATFORMS
 // export const reset_html_template = (tokenURL, firstName) => {
 export const reset_html_template = (props, tinyURI, { uri }) => {
-  console.log(props, 'tinyURI = ', tinyURI, uri );
 
   const template = `<p>Hello ${props.firstName},</p>
   
