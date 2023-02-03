@@ -13,7 +13,7 @@ function ShopLinks() {
   return (
     <>
       {/* preload image to improve largest contentful paint in lighthouse */}
-      <link rel="preload" href={office}></link>
+      <link rel="preload" href={office} as="image"></link>
       <div className="bk-img" style={{ minHeight: "80vh" }}>
         <Container>
           <Row className="d-flex justify-content-center">
