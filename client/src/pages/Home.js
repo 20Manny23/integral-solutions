@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <>
       {/* preload image to improve largest contentful paint in lighthouse */}
-      <link rel="preload" href={office}></link> 
+      <link rel="preload" href={office} as="image"></link> 
       <main className="bk-img">
         <br></br>
         <div className="overlay-box">
