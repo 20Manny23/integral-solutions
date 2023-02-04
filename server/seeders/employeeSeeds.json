@@ -1,36 +1,19 @@
 [
-  {
-    "_id": "6398fb54494aa98f85992da2",
-    "email": "b@b.com",
-    "password": "12345",
-    "firstName": "Brendan",
-    "lastName": "Bayliss",
-    "phone": "970-867-5309",
-    "isDisplayable": true,
-    "isAdmin": false,
-    "isLocked": false,
-    "schedule": [
-      "423233343536373839303132"
-    ],
-    "hasDriversLicense": "Yes",
-    "hour": ["333233343538883839303134", "333233343536373838803134","333233343536378839303134", "333233343566373839303134", "333233343536373839303134"]
-  },
+  
   {
     "_id": "6398fb54494aa98f85992da3",
-    "email": "a@a.com",
+    "email": "vegaemmanuel1980@gmail.com",
     "password": "12345",
-    "firstName": "Ryan",
-    "lastName": "Stasick",
-    "phone": "719-867-5309",
+    "firstName": "Emmanuel",
+    "lastName": "Garcia",
+    "phone": "720-767-9859",
     "isDisplayable": true,
     "isAdmin": true,
     "isLocked": false,
     "schedule": [
-      "413233343536373839303132",
-      "423233343536373839303132"
     ],
     "hasDriversLicense": "Yes",
-    "hour": ["333233343536373839313144", "333233343536373839303139", "333233343536373839302133", "333233343536373837303133", "333233343536373839313135", "333233343536373839303133", "333233343536373839303131"]
+    "hour": []
   },
   {
     "_id": "6398fb54494aa98f85992da4",
@@ -42,39 +25,21 @@
     "isDisplayable": true,
     "isAdmin": true,
     "isLocked": false,
-    "schedule": [
-      "423233343536373839303132"
-    ],
-    "hasDriversLicense": "Yes",
-    "hour": ["333233343536373839303132"]
-  },
-  {
-    "_id": "6398fb54494aa98f85992da5",
-    "email": "bhoff1980@gmail.com",
-    "password": "12345",
-    "firstName": "Bryan",
-    "lastName": "Wienhoff",
-    "phone": "217-725-2526",
-    "isDisplayable": true,
-    "isAdmin": true,
-    "isLocked": false,
-    "schedule": ["443233343536373839303132"],
+    "schedule": [],
     "hasDriversLicense": "Yes",
     "hour": []
   },
   {
-    "_id": "6498fb54494aa98f85992da5",
-    "email": "callasteven@gmail.com",
+    "_id": "6398fb54494aa98f85992da5",
+    "email": "69garciajuan@gmail.com",
     "password": "12345",
-    "firstName": "Steve",
-    "lastName": "Calla",
-    "phone": "123-456-2526",
-    "isDisplayable": false,
+    "firstName": "Juan",
+    "lastName": "Garcia",
+    "phone": "720-232-2510",
+    "isDisplayable": true,
     "isAdmin": true,
     "isLocked": false,
-    "schedule": [
-      "423233343536373839303132"
-    ],
+    "schedule": [],
     "hasDriversLicense": "Yes",
     "hour": []
   }
