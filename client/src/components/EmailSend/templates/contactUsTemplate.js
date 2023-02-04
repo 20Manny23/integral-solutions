@@ -4,7 +4,7 @@ export const CONTACT_US_SUBJECT = (props) => {
   return template;
 };
 
-export const TO_EMAIL = "callasteven@gmail.com";
+export const TO_EMAIL = "contact@integralofficesolutions.com";
 
 // SENDGRID RECOMMENDS INCLUDING A TEXT VERSION AS A BACKUP IF HTML ISN'T ACCEPTED
 export const contactus_text_template = (props) => {

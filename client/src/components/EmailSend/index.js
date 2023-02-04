@@ -30,7 +30,7 @@ function useEmailSend(props) {
   const toEmail =
     props?.source === "resetPassword"
       ? props?.toEmail
-      : "callasteven@gmail.com";
+      : "contact@integralofficesolutions.com";
   const fromEmail = FROM_EMAIL;
   const subject =
     props?.source === "resetPassword"

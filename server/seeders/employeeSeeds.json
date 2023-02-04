@@ -1,5 +1,18 @@
 [
-  
+  {
+    "_id": "6398fb54494aa98f85992da2",
+    "email": "a@a.com",
+    "password": "12345",
+    "firstName": "Manuel",
+    "lastName": "Garcia",
+    "phone": "720-767-9859",
+    "isDisplayable": true,
+    "isAdmin": true,
+    "isLocked": false,
+    "schedule": [],
+    "hasDriversLicense": "Yes",
+    "hour": []
+  },
   {
     "_id": "6398fb54494aa98f85992da3",
     "email": "vegaemmanuel1980@gmail.com",
@@ -7,21 +20,6 @@
     "firstName": "Emmanuel",
     "lastName": "Garcia",
     "phone": "720-767-9859",
-    "isDisplayable": true,
-    "isAdmin": true,
-    "isLocked": false,
-    "schedule": [
-    ],
-    "hasDriversLicense": "Yes",
-    "hour": []
-  },
-  {
-    "_id": "6398fb54494aa98f85992da4",
-    "email": "rod.bennett75@gmail.com",
-    "password": "12345",
-    "firstName": "Rod",
-    "lastName": "Bennett",
-    "phone":  "719-867-5309",
     "isDisplayable": true,
     "isAdmin": true,
     "isLocked": false,
