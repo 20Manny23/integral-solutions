@@ -37,9 +37,9 @@ const AppNavbar = () => {
           </Nav.Link>
           {!Auth.loggedIn() && (
             <>
-              <Nav.Link className="navLink" as={Link} to="/shop-links">
+              {/* <Nav.Link className="navLink" as={Link} to="/shop-links">
                 Shop Furniture
-              </Nav.Link>
+              </Nav.Link> */}
             </>
           )}
 
