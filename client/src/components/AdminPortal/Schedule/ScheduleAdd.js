@@ -532,7 +532,7 @@ function ScheduleAdd() {
         </Row>
         <Row className="addy">
           <Col>
-            <Form.Group controlId="formBasicEmail">
+            <Form.Group  controlId="formBasicEmail">
               <div className="form-label">
                 <Form.Label style={{ fontWeight: "bolder" }}>
                   Start Date

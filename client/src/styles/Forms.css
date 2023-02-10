@@ -24,3 +24,9 @@
     width: 95%;
   }
 }
+
+@media screen and (max-width: 416px) {
+  .addy {
+    width: 100%;
+  }
+}

@@ -108,7 +108,7 @@ Contributor Covenant Code of Conduct
 ## Resources
 
 1. GitHub Repo: <https://github.com/stevecalla/integral-solutions-dev>
-2. Heroku Deploy: <https://int-solutions-dev.herokuapp.com/ >
+2. Heroku Deploy: <https://integratedofficesolutions.com>
 
 
 ## License
