@@ -2,7 +2,6 @@ const { AuthenticationError } = require("apollo-server-express");
 const { Schedule, Client, Employee, Hour } = require("../models");
 const { signToken } = require("../utils/auth");
 const bcrypt = require("bcrypt");
-const { deflateRaw } = require("zlib");
 
 let expiration = "2h"; // 2 hours
 
