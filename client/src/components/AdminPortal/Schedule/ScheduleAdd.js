@@ -40,7 +40,7 @@ function ScheduleAdd() {
   const [squareFeet, setSquareFeet] = useState("");
   const [jobDetails, setJobDetails] = useState("");
   const [numberOfClientEmployees, setNumberOfClientEmployees] = useState("");
-  const [client, setClient] = useState("");
+  const [setClient] = useState("");
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [selectedBusinessName, setSelectedBusinessName] = useState(""); //used to main businessName state, while businessName is adjusted to match the select box
   const [mostRecentScheduleAddId, setMostRecentScheduleAddId] = useState();

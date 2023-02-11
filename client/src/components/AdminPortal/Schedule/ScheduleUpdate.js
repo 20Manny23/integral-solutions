@@ -48,8 +48,8 @@ function ScheduleUpdate() {
   const [squareFeet, setSquareFeet] = useState("");
   const [jobDetails, setJobDetails] = useState("");
   const [numberOfClientEmployees, setNumberOfClientEmployees] = useState("");
-  const [setClient] = useState("");
-  const [setEmployees] = useState("");
+  // const [setClient] = useState("");
+  // const [setEmployees] = useState("");
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
 
@@ -206,10 +206,10 @@ function ScheduleUpdate() {
     } else if (name === "numberOfClientEmployees") {
       setNumberOfClientEmployees(value);
       setSelectNumberOfClientEmployees(false);
-    } else if (name === "client") {
-      setClient(value);
-    } else if (name === "employees") {
-      setEmployees(value);
+    // } else if (name === "client") {
+    //   setClient(value);
+    // } else if (name === "employees") {
+    //   setEmployees(value);
     } else {
       console.log("Error in form input at EmployeeUpdate.js");
     }
@@ -263,7 +263,7 @@ function ScheduleUpdate() {
           state: state ? state : getSchedule.data.schedule.state,
           zip: zip ? zip : getSchedule.data.schedule.zip,
           startDate: startDate
-            ? format_date_string(startDate, endTime)
+            ? format_date_string(startDate, startTime ? startTime : "09:00:00 (MST)")
             : getSchedule.data.schedule.startDate,
           endDate: endDate
             ? format_date_string(endDate, endTime ? endTime : "09:00:00 (MST)")
@@ -466,8 +466,8 @@ function ScheduleUpdate() {
     setSquareFeet("");
     setJobDetails("");
     setNumberOfClientEmployees("");
-    setClient("");
-    setEmployees("");
+    // setClient("");
+    // setEmployees("");
     setSelectedEmployees([]);
   };
 
@@ -672,21 +672,16 @@ function ScheduleUpdate() {
                 className="custom-border startDate"
                 type="date"
                 min={
-                  // format_date_YYYYDDMM(prevScheduleData.startDate) <
-                  format_date_MMDDYYYY(prevScheduleData.startDate) <
+                  format_date_YYYYDDMM(prevScheduleData.startDate) <
 
                   new Date().toISOString().split("T")[0]
-                    // ? format_date_YYYYDDMM(prevScheduleData.startDate)
-                    ? format_date_MMDDYYYY(prevScheduleData.startDate)
-
+                    ? format_date_YYYYDDMM(prevScheduleData.startDate)
                     : new Date().toISOString().split("T")[0]
                 } //default to earlier of the job start date or today
                 name="startDate"
                 value={
                   selectStartDate
-                    // ? format_date_YYYYDDMM(prevScheduleData.startDate)
-                    ? format_date_MMDDYYYY(prevScheduleData.startDate)
-
+                    ? format_date_YYYYDDMM(prevScheduleData.startDate)
                     : startDate
                 }
                 onChange={handleInputChange}
@@ -715,21 +710,15 @@ function ScheduleUpdate() {
                 className="custom-border endDate"
                 type="date"
                 min={
-                  // format_date_YYYYDDMM(prevScheduleData.startDate) <
-                  format_date_MMDDYYYY(prevScheduleData.startDate) <
-
+                  format_date_YYYYDDMM(prevScheduleData.startDate) <
                   new Date().toISOString().split("T")[0]
-                    // ? format_date_YYYYDDMM(prevScheduleData.startDate)
-                    ? format_date_MMDDYYYY(prevScheduleData.startDate)
-
+                    ? format_date_YYYYDDMM(prevScheduleData.startDate)
                     : new Date().toISOString().split("T")[0]
                 } //default to earlier of the job start date or today
                 name="endDate"
                 value={
                   selectEndDate
-                    // ? format_date_YYYYDDMM(prevScheduleData.endDate)
-                    ? format_date_MMDDYYYY(prevScheduleData.startDate)
-
+                    ? format_date_YYYYDDMM(prevScheduleData.endDate)
                     : endDate
                 }
                 onChange={handleInputChange}
