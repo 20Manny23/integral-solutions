@@ -767,7 +767,7 @@ function ScheduleUpdate() {
 
         <Row className="addy">
           <Col xs={6}>
-            <Form.Label style={{ fontWeight: "bolder" }}>
+            <Form.Label style={{ fontWeight: "bolder", marginTop: "-15px" }}>
               Office Sqft
             </Form.Label>
             <Form.Label
@@ -792,7 +792,7 @@ function ScheduleUpdate() {
 
           <Col xs={6}>
             <Form.Group>
-              <Form.Label style={{ fontWeight: "bolder" }}>
+              <Form.Label style={{ fontWeight: "bolder", marginTop: "-15px" }}>
                 Staff Size
               </Form.Label>
               <Form.Label
@@ -829,7 +829,7 @@ function ScheduleUpdate() {
         </Row>
 
         <Form.Group className="form-length">
-          <Form.Label style={{ fontWeight: "bolder" }}>
+          <Form.Label style={{ fontWeight: "bolder", marginTop: "-15px" }}>
             Select Employee(s)
           </Form.Label>
           <Form.Control

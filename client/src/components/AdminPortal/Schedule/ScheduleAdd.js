@@ -666,7 +666,7 @@ function ScheduleAdd() {
         </Row>
 
         <Form.Group className="form-length">
-          <Form.Label style={{ fontWeight: "bolder" }}>
+          <Form.Label style={{ fontWeight: "bolder", marginTop: "-15px" }}>
             Select Employees for Job
           </Form.Label>
           <Form.Control
