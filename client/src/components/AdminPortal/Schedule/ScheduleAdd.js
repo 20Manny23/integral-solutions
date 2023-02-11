@@ -484,7 +484,7 @@ function ScheduleAdd() {
             />
           </Col>
           <Col xs={5}>
-            <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
+            <Form.Label style={{ fontWeight: "bolder", marginTop: "15px" }}>State</Form.Label>
             <Form.Label
               className={`validation-color ${
                 showStateValidation ? "show" : "hide"
@@ -508,7 +508,7 @@ function ScheduleAdd() {
             </Form.Control>
           </Col>
           <Col>
-            <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>
+            <Form.Label style={{ fontWeight: "bolder", marginTop: "15px" }}>Zipcode</Form.Label>
             <Form.Label
               className={`validation-color ${
                 showZipValidation ? "show" : "hide"
@@ -587,8 +587,8 @@ function ScheduleAdd() {
           </Row>
           <Row className="addy">
           <Col>
-            <Form.Group controlId="formBasicEmail">
-              <div className="form-label">
+            <Form.Group >
+              <div className="form-label" controlId="formBasicEmail">
                 <Form.Label style={{ fontWeight: "bolder" }}>
                   Start Time
                 </Form.Label>

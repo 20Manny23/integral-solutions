@@ -668,7 +668,7 @@ function ScheduleUpdate() {
                 </Form.Label>
               </div>
               <Form.Control
-                className="custom-border"
+                className="custom-border startDate"
                 type="date"
                 min={
                   format_date_YYYYDDMM(prevScheduleData.startDate) <
@@ -704,7 +704,7 @@ function ScheduleUpdate() {
                 </Form.Label>
               </div>
               <Form.Control
-                className="custom-border"
+                className="custom-border endDate"
                 type="date"
                 min={
                   format_date_YYYYDDMM(prevScheduleData.startDate) <
@@ -724,10 +724,11 @@ function ScheduleUpdate() {
               />
             </Form.Group>
           </Col>
+          </Row>
           <Col>
-            <Form.Group>
+            <Form.Group className="mb-3 form-length startTime">
               <div className="form-label">
-                <Form.Label style={{ fontWeight: "bolder" }}>
+                <Form.Label style={{ fontWeight: "bolder", marginTop: "-15px" }}>
                   Start Time
                 </Form.Label>
                 <Form.Label
@@ -753,7 +754,6 @@ function ScheduleUpdate() {
               />
             </Form.Group>
           </Col>
-        </Row>
 
         <Row className="addy">
           <Col xs={6}>
