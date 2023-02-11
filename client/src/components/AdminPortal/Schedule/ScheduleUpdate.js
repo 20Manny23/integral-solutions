@@ -688,11 +688,12 @@ function ScheduleUpdate() {
               />
             </Form.Group>
           </Col>
-
+          </Row>
+          <Row className="addy">
           <Col>
             <Form.Group>
               <div className="form-label">
-                <Form.Label style={{ fontWeight: "bolder" }}>
+                <Form.Label style={{ fontWeight: "bolder", marginTop: "-15px" }}>
                   End Date
                 </Form.Label>
                 <Form.Label
@@ -725,8 +726,9 @@ function ScheduleUpdate() {
             </Form.Group>
           </Col>
           </Row>
+          <Row className="addy">
           <Col>
-            <Form.Group className="mb-3 form-length startTime">
+            <Form.Group >
               <div className="form-label">
                 <Form.Label style={{ fontWeight: "bolder", marginTop: "-15px" }}>
                   Start Time
@@ -754,6 +756,7 @@ function ScheduleUpdate() {
               />
             </Form.Group>
           </Col>
+          </Row>
 
         <Row className="addy">
           <Col xs={6}>
@@ -892,7 +895,7 @@ function ScheduleUpdate() {
         </Form.Group>
 
         <SuccessAlert
-          message="Job details has been updated"
+          message="Job details have been updated"
           show={showSuccess}
         ></SuccessAlert>
 
