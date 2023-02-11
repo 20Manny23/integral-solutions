@@ -36,11 +36,11 @@ function ScheduleAdd() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  // const [endTime, setEndTime] = useState("");
   const [squareFeet, setSquareFeet] = useState("");
   const [jobDetails, setJobDetails] = useState("");
   const [numberOfClientEmployees, setNumberOfClientEmployees] = useState("");
-  const [setClient] = useState("");
+  // const [setClient] = useState("");
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [selectedBusinessName, setSelectedBusinessName] = useState(""); //used to main businessName state, while businessName is adjusted to match the select box
   const [mostRecentScheduleAddId, setMostRecentScheduleAddId] = useState();
@@ -147,16 +147,16 @@ function ScheduleAdd() {
       ? setEndDate(value)
       : name === "startTime"
       ? setStartTime(value)
-      : name === "endTime"
-      ? setEndTime(value)
+      // : name === "endTime"
+      // ? setEndTime(value)
       : name === "squareFeet"
       ? setSquareFeet(value)
       : name === "jobDetails"
       ? setJobDetails(value)
       : name === "numberOfClientEmployees"
       ? setNumberOfClientEmployees(value)
-      : name === "client"
-      ? setClient(value)
+      // : name === "client"
+      // ? setClient(value)
       : name === "streetAddress"
       ? setStreetAddress(value)
       : name === "state"
@@ -190,7 +190,7 @@ function ScheduleAdd() {
           startDate: reformattedStartDate,
           endDate: reformattedEndDate,
           startTime,
-          endTime,
+          // endTime,
           squareFeet,
           jobDetails,
           numberOfClientEmployees,
@@ -341,11 +341,11 @@ function ScheduleAdd() {
     setStartDate("");
     setEndDate("");
     setStartTime("");
-    setEndTime("");
+    // setEndTime("");
     setSquareFeet("");
     setJobDetails("");
     setNumberOfClientEmployees("");
-    setClient("");
+    // setClient("");
     setAreAllFieldsFilled(false);
     setSelectedEmployees([]); //fix
   };
