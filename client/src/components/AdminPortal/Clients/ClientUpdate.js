@@ -524,7 +524,7 @@ function ClientUpdate() {
               </Form.Control>
             </Col>
             <Col>
-              <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>
+              <Form.Label className="zipcode" style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>
               <Form.Label
                 className={`validation-color ${
                   showZipValidation ? "show" : "hide"

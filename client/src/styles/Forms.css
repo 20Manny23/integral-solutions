@@ -31,7 +31,7 @@
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .addy {
     width: 100%;
   }
@@ -44,4 +44,22 @@
   .startTime {
     width: 100%;
   }
+  .zipcode {
+    margin-top: 15px;
+    width: 100%;
+  }
 }
+
+@media screen and (min-width: 375px) and (max-width: 389px) {
+  .zipcode {
+    margin-top: 15px;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 389px) and (max-width: 400px){
+  .zipcode {
+    margin-top: 0px;
+  }
+}
+
