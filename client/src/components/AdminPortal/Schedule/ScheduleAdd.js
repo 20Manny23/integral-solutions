@@ -589,7 +589,7 @@ function ScheduleAdd() {
           <Col>
             <Form.Group >
               <div className="form-label" controlId="formBasicEmail">
-                <Form.Label style={{ fontWeight: "bolder" }}>
+                <Form.Label style={{ fontWeight: "bolder", marginTop: "-15px" }}>
                   Start Time
                 </Form.Label>
                 <Form.Label
@@ -614,7 +614,7 @@ function ScheduleAdd() {
 
         <Row className="addy">
           <Col xs={6}>
-            <Form.Label style={{ fontWeight: "bolder" }}>
+            <Form.Label style={{ fontWeight: "bolder", marginTop: "-15px" }}>
               Office Sqft
             </Form.Label>
             <Form.Label
@@ -636,7 +636,7 @@ function ScheduleAdd() {
 
           <Col xs={6}>
             <Form.Group>
-              <Form.Label style={{ fontWeight: "bolder" }}>
+              <Form.Label style={{ fontWeight: "bolder", marginTop: "-15px" }}>
                 Staff Size
               </Form.Label>
               <Form.Label
