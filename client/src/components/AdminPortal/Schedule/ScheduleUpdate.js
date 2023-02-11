@@ -247,12 +247,12 @@ function ScheduleUpdate() {
 
     let getSchedule = await getASingleSchedule();
 
-    alert(startDate)
-    alert(startTime)
-    alert(format_date_string(startDate, startTime ? startTime : "09:00"))
+    // alert(startDate)
+    // alert(startTime)
+    // alert(format_date_string(startDate, startTime ? startTime : "09:00"))
 
-    alert(endDate)
-    alert(format_date_string(endDate, "09:00"))
+    // alert(endDate)
+    // alert(format_date_string(endDate, "09:00"))
 
     try {
       await updateSchedule({
