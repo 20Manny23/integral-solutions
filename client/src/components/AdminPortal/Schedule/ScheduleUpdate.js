@@ -543,6 +543,7 @@ function ScheduleUpdate() {
                 ? `${
                     prevScheduleData?.client.businessName
                   }: ${format_date_MMDDYYYY(prevScheduleData?.startDate)}`
+
                 : "Select"}
             </option>
             {arrayForSortDate.map((job, index) => (
@@ -671,15 +672,21 @@ function ScheduleUpdate() {
                 className="custom-border startDate"
                 type="date"
                 min={
-                  format_date_YYYYDDMM(prevScheduleData.startDate) <
+                  // format_date_YYYYDDMM(prevScheduleData.startDate) <
+                  format_date_MMDDYYYY(prevScheduleData.startDate) <
+
                   new Date().toISOString().split("T")[0]
-                    ? format_date_YYYYDDMM(prevScheduleData.startDate)
+                    // ? format_date_YYYYDDMM(prevScheduleData.startDate)
+                    ? format_date_MMDDYYYY(prevScheduleData.startDate)
+
                     : new Date().toISOString().split("T")[0]
                 } //default to earlier of the job start date or today
                 name="startDate"
                 value={
                   selectStartDate
-                    ? format_date_YYYYDDMM(prevScheduleData.startDate)
+                    // ? format_date_YYYYDDMM(prevScheduleData.startDate)
+                    ? format_date_MMDDYYYY(prevScheduleData.startDate)
+
                     : startDate
                 }
                 onChange={handleInputChange}
@@ -708,15 +715,21 @@ function ScheduleUpdate() {
                 className="custom-border endDate"
                 type="date"
                 min={
-                  format_date_YYYYDDMM(prevScheduleData.startDate) <
+                  // format_date_YYYYDDMM(prevScheduleData.startDate) <
+                  format_date_MMDDYYYY(prevScheduleData.startDate) <
+
                   new Date().toISOString().split("T")[0]
-                    ? format_date_YYYYDDMM(prevScheduleData.startDate)
+                    // ? format_date_YYYYDDMM(prevScheduleData.startDate)
+                    ? format_date_MMDDYYYY(prevScheduleData.startDate)
+
                     : new Date().toISOString().split("T")[0]
                 } //default to earlier of the job start date or today
                 name="endDate"
                 value={
                   selectEndDate
-                    ? format_date_YYYYDDMM(prevScheduleData.endDate)
+                    // ? format_date_YYYYDDMM(prevScheduleData.endDate)
+                    ? format_date_MMDDYYYY(prevScheduleData.startDate)
+
                     : endDate
                 }
                 onChange={handleInputChange}
