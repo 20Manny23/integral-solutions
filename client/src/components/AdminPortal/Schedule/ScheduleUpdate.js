@@ -48,8 +48,8 @@ function ScheduleUpdate() {
   const [squareFeet, setSquareFeet] = useState("");
   const [jobDetails, setJobDetails] = useState("");
   const [numberOfClientEmployees, setNumberOfClientEmployees] = useState("");
-  // const [setClient] = useState("");
-  // const [setEmployees] = useState("");
+  const [setClient] = useState("");
+  const [setEmployees] = useState("");
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [oneFieldHasInput, setOneFieldHasInput] = useState(true);
 
@@ -160,8 +160,6 @@ function ScheduleUpdate() {
     },
   });
 
-  
-
   // SECTION UPDATE SCHEDULE IN DATABASE
   const [updateSchedule] = useMutation(UPDATE_SCHEDULE);
 
@@ -174,7 +172,7 @@ function ScheduleUpdate() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-  
+    console.log(event.target)
 
     if (name === "streetAddress") {
       setStreetAddress(value);
@@ -206,10 +204,10 @@ function ScheduleUpdate() {
     } else if (name === "numberOfClientEmployees") {
       setNumberOfClientEmployees(value);
       setSelectNumberOfClientEmployees(false);
-    // } else if (name === "client") {
-    //   setClient(value);
-    // } else if (name === "employees") {
-    //   setEmployees(value);
+    } else if (name === "client") { //fix
+      setClient(value);
+    } else if (name === "employees") {
+      setEmployees(value);
     } else {
       console.log("Error in form input at EmployeeUpdate.js");
     }
@@ -243,13 +241,18 @@ function ScheduleUpdate() {
     setFormIsDisabled(false); // enable form for input
   }
 
-
-
   //section
   const handleScheduleUpdate = async (event) => {
     event.preventDefault();
 
     let getSchedule = await getASingleSchedule();
+
+    alert(startDate)
+    alert(startTime)
+    alert(format_date_string(startDate, startTime ? startTime : "09:00"))
+
+    alert(endDate)
+    alert(format_date_string(endDate, "09:00"))
 
     try {
       await updateSchedule({
@@ -263,10 +266,12 @@ function ScheduleUpdate() {
           state: state ? state : getSchedule.data.schedule.state,
           zip: zip ? zip : getSchedule.data.schedule.zip,
           startDate: startDate
-            ? format_date_string(startDate, startTime ? startTime : "09:00:00 (MST)")
+          // ? format_date_string(startDate, startTime ? startTime : "09:00:00 (MST)")
+          ? format_date_string(startDate, startTime ? startTime : "09:00")
             : getSchedule.data.schedule.startDate,
           endDate: endDate
-            ? format_date_string(endDate, endTime ? endTime : "09:00:00 (MST)")
+          // ? format_date_string(endDate, "09:00:00 (MST)")
+          ? format_date_string(endDate, "09:00")
             : getSchedule.data.schedule.endDate,
           startTime: startTime
             ? startTime + ":00 (MST)" //incoming is 09:00 changed to 09:00:00 (MST)
