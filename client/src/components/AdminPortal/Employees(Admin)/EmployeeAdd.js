@@ -182,7 +182,7 @@ function EmployeeAdd() {
 
           <Form.Group className="mb-3 form-length">
             <div className="form-label">
-              <Form.Label style={{ fontWeight: "bolder", marginTop: "10px" }}>
+              <Form.Label style={{ fontWeight: "bolder" }}>
                 Last Name
               </Form.Label>
               <Form.Label

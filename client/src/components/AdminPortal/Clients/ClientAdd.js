@@ -410,7 +410,7 @@ function ClientAdd() {
               </Form.Control>
             </Col>
             <Col>
-              <Form.Label style={{ fontWeight: "bolder" }}>Zipcode</Form.Label>
+              <Form.Label style={{ fontWeight: "bolder", marginTop: "15px" }}>Zipcode</Form.Label>
               <Form.Label
                 className={`validation-color ${
                   showZipValidation ? "show" : "hide"
