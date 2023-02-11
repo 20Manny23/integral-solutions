@@ -547,7 +547,7 @@ function ScheduleAdd() {
                 </Form.Label>
               </div>
               <Form.Control
-                className="custom-border"
+                className="custom-border startDate"
                 type="date"
                 min={new Date().toISOString().split("T")[0]}
                 name="startDate"
@@ -572,7 +572,7 @@ function ScheduleAdd() {
                 </Form.Label>
               </div>
               <Form.Control
-                className="custom-border"
+                className="custom-border endDate"
                 type="date"
                 min={
                   startDate ? startDate : new Date().toISOString().split("T")[0]
@@ -584,6 +584,8 @@ function ScheduleAdd() {
               />
             </Form.Group>
           </Col>
+          </Row>
+          <Row className="addy">
           <Col>
             <Form.Group controlId="formBasicEmail">
               <div className="form-label">
