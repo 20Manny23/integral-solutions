@@ -252,21 +252,21 @@ function ScheduleUpdate() {
     // )}
     // `);
 
-    alert(`end date input= ${endDate}`);
-    alert(`end date stored = ${getSchedule.data.schedule.endDate}`);
-    alert(`end time stored = ${getSchedule.data.schedule.endTime}`);
-    alert(
-      `end time format = ${format_date_string(
-        endDate
-          ? endDate
-          : format_date_ISOStringNoTime(getSchedule.data.schedule.endDate),
+    // alert(`end date input= ${endDate}`);
+    // alert(`end date stored = ${getSchedule.data.schedule.endDate}`);
+    // alert(`end time stored = ${getSchedule.data.schedule.endTime}`);
+    // alert(
+    //   `end time format = ${format_date_string(
+    //     endDate
+    //       ? endDate
+    //       : format_date_ISOStringNoTime(getSchedule.data.schedule.endDate),
 
-        getSchedule.data.schedule.endTime
-          ? format_time_HHmmss(getSchedule.data.schedule.endTime)
-          : startTime
-      )}
-    `
-    );
+    //     getSchedule.data.schedule.endTime
+    //       ? format_time_HHmmss(getSchedule.data.schedule.endTime)
+    //       : startTime
+    //   )}
+    // `
+    // );
 
     try {
       await updateSchedule({
