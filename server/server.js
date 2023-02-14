@@ -2,7 +2,7 @@ const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const path = require("path");
 const { authMiddleware } = require("./utils/auth");
-const compression = require('compression'); //added to address lighthouse text compression performance issue
+const compression = require("compression"); //added to address lighthouse text compression performance issue
 
 // //section cors start
 // const cors = require('cors');
@@ -36,9 +36,17 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
 }
 
-app.get('/*', function (req, res) { //adjusted from "/" to "/*" to allow server to handle routes outside of client routing
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
+if (process.env.NODE_ENV === "production") {
+  app.get("/*", function (req, res) {
+    //adjusted from "/" to "/*" to allow server to handle routes outside of client routing
+    res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  });
+}
+
+// app.get("/*", function (req, res) {
+//   //adjusted from "/" to "/*" to allow server to handle routes outside of client routing
+//   res.sendFile(path.join(__dirname, "../client/build/index.html"));
+// });
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async (typeDefs, resolvers) => {

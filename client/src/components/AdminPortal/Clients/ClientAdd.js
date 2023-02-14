@@ -8,6 +8,7 @@ import { STATE_DROPDOWN } from "../../../utils/stateDropdown";
 import MaskedInput from "react-text-mask";
 import emailMask from "text-mask-addons/dist/emailMask";
 
+
 import SuccessAlert from "../../Alert";
 
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
@@ -314,7 +315,7 @@ function ClientAdd() {
               placeholder="Client email"
               guide={true}
               name="email"
-              value={email}
+              value={email.toLowerCase()}
               onChange={handleInputChange}
               onBlur={handleBlurChange}
               required

@@ -8,14 +8,14 @@ import {
   UPDATE_EMPLOYEE_HOUR,
   UPDATE_HOURS_BYEMPLOYEEID_BYJOBDATE,
 } from "../../utils/mutations";
-import { format_date_no_hyphen } from "../../utils/dateFormat";
+
 import moment from "moment";
-import { thisWeek, lastWeek } from "../../utils/hoursDates";
+import { thisWeek } from "../../utils/hoursDates";
 import {
   format_time_HHmmss,
   format_date_YYYYDDMM,
+  format_date_no_hyphen,
 } from "../../utils/dateFormat";
-import "../../styles/hours.css";
 
 import {
   Row,
@@ -27,6 +27,7 @@ import {
   Card,
   Collapse,
 } from "react-bootstrap";
+import "../../styles/hours.css";
 
 function EmployeeHours() {
   const userId = getUserId();
@@ -95,7 +96,7 @@ function EmployeeHours() {
     // if skip is true, this query will not be executed; in this instance, if the user is not logged in this query will be skipped when the component mounts
     skip: !Auth.loggedIn(),
     onCompleted: (singleHours) => {
-      weeklyTotal(singleHours);
+      // weeklyTotal(singleHours); //fix
     },
   });
 
@@ -183,8 +184,11 @@ function EmployeeHours() {
       hours = friday.hours;
     } else if (daySubmitted === "Saturday" && saturday.hours >= 0) {
       hours = saturday.hours;
-    } else { // this alert doesn't function because of the >= above; alert is in the calcHours function serving as an warning and setting hours a 0 if negative.
-      alert("Please Ensure End Time is Greater Than or the Same as the Start Time.");
+    } else {
+      // this alert doesn't function because of the >= above; alert is in the calcHours function serving as an warning and setting hours a 0 if negative.
+      alert(
+        "Please Ensure End Time is Greater Than or the Same as the Start Time."
+      );
       return;
     }
 
@@ -238,7 +242,6 @@ function EmployeeHours() {
 
   //SECTION update the employee array with the id for hour added
   useEffect(() => {
-
     //use the mostRecentHourUpdateId & add it to the employee array
     try {
       if (mostRecentHourUpdateId) {
@@ -254,7 +257,7 @@ function EmployeeHours() {
       console.error(err);
     }
 
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [mostRecentHourUpdateId]);
 
   //section utility functions
@@ -288,10 +291,12 @@ function EmployeeHours() {
 
     //ensure hours greater than or equal to 0
     if (hours < 0) {
-      alert("Please Ensure End Time is Greater Than or the Same as the Start Time.");
+      alert(
+        "Please Ensure End Time is Greater Than or the Same as the Start Time."
+      );
       return 0;
       //fix add alert here...
-    };
+    }
 
     const hoursWorked = hours.toFixed(2);
 
@@ -317,10 +322,46 @@ function EmployeeHours() {
     setWeeklyHours(parseFloat(calcWeeklyHours).toFixed(2));
   }, [singleHours]);
 
+  //calc last weekly total hours upon state update for singleHours array
+  useEffect(() => {
+    let lastWeekNumber = moment(new Date()).week() - 1;
+    let currentYear = moment(new Date()).year();
+    let currentEmployee = singleHours?.hoursByEmployeeId;
+
+    let daysHoursForLastWeek = currentEmployee
+      ?.filter((year) => moment(year.jobDate).year() === currentYear) //filter for dates this year
+      ?.filter((week) => moment(week.jobDate).week() === lastWeekNumber) //filter for dates last week
+      .map((element) => {
+        return {
+          weekDay: moment(element.jobDate).day(),
+          jobDate: format_date_no_hyphen(element.jobDate),
+          hours: parseFloat(element.hoursWorked, 2),
+        };
+      })
+      .sort((a, b) => a.weekDay - b.weekDay);
+
+    let hoursForLastWeek = currentEmployee
+      ?.filter((year) => moment(year.jobDate).year() === currentYear) //filter for dates this year
+      ?.filter((week) => moment(week.jobDate).week() === lastWeekNumber) //filter for dates last week
+      .map((element) => parseFloat(element.hoursWorked)); //pull out hours worked only
+
+    //sum up hours worked for last week
+    let calcHoursForLastWeek = hoursForLastWeek?.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0
+    );
+
+    console.log(daysHoursForLastWeek);
+    console.log(hoursForLastWeek);
+
+    setLastWeekHours(parseFloat(calcHoursForLastWeek).toFixed(2));
+    setLastWeekDays(daysHoursForLastWeek);
+  }, [singleHours]);
+
   //get and format data for current week to render on page
   //convert data from DB into renderable object
   useEffect(() => {
-    //get singleHours, filter for this week, sort by date
+    //get singleHours, filter for this week
 
     let currentWeekNumber = moment(new Date()).week();
     let currentYear = moment(new Date()).year();
@@ -328,7 +369,7 @@ function EmployeeHours() {
 
     let hoursByDayOfWeek = currentEmployee
       ?.filter((year) => moment(year.jobDate).year() === currentYear) //filter for dates this year
-      ?.filter((week) => moment(week.jobDate).week() === currentWeekNumber)
+      ?.filter((week) => moment(week.jobDate).week() === currentWeekNumber) //filter for dates this week
       .map((element) => element);
 
     let reformattedHours = hoursByDayOfWeek?.map((element) => {
@@ -453,83 +494,38 @@ function EmployeeHours() {
     let hoursInput = document.querySelectorAll(".hourInput"); //get array of hoursInput elements
     for (let i = 0; i < hoursInput.length; i++) {
       if (endTimeElements[i].name === "endTimeSunday") {
-        hoursInput[i].innerText = `Hours: ${parseFloat(sunday.hours).toFixed(2)}`;
+        hoursInput[i].innerText = `Hours: ${parseFloat(sunday.hours).toFixed(
+          2
+        )}`;
       } else if (endTimeElements[i].name === "endTimeMonday") {
-        hoursInput[i].innerText = `Hours: ${parseFloat(monday.hours).toFixed(2)}`;
+        hoursInput[i].innerText = `Hours: ${parseFloat(monday.hours).toFixed(
+          2
+        )}`;
       } else if (endTimeElements[i].name === "endTimeTuesday") {
-        hoursInput[i].innerText = `Hours: ${parseFloat(tuesday.hours).toFixed(2)}`;
+        hoursInput[i].innerText = `Hours: ${parseFloat(tuesday.hours).toFixed(
+          2
+        )}`;
       } else if (endTimeElements[i].name === "endTimeWednesday") {
-        hoursInput[i].innerText = `Hours: ${parseFloat(wednesday.hours).toFixed(2)}`;
+        hoursInput[i].innerText = `Hours: ${parseFloat(wednesday.hours).toFixed(
+          2
+        )}`;
       } else if (endTimeElements[i].name === "endTimeThursday") {
-        hoursInput[i].innerText = `Hours: ${parseFloat(thursday.hours).toFixed(2)}`;
+        hoursInput[i].innerText = `Hours: ${parseFloat(thursday.hours).toFixed(
+          2
+        )}`;
       } else if (endTimeElements[i].name === "endTimeFriday") {
-        hoursInput[i].innerText = `Hours: ${parseFloat(friday.hours).toFixed(2)}`;
+        hoursInput[i].innerText = `Hours: ${parseFloat(friday.hours).toFixed(
+          2
+        )}`;
       } else if (endTimeElements[i].name === "endTimeSaturday") {
-        hoursInput[i].innerText = `Hours: ${parseFloat(saturday.hours).toFixed(2)}`;
+        hoursInput[i].innerText = `Hours: ${parseFloat(saturday.hours).toFixed(
+          2
+        )}`;
       }
     }
 
     // eslint-disable-next-line
   }, [sunday, monday, tuesday, wednesday, thursday, friday, saturday]);
-
-  //determine last week dates & total weekly hours
-  const lastWeekDates = [];
-  for (let i = 0; i < thisWeek.length; i++) {
-    let eachDate = moment(lastWeek[i].date).format("MMMM DD YYYY");
-    lastWeekDates.push(eachDate);
-  }
-
-  //determine total weekly hours for last week
-  const weeklyTotal = async (singleHours) => {
-    let lastWeeklyHours = 0;
-    for (let i = 0; i < singleHours.hoursByEmployeeId.length; i++) {
-      let jobb = singleHours.hoursByEmployeeId[i].jobDate;
-
-      if (
-        jobb === lastWeekDates[0] ||
-        jobb === lastWeekDates[1] ||
-        jobb === lastWeekDates[2] ||
-        jobb === lastWeekDates[3] ||
-        jobb === lastWeekDates[4] ||
-        jobb === lastWeekDates[5] ||
-        jobb === lastWeekDates[6]
-      ) {
-        let hoursInt = Number(singleHours.hoursByEmployeeId[i].hoursWorked);
-        lastWeeklyHours = hoursInt + lastWeeklyHours;
-
-        setLastWeekHours(lastWeeklyHours.toFixed(2));
-      }
-    }
-  };
-
-  //Get dates and hours for last week to render in last week section
-  useEffect(() => {
-    let filterToLastWeek = singleHours?.hoursByEmployeeId
-      ?.filter(
-        (year) => moment(year.jobDate).year() === moment(new Date()).year()
-      ) //filter for dates this year
-      ?.filter(
-        (week) => moment(week.jobDate).week() === moment(new Date()).week() - 1
-      ) //filter for last week
-      .map((element) => element);
-
-    //create sortable object
-    let sortLastWeekDays = filterToLastWeek?.map((element) => {
-      return {
-        jobDay: moment(element.jobDate).day(),
-        jobDate: format_date_no_hyphen(element.jobDate),
-        hours: element.hoursWorked,
-      };
-    });
-
-    //sort the lastWeekHours object by day of week number
-    sortLastWeekDays?.sort((a, b) => a.jobDay - b.jobDay);
-
-    //set state
-    setLastWeekDays(sortLastWeekDays);
-
-    // eslint-disable-next-line
-  }, [singleHours]);
 
   return (
     <>
@@ -662,7 +658,10 @@ function EmployeeHours() {
                         textAlign: "center",
                       }}
                     >
-                      Hours Last Week: {parseFloat(lastWeekHours).toFixed(2)}
+                      Hours Last Week:{" "}
+                      {parseFloat(lastWeekHours ? lastWeekHours : "0").toFixed(
+                        2
+                      )}
                     </div>
                     {lastWeekDays?.map((days, index) => (
                       <div

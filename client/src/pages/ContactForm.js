@@ -469,7 +469,7 @@ function ContactForm() {
               </Col>
 
               <Col style={{ marginRight: "auto", marginLeft: "auto" }}>
-                <Form.Label style={{ fontWeight: "bolder" }}>State</Form.Label>
+                <Form.Label className="state-contact" style={{ fontWeight: "bolder" }}>State</Form.Label>
                 <Form.Label
                   className={`text-danger ${
                     showStateValidation ? "show" : "hide"
@@ -494,7 +494,7 @@ function ContactForm() {
                 </Form.Control>
               </Col>
               <Col>
-                <Form.Label style={{ fontWeight: "bolder", align: "right" }}>
+                <Form.Label className="zipcode-contact" style={{ fontWeight: "bolder", align: "right" }}>
                   Zipcode
                 </Form.Label>
                 <Form.Label
@@ -542,9 +542,10 @@ function ContactForm() {
               <Col className="margin-expand" style={{ paddingLeft: "0px" }}>
                 <Form.Label
                   style={{
+                    paddingLeft: "15px",
                     fontWeight: "bolder",
                     display: "flex",
-                    justifyContent: "center",
+                    // justifyContent: "center",
                   }}
                 >
                   Staff Size
